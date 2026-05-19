@@ -153,7 +153,7 @@ Audit method:
 - **Issue:** Exception safety violations, memory leaks, model loading robustness, unimplemented adapters
 - **Impact:** Service crashes, OOM, resource leaks, adapter failures
 - **Status:** Not production-ready, active hardening
-- **Recommendation:** Isolate in sandbox mode with monitoring; prioritize Phase 2-3 fixes (RAII, exception safety)
+- **Recommendation:** Isolate in sandbox mode with monitoring(not wanted, sandbox is for all plugins); prioritize Phase 2-3 fixes (RAII, exception safety)
 - **Gap Categories:** Memory (leak patterns), Concurrency (data races), RAII (resource management), Reliability (exception handling)
 
 ### 4. **sharding** (2,051 gaps, 696 CRITICAL) — Phase 1-4 Updated

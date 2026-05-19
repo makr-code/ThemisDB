@@ -42,6 +42,7 @@
 #include "server/async_job_api_handler.h"
 #include "server/auth_middleware.h"
 #include "cache/adaptive_query_cache.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 
 #include <chrono>
@@ -61,6 +62,35 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxAsyncJobQueryLength = 1'000'000;
+constexpr size_t kMaxAsyncJobIdLength = 256;
+
+bool isValidAsyncQuery(std::string_view query) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(query), kMaxAsyncJobQueryLength) &&
+           validator.validateAQLQuery(std::string(query));
+}
+
+bool isValidAsyncJobId(std::string_view job_id) {
+    themis::utils::InputValidator validator;
+    return !job_id.empty() &&
+           validator.validateStringLength(std::string(job_id), kMaxAsyncJobIdLength) &&
+           validator.validatePathSegment(std::string(job_id));
+}
+
+bool isValidCapturedHeader(std::string_view header_value) {
+    if (header_value.empty()) {
+        return true;
+    }
+
+    themis::utils::InputValidator validator;
+    return validator.validateHeaderValue(std::string(header_value));
+}
+
+} // namespace
 
 // ============================================================================
 // Helpers
@@ -411,6 +441,18 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
     }
     const std::string auth_header = std::string(req[http::field::authorization]);
 
+    if (!isValidAsyncQuery(aql_query)) {
+        return makeJsonResponse(http::status::bad_request,
+            {{"error", true}, {"message", "Field 'query' failed validation"}},
+            req);
+    }
+
+    if (!isValidCapturedHeader(auth_header)) {
+        return makeJsonResponse(http::status::bad_request,
+            {{"error", true}, {"message", "Authorization header failed validation"}},
+            req);
+    }
+
     // Build job record
     auto job           = std::make_shared<AsyncJobRecord>();
     job->id            = generateJobId();
@@ -457,6 +499,10 @@ http::response<http::string_body> AsyncJobApiHandler::handleGetStatus(
         return makeJsonResponse(http::status::bad_request,
             {{"error", true}, {"message", "Missing job ID in path"}}, req);
     }
+    if (!isValidAsyncJobId(job_id)) {
+        return makeJsonResponse(http::status::bad_request,
+            {{"error", true}, {"message", "Invalid job ID in path"}}, req);
+    }
 
     auto job = registry_->get(job_id);
     if (!job) {
@@ -478,6 +524,10 @@ http::response<http::string_body> AsyncJobApiHandler::handleCancel(
     if (job_id.empty()) {
         return makeJsonResponse(http::status::bad_request,
             {{"error", true}, {"message", "Missing job ID in path"}}, req);
+    }
+    if (!isValidAsyncJobId(job_id)) {
+        return makeJsonResponse(http::status::bad_request,
+            {{"error", true}, {"message", "Invalid job ID in path"}}, req);
     }
 
     auto job = registry_->get(job_id);

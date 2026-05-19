@@ -97,6 +97,13 @@ TEST_F(RetentionApiFixture, ListPolicies_NameFilter) {
     EXPECT_EQ(result["items"][0]["name"].get<std::string>(), "gdpr_personal");
 }
 
+TEST_F(RetentionApiFixture, ListPolicies_InvalidNameFilterReturnsError) {
+    RetentionQueryFilter f;
+    f.name_filter = "gdpr\r\nX-Injected: 1";
+    auto result = handler->listPolicies(f);
+    EXPECT_EQ(result["status"].get<std::string>(), "error");
+}
+
 TEST_F(RetentionApiFixture, ListPolicies_ClassificationFilter) {
     handler->createOrUpdatePolicy(makePolicy("p1", 30, "geheim"));
     handler->createOrUpdatePolicy(makePolicy("p2", 30, "offen"));
@@ -164,6 +171,16 @@ TEST_F(RetentionApiFixture, CreatePolicy_InvalidJsonReturnsError) {
     EXPECT_EQ(result["status"].get<std::string>(), "error");
 }
 
+TEST_F(RetentionApiFixture, CreatePolicy_InvalidNameReturnsError) {
+    auto result = handler->createOrUpdatePolicy(makePolicy("../bad_policy"));
+    EXPECT_EQ(result["status"].get<std::string>(), "error");
+}
+
+TEST_F(RetentionApiFixture, CreatePolicy_NegativeRetentionReturnsError) {
+    auto result = handler->createOrUpdatePolicy(makePolicy("bad_days", -3));
+    EXPECT_EQ(result["status"].get<std::string>(), "error");
+}
+
 TEST_F(RetentionApiFixture, CreatePolicy_RetentionPeriodInJson) {
     handler->createOrUpdatePolicy(makePolicy("check_policy", 90));
 
@@ -198,6 +215,11 @@ TEST_F(RetentionApiFixture, DeletePolicy_NonExistentReturnsError) {
     EXPECT_TRUE(result.contains("error"));
 }
 
+TEST_F(RetentionApiFixture, DeletePolicy_InvalidNameReturnsError) {
+    auto result = handler->deletePolicy("../bad_policy");
+    EXPECT_EQ(result["status"].get<std::string>(), "error");
+}
+
 // ─── getHistory ───────────────────────────────────────────────────────────────
 
 TEST_F(RetentionApiFixture, GetHistory_EmptyByDefault) {
@@ -225,6 +247,11 @@ TEST_F(RetentionApiFixture, GetPolicyStats_HasExpectedFields) {
     EXPECT_TRUE(result.contains("errors"));
     EXPECT_TRUE(result.contains("duration_ms"));
     EXPECT_EQ(result["policy_name"].get<std::string>(), "stats_policy");
+}
+
+TEST_F(RetentionApiFixture, GetPolicyStats_InvalidNameReturnsError) {
+    auto result = handler->getPolicyStats("../bad_policy");
+    EXPECT_EQ(result["status"].get<std::string>(), "error");
 }
 
 // ─── Default constructor (no manager provided) ────────────────────────────────

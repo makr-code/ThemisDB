@@ -322,4 +322,31 @@ TEST_F(ExportApiHandlerTest, GAP004_CommentInjectionInSubject_ReturnsBadRequest)
         << "Comment injection '--' in 'subject' must return 400";
 }
 
+TEST_F(ExportApiHandlerTest, InvalidCollectionField_ReturnsBadRequest) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    auto req = makeExportReq(makeExportBody({{"collection", "bad\r\nInjected: 1"}}));
+    auto res = handler_.handleExportJsonlLlm(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(ExportApiHandlerTest, InvalidRequestingUserField_ReturnsBadRequest) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    auto req = makeExportReq(makeExportBody({{"collection", "c"}, {"requesting_user", "user\r\nInjected: 1"}}));
+    auto res = handler_.handleExportJsonlLlm(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(ExportApiHandlerTest, InvalidExportIdInStatusPath_ReturnsBadRequest) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    http::request<http::string_body> req{http::verb::get, "/api/v1/export/status/../bad", 11};
+    req.set(http::field::host, "localhost");
+    req.set(http::field::authorization, "Bearer correct-secret-token");
+    req.prepare_payload();
+
+    auto res = handler_.handleExportStatus(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 }  // namespace themis::server

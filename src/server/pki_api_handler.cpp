@@ -22,10 +22,42 @@
 
 #include "server/pki_api_handler.h"
 #include "utils/logger.h"
+#include "utils/input_validator.h"
 #include <openssl/sha.h>
 #include "utils/tracing.h"
 
+#include <algorithm>
+
 namespace themis { namespace server {
+
+namespace {
+
+constexpr size_t kMaxPkiIdentifierLength = 256;
+constexpr size_t kMaxBase64FieldLength = 8 * 1024 * 1024;
+
+bool isValidIdentifier(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(std::string(value), kMaxPkiIdentifierLength) &&
+           validator.validatePathSegment(std::string(value));
+}
+
+bool isLikelyValidBase64(std::string_view value) {
+    themis::utils::InputValidator validator;
+    if (value.empty() || !validator.validateStringLength(std::string(value), kMaxBase64FieldLength)) {
+        return false;
+    }
+
+    return std::all_of(value.begin(), value.end(), [](char ch) {
+        const unsigned char c = static_cast<unsigned char>(ch);
+        return (c >= 'A' && c <= 'Z') ||
+               (c >= 'a' && c <= 'z') ||
+               (c >= '0' && c <= '9') ||
+               c == '+' || c == '/' || c == '=';
+    });
+}
+
+} // namespace
 
 static std::string base64_encode(const std::vector<uint8_t>& data) {
     static const char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -80,11 +112,18 @@ nlohmann::json PkiApiHandler::sign(const std::string& key_id, const nlohmann::js
             nlohmann::json j; j["error"] = "Service Unavailable"; j["status_code"] = 503; return j;
         }
 
+        if (!isValidIdentifier(key_id)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid key_id"; j["status_code"] = 400; return j;
+        }
+
         if (!body.contains("data_b64")) {
             nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "missing data_b64"; j["status_code"] = 400; return j;
         }
 
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid data_b64"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
 
         SigningResult res = signing_service_->sign(data, key_id);
@@ -108,12 +147,22 @@ nlohmann::json PkiApiHandler::verify(const std::string& key_id, const nlohmann::
             nlohmann::json j; j["error"] = "Service Unavailable"; j["status_code"] = 503; return j;
         }
 
+        if (!isValidIdentifier(key_id)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid key_id"; j["status_code"] = 400; return j;
+        }
+
         if (!body.contains("data_b64") || !body.contains("signature_b64")) {
             nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "missing data_b64 or signature_b64"; j["status_code"] = 400; return j;
         }
 
-        auto data = base64_decode(body["data_b64"].get<std::string>());
-        auto sig = base64_decode(body["signature_b64"].get<std::string>());
+        const auto data_b64 = body["data_b64"].get<std::string>();
+        const auto signature_b64 = body["signature_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64) || !isLikelyValidBase64(signature_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid base64 payload"; j["status_code"] = 400; return j;
+        }
+
+        auto data = base64_decode(data_b64);
+        auto sig = base64_decode(signature_b64);
 
         bool ok = signing_service_->verify(data, sig, key_id);
         nlohmann::json resp; resp["valid"] = ok; return resp;
@@ -141,6 +190,9 @@ nlohmann::json PkiApiHandler::hsmSign(const nlohmann::json& body) {
         }
 
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid data_b64"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
 
         auto result = hsm_provider_->sign(data);
@@ -213,6 +265,9 @@ nlohmann::json PkiApiHandler::getTimestamp(const nlohmann::json& body) {
         }
 
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid data_b64"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
 
         auto token = tsa_->getTimestamp(data);
@@ -247,6 +302,9 @@ nlohmann::json PkiApiHandler::verifyTimestamp(const nlohmann::json& body) {
 
         std::string token_b64 = body["timestamp_token_b64"].get<std::string>();
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(token_b64) || !isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid base64 payload"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
         auto token = tsa_->parseToken(token_b64);
         bool ok = tsa_->verifyTimestamp(data, token);
@@ -279,6 +337,9 @@ nlohmann::json PkiApiHandler::eidasSign(const nlohmann::json& body) {
         }
 
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid data_b64"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
 
         // Step 1: Sign with HSM
@@ -330,6 +391,9 @@ nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
 
         auto qualified_sig = body["qualified_signature"];
         std::string data_b64 = body["data_b64"].get<std::string>();
+        if (!isLikelyValidBase64(data_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid data_b64"; j["status_code"] = 400; return j;
+        }
         auto data = base64_decode(data_b64);
 
         // Step 1: Verify signature
@@ -338,6 +402,10 @@ nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
         }
 
         std::string sig_b64 = qualified_sig["signature_b64"].get<std::string>();
+        if (!isLikelyValidBase64(sig_b64)) {
+            nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid signature_b64"; j["status_code"] = 400; return j;
+            return j;
+        }
         auto signature_bytes = base64_decode(sig_b64);
         bool sig_valid = hsm_provider_->verify(data, sig_b64);
 
@@ -347,6 +415,9 @@ nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
             !qualified_sig["timestamp_token_b64"].get<std::string>().empty()) {
             
             std::string ts_token_b64 = qualified_sig["timestamp_token_b64"].get<std::string>();
+            if (!isLikelyValidBase64(ts_token_b64)) {
+                nlohmann::json j; j["error"] = "Bad Request"; j["message"] = "invalid timestamp_token_b64"; j["status_code"] = 400; return j;
+            }
             auto ts_token = tsa_->parseToken(ts_token_b64);
             ts_valid = tsa_->verifyTimestamp(signature_bytes, ts_token);
         }
@@ -409,6 +480,10 @@ nlohmann::json PkiApiHandler::getCertificate(const std::string& cert_id) {
     auto span = Tracer::startSpan("getCertificate");
         if (!hsm_provider_) {
             return {{"error","Service Unavailable"},{"message","HSM provider not configured"},{"status_code",503}};
+        }
+
+        if (!isValidIdentifier(cert_id)) {
+            return {{"error","Bad Request"},{"message","invalid cert_id"},{"status_code",400}};
         }
 
         // cert_id may be a key label or a hex key id

@@ -87,3 +87,28 @@ TEST(PkiApiHandlerTest, SignAndVerify) {
     ASSERT_TRUE(vres2.contains("valid"));
     EXPECT_FALSE(vres2["valid"].get<bool>());
 }
+
+TEST(PkiApiHandlerTest, SignRejectsInvalidKeyId) {
+    auto svc = std::make_shared<MockSigningService>();
+    themis::server::PkiApiHandler handler(svc);
+
+    std::vector<uint8_t> data = {'h','e','l','l','o'};
+    std::string data_b64 = b64_encode(data);
+
+    auto res = handler.sign("../bad-key", nlohmann::json{{"data_b64", data_b64}});
+    ASSERT_TRUE(res.contains("status_code"));
+    EXPECT_EQ(res["status_code"].get<int>(), 400);
+}
+
+TEST(PkiApiHandlerTest, VerifyRejectsInvalidBase64Payload) {
+    auto svc = std::make_shared<MockSigningService>();
+    themis::server::PkiApiHandler handler(svc);
+
+    auto res = handler.verify(
+        "test-key",
+        nlohmann::json{{"data_b64", "%%%not-base64%%%"}, {"signature_b64", "Zm9v"}}
+    );
+
+    ASSERT_TRUE(res.contains("status_code"));
+    EXPECT_EQ(res["status_code"].get<int>(), 400);
+}

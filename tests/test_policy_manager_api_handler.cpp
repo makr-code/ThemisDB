@@ -99,6 +99,13 @@ TEST_F(PolicyManagerApiHandlerTest, HandleGetRuleNotFound) {
     EXPECT_EQ(res.result(), http::status::not_found);
 }
 
+TEST_F(PolicyManagerApiHandlerTest, HandleGetRule_InvalidRuleId_Returns400) {
+    auto req = makeRequest(http::verb::get, "/policies/rules/../bad");
+    auto res = handler->handleGetRule(req, "../bad");
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 TEST_F(PolicyManagerApiHandlerTest, HandleCreateRule) {
     nlohmann::json new_rule = {
         {"id", "test_rule_003"},
@@ -143,6 +150,20 @@ TEST_F(PolicyManagerApiHandlerTest, HandleCreateRuleInvalidJSON) {
     auto req = makeRequest(http::verb::post, "/policies/rules", "{invalid json");
     auto res = handler->handleCreateRule(req);
     
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(PolicyManagerApiHandlerTest, HandleCreateRule_InvalidRuleId_Returns400) {
+    nlohmann::json new_rule = {
+        {"id", "../bad_rule"},
+        {"name", "Bad Rule"},
+        {"resources", {"api/*"}},
+        {"actions", {"call"}}
+    };
+
+    auto req = makeRequest(http::verb::post, "/policies/rules", new_rule.dump());
+    auto res = handler->handleCreateRule(req);
+
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
@@ -229,6 +250,19 @@ TEST_F(PolicyManagerApiHandlerTest, HandleEvaluatePolicyMissingFields) {
     auto req = makeRequest(http::verb::post, "/policies/evaluate", eval_request.dump());
     auto res = handler->handleEvaluatePolicy(req);
     
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(PolicyManagerApiHandlerTest, HandleEvaluatePolicy_HeaderInjectionInResource_Returns400) {
+    nlohmann::json eval_request = {
+        {"resource", "data/users\r\nX-Injected: 1"},
+        {"action", "read"},
+        {"user_roles", {"operator"}}
+    };
+
+    auto req = makeRequest(http::verb::post, "/policies/evaluate", eval_request.dump());
+    auto res = handler->handleEvaluatePolicy(req);
+
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 

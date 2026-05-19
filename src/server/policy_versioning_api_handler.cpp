@@ -23,6 +23,7 @@
 
 #include "server/policy_versioning_api_handler.h"
 #include "server/auth_scope_mapper.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 
@@ -31,6 +32,26 @@
 
 namespace themis {
 namespace server {
+
+namespace {
+
+constexpr size_t kMaxPolicyVersioningIdentifierLength = 256;
+constexpr size_t kMaxPolicyAuditFieldLength = 1024;
+
+bool isValidIdentifier(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(std::string(value), kMaxPolicyVersioningIdentifierLength) &&
+           validator.validatePathSegment(std::string(value));
+}
+
+bool isValidAuditField(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(value), kMaxPolicyAuditFieldLength) &&
+           validator.validateHeaderValue(std::string(value));
+}
+
+} // namespace
 
 PolicyVersioningApiHandler::PolicyVersioningApiHandler(
     std::shared_ptr<themis::governance::PolicyManagerWithVersioning> policy_manager_versioned,
@@ -50,6 +71,10 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleListVersions
 ) {
     auto span = Tracer::startSpan("handleListVersions");
     try {
+        if (!isValidIdentifier(rule_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID", req);
+        }
+
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
         }
@@ -87,6 +112,10 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleGetVersion(
 ) {
     auto span = Tracer::startSpan("handleGetVersion");
     try {
+        if (!isValidIdentifier(rule_id) || !isValidIdentifier(version)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID or version", req);
+        }
+
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
         }
@@ -117,6 +146,10 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
 ) {
     auto span = Tracer::startSpan("handleRollback");
     try {
+        if (!isValidIdentifier(rule_id) || !isValidIdentifier(target_version)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID or target version", req);
+        }
+
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, 
                 "Unauthorized - admin role required", req);
@@ -136,6 +169,9 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
         std::string user = "system";
         if (body.contains("user")) {
             user = body["user"].get<std::string>();
+            if (!isValidAuditField(user)) {
+                return makeErrorResponse(http::status::bad_request, "Invalid user field", req);
+            }
         }
         
         // Perform rollback
@@ -174,6 +210,10 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleCompareVersi
 ) {
     auto span = Tracer::startSpan("handleCompareVersions");
     try {
+        if (!isValidIdentifier(rule_id) || !isValidIdentifier(version1) || !isValidIdentifier(version2)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID or version", req);
+        }
+
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
         }
@@ -212,18 +252,39 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
         std::string url(req.target());
         auto rule_id = getQueryParam(url, "rule_id");
         auto user = getQueryParam(url, "user");
+
+        if (rule_id.has_value() && !isValidIdentifier(*rule_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule_id query parameter", req);
+        }
+        if (user.has_value() && !isValidAuditField(*user)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid user query parameter", req);
+        }
         
         std::optional<std::int64_t> start_time;
         std::optional<std::int64_t> end_time;
         
         auto start_str = getQueryParam(url, "start_time");
         if (start_str.has_value()) {
-            start_time = std::stoll(*start_str);
+            if (!isValidAuditField(*start_str)) {
+                return makeErrorResponse(http::status::bad_request, "Invalid start_time query parameter", req);
+            }
+            try {
+                start_time = std::stoll(*start_str);
+            } catch (const std::exception&) {
+                return makeErrorResponse(http::status::bad_request, "Invalid start_time query parameter", req);
+            }
         }
         
         auto end_str = getQueryParam(url, "end_time");
         if (end_str.has_value()) {
-            end_time = std::stoll(*end_str);
+            if (!isValidAuditField(*end_str)) {
+                return makeErrorResponse(http::status::bad_request, "Invalid end_time query parameter", req);
+            }
+            try {
+                end_time = std::stoll(*end_str);
+            } catch (const std::exception&) {
+                return makeErrorResponse(http::status::bad_request, "Invalid end_time query parameter", req);
+            }
         }
         
         // Query audit log

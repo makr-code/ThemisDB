@@ -339,6 +339,13 @@ TEST_F(SessionApiHandlerTest, CreateSession_InvalidToken) {
     EXPECT_EQ(resp["status_code"].get<int>(), 401);
 }
 
+TEST_F(SessionApiHandlerTest, CreateSession_InvalidUserAgentHeaderInjection_Returns400) {
+    json body = {{"user_agent", "evil\r\nX-Injected: 1"}};
+    auto resp = handler_->createSession("alice-token", body, "10.0.0.1");
+    EXPECT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["status_code"].get<int>(), 400);
+}
+
 TEST_F(SessionApiHandlerTest, ListSessions_ReturnsSessions) {
     // Create a couple of sessions first
     handler_->createSession("alice-token", json::object());
@@ -383,6 +390,12 @@ TEST_F(SessionApiHandlerTest, RevokeSession_OwnSession) {
 
 TEST_F(SessionApiHandlerTest, RevokeSession_EmptyIdReturnsError) {
     auto resp = handler_->revokeSession("alice-token", "");
+    EXPECT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["status_code"].get<int>(), 400);
+}
+
+TEST_F(SessionApiHandlerTest, RevokeSession_PathTraversalIdReturnsError) {
+    auto resp = handler_->revokeSession("alice-token", "../sess_abc");
     EXPECT_TRUE(resp.contains("error"));
     EXPECT_EQ(resp["status_code"].get<int>(), 400);
 }
@@ -439,6 +452,12 @@ TEST_F(SessionApiHandlerTest, RevokeAllOtherSessions_KeepsCurrent) {
     EXPECT_FALSE(manager_->validateSession(id1).valid);
     EXPECT_TRUE(manager_->validateSession(keep).valid);
     EXPECT_FALSE(manager_->validateSession(id3).valid);
+}
+
+TEST_F(SessionApiHandlerTest, RevokeAllOtherSessions_InvalidCurrentSessionReturnsError) {
+    auto resp = handler_->revokeAllOtherSessions("alice-token", "../current");
+    EXPECT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["status_code"].get<int>(), 400);
 }
 
 TEST_F(SessionApiHandlerTest, Constructor_NullAuthThrows) {

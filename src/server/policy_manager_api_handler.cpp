@@ -25,11 +25,38 @@
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "utils/input_validator.h"
 
 #include <chrono>
 
 namespace themis {
 namespace server {
+
+namespace {
+
+constexpr size_t kMaxPolicyBodySize = 1'000'000;
+constexpr size_t kMaxRuleIdLength = 256;
+constexpr size_t kMaxPolicyFieldLength = 4096;
+
+bool isValidPolicyBody(std::string_view body) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(body), kMaxPolicyBodySize);
+}
+
+bool isValidRuleId(std::string_view rule_id) {
+    themis::utils::InputValidator validator;
+    return !rule_id.empty() &&
+           validator.validateStringLength(std::string(rule_id), kMaxRuleIdLength) &&
+           validator.validatePathSegment(std::string(rule_id));
+}
+
+bool isValidPolicyField(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(value), kMaxPolicyFieldLength) &&
+           validator.validateHeaderValue(std::string(value));
+}
+
+} // namespace
 
 PolicyManagerApiHandler::PolicyManagerApiHandler(
     std::shared_ptr<themis::governance::PolicyManager> policy_manager,
@@ -82,6 +109,10 @@ http::response<http::string_body> PolicyManagerApiHandler::handleGetRule(
 ) {
     auto span = Tracer::startSpan("handleGetRule");
     try {
+        if (!isValidRuleId(rule_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID", req);
+        }
+
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
         }
@@ -108,6 +139,10 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
 ) {
     auto span = Tracer::startSpan("handleCreateRule");
     try {
+        if (!isValidPolicyBody(req.body())) {
+            return makeErrorResponse(http::status::bad_request, "Request body exceeds maximum allowed size", req);
+        }
+
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized - admin role required", req);
         }
@@ -125,6 +160,9 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
         // Validate rule ID is provided
         if (rule.id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Rule ID is required", req);
+        }
+        if (!isValidRuleId(rule.id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID", req);
         }
         
         // Check if rule already exists
@@ -163,6 +201,13 @@ http::response<http::string_body> PolicyManagerApiHandler::handleUpdateRule(
 ) {
     auto span = Tracer::startSpan("handleUpdateRule");
     try {
+        if (!isValidRuleId(rule_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID", req);
+        }
+        if (!isValidPolicyBody(req.body())) {
+            return makeErrorResponse(http::status::bad_request, "Request body exceeds maximum allowed size", req);
+        }
+
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized - admin role required", req);
         }
@@ -218,6 +263,10 @@ http::response<http::string_body> PolicyManagerApiHandler::handleDeleteRule(
 ) {
     auto span = Tracer::startSpan("handleDeleteRule");
     try {
+        if (!isValidRuleId(rule_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid rule ID", req);
+        }
+
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized - admin role required", req);
         }
@@ -254,6 +303,10 @@ http::response<http::string_body> PolicyManagerApiHandler::handleEvaluatePolicy(
 ) {
     auto span = Tracer::startSpan("handleEvaluatePolicy");
     try {
+        if (!isValidPolicyBody(req.body())) {
+            return makeErrorResponse(http::status::bad_request, "Request body exceeds maximum allowed size", req);
+        }
+
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
         }
@@ -273,9 +326,18 @@ http::response<http::string_body> PolicyManagerApiHandler::handleEvaluatePolicy(
         std::string resource = body["resource"].get<std::string>();
         std::string action = body["action"].get<std::string>();
         std::vector<std::string> user_roles;
+
+        if (!isValidPolicyField(resource) || !isValidPolicyField(action)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid resource or action field", req);
+        }
         
         if (body.contains("user_roles")) {
             user_roles = body["user_roles"].get<std::vector<std::string>>();
+            for (const auto& role : user_roles) {
+                if (!isValidPolicyField(role)) {
+                    return makeErrorResponse(http::status::bad_request, "Invalid user_roles entry", req);
+                }
+            }
         }
         
         // Evaluate policy

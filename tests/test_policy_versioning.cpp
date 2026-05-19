@@ -747,4 +747,25 @@ TEST_F(PolicyVersioningApiHandlerConflictTest, GetConflicts_ReturnsConflictsAsJs
     EXPECT_FALSE(first["resolution_suggestions"].empty());
 }
 
+TEST_F(PolicyVersioningApiHandlerConflictTest, ListVersions_InvalidRuleIdReturns400) {
+    auto req = makeGet("/policies/rules/../bad/versions");
+    auto res = handler->handleListVersions(req, "../bad");
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(PolicyVersioningApiHandlerConflictTest, QueryAudit_InvalidStartTimeReturns400) {
+    auto req = makeGet("/policies/audit?start_time=not-a-number");
+    auto res = handler->handleQueryAudit(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(PolicyVersioningApiHandlerConflictTest, QueryAudit_InvalidUserReturns400) {
+    auto req = makeGet("/policies/audit?user=admin%0d%0aInjected:1");
+    auto res = handler->handleQueryAudit(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 // Run all tests

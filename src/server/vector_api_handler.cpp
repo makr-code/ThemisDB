@@ -35,11 +35,39 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
+#include "utils/input_validator.h"
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t MAX_VECTOR_SEARCH_BODY_SIZE = 2'000'000;
+constexpr size_t MAX_VECTOR_BATCH_BODY_SIZE = 120'000'000;
+constexpr size_t MAX_VECTOR_FILTER_BODY_SIZE = 4'000'000;
+constexpr size_t MAX_VECTOR_FIELD_NAME_LENGTH = 128;
+constexpr size_t MAX_VECTOR_PK_LENGTH = 1024;
+
+bool isBodyWithinLimit(std::string_view body, size_t max_len) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(body), max_len);
+}
+
+bool isValidVectorFieldName(std::string_view field_name) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(field_name), MAX_VECTOR_FIELD_NAME_LENGTH) &&
+           validator.validatePathSegment(std::string(field_name));
+}
+
+bool isValidVectorPk(std::string_view pk) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(pk), MAX_VECTOR_PK_LENGTH) &&
+           validator.validatePathSegment(std::string(pk));
+}
+
+} // namespace
 
 VectorApiHandler::VectorApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -70,6 +98,12 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
     span.setAttribute("http.path", "/vector/search");
     
     try {
+        if (!isBodyWithinLimit(req.body(), MAX_VECTOR_SEARCH_BODY_SIZE)) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
+
         // Governance enforcement: block ANN for certain classifications in enforce mode
         auto to_lower = [](std::string s){ for (auto& c : s) c = static_cast<char>(::tolower(static_cast<unsigned char>(c))); return s; };
         std::string classification;
@@ -143,6 +177,11 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             try {
                 // Einfaches Cursor-Format: numerischer Offset als String
                 std::string cur = body_json["cursor"].get<std::string>();
+                if (cur.size() > 64) {
+                    span.setStatus(false, "Cursor too long");
+                    return makeErrorResponse(http::status::bad_request,
+                        "Field 'cursor' exceeds maximum allowed length", req);
+                }
                 offset = static_cast<size_t>(std::stoull(cur));
             } catch (...) {
                 offset = 0;
@@ -215,6 +254,12 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
     span.setAttribute("http.path", "/vector/batch_insert");
 
     try {
+        if (!isBodyWithinLimit(req.body(), MAX_VECTOR_BATCH_BODY_SIZE)) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
+
         auto body = json::parse(req.body());
 
         if (!body.contains("items") || !body["items"].is_array()) {
@@ -223,6 +268,12 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
         }
 
         std::string vector_field = body.value("vector_field", std::string("embedding"));
+        if (!isValidVectorFieldName(vector_field)) {
+            span.setStatus(false, "invalid_vector_field");
+            return makeErrorResponse(http::status::bad_request,
+                "Invalid field: vector_field", req);
+        }
+
         std::string object_name = vector_index_->getObjectName();
         int configured_dim = vector_index_->getDimension();
         size_t inserted = 0;
@@ -304,6 +355,8 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                 if (!it.contains("vector") || !it["vector"].is_array()) { ++errors; continue; }
 
                 std::string pk = it["pk"].get<std::string>();
+                if (!isValidVectorPk(pk)) { ++errors; continue; }
+
                 std::vector<float> vec;
                 vec.reserve(it["vector"].size());
                 for (const auto& v : it["vector"]) {
@@ -412,13 +465,19 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
         if (req.body().empty()) {
             return makeErrorResponse(http::status::bad_request, "Empty body; expected { pks: [...]} or { prefix: '...' }", req);
         }
+        if (!isBodyWithinLimit(req.body(), MAX_VECTOR_FILTER_BODY_SIZE)) {
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
         auto body = json::parse(req.body());
 
         size_t deleted = 0;
         if (body.contains("pks") && body["pks"].is_array()) {
             for (const auto& v : body["pks"]) {
                 if (!v.is_string()) continue;
-                auto st = vector_index_->removeByPk(v.get<std::string>());
+                const std::string pk = v.get<std::string>();
+                if (!isValidVectorPk(pk)) continue;
+                auto st = vector_index_->removeByPk(pk);
                 if (st.ok) ++deleted;
             }
             json resp = {{"deleted", deleted}, {"method", "pks"}};
@@ -429,6 +488,10 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
 
         if (body.contains("prefix") && body["prefix"].is_string()) {
             std::string prefix = body["prefix"].get<std::string>();
+            if (!isValidVectorPk(prefix)) {
+                return makeErrorResponse(http::status::bad_request,
+                    "Invalid field: prefix", req);
+            }
             // Scan RocksDB for keys starting with objectName:prefix
             std::string fullPrefix = vector_index_->getObjectName() + ":" + prefix;
             storage_->scanPrefix(fullPrefix, [&](std::string_view key, std::string_view /*value*/){

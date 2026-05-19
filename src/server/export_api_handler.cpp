@@ -29,6 +29,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <nlohmann/json.hpp>
@@ -46,6 +47,25 @@ using json = nlohmann::json;
 
 namespace themis {
 namespace server {
+
+namespace {
+
+constexpr size_t kMaxExportFieldLength = 256;
+
+bool isValidExportField(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(value), kMaxExportFieldLength) &&
+           validator.validateHeaderValue(std::string(value));
+}
+
+bool isValidExportId(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(std::string(value), kMaxExportFieldLength) &&
+           validator.validatePathSegment(std::string(value));
+}
+
+} // namespace
 
 ExportApiHandler::ExportApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -107,9 +127,17 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         // build a complete ModelTrainingExportRequest.
         if (request_json.contains("collection") && request_json["collection"].is_string()) {
             export_options.collection_name = request_json["collection"].get<std::string>();
+            if (!isValidExportField(export_options.collection_name)) {
+                return errorResponse(http::status::bad_request,
+                    "Invalid export field: collection");
+            }
         }
         if (request_json.contains("requesting_user") && request_json["requesting_user"].is_string()) {
             export_options.requesting_user = request_json["requesting_user"].get<std::string>();
+            if (!isValidExportField(export_options.requesting_user)) {
+                return errorResponse(http::status::bad_request,
+                    "Invalid export field: requesting_user");
+            }
         }
         export_options.policy_engine = policy_engine_;
         export_options.audit_logger  = audit_logger_;
@@ -309,6 +337,10 @@ http::response<http::string_body> ExportApiHandler::handleExportStatus(
         }
         
         std::string export_id = target.substr(last_slash + 1);
+        if (!isValidExportId(export_id)) {
+            span.setStatus(false, "Invalid export ID");
+            return errorResponse(http::status::bad_request, "Invalid export ID");
+        }
         span.setAttribute("export.id", export_id);
 
         // Find export job

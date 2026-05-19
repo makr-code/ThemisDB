@@ -557,6 +557,11 @@ TEST_F(MaintenanceApiHandlerTest, ListSchedules_ReturnsArray) {
     EXPECT_EQ(result["schedules"].size(), 2u);
 }
 
+TEST_F(MaintenanceApiHandlerTest, ListSchedules_InvalidTenantFilterReturnsError) {
+    auto result = handler_->listSchedules("tenant\r\nX-Injected: 1");
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
 TEST_F(MaintenanceApiHandlerTest, GetSchedule_ReturnsEntry) {
     auto created = handler_->createSchedule(makeScheduleBody("Fetch Me"));
     std::string id = created["id"].get<std::string>();
@@ -566,6 +571,11 @@ TEST_F(MaintenanceApiHandlerTest, GetSchedule_ReturnsEntry) {
 
 TEST_F(MaintenanceApiHandlerTest, GetSchedule_UnknownIdReturnsError) {
     auto result = handler_->getSchedule("nope");
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(MaintenanceApiHandlerTest, GetSchedule_InvalidIdReturnsError) {
+    auto result = handler_->getSchedule("../bad");
     EXPECT_EQ(result.value("status", ""), "error");
 }
 
@@ -601,10 +611,20 @@ TEST_F(MaintenanceApiHandlerTest, DeleteSchedule_RemovesEntry) {
     EXPECT_EQ(fetched.value("status", ""), "error");
 }
 
+TEST_F(MaintenanceApiHandlerTest, TriggerNow_InvalidScheduleIdReturnsError) {
+    auto result = handler_->triggerNow("../bad", false);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
 TEST_F(MaintenanceApiHandlerTest, ListJobs_ReturnsArray) {
     auto result = handler_->listJobs();
     EXPECT_TRUE(result.contains("jobs"));
     EXPECT_EQ(result["count"].get<int>(), 0);
+}
+
+TEST_F(MaintenanceApiHandlerTest, CancelJob_InvalidIdReturnsError) {
+    auto result = handler_->cancelJob("../bad-job");
+    EXPECT_EQ(result.value("status", ""), "error");
 }
 
 TEST_F(MaintenanceApiHandlerTest, GetStatus_IsJson) {
