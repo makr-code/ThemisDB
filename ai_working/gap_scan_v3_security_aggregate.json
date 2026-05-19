@@ -491,7 +491,7 @@
       "src\\aql\\llm_aql_handler.cpp": [
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 499,
+          "line": 500,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "impl_->kv_prefix_transfer_mgr_ = std::move(mgr);",
@@ -500,7 +500,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 622,
+          "line": 623,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "impl_->kv_prefix_transfer_mgr_ &&",
@@ -509,7 +509,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 631,
+          "line": 632,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "impl_->kv_prefix_transfer_mgr_->transferIfBeneficial(",
@@ -518,7 +518,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1133,
+          "line": 1134,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (impl_->sharding_manager_ != nullptr) {",
@@ -8925,7 +8925,7 @@
       "src\\server\\entity_api_handler.cpp": [
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 571,
+          "line": 586,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "bool ok = storage_->put(prefixed_key, data);",
@@ -14382,7 +14382,7 @@
       "src\\updates\\parallel_downloader.cpp": [
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 265,
+          "line": 266,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto write_cb = [](char* ptr, size_t sz, size_t nmemb, void* ud) -> size_t {",
@@ -14391,7 +14391,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 267,
+          "line": 268,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "size_t n = fwrite(ptr, sz, nmemb, ctx->fp);",

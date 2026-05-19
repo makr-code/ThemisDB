@@ -1,9 +1,9 @@
 {
   "voice": {
-    "total": 1906,
-    "severity_critical": 155,
-    "severity_high": 1495,
-    "severity_medium": 256,
+    "total": 2246,
+    "severity_critical": 161,
+    "severity_high": 1640,
+    "severity_medium": 445,
     "by_category": {
       "security": 13,
       "memory": 33,
@@ -17,7 +17,12 @@
       "input_validation": 100,
       "exception_safety": 8,
       "uninitialized": 580,
-      "oop_design": 692
+      "oop_design": 692,
+      "audit_logging": 4,
+      "performance_patterns": 118,
+      "llm_ai_safety": 13,
+      "observability": 90,
+      "determinism": 115
     },
     "by_file": {
       "src\\voice\\voice_intent_detector.cpp": [
@@ -787,6 +792,177 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 192,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entities.push_back(ent);"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 211,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entities.push_back(ent);"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 234,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entities.push_back(ent);"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 160,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (lower.find(kw) != std::string::npos) ++hits;"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 261,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::string VoiceIntentDetector::normalizeQuery("
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 292,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "result.normalized_query = normalizeQuery(text, context);"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 86,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = (history_.size() > max_turns) ? history_.size() - max_turns : 0;"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 87,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = start; i < history_.size(); ++i) {"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 191,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ent.start_offset = static_cast<int>(pos);"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 210,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ent.start_offset = static_cast<int>(it->position());"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 233,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ent.start_offset = static_cast<int>(pos);"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 72,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != entities_.end()) return it->second;"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 124,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower.find(kw) != std::string::npos) return true;"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 157,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ks.cat != cat) continue;"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 160,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower.find(kw) != std::string::npos) ++hits;"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 186,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 205,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = begin; it != end; ++it) {"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 228,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_intent_detector.cpp",
+          "line": 293,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "result.requires_context = (context != nullptr && !context->getHistory().empty());"
         }
       ],
       "src\\voice\\voice_macro_manager.cpp": [
@@ -2090,6 +2266,294 @@
           "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 398,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!combined_output.empty()) combined_output += '\\n';"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 56,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(static_cast<char>(std::tolower(c)));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 93,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "sub.push_back(stepToJson(s));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 93,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "sub.push_back(stepToJson(s));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 110,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "step.sub_steps.push_back(stepFromJson(s));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 110,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "step.sub_steps.push_back(stepFromJson(s));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 130,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "steps.push_back(stepToJson(s));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 161,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "m.steps.push_back(stepFromJson(s));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 315,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(kv.second);"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 327,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (matched) result.push_back(kv.second);"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 403,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.step_results.push_back(std::move(sr));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 448,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(macroInfoToJson(kv.second));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 448,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(macroInfoToJson(kv.second));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 454,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(macroInfoToJson(it->second));"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 484,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "imported_ids.push_back(id);"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 105,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "for (auto it = j[\"parameters\"].begin(); it != j[\"parameters\"].end(); ++it) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 186,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::string>& runtime_params)"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 199,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "auto apply = [&](const std::map<std::string, std::string>& params) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 370,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::string>& parameters)"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 322,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& tag : tags) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 397,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (int i = 0; i < static_cast<int>(info.steps.size()); ++i) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 433,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : impl_->macros) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 475,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& item : arr) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 60,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = out.find_first_not_of(' ');"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 61,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start == std::string::npos) return \"\";"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 63,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return out.substr(start, end - start + 1);"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 105,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = j[\"parameters\"].begin(); it != j[\"parameters\"].end(); ++it) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 203,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = aql.find(token, pos)) != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 323,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (std::find(mt.begin(), mt.end(), tag) != mt.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 417,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->macros.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 436,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (norm_utt.find(m.trigger_phrase) != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_macro_manager.cpp",
+          "line": 454,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->macros.end()) {"
         }
       ],
       "src\\voice\\voice_model_cache.cpp": [
@@ -3022,6 +3486,132 @@
           "function_name": "nowMs",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 271,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "models_arr.push_back(m);"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 216,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [id, model] : models_) {"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 244,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, model] : models_) {"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 62,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != models_.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 168,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (unloader_it != unloaders_.end() && it->second.handle) {"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lru_it != lru_map_.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 218,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (unloader_it != unloaders_.end() && model.handle) {"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 282,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != lru_map_.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 291,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto rit = lru_order_.rbegin(); rit != lru_order_.rend(); ++rit) {"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 294,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != models_.end() && !it->second.is_pinned) {"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 297,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (unloader_it != unloaders_.end() && it->second.handle) {"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 319,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (path.find(\"..\") != std::string::npos) return false;"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 321,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (path.find('\\0') != std::string::npos) return false;"
+        },
+        {
+          "file": "src\\voice\\voice_model_cache.cpp",
+          "line": 325,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (kForbiddenChars.find(static_cast<char>(c)) != std::string::npos) return false;"
         }
       ],
       "src\\voice\\voice_session_manager.cpp": [
@@ -3960,6 +4550,132 @@
           "function_name": "isSessionActive",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 71,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(id);"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 197,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "it->second.conversation_history.push_back(\"User: \" + user_msg);"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 263,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (session.user_id == user_id) result.push_back(session);"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 263,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (session.user_id == user_id) result.push_back(session);"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 71,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, _] : store_) {"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [k, v] : context_update.items()) {"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [id, session] : active_cache_) {"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 249,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = active_cache_.begin(); it != active_cache_.end(); ) {"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 263,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, session] : active_cache_) {"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 30,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 113,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::mt19937 rng(static_cast<unsigned>(now_ms));"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 114,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<uint16_t> dist(0, 0xFFFF);"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 148,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != active_cache_.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_session_manager.cpp",
+          "line": 249,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = active_cache_.begin(); it != active_cache_.end(); ) {"
         }
       ],
       "src\\voice\\voice_tts_customizer.cpp": [
@@ -5104,6 +5820,312 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 226,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!last_space) { collapsed += ' '; last_space = true; }"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 226,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!last_space) { collapsed += ' '; last_space = true; }"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 120,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(p);"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 131,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(p);"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 472,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "energies.push_back(static_cast<float>(std::sqrt(e / static_cast<double>(window))));"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 472,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "energies.push_back(static_cast<float>(std::sqrt(e / static_cast<double>(window))));"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 545,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(lv);"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 256,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::set<std::string>>& ssmlAllowedAttrs() {"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 257,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "static const std::map<std::string, std::set<std::string>> kAttrs = {"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 147,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != profiles_.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 153,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (overrides.pitch != def.pitch)       base.pitch = overrides.pitch;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (overrides.speed != def.speed)       base.speed = overrides.speed;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 155,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (overrides.volume != def.volume)     base.volume = overrides.volume;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 156,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (overrides.emphasis != def.emphasis) base.emphasis = overrides.emphasis;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "result.has_breaks   = (ssml_text.find(\"<break\") != std::string::npos);"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 177,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "result.has_emphasis = (ssml_text.find(\"<emphasis\") != std::string::npos);"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 183,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = work.find(\"<prosody\", pos)) != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 275,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (value.find('<') != std::string::npos) return false;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 276,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (value.find('>') != std::string::npos) return false;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 278,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (value.find(\"script\") != std::string::npos) return false;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 279,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (value.find(\"javascript\") != std::string::npos) return false;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 280,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (value.find(\"vbscript\") != std::string::npos) return false;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 281,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (value.find('\\0') != std::string::npos) return false;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 295,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const std::set<std::string>* allowed = (it != allowed_map.end()) ? &it->second : nullptr;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 307,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (ap < attrs_str.size() && attrs_str[ap] != '=' &&"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 309,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "attrs_str[ap] != '/' && attrs_str[ap] != '>')"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 321,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ap >= attrs_str.size() || attrs_str[ap] != '=') {"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 332,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ap >= attrs_str.size() || (attrs_str[ap] != '\"' && attrs_str[ap] != '\\'')) {"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 340,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (ap < attrs_str.size() && attrs_str[ap] != quote) ++ap;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 351,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "bool attr_allowed = (allowed != nullptr) && (allowed->count(attr_name_lower) > 0);"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 378,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ssml_input[pos] != '<') {"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 399,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string tag_name = (sp != std::string::npos) ? tag_body.substr(0, sp) : tag_body;"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 400,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string attrs_str = (sp != std::string::npos) ? tag_body.substr(sp + 1) : std::string{};"
+        },
+        {
+          "file": "src\\voice\\voice_tts_customizer.cpp",
+          "line": 553,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != language_voices_.end()) {"
         }
       ],
       "src\\voice\\audio_preprocessing.cpp": [
@@ -6063,6 +7085,60 @@
           "function_name": "getStatistics",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\audio_preprocessing.cpp",
+          "line": 135,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < avail; ++i)"
+        },
+        {
+          "file": "src\\voice\\audio_preprocessing.cpp",
+          "line": 137,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = avail; i < static_cast<size_t>(kRNNoiseFrameSamples); ++i)"
+        },
+        {
+          "file": "src\\voice\\audio_preprocessing.cpp",
+          "line": 146,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < avail; ++i)"
+        },
+        {
+          "file": "src\\voice\\audio_preprocessing.cpp",
+          "line": 323,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = w * window_samples;"
+        },
+        {
+          "file": "src\\voice\\audio_preprocessing.cpp",
+          "line": 325,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "float v = frame.samples[start + s];"
+        },
+        {
+          "file": "src\\voice\\audio_preprocessing.cpp",
+          "line": 457,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (current.sample_rate != opts_.target_sample_rate) {"
         }
       ],
       "src\\voice\\voice_assistant.cpp": [
@@ -7340,6 +8416,114 @@
           "function_name": "synthesize",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 150,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "auto auth_result = voice_authenticator_.authenticate(uid, audio_data);"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 269,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "auto auth_result = voice_authenticator_.authenticate(uid, audio_data);"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 660,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "return voice_authenticator_.authenticate(user_id, audio_sample);"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 417,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "segments.push_back(seg_json);"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 469,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "participants.push_back(participant);"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 622,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const uint8_t byte : data) {"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 401,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "call_metadata[\"start_time\"] = metadata.start_time;"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 412,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "seg_json[\"start_ms\"] = seg.start_ms;"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 463,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "protocol[\"start_time\"] = metadata.start_time;"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 465,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "protocol[\"duration_ms\"] = metadata.end_time - metadata.start_time;"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 546,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != sessions_.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_assistant.cpp",
+          "line": 567,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != sessions_.end()) {"
         }
       ],
       "src\\voice\\voice_audio_storage.cpp": [
@@ -8176,6 +9360,132 @@
           "function_name": "isEncrypted",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 218,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(rec);"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(rec);"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(rec);"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(rec);"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (lower_transcript.find(lower_query) != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 63,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (uint8_t b : data) {"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 216,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, rec] : records_) {"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 240,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& c : lower_transcript) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 261,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [id, rec] : records_) {"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 79,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != hash_to_id_.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 142,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (dup_it != hash_to_id_.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 183,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rit != records_.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 241,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower_transcript.find(lower_query) != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_audio_storage.cpp",
+          "line": 263,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (new_tier != rec.tier) {"
         }
       ],
       "src\\voice\\voice_browser_streaming.cpp": [
@@ -9287,6 +10597,132 @@
           "function_name": "closeSession",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 46,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t  started_at_ms   = 0;"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t            started_at_ms)"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 132,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ft.duration_ms = streamingNowMs() - started_at_ms;"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 174,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "StreamID VoiceStreamingSession::start() {"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 177,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "impl_->started_at_ms= streamingNowMs();"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 181,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"VoiceStreamingSession: started stream_id={} user={}\","
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 219,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t elapsed_s = (streamingNowMs() - impl_->started_at_ms) / 1000;"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 261,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "impl_->started_at_ms);"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 298,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t VoiceStreamingSession::startedAtMs() const noexcept {"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 299,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return impl_ ? impl_->started_at_ms : 0;"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 328,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto id = session->start();"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 31,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 80,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static std::mt19937_64 rng{std::random_device{}()};"
+        },
+        {
+          "file": "src\\voice\\voice_browser_streaming.cpp",
+          "line": 309,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return std::find(allowlist.begin(), allowlist.end(), origin) != allowlist.end();"
         }
       ],
       "src\\voice\\voice_security.cpp": [
@@ -9836,6 +11272,132 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 102,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.found_pii.emplace_back(type, matched);"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 102,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.found_pii.emplace_back(type, matched);"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 130,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cumulative.found_pii.push_back(p);"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 130,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cumulative.found_pii.push_back(p);"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 223,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(*it);"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 287,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "audit_entries.push_back(e);"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 222,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = audit_log_.rbegin(); it != audit_log_.rend(); ++it) {"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 281,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& entry : audit_log_) {"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 91,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (p.type != type) continue;"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 99,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (; it != end; ++it) {"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 222,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = audit_log_.rbegin(); it != audit_log_.rend(); ++it) {"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 223,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!user_id.empty() && it->user_id != user_id) continue;"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 274,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != consents_.end()) {"
+        },
+        {
+          "file": "src\\voice\\voice_security.cpp",
+          "line": 282,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (entry.user_id != user_id) continue;"
         }
       ],
       "src\\voice\\voice_telephony.cpp": [
@@ -13009,6 +14571,267 @@
           "function_name": "activeSipCallCount",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 317,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (uint8_t b : payload) pcm.push_back(alawToPcm(b));"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 325,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "pcm.push_back(s);"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 325,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "pcm.push_back(s);"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 395,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "packets.push_back(std::move(pkt));"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 603,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "packets.push_back(std::move(pkt));"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 189,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t   started_at_ms = 0;"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 241,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "CallID SipCallSession::start() {"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 246,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "impl_->started_at_ms = telephonyNowMs();"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 248,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"SipCallSession: started call_id={} from={} to={}\","
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 296,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t elapsed_s = (telephonyNowMs() - impl_->started_at_ms) / 1000;"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 385,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//               via setTtsBackend() at startup.  See STUB_INVENTORY entry #173 and"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 411,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t       SipCallSession::startedAtMs()        const noexcept { return impl_ ? impl_->started_at_ms : 0; }"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 423,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t   started_at_ms  = 0;"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 501,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "CallID WebRtcCallSession::start() {"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 504,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "impl_->started_at_ms = telephonyNowMs();"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 506,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"WebRtcCallSession: started call_id={} user={}\","
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 541,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t elapsed_s = (telephonyNowMs() - impl_->started_at_ms) / 1000;"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 596,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//               setTtsBackend() at startup.  See STUB_INVENTORY entry #174 and"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 620,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t       WebRtcCallSession::startedAtMs()   const noexcept { return impl_ ? impl_->started_at_ms : 0; }"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 725,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto id = session->start();"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 781,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "out_call_id = session->start();"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 31,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 50,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static std::mt19937_64 rng{std::random_device{}()};"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 145,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower_sdp.find(codec) != std::string::npos)"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 293,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!impl_ || impl_->state != CallState::ACTIVE) return empty;"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 335,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!impl_ || impl_->state != CallState::ACTIVE) return empty;"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 538,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!impl_ || impl_->state != CallState::ACTIVE) return empty;"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 847,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != sip_calls_.end()) return it->second->state();"
+        },
+        {
+          "file": "src\\voice\\voice_telephony.cpp",
+          "line": 852,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != webrtc_calls_.end()) return it->second->state();"
         }
       ],
       "src\\voice\\emotion_analyzer.cpp": [
@@ -13784,6 +15607,168 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 196,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "timeline.timeline.push_back(te);"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 411,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "/*static*/ std::map<Emotion, float> EmotionAnalyzer::softmax("
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 412,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<Emotion, float>& raw)"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 420,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<Emotion, float> out;"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 440,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<Emotion, float>& probs) const"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 443,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "static const std::map<Emotion, float> kPolarity = {"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 309,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log_geo += std::log(e);"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 191,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "te.timestamp_ms   = seg.start_ms;"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 200,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "timeline.total_duration_ms += (seg.end_ms - seg.start_ms);"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 286,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = static_cast<size_t>(b) * band_size;"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 287,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t end   = (b == kBands - 1) ? n : start + band_size;"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 289,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = start; i < end; ++i) {"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 292,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "rms = std::sqrt(rms / static_cast<float>(end - start));"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 120,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const EmotionConfig& cfg = config.analysis_window_ms != EmotionConfig{}.analysis_window_ms"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const EmotionConfig& cfg = config.analysis_window_ms != EmotionConfig{}.analysis_window_ms"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 271,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((samples[i] >= 0.0f) != (samples[i - 1] >= 0.0f)) {"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 456,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != kPolarity.end()) {"
+        },
+        {
+          "file": "src\\voice\\emotion_analyzer.cpp",
+          "line": 529,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (entries[i].emotion != entries[i - 1].emotion) {"
         }
       ],
       "src\\voice\\voice_accessibility.cpp": [
@@ -15417,6 +17402,285 @@
           "function_name": "rfind",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 382,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "last.text += \" \" + sorted[i].text;"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 75,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cues.push_back(std::move(cue));"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cues.push_back(std::move(cue));"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 277,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(obj);"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 329,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(cue);"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 364,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(sub);"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 364,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(sub);"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 385,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(sorted[i]);"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 65,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "cue.start_ms = timed_segments[i].first;"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 66,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// End time: next segment start or start + 3000ms"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 96,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (item.contains(\"start_ms\") && item[\"start_ms\"].is_number())"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 97,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "cue.start_ms = item[\"start_ms\"].get<int64_t>();"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 168,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ss << formatTimestamp(cue.start_ms, true) << \" --> \" << formatTimestamp(cue.end_ms, true) << \"\\n\";"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 189,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ss << formatTimestamp(cue.start_ms, false) << \" --> \" << formatTimestamp(cue.end_ms, false) << \"\\n\";"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 211,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t total_s = cue.start_ms / 1000;"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 294,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Fix overlapping timestamps: ensure end_ms >= start_ms + 1 and no overlap with next"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 297,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (sorted[i].end_ms <= sorted[i].start_ms) {"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 298,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sorted[i].end_ms = sorted[i].start_ms + DEFAULT_MIN_CUE_DURATION_MS;"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 300,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (i + 1 < sorted.size() && sorted[i].end_ms > sorted[i + 1].start_ms) {"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 301,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sorted[i].end_ms = sorted[i + 1].start_ms;"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 328,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t duration = cue.end_ms - cue.start_ms;"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 351,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sub.start_ms = cue.start_ms + static_cast<int64_t>(p) * ms_per_part;"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 352,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sub.end_ms   = (p + 1 == parts) ? cue.end_ms : sub.start_ms + ms_per_part;"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 380,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t gap = sorted[i].start_ms - last.end_ms;"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 401,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = 0;"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 402,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "while (start < text.size()) {"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 403,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t end = start + static_cast<size_t>(max_chars);"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 405,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "wrapped << text.substr(start);"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 410,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (space == std::string::npos || space <= start) {"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 413,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "wrapped << text.substr(start, space - start) << \"\\n\";"
+        },
+        {
+          "file": "src\\voice\\voice_accessibility.cpp",
+          "line": 414,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start = space + 1;"
         }
       ],
       "src\\voice\\voice_assistant_llm.cpp": [
@@ -15920,6 +18184,141 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 40,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "const std::string& user_input,"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 54,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "prompt << \"User: \" << user_input << \"\\n\";"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 40,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "const std::string& user_input,"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 54,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "prompt << \"User: \" << user_input << \"\\n\";"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 38,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "// Replace generateLLMResponse to use EmbeddedLLM instead of inference engine"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 57,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "// Use EmbeddedLLM instead of inference engine"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 59,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 109,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 147,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 59,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 84,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "std::string summary = THEMIS_LLM_GENERATE(prompt.str());"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 109,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 147,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "std::string response = THEMIS_LLM_GENERATE(prompt.str());"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 49,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t history_start = session.history.size() > 10 ? session.history.size() - 10 : 0;"
+        },
+        {
+          "file": "src\\voice\\voice_assistant_llm.cpp",
+          "line": 50,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = history_start; i < session.history.size(); ++i) {"
         }
       ],
       "src\\voice\\voice_authenticator.cpp": [
@@ -17842,6 +20241,168 @@
           "function_name": "now",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 346,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "VoiceAuthResult VoiceBiometricAuthenticator::authenticate("
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 226,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.matches.push_back(m);"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 430,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(kv.first);"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 127,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& fv : feature_vectors) {"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 128,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < dim; ++i) {"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 133,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (float& v : mean_fv) {"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 430,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : profiles_) {"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 296,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log_sum   += std::log(mag);"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 607,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log_geo  += std::log(e);"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 531,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = static_cast<size_t>(b) * band_size;"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 532,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t end   = (b == kBands - 1) ? n : start + band_size;"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 533,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t len   = end - start;"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 537,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = start; i < end; ++i) {"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 542,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = start + 1; i < end; ++i) {"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 314,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((samples[i] >= 0.0f) != (samples[i - 1] >= 0.0f)) {"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 319,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((samples[i] >= 0.0f) != (samples[i - 1] >= 0.0f)) {"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 543,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((samples[i] >= 0.0f) != (samples[i - 1] >= 0.0f)) {"
+        },
+        {
+          "file": "src\\voice\\voice_authenticator.cpp",
+          "line": 656,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.size() != b.size() || a.empty()) {"
         }
       ],
       "src\\voice\\voice_batch_processor.cpp": [
@@ -18853,6 +21414,132 @@
           "function_name": "sort",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 128,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(processItem(items[j]));"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 128,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(processItem(items[j]));"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 313,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "items.push_back(std::move(item));"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 396,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "frame_rms.push_back(std::sqrt(sum / static_cast<float>(window_size)));"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 396,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "frame_rms.push_back(std::sqrt(sum / static_cast<float>(window_size)));"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 396,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "frame_rms.push_back(std::sqrt(sum / static_cast<float>(window_size)));"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 428,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "samples.push_back(static_cast<float>(s) / 32768.0f);"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 126,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < items.size(); i += batch_size) {"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 128,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t j = i; j < end; ++j) {"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 311,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < num_concurrent; ++i) {"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 162,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "result.preprocessing = preprocessor_.process(item.audio_data, item.sample_rate);"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 146,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = steady_clock::now();"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 32,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\voice\\voice_batch_processor.cpp",
+          "line": 326,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != job_summaries_.end()) {"
         }
       ],
       "src\\voice\\voice_error_handler.cpp": [
@@ -19261,6 +21948,42 @@
           "function_name": "isSystemHealthy",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_error_handler.cpp",
+          "line": 287,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return stt_circuit_.getState()     != CircuitState::OPEN &&"
+        },
+        {
+          "file": "src\\voice\\voice_error_handler.cpp",
+          "line": 288,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "tts_circuit_.getState()     != CircuitState::OPEN &&"
+        },
+        {
+          "file": "src\\voice\\voice_error_handler.cpp",
+          "line": 289,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "llm_circuit_.getState()     != CircuitState::OPEN &&"
+        },
+        {
+          "file": "src\\voice\\voice_error_handler.cpp",
+          "line": 290,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "storage_circuit_.getState() != CircuitState::OPEN;"
         }
       ],
       "src\\voice\\voice_meeting_support.cpp": [
@@ -19915,6 +22638,294 @@
           "function_name": "isFinalized",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 79,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!current.empty()) sentences.push_back(current);"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 79,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!current.empty()) sentences.push_back(current);"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 189,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "items.push_back(std::move(ai));"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 202,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "decisions.push_back(sent);"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 219,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "points.push_back(sent);"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 258,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "protocol.segments.push_back(seg);"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 160,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = pos + pat.size();"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 162,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t end = start;"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 167,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (end > start) return text.substr(start, end - start);"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 355,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t start_ms,"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 367,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "seg.start_ms   = start_ms;"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 387,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ai.source_timestamp_ms = start_ms;"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 27,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 61,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower.find(toLower(t)) != std::string::npos) return true;"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 105,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower.find(\"agenda:\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 106,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"topic:\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 107,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"next item\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 108,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"agenda item\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 112,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower.find(\"thank you\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 113,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"goodbye\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 114,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"that's all\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 115,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"thats all\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 116,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"meeting is adjourned\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 117,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"see you next\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 121,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower.find(\"welcome\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 122,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"let me introduce\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 123,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"first of all\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 124,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"good morning\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 125,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "lower.find(\"good afternoon\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 148,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower.find(lp) != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 159,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\voice\\voice_meeting_support.cpp",
+          "line": 164,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "text[end] != '.' && text[end] != ',') {"
         }
       ],
       "src\\voice\\wake_word_detector.cpp": [
@@ -20584,6 +23595,60 @@
           "function_name": "min",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\voice\\wake_word_detector.cpp",
+          "line": 79,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tokens.push_back(tok);"
+        },
+        {
+          "file": "src\\voice\\wake_word_detector.cpp",
+          "line": 113,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "wake_words_.push_back(std::move(ww));"
+        },
+        {
+          "file": "src\\voice\\wake_word_detector.cpp",
+          "line": 133,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(ww.id);"
+        },
+        {
+          "file": "src\\voice\\wake_word_detector.cpp",
+          "line": 161,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "sample_buffer_.push_back(s);"
+        },
+        {
+          "file": "src\\voice\\wake_word_detector.cpp",
+          "line": 105,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& ww : wake_words_) {"
+        },
+        {
+          "file": "src\\voice\\wake_word_detector.cpp",
+          "line": 133,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& ww : wake_words_) {"
         }
       ]
     }

@@ -1,9 +1,9 @@
 {
   "cdc": {
-    "total": 1163,
+    "total": 1337,
     "severity_critical": 105,
-    "severity_high": 960,
-    "severity_medium": 98,
+    "severity_high": 1032,
+    "severity_medium": 200,
     "by_category": {
       "security": 5,
       "memory": 16,
@@ -17,7 +17,11 @@
       "input_validation": 17,
       "exception_safety": 18,
       "uninitialized": 392,
-      "oop_design": 429
+      "oop_design": 429,
+      "audit_logging": 4,
+      "performance_patterns": 35,
+      "observability": 73,
+      "determinism": 62
     },
     "by_file": {
       "src\\cdc\\cdc_admin.cpp": [
@@ -1101,6 +1105,204 @@
           "function_name": "getStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 17,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "\u2022 c1118dfd68  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... \u2551"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 18,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "\u2022 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... \u2551"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 62,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = steady_clock::now();"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 81,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "result.elapsed_time_ms = duration_cast<milliseconds>(end - start).count();"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 87,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "PurgeResult CDCAdmin::purgeBySequenceRange(uint64_t start_sequence, uint64_t end_sequence) {"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 88,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"CDC Admin: Purging sequence range [{}, {}]\", start_sequence, end_sequence);"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 90,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "validateSequenceRange(start_sequence, end_sequence);"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 92,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = steady_clock::now();"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 102,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// If start_sequence > 0, we deleted too many, but RocksDB delete is by prefix"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 108,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "result.elapsed_time_ms = duration_cast<milliseconds>(end - start).count();"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 117,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = steady_clock::now();"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "result.elapsed_time_ms = duration_cast<milliseconds>(end - start).count();"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 144,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = steady_clock::now();"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 281,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "uint64_t CDCAdmin::countEventsInRange(uint64_t start, uint64_t end) {"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 282,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (end < start) {"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 285,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return end - start + 1;"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 288,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void CDCAdmin::validateSequenceRange(uint64_t start, uint64_t end) {"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 289,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (end < start) {"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 292,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\") < start (\" + std::to_string(start) + \")\");"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 306,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"CDC Admin: Starting log compaction (compact by key)\");"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 312,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = steady_clock::now();"
+        },
+        {
+          "file": "src\\cdc\\cdc_admin.cpp",
+          "line": 317,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "duration_cast<milliseconds>(end - start).count(),"
         }
       ],
       "src\\cdc\\changefeed.cpp": [
@@ -3595,6 +3797,330 @@
           "function_name": "callback",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 290,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "snprintf(buf, sizeof(buf), \"%s%020llu\", KEY_PREFIX, (unsigned long long)sequence);"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 1160,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "snapshot.push_back(entry);"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 18,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "\u2022 c1118dfd68  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... \u2551"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 19,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "\u2022 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... \u2551"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 421,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start from requested sequence"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 422,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::string start_key = makeKey(options.from_sequence + 1);"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 423,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "it->Seek(start_key);"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 443,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const char* seq_start = key.c_str() + strlen(KEY_PREFIX);"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 445,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "uint64_t key_seq = std::strtoull(seq_start, &end_ptr, 10);"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 446,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (end_ptr != seq_start && key_seq > options.to_sequence) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 497,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 506,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto elapsed = std::chrono::steady_clock::now() - start;"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 1029,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Retention was disabled; start the background cleanup thread now."
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 1030,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "startRetentionCleanup();"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 1046,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void Changefeed::startRetentionCleanup() {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 1055,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"Started retention cleanup thread (interval: {}min)\","
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 45,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// uint64.  Each Merge operand is a little-endian uint64 delta (always 1 in"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 201,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Get failed (possibly due to unresolved Merge operands when the merge"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 301,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// (the operand is buffered in the LSM write-path and applied lazily)."
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 580,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Using Put() overwrites any prior Merge operands so that subsequent"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 59,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (existing_value != nullptr && !existing_value->empty()) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 223,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 269,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "merge_available = (opts.merge_operator != nullptr);"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 430,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 446,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (end_ptr != seq_start && key_seq > options.to_sequence) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 459,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "event.key.find(*options.key_prefix) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 469,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "event.type != *options.event_type) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 535,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 563,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 636,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 668,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 747,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rocksdb_key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 758,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (event.key.compare(0, key_prefix.size(), key_prefix) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 818,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 920,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\changefeed.cpp",
+          "line": 1120,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!key_prefix.empty() && ev.key.rfind(key_prefix, 0) != 0) return false;"
         }
       ],
       "src\\cdc\\consumer_group.cpp": [
@@ -5212,6 +5738,150 @@
           "function_name": "getInFlightStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 286,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "groups.push_back(std::move(gid));"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 420,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(ev));"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 484,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(changefeed.getEvent(seq));"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 512,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "new_records.push_back({ev.sequence, now, 1});"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 539,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "consumer_inflight.push_back(std::move(rec));"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 539,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "consumer_inflight.push_back(std::move(rec));"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 508,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& ev : all_events) {"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 539,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& rec : new_records) {"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 496,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start after the highest in-flight sequence (or committed, whichever is"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 276,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.rfind(prefix, 0) != 0) break; // past prefix"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 462,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (git != inflight_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 464,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cit != git->second.end()) {"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 510,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (partitionForKey(ev.key, cfg.consumer_count) != consumer_partition) {"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 527,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "rec.sequence) != overdue_seqs.end()) {"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 564,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (git != inflight_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\consumer_group.cpp",
+          "line": 566,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cit != git->second.end()) {"
         }
       ],
       "src\\cdc\\dead_letter_queue.cpp": [
@@ -6054,6 +6724,78 @@
           "function_name": "reset",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 67,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(buf, sizeof(buf), \"%s%020llu\","
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 276,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const std::string start = makeKey(0);"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 277,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "it->Seek(start);"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 313,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const std::string start = makeKey(0);"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 314,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "it->Seek(start);"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 239,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, std::strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 281,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, std::strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\cdc\\dead_letter_queue.cpp",
+          "line": 319,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, std::strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
         }
       ],
       "src\\cdc\\tenant_buffer_manager.cpp": [
@@ -7144,6 +7886,213 @@
           "function_name": "updateTenantStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 288,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tenants.push_back(tenant_id);"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 270,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, TenantStats> TenantBufferManager::getAllTenantStats() const {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 273,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, TenantStats> all_stats;"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 53,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [tenant_id, state] : tenant_buffers_) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 156,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [tenant_id, state] : tenant_buffers_) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 274,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [tenant_id, state] : tenant_buffers_) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 287,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [tenant_id, state] : tenant_buffers_) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 46,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void TenantBufferManager::start() {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 55,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "state.buffer->start();"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 59,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"TenantBufferManager started with {} tenants\", tenant_buffers_.size());"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 181,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Note: buffer config changes take effect on next buffer creation/restart"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 193,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "state.buffer->start();"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 326,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "it->second.buffer->start();"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 370,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "state.buffer->start();"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_buffers_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 204,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_buffers_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 214,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_buffers_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 224,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_buffers_.end() && it->second.buffer) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 298,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return tenant_buffers_.find(tenant_id) != tenant_buffers_.end();"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 305,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_buffers_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 321,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_buffers_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 337,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_buffers_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\tenant_buffer_manager.cpp",
+          "line": 357,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_buffers_.end()) {"
         }
       ],
       "src\\cdc\\changefeed_buffer.cpp": [
@@ -8009,6 +8958,69 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\changefeed_buffer.cpp",
+          "line": 100,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"ChangefeedBuffer.recordEvent\");"
+        },
+        {
+          "file": "src\\cdc\\changefeed_buffer.cpp",
+          "line": 212,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"ChangefeedBuffer.flush\");"
+        },
+        {
+          "file": "src\\cdc\\changefeed_buffer.cpp",
+          "line": 251,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"ChangefeedBuffer.flushBuffer\");"
+        },
+        {
+          "file": "src\\cdc\\changefeed_buffer.cpp",
+          "line": 406,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"ChangefeedBuffer flush thread started\");"
+        },
+        {
+          "file": "src\\cdc\\changefeed_buffer.cpp",
+          "line": 476,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "now - rate_limit_window_start_"
+        },
+        {
+          "file": "src\\cdc\\changefeed_buffer.cpp",
+          "line": 481,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "rate_limit_window_start_ = now;"
+        },
+        {
+          "file": "src\\cdc\\changefeed_buffer.cpp",
+          "line": 497,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "rate_limit_window_start_ = std::chrono::steady_clock::now();"
         }
       ],
       "src\\cdc\\outbox.cpp": [
@@ -8750,6 +9762,42 @@
           "function_name": "totalRelayed",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\outbox.cpp",
+          "line": 121,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(buf, sizeof(buf), \"%s%020llu\","
+        },
+        {
+          "file": "src\\cdc\\outbox.cpp",
+          "line": 222,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(buf, sizeof(buf), \"%s%020llu\","
+        },
+        {
+          "file": "src\\cdc\\outbox.cpp",
+          "line": 262,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(rec));"
+        },
+        {
+          "file": "src\\cdc\\outbox.cpp",
+          "line": 256,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (!k.starts_with(KEY_PREFIX)) break;"
         }
       ],
       "src\\cdc\\cdc_materialized_view.cpp": [
@@ -8965,6 +10013,60 @@
           "function_name": "catch",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\cdc_materialized_view.cpp",
+          "line": 92,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "records.push_back(std::move(rec));"
+        },
+        {
+          "file": "src\\cdc\\cdc_materialized_view.cpp",
+          "line": 106,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "themisdb::analytics::ViewQueryResult CDCMaterializedViewMaintainer::query("
+        },
+        {
+          "file": "src\\cdc\\cdc_materialized_view.cpp",
+          "line": 112,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return view_manager_.query(view_name, filters, limit, offset);"
+        },
+        {
+          "file": "src\\cdc\\cdc_materialized_view.cpp",
+          "line": 106,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "themisdb::analytics::ViewQueryResult CDCMaterializedViewMaintainer::query("
+        },
+        {
+          "file": "src\\cdc\\cdc_materialized_view.cpp",
+          "line": 112,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "return view_manager_.query(view_name, filters, limit, offset);"
+        },
+        {
+          "file": "src\\cdc\\cdc_materialized_view.cpp",
+          "line": 135,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = j.begin(); it != j.end(); ++it) {"
         }
       ],
       "src\\cdc\\cdc_ws_handler.cpp": [
@@ -9355,6 +10457,123 @@
           "function_name": "hasSubscriptions",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 311,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "sub.pending_ack.push_back({event_frame, now});"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 351,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "frames.push_back(pending.frame);"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 351,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "frames.push_back(pending.frame);"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 350,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& pending : sub.pending_ack) {"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 92,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "// off without scanning the full change log (v1.8.0 acceptance criterion)."
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 101,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Group may not exist yet; deliver from the start of the log."
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 349,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// so the redelivery timer restarts after this batch."
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 375,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start from the canonical ChangeEvent JSON representation so the format"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 93,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!group_id.empty() && group_manager_ != nullptr) {"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 197,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!matched_key.empty() && group_manager_ != nullptr) {"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 217,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != subscriptions_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 233,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!sub.group_id.empty() && group_manager_ != nullptr) {"
+        },
+        {
+          "file": "src\\cdc\\cdc_ws_handler.cpp",
+          "line": 300,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!sub.group_id.empty() && group_manager_ != nullptr) {"
         }
       ],
       "src\\cdc\\cross_collection_stream.cpp": [
@@ -9685,6 +10904,78 @@
           "function_name": "listEvents",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 78,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "names.push_back(kv.first);"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 152,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "all_events.push_back({name, std::move(ev)});"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 113,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, Changefeed*> feeds_snapshot;"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 193,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, Changefeed*> feeds_snapshot;"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 93,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.event.timestamp_ms != b.event.timestamp_ms) {"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 96,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.collection != b.collection) {"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 134,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cursor_it != options.from_sequence.end()) {"
+        },
+        {
+          "file": "src\\cdc\\cross_collection_stream.cpp",
+          "line": 90,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Comparator: sort by (timestamp_ms ASC, collection ASC, sequence ASC)."
         }
       ],
       "src\\cdc\\delivery_tracker.cpp": [
@@ -10139,6 +11430,87 @@
           "function_name": "checkAndRedeliver",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "to_expire.push_back(seq);"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 242,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(stats));"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 291,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "consumer_ids.push_back(id);"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 88,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& ev : events) {"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 190,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (uint64_t seq : to_expire) {"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 235,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [consumer_id, state] : consumers_) {"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 41,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void DeliveryTracker::start() {"
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 47,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"DeliveryTracker: background redelivery thread started \""
+        },
+        {
+          "file": "src\\cdc\\delivery_tracker.cpp",
+          "line": 138,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (it != state.pending.end() && it->first <= up_to_sequence) {"
         }
       ],
       "src\\cdc\\kafka_cdc_producer.cpp": [
@@ -10649,6 +12021,123 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 39,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "*   start()/publish() return false by default, and can be explicitly bridged"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 104,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool KafkaCDCProducer::start() {"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 110,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"KafkaCDCProducer: cannot start without a valid Changefeed\");"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 172,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"KafkaCDCProducer: started (brokers={})\", config_.brokers);"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 315,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"KafkaCDCProducer: polling thread started \""
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 67,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (message.err() != RdKafka::ERR_NO_ERROR) {"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 120,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (conf->set(key, value, errstr) != RdKafka::Conf::CONF_OK) {"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (conf->set(\"dr_cb\", dr_cb_.get(), errstr) != RdKafka::Conf::CONF_OK) {"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 189,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != RdKafka::ERR_NO_ERROR) {"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 217,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(colon != std::string::npos) ? event.key.substr(0, colon) : event.key;"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 226,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != topic_cache_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 282,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != RdKafka::ERR_NO_ERROR) {"
+        },
+        {
+          "file": "src\\cdc\\kafka_cdc_producer.cpp",
+          "line": 295,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != RdKafka::ERR_NO_ERROR) {"
         }
       ],
       "src\\cdc\\ws_transport.cpp": [
@@ -11210,6 +12699,87 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 144,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "query_items.push_back({sid, sub_id, std::move(opts)});"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 144,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "query_items.push_back({sid, sub_id, std::move(opts)});"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 165,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back({item.session_id, item.sub_id, std::move(events)});"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 208,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "overflow_sessions.push_back(result.session_id);"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 222,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& event : delivery.events) {"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 274,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void WsTransport::startPolling(boost::asio::io_context& ioc,"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 287,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"WsTransport: background polling started (interval={}ms)\", poll_interval_ms_);"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 69,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != sessions_.end()) {"
+        },
+        {
+          "file": "src\\cdc\\ws_transport.cpp",
+          "line": 244,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != sessions_.end()) {"
         }
       ]
     }

@@ -1794,7 +1794,7 @@
       "src\\aql\\llm_aql_handler.cpp": [
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 611,
+          "line": 612,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "request.metadata[\"domain_hint\"] = *domain;",
@@ -1803,7 +1803,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 612,
+          "line": 613,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "request.metadata[\"routing_decision\"] = routing_decision;",
@@ -5021,7 +5021,7 @@
       "src\\exporters\\huggingface_hub_client.cpp": [
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 71,
+          "line": 72,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "s->append(data, sz * nmemb);",
@@ -5030,7 +5030,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 112,
+          "line": 113,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "hdrs->append(buffer, size * nitems);",
@@ -5039,7 +5039,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 269,
+          "line": 270,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] const char* data,",
@@ -6938,7 +6938,7 @@
       "src\\llm\\aql_train_parser.cpp": [
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 121,
+          "line": 117,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"custom_metadata\"]    = custom_metadata;",
@@ -6947,7 +6947,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 126,
+          "line": 122,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "j[\"dataset_name\"]       = dataset_name;",
@@ -14707,7 +14707,7 @@
       "src\\server\\entity_api_handler.cpp": [
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 566,
+          "line": 581,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "const std::vector<uint8_t>& data) -> bool {",
@@ -14716,7 +14716,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 571,
+          "line": 586,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "bool ok = storage_->put(prefixed_key, data);",
@@ -14725,7 +14725,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 736,
+          "line": 751,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"Geo index delete hook failed for {}:{}: {}\", table, pk, e.what());",
@@ -14734,7 +14734,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 753,
+          "line": 768,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "\"Index/Storage delete failed: \" + st.message, req);",
@@ -14743,7 +14743,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 977,
+          "line": 1001,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "THEMIS_WARN(\"Geo index delete hook failed for {}:{}: {}\", vop.table, vop.pk, e.what());",
@@ -16122,7 +16122,7 @@
       "src\\server\\replication_topology_api_handler.cpp": [
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 258,
+          "line": 304,
           "type": "new_without_delete",
           "severity": "CRITICAL",
           "snippet": "<< \"if(!t.ok)throw new Error('topology '+t.status);\\n\"",
@@ -16131,7 +16131,7 @@
         },
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 259,
+          "line": 305,
           "type": "new_without_delete",
           "severity": "CRITICAL",
           "snippet": "<< \"if(!h.ok)throw new Error('health '+h.status);\\n\"",
@@ -20669,7 +20669,7 @@
       "src\\updates\\parallel_downloader.cpp": [
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 265,
+          "line": 266,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto write_cb = [](char* ptr, size_t sz, size_t nmemb, void* ud) -> size_t {",
@@ -20678,7 +20678,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 267,
+          "line": 268,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "size_t n = fwrite(ptr, sz, nmemb, ctx->fp);",

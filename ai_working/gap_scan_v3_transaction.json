@@ -1,9 +1,9 @@
 {
   "transaction": {
-    "total": 2162,
-    "severity_critical": 134,
-    "severity_high": 1717,
-    "severity_medium": 311,
+    "total": 2512,
+    "severity_critical": 145,
+    "severity_high": 1880,
+    "severity_medium": 487,
     "by_category": {
       "security": 6,
       "memory": 8,
@@ -17,7 +17,12 @@
       "input_validation": 111,
       "exception_safety": 30,
       "uninitialized": 569,
-      "oop_design": 876
+      "oop_design": 876,
+      "audit_logging": 5,
+      "performance_patterns": 144,
+      "distributed_consistency": 18,
+      "observability": 64,
+      "determinism": 119
     },
     "by_file": {
       "src\\transaction\\distributed_saga.cpp": [
@@ -2494,6 +2499,717 @@
           "function_name": "lk",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 620,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (c == '\"')  escaped += \"\\\\\\\"\";"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 89,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "adj[dep].push_back(step.name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 89,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "adj[dep].push_back(step.name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 89,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "adj[dep].push_back(step.name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 89,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "adj[dep].push_back(step.name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 165,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "report.step_records.push_back(rec);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 198,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (const auto& [name, lvl] : level) waves[lvl].push_back(name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 198,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (const auto& [name, lvl] : level) waves[lvl].push_back(name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 198,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (const auto& [name, lvl] : level) waves[lvl].push_back(name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 216,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "executed_order.push_back(name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 216,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "executed_order.push_back(name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 216,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "executed_order.push_back(name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 232,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "to_compensate.push_back(rec.name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 304,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "successors[dep].push_back(step.name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 304,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "successors[dep].push_back(step.name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 321,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(node);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 363,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "wave_records.push_back(rec);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 363,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "wave_records.push_back(rec);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 689,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "local_def.steps.push_back(remoteStepToLocal(remote_step));"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 753,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "recovered.push_back(sid);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 77,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (names.find(dep) == names.end()) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 380,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto st = futures[i].get();"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 158,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, DistributedSagaStep> step_map;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 338,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, DistributedSagaStep>&  step_map,"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 474,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, DistributedSagaStep>& step_map,"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 249,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& name : to_compensate) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 411,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t attempt = 0; attempt <= step.max_retries; ++attempt) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 414,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "std::this_thread::sleep_for(backoff);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 421,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "auto wait_result = fut.wait_for(timeout);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 535,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t attempt = 0; attempt <= step.max_retries; ++attempt) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 538,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "std::this_thread::sleep_for(backoff);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 543,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "auto wait_result = fut.wait_for(timeout);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 737,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [sid, event] : latest_event) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 854,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& d : step.depends_on) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 65,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "if (!names.insert(step.name).second) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 234,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "listed.insert(rec.name);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 240,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "journalWrite(saga.saga_id, \"COMPENSATING\", failure_reason);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 260,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "journalWrite(saga.saga_id,"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 271,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "journalWrite(saga.saga_id, \"COMPLETED\");"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 325,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "ready.insert(succ);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 595,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "// journalWrite()"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 598,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "void DistributedSagaCoordinator::journalWrite("
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 878,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "journalWrite(saga_id, \"FORCE_COMPENSATED\");"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 889,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "journalWrite(saga_id, \"FORCE_COMPLETED\");"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 380,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "auto st = futures[i].get();"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 437,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "last_status = fut.get();"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 555,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "last_status = fut.get();"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 747,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "// Only insert if not already present (a concurrent execute() may have"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 119,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "// execute()"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 122,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "DistributedSagaReport DistributedSagaCoordinator::execute("
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 693,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return execute(local_def);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 747,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "// Only insert if not already present (a concurrent execute() may have"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 119,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "// execute()"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 122,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "DistributedSagaReport DistributedSagaCoordinator::execute("
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 693,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "return execute(local_def);"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 747,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "// Only insert if not already present (a concurrent execute() may have"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 129,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto wall_start = std::chrono::system_clock::now();"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 139,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "++metrics_.sagas_started;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 151,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "++metrics_.sagas_started;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 154,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "journalWrite(saga.saga_id, \"STARTED\");"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 155,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"DSAGA[{}]: starting ({} steps)\", saga.saga_id, saga.steps.size());"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 283,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "wall_end - wall_start).count();"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 736,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// SAGAs whose last event is STARTED or COMPENSATING are orphaned"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 738,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (event == \"STARTED\" || event == \"COMPENSATING\") {"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 743,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "report.failure_reason = \"recovered from incomplete state (\" + event + \") after coordinator restart\";"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 60,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> names;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 86,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::vector<std::string>> adj;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 95,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, Color> color;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 160,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, StepRecord*> record_index;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 186,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, int> level;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 226,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> listed("
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 299,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, int>                  in_degree;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 300,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::vector<std::string>> successors;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 772,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::string> phase_label;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 363,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "StepRecord* rec = (it != index.end()) ? it->second : nullptr;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 479,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = executed_order.rbegin(); it != executed_order.rend(); ++it) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 487,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rec->phase != StepRecord::Phase::DONE) continue;"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 795,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != phase_label.end()) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_saga.cpp",
+          "line": 803,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != phase_label.end()) {"
         }
       ],
       "src\\transaction\\distributed_transaction_manager.cpp": [
@@ -4339,6 +5055,339 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 473,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "timed_out.push_back(tid);"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 674,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "futures.push_back(submitTask([nid]() -> VoteResult {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 827,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "worker_threads_.emplace_back([this] {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 890,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "phase1_futures.push_back(submitTask([this, tid]() -> bool {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 414,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [tid, type] : last_decision) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 469,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [tid, txn] : transactions_) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 480,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& tid : timed_out) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 519,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& part : txn.participants) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 701,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& fut : futures) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 709,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "const auto status = fut.wait_for(remaining);"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 827,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < n; ++i) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 855,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& t : worker_threads_) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 94,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "batch_flush_thread_ = std::thread(&DistributedTransactionManager::batchFlushLoop, this);"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 190,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "all_voted_commit = fut.get();"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 716,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "const VoteResult result = fut.get();"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 900,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "result = phase1_futures[i].get();"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 411,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function abort without trace point",
+          "context": "// in-doubt.  Re-drive them with ABORT (safe conservative choice when we"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 672,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function abort without trace point",
+          "context": "\"(remote) \u2014 voting ABORT (DTM-1: real RPC not yet wired)\","
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 88,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start thread pool (PERF-D4)."
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 89,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "startThreadPool();"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 91,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start batch-flush thread when batching is enabled (PERF-D4)."
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 379,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"DistributedTransactionManager [{}] starting in-doubt recovery\", coordinator_id_);"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 427,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// in this coordinator process; may be empty after a restart)."
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 585,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// global uniqueness even across coordinator restarts."
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 821,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void DistributedTransactionManager::startThreadPool() {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 845,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_DEBUG(\"DistributedTransactionManager [{}] thread pool started: {} workers\","
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 171,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (txn->state != DistributedTxnState::INIT) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 228,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (txn->state != DistributedTxnState::PREPARED) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 327,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (txn->state != DistributedTxnState::PREPARING) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 415,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (type != themis::sharding::WALEntryType::PREPARE_TX) continue;"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 505,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "// In-process participants (callback != nullptr) are always reachable \u2014 the"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 520,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (part.node_id != node_id) continue;"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 521,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (part.callback != nullptr) {"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 572,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return st != DistributedTxnState::COMMITTED &&"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 573,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "st != DistributedTxnState::ABORTED;"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 628,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != transactions_.end()) ? &it->second : nullptr;"
+        },
+        {
+          "file": "src\\transaction\\distributed_transaction_manager.cpp",
+          "line": 634,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != transactions_.end()) ? &it->second : nullptr;"
         }
       ],
       "src\\transaction\\snapshot_manager.cpp": [
@@ -5552,6 +6601,96 @@
           "function_name": "info",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 162,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "snapshots.push_back(*snapshot);"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 353,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (s.has_value()) snapshots.push_back(*s);"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 150,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Check if key starts with our prefix"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 151,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.substr(0, prefix.length()) != prefix) {"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 248,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (min_seq != snapshots.end()) {"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 251,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (max_seq != snapshots.end()) {"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 348,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.substr(0, prefix.length()) != prefix) break;"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 410,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.substr(0, prefix.length()) != prefix) break;"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 168,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "if (sort_by == \"timestamp\") {"
+        },
+        {
+          "file": "src\\transaction\\snapshot_manager.cpp",
+          "line": 359,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Sort oldest-first by timestamp"
         }
       ],
       "src\\transaction\\global_transaction_manager.cpp": [
@@ -6758,6 +7897,105 @@
           "function_name": "catch",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 181,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function commit without trace point",
+          "context": "GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 296,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function abort without trace point",
+          "context": "bool GlobalTransactionManager::abort(const std::string& txn_id) {"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 410,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function abort without trace point",
+          "context": "\"decision \u2013 marking ABORT (manual resolution may be required)\","
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 545,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function commit without trace point",
+          "context": "pit->second->commit(rec.transaction_id, rec.commit_timestamp_ns);"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 547,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function abort without trace point",
+          "context": "pit->second->abort(rec.transaction_id);"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "rec.started_at     = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 359,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "r.started_at        = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 476,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto uptime = std::chrono::steady_clock::now() - start_time_;"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 164,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rec.state != GlobalTxnState::ACTIVE) {"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 206,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rec.commit_timestamp_ns != 0) {"
+        },
+        {
+          "file": "src\\transaction\\global_transaction_manager.cpp",
+          "line": 215,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rec.state != GlobalTxnState::ACTIVE) {"
         }
       ],
       "src\\transaction\\merge_engine.cpp": [
@@ -7658,6 +8896,186 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 109,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "resolutions.push_back(res.toJson());"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 129,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "opts.manual_resolutions.push_back(ConflictResolution::fromJson(res_json));"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 168,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "conflicts_arr.push_back(conflict.toJson());"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 174,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "changes_arr.push_back(change.toJson());"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 196,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.conflicts.push_back(Conflict::fromJson(conflict_json));"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 202,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.changes_applied.push_back(analytics::DiffEngine::Change::fromJson(change_json));"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 279,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.changes_applied.push_back(change);"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 282,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.changes_applied.push_back(change);"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 285,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.changes_applied.push_back(change);"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 337,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.changes_applied.push_back(change);"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 337,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.changes_applied.push_back(change);"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 546,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "resolved_changes.push_back(change);"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 546,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "resolved_changes.push_back(change);"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 241,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::info(\"Starting merge: base={}, source={}, target={}\","
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 330,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> conflict_keys;"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 470,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, const analytics::DiffEngine::Change*> source_map;"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 471,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, const analytics::DiffEngine::Change*> target_map;"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 530,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, const ConflictResolution*> resolution_map;"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 490,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != target_map.end()) {"
+        },
+        {
+          "file": "src\\transaction\\merge_engine.cpp",
+          "line": 538,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (res_it != resolution_map.end()) {"
         }
       ],
       "src\\transaction\\branch_manager.cpp": [
@@ -9032,6 +10450,87 @@
           "function_name": "key",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 243,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "branches.push_back(branch.value());"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 403,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.conflicts.push_back(conflict.key);"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 819,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(*entry);"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 812,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (it.Seek(prefix); it.Valid(); it.Next()) {"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 236,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.find(BRANCH_PREFIX) != 0 || key == ACTIVE_BRANCH_KEY) {"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 571,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.find(BRANCH_PREFIX) != 0 || key == ACTIVE_BRANCH_KEY) {"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 814,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.find(prefix) != 0) break;"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 849,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.find(BRANCH_PREFIX) != 0 || key == ACTIVE_BRANCH_KEY) continue;"
+        },
+        {
+          "file": "src\\transaction\\branch_manager.cpp",
+          "line": 255,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "} else if (sort_by == \"timestamp\") {"
         }
       ],
       "src\\transaction\\crash_recovery_manager.cpp": [
@@ -10116,6 +11615,114 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 69,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "out += '=';"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 333,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "while (std::getline(f, line)) all_lines.push_back(line);"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 346,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tmp_ops[entry->txn_id].push_back(entry->operation);"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 288,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto id : finished) begun.erase(id);"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 392,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// 4. Append CHECKPOINT so next startup can skip these entries"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 306,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<uint64_t> in_flight = scanInFlight();"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 321,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<uint64_t, std::vector<OperationEntry>> ops_by_txn;"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 337,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<uint64_t, std::vector<OperationEntry>> tmp_ops;"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 94,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (s[i+2] != '=') out += static_cast<char>((b << 4) | (c >> 2));"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 95,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (s[i+3] != '=') out += static_cast<char>((c << 6) | d);"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 210,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != pending_ops_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\crash_recovery_manager.cpp",
+          "line": 357,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto rit = ops.rbegin(); rit != ops.rend(); ++rit) {"
         }
       ],
       "src\\transaction\\deadlock_predictor.cpp": [
@@ -11084,6 +12691,87 @@
           "function_name": "sort",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 66,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "vec.push_back(per_key);"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 91,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "patterns_.push_back(std::move(pat));"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 176,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (std::find(p.keys.begin(), p.keys.end(), k) == p.keys.end()) {"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 340,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = pair_conflicts_.find(pk);"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 175,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& k : keys) {"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 231,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, double> danger;"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 253,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (dx != dy) return dx < dy;"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 272,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != hold_times_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\deadlock_predictor.cpp",
+          "line": 341,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != pair_conflicts_.end()) {"
         }
       ],
       "src\\transaction\\lock_manager.cpp": [
@@ -12409,6 +14097,231 @@
           "function_name": "lk",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 191,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "keys.push_back(k);"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 314,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.emplace_back(k, lt);"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 378,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(req->txn_id);"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 378,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(req->txn_id);"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 414,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entry.holders.push_back({txn_id, type, std::chrono::system_clock::now()});"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 440,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entry.holders.push_back("
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 440,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entry.holders.push_back("
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 477,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "row_keys.push_back(k);"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 598,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.emplace_back(pl.start_key, pl.end_key);"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 314,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [k, lt] : it->second) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 360,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [txn, keys] : held_by_txn_) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 378,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& req : it->second.waiters) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 573,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& pl : predicate_locks_) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 522,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const std::string& start_key,"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 535,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "predicate_locks_.push_back({txn_id, start_key, end_key});"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 575,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (key >= pl.start_key && key <= pl.end_key) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 599,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "result.emplace_back(pl.start_key, pl.end_key);"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 49,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return requested != LockType::EXCLUSIVE;"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 82,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (txn_it != held_by_txn_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 84,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key_it != txn_it->second.end()) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 156,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lt_it != lock_table_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 197,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lt_it != lock_table_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 244,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key_it->second != LockType::SHARED) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 390,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != waiting_for_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\lock_manager.cpp",
+          "line": 498,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lt_it != lock_table_.end()) {"
         }
       ],
       "src\\transaction\\saga.cpp": [
@@ -12893,6 +14806,42 @@
           "function_name": "addStep",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 107,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "history.push_back(status + \" \" + step.operation_name);"
+        },
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 116,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto first_step_time = steps_[0].executed_at;"
+        },
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 56,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = steps_.rbegin(); it != steps_.rend(); ++it) {"
+        },
+        {
+          "file": "src\\transaction\\saga.cpp",
+          "line": 135,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = steps_.rbegin(); it != steps_.rend(); ++it) {"
         }
       ],
       "src\\transaction\\saga_orchestrator.cpp": [
@@ -14566,6 +16515,258 @@
           "function_name": "getStatus",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 44,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case '\\\\': out += \"\\\\\\\\\"; break;"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 322,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "status_rec.failure_reason += \" | compensation failed for \" + step.name + \": \" + ex.what();"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 49,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "default: out.push_back(c); break;"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 149,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents[dep].push_back(step.name);"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 149,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents[dep].push_back(step.name);"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 149,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents[dep].push_back(step.name);"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 149,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents[dep].push_back(step.name);"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 461,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "futures.push_back(std::async("
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 490,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "executed.push_back(name);"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 515,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ready.push_back(dependent);"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 515,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ready.push_back(dependent);"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 100,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (names.find(dep) == names.end()) {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 123,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> context_overrides) const {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 98,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& step : saga.steps) {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 99,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& dep : step.depends_on) {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 226,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& step : saga.steps) {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 244,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t attempt = 0; attempt <= step.max_retries; ++attempt) {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 297,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = executed_order.rbegin(); it != executed_order.rend(); ++it) {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 355,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 355,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 144,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::vector<std::string>> dependents;"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, size_t> indegree;"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 177,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::vector<std::string>> outgoing;"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 414,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, size_t> remaining_dependencies;"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 415,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::vector<std::string>> dependents;"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 108,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (order.size() != saga.steps.size()) {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 217,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (order.size() != saga.steps.size()) {"
+        },
+        {
+          "file": "src\\transaction\\saga_orchestrator.cpp",
+          "line": 297,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = executed_order.rbegin(); it != executed_order.rend(); ++it) {"
         }
       ],
       "src\\transaction\\transaction_auditor.cpp": [
@@ -14986,6 +17187,87 @@
           "function_name": "exportToS3",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 78,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(rec);"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 139,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ops.push_back(std::move(j));"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 72,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = log_.rbegin(); it != log_.rend(); ++it) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 62,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::optional<std::chrono::system_clock::time_point> start_time,"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 76,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start_time && rec.timestamp <  *start_time) continue;"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 72,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = log_.rbegin(); it != log_.rend(); ++it) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 75,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (user_id    && rec.user_id   != *user_id)    continue;"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 80,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (limit != 0 && result.size() >= limit) break;"
+        },
+        {
+          "file": "src\\transaction\\transaction_auditor.cpp",
+          "line": 173,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!key.empty() && key.back() != '/') key += '/';"
         }
       ],
       "src\\transaction\\transaction_batcher.cpp": [
@@ -15658,6 +17940,96 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 423,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "recent_throughputs_.push_back(throughput);"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 424,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "if (recent_throughputs_.size() > kMaxThroughputSamples)"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 425,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "recent_throughputs_.pop_front();"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 428,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "recent_throughputs_.begin(), recent_throughputs_.end(), 0.0)"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 429,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "/ static_cast<double>(recent_throughputs_.size());"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 387,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - batch_start);"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 111,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != table_policies_.end()) return it->second;"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 131,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != table_policies_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "has_table_window = it2 != table_policies_.end() && it2->second.window.count() > 0;"
+        },
+        {
+          "file": "src\\transaction\\transaction_batcher.cpp",
+          "line": 459,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (new_window != adaptive_window_) {"
         }
       ],
       "src\\transaction\\transaction_manager.cpp": [
@@ -21931,6 +24303,735 @@
           "function_name": "key",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1307,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "k += \"occ:ver:\";"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1307,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "k += \"occ:ver:\";"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 122,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(deadlock);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 225,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "path.push_back(node);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 225,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "path.push_back(node);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 332,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cycle_keys.push_back(key);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 332,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cycle_keys.push_back(key);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 339,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cycle_keys.push_back(wkey);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 511,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (info.holder == id) keys.push_back(key);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 555,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (info.holder == id) keys.push_back(key);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 741,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(s));"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 757,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(txn_id);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 770,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "to_abort.push_back(txn_id);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 829,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "expired.push_back(id);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1621,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "conflict_keys.push_back(key);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1813,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "names.push_back(e.name);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1854,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "expired.push_back(id);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1934,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.locks_held.push_back({key, lockTypeName(lock_type)});"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2028,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(toTimeTravelRecord(rec));"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2158,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "others.emplace_back(id, lock_manager_.getPredicateLockRanges(id));"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2183,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(sc));"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2183,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(sc));"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2183,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(sc));"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 208,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto lock_it = held_locks_.find(key);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 121,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& deadlock : recent_deadlocks_) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 511,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [key, info] : held_locks_) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 555,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [key, info] : held_locks_) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 693,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [txn_id, txn] : active_transactions_) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 734,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [tid, entry] : tenant_stats_) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 756,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [txn_id, txn] : active_transactions_) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1859,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (TransactionId id : expired) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1934,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [key, lock_type] : lock_manager_->getLocksHeld(id_)) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 474,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function commit without trace point",
+          "context": "auto status = txn->commit();"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 499,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function abort without trace point",
+          "context": "// Phase 8: WAL \u2013 log abort (commit failed \u2192 transaction is rolled back)"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1560,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function commit without trace point",
+          "context": "TransactionManager::Status TransactionManager::Transaction::commit() {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1588,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function commit without trace point",
+          "context": "THEMIS_DEBUG(\"Transaction {} is read-only \u2014 skipping WAL write on commit (duration: {} ms)\","
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1598,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function commit without trace point",
+          "context": "if (!mvcc_txn_->commit()) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 47,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start deadlock detector thread"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 233,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto cycle_start = std::find(path.begin(), path.end(), neighbor);"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 234,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "cycle.assign(cycle_start, path.end());"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 275,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Abort the transaction that holds the fewest locks (cheapest to restart)"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 681,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (it->second->getStartTime() < cutoff) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 828,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "now - txn->getStartTime());"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 870,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_time_(std::chrono::system_clock::now()),"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 904,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// the actual run time rather than \"time since start\" after the object is destroyed."
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 916,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::system_clock::now() - start_time_).count()),"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 929,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time_).count());"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 934,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "vecIdx_(other.vecIdx_), isolation_(other.isolation_), start_time_(other.start_time_),"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2176,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sc.key           = s1;  // representative key (start of our range)"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 204,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<TransactionId, std::unordered_set<TransactionId>> wait_graph;"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 329,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> seen;"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 725,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, uint64_t> active_counts;"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 138,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != waiting_for_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 151,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != held_locks_.end() && it->second.holder == txn_id) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 209,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lock_it != held_locks_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 211,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (holding_txn != waiting_txn) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 229,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != wait_graph.end()) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 337,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (wit != waiting_for_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 356,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = held_locks_.begin(); it != held_locks_.end();) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 457,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != active_transactions_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 570,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != active_transactions_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 573,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (completed_it != completed_transactions_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 622,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((seq1 & 1) != 0) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 657,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} while (seq1 != seq2 || (seq1 & 1) != 0);  // Retry if modified during read"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 680,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = completed_transactions_.begin(); it != completed_transactions_.end(); ) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 710,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_stats_.end()) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 741,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "s.active_count = (ac != active_counts.end()) ? ac->second : 0;"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 792,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (prev != static_cast<uint64_t>(timeout_ms.count())) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 953,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &other) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1296,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (buf.size() != 8) return 0;"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1346,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (expected_version == 0 && current_version != 0) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1351,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (expected_version != current_version) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1406,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (expected_version != current_version) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1534,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (isolation_ != IsolationLevel::SERIALIZABLE) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1548,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (isolation_ != IsolationLevel::SERIALIZABLE) return {};"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1551,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (conflicting_txn != 0) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1629,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "crec.base_value  = (base_it != base_values_.end()) ? base_it->second : std::vector<uint8_t>{};"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1949,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != active_transactions_.end() && it->second) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 1953,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cit != completed_transactions_.end() && cit->second) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2139,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (target_txn->isolation_ != IsolationLevel::SERIALIZABLE) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_manager.cpp",
+          "line": 2156,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (id != txn_id && txn &&"
         }
       ],
       "src\\transaction\\transaction_semantic_advisor.cpp": [
@@ -22389,6 +25490,60 @@
           "function_name": "to_string",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\transaction\\transaction_semantic_advisor.cpp",
+          "line": 74,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "hints.push_back(std::move(hint));"
+        },
+        {
+          "file": "src\\transaction\\transaction_semantic_advisor.cpp",
+          "line": 74,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "hints.push_back(std::move(hint));"
+        },
+        {
+          "file": "src\\transaction\\transaction_semantic_advisor.cpp",
+          "line": 130,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != b.entity_map.end() && it->second == id) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_semantic_advisor.cpp",
+          "line": 149,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.operation_type != Op::WRITE && a.operation_type != Op::DELETE) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_semantic_advisor.cpp",
+          "line": 152,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (b.operation_type != Op::WRITE && b.operation_type != Op::DELETE) {"
+        },
+        {
+          "file": "src\\transaction\\transaction_semantic_advisor.cpp",
+          "line": 158,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != b.entity_map.end() && it->second == id) {"
         }
       ],
       "include\\transaction\\examples\\transaction_semantic_advisor_example.cpp": [

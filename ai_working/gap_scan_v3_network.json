@@ -1,9 +1,9 @@
 {
   "network": {
-    "total": 2911,
+    "total": 3311,
     "severity_critical": 239,
-    "severity_high": 2295,
-    "severity_medium": 377,
+    "severity_high": 2492,
+    "severity_medium": 580,
     "by_category": {
       "security": 9,
       "memory": 77,
@@ -17,7 +17,12 @@
       "input_validation": 188,
       "exception_safety": 38,
       "uninitialized": 775,
-      "oop_design": 1026
+      "oop_design": 1026,
+      "audit_logging": 12,
+      "performance_patterns": 90,
+      "distributed_consistency": 7,
+      "observability": 148,
+      "determinism": 143
     },
     "by_file": {
       "src\\network\\qos_manager.cpp": [
@@ -2989,6 +2994,249 @@
           "function_name": "tb_lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 640,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "//     prevent shell metacharacter injection via snprintf."
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 672,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(cmd, sizeof(cmd),"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 681,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(cmd, sizeof(cmd),"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 693,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(cmd, sizeof(cmd),"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 956,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(getConnectionStats(id));"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 1089,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(getTenantStats(id));"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 111,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "std::this_thread::sleep_for(std::chrono::milliseconds(wait_ms));"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 113,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "std::this_thread::sleep_for(std::chrono::milliseconds(1));"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 548,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::deque<PendingSend>* q : queues) {"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 949,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, _] : connections_) {"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 956,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (uint64_t id : ids) {"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 241,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": ", in_slow_start_(true)"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 257,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (in_slow_start_) {"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 258,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Slow start: increase cwnd by bytes_acked (doubles each RTT)"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 261,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "in_slow_start_ = false;"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 278,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "in_slow_start_ = false;"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 301,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "in_slow_start_ = true;"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 637,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//  1. Must not start with '-' to prevent argument injection (tc parses"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 365,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_assignments_.end()) {"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 646,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "c != '-' && c != '_' && c != '.') {"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 684,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (std::system(cmd) != 0) {  // NOLINT(cert-env33-c)"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 697,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (std::system(cmd) != 0) {  // NOLINT(cert-env33-c)"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 746,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ta_it != tenant_assignments_.end()) {"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 859,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_assignments_.end()) {"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 925,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "cs.has_token_bucket = (state->token_bucket != nullptr);"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 994,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenants_.end()) {"
+        },
+        {
+          "file": "src\\network\\qos_manager.cpp",
+          "line": 1030,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_assignments_.end()) {"
         }
       ],
       "src\\network\\quic_server.cpp": [
@@ -4412,6 +4660,204 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 262,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads_.emplace_back([this] { io_ctx_->run(); });"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 262,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t i = 0; i < n; ++i) {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 277,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void* tls = ngtcp2_conn_get_tls_native_handle(conn);"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 367,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void* tls = ngtcp2_conn_get_tls_native_handle(it->second);"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 511,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ngtcp2_conn_set_tls_native_handle(conn, ssl);"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 754,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ngtcp2_conn_set_tls_native_handle(conn, ssl);"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 779,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void* tls = ngtcp2_conn_get_tls_native_handle(conn_);"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 227,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// QUICServer \u2014 start / stop"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 230,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void QUICServer::start() {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 299,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "io_ctx_->restart();"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 58,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <openssl/rand.h>"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 83,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "/// Fill a ngtcp2_cid with cryptographically secure random bytes (OpenSSL)."
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 86,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(cid->data, static_cast<int>(cid->datalen)) != 1) {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 153,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "SSL_CTX_use_certificate_chain_file(ctx, cert_path.c_str()) != 1) {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 161,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "SSL_CTX_use_PrivateKey_file(ctx, key_path.c_str(), SSL_FILETYPE_PEM) != 1) {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 319,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ec != net::error::operation_aborted) {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 355,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != sessions_.end() && it->second) {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 364,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rv != 0) {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 504,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rv != 0) {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 517,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rv != 0 && rv != NGTCP2_ERR_RETRY) {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 636,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (sv.substr(0, kScheme.size()) != kScheme) {"
+        },
+        {
+          "file": "src\\network\\quic_server.cpp",
+          "line": 745,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rv != 0) {"
         }
       ],
       "src\\network\\quic_transport.cpp": [
@@ -5145,6 +5591,177 @@
           "function_name": "getStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 190,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads_.emplace_back([this] { io_ctx_->run(); });"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 190,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t i = 0; i < n; ++i) {"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 207,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void* tls_handle = ngtcp2_conn_get_tls_native_handle(conn);"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 298,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void* tls = ngtcp2_conn_get_tls_native_handle(it->second);"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 425,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ngtcp2_conn_set_tls_native_handle(conn, ssl);"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 164,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// start / stop"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 167,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void QuicTransport::start() {"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 229,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "io_ctx_->restart();"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 31,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <openssl/rand.h>"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 54,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "/// Fill a ngtcp2_cid with cryptographically secure random bytes (OpenSSL)."
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 58,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Fallback: zero-fill so the caller gets a deterministic (non-random)"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 57,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(cid->data, static_cast<int>(cid->datalen)) != 1) {"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 104,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "SSL_CTX_use_certificate_chain_file(ctx, cert_path.c_str()) != 1) {"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 111,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "SSL_CTX_use_PrivateKey_file(ctx, key_path.c_str(), SSL_FILETYPE_PEM) != 1) {"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 249,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ec != net::error::operation_aborted) {"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 286,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != sessions_.end() && it->second) {"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 295,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rv != 0) {"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 418,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rv != 0) {"
+        },
+        {
+          "file": "src\\network\\quic_transport.cpp",
+          "line": 431,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rv != 0 && rv != NGTCP2_ERR_RETRY) {"
         }
       ],
       "src\\network\\wire_protocol_connection_pool.cpp": [
@@ -7674,6 +8291,159 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 564,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "targets.push_back(t);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 497,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < config_.min_connections_per_target; ++i) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 526,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [target, pool] : target_pools_) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 564,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [t, _] : target_pools_) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 569,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& target : targets) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 660,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [target, pool] : target_pools_) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 698,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [target, pool] : target_pools_) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 397,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return ConnectionHandle(conn->socket, this, target);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 428,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return ConnectionHandle(socket, this, target);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 750,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "WireProtocolConnectionPool::ConnectionHandle::ConnectionHandle("
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 759,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "WireProtocolConnectionPool::ConnectionHandle::~ConnectionHandle() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 765,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "WireProtocolConnectionPool::ConnectionHandle::ConnectionHandle(ConnectionHandle&& other) noexcept"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 144,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start maintenance thread for pruning stale connections"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 316,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "local_io.restart();"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 367,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != target_pools_.end()) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 463,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != pool->all_connections.end()) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_connection_pool.cpp",
+          "line": 775,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &other) {"
         }
       ],
       "src\\network\\wire_protocol_v2.cpp": [
@@ -9472,6 +10242,150 @@
           "function_name": "push_to_client",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 219,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "encoded += k + \": \" + v + \"\\n\";"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 666,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "io_threads_.emplace_back([this]() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 283,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, s] : streams_)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 679,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& t : io_threads_)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 714,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, s] : sessions_)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 722,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, s] : sessions_)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 142,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void start() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 206,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Allocate a server-initiated (even) stream ID"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 655,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void start() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 749,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "session->start();"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 781,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void V2Server::start()  { impl_->start(); }"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 204,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_map<std::string, std::string>& headers) override {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 251,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != streams_.end())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 291,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return it != streams_.end() ? it->second.send_window : 0;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 479,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != streams_.end())"
+        },
+        {
+          "file": "src\\network\\wire_protocol_v2.cpp",
+          "line": 508,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "bool     exclusive  = (dep_field & 0x80000000u) != 0;"
         }
       ],
       "src\\network\\io_uring_batcher.cpp": [
@@ -10006,6 +10920,42 @@
           "function_name": "THEMIS_INFO",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 174,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (head != tail) {"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 353,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cq_ring_   && cq_ring_   != MAP_FAILED)"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 355,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (sqes_mmap_ && sqes_mmap_ != MAP_FAILED)"
+        },
+        {
+          "file": "src\\network\\io_uring_batcher.cpp",
+          "line": 357,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (sq_ring_   && sq_ring_   != MAP_FAILED)"
         }
       ],
       "src\\network\\network_audit_log.cpp": [
@@ -10962,6 +11912,33 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\network_audit_log.cpp",
+          "line": 260,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (ev.type == type) result.push_back(ev);"
+        },
+        {
+          "file": "src\\network\\network_audit_log.cpp",
+          "line": 260,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& ev : buffer_) {"
+        },
+        {
+          "file": "src\\network\\network_audit_log.cpp",
+          "line": 73,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (padded_len % 64 != 56) ++padded_len;"
         }
       ],
       "src\\network\\raft_load_balancer.cpp": [
@@ -12275,6 +13252,222 @@
           "function_name": "now",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 145,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "backends_.push_back(std::move(backend));"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 171,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(b.get());"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 303,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(b.get());"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 303,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(b.get());"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 310,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (b->healthy) result.push_back(b.get());"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 138,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& b : backends_) {"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 171,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& b : backends_) {"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 270,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& b : backends_) {"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 421,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& b : backends_) backends_snapshot.push_back(b.get());"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 424,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (Backend* b : backends_snapshot) {"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 462,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "shutdown_cv_.wait_for(lk, interval,"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 111,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "health_check_thread_ = std::thread([this]() { healthCheckLoop(); });"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 112,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "raft_thread_         = std::thread([this]() { raftLoop(); });"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 172,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "result.push_back(b.get());"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 293,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "if (b->address == address) return b.get();"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 304,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "result.push_back(b.get());"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 311,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "if (b->healthy) result.push_back(b.get());"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 421,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "for (const auto& b : backends_) backends_snapshot.push_back(b.get());"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 34,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 527,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Seed random timeout for leader election"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 528,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::mt19937_64 rng(std::random_device{}());"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 529,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<uint32_t> election_dist("
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 571,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Compute next election deadline with randomised timeout"
+        },
+        {
+          "file": "src\\network\\raft_load_balancer.cpp",
+          "line": 66,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &o) {"
         }
       ],
       "src\\network\\udp_fast_path.cpp": [
@@ -12945,6 +14138,78 @@
           "function_name": "data",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 80,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads_.emplace_back([this] { io_ctx_->run(); });"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 222,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "response = dispatchQuery(request_id, payload_json);"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 60,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// start / stop"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 63,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void UDPFastPath::start() {"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 101,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "io_ctx_->restart();"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 115,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ec != net::error::operation_aborted) {"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 356,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data[0] != kUdpFastPathReqMagic0 || data[1] != kUdpFastPathReqMagic1) {"
+        },
+        {
+          "file": "src\\network\\udp_fast_path.cpp",
+          "line": 360,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data[2] != kUdpFastPathVersion) {"
         }
       ],
       "src\\network\\udp_server.cpp": [
@@ -13621,6 +14886,105 @@
           "function_name": "getStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 83,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "io_threads_.emplace_back([this] { io_ctx_->run(); });"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 83,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t i = 0; i < n; ++i) {"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 374,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "batch_cv_.wait_for(lk, interval, [this] { return batch_stop_; });"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 408,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& pkt : local) {"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 58,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// start / stop"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 61,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void UDPServer::start() {"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 72,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start batch-flush background thread before I/O threads so the first"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 117,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "io_ctx_->restart();"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 131,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ec != net::error::operation_aborted) {"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 457,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data[0] != kUdpServerMagic0 || data[1] != kUdpServerMagic1) {"
+        },
+        {
+          "file": "src\\network\\udp_server.cpp",
+          "line": 460,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data[2] != kUdpServerVersion) {"
         }
       ],
       "src\\network\\wire_protocol_helpers.cpp": [
@@ -14146,6 +15510,123 @@
           "function_name": "writeDouble",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 153,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "data_.push_back(static_cast<uint8_t>(value & 0xFF));"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 161,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "data_.push_back(static_cast<uint8_t>(value & 0xFF));"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 208,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "case 2:  // start_time_ns"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 210,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (!parser.readVarint(request.start_time_ns)) return false;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 204,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (wire_type != 2) return false;  // Must be length-delimited"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 209,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (wire_type != 0) return false;  // Must be varint"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 214,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (wire_type != 0) return false;  // Must be varint"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 219,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (wire_type != 0) return false;  // Must be varint"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 228,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (wire_type != 0) return false;  // Must be varint"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 289,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (total_data_points != 0) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 295,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (buckets_returned != 0) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 301,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data_density != 0.0) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_helpers.cpp",
+          "line": 324,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (query_time_us != 0) {"
         }
       ],
       "src\\network\\wire_protocol_server.cpp": [
@@ -19701,6 +21182,816 @@
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 48,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "#include <cstdio>  // For snprintf"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 955,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(hex_opcode, sizeof(hex_opcode), \"0x%02X\", opcode);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1796,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(buf, sizeof(buf), \"cursor-%llu-%llu\","
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 222,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "io_threads_.emplace_back([this]() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1350,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "client_keys.push_back(key);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1376,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(item));"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1450,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1491,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(item_result));"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1491,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(item_result));"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1719,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "vertices.push_back(std::move(v));"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1787,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "first_batch.push_back(result_json[i]);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1878,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "batch.push_back(entry.results[i]);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1961,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "query_vector.push_back(v.get<float>());"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1992,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "hits.push_back(std::move(hit));"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2137,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "bucket_data[bucket_start_ms].push_back(point.value);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2266,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "response.buckets.push_back(bucket);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2396,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "active_tasks.push_back(instance_id + \":\" + token.current_node);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2582,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "active_tasks.push_back(task);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2611,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "history.push_back(event);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2611,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "history.push_back(event);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2602,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto tsIt = token.visit_timestamps.find(node);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 246,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& t : io_threads_) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 256,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& t : io_threads_) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1787,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < batch_size; ++i) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 908,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "dispatchToWorkerPool([this]() { handleQuery(); });"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 932,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "dispatchToWorkerPool([this]() { handleGeoQuery(); });"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 935,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "dispatchToWorkerPool([this]() { handleTimeseriesQuery(); });"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 938,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "handleBpmnStartProcess();"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1740,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void WireProtocolServer::Session::handleQuery() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2008,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void WireProtocolServer::Session::handleGeoQuery() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2046,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void WireProtocolServer::Session::handleTimeseriesQuery() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2102,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = server_->ts_store_->query(query_opts);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2243,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = server_->ts_store_->query(query_opts);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2322,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void WireProtocolServer::Session::handleBpmnStartProcess() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2348,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto [status, instance_id] = server_->process_graph_->startProcess(process_key, variables);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 700,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function commit without trace point",
+          "context": "buf->commit(4);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1478,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function commit without trace point",
+          "context": "batch_ok = batch->commit();"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2102,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "auto result = server_->ts_store_->query(query_opts);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2243,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "auto result = server_->ts_store_->query(query_opts);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 170,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void WireProtocolServer::start() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 171,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Enforce transport security validation as a startup gate"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 174,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::cerr << \"[WireProtocol] Transport security validation failed. Server will not start.\""
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 221,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start I/O threads"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 332,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (state.window_start_ms == 0) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 333,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "state.window_start_ms        = now_ms;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 334,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "state.minute_window_start_ms = now_ms;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 338,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (now_ms - state.window_start_ms >= 1000) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 339,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "state.window_start_ms     = now_ms;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 344,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (now_ms - state.minute_window_start_ms >= 60000) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 345,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "state.minute_window_start_ms = now_ms;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 465,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "session->start();"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 479,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": ", client_ip_(\"unknown\")  // Will be set after accept in start()"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 487,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void WireProtocolServer::Session::start() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 498,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "startTimeout(std::chrono::seconds(server_->config_.request_timeout_sec));"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 615,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// HTTP upgrade requests start with \"GET \" (0x47 0x45 0x54 0x20)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 998,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void WireProtocolServer::Session::startTimeout(std::chrono::seconds timeout) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1649,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//   - Inject QueryEngine as mandatory dependency in WireProtocolServer startup"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1655,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// GRAPH_TRAVERSE: traverse graph edges from a start vertex."
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1657,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//   {\"collection\": \"...\", \"start_vertex\": \"...\", \"direction\": \"outbound|inbound|any\","
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1669,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::string start_vertex = request.value(\"start_vertex\", \"\");"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1675,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start_vertex.empty()) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1676,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sendError(400, \"Missing 'start_vertex' field in GRAPH_TRAVERSE request\");"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1688,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "response[\"start_vertex\"] = start_vertex;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 1706,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_vertex, depth_min, depth_max, direction, collection, edge_type);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2071,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (request.start_time_ns >= request.end_time_ns) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2072,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sendError(0x000B, \"start_time_ns must be less than end_time_ns\");"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2076,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start timing"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2077,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto query_start = std::chrono::high_resolution_clock::now();"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2080,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t start_ms = static_cast<int64_t>(request.start_time_ns / 1000000);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2086,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "query_opts.from_timestamp_ms = start_ms;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2122,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t time_range_ms = end_ms - start_ms;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2136,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t bucket_index = (point.timestamp_ms - start_ms) / bucket_size_ms;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2137,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t bucket_start_ms = start_ms + (bucket_index * bucket_size_ms);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2138,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bucket_data[bucket_start_ms].push_back(point.value);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2142,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (const auto& [bucket_start_ms, values] : bucket_data) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2146,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bucket.timestamp_ns = static_cast<uint64_t>(bucket_start_ms) * 1000000;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2210,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bucket.timestamp_ns = request.start_time_ns;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2277,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto query_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(query_end - query_start).count();"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2621,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "response[\"start_time_ns\"] = instance.started_at_ms * 1000000; // Convert ms to ns"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 846,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// net::strand to serialize all session state mutations, or to pass the"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 313,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != connections_per_ip_.end() && it->second >= config_.max_connections_per_ip) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 371,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != connections_per_ip_.end() && it->second > 0) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 558,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (magic_recv != kExpectedMagic) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 610,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ec || bytes_read != 4) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 652,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (magic_recv != kExpectedMagic) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 816,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (computed_crc != expected_crc) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 992,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ec != net::error::operation_aborted) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2093,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "// Note: aggregation enum has AVG=0, so we can't use aggregation!=0 to detect requests"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2453,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (colon_pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server.cpp",
+          "line": 2603,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tsIt != token.visit_timestamps.end()) {"
         }
       ],
       "src\\network\\wire_protocol_server_ws.cpp": [
@@ -22237,6 +24528,105 @@
           "function_name": "makeError",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 751,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(hex_opcode, sizeof(hex_opcode), \"0x%02X\", opcode);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 882,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(hex_opcode, sizeof(hex_opcode), \"0x%02X\","
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 220,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != server_->connections_per_ip_.end() && it->second > 0)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 234,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != server_->connections_per_ip_.end() && it->second > 0)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 606,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data[0] != kWireMagic[0] || data[1] != kWireMagic[1] ||"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 607,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "data[2] != kWireMagic[2] || data[3] != kWireMagic[3]) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 646,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (computed_crc != expected_crc) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 662,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data[0] != kWireMagic[0] || data[1] != kWireMagic[1] ||"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 663,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "data[2] != kWireMagic[2] || data[3] != kWireMagic[3]) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 721,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (computed_crc != expected_crc) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_server_ws.cpp",
+          "line": 974,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != server_->connections_per_ip_.end() && it->second > 0) {"
         }
       ],
       "src\\network\\wire_protocol_zero_copy.cpp": [
@@ -23095,6 +25485,51 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 225,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (addr_ != nullptr && addr_ != MAP_FAILED) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 230,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (addr_ != MAP_FAILED && addr_ != nullptr) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 252,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &other) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 255,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (addr_ != MAP_FAILED && addr_ != nullptr) std::free(addr_);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_zero_copy.cpp",
+          "line": 257,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (addr_ != MAP_FAILED && addr_ != nullptr) ::munmap(addr_, size_);"
         }
       ],
       "src\\network\\adaptive_circuit_breaker.cpp": [
@@ -23597,6 +26032,33 @@
           "function_name": "adaptThresholdOnTrip",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 116,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (state_.load(std::memory_order_relaxed) != CircuitState::HALF_OPEN) {"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 148,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (state_.load(std::memory_order_relaxed) != CircuitState::CLOSED) {"
+        },
+        {
+          "file": "src\\network\\adaptive_circuit_breaker.cpp",
+          "line": 164,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (state_.load(std::memory_order_relaxed) != CircuitState::HALF_OPEN) {"
         }
       ],
       "src\\network\\connection_compression.cpp": [
@@ -24036,6 +26498,33 @@
           "function_name": "decompress",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\connection_compression.cpp",
+          "line": 80,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &other) {"
+        },
+        {
+          "file": "src\\network\\connection_compression.cpp",
+          "line": 220,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ddict_ && dict_id_in != 0) {"
+        },
+        {
+          "file": "src\\network\\connection_compression.cpp",
+          "line": 237,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ZSTD_isError(result) || result != static_cast<size_t>(orig_size))"
         }
       ],
       "src\\network\\envoy_xds.cpp": [
@@ -25792,6 +28281,339 @@
           "function_name": "interval",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 66,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\", c);"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 57,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case '\"':  out += \"\\\\\\\"\"; break;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 90,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case '\"': value += '\"'; break;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "items.push_back(array_body.substr(item_start, i - item_start + 1));"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 407,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(info));"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 456,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "info.endpoints.push_back(std::move(ep));"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 456,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "info.endpoints.push_back(std::move(ep));"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 507,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "info.endpoints.push_back(std::move(ep));"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 507,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "info.endpoints.push_back(std::move(ep));"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 560,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!domain.empty()) info.domains.push_back(domain);"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 550,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "const auto q1 = dom_body.find('\"', pos);"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 120,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::size_t start = colon + 1;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 121,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "while (start < json.size() && (json[start] == ' ' || json[start] == '\\t' ||"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 122,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "json[start] == '\\r' || json[start] == '\\n')) {"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 123,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "++start;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 125,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start >= json.size()) return {};"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 126,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const char open = json[start];"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 129,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::size_t end = start;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 134,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return json.substr(start, end - start);"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 141,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::size_t end = start;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 151,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return json.substr(start, end - start);"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 161,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::size_t item_start = std::string::npos;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 174,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (depth == 0) item_start = i;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 178,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (depth == 0 && item_start != std::string::npos) {"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 179,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "items.push_back(array_body.substr(item_start, i - item_start + 1));"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 180,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "item_start = std::string::npos;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 127,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (open != '[' && open != '{') {"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 130,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (end < json.size() && json[end] != ',' && json[end] != '}' &&"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 131,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "json[end] != ']' && json[end] != '\\n') {"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 178,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (depth == 0 && item_start != std::string::npos) {"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 388,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (resources_json.empty() || resources_json.front() != '[') return result;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 423,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (resources_json.empty() || resources_json.front() != '[') return result;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 441,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lb_eps.empty() || lb_eps.front() != '[') continue;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 480,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (resources_json.empty() || resources_json.front() != '[') return result;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 492,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lb_eps.empty() || lb_eps.front() != '[') continue;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 530,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (resources_json.empty() || resources_json.front() != '[') return result;"
+        },
+        {
+          "file": "src\\network\\envoy_xds.cpp",
+          "line": 536,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (vhosts_raw.empty() || vhosts_raw.front() != '[') continue;"
         }
       ],
       "src\\network\\geo_topology_router.cpp": [
@@ -26355,6 +29177,51 @@
           "function_name": "getStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 232,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t i = 1; i < shards.size(); ++i) {"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 115,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(it != config_.region_latency_hints.end()) ? it->second : kUnhintedRegionLatencyMs;"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 271,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(la != config_.region_latency_hints.end())"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 275,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(lb != config_.region_latency_hints.end())"
+        },
+        {
+          "file": "src\\network\\geo_topology_router.cpp",
+          "line": 280,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (config_.strategy != Strategy::ROUND_ROBIN) {"
         }
       ],
       "src\\network\\grpc_transport.cpp": [
@@ -26681,6 +29548,87 @@
           "function_name": "reset",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 231,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads_.emplace_back([this, cq] { drainCompletionQueue(cq); });"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 261,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& t : threads_) {"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 29,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_correlation_id",
+          "description": "Distributed call without correlation ID",
+          "context": "#include <grpcpp/generic/async_generic_service.h>"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 181,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// start / stop"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 184,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool GrpcTransport::start() {"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 186,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_WARN(\"[GrpcTransport] start() called while already running\");"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 217,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "server_ = builder.BuildAndStart();"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 219,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"[GrpcTransport] BuildAndStart() failed for {}\", address);"
+        },
+        {
+          "file": "src\\network\\grpc_transport.cpp",
+          "line": 236,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"[GrpcTransport] start() exception: {}\", ex.what());"
         }
       ],
       "src\\network\\kernel_bypass.cpp": [
@@ -28204,6 +31152,303 @@
           "function_name": "clear",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 149,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(path, sizeof(path),"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 430,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(mask_str, sizeof(mask_str), \"0x%llX\","
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 189,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(i);"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 384,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cores.push_back(i);"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 444,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "eal_argv.push_back(const_cast<char*>(s.c_str()));"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 573,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "workers_.emplace_back([this, core, qid]() {"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 816,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "iovecs.push_back({buf->data(), buf->size()});"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 872,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "workers_.emplace_back([this, i]() { workerLoop(static_cast<int>(i)); });"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 634,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (uint16_t i = 0; i < nb_rx; ++i) {"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 968,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& t : workers_) {"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 137,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return ::pthread_setaffinity_np(thread.native_handle(),"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 200,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function allocate without trace point",
+          "context": "void* NumaAllocator::allocate(size_t size, int node) {"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 227,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function deallocate without trace point",
+          "context": "void NumaAllocator::deallocate(void* ptr, size_t size) noexcept {"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 323,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function allocate without trace point",
+          "context": ": NumaAllocator::allocate(size_bytes, -1);"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 345,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function deallocate without trace point",
+          "context": "NumaAllocator::deallocate(data_, size_);"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 39,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "*   - `start()` sets `last_error_` and returns false."
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 406,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// DPDKServer::start"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 409,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool DPDKServer::start() {"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 411,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "last_error_ = \"DPDKServer::start() called while already running\";"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 552,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start the Ethernet device."
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 553,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ret = rte_eth_dev_start(port_id);"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 555,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "last_error_ = \"rte_eth_dev_start failed: \" + std::string(rte_strerror(-ret));"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 582,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"DPDKServer: started on port {} (DPDK port {}), {} rx/tx queues, \""
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 837,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"IoUringServer: ring initialised (fd={}, ring_size={}, \""
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 850,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// IoUringServer::start"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 853,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool IoUringServer::start() {"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 855,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "last_error_ = \"IoUringServer::start() called while already running\";"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 876,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"IoUringServer: started on {}:{}, ring_size={}, {} workers\","
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((e = ::readdir(d)) != nullptr) {"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 220,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (::posix_memalign(&p, kAlign, padded) != 0) p = nullptr;"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 265,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (p != MAP_FAILED) {"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 287,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (p != MAP_FAILED) {"
+        },
+        {
+          "file": "src\\network\\kernel_bypass.cpp",
+          "line": 360,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &o) {"
         }
       ],
       "src\\network\\service_mesh.cpp": [
@@ -28624,6 +31869,114 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 182,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// start / stop"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 185,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool ServiceMeshIntegration::start() {"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 187,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_WARN(\"[ServiceMesh] start() called while already running\");"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 222,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"[ServiceMesh] start() failed for {}: {}\", address, ex.what());"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 85,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (std::getenv(\"KUBERNETES_SERVICE_HOST\") != nullptr) {"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 89,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (std::getenv(\"ISTIO_META_MESH_ID\") != nullptr ||"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 90,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::getenv(\"PILOT_CERT_PROVIDER\") != nullptr) {"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 112,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ec && ec != boost::asio::error::eof) {"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 122,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(req.find(\"GET /healthz \")  != std::string::npos ||"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 123,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "req.find(\"GET /healthz\\r\") != std::string::npos);"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 125,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(req.find(\"GET /readyz \")   != std::string::npos ||"
+        },
+        {
+          "file": "src\\network\\service_mesh.cpp",
+          "line": 126,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "req.find(\"GET /readyz\\r\")  != std::string::npos);"
         }
       ],
       "src\\network\\socket_timeout_manager.cpp": [
@@ -29572,6 +32925,114 @@
           "function_name": "warn",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 66,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "reinterpret_cast<const char*>(&timeout), sizeof(timeout)) != 0) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 74,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout)) != 0) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 84,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "reinterpret_cast<const char*>(&timeout), sizeof(timeout)) != 0) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 91,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (setsockopt(socket, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout)) != 0) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 119,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ioctlsocket(socket, FIONBIO, &mode) != 0) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 141,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "reinterpret_cast<const char*>(&enable), sizeof(enable)) != 0) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "nullptr, 0, &bytes_returned, nullptr, nullptr) != 0) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 158,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (setsockopt(socket, SOL_SOCKET, SO_KEEPALIVE, &enable, sizeof(enable)) != 0) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 186,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "reinterpret_cast<const char*>(&enable), sizeof(enable)) != 0) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 191,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (setsockopt(socket, IPPROTO_TCP, TCP_NODELAY, &enable, sizeof(enable)) != 0) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 380,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (health_state_ != SocketHealthState::CIRCUIT_OPEN) {"
+        },
+        {
+          "file": "src\\network\\socket_timeout_manager.cpp",
+          "line": 418,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (old_state != health_state_) {"
         }
       ],
       "src\\network\\wire_protocol_batch.cpp": [
@@ -29835,6 +33296,60 @@
           "function_name": "flush",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\wire_protocol_batch.cpp",
+          "line": 189,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "posix_iov.push_back(item);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_batch.cpp",
+          "line": 71,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NODELAY, &on) != 0) return false;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_batch.cpp",
+          "line": 85,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &on) != 0) return false;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_batch.cpp",
+          "line": 87,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NOPUSH, &on) != 0) return false;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_batch.cpp",
+          "line": 119,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &off) != 0)"
+        },
+        {
+          "file": "src\\network\\wire_protocol_batch.cpp",
+          "line": 122,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NOPUSH, &off) != 0)"
         }
       ],
       "src\\network\\wire_protocol_performance.cpp": [
@@ -30522,6 +34037,96 @@
           "function_name": "CompressionAdvisor",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 136,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (uint64_t b : buckets_ms) hist[b] = 0;"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 138,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (double s : sorted_samples) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 141,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (uint64_t b : buckets_ms) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 190,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "PayloadBufferPool::Handle::Handle(std::unique_ptr<Buffer> buf,"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 194,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "PayloadBufferPool::Handle::Handle(Handle&& o) noexcept"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 217,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "PayloadBufferPool::Handle::~Handle() {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 251,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return Handle(std::move(buf), this);"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 44,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::time_point started) {"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 46,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "double ms = std::chrono::duration<double, std::milli>(now - started).count();"
+        },
+        {
+          "file": "src\\network\\wire_protocol_performance.cpp",
+          "line": 200,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &o) {"
         }
       ]
     }

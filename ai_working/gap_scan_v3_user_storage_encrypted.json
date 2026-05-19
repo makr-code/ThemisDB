@@ -1,9 +1,9 @@
 {
   "user_storage_encrypted": {
-    "total": 625,
+    "total": 682,
     "severity_critical": 31,
-    "severity_high": 433,
-    "severity_medium": 161,
+    "severity_high": 457,
+    "severity_medium": 194,
     "by_category": {
       "security": 1,
       "memory": 14,
@@ -16,7 +16,11 @@
       "input_validation": 56,
       "exception_safety": 14,
       "uninitialized": 194,
-      "oop_design": 139
+      "oop_design": 139,
+      "audit_logging": 3,
+      "performance_patterns": 15,
+      "observability": 2,
+      "determinism": 37
     },
     "by_file": {
       "src\\user_storage_encrypted\\multi_level_storage.cpp": [
@@ -2795,6 +2799,177 @@
           "function_name": "mounts_file",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 171,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "fprintf(stderr,"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 204,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "fprintf(stderr,"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 890,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "users.push_back(result.value());"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 957,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "groups.push_back(result.value());"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 977,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "status.errors.push_back(level_health.error());"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1036,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "known_mount_points.push_back(cfg.mount_point);"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1062,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "stale_mounts.push_back(mount_point);"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1080,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_args.push_back(const_cast<char*>(a.c_str()));"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1080,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_args.push_back(const_cast<char*>(a.c_str()));"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 1100,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_args.push_back(const_cast<char*>(a.c_str()));"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 227,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto storage_config = config[\"multi_level_storage\"];"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 248,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto enc = level_json[\"encryption\"];"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 260,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto rot = level_json[\"rotation\"];"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 97,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (slash != std::string::npos && slash > 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 434,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->key_providers.end()) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 611,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (::rename(cfg.encrypted_dir.c_str(), backup_encrypted_dir.c_str()) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 614,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (::rename(new_encrypted_dir.c_str(), cfg.encrypted_dir.c_str()) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 861,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (std::remove(path.c_str()) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
+          "line": 928,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (std::remove(path.c_str()) != 0) {"
         }
       ],
       "src\\user_storage_encrypted\\gocryptfs_backend.cpp": [
@@ -4939,6 +5114,150 @@
           "function_name": "directoryExists",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 248,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "snprintf(buf, sizeof(buf), \"%02x\", static_cast<unsigned>(byte));"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 250,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "hex_key += '\\n';"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 322,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_args.push_back(const_cast<char*>(arg.c_str()));"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 491,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_args.push_back(const_cast<char*>(arg.c_str()));"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 594,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_args.push_back(const_cast<char*>(arg.c_str()));"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 92,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (stat(\"/dev/fuse\", &st) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 215,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (line.find(mount_point) != std::string::npos) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 224,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return result.value().find(mount_point) != std::string::npos;"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 289,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe(stdout_pipe) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 295,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe(stdin_pipe) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 356,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 458,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe(stdout_pipe) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 464,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe(stdin_pipe) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 533,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 572,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe(pipe_fd) != 0) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
+          "line": 622,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {"
         }
       ],
       "include\\user_storage_encrypted\\gocryptfs_backend.hpp": [
@@ -5724,6 +6043,204 @@
           "function_name": "open",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 6,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_correlation_id",
+          "description": "Distributed call without correlation ID",
+          "context": "File:            key_derivation_service.cpp                         \u2551"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 25,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_correlation_id",
+          "description": "Distributed call without correlation ID",
+          "context": "#include \"user_storage_encrypted/key_derivation_service.hpp\""
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 44,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 50,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#    include <sys/random.h>"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 185,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "ssize_t got = getrandom(salt.data(), salt.size(), 0);"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 187,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "return Result<std::vector<uint8_t>>::error(\"getrandom() failed\");"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 190,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::random_device rd;"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 195,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// POSIX fallback: /dev/urandom"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 196,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::ifstream urandom(\"/dev/urandom\", std::ios::binary);"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 197,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "if (!urandom) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 198,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "return Result<std::vector<uint8_t>>::error(\"Failed to open /dev/urandom\");"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 200,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "urandom.read(reinterpret_cast<char*>(salt.data()),"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 202,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "if (!urandom) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 203,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "return Result<std::vector<uint8_t>>::error(\"Failed to read from /dev/urandom\");"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 334,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::random_device rd;"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 340,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "int fd = open(\"/dev/urandom\", O_RDONLY | O_CLOEXEC);"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 342,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "throw std::runtime_error(\"Failed to open /dev/urandom for salt generation\");"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 350,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "throw std::runtime_error(\"Failed to read random bytes for salt\");"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 96,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != 1) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 167,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != ARGON2_OK) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 186,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (got < 0 || static_cast<size_t>(got) != salt.size()) {"
+        },
+        {
+          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+          "line": 312,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != ARGON2_OK) {"
         }
       ],
       "src\\user_storage_encrypted\\key_rotation_scheduler.cpp": [

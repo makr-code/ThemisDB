@@ -1,9 +1,9 @@
 {
   "themis": {
-    "total": 1181,
-    "severity_critical": 64,
-    "severity_high": 784,
-    "severity_medium": 333,
+    "total": 1301,
+    "severity_critical": 65,
+    "severity_high": 835,
+    "severity_medium": 401,
     "by_category": {
       "security": 3,
       "memory": 4,
@@ -17,7 +17,11 @@
       "input_validation": 87,
       "exception_safety": 10,
       "uninitialized": 178,
-      "oop_design": 475
+      "oop_design": 475,
+      "audit_logging": 3,
+      "performance_patterns": 29,
+      "observability": 37,
+      "determinism": 51
     },
     "by_file": {
       "src\\themis\\license_info.cpp": [
@@ -2189,6 +2193,78 @@
           "function_name": "_mkgmtime",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 440,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(buf, sizeof(buf),"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 458,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(buf, sizeof(buf),"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 211,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: email",
+          "context": "oss << \"  Contact Email:      \" << license.contact_email << \"\\n\";"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 424,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (getifaddrs(&ifa_list) != 0) return \"00:00:00:00:00:00\";"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 454,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (GetAdaptersInfo(adapter_info, &buf_len) != ERROR_SUCCESS)"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 614,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (res != CURLE_OK) {"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 712,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (last_check_time_ != std::chrono::steady_clock::time_point{}) {"
+        },
+        {
+          "file": "src\\themis\\license_info.cpp",
+          "line": 790,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (std::sscanf(data_.expiry_date.c_str(), \"%d-%d-%d\", &year, &month, &day) != 3) {"
         }
       ],
       "src\\themis\\module_loader.cpp": [
@@ -5914,6 +5990,402 @@
           "function_name": "error",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 533,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(module);"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 954,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "quarantined.push_back(path);"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1151,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "module.healthChecks.push_back(healthResult);"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1287,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "snapshot.emplace_back(mod.name, mod.path);"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1256,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "watchdogCv_.wait_for("
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 785,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 141,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto startTime = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1198,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"Watchdog configured: interval={}ms, max_restarts={}, \""
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1200,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "config.check_interval_ms, config.max_restart_attempts,"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1204,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void ModuleLoader::startWatchdog() {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1209,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::info(\"Plugin watchdog started\");"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1250,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::debug(\"Watchdog loop started\");"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1408,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool ModuleLoader::watchdogRestartModule(WatchdogModuleStats& stats,"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1412,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"Watchdog: attempting restart of module '{}' (attempt #{}) from '{}'\","
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1413,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "name, stats.restart_count + 1, modulePath);"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1421,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "stats.restart_count++;"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1423,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "stats.last_restart_ms      = now;"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1426,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"Watchdog: module '{}' restarted successfully \""
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1427,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"(total restarts: {})\","
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1428,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "name, stats.restart_count);"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1436,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"Watchdog: restart of '{}' failed ({}); next retry in {}ms\","
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1764,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// also blocked conservatively: any entry starting with \"<letter>:\" is"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 46,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1493,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "/// Generate a unique temporary directory path with a random hex suffix."
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1498,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Combine a monotonic timestamp with a random component to guarantee"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1501,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::random_device rd;"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1502,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<uint32_t> dist;"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 282,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (result.moduleHash != *expected) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 433,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (filename.rfind(\"themis_\", 0) != 0 ||"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 434,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "entry.path().extension() != \".dll\") {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 438,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (filename.rfind(\"libthemis_\", 0) != 0 ||"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 439,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "entry.path().extension() != \".so\") {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 468,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != loadedModules_.end()) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 522,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != loadedModules_.end()) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 609,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != modules_.end()) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 620,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "}) != modules_.end();"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 820,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != metadataCache_.end()) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 980,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != failureHistory_.end()) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1009,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (metadata.themisMajor != themisABIMajor_) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1379,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it2 != watchdogStats_.end()) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1521,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (resolvedStr.substr(0, tempStr.size()) != tempStr) return false;"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1651,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (signatureBytes.size() != 64) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1679,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestVerifyInit(ctx, nullptr, nullptr, nullptr, pkey) != 1) {"
+        },
+        {
+          "file": "src\\themis\\module_loader.cpp",
+          "line": 1922,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != result.manifest.nativeLibraries.end()) {"
         }
       ],
       "src\\themis\\module_loader_linux.cpp": [
@@ -6638,6 +7110,69 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 320,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!metadata.empty()) metadata += \"; \";"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 320,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!metadata.empty()) metadata += \"; \";"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 95,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe(pipefd) != 0) {"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 111,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (spawnRet != 0) {"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 133,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "output.find(\"Good signature\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 200,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "magic[0] != 0x7f || magic[1] != 'E' ||"
+        },
+        {
+          "file": "src\\themis\\module_loader_linux.cpp",
+          "line": 201,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "magic[2] != 'L'  || magic[3] != 'F') {"
         }
       ],
       "src\\themis\\wire_protocol_server.cpp": [
@@ -8575,6 +9110,249 @@
           "function_name": "async_accept",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 215,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "out += '?';"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1163,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "sessions_to_close.push_back(kv.second);"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1163,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : sessions_)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1170,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& session : sessions_to_close)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 156,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "static uint32_t crc32Compute(const uint8_t* data, std::size_t len) {"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 500,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "handle_geo_query(req);"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 508,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "handle_timeseries_query(req);"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 581,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "const uint32_t crc    = crc32Compute("
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 821,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "//   - handle_geo_query()          \u2192 GeoIndexManager not injected"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 822,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "//   - handle_timeseries_query()   \u2192 TSStore reference not injected"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 902,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void WireProtocolSession::handle_geo_query("
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 921,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void WireProtocolSession::handle_timeseries_query("
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 245,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void WireProtocolSession::start() {"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 933,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (req.start_time_ns() >= req.end_time_ns()) {"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 936,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"start time must be less than end time\");"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 947,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void WireProtocolSession::handle_bpmn_start("
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 948,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const v1::BpmnStartProcessRequest& req) {"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 949,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// BPMN_START_PROCESS: start a BPMN process instance."
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 957,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"Missing 'process_definition_key' in BPMN_START_PROCESS request\");"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 966,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sanitizeForMessage(req.process_definition_key()) + \"/start\");"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1067,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// GRAPH_TRAVERSE: traverse graph edges from a start vertex."
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 1148,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void WireProtocolServer::start() {"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 72,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != handlers_.end()) {"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 286,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ec != net::error::eof &&"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 287,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "ec != net::error::operation_aborted)"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 343,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ec != net::error::eof &&"
+        },
+        {
+          "file": "src\\themis\\wire_protocol_server.cpp",
+          "line": 344,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "ec != net::error::operation_aborted)"
         }
       ],
       "include\\themis\\network\\wire_protocol_v2.hpp": [
@@ -10312,6 +11090,51 @@
           "function_name": "containsField",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 886,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(mod.name);"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 886,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(mod.name);"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 897,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(mod.name);"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 983,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "info.git_dirty       = (THEMIS_GIT_DIRTY != 0);"
+        },
+        {
+          "file": "src\\themis\\build_info.cpp",
+          "line": 1053,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return content.find(needle) != std::string::npos;"
         }
       ],
       "src\\themis\\edition_manager.cpp": [
@@ -10949,6 +11772,42 @@
           "function_name": "hasFeatureOverride",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 152,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.emplace_back(feat);"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 162,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.emplace_back(feat);"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 62,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != overrides_.end() && !it->second) {"
+        },
+        {
+          "file": "src\\themis\\edition_manager.cpp",
+          "line": 220,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return overrides_.find(std::string(feature_name)) != overrides_.end();"
         }
       ],
       "src\\themis\\module_dependency_resolver.cpp": [
@@ -11806,6 +12665,141 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 134,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "all.push_back(kv.first);"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 149,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "precheck.missingRequired.push_back(n);"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 196,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "closure.push_back(kv.first);"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 231,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.missingRequired.push_back(dep.name);"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 231,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.missingRequired.push_back(dep.name);"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 231,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.missingRequired.push_back(dep.name);"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 327,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ready.push_back(kv.first);"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 327,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ready.push_back(kv.first);"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 351,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cycleNodes.push_back(kv.first);"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 351,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cycleNodes.push_back(kv.first);"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 144,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, bool> visited;"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 214,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, int> inDegree;"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 215,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<std::string>> dependents;"
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 323,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Kahn's algorithm: start with all nodes that have no unresolved deps."
+        },
+        {
+          "file": "src\\themis\\module_dependency_resolver.cpp",
+          "line": 348,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (result.loadOrder.size() != nodes.size()) {"
         }
       ],
       "src\\themis\\module_hash_verifier.cpp": [
@@ -12432,6 +13426,42 @@
           "function_name": "getExpectedHash",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 58,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {"
+        },
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 67,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestUpdate(ctx, buf, static_cast<std::size_t>(file.gcount())) != 1) {"
+        },
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 76,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestFinal_ex(ctx, hash, &hashLen) != 1) {"
+        },
+        {
+          "file": "src\\themis\\module_hash_verifier.cpp",
+          "line": 212,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (result.computedHash != result.expectedHash) {"
         }
       ],
       "src\\themis\\module_loader_win32.cpp": [
@@ -12798,6 +13828,15 @@
           "function_name": "warn",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\themis\\module_loader_win32.cpp",
+          "line": 68,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CloseHandle(hFile);"
         }
       ],
       "src\\themis\\module_security.cpp": [
@@ -13603,6 +14642,51 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 233,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe(pipefd) != 0) {"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 251,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (spawnRet != 0) {"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 272,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (exitCode == 0 && output.find(\"Good signature\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 276,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\themis\\module_signature_verifier.cpp",
+          "line": 278,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (end != std::string::npos) {"
         }
       ],
       "include\\themis\\network\\wire_protocol_server.hpp": [

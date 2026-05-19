@@ -1,9 +1,9 @@
 {
   "projects": {
-    "total": 335,
+    "total": 377,
     "severity_critical": 33,
-    "severity_high": 245,
-    "severity_medium": 57,
+    "severity_high": 259,
+    "severity_medium": 85,
     "by_category": {
       "security": 4,
       "memory": 1,
@@ -13,7 +13,10 @@
       "input_validation": 4,
       "exception_safety": 3,
       "uninitialized": 46,
-      "oop_design": 186
+      "oop_design": 186,
+      "performance_patterns": 20,
+      "observability": 3,
+      "determinism": 19
     },
     "by_file": {
       "src\\projects\\project_lifecycle.cpp": [
@@ -1022,6 +1025,60 @@
           "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\projects\\project_template.cpp",
+          "line": 269,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "created.push_back(*name);"
+        },
+        {
+          "file": "src\\projects\\project_template.cpp",
+          "line": 269,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "created.push_back(*name);"
+        },
+        {
+          "file": "src\\projects\\project_template.cpp",
+          "line": 27,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\projects\\project_template.cpp",
+          "line": 56,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static thread_local std::mt19937_64 rng{"
+        },
+        {
+          "file": "src\\projects\\project_template.cpp",
+          "line": 57,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static_cast<std::mt19937_64::result_type>("
+        },
+        {
+          "file": "src\\projects\\project_template.cpp",
+          "line": 60,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<uint64_t> dist;"
         }
       ],
       "src\\projects\\project_versioning.cpp": [
@@ -1916,6 +1973,69 @@
           "function_name": "verifySnapshot",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\projects\\project_versioning.cpp",
+          "line": 113,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "keys.emplace_back(key);"
+        },
+        {
+          "file": "src\\projects\\project_versioning.cpp",
+          "line": 141,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "try { content_array.push_back(json::parse(val)); }"
+        },
+        {
+          "file": "src\\projects\\project_versioning.cpp",
+          "line": 29,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\projects\\project_versioning.cpp",
+          "line": 74,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static thread_local std::mt19937_64 rng{"
+        },
+        {
+          "file": "src\\projects\\project_versioning.cpp",
+          "line": 75,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static_cast<std::mt19937_64::result_type>("
+        },
+        {
+          "file": "src\\projects\\project_versioning.cpp",
+          "line": 78,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<uint64_t> dist;"
+        },
+        {
+          "file": "src\\projects\\project_versioning.cpp",
+          "line": 275,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (actual != meta.checksum)"
         }
       ],
       "src\\projects\\collaboration_manager.cpp": [
@@ -2585,6 +2705,42 @@
           "function_name": "al_lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\projects\\collaboration_manager.cpp",
+          "line": 221,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(c);"
+        },
+        {
+          "file": "src\\projects\\collaboration_manager.cpp",
+          "line": 27,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\projects\\collaboration_manager.cpp",
+          "line": 156,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != locks_.end())"
+        },
+        {
+          "file": "src\\projects\\collaboration_manager.cpp",
+          "line": 174,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it->second != locker_id)"
         }
       ],
       "src\\projects\\in_memory_project_audit_log.cpp": [
@@ -2824,6 +2980,87 @@
           "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line": 63,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(e);"
+        },
+        {
+          "file": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line": 71,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::vector<ProjectAuditEntry> InMemoryProjectAuditLog::query("
+        },
+        {
+          "file": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line": 71,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "std::vector<ProjectAuditEntry> InMemoryProjectAuditLog::query("
+        },
+        {
+          "file": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line": 60,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (opts.start_time != zero && e.timestamp < opts.start_time)"
+        },
+        {
+          "file": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line": 54,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e.project_id != opts.project_id)"
+        },
+        {
+          "file": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line": 56,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (opts.action_filter.has_value() && e.action != *opts.action_filter)"
+        },
+        {
+          "file": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line": 58,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!opts.actor_id_filter.empty() && e.actor_id != opts.actor_id_filter)"
+        },
+        {
+          "file": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line": 60,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (opts.start_time != zero && e.timestamp < opts.start_time)"
+        },
+        {
+          "file": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line": 62,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (opts.end_time   != zero && e.timestamp >= opts.end_time)"
         }
       ],
       "src\\projects\\project_diff.cpp": [
@@ -3216,6 +3453,150 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 70,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ds.entries.push_back(DeltaEntry::fromJson(e));"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 70,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ds.entries.push_back(DeltaEntry::fromJson(e));"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 97,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back({path + \"/\" + key, DeltaType::REMOVED, val, nullptr});"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 104,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back({child_path, DeltaType::ADDED, nullptr, val});"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 159,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ds.entries.push_back({\"/\" + id, DeltaType::REMOVED, doc, nullptr});"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 159,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ds.entries.push_back({\"/\" + id, DeltaType::REMOVED, doc, nullptr});"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 166,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ds.entries.push_back({\"/\" + id, DeltaType::ADDED, nullptr, doc});"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 209,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.applied.entries.push_back(their_entry);"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 209,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.applied.entries.push_back(their_entry);"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 207,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = ours_index.find(their_entry.field_path);"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 63,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& e : entries) arr.push_back(e.toJson());"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 70,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& e : j[\"entries\"])"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 158,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, doc] : from_map) {"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 165,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, doc] : to_map) {"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 145,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, json> m;"
+        },
+        {
+          "file": "src\\projects\\project_diff.cpp",
+          "line": 202,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, const DeltaEntry*> ours_index;"
         }
       ],
       "src\\projects\\project_metrics.cpp": [

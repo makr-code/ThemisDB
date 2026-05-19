@@ -1,9 +1,9 @@
 {
   "geo": {
-    "total": 1091,
-    "severity_critical": 21,
-    "severity_high": 874,
-    "severity_medium": 196,
+    "total": 1444,
+    "severity_critical": 45,
+    "severity_high": 1090,
+    "severity_medium": 309,
     "by_category": {
       "security": 5,
       "memory": 5,
@@ -16,7 +16,13 @@
       "input_validation": 192,
       "exception_safety": 4,
       "uninitialized": 230,
-      "oop_design": 305
+      "oop_design": 305,
+      "audit_logging": 15,
+      "performance_patterns": 73,
+      "gpu_memory_safety": 35,
+      "query_correctness": 113,
+      "observability": 41,
+      "determinism": 76
     },
     "by_file": {
       "src\\geo\\spatial_join.cpp": [
@@ -466,6 +472,42 @@
           "function_name": "advance",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 106,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back({key_a, key_b, dist});"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 106,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back({key_a, key_b, dist});"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 99,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = inner_key_idx.find(key_b);"
+        },
+        {
+          "file": "src\\geo\\spatial_join.cpp",
+          "line": 79,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::size_t> inner_key_idx;"
         }
       ],
       "src\\geo\\temporal_spatial_query_builder.cpp": [
@@ -901,6 +943,528 @@
           "function_name": "logic_error",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 14,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// BuiltTemporalSpatialQuery::execute"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 17,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::pair<std::string, GeometryInfo>>"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 18,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "BuiltTemporalSpatialQuery::execute("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 19,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const themisdb::temporal::SystemVersionedTable& table) const {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 21,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "themisdb::temporal::Timestamp as_of_start = temporal_.interval_start;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 22,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "themisdb::temporal::Timestamp as_of_end   = temporal_.interval_end;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 24,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (temporal_.window_type == TimeWindowType::POINT_IN_TIME) {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 27,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} else if (temporal_.window_type == TimeWindowType::SLIDING_WINDOW) {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 28,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "as_of_end   = themisdb::temporal::now();"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 37,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQuery::allLocationsAtTime(table, as_of_start, geo_field_);"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 39,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::pair<std::string, GeometryInfo>> result;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 45,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (spatial_.type == SpatialType::BBOX) {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 77,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQueryBuilder& TemporalSpatialQueryBuilder::withinBBox("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 79,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "BuiltTemporalSpatialQuery::SpatialConstraint sc;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 80,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "sc.type = BuiltTemporalSpatialQuery::SpatialType::BBOX;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 86,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQueryBuilder& TemporalSpatialQueryBuilder::withPredicate("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 87,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_ptr<ISpatialJoinFilter> predicate) {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 88,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "BuiltTemporalSpatialQuery::SpatialConstraint sc;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 89,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "sc.type      = BuiltTemporalSpatialQuery::SpatialType::PREDICATE;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 90,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "sc.predicate = std::move(predicate);"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 95,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQueryBuilder& TemporalSpatialQueryBuilder::duringInterval("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 96,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "themisdb::temporal::Timestamp start,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 97,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "themisdb::temporal::Timestamp end) {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 99,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "throw std::invalid_argument(\"duringInterval: end must be >= start\");"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 100,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "BuiltTemporalSpatialQuery::TemporalConstraint tc;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 101,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "tc.window_type     = TimeWindowType::INTERVAL;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 108,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQueryBuilder& TemporalSpatialQueryBuilder::atTime("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 109,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "themisdb::temporal::Timestamp t) {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 110,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "BuiltTemporalSpatialQuery::TemporalConstraint tc;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 111,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "tc.window_type   = TimeWindowType::POINT_IN_TIME;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 117,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQueryBuilder& TemporalSpatialQueryBuilder::slidingWindow("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 120,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "throw std::invalid_argument(\"slidingWindow: width_ms must be > 0\");"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 121,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "BuiltTemporalSpatialQuery::TemporalConstraint tc;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 122,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "tc.window_type      = TimeWindowType::SLIDING_WINDOW;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 128,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQueryBuilder& TemporalSpatialQueryBuilder::withGeoField("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 129,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& field) {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 131,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "throw std::invalid_argument(\"withGeoField: field name must not be empty\");"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 136,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "BuiltTemporalSpatialQuery TemporalSpatialQueryBuilder::build() {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 138,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "throw std::logic_error("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 139,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "\"TemporalSpatialQueryBuilder::build(): temporal constraint not set; \""
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 142,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "throw std::logic_error("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 143,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "\"TemporalSpatialQueryBuilder::build(): spatial constraint not set; \""
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 148,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQueryBuilder& TemporalSpatialQueryBuilder::reset() {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 87,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "std::shared_ptr<ISpatialJoinFilter> predicate) {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 18,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "BuiltTemporalSpatialQuery::execute("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 145,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return BuiltTemporalSpatialQuery(*temporal_, *spatial_, geo_field_);"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 18,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "BuiltTemporalSpatialQuery::execute("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 21,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "themisdb::temporal::Timestamp as_of_start = temporal_.interval_start;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 25,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "as_of_start = temporal_.point_in_time;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 29,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "as_of_start = as_of_end - temporal_.sliding_window_ms;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 32,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Retrieve all locations at the start of the window."
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 33,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// For POINT_IN_TIME this is exact; for intervals it samples the start time."
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 34,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// A full interval scan would require iterating all snapshots in [start,end];"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 37,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "TemporalSpatialQuery::allLocationsAtTime(table, as_of_start, geo_field_);"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 96,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "themisdb::temporal::Timestamp start,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 98,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (end < start)"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 99,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "throw std::invalid_argument(\"duringInterval: end must be >= start\");"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query_builder.cpp",
+          "line": 102,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "tc.interval_start  = start;"
         }
       ],
       "src\\geo\\geo_clustering.cpp": [
@@ -2346,6 +2910,177 @@
           "function_name": "of",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 212,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "neighbours.push_back(j);"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 212,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "neighbours.push_back(j);"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 222,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "neighbours.push_back(j);"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 251,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (nb != i) queue.push_back(nb);"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 273,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "queue.push_back(nb);"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 310,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (coords[i].valid) valid_idx.push_back(i);"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 237,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::vector<std::size_t> neighbours = regionQuery(i);"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 268,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::vector<std::size_t> j_neighbours = regionQuery(j);"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 245,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start a new cluster."
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 101,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e != cudaSuccess) return host_adj;"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 103,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e != cudaSuccess) { cudaFree(d_lons); return host_adj; }"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 105,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e != cudaSuccess) { cudaFree(d_lons); cudaFree(d_lats); return host_adj; }"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 234,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (result.labels[i] != kDbscanUnclassified) continue;"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 252,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (nb != i) queue.push_back(nb);"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 264,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (result.labels[j] != kDbscanUnclassified) continue;"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 433,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cudaMalloc(&d_pts,   pts_sz)  != cudaSuccess) break;"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 434,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cudaMalloc(&d_ctr,   ctr_sz)  != cudaSuccess) { cudaFree(d_pts); break; }"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 435,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cudaMalloc(&d_dists, dist_sz) != cudaSuccess) {"
+        },
+        {
+          "file": "src\\geo\\geo_clustering.cpp",
+          "line": 438,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cudaMalloc(&d_idx, idx_sz) != cudaSuccess) {"
         }
       ],
       "src\\geo\\geo_faiss_knn.cpp": [
@@ -2970,6 +3705,33 @@
           "function_name": "isBuilt",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 117,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ecef_data.push_back(x);"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 235,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(r);"
+        },
+        {
+          "file": "src\\geo\\geo_faiss_knn.cpp",
+          "line": 255,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(c);"
         }
       ],
       "src\\geo\\boost_cpu_exact_backend.cpp": [
@@ -3674,6 +4436,132 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 115,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 279,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// For Polygon inputs uses boost::geometry::union_ which handles all"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 316,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// For Polygon inputs uses boost::geometry::difference."
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 95,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "poly.inners().push_back(hole);"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 95,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "poly.inners().push_back(hole);"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 95,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "poly.inners().push_back(hole);"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 95,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "poly.inners().push_back(hole);"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 242,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ring.push_back({bg::get<0>(p), bg::get<1>(p)});"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 257,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "outer_ring.push_back({bg::get<0>(p), bg::get<1>(p)});"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 263,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "hole.push_back({bg::get<0>(p), bg::get<1>(p)});"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 263,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "hole.push_back({bg::get<0>(p), bg::get<1>(p)});"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 303,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "col.geometries.push_back(boostPolyToGeomInfo(p));"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 331,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "col.geometries.push_back(boostPolyToGeomInfo(p));"
+        },
+        {
+          "file": "src\\geo\\boost_cpu_exact_backend.cpp",
+          "line": 363,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "hole.push_back({bg::get<0>(p), bg::get<1>(p)});"
         }
       ],
       "src\\geo\\cpu_backend.cpp": [
@@ -6869,6 +7757,330 @@
           "function_name": "getCpuExactBackendInstance",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 272,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 1008,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 165,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ring.push_back({cx + d_lon * std::cos(angle),"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(e2.p1);"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 665,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ips.push_back({static_cast<double>(i)+t,"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 665,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ips.push_back({static_cast<double>(i)+t,"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 675,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "A.push_back(v);"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 681,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "B.push_back(v);"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 748,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ring.push_back({v.x, v.y});"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 748,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ring.push_back({v.x, v.y});"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 804,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ring.push_back({v.x, v.y});"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 804,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ring.push_back({v.x, v.y});"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 880,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "col.geometries.push_back(geom1);"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 892,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.rings.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 940,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.rings.push_back(ring1);"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 954,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.rings.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 283,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t i = 0; i < n; ++i) {"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 241,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Parallel edges: use the start of the current shifted edge."
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 729,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Collect one union polygon ring starting from an unvisited A-exiting intersection."
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 730,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Returns an empty vector if no suitable start vertex is found."
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 735,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int start_a = -1;"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 737,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (A[i].is_isect && !A[i].used && !A[i].ent_B) { start_a = i; break; }"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 739,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start_a < 0) return {};"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 743,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int cur_a = start_a, cur_b = -1;"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 747,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (cur_a == start_a && ring.size() > 1) break;"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 766,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (cur_a == start_a) break;"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 785,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Collect one difference polygon ring starting from an unvisited A-exiting"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 791,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int start_a = -1;"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 793,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (A[i].is_isect && !A[i].used && !A[i].ent_B) { start_a = i; break; }"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 795,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start_a < 0) return {};"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 799,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int cur_a = start_a, cur_b = -1;"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 803,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (cur_a == start_a && ring.size() > 1) break;"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 824,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (cur_a == start_a) break;"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 968,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Replaces the NullRegistry stub; backends self-register at startup so they"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 72,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "bool intersect = ((yi > py) != (yj > py)) &&"
+        },
+        {
+          "file": "src\\geo\\cpu_backend.cpp",
+          "line": 277,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(in.geoms_a.size() != in.count || in.geoms_b.size() != in.count)) {"
         }
       ],
       "src\\geo\\device_detector.cpp": [
@@ -7404,6 +8616,24 @@
           "function_name": "str",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\device_detector.cpp",
+          "line": 144,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(Assess(d));"
+        },
+        {
+          "file": "src\\geo\\device_detector.cpp",
+          "line": 168,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (best != nullptr) {"
         }
       ],
       "src\\geo\\geo_rtree.cpp": [
@@ -7904,6 +9134,96 @@
           "function_name": "contains",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 79,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "values.emplace_back(geometryBox(geom), key);"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 101,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(it->second);"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 117,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(it->second);"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 144,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entries.push_back({geom.computeMBR(), key});"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 173,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(e.key);"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 173,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(e.key);"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 183,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(e.key);"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 101,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 113,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = tree.qbegin(bgi::intersects(qbox)); it != tree.qend(); ++it) {"
+        },
+        {
+          "file": "src\\geo\\geo_rtree.cpp",
+          "line": 155,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = entries.begin(); it != entries.end(); ++it) {"
         }
       ],
       "src\\geo\\gpu_backend_hip.cpp": [
@@ -8144,6 +9464,276 @@
           "function_name": "hipFree",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 101,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_lats",
+          "context": "if ((e = hipMemcpy(d_lats, point_lats,     pts_sz,  hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 103,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_poly",
+          "context": "(e = hipMemcpy(d_poly, polygon_coords, poly_sz, hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 113,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_lats",
+          "context": "d_lats, d_lons, numPoints,"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 114,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_poly",
+          "context": "d_poly, numPolygonVertices,"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 181,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_lats1",
+          "context": "if ((e = hipMemcpy(d_lats1, lats1, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 183,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_lats2",
+          "context": "(e = hipMemcpy(d_lats2, lats2, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 185,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_out",
+          "context": "(e = hipMemset(d_out, 0, out_sz))                                 != hipSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 194,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_lats1",
+          "context": "d_lats1, d_lons1, d_lats2, d_lons2,"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 194,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_lats2",
+          "context": "d_lats1, d_lons1, d_lats2, d_lons2,"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 195,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_out",
+          "context": "d_out, count, formula, nullptr);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 57,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return dispatch_table_.launchContainment != nullptr ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 58,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "dispatch_table_.launchDistance    != nullptr;"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 91,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((e = hipMalloc(&d_lats, pts_sz))  != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 92,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMalloc(&d_lons, pts_sz))  != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 93,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMalloc(&d_poly, poly_sz)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 94,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMalloc(&d_res,  out_sz))  != hipSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 102,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((e = hipMemcpy(d_lats, point_lats,     pts_sz,  hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 103,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMemcpy(d_lons, point_lons,     pts_sz,  hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 104,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMemcpy(d_poly, polygon_coords, poly_sz, hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 105,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMemset(d_res, 0, out_sz))                                        != hipSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 170,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((e = hipMalloc(&d_lats1, coord_sz)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 171,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMalloc(&d_lons1, coord_sz)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 172,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMalloc(&d_lats2, coord_sz)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 173,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMalloc(&d_lons2, coord_sz)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 174,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMalloc(&d_out,   out_sz))   != hipSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 182,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((e = hipMemcpy(d_lats1, lats1, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 183,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMemcpy(d_lons1, lons1, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 184,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMemcpy(d_lats2, lats2, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 185,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMemcpy(d_lons2, lons2, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_hip.cpp",
+          "line": 186,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = hipMemset(d_out, 0, out_sz))                                 != hipSuccess) {"
         }
       ],
       "src\\geo\\gpu_backend_production.cpp": [
@@ -9681,6 +11271,663 @@
           "function_name": "exactIntersects",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 61,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 341,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 410,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchInputs candidates;"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 658,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 787,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchInputs candidates;"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 907,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 970,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 83,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back([this, &in, &out, start_idx, end_idx]() {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 413,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidate_indices.push_back(static_cast<size_t>(i));"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 500,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ring.emplace_back(h_ring_x[static_cast<size_t>(i)],"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 790,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidate_indices.push_back(static_cast<size_t>(i));"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 340,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "gpu_memory_leak",
+          "description": "GPU memory allocated without RAII wrapper or guaranteed cleanup",
+          "context": "// Device buffers are cached and grown on demand to amortise cudaMalloc cost."
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 549,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "gpu_memory_leak",
+          "description": "GPU memory allocated without RAII wrapper or guaranteed cleanup",
+          "context": "if ((e = cudaMalloc(&d_cached_mbrs_a_,  mbr_sz)) != cudaSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 550,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "gpu_memory_leak",
+          "description": "GPU memory allocated without RAII wrapper or guaranteed cleanup",
+          "context": "(e = cudaMalloc(&d_cached_mbrs_b_,  mbr_sz)) != cudaSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 551,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "gpu_memory_leak",
+          "description": "GPU memory allocated without RAII wrapper or guaranteed cleanup",
+          "context": "(e = cudaMalloc(&d_cached_results_, res_sz))  != cudaSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 553,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "gpu_memory_leak",
+          "description": "GPU memory allocated without RAII wrapper or guaranteed cleanup",
+          "context": "THEMIS_WARN(\"CUDA cudaMalloc failed ({})\", static_cast<int>(e));"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 340,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMalloc() without error checking",
+          "context": "// Device buffers are cached and grown on demand to amortise cudaMalloc cost."
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 397,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "e = cudaMemcpy(out.mask.data(), d_cached_results_, res_sz, cudaMemcpyDeviceToHost);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 469,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaFree() without error checking",
+          "context": "cudaFree(d_lon_in); cudaFree(d_lat_in); cudaFree(d_ring_x);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 473,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpy(d_lon_in, &h_lon, sizeof(double), cudaMemcpyHostToDevice);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 474,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpy(d_lat_in, &h_lat, sizeof(double), cudaMemcpyHostToDevice);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 483,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaFree() without error checking",
+          "context": "cudaFree(d_lon_in); cudaFree(d_lat_in);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 484,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaFree() without error checking",
+          "context": "cudaFree(d_ring_x); cudaFree(d_ring_y);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 492,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpy(h_ring_x.data(), d_ring_x, buf_sz, cudaMemcpyDeviceToHost);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 493,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpy(h_ring_y.data(), d_ring_y, buf_sz, cudaMemcpyDeviceToHost);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 494,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaFree() without error checking",
+          "context": "cudaFree(d_lon_in); cudaFree(d_lat_in);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 495,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaFree() without error checking",
+          "context": "cudaFree(d_ring_x); cudaFree(d_ring_y);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 553,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMalloc() without error checking",
+          "context": "THEMIS_WARN(\"CUDA cudaMalloc failed ({})\", static_cast<int>(e));"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 472,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_lon_in",
+          "context": "cudaMemcpy(d_lon_in, &h_lon, sizeof(double), cudaMemcpyHostToDevice);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 472,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_lon_in",
+          "context": "cudaMemcpy(d_lon_in, &h_lon, sizeof(double), cudaMemcpyHostToDevice);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 472,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_lon_in",
+          "context": "cudaMemcpy(d_lon_in, &h_lon, sizeof(double), cudaMemcpyHostToDevice);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 491,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_ring_x",
+          "context": "cudaMemcpy(h_ring_x.data(), d_ring_x, buf_sz, cudaMemcpyDeviceToHost);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 548,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_cached_mbrs_a_",
+          "context": "if ((e = cudaMalloc(&d_cached_mbrs_a_,  mbr_sz)) != cudaSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 549,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_cached_mbrs_b_",
+          "context": "(e = cudaMalloc(&d_cached_mbrs_b_,  mbr_sz)) != cudaSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 550,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_cached_results_",
+          "context": "(e = cudaMalloc(&d_cached_results_, res_sz))  != cudaSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 476,
+          "category": "gpu_memory_safety",
+          "severity": "MEDIUM",
+          "pattern": "kernel_config_validation",
+          "description": "Kernel launch without block/grid size validation",
+          "context": "cuda_batch_point_buffer_kernel<<<1, n_verts>>>("
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 79,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const size_t start_idx = t * batch_size;"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 80,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const size_t end_idx   = std::min(start_idx + batch_size, in.count);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 82,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start_idx >= in.count) break;"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 84,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "threads.emplace_back([this, &in, &out, start_idx, end_idx]() {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 85,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = start_idx; i < end_idx; ++i) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 632,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Compile geo intersection kernels at startup."
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 158,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (((ring[i].y > point.y) != (ring[j].y > point.y)) &&"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 208,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return ccw(p1, p3, p4) != ccw(p2, p3, p4) && ccw(p1, p2, p3) != ccw(p1, p2, p4);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 222,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (((ring_y[i] > py) != (ring_y[j] > py)) &&"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 380,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((e = cudaMemcpy(d_cached_mbrs_a_, mbrs_a.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 381,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = cudaMemcpy(d_cached_mbrs_b_, mbrs_b.data(), mbr_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 382,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = cudaMemset(d_cached_results_, 0, res_sz))                                    != cudaSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 400,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e != cudaSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 462,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e != cudaSuccess) goto fallback;"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 464,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e != cudaSuccess) { cudaFree(d_lon_in); goto fallback; }"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 466,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e != cudaSuccess) { cudaFree(d_lon_in); cudaFree(d_lat_in); goto fallback; }"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 468,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e != cudaSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 482,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ke != cudaSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 549,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((e = cudaMalloc(&d_cached_mbrs_a_,  mbr_sz)) != cudaSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 550,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = cudaMalloc(&d_cached_mbrs_b_,  mbr_sz)) != cudaSuccess ||"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 551,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(e = cudaMalloc(&d_cached_results_, res_sz))  != cudaSuccess) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 600,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 607,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 610,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 618,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 625,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 692,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 699,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 707,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 716,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 725,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 734,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 743,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 752,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 844,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 849,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != CL_SUCCESS) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_production.cpp",
+          "line": 904,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return active_backend_ != nullptr;"
         }
       ],
       "src\\geo\\gpu_backend_stub.cpp": [
@@ -10920,6 +13167,60 @@
           "function_name": "boolStr",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 245,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 610,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "static bool isAllPointsVsPolygon(const SpatialBatchInputs& in,"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 623,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "const SpatialBatchInputs& in, std::size_t n) {"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 646,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "poly_coords.push_back(v.x);"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 98,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (((yi > py) != (yj > py)) &&"
+        },
+        {
+          "file": "src\\geo\\gpu_backend_stub.cpp",
+          "line": 309,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "(in.geoms_a.size() != in.count || in.geoms_b.size() != in.count)) {"
         }
       ],
       "src\\geo\\gpu_kernel_dispatcher_cpu.cpp": [
@@ -11865,6 +14166,15 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\raster.cpp",
+          "line": 75,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "// NaN != NaN by IEEE 754, so special-case NaN sentinel"
         }
       ],
       "src\\geo\\rtree_cursor.cpp": [
@@ -12224,6 +14534,33 @@
           "function_name": "min",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\rtree_cursor.cpp",
+          "line": 182,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidates.push_back({key, geom, dist});"
+        },
+        {
+          "file": "src\\geo\\rtree_cursor.cpp",
+          "line": 51,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (live_version_ && *live_version_ != index_version_)"
+        },
+        {
+          "file": "src\\geo\\rtree_cursor.cpp",
+          "line": 87,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (live_version_ && *live_version_ != index_version_)"
         }
       ],
       "src\\geo\\temporal_spatial_query.cpp": [
@@ -12517,6 +14854,492 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.emplace_back(row.key, std::move(*geom));"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 125,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 158,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 191,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.emplace_back(std::move(row), dist);"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 8,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "Last Modified:   2026-04-15 18:48:57                                \u2551"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 48,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::optional<GeometryInfo> TemporalSpatialQuery::extractGeometry("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 49,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const themisdb::temporal::VersionedDocument& doc,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 50,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& geo_field)"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 54,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return std::nullopt;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 58,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string geojson_str;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 60,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "geojson_str = it->get<std::string>();"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 65,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GeometryInfo geom = EWKBParser::parseGeoJSON(geojson_str);"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 69,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return std::nullopt;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 72,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& ex) {"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 73,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_WARN(\"TemporalSpatialQuery::extractGeometry: failed to parse \""
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 75,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return std::nullopt;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 79,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::optional<GeometryInfo> TemporalSpatialQuery::locationAtTime("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 80,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const themisdb::temporal::SystemVersionedTable& table,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 81,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& key,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 82,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "themisdb::temporal::Timestamp as_of,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 83,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& geo_field)"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 87,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return std::nullopt;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 92,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::pair<std::string, GeometryInfo>>"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 93,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQuery::allLocationsAtTime("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 94,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const themisdb::temporal::SystemVersionedTable& table,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 95,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "themisdb::temporal::Timestamp as_of,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 96,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& geo_field)"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 99,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::pair<std::string, GeometryInfo>> result;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 104,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.emplace_back(row.key, std::move(*geom));"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 110,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<themisdb::temporal::VersionedDocument>"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 111,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQuery::entitiesInBBoxAtTime("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 112,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const themisdb::temporal::SystemVersionedTable& table,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 114,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "themisdb::temporal::Timestamp as_of,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 115,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& geo_field)"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 118,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<themisdb::temporal::VersionedDocument> result;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 126,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 132,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<themisdb::temporal::VersionedDocument>"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 133,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQuery::entitiesWithinDistanceAtTime("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 134,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const themisdb::temporal::SystemVersionedTable& table,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 138,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "themisdb::temporal::Timestamp as_of,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 139,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& geo_field)"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 142,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_WARN(\"TemporalSpatialQuery::entitiesWithinDistanceAtTime: \""
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 149,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<themisdb::temporal::VersionedDocument> result;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 159,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 165,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::pair<themisdb::temporal::VersionedDocument, double>>"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 166,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TemporalSpatialQuery::entitiesWithinDistanceAtTimeSorted("
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 167,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const themisdb::temporal::SystemVersionedTable& table,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 171,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "themisdb::temporal::Timestamp as_of,"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 172,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& geo_field)"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 175,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_WARN(\"TemporalSpatialQuery::entitiesWithinDistanceAtTimeSorted: \""
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 182,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::pair<themisdb::temporal::VersionedDocument, double>> result;"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 192,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.emplace_back(std::move(row), dist);"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 195,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::sort(result.begin(), result.end(),"
+        },
+        {
+          "file": "src\\geo\\temporal_spatial_query.cpp",
+          "line": 22,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "#include \"geo/spatial_join.h\""
         }
       ],
       "src\\geo\\tile_server.cpp": [
@@ -12863,6 +15686,69 @@
           "function_name": "clipExtent",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\tile_server.cpp",
+          "line": 154,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(TileCoord{x, y, zoom});"
+        },
+        {
+          "file": "src\\geo\\tile_server.cpp",
+          "line": 154,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(TileCoord{x, y, zoom});"
+        },
+        {
+          "file": "src\\geo\\tile_server.cpp",
+          "line": 225,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "projected.coords.emplace_back(clipExtent(px, ext),"
+        },
+        {
+          "file": "src\\geo\\tile_server.cpp",
+          "line": 236,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "projected.coords.emplace_back(clipExtent(px, ext),"
+        },
+        {
+          "file": "src\\geo\\tile_server.cpp",
+          "line": 249,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "projected.coords.emplace_back(clipExtent(px, ext),"
+        },
+        {
+          "file": "src\\geo\\tile_server.cpp",
+          "line": 73,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "const double y_f    = (1.0 - std::log(std::tan(lat_r) + 1.0 / std::cos(lat_r)) / kTilePi)"
+        },
+        {
+          "file": "src\\geo\\tile_server.cpp",
+          "line": 48,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = s.find(from, pos)) != std::string::npos) {"
         }
       ],
       "src\\geo\\geo_json_geometry.cpp": [
@@ -13549,6 +16435,132 @@
           "function_name": "validate",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 53,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) result += \",\";"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 187,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) result += \",\";"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 227,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) result += \",\";"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 227,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) result += \",\";"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 227,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) result += \",\";"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 269,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) result += \",\";"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 269,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) result += \",\";"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 269,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) result += \",\";"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 269,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) result += \",\";"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 230,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "const auto polyJson = polygons_[i].toGeoJSON();"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 244,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "const auto sub = polygons_[i].validate();"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 280,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "const auto sub = members_[i]->validate();"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 153,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ring.front().x != ring.back().x || ring.front().y != ring.back().y) {"
+        },
+        {
+          "file": "src\\geo\\geo_json_geometry.cpp",
+          "line": 233,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos != std::string::npos) {"
         }
       ],
       "src\\geo\\raster_query_interface.cpp": [
@@ -13780,6 +16792,177 @@
           "function_name": "makeRasterQueryInterface",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 28,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const double lat_min_rad = std::atan(std::sinh("
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 30,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const double lat_max_rad = std::atan(std::sinh("
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 56,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "RasterGridQueryImpl::RasterGridQueryImpl(RasterGrid grid,"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 57,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string crs_wkt,"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 58,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::size_t band_count)"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 59,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": ": grid_(std::move(grid))"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 60,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": ", crs_wkt_(std::move(crs_wkt))"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 63,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "RasterResult RasterGridQueryImpl::queryBBox("
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 70,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.status        = RasterStatus::INVALID_BBOX;"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 92,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "\"queryBBox: estimated tile size \" + std::to_string(estimated_bytes) +"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 93,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "\" bytes exceeds limit \" + std::to_string(config.maxTileSizeBytes());"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 98,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.grid         = geo::queryBBox(grid_, bbox);"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 99,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.status       = RasterStatus::OK;"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 107,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "RasterResult RasterGridQueryImpl::queryTile("
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 112,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "r.status        = RasterStatus::INVALID_KEY;"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 127,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unique_ptr<IRasterQueryInterface> makeRasterQueryInterface("
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 129,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& crs_wkt) {"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 131,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return std::make_unique<NoOpRasterQueryImpl>();"
+        },
+        {
+          "file": "src\\geo\\raster_query_interface.cpp",
+          "line": 133,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return std::make_unique<RasterGridQueryImpl>(std::move(grid), crs_wkt);"
         }
       ],
       "src\\geo\\spatial_join_filter.cpp": [

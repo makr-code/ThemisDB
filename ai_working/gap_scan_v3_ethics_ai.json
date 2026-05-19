@@ -1,9 +1,9 @@
 {
   "ethics_ai": {
-    "total": 1052,
-    "severity_critical": 60,
-    "severity_high": 713,
-    "severity_medium": 279,
+    "total": 1230,
+    "severity_critical": 69,
+    "severity_high": 774,
+    "severity_medium": 387,
     "by_category": {
       "security": 2,
       "memory": 2,
@@ -17,7 +17,12 @@
       "input_validation": 38,
       "exception_safety": 1,
       "uninitialized": 287,
-      "oop_design": 347
+      "oop_design": 347,
+      "audit_logging": 10,
+      "performance_patterns": 81,
+      "llm_ai_safety": 11,
+      "observability": 17,
+      "determinism": 59
     },
     "by_file": {
       "src\\ethics_ai\\argument_store.cpp": [
@@ -1287,6 +1292,141 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 173,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(arg);"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 173,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(arg);"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 202,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(EthicsBaseEntityAdapter::fromBaseEntity(entity));"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 437,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rounds.push_back(round);"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 432,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& existing : rounds) {"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 134,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "// Deserialize BaseEntity"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 135,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "BaseEntity entity = BaseEntity::deserialize(argument_id, *blob);"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 226,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "// Deserialize BaseEntity"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 228,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "BaseEntity entity = BaseEntity::deserialize(pk, blob);"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 308,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "// Deserialize BaseEntity"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 309,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "BaseEntity entity = BaseEntity::deserialize(decision_id, *blob);"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 367,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "// Deserialize BaseEntity"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 368,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "BaseEntity entity = BaseEntity::deserialize(school, *blob);"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 159,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (arg.philosophy_school != philosophy_school) {"
+        },
+        {
+          "file": "src\\ethics_ai\\argument_store.cpp",
+          "line": 232,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!school || *school != philosophy_school) {"
         }
       ],
       "src\\ethics_ai\\ethics_ai_plugin.cpp": [
@@ -2400,6 +2540,42 @@
           "function_name": "createPlugin",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 466,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, double> getStatistics() const override {"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 469,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, double> stats;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 113,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_json && std::string(config_json) != \"{}\") {"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_ai_plugin.cpp",
+          "line": 139,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (phil_dir_it != config_.end()) {"
         }
       ],
       "src\\ethics_ai\\chain_visualizer.cpp": [
@@ -3102,6 +3278,33 @@
           "function_name": "chainToDot",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\chain_visualizer.cpp",
+          "line": 62,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (c == '\"')       out += \"\\\\\\\"\";"
+        },
+        {
+          "file": "src\\ethics_ai\\chain_visualizer.cpp",
+          "line": 92,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> id_set(argument_ids.begin(), argument_ids.end());"
+        },
+        {
+          "file": "src\\ethics_ai\\chain_visualizer.cpp",
+          "line": 143,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> id_set(argument_ids.begin(), argument_ids.end());"
         }
       ],
       "src\\ethics_ai\\cross_school_tension_resolver.cpp": [
@@ -3293,6 +3496,42 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
+          "line": 30,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "parts.push_back(token);"
+        },
+        {
+          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
+          "line": 122,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "decisions.push_back(std::move(decision));"
+        },
+        {
+          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
+          "line": 22,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.rfind(\"tension:\", 0) != 0) {"
+        },
+        {
+          "file": "src\\ethics_ai\\cross_school_tension_resolver.cpp",
+          "line": 116,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "&& matched_arg != nullptr)"
         }
       ],
       "src\\ethics_ai\\discourse_engine.cpp": [
@@ -4106,6 +4345,96 @@
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 82,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// Validate inputs"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 107,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arguments.push_back(arg);"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 264,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "prev_arg_ids.push_back(arg.id);"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 290,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "round.arguments.push_back(arg);"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 298,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "all.push_back(a);"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 82,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "// Validate inputs"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 26,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 147,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::random_device rd;"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 190,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (fw_it != profile.decision_framework.end()) {"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_engine.cpp",
+          "line": 263,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != debate_arguments_.end()) {"
         }
       ],
       "src\\ethics_ai\\discourse_memory_store.cpp": [
@@ -4546,6 +4875,42 @@
           "function_name": "clear",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 102,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(buf[static_cast<std::size_t>(i)]);"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 132,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> DiscourseMemoryStore::buildAllEpisodicContexts("
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 136,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> result;"
+        },
+        {
+          "file": "src\\ethics_ai\\discourse_memory_store.cpp",
+          "line": 137,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& school_id : school_ids) {"
         }
       ],
       "src\\ethics_ai\\ethics_ai_types.cpp": [
@@ -5886,6 +6251,87 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 32,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!v.empty()) result.push_back(v);"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(meta);"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 239,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto v = root[\"school_id\"].as<std::string>(\"\");"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 156,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, EthicsProfileMeta> new_index;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 158,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& entry : fs::recursive_directory_iterator(directory)) {"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 74,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "meta.taxonomy_class != query.taxonomy_class) {"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 96,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "!= meta.applicable_domains.end()) {"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 161,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ext != \".yaml\" && ext != \".yml\") continue;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_profile_registry.cpp",
+          "line": 188,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != lru_map_.end()) {"
         }
       ],
       "src\\ethics_ai\\ethics_selection_router.cpp": [
@@ -6987,6 +7433,303 @@
           "function_name": "max",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 274,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "for (const auto& t : m.tags)              profile_text += \" \" + t;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 275,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "for (const auto& d : m.applicable_domains) profile_text += \" \" + d;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 322,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "for (const auto& t : m.tags)             profile_text += \" \" + t;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 323,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "for (const auto& d : m.applicable_domains) profile_text += \" \" + d;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 35,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (cur.size() >= 3) tokens.push_back(cur);"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 166,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "taxonomy_map[cls].push_back(item.as<std::string>());"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 166,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "taxonomy_map[cls].push_back(item.as<std::string>());"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "domain_class_map[dom].push_back(item.as<std::string>());"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "domain_class_map[dom].push_back(item.as<std::string>());"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 299,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(cand);"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 344,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(cand);"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 285,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = id_to_text.find(sid);"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 334,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = id_to_text.find(sid);"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 382,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& c : candidates) {"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 370,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//          In-memory store is session-scoped (not persistent across restarts)."
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 45,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, double> termFreq("
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 48,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, double> freq;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 60,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_map<std::string, double>& a,"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 61,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_map<std::string, double>& b)"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 143,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_set<std::string>& candidates) const;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 195,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> EthicsSelectionRouter::Impl::stage1("
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 200,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> candidates;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 237,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> valid;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 263,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_set<std::string>& candidates) const"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 270,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::string> id_to_text;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 318,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::string> id_to_text;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 69,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != b.end()) dot += fa * it->second;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 91,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.empty() || b.empty() || a.size() != b.size()) return 0.0;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 204,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != taxonomy_map.end()) {"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 212,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != domain_class_map.end()) {"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 286,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const std::string& profile_text = (it != id_to_text.end()) ? it->second : sid;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 335,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const std::string& profile_text = (it != id_to_text.end()) ? it->second : sid;"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_selection_router.cpp",
+          "line": 400,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (jt != school_map.end() && jt->second.count > 0) {"
         }
       ],
       "src\\ethics_ai\\philosophy_loader.cpp": [
@@ -7814,6 +8557,159 @@
           "function_name": "addProfile",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 98,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!acc.empty()) acc += \"; \";"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 98,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!acc.empty()) acc += \"; \";"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 132,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!acc.empty()) acc += \"; \";"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 132,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!acc.empty()) acc += \"; \";"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 148,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!acc.empty()) acc += \"; \";"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 148,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!acc.empty()) acc += \"; \";"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 174,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "pt.activation_rounds.push_back(r.as<int>());"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 181,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!pt.thesis_id.empty()) profile.typed_theses.push_back(std::move(pt));"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 190,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!text.empty()) profile.secondary_theses.push_back(text);"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 200,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "pt.activation_rounds.push_back(r.as<int>());"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 207,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!pt.thesis_id.empty()) profile.typed_theses.push_back(std::move(pt));"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 228,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!text.empty()) profile.strengths.push_back(text);"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 228,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!text.empty()) profile.strengths.push_back(text);"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 236,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!text.empty()) profile.weaknesses.push_back(text);"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 291,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(kv.first);"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 291,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : profiles_) {"
+        },
+        {
+          "file": "src\\ethics_ai\\philosophy_loader.cpp",
+          "line": 283,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return profiles_.find(school_id) != profiles_.end();"
         }
       ],
       "src\\ethics_ai\\position_abstract_validator.cpp": [
@@ -8118,6 +9014,33 @@
           "function_name": "passes",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
+          "line": 131,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::vector<DiscourseRoundOutput>& outputs) const"
+        },
+        {
+          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
+          "line": 133,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "for (auto& out : outputs) {"
+        },
+        {
+          "file": "src\\ethics_ai\\position_abstract_validator.cpp",
+          "line": 36,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (upper.find(candidate) != std::string::npos) {"
         }
       ],
       "src\\ethics_ai\\rag_context_engine.cpp": [
@@ -8910,6 +9833,150 @@
           "function_name": "emb",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 57,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arg_ids.push_back(arg.id);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 57,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arg_ids.push_back(arg.id);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 118,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(scored[i].second);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 159,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(arg.id);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 159,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(arg.id);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 201,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(cosine, arg.id);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 212,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.emplace_back(scored[i].second, scored[i].first);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 246,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "visited_order.push_back(nid);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 219,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const std::string& start_argument_id,"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 223,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (!store_ || start_argument_id.empty()) {"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 233,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "frontier.emplace_back(start_argument_id, 0);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 234,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "visited.insert(start_argument_id);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 235,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "visited_order.push_back(start_argument_id);"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 229,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> visited;"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 274,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> tokens;"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.cpp",
+          "line": 193,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (arg_emb.size() != query_embedding.size()) continue;"
         }
       ],
       "src\\ethics_ai\\synthesis_matrix_builder.cpp": [
@@ -9324,6 +10391,33 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 60,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "summary.core_thesis_ids.push_back(round_output.core_thesis_ids[i]);"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 77,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "oss << \"[POSITIONS-MATRIX \u2014 R4 SYNTHESIS INPUT]\\n\";"
+        },
+        {
+          "file": "src\\ethics_ai\\synthesis_matrix_builder.cpp",
+          "line": 77,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "oss << \"[POSITIONS-MATRIX \u2014 R4 SYNTHESIS INPUT]\\n\";"
         }
       ],
       "src\\ethics_ai\\prior_round_compressor.cpp": [
@@ -10429,6 +11523,222 @@
           "function_name": "set_intersection",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 43,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "citations.push_back(match);"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 55,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "citations.push_back(match);"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 67,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "citations.push_back(match);"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 211,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "sentences.push_back(current.substr(start, end - start + 1));"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 310,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(score, i);"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 310,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(score, i);"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 325,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "selected_indices.push_back(idx);"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 209,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = current.find_first_not_of(\" \\t\\r\\n\");"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 210,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start != std::string::npos) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 212,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sentences.push_back(current.substr(start, end - start + 1));"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 218,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = current.find_first_not_of(\" \\t\\r\\n\");"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 219,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start != std::string::npos) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 221,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sentences.push_back(current.substr(start, end - start + 1));"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 41,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = begin; it != std::sregex_iterator(); ++it) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 53,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = begin; it != std::sregex_iterator(); ++it) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 65,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = begin; it != std::sregex_iterator(); ++it) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 81,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (upper.find(keyword) != std::string::npos) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 210,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (start != std::string::npos) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 219,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (start != std::string::npos) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 281,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != word_freq.end()) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 294,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (sent_upper.find(cite_upper) != std::string::npos) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 302,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (sent_upper.find(kw) != std::string::npos) {"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 340,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (verdict != \"UNKNOWN\") oss << \" Verdict:\" << verdict << \".\";"
+        },
+        {
+          "file": "src\\ethics_ai\\prior_round_compressor.cpp",
+          "line": 454,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (round_config.mode != CompressionMode::HEADLINE) {"
         }
       ],
       "src\\ethics_ai\\tournament_mode_selector.cpp": [
@@ -10843,6 +12153,159 @@
           "function_name": "str",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 89,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ordered_schools.push_back(kv.first);"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 104,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.primary_opponents.push_back(school);"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 110,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.secondary_opponents.push_back(school);"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 121,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.primary_opponents.push_back(school);"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 159,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "opponent_args.push_back(arg);"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 159,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "opponent_args.push_back(arg);"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 159,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "opponent_args.push_back(arg);"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 62,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::size_t> school_to_arg_index;"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 75,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, float> school_weight;"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 142,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, TournamentSelectionResult>"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 145,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::vector<SchoolTension>>&     tensions_per_school,"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 154,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, TournamentSelectionResult> results;"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 81,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != school_weight.end()) {"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 96,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (wa != wb) return wa > wb;"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 126,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config.secondary_injection != \"none\") {"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 159,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (arg.philosophy_school != school_id) {"
+        },
+        {
+          "file": "src\\ethics_ai\\tournament_mode_selector.cpp",
+          "line": 167,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tensions_per_school.end()) {"
         }
       ],
       "src\\ethics_ai\\convergence_marker_engine.cpp": [
@@ -11431,6 +12894,78 @@
           "function_name": "buildConvergencePreamble",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\convergence_marker_engine.cpp",
+          "line": 40,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "const std::vector<DiscourseRoundOutput>& round_outputs,"
+        },
+        {
+          "file": "src\\ethics_ai\\convergence_marker_engine.cpp",
+          "line": 45,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "if (round_outputs.size() < 2) {"
+        },
+        {
+          "file": "src\\ethics_ai\\convergence_marker_engine.cpp",
+          "line": 52,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "for (const auto& out : round_outputs) {"
+        },
+        {
+          "file": "src\\ethics_ai\\convergence_marker_engine.cpp",
+          "line": 71,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "for (size_t i = 0; i < round_outputs.size(); ++i) {"
+        },
+        {
+          "file": "src\\ethics_ai\\convergence_marker_engine.cpp",
+          "line": 72,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "for (size_t j = i + 1; j < round_outputs.size(); ++j) {"
+        },
+        {
+          "file": "src\\ethics_ai\\convergence_marker_engine.cpp",
+          "line": 73,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "const auto& a = round_outputs[i];"
+        },
+        {
+          "file": "src\\ethics_ai\\convergence_marker_engine.cpp",
+          "line": 74,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "const auto& b = round_outputs[j];"
+        },
+        {
+          "file": "src\\ethics_ai\\convergence_marker_engine.cpp",
+          "line": 150,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (m.type != ConvergenceType::IRREDUCIBLE_SPLIT) {"
         }
       ],
       "src\\ethics_ai\\argument_store.h": [
@@ -11639,6 +13174,15 @@
           "conversion_from": "",
           "conversion_to": "",
           "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "file": "src\\ethics_ai\\rag_context_engine.h",
+          "line": 111,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const std::string& start_argument_id,"
         }
       ],
       "src\\ethics_ai\\llm_cascade_router.cpp": [
@@ -11832,6 +13376,71 @@
           "function_name": "tierForRound",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ethics_ai\\llm_cascade_router.cpp",
+          "line": 14,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != config_.round_to_tier.end()) {"
+        },
+        {
+          "file": "src\\ethics_ai\\llm_cascade_router.cpp",
+          "line": 23,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ctx_it != config_.tier_to_context_k.end()) {"
+        },
+        {
+          "file": "src\\ethics_ai\\llm_cascade_router.cpp",
+          "line": 66,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (model_it != config_.tier_to_model.end()) {"
+        }
+      ],
+      "src\\ethics_ai\\ethics_aql_queries.h": [
+        {
+          "file": "src\\ethics_ai\\ethics_aql_queries.h",
+          "line": 125,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "* Parameters: `start_id`, `max_depth`"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_aql_queries.h",
+          "line": 134,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "FOR v, e, p IN 1..@max_depth OUTBOUND @start_id"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_aql_queries.h",
+          "line": 173,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "* Parameters: `start_id`, `end_id`, `max_depth`"
+        },
+        {
+          "file": "src\\ethics_ai\\ethics_aql_queries.h",
+          "line": 178,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "@start_id TO @end_id"
         }
       ]
     }

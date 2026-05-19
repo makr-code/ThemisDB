@@ -1,9 +1,9 @@
 {
   "scraper": {
-    "total": 390,
+    "total": 459,
     "severity_critical": 9,
-    "severity_high": 283,
-    "severity_medium": 98,
+    "severity_high": 313,
+    "severity_medium": 137,
     "by_category": {
       "security": 1,
       "memory": 2,
@@ -15,7 +15,12 @@
       "type_conversion": 40,
       "input_validation": 17,
       "uninitialized": 72,
-      "oop_design": 177
+      "oop_design": 177,
+      "audit_logging": 1,
+      "performance_patterns": 31,
+      "llm_ai_safety": 2,
+      "observability": 3,
+      "determinism": 32
     },
     "by_file": {
       "src\\scraper\\scraper_api_client.cpp": [
@@ -750,6 +755,51 @@
           "function_name": "curl_easy_setopt",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 194,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 194,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 194,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 80,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = out.find(key, pos)) != std::string::npos) {"
+        },
+        {
+          "file": "src\\scraper\\scraper_api_client.cpp",
+          "line": 332,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != CURLE_OK)"
         }
       ],
       "src\\scraper\\scraper_search_engine.cpp": [
@@ -1440,6 +1490,213 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 264,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// Walk inputs"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 231,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (c == '>')      { in_tag = false; out += ' '; continue; }"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 231,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (c == '>')      { in_tag = false; out += ' '; continue; }"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 287,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(sf));"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 425,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!item.url.empty()) page.items.push_back(std::move(item));"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 425,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!item.url.empty()) page.items.push_back(std::move(item));"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 143,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Prefix match: starts with \"q=\" or \"search\""
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 77,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (colon != std::string::npos ? base_url.substr(0, colon + 1) : \"https:\") + href;"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 133,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tl != \"text\" && tl != \"\") return false;"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 172,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (l.find(kw) != std::string::npos) return true;"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 202,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pl.find(kw) != std::string::npos) return true;"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 294,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = html.find(\"<form\", pos)) != std::string::npos) {"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 302,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (act != std::string::npos) {"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 305,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ve != std::string::npos)"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 312,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((ip = form_html.find(\"<input\", ip)) != std::string::npos) {"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 314,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const std::string tag = (ie != std::string::npos)"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 322,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (e != std::string::npos) ? tag.substr(p, e - p) : std::string{};"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 333,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "ip = (ie != std::string::npos) ? ie : pos + 1;"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 472,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = html.find(\"<a \", pos)) != std::string::npos) {"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 477,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hi != std::string::npos) {"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 480,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ve != std::string::npos) {"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 487,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (te != std::string::npos)"
+        },
+        {
+          "file": "src\\scraper\\scraper_search_engine.cpp",
+          "line": 512,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const bool has_q = form.action_url.find('?') != std::string::npos;"
         }
       ],
       "src\\scraper\\gov_source_catalog.cpp": [
@@ -1826,6 +2083,132 @@
           "function_name": "add",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 64,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (s.type == type) result.push_back(&s);"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 64,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (s.type == type) result.push_back(&s);"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 73,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (s.bundesland == iso) result.push_back(&s);"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 81,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (s.enabled) result.push_back(&s);"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 90,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (const auto* s = findById(id)) result.push_back(s);"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "sources_.push_back(std::move(source));"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 191,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 404,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 41,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "GovSourceCatalog::GovSourceCatalog() {"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 223,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "s.search_url = \"https://www.bundesanzeiger.de/pub/de/start?0-2.IBackPageLink-backPageLink-wr-form=&detail.lang=de\";"
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 320,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "{ \"gesetze_bb\",  \"Landesrecht Brandenburg (BRAVORS)\",    \"DE-BB\","
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 321,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "\"https://bravors.brandenburg.de\","
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 322,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "\"https://bravors.brandenburg.de/de/gesetze\","
+        },
+        {
+          "file": "src\\scraper\\gov_source_catalog.cpp",
+          "line": 324,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "\"Brandenburg state law\" },"
         }
       ],
       "src\\scraper\\scraper_config.cpp": [
@@ -2076,6 +2459,78 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 49,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "g.keywords.push_back(kw.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 82,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "o.queries.push_back(q.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 118,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "o.source_ids.push_back(s.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 134,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cfg.seed_urls.push_back(u.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 138,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cfg.whitelist.push_back(u.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 142,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cfg.blacklist.push_back(u.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 223,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (url.compare(0, 7, \"http://\") != 0 &&"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 224,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "url.compare(0, 8, \"https://\") != 0) {"
         }
       ],
       "src\\scraper\\scraper_js_renderer.cpp": [
@@ -2767,6 +3222,33 @@
           "function_name": "while",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 144,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "argv.push_back(nullptr);"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 59,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const std::string exe = (sp != std::string::npos)"
+        },
+        {
+          "file": "src\\scraper\\scraper_js_renderer.cpp",
+          "line": 149,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (::pipe(pipefd) != 0) {"
         }
       ],
       "src\\scraper\\scraper_llm_evaluator.cpp": [
@@ -3094,6 +3576,51 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scraper\\scraper_llm_evaluator.cpp",
+          "line": 126,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (e.is_string()) result.key_entities.push_back(e.get<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_llm_evaluator.cpp",
+          "line": 209,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "themis::llm::InferenceRequest req;"
+        },
+        {
+          "file": "src\\scraper\\scraper_llm_evaluator.cpp",
+          "line": 217,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "themis::llm::LLMPluginManager::instance().generate(req);"
+        },
+        {
+          "file": "src\\scraper\\scraper_llm_evaluator.cpp",
+          "line": 50,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return !mgr.listPlugins().empty() && mgr.getDefaultPlugin() != nullptr;"
+        },
+        {
+          "file": "src\\scraper\\scraper_llm_evaluator.cpp",
+          "line": 168,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = lower.find(lkw, pos)) != std::string::npos) {"
         }
       ],
       "src\\scraper\\scraper_metadata_writer.cpp": [
@@ -3329,6 +3856,15 @@
           "function_name": "write",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scraper\\scraper_metadata_writer.cpp",
+          "line": 173,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "edges.push_back(std::move(e));"
         }
       ],
       "src\\scraper\\scraper_plugin.cpp": [
@@ -4232,6 +4768,96 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 260,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (html[i] == '>') { in_tag = false; out += ' '; continue; }"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 140,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "seeds.emplace_back(url, \"\");"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 152,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (s->enabled) gov_sources.push_back(s);"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 156,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (s->enabled) gov_sources.push_back(s);"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 160,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (s->enabled) gov_sources.push_back(s);"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 167,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!url.empty()) seeds.emplace_back(url, src->id);"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 235,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (name != \"script\" && name != \"style\") walk(child);"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 319,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (begin != std::string::npos && (line.size() - begin) > 5) {"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 475,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!policy.isAllowed(r.url) && r.url != endpoint_url) continue;"
+        },
+        {
+          "file": "src\\scraper\\scraper_plugin.cpp",
+          "line": 548,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return e != std::string::npos"
         }
       ]
     }

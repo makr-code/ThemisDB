@@ -1,9 +1,9 @@
 {
   "plugins": {
-    "total": 839,
+    "total": 944,
     "severity_critical": 93,
-    "severity_high": 616,
-    "severity_medium": 130,
+    "severity_high": 683,
+    "severity_medium": 168,
     "by_category": {
       "security": 7,
       "memory": 9,
@@ -17,7 +17,10 @@
       "input_validation": 22,
       "exception_safety": 29,
       "uninitialized": 229,
-      "oop_design": 307
+      "oop_design": 307,
+      "performance_patterns": 39,
+      "observability": 13,
+      "determinism": 53
     },
     "by_file": {
       "src\\plugins\\oci_registry_client.cpp": [
@@ -985,6 +988,168 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 583,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "manifest.layers.push_back(std::move(l));"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 267,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::string> response_headers;"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 87,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (colon != std::string::npos) {"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 108,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 115,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestUpdate(ctx, buf.data(), static_cast<size_t>(f.gcount())) != 1) {"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 123,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestFinal_ex(ctx, digest.data(), &digest_len) != 1) {"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 155,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (at_pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 178,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "bool has_dot   = potential_host.find('.') != std::string::npos;"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 179,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "bool has_colon = potential_host.find(':') != std::string::npos;"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 193,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (colon_pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 302,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (res != CURLE_OK) {"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 373,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (res != CURLE_OK) {"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 459,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ait != auth_configs_.end()) auth = ait->second;"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 486,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tres != CURLE_OK) {"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 512,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "expected_digest.substr(0, 7) != \"sha256:\") {"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 542,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != auth_configs_.end()) auth = it->second;"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 657,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (slash != std::string::npos) plugin_name = plugin_name.substr(slash + 1);"
+        },
+        {
+          "file": "src\\plugins\\oci_registry_client.cpp",
+          "line": 679,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != auth_configs_.end()) auth = it->second;"
         }
       ],
       "src\\plugins\\plugin_hot_plug_monitor.cpp": [
@@ -1653,6 +1818,114 @@
           "function_name": "thread",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 310,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "filename.push_back(static_cast<char>(wc));"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 395,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, fs::file_time_type> known_files;"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 397,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, fs::file_time_type> current_files;"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 568,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CloseHandle(dir_handle_);"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 92,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (filename.starts_with(\".\") ||"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 478,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool PluginHotPlugMonitor::start() {"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 553,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"Hot-plug monitoring started for: {}\", watch_directory_);"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 221,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (errno != EINTR) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 234,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (errno != EINTR && errno != EAGAIN) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 428,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (prev->second != mtime) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 456,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (errno != EINTR) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
+          "line": 567,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (dir_handle_ != nullptr && dir_handle_ != INVALID_HANDLE_VALUE) {"
         }
       ],
       "src\\plugins\\plugin_manager.cpp": [
@@ -4849,6 +5122,429 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 538,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!cycle_desc.empty()) cycle_desc += \"; \";"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 540,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) cycle_desc += \" -> \";"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 837,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!dep_list.empty()) dep_list += \", \";"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1001,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!dep_list.empty()) dep_list += \", \";"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1238,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!cycle_desc.empty()) cycle_desc += \"; \";"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1240,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) cycle_desc += \" -> \";"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1254,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!missing_desc.empty()) missing_desc += \"; \";"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 335,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "manifest.dependencies.push_back(dep.get<std::string>());"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 938,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(plugin_it->second.instance.get());"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 951,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(pair.second.manifest);"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 963,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(pair.first);"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1502,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents.push_back(plugin_name);"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1502,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents.push_back(plugin_name);"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 936,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& name : it->second) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 951,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& pair : plugins_) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 962,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& pair : plugins_) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1196,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "std::this_thread::sleep_for(RELOAD_UNLOAD_DELAY_MS);"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1276,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& name : topo_order) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1498,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [plugin_name, entry] : plugins_) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1501,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& dep : entry.manifest.dependencies) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1521,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& listener : listeners_copy) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 677,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 690,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 768,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 979,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1219,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1448,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool started = hot_plug_monitor_->start();"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1450,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (!started) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1595,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"4. Restart themis_server\\n\""
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 107,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr) != 1) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 114,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestUpdate(mdctx, buffer, file.gcount()) != 1) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 122,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestFinal_ex(mdctx, hash, &hashLen) != 1) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 199,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (expected_hash != actual_hash) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 235,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!actual_hash.empty() && expected_hash != actual_hash) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 396,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!manifest && filename != \"plugin.json\") {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 433,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!manifest && filename != \"plugin.json\") {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 601,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (actual_hash != current_entry.manifest.expected_hash) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 921,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != plugins_.end() && it->second.loaded) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 935,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != type_index_.end()) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 938,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (plugin_it != plugins_.end() && plugin_it->second.loaded) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 975,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return it != plugins_.end() && it->second.loaded;"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1016,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!current_hash.empty() && current_hash != it->second.file_hash) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1059,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (actual_hash != expected_hash) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1206,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it2 != plugins_.end() && it2->second.instance) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1305,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != plugins_.end()) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1423,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != registry.factories_.end()) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_manager.cpp",
+          "line": 1474,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return hot_plug_monitor_ != nullptr && hot_plug_monitor_->isRunning();"
         }
       ],
       "src\\plugins\\rpc_service_registry.cpp": [
@@ -5011,6 +5707,15 @@
           "function_name": "getService",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\plugins\\rpc_service_registry.cpp",
+          "line": 46,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != services_.end()) ? it->second : nullptr;"
         }
       ],
       "src\\plugins\\signed_plugin_repository.cpp": [
@@ -5905,6 +6610,96 @@
           "function_name": "base64Decode",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "pinned_keys_.push_back(std::move(key));"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 149,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entries_.push_back(entry);"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 195,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(e);"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 98,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& k : pinned_keys_) {"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 143,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& e : entries_) {"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 175,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& e : entries_) {"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 194,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& e : entries_) {"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 123,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return k != nullptr && k->active;"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e.manifest.name != name) {"
+        },
+        {
+          "file": "src\\plugins\\signed_plugin_repository.cpp",
+          "line": 305,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (public_key.size() != 32 || signature.size() != 64) {"
         }
       ],
       "src\\plugins\\wasm_plugin_loader.cpp": [
@@ -6560,6 +7355,51 @@
           "function_name": "getInstance",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 486,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//          without THEMIS_WASM_SUPPORT so the server binary compiles and starts"
+        },
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 111,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!ctx || EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr) != 1) {"
+        },
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 118,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<size_t>(file.gcount())) != 1) {"
+        },
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 125,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestFinal_ex(ctx.get(), hash, &hash_len) != 1) {"
+        },
+        {
+          "file": "src\\plugins\\wasm_plugin_loader.cpp",
+          "line": 184,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (actual != expected_sha256) {"
         }
       ],
       "src\\plugins\\plugin_health_monitor.cpp": [
@@ -7928,6 +8768,87 @@
           "function_name": "max",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 235,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "event_callbacks_.push_back(std::move(callback));"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 299,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "names.push_back(n);"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 216,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [_, mp] : monitored_plugins_) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 289,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "std::this_thread::sleep_for(std::chrono::milliseconds(200));"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 299,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [n, _] : monitored_plugins_) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 304,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& name : names) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 197,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, MonitoredPlugin> PluginHealthMonitor::getAllPluginStats() const {"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 347,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (diag.status != PluginHealthStatus::HEALTHY &&"
+        },
+        {
+          "file": "src\\plugins\\plugin_health_monitor.cpp",
+          "line": 348,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "diag.status != PluginHealthStatus::DEGRADED) {"
         }
       ],
       "src\\plugins\\plugin_metrics.cpp": [
@@ -8225,6 +9146,33 @@
           "function_name": "getOrCreateStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 131,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, PluginMetrics::PluginStats> PluginMetrics::getAllStats() const {"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 122,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != stats_.end()) {"
+        },
+        {
+          "file": "src\\plugins\\plugin_metrics.cpp",
+          "line": 141,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != stats_.end()) {"
         }
       ],
       "src\\plugins\\plugin_registry.cpp": [

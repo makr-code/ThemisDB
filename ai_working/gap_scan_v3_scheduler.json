@@ -1,9 +1,9 @@
 {
   "scheduler": {
-    "total": 1571,
+    "total": 1780,
     "severity_critical": 119,
-    "severity_high": 1089,
-    "severity_medium": 363,
+    "severity_high": 1169,
+    "severity_medium": 492,
     "by_category": {
       "security": 15,
       "memory": 12,
@@ -16,8 +16,11 @@
       "type_conversion": 310,
       "input_validation": 54,
       "exception_safety": 6,
-      "uninitialized": 485,
-      "oop_design": 447
+      "uninitialized": 484,
+      "oop_design": 450,
+      "performance_patterns": 56,
+      "observability": 70,
+      "determinism": 81
     },
     "by_file": {
       "src\\scheduler\\distributed_task_coordinator.cpp": [
@@ -756,6 +759,60 @@
           "function_name": "generateId",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scheduler\\distributed_task_coordinator.cpp",
+          "line": 276,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(task);"
+        },
+        {
+          "file": "src\\scheduler\\distributed_task_coordinator.cpp",
+          "line": 276,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, task] : task_registry_) {"
+        },
+        {
+          "file": "src\\scheduler\\distributed_task_coordinator.cpp",
+          "line": 153,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "scheduler_->start();"
+        },
+        {
+          "file": "src\\scheduler\\distributed_task_coordinator.cpp",
+          "line": 166,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Unregister all tasks from the scheduler so the next activation starts"
+        },
+        {
+          "file": "src\\scheduler\\distributed_task_coordinator.cpp",
+          "line": 238,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != task_registry_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\distributed_task_coordinator.cpp",
+          "line": 257,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != task_registry_.end()) {"
         }
       ],
       "src\\scheduler\\external_scheduler_adapter.cpp": [
@@ -2404,6 +2461,87 @@
           "function_name": "replace_if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 80,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += '-';"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 199,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case '\\\\': out += \"\\\\\\\\\"; break;"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 305,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "{\"restartPolicy\", \"OnFailure\"},"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 92,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (last != std::string::npos) {"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 129,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = j.begin(); it != j.end(); ++it) {"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 145,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 399,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (effectiveCronSchedule(t) != first_sched) {"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 463,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "[](char c){ return !std::isalnum(static_cast<unsigned char>(c)) && c != '_'; }, '_');"
+        },
+        {
+          "file": "src\\scheduler\\external_scheduler_adapter.cpp",
+          "line": 490,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "[](char c){ return !std::isalnum(static_cast<unsigned char>(c)) && c != '_'; }, '_');"
         }
       ],
       "src\\scheduler\\task_scheduler.cpp": [
@@ -10591,6 +10729,1050 @@
           "function_name": "store",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1006,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ready.push_back(id);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1006,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ready.push_back(id);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1030,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ready.push_back(dependent);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1082,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "adj[id].push_back(dep);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1082,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "adj[id].push_back(dep);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1082,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "adj[id].push_back(dep);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1094,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents[dep].push_back(id);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1094,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents[dep].push_back(id);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1116,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.condition_skipped.push_back(id);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1129,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.skipped.push_back(id);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1162,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.condition_skipped.push_back(id);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1162,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.condition_skipped.push_back(id);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1175,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "wave.push_back(id);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1206,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back([this, &wave_results, i, &task_map]() {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1461,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "task_snapshot.push_back(*task);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1576,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(*task);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2146,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cdc_json[\"event_types\"].push_back(type);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2268,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto cdc_json = task_json[\"cdc_trigger\"];"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 992,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::vector<std::string>>& adj) const"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 995,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, int> in_degree;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1012,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<std::string>> dependents;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1063,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::shared_ptr<ScheduledTask>> task_map;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1078,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<std::string>> adj;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1092,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<std::string>> dependents;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1154,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, nlohmann::json> dep_results;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 551,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "std::this_thread::sleep_for(std::chrono::milliseconds(25));"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1576,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, task] : tasks_) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1707,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& task : tasks_to_execute) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2687,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (int type_int : task->cdc_trigger.event_types) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 591,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "validateAqlQuery(task.aql_query);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1100,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::set<std::string> failed_or_skipped;    // Tasks we should NOT execute (dep failure)"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1640,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "if (shouldExecute(*task, now)) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2017,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "nlohmann::json TaskScheduler::executeAqlQuery(const std::string& aql) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2021,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "validateAqlQuery(aql);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2072,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "bool TaskScheduler::shouldExecute(const ScheduledTask& task,"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2375,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void TaskScheduler::validateAqlQuery(const std::string& aql) const {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1100,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "std::set<std::string> failed_or_skipped;    // Tasks we should NOT execute (dep failure)"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 292,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Starting with a=1,b=1 (= fib(1),fib(2)) and running (attempt) iterations"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 496,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void TaskScheduler::start() {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 511,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Restart any event triggers that were stopped (e.g. after a previous stop())."
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 514,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "event_trigger_manager_->startAll();"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 517,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"TaskScheduler started with {} tasks, check interval: {}s\","
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 539,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 546,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (std::chrono::steady_clock::now() - start > timeout) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 810,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TaskScheduler.executeTaskNow\");"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 912,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "double elapsed_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1210,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const int64_t exec_start_ms = getCurrentTimeMs();"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1211,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto exec_start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1213,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Log TASK_STARTED audit event"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1215,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "scheduler::TaskAuditEvent start_event;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1216,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_event.uuid = scheduler::generateUUID();"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1217,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_event.timestamp = std::chrono::system_clock::now();"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1218,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_event.task_id = task->id;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1219,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_event.task_name = task->name;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1220,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_event.task_description = task->description;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1221,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_event.event_type = scheduler::TaskEventType::TASK_STARTED;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1222,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_event.trigger_type = getTriggerTypeString(task->trigger_type);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1223,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "setDefaultAuditContext(start_event);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1224,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "audit_manager_->logAuditEvent(start_event);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1250,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - exec_start).count();"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1256,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "task->last_run_ms = exec_start_ms;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1339,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "exec_result.timestamp_ms = exec_start_ms;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1617,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"TaskScheduler loop started\");"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1620,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TaskScheduler.tick\");"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1845,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1877,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "completion_event.trigger_type = start_event.trigger_type;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1929,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "failure_event.trigger_type = start_event.trigger_type;"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2033,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TaskScheduler.executeAqlQuery\");"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2046,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TaskScheduler.executeFunction\");"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2181,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Persist SLO compliance counters so the window survives restarts"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2211,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Persist anomaly detector baseline so statistics survive a restart"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2552,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Check word boundary: must be at start or preceded by non-alphanumeric"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2553,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool valid_start = (pos == 0 || !std::isalnum(static_cast<unsigned char>(aql_upper[pos - 1])));"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2554,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (valid_start) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 48,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 275,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Exponential base + uniform random jitter in [-jitter, +jitter]"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 280,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "thread_local std::mt19937 rng{std::random_device{}()};"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 282,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_real_distribution<double> dist(-jitter_range, jitter_range);"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 405,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (error_message.find(\"not found\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 406,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"unknown function\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 407,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"invalid argument\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 408,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"syntax error\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 409,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"parse error\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 410,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"no such\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 414,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (error_message.find(\"timeout\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 415,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"timed out\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 416,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"deadline exceeded\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 420,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (error_message.find(\"security\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 421,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"injection\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 422,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"forbidden\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 423,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"unauthorized\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 424,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"permission denied\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 428,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (error_message.find(\"rate limit\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 429,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"resource limit\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 430,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"quota\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 431,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"out of memory\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 432,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "error_message.find(\"too many\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 676,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tasks_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 716,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tasks_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 744,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tasks_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 772,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tasks_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1028,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != dependents.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1037,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (order.size() != task_ids.size()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1121,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (dit != dependents.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1134,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (dit != dependents.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1157,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != result.succeeded.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1168,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (dit != dependents.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1367,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (dit != dependents.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1587,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tasks_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1723,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (existing != running_task_threads_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2098,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != cron_expressions_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2491,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (c == '\\0' || (c < 32 && c != '\\n' && c != '\\t')) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2551,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = aql_upper.find(\"FOR \", pos)) != std::string::npos) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2634,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != cron_expressions_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 2972,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (next != cur) {"
+        },
+        {
+          "file": "src\\scheduler\\task_scheduler.cpp",
+          "line": 1609,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "params.sort_by = scheduler::AuditQueryParams::SortBy::TIMESTAMP_DESC;"
         }
       ],
       "src\\scheduler\\task_audit_event.cpp": [
@@ -11380,6 +12562,60 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_event.cpp",
+          "line": 89,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "case TaskEventType::TASK_STARTED: return \"TASK_STARTED\";"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_event.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (s == \"TASK_STARTED\") return TaskEventType::TASK_STARTED;"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_event.cpp",
+          "line": 21,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_event.cpp",
+          "line": 31,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// GAP-019: Use std::random_device directly for cryptographic-quality randomness."
+        },
+        {
+          "file": "src\\scheduler\\task_audit_event.cpp",
+          "line": 33,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::random_device rd;"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_event.cpp",
+          "line": 38,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Set version to 4 (random UUID)"
         }
       ],
       "src\\scheduler\\event_trigger.cpp": [
@@ -11394,7 +12630,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 110,
+          "line": 106,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EventTrigger: changefeed cannot be null\");",
@@ -11403,7 +12639,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 114,
+          "line": 110,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EventTrigger: invalid config - \" +",
@@ -11412,7 +12648,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 119,
+          "line": 115,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EventTrigger: callback cannot be null\");",
@@ -11421,7 +12657,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 128,
+          "line": 124,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -11430,7 +12666,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 146,
+          "line": 142,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -11439,7 +12675,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 164,
+          "line": 160,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EventTrigger: invalid config - \" +",
@@ -11448,7 +12684,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 169,
+          "line": 165,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -11457,7 +12693,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 194,
+          "line": 190,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(cb_mutex_);",
@@ -11466,7 +12702,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 202,
+          "line": 198,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(cb_mutex_);",
@@ -11475,7 +12711,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 207,
+          "line": 203,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(cb_mutex_);",
@@ -11484,7 +12720,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 221,
+          "line": 217,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(cb_mutex_);",
@@ -11493,7 +12729,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 230,
+          "line": 226,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(cb_mutex_);",
@@ -11502,7 +12738,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 283,
+          "line": 279,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(debounce_mutex_);",
@@ -11511,7 +12747,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 377,
+          "line": 373,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> clock(condition_cache_mutex_);",
@@ -11520,7 +12756,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 492,
+          "line": 488,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EventTriggerManager: changefeed cannot be null\");",
@@ -11529,7 +12765,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 503,
+          "line": 499,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -11538,7 +12774,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 524,
+          "line": 520,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -11547,7 +12783,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 535,
+          "line": 531,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -11556,7 +12792,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 545,
+          "line": 541,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -11565,7 +12801,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 556,
+          "line": 552,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -11574,7 +12810,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 568,
+          "line": 564,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -11583,7 +12819,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 311,
+          "line": 307,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "cv_.wait_for(lock, std::chrono::milliseconds(100),",
@@ -11592,7 +12828,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 320,
+          "line": 316,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "cv_.wait_for(lock, std::chrono::seconds(1),",
@@ -11601,25 +12837,25 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 424,
+          "line": 420,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "raw_clauses.push_back(trim(condition.substr(pos)));",
+          "snippet": "raw_clauses.push_back(themis::utils::trim(condition.substr(pos)));",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 427,
+          "line": 423,
           "type": "copy_overhead",
           "severity": "MEDIUM",
-          "snippet": "raw_clauses.push_back(trim(condition.substr(pos, found - pos)));",
+          "snippet": "raw_clauses.push_back(themis::utils::trim(condition.substr(pos, found - pos)));",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 444,
+          "line": 440,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(raw.substr(i, j - i + (j < n ? 1 : 0)));",
@@ -11628,7 +12864,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 449,
+          "line": 445,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(raw.substr(i, j - i));",
@@ -11637,7 +12873,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 469,
+          "line": 465,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "parsed_clauses_.push_back(std::move(pc));",
@@ -11646,7 +12882,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 526,
+          "line": 522,
           "type": "iterator_invalidation",
           "severity": "CRITICAL",
           "snippet": "auto it = triggers_.find(id);",
@@ -11655,7 +12891,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 251,
+          "line": 247,
           "type": "allocation_loop",
           "severity": "HIGH",
           "snippet": "// Poll for new events with long-polling",
@@ -11664,7 +12900,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 283,
+          "line": 279,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(debounce_mutex_);",
@@ -11673,7 +12909,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 464,
+          "line": 460,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (k > 2) rhs += \" \";",
@@ -11684,7 +12920,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 277,
+          "line_number": 273,
           "line_content": "event.key, static_cast<int>(event.type));",
           "context": [
             "                    events_debounced_++;",
@@ -11702,7 +12938,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 297,
+          "line_number": 293,
           "line_content": "event.key, static_cast<int>(event.type), event.sequence);",
           "context": [
             "                triggers_fired_++;",
@@ -11720,11 +12956,11 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 428,
+          "line_number": 424,
           "line_content": "pos = found + AND_SEP.size();",
           "context": [
             "        }",
-            "        raw_clauses.push_back(trim(condition.substr(pos, found - pos)));",
+            "        raw_clauses.push_back(themis::utils::trim(condition.substr(pos, found - pos)));",
             "        pos = found + AND_SEP.size();",
             "    }",
             ""
@@ -11738,7 +12974,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 442,
+          "line_number": 438,
           "line_content": "size_t j = i + 1;",
           "context": [
             "            if (i >= n) break;",
@@ -11756,7 +12992,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 445,
+          "line_number": 441,
           "line_content": "i = j + 1;",
           "context": [
             "                while (j < n && raw[j] != '\"') ++j;",
@@ -11774,7 +13010,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 439,
+          "line_number": 435,
           "line_content": "while (i < n && std::isspace(static_cast<unsigned char>(raw[i]))) ++i;",
           "context": [
             "        const size_t n = raw.size();",
@@ -11792,7 +13028,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 448,
+          "line_number": 444,
           "line_content": "while (j < n && !std::isspace(static_cast<unsigned char>(raw[j]))) ++j;",
           "context": [
             "            } else {",
@@ -11810,7 +13046,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 460,
+          "line_number": 456,
           "line_content": "pc.field = tokens[0];",
           "context": [
             "",
@@ -11828,7 +13064,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 461,
+          "line_number": 457,
           "line_content": "pc.op    = tokens[1];",
           "context": [
             "        ParsedClause pc;",
@@ -11846,7 +13082,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 513,
+          "line_number": 509,
           "line_content": "triggers_[id] = std::move(trigger);",
           "context": [
             "        auto trigger = std::make_unique<EventTrigger>(changefeed_, config, std::move(callback));",
@@ -11864,7 +13100,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 123,
+          "line_number": 119,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()"
@@ -11873,7 +13109,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 251,
+          "line_number": 247,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak"
@@ -11882,7 +13118,7 @@
           "gap_type": "exception_in_destructor",
           "severity": "CRITICAL",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 496,
+          "line_number": 492,
           "class_name": "",
           "issue": "Potential exception in destructor",
           "reason": "Destructors must be noexcept; exceptions here cause std::terminate()"
@@ -11891,16 +13127,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 50,
-          "var_name": "start",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 74,
+          "line_number": 70,
           "var_name": "lhs",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -11909,7 +13136,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 90,
+          "line_number": 86,
           "var_name": "Implementation",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -11918,7 +13145,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 93,
+          "line_number": 89,
           "var_name": "Implementation",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -11927,7 +13154,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 208,
+          "line_number": 204,
           "var_name": "elapsed",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -11936,7 +13163,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 213,
+          "line_number": 209,
           "var_name": "elapsed",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -11945,7 +13172,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 248,
+          "line_number": 244,
           "var_name": "events",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -11954,7 +13181,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 249,
+          "line_number": 245,
           "var_name": "changefeed_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -11963,7 +13190,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 257,
+          "line_number": 253,
           "var_name": "changefeed_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -11972,7 +13199,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 351,
+          "line_number": 347,
           "var_name": "prefix_without_wildcard",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -11981,7 +13208,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 356,
+          "line_number": 352,
           "var_name": "prefix_without_wildcard",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -11990,7 +13217,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 411,
+          "line_number": 407,
           "var_name": "AND_SEP",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -11999,7 +13226,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 423,
+          "line_number": 419,
           "var_name": "AND_SEP",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12008,7 +13235,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 464,
+          "line_number": 460,
           "var_name": "k",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12017,7 +13244,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 475,
+          "line_number": 471,
           "var_name": "now",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12026,7 +13253,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 505,
+          "line_number": 501,
           "var_name": "trigger",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12035,7 +13262,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 512,
+          "line_number": 508,
           "var_name": "trigger",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -12044,7 +13271,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 527,
+          "line_number": 523,
           "var_name": "it",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12053,7 +13280,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 528,
+          "line_number": 524,
           "var_name": "it",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -12062,7 +13289,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 538,
+          "line_number": 534,
           "var_name": "it",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12071,7 +13298,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 539,
+          "line_number": 535,
           "var_name": "it",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -12080,7 +13307,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 548,
+          "line_number": 544,
           "var_name": "it",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12089,7 +13316,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 549,
+          "line_number": 545,
           "var_name": "it",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -12098,7 +13325,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 560,
+          "line_number": 556,
           "var_name": "trigger",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -12107,7 +13334,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 572,
+          "line_number": 568,
           "var_name": "trigger",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -12116,7 +13343,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 85,
+          "line_number": 49,
+          "class_name": "Unknown",
+          "function_name": "match",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scheduler\\event_trigger.cpp",
+          "line_number": 81,
           "class_name": "Unknown",
           "function_name": "find",
           "issue": "Virtual function called in constructor",
@@ -12126,7 +13363,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 89,
+          "line_number": 85,
           "class_name": "Unknown",
           "function_name": "isValid",
           "issue": "Virtual function called in constructor",
@@ -12136,9 +13373,29 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 101,
+          "line_number": 97,
           "class_name": "Unknown",
           "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scheduler\\event_trigger.cpp",
+          "line_number": 102,
+          "class_name": "Unknown",
+          "function_name": "EventTrigger",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scheduler\\event_trigger.cpp",
+          "line_number": 103,
+          "class_name": "Unknown",
+          "function_name": "EventTrigger",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -12156,27 +13413,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 107,
-          "class_name": "Unknown",
-          "function_name": "EventTrigger",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scheduler\\event_trigger.cpp",
           "line_number": 110,
-          "class_name": "Unknown",
-          "function_name": "EventTrigger",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 114,
           "class_name": "Unknown",
           "function_name": "changefeed_",
           "issue": "Virtual function called in constructor",
@@ -12186,7 +13423,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 119,
+          "line_number": 115,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -12196,7 +13433,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 127,
+          "line_number": 123,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -12206,7 +13443,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 136,
+          "line_number": 132,
           "class_name": "Unknown",
           "function_name": "start",
           "issue": "Virtual function called in constructor",
@@ -12216,7 +13453,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 144,
+          "line_number": 140,
           "class_name": "Unknown",
           "function_name": "store",
           "issue": "Virtual function called in constructor",
@@ -12226,7 +13463,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 162,
+          "line_number": 158,
           "class_name": "Unknown",
           "function_name": "notify_all",
           "issue": "Virtual function called in constructor",
@@ -12236,7 +13473,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 164,
+          "line_number": 160,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -12246,7 +13483,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 186,
+          "line_number": 182,
           "class_name": "Unknown",
           "function_name": "clear",
           "issue": "Virtual function called in constructor",
@@ -12256,7 +13493,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 201,
+          "line_number": 197,
           "class_name": "Unknown",
           "function_name": "load",
           "issue": "Virtual function called in constructor",
@@ -12266,7 +13503,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 206,
+          "line_number": 202,
           "class_name": "Unknown",
           "function_name": "setCircuitBreakerConfig",
           "issue": "Virtual function called in constructor",
@@ -12276,7 +13513,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 212,
+          "line_number": 208,
           "class_name": "Unknown",
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
@@ -12286,7 +13523,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 220,
+          "line_number": 216,
           "class_name": "Unknown",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -12296,7 +13533,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 229,
+          "line_number": 225,
           "class_name": "Unknown",
           "function_name": "circuitRecordSuccess",
           "issue": "Virtual function called in constructor",
@@ -12306,7 +13543,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 235,
+          "line_number": 231,
           "class_name": "Unknown",
           "function_name": "circuitRecordFailure",
           "issue": "Virtual function called in constructor",
@@ -12316,7 +13553,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 242,
+          "line_number": 238,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -12326,7 +13563,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 284,
+          "line_number": 280,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -12336,7 +13573,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 285,
+          "line_number": 281,
           "class_name": "Unknown",
           "function_name": "THEMIS_DEBUG",
           "issue": "Virtual function called in constructor",
@@ -12346,7 +13583,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 311,
+          "line_number": 307,
           "class_name": "Unknown",
           "function_name": "circuitRecordSuccess",
           "issue": "Virtual function called in constructor",
@@ -12356,7 +13593,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 320,
+          "line_number": 316,
           "class_name": "Unknown",
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
@@ -12366,7 +13603,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 328,
+          "line_number": 324,
           "class_name": "Unknown",
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
@@ -12376,7 +13613,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 347,
+          "line_number": 343,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -12386,7 +13623,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 365,
+          "line_number": 361,
           "class_name": "Unknown",
           "function_name": "wildcard",
           "issue": "Virtual function called in constructor",
@@ -12396,7 +13633,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 369,
+          "line_number": 365,
           "class_name": "Unknown",
           "function_name": "find",
           "issue": "Virtual function called in constructor",
@@ -12406,7 +13643,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 407,
+          "line_number": 403,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -12416,17 +13653,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 439,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 448,
+          "line_number": 420,
           "class_name": "Unknown",
           "function_name": "while",
           "issue": "Virtual function called in constructor",
@@ -12436,7 +13663,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 469,
+          "line_number": 423,
+          "class_name": "Unknown",
+          "function_name": "while",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scheduler\\event_trigger.cpp",
+          "line_number": 435,
           "class_name": "Unknown",
           "function_name": "for",
           "issue": "Virtual function called in constructor",
@@ -12446,7 +13683,27 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 474,
+          "line_number": 444,
+          "class_name": "Unknown",
+          "function_name": "while",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scheduler\\event_trigger.cpp",
+          "line_number": 465,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scheduler\\event_trigger.cpp",
+          "line_number": 470,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -12456,7 +13713,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 480,
+          "line_number": 476,
           "class_name": "Unknown",
           "function_name": "shouldDebounce",
           "issue": "Virtual function called in constructor",
@@ -12466,7 +13723,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 489,
+          "line_number": 485,
           "class_name": "Unknown",
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
@@ -12476,7 +13733,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 492,
+          "line_number": 488,
           "class_name": "Unknown",
           "function_name": "count",
           "issue": "Virtual function called in constructor",
@@ -12486,7 +13743,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 500,
+          "line_number": 496,
           "class_name": "Unknown",
           "function_name": "changefeed_",
           "issue": "Virtual function called in constructor",
@@ -12496,7 +13753,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 511,
+          "line_number": 507,
           "class_name": "Unknown",
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
@@ -12506,7 +13763,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 513,
+          "line_number": 509,
           "class_name": "Unknown",
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
@@ -12516,7 +13773,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 523,
+          "line_number": 519,
           "class_name": "Unknown",
           "function_name": "move",
           "issue": "Virtual function called in constructor",
@@ -12526,7 +13783,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 534,
+          "line_number": 530,
           "class_name": "Unknown",
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
@@ -12536,7 +13793,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 544,
+          "line_number": 540,
           "class_name": "Unknown",
           "function_name": "updateTrigger",
           "issue": "Virtual function called in constructor",
@@ -12546,7 +13803,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 555,
+          "line_number": 551,
           "class_name": "Unknown",
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
@@ -12556,11 +13813,227 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scheduler\\event_trigger.cpp",
-          "line_number": 567,
+          "line_number": 563,
           "class_name": "Unknown",
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 459,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (k > 2) rhs += \" \";"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 439,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tokens.push_back(raw.substr(i, j - i + (j < n ? 1 : 0)));"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 464,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "parsed_clauses_.push_back(std::move(pc));"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 307,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "cv_.wait_for(lock, std::chrono::milliseconds(100),"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 459,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t k = 2; k < tokens.size(); ++k) {"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 554,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [id, trigger] : triggers_) {"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 36,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//   key STARTS_WITH \"prefix\""
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 65,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "} else if (op == \"STARTS_WITH\") {"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 123,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void EventTrigger::start() {"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 134,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"EventTrigger started (key_prefix={}, event_types={}, debounce={}ms)\","
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 508,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "trigger->start();"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 551,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void EventTriggerManager::startAll() {"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 556,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "trigger->start();"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 560,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"Started all event triggers (count={})\", triggers_.size());"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 35,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "//   key != \"value\""
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 63,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (op == \"!=\") {"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 64,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return lhs != rhs;"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 71,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return lhs.find(rhs) != std::string::npos;"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 362,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return config_.event_types.find(type) != config_.event_types.end();"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 439,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (j < n && raw[j] != '\"') ++j;"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 501,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (triggers_.find(id) != triggers_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 523,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != triggers_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 534,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != triggers_.end()) {"
+        },
+        {
+          "file": "src\\scheduler\\event_trigger.cpp",
+          "line": 544,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != triggers_.end()) {"
         }
       ],
       "src\\scheduler\\hybrid_retention_manager.cpp": [
@@ -15218,6 +16691,51 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scheduler\\hybrid_retention_manager.cpp",
+          "line": 138,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Restart with new config"
+        },
+        {
+          "file": "src\\scheduler\\hybrid_retention_manager.cpp",
+          "line": 154,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"HybridRetentionManager.executeStage1\");"
+        },
+        {
+          "file": "src\\scheduler\\hybrid_retention_manager.cpp",
+          "line": 444,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"HybridRetentionManager.applyAdaptiveRetention\");"
+        },
+        {
+          "file": "src\\scheduler\\hybrid_retention_manager.cpp",
+          "line": 385,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (metric_pattern != \"*\") {"
+        },
+        {
+          "file": "src\\scheduler\\hybrid_retention_manager.cpp",
+          "line": 389,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "aql << \"AND d.compressed != true \""
         }
       ],
       "src\\scheduler\\task_anomaly_detector.cpp": [
@@ -16269,6 +17787,114 @@
           "function_name": "sorted",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 99,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) metrics.description += \", \";"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 245,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "intervals.push_back(std::chrono::duration<double>(interval).count());"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 397,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (double v : d) arr.push_back(v);"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 407,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ts_arr.push_back(std::chrono::duration_cast<std::chrono::milliseconds>("
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 407,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ts_arr.push_back(std::chrono::duration_cast<std::chrono::milliseconds>("
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 489,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "stats.execution_times.push_back("
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 489,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "stats.execution_times.push_back("
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 498,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "stats.execution_results.push_back(b.get<bool>());"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 407,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& tp : stats.execution_times) {"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 415,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (bool b : stats.execution_results) res_arr.push_back(b);"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 395,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Persist raw deque data so baseline survives restarts"
+        },
+        {
+          "file": "src\\scheduler\\task_anomaly_detector.cpp",
+          "line": 335,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != task_stats_.end()) {"
         }
       ],
       "src\\scheduler\\task_audit_manager.cpp": [
@@ -17573,6 +19199,222 @@
           "function_name": "exportAnomalyStatistics",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 230,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(event);"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 424,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(event);"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 562,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "j.push_back(event.toJson(config_.enable_gdpr_mode));"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 328,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto ts_ms = j[\"timestamp\"].get<int64_t>();"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 485,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto ts_ms = j[\"timestamp\"].get<int64_t>();"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 180,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "bool TaskAuditManager::matchesQuery(const TaskAuditEvent& event,"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 385,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "if (matchesQuery(event, params)) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 126,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "// Also log to main audit logger (for tamper-evident chain)"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 183,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (params.start_time && event.timestamp < *params.start_time) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 411,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (params.start_time && event.timestamp < *params.start_time) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 513,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (params.start_time && event.timestamp < *params.start_time) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 293,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> seen_uuids;"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 455,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> seen_uuids;"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 191,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (params.task_id && event.task_id != *params.task_id) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 196,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (params.user_id && event.user_id != *params.user_id) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 201,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (params.event_type && event.event_type != *params.event_type) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 206,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (params.trigger_type && event.trigger_type != *params.trigger_type) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 211,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (params.success && event.success != *params.success) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 417,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (params.task_id && event.task_id != *params.task_id) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 420,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (params.user_id && event.user_id != *params.user_id) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 519,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (params.task_id && event.task_id != *params.task_id) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 522,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (params.user_id && event.user_id != *params.user_id) {"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 243,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "case AuditQueryParams::SortBy::TIMESTAMP_ASC:"
+        },
+        {
+          "file": "src\\scheduler\\task_audit_manager.cpp",
+          "line": 247,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "case AuditQueryParams::SortBy::TIMESTAMP_DESC:"
         }
       ],
       "src\\scheduler\\task_result_store.cpp": [
@@ -17898,6 +19740,51 @@
           "function_name": "scanPrefix",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scheduler\\task_result_store.cpp",
+          "line": 123,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entries.emplace_back(std::string(k), std::string(v));"
+        },
+        {
+          "file": "src\\scheduler\\task_result_store.cpp",
+          "line": 134,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(TaskExecutionResult::fromJson(j));"
+        },
+        {
+          "file": "src\\scheduler\\task_result_store.cpp",
+          "line": 131,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = entries.size() > limit ? entries.size() - limit : 0;"
+        },
+        {
+          "file": "src\\scheduler\\task_result_store.cpp",
+          "line": 132,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = entries.size(); i-- > start;) {"
+        },
+        {
+          "file": "src\\scheduler\\task_result_store.cpp",
+          "line": 65,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Build a zero-padded 20-digit decimal timestamp so keys sort chronologically."
         }
       ]
     }

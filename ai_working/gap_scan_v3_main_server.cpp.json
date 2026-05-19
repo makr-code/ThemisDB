@@ -1,13 +1,18 @@
 {
   "main_server.cpp": {
-    "total": 359,
+    "total": 444,
     "severity_critical": 0,
-    "severity_high": 359,
-    "severity_medium": 0,
+    "severity_high": 390,
+    "severity_medium": 54,
     "by_category": {
       "exception_safety": 1,
       "uninitialized": 159,
-      "oop_design": 199
+      "oop_design": 199,
+      "audit_logging": 7,
+      "performance_patterns": 5,
+      "llm_ai_safety": 2,
+      "observability": 48,
+      "determinism": 23
     },
     "by_file": {
       "src\\main_server.cpp": [
@@ -3440,6 +3445,771 @@
           "function_name": "THEMIS_INFO",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 516,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "int len = snprintf(buffer, sizeof(buffer),"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 607,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << THEMIS_VERSION_STRING << std::endl;"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 609,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"unknown\" << std::endl;"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 615,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "print_usage(std::cout, argv[0]);"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 657,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << line << std::endl;"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 672,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << license_info << std::endl;"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 674,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"No embedded license data\" << std::endl;"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1550,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "replicas.emplace_back(rep_id, endpoint);"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1614,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "mp_cfg.primary_node_ids.push_back(node_id);"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2390,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entities.emplace_back(entry_id, entry.timestamp);"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2449,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entities.emplace_back(pk, tp);"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2065,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "for (auto it = ff[\"initial\"].begin(); it != ff[\"initial\"].end(); ++it) {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 44,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "//      When absent, LLM plugin manager and all local LLM inference components are"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 3020,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "THEMIS_INFO(\"[3/5] Tensor index flush complete ({} index(es) saved)\", saved);"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 177,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_correlation_id",
+          "description": "Distributed call without correlation ID",
+          "context": "#include \"server/wal_grpc_service.h\""
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2985,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_correlation_id",
+          "description": "Distributed call without correlation ID",
+          "context": "g_wal_grpc_service.reset();"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 622,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "// All runtime logs are written to logs/themis_server.log (rotating, max 10 MB \u00d7 5 files)"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 36,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//      When absent, WAL gRPC service is not started; gRPC-based WAL replication"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 51,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//   6. HSM startup policy (lines ~990\u20131105):"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 55,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//      failures abort startup."
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 58,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//      When absent, hyperscaler and enterprise-specific startup steps are skipped."
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 65,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Production Delta: Startup fails closed in production mode when required build"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 133,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "#include \"security/hsm_startup_policy.h\""
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 245,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "<< \"  --allow-degraded-build  Allow startup with missing production build features\\n\""
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 425,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Lazy Mimalloc Initialization (after CRT startup)"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 567,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "* Start HSM security warning thread"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 569,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void startHSMWarningThread() {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 573,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"HSM security warning thread started (5-minute interval)\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 683,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Display build configuration and edition information (startup logging)"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 717,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"HYPERSCALER Edition requires a valid license. Server cannot start.\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 723,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"ENTERPRISE Edition (Release build) requires a valid license. Server cannot start.\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 727,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Note: We continue to start the server for Community/Debug builds but log the warning"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 741,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"HYPERSCALER Edition requires a valid license signature. Server cannot start.\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 940,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto startup_capability_report = themis::server::makeStartupCapabilityReport("
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 949,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"Startup capability report: {}\", startup_capability_report.dump());"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 951,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_WARN(\"Startup capability warning: {}\", warning);"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 955,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_CRITICAL(\"Server startup aborted: capability/profile validation failed\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1121,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Perform startup security validation"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1126,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "startHSMWarningThread();"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1128,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_CRITICAL(\"HSM stub provider active without explicit opt-in; startup validation will block launch\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1132,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "startHSMWarningThread();"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1142,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_CRITICAL(\"Server startup aborted: HSM profile policy validation failed\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1154,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto runtime_capability_report = themis::server::makeStartupCapabilityReport("
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1166,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"Startup capability report (post-HSM): {}\", runtime_capability_report.dump());"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1168,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Validate production safety (will fail startup if stub in production without flag)"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1170,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_CRITICAL(\"Server startup aborted due to HSM security violation\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1171,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Clean up warning thread if it was started"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1201,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool load_on_startup = vi.value(\"load_on_startup\", true);"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1217,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "load_on_startup ? vector_save_path : std::string());"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1438,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Create and start HTTP server"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1918,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start background anti-entropy threads (scan + repair workers)"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1919,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "g_shard_repair_engine->start();"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1920,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"ShardRepairEngine wired + started \u2192 /v1/admin/repair/* active\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1922,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_WARN(\"ShardRepairEngine wiring/start failed \u2014 running without anti-entropy: {}\", ex.what());"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1983,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start watchdog using the flag already determined above"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1985,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "module_loader->startWatchdog();"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1986,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"ModuleLoader: watchdog started\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2169,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start WAL gRPC Apply service (if stubs are available)"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2275,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"WAL gRPC stubs not found; skipping gRPC Apply service startup\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2283,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// SIGHUP: reload TLS certificates without restarting"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2751,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Comprehensive startup configuration debug output"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2754,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"  \u2705 THEMIS DATABASE SERVER STARTUP COMPLETE\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 861,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = n.begin(); it != n.end(); ++it) {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 1746,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = collections.begin(); it != collections.end(); ++it) {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2065,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = ff[\"initial\"].begin(); it != ff[\"initial\"].end(); ++it) {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2214,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "require_client_cert = (req_str != \"false\" && req_str != \"0\" && req_str != \"no\");"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2405,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (policy_name.find(\"user\") != std::string::npos || policy_name.find(\"personal\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2407,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (policy_name.find(\"transaction\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2409,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (policy_name.find(\"session\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2411,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (policy_name.find(\"analytics\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2413,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (policy_name.find(\"backup\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2899,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ep.path.find(\"/cache/\") != std::string::npos) category = \"Cache (Feature)\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2900,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/llm/\") != std::string::npos) category = \"LLM (Feature)\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2901,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/changefeed\") != std::string::npos) category = \"CDC (Feature)\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2902,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/ts/\") != std::string::npos) category = \"TimeSeries (Feature)\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2903,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/pii/\") != std::string::npos) category = \"PII (Feature)\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2904,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/api/v1/\") != std::string::npos) category = \"API v1\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2905,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/vector/\") != std::string::npos) category = \"Vector\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2906,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/graph/\") != std::string::npos) category = \"Graph\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2907,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/search/\") != std::string::npos) category = \"Search\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2908,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/auth/\") != std::string::npos) category = \"Auth\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2909,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/admin/\") != std::string::npos) category = \"Admin\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2910,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "else if (ep.path.find(\"/graphql\") != std::string::npos) category = \"GraphQL\";"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2913,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (category != current_category && !current_category.empty()) {"
+        },
+        {
+          "file": "src\\main_server.cpp",
+          "line": 2916,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (category != current_category) {"
         }
       ]
     }

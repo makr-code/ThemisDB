@@ -1,9 +1,9 @@
 {
   "tensor": {
-    "total": 1105,
+    "total": 1223,
     "severity_critical": 128,
-    "severity_high": 850,
-    "severity_medium": 127,
+    "severity_high": 906,
+    "severity_medium": 189,
     "by_category": {
       "security": 15,
       "memory": 29,
@@ -16,7 +16,11 @@
       "input_validation": 80,
       "exception_safety": 14,
       "uninitialized": 204,
-      "oop_design": 419
+      "oop_design": 419,
+      "audit_logging": 4,
+      "performance_patterns": 49,
+      "observability": 21,
+      "determinism": 44
     },
     "by_file": {
       "src\\tensor\\adapter_repository.cpp": [
@@ -779,6 +783,69 @@
           "function_name": "findSimilar",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 236,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::fprintf(stderr,"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 242,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::fprintf(stderr,"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 362,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::fprintf(stderr,"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 369,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::fprintf(stderr,"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 294,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "domains.push_back(rest.substr(0, sep));"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 320,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.emplace_back(rest.substr(0, sep), rest.substr(sep + 1));"
+        },
+        {
+          "file": "src\\tensor\\adapter_repository.cpp",
+          "line": 316,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& key : keys) {"
         }
       ],
       "src\\tensor\\hnsw_tt_bridge.cpp": [
@@ -2357,6 +2424,78 @@
           "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 223,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(dist_ids[i].second);"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 344,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back({ cid, 1.0f - sim, tn });"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 162,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != id_to_label_.end()) {"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 196,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != label_to_id_.end())"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 251,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != trains.end()) ? &it->second : nullptr;"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 481,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (in.fail() || std::memcmp(magic, kHtbMagic, 10) != 0) return false;"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 485,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (in.fail() || version != kHtbVersion) return false;"
+        },
+        {
+          "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+          "line": 622,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (d == 0 || d != B.cores.size()) return 0.0f;"
         }
       ],
       "src\\tensor\\tensor_index.cpp": [
@@ -3176,6 +3315,60 @@
           "function_name": "empty",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 131,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back({ id, dist, t_n });"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 392,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Transfer vector T starts as scalar 1"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 192,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != store_.end()) ? &it->second : nullptr;"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 270,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (in.fail() || std::memcmp(magic, kMagic, 10) != 0) return false;"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 274,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (in.fail() || version != kVersion) return false;"
+        },
+        {
+          "file": "src\\tensor\\tensor_index.cpp",
+          "line": 390,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (d == 0 || d != B.cores.size()) return 0.0f;"
         }
       ],
       "src\\tensor\\tensor_index_manager.cpp": [
@@ -3769,6 +3962,96 @@
           "function_name": "NOTE",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 268,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "escaped += (c == ':' || c == '/' || c == '\\\\') ? '_' : c;"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 268,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "escaped += (c == ':' || c == '/' || c == '\\\\') ? '_' : c;"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 203,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "to_del.emplace_back(k);"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 231,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (k.substr(0, prefix.size()) == prefix) out.push_back(h);"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 231,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (k.substr(0, prefix.size()) == prefix) out.push_back(h);"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 280,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "snapshot.emplace_back(k, idx.get());"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 339,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ptrs.emplace_back(core.data.data(),"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 114,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != indexes_.end()) return it->second.get();"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 148,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != indexes_.end()) ? it->second.get() : nullptr;"
+        },
+        {
+          "file": "src\\tensor\\tensor_index_manager.cpp",
+          "line": 184,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = indexes_.begin(); it != indexes_.end(); ) {"
         }
       ],
       "src\\tensor\\tensor_mmap_bridge.cpp": [
@@ -4282,6 +4565,33 @@
           "function_name": "total_bytes_",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 188,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "bridge->slices_.push_back({nullptr, 0, ci, 0});"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 118,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return ::VirtualLock(ptr, bytes) != 0;"
+        },
+        {
+          "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+          "line": 280,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &other) {"
         }
       ],
       "src\\tensor\\tensor_butterfly_operator.cpp": [
@@ -5421,6 +5731,159 @@
           "function_name": "gridShape",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 187,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "op_matrices_.push_back(buildHadamardMatrix(nk));"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 276,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t al = 0; al < r_left; ++al) {"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 277,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t ar = 0; ar < r_right; ++ar) {"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 278,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t i = 0; i < n_k; ++i)"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 281,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t i = 0; i < n_k; ++i)"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 353,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t k = 0; k < result.cores.size(); ++k) {"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 361,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t al = 0; al < r_left; ++al) {"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 362,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t ar = 0; ar < r_right; ++ar) {"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 364,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t i = 0; i < n_k; ++i) {"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 101,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (std::size_t start = 0; start < n; start += 2 * half) {"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 103,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const float u = data[start + j];"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 104,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const float w = data[start + j + half];"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 105,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "data[start + j]        = u + w;"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 106,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "data[start + j + half] = u - w;"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 317,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cfg_.type != OperatorType::FOURIER) {"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 324,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data.cores.size() != cfg_.grid_shape.size()) {"
+        },
+        {
+          "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+          "line": 332,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data.cores[k].n != cfg_.grid_shape[k]) {"
         }
       ],
       "src\\tensor\\tensor_fingerprint_graph.cpp": [
@@ -5956,6 +6419,33 @@
           "function_name": "adapterKeys",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 112,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (float v : G0.data) norm += v * v;"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 72,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.size() != b.size() || a.empty()) return 0.0f;"
+        },
+        {
+          "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+          "line": 167,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!tenant_id.empty() && ent.tenant_id != tenant_id) continue;"
         }
       ],
       "src\\tensor\\tensor_ingestion_bridge.cpp": [
@@ -6378,6 +6868,24 @@
           "function_name": "description",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
+          "line": 92,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Rademacher random projection (stub #159 resolved 2026-05-06)."
+        },
+        {
+          "file": "src\\tensor\\tensor_ingestion_bridge.cpp",
+          "line": 101,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// \u03ba estimate that deviates \u2264 5% from the true value on random and"
         }
       ],
       "src\\tensor\\hiss_structural_search.cpp": [
@@ -7848,6 +8356,123 @@
           "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 229,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "nodes_.push_back(std::move(node));"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 257,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (e.from == node_index) out.push_back(e.to);"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 257,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (e.from == node_index) out.push_back(e.to);"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 324,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidates.push_back(std::move(e));"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 417,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "bit_depths.push_back(bit_depth);"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 166,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "const auto bd = bit_depths[d];"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 202,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "const auto bd = bit_depths[d];"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 332,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::uint64_t, TensorGraphEdge> best_by_edge;"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 130,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ndims == 0 || ndims != bit_depths.size() || ndims != padded_grid_sizes.size()) {"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 179,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ndims == 0 || ndims != bit_depths.size() || ndims != padded_grid_sizes.size()) {"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 361,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (e.topology != \"reshaped\") continue;"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 382,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!grid_sizes.empty() && !train.mode_sizes.empty() && grid_sizes.size() != train.mode_sizes.size()) {"
+        },
+        {
+          "file": "src\\tensor\\hiss_structural_search.cpp",
+          "line": 391,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (original_dense_elements != reshaped_dense_elements) {"
         }
       ],
       "src\\tensor\\hyper_index_builder.cpp": [
@@ -9456,6 +10081,132 @@
           "function_name": "setBucketAssignmentFn",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 87,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "buckets.push_back(numericBucket(row.numeric_values[num_col],"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 183,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "values.push_back(row.numeric_values[numeric_index]);"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 207,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(values[idx]);"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 267,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(value);"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 401,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "roots.push_back(node);"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 407,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "roots.push_back(node);"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 465,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "const auto propagated_bucket = signal_bucket_sum[k] / signal_weight[k];"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 569,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (std::size_t k = 0; k < d; ++k) {"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 250,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::size_t> frequencies;"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 429,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::size_t> visited;"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (col.type != ColumnType::NUMERIC) {"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 231,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (col.type != ColumnType::CATEGORY) {"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 260,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lhs.second != rhs.second) {"
+        },
+        {
+          "file": "src\\tensor\\hyper_index_builder.cpp",
+          "line": 606,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (assigned.size() != schema.size()) {"
         }
       ],
       "src\\tensor\\tensor_core_bridge.cpp": [
@@ -9763,6 +10514,42 @@
           "function_name": "writeCount",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 16,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//   RocksDB-backed backend is injected.  Data is not persisted across restarts."
+        },
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 19,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Production Delta: Data loss on process restart; no compaction or versioning."
+        },
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 94,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tenant_id.find('/') != std::string::npos) {"
+        },
+        {
+          "file": "src\\tensor\\tensor_core_bridge.cpp",
+          "line": 133,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tenant_id.find('/') != std::string::npos ||"
         }
       ],
       "src\\tensor\\tnsr_task.cpp": [
@@ -10019,6 +10806,24 @@
           "function_name": "maxRank",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\tnsr_task.cpp",
+          "line": 72,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto t_start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\tensor\\tnsr_task.cpp",
+          "line": 206,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::duration_cast<std::chrono::microseconds>(t_end - t_start).count()"
         }
       ],
       "src\\tensor\\utr_converter.cpp": [
@@ -11631,6 +12436,195 @@
           "function_name": "lexicalEmbed",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 196,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!seg.empty()) segments.push_back(seg);"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 523,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "patch_features.push_back(static_cast<float>(mean));"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 523,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "patch_features.push_back(static_cast<float>(mean));"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 523,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "patch_features.push_back(static_cast<float>(mean));"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 176,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::size_t start = 0;"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 177,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "while (start < text.size()) {"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 178,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto pos = text.find(\"\\n\\n\", start);"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 180,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto seg = text.substr(start, end - start);"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 182,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start = (pos == std::string::npos) ? text.size() : (pos + 2U);"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 191,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::size_t start = 0;"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 196,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto seg = text.substr(start, i + 1 - start);"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 198,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start = i + 1;"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 199,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "while (start < text.size() && text[start] == ' ') ++start;"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 202,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start < text.size()) {"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 203,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto seg = text.substr(start);"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 368,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (grid.values.size() != expected) {"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 371,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "\") != rows*cols (\" + std::to_string(expected) + \")\");"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 444,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pixels.size() != expected) {"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 447,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "\") != h*w*c (\" + std::to_string(expected) + \")\");"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 601,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (emb.size() != embed_dim) {"
+        },
+        {
+          "file": "src\\tensor\\utr_converter.cpp",
+          "line": 611,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (emb.size() != embed_dim) {"
         }
       ],
       "src\\tensor\\ht_index.cpp": [
@@ -11984,6 +12978,78 @@
           "function_name": "id",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 38,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entries_.push_back({id, std::move(train)});"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 58,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back({e.id, sim});"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 96,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "void appendU8(std::vector<uint8_t>& buf, uint8_t v) { buf.push_back(v); }"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 170,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entries_.push_back({std::move(id), std::move(*ht)});"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 33,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& e : entries_) {"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 57,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& e : entries_) {"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 146,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!r.u64(magic) || magic != kFlatHTMagic) return false;"
+        },
+        {
+          "file": "src\\tensor\\ht_index.cpp",
+          "line": 147,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!r.u8(ver)    || ver   != kFlatHTVersion) return false;"
         }
       ]
     }

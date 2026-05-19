@@ -1,9 +1,9 @@
 {
   "distributed_knowledge": {
-    "total": 303,
-    "severity_critical": 19,
-    "severity_high": 269,
-    "severity_medium": 15,
+    "total": 418,
+    "severity_critical": 43,
+    "severity_high": 338,
+    "severity_medium": 37,
     "by_category": {
       "memory": 2,
       "reliability": 38,
@@ -13,7 +13,11 @@
       "input_validation": 5,
       "exception_safety": 6,
       "uninitialized": 36,
-      "oop_design": 194
+      "oop_design": 194,
+      "performance_patterns": 9,
+      "distributed_consistency": 83,
+      "observability": 2,
+      "determinism": 21
     },
     "by_file": {
       "src\\distributed_knowledge\\lora_federation_coordinator.cpp": [
@@ -1328,6 +1332,123 @@
           "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 577,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "norms.push_back(l2norm(grad.data));"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 508,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "future.wait_for(std::chrono::milliseconds(timeout_ms))"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 456,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "bool LoRAFederationCoordinator::verifyPrivacyBudget() const {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 515,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "return future.get();"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 110,
+          "category": "distributed_consistency",
+          "severity": "MEDIUM",
+          "pattern": "stale_read_undocumented",
+          "description": "Eventual/stale read without documentation of correctness",
+          "context": "return; // silently ignore stale or future rounds"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 340,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "* std::sqrt(2.0 * std::log(1.25 / config_.dp_delta))"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 32,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 343,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::mt19937 rng(std::random_device{}());"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 77,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &other) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 109,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (gradient.round != current_round_) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 169,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (loc_it != shard_locations_.end()) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 236,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = pending_gradients_.begin(); it != pending_gradients_.end(); ) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line": 509,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "!= std::future_status::ready)"
         }
       ],
       "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp": [
@@ -1797,6 +1918,51 @@
           "function_name": "clear",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line": 11,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line": 179,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Simple pseudo-UUID using timestamp + random suffix"
+        },
+        {
+          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line": 183,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::mt19937_64 rng(std::random_device{}());"
+        },
+        {
+          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line": 184,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<uint64_t> dist;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line": 46,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "summary.reason_embedding.size() != config_.max_embedding_dim)"
         }
       ],
       "src\\distributed_knowledge\\federated_distillation_coordinator.cpp": [
@@ -2429,6 +2595,78 @@
           "function_name": "clamp",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 357,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& label : labels) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 358,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& p : label.probabilities) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 85,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "if (!verifyPrivacyBudget()) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 112,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "if (!verifyPrivacyBudget()) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 299,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "bool FederatedDistillationCoordinator::verifyPrivacyBudget() const"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 33,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "return sensitivity * std::sqrt(2.0 * std::log(1.25 / delta)) / epsilon;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 17,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line": 354,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::mt19937_64 rng(rd());"
         }
       ],
       "src\\distributed_knowledge\\federated_rag_merger.cpp": [
@@ -2894,6 +3132,807 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 44,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "snippet += \"\\n  Entities: \" + it->second;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 186,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "merged.push_back(std::move(doc));"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 223,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "merged.push_back(std::move(doc));"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 242,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "lists.push_back(&sr.documents);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 275,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(doc));"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 4,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "* @file federated_rag_merger.cpp"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 5,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "* @brief Ebene C \u2014 Cross-Shard RAG result merge implementation."
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 7,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "* Implements Reciprocal Rank Fusion (RRF), score-weighted merge, and"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 15,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "#include \"distributed_knowledge/federated_rag_merger.h\""
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 26,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "// MergedRAGContext::buildPromptContext"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 29,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "std::string MergedRAGContext::buildPromptContext("
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 67,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "// FederatedRAGMerger"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 115,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "std::vector<RetrievedDocument> merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 117,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "case MergeStrategy::RECIPROCAL_RANK_FUSION:"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 118,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "merged = mergeRRF(shard_results);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 120,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "case MergeStrategy::SCORE_WEIGHTED:"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 121,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "merged = mergeScoreWeighted(shard_results);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 123,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "case MergeStrategy::ROUND_ROBIN:"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 124,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "merged = mergeRoundRobin(shard_results);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 183,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "std::vector<RetrievedDocument> merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 184,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "merged.reserve(rrf_scores.size());"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 220,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "std::vector<RetrievedDocument> merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 221,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "merged.reserve(sum_scores.size());"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 247,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "std::vector<RetrievedDocument> merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 251,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "while (any_remaining && merged.size() < config_.top_k * 2) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 283,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "// DK-OR: GDPR erase (clears cached merge context)"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 286,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "themis::governance::StoreErasureResult FederatedRAGMerger::erase("
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 291,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "// FederatedRAGMerger is stateless (no cached merge contexts); erase is a"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 294,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "result.store_id       = \"FederatedRAGMerger\";"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 4,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "* @file federated_rag_merger.cpp"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 5,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "* @brief Ebene C \u2014 Cross-Shard RAG result merge implementation."
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 7,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "* Implements Reciprocal Rank Fusion (RRF), score-weighted merge, and"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 15,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "#include \"distributed_knowledge/federated_rag_merger.h\""
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 26,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// MergedRAGContext::buildPromptContext"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 29,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::string MergedRAGContext::buildPromptContext("
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 67,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// FederatedRAGMerger"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 70,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "FederatedRAGMerger::FederatedRAGMerger(FederatedRAGMergerConfig config)"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 74,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "throw std::invalid_argument(\"FederatedRAGMerger: invalid config\");"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 79,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// merge"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 82,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "MergedRAGContext FederatedRAGMerger::merge("
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 102,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "MergedRAGContext ctx;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 106,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// Count candidates before merge (skip timed-out shards)"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 114,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// Run merge strategy"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 115,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::vector<RetrievedDocument> merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 117,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "case MergeStrategy::RECIPROCAL_RANK_FUSION:"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 118,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged = mergeRRF(shard_results);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 120,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "case MergeStrategy::SCORE_WEIGHTED:"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 121,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged = mergeScoreWeighted(shard_results);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 123,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "case MergeStrategy::ROUND_ROBIN:"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 124,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged = mergeRoundRobin(shard_results);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 130,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged = deduplicate(std::move(merged));"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 132,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "ctx.unique_doc_count = merged.size();"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 135,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "if (merged.size() > config_.top_k) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 136,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged.resize(config_.top_k);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 139,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "ctx.documents = std::move(merged);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 143,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::string FederatedRAGMerger::mergeAndBuildContext("
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 148,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "return merge(shard_results).buildPromptContext(max_docs, max_chars);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 152,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// mergeRRF (internal)"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 155,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::vector<RetrievedDocument> FederatedRAGMerger::mergeRRF("
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 183,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::vector<RetrievedDocument> merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 184,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged.reserve(rrf_scores.size());"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 187,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged.push_back(std::move(doc));"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 189,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::sort(merged.begin(), merged.end(),"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 193,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "return merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 197,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// mergeScoreWeighted (internal)"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 200,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::vector<RetrievedDocument> FederatedRAGMerger::mergeScoreWeighted("
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 220,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::vector<RetrievedDocument> merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 221,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged.reserve(sum_scores.size());"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 224,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged.push_back(std::move(doc));"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 226,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::sort(merged.begin(), merged.end(),"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 230,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "return merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 234,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// mergeRoundRobin (internal)"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 237,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::vector<RetrievedDocument> FederatedRAGMerger::mergeRoundRobin("
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 247,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::vector<RetrievedDocument> merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 251,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "while (any_remaining && merged.size() < config_.top_k * 2) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 255,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged.push_back((*list)[pos]);"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 261,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "return merged;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 268,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::vector<RetrievedDocument> FederatedRAGMerger::deduplicate("
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 283,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// DK-OR: GDPR erase (clears cached merge context)"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 286,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "themis::governance::StoreErasureResult FederatedRAGMerger::erase("
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 291,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// FederatedRAGMerger is stateless (no cached merge contexts); erase is a"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 294,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "result.store_id       = \"FederatedRAGMerger\";"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 159,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, double>           rrf_scores;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 160,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, RetrievedDocument> best_doc;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 203,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, double>            sum_scores;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 204,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, RetrievedDocument> best_doc;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 271,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> seen;"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 44,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != doc.metadata.end() && !it->second.empty()) {"
+        },
+        {
+          "file": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line": 92,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_.shard_timeout_ms != std::numeric_limits<size_t>::max()) {"
         }
       ],
       "src\\distributed_knowledge\\adapter_capability_announcement.cpp": [

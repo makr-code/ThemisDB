@@ -1,9 +1,9 @@
 {
   "cache": {
-    "total": 1461,
-    "severity_critical": 156,
-    "severity_high": 1182,
-    "severity_medium": 123,
+    "total": 1969,
+    "severity_critical": 158,
+    "severity_high": 1640,
+    "severity_medium": 171,
     "by_category": {
       "security": 62,
       "memory": 16,
@@ -16,7 +16,12 @@
       "input_validation": 65,
       "exception_safety": 10,
       "uninitialized": 554,
-      "oop_design": 421
+      "oop_design": 421,
+      "performance_patterns": 32,
+      "query_correctness": 349,
+      "distributed_consistency": 6,
+      "observability": 42,
+      "determinism": 79
     },
     "by_file": {
       "src\\cache\\adaptive_query_cache.cpp": [
@@ -5608,6 +5613,3777 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1759,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "keys.push_back(\"L1:\" + key.substr(0, 16) + \"...\");"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1768,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "keys.push_back(\"L2:\" + key.substr(0, 16) + \"...\");"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 745,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& pii_uuid : pii_uuids) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 941,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 955,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1095,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& del_key : keys) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1098,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& del_key : pii_ref_keys) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1114,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1271,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1304,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end(); ++it) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1758,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [key, entry] : l1_cache_) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1767,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [key, entry] : l2_cache_) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1864,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1881,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1920,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& key : keys_to_delete) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2003,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& k : keys_to_purge) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2081,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& ck : cache_keys) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2086,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& rk : pii_ref_keys) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2357,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 8,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "Last Modified:   2026-04-15 18:48:42                                \u2551"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 51,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 76,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache::RateLimiter::Config rl_config;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 78,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "rate_limiter_ = std::make_unique<cache::RateLimiter>(rl_config);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 84,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache::CircuitBreaker::Config cb_config;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 87,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l3_circuit_breaker_ = std::make_unique<cache::CircuitBreaker>(cb_config);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 93,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_eviction_strategy_ = cache::makeEvictionStrategy("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 95,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l2_eviction_strategy_ = cache::makeEvictionStrategy("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 100,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache::PredictivePrefetcher::Config pf_config;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 107,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "prefetcher_ = std::make_unique<cache::PredictivePrefetcher>(pf_config);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 121,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "RocksDBWrapper::Config db_config;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 128,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l3_db_ = std::make_shared<RocksDBWrapper>(db_config);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 131,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 136,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 162,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> alive_lock(alive_guard_->mutex);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 173,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string AdaptiveQueryCache::generateFingerprint("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 174,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& query,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 175,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const nlohmann::json& params,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 176,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& tenant_id"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 179,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string input = query;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 186,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "input += \"::tenant:\" + tenant_id;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 195,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ostringstream ss;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 196,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ss << std::hex << std::setfill('0');"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 198,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ss << std::setw(2) << static_cast<int>(hash[i]);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 204,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 205,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& fingerprint,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 206,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& tenant_id"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 209,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string key = (config_.enable_tenant_isolation && !tenant_id.empty())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 223,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 243,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ptr->last_accessed_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 244,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int64_t new_count = ptr->access_count.fetch_add(1, std::memory_order_relaxed) + 1;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 248,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int64_t ws = ptr->window_start_ms.load(std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 252,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ws, now_ms, std::memory_order_relaxed)) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 253,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "uint32_t wc = ptr->window_count.exchange(1, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 255,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int old_ttl = ptr->ttl_seconds.load(std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 256,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int new_ttl = std::max(static_cast<int>(old_ttl * 0.5),"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 259,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "old_ttl, new_ttl, std::memory_order_relaxed)) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 263,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 266,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "uint32_t wc = ptr->window_count.fetch_add(1, std::memory_order_relaxed) + 1;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 268,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int old_ttl = ptr->ttl_seconds.load(std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 269,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int new_ttl = std::min(static_cast<int>(old_ttl * 1.5),"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 272,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "old_ttl, new_ttl, std::memory_order_relaxed)) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 277,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ptr->ttl_seconds.store(new_ttl, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 279,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ptr->created_at_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 288,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> tlock(tenant_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 301,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache_result.level             = CacheLevel::HOT;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 302,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache_result.created_at_ms     = ptr->created_at_ms.load(std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 303,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache_result.last_accessed_ms  = ptr->last_accessed_ms.load(std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 304,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache_result.access_count      = ptr->access_count.load(std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 305,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache_result.ttl_seconds       = ptr->ttl_seconds.load(std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 315,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 330,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string json_str(decompressed.begin(), decompressed.end());"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 331,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json result = nlohmann::json::parse(json_str);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 344,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry.ttl_seconds = std::max("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 358,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry.ttl_seconds = std::min("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 376,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> tlock(tenant_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 387,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto l1_entry = std::make_unique<L1Entry>();"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 389,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->created_at_ms.store(entry.created_at_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 390,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->last_accessed_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 391,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->access_count.store(entry.access_count, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 392,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->ttl_seconds.store(entry.ttl_seconds, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 393,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->window_start_ms.store(entry.window_start_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 394,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->window_count.store(entry.window_count, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 396,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 398,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "evictLRU(CacheLevel::HOT);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 401,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_cache_[key] = std::move(l1_entry);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 403,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 417,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache_entry.level = CacheLevel::WARM;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 447,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 448,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::optional<std::vector<uint8_t>> result;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 452,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 463,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return std::nullopt;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 468,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string json_str(result->begin(), result->end());"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 469,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json entry_json = nlohmann::json::parse(json_str);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 494,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ttl_seconds = std::max("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 510,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ttl_seconds = std::min("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 533,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> tlock(tenant_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 552,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache_entry.level = CacheLevel::COLD;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 561,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 573,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> tlock(tenant_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 581,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return std::nullopt;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 584,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "bool AdaptiveQueryCache::put("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 585,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& fingerprint,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 586,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const nlohmann::json& query_params,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 587,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const nlohmann::json& result,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 588,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& tenant_id,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 589,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::vector<std::string>& pii_uuids"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 597,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_ptr<cache::ICacheReplicationListener> rep_listener;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 599,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> rep_lock(replication_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 604,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string result_str = result.dump();"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 620,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string key = (config_.enable_tenant_isolation && !tenant_id.empty())"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 637,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_ptr<cache::ICacheCoordinator> repl_coord;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 639,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(coordinator_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 648,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 657,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unique_lock<std::shared_mutex> l1_lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 659,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "evictLRU(CacheLevel::HOT);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 661,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto l1_entry = std::make_unique<L1Entry>();"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 663,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->created_at_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 664,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->last_accessed_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 665,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->access_count.store(1, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 666,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->ttl_seconds.store(config_.enable_adaptive_ttl ? calculateAdaptiveTTL(0) : config_.l1_ttl_seconds, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 667,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->window_start_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 668,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_entry->window_count.store(0, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 669,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_cache_[key] = std::move(l1_entry);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 671,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 678,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto compressed = utils::zstd_compress(result_str, config_.l2_compression_level);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 680,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> l2_lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 682,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "evictLRU(CacheLevel::WARM);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 685,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l2_entry.compressed_result = std::move(compressed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 693,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l2_cache_[key] = std::move(l2_entry);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 704,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json l3_entry_json;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 714,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> l3_lock(l3_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 733,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 744,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> plock(pii_index_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 751,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> tlock(tenant_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 756,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache::CacheReplicationEvent ev;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 757,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ev.type = cache::CacheReplicationEventType::WRITE;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 769,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (level == CacheLevel::HOT && result_size < config_.l1_max_entry_size) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 771,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 773,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "evictLRU(CacheLevel::HOT);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 775,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto entry = std::make_unique<L1Entry>();"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 777,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->created_at_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 778,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->last_accessed_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 779,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->access_count.store(1, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 780,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->ttl_seconds.store(ttl_seconds, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 781,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->window_start_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 782,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->window_count.store(0, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 783,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_cache_[key] = std::move(entry);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 785,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 791,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> tenant_lock(tenant_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 795,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> plock(pii_index_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 803,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache::CacheReplicationEvent ev;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 804,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ev.type = cache::CacheReplicationEventType::WRITE;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 814,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (level == CacheLevel::WARM && result_size < config_.l2_max_entry_size) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 815,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto compressed = utils::zstd_compress(result_str, config_.l2_compression_level);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 822,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 824,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "evictLRU(CacheLevel::WARM);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 827,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry.compressed_result = std::move(compressed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 835,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l2_cache_[key] = std::move(entry);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 841,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> plock(pii_index_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 849,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache::CacheReplicationEvent ev;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 850,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ev.type = cache::CacheReplicationEventType::WRITE;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 866,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json entry_json;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 876,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 877,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string payload = entry_json.dump();"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 880,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l3_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 895,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 904,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache::CacheReplicationEvent ev;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 905,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ev.type = cache::CacheReplicationEventType::WRITE;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 980,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string fingerprint(key.substr(QUERY_CACHE_PREFIX_LEN));"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 981,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (std::regex_search(fingerprint, re)) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1039,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_ptr<cache::ICacheReplicationListener> rep_listener;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1041,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> rep_lock(replication_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1045,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache::CacheReplicationEvent ev;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1057,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1060,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1066,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1073,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> plock(pii_index_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1079,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> keys;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1080,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> pii_ref_keys;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1083,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l3_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1084,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&keys](std::string_view key, std::string_view) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1089,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l3_db_->scanPrefix(\"pii_ref:\", [&pii_ref_keys](std::string_view key, std::string_view) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1101,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1109,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "uint64_t AdaptiveQueryCache::clearExpired() {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1113,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::scoped_lock<std::shared_mutex, std::mutex> lock(l1_mutex_, l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1115,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (isExpired(it->second->created_at_ms.load(std::memory_order_relaxed),"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1116,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "it->second->ttl_seconds.load(std::memory_order_relaxed))) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1128,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1149,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "AdaptiveQueryCache::CacheStats AdaptiveQueryCache::getStats() const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1153,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1154,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json info;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1169,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1170,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string eviction_name;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1172,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evl(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1173,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "eviction_name = std::string(l1_eviction_strategy_->getName());"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1184,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1189,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "{\"eviction_policy\", std::string(l2_eviction_strategy_->getName())}"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1225,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int64_t AdaptiveQueryCache::getCurrentTimeMs() const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1226,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return std::chrono::duration_cast<std::chrono::milliseconds>("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1227,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::system_clock::now().time_since_epoch()"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1231,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "bool AdaptiveQueryCache::isExpired(int64_t created_at_ms, int ttl_seconds) const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1237,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int AdaptiveQueryCache::calculateAdaptiveTTL(int64_t access_count) const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1248,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "double log_factor = std::log(static_cast<double>(access_count + 1)) / config_.adaptive_ttl_scaling_factor;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1252,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "adaptive_ttl = std::max(adaptive_ttl, config_.adaptive_ttl_min_seconds);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1253,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "adaptive_ttl = std::min(adaptive_ttl, config_.adaptive_ttl_max_seconds);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1258,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "AdaptiveQueryCache::CacheLevel AdaptiveQueryCache::selectCacheLevel(size_t result_size) const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1260,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return CacheLevel::HOT;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1262,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return CacheLevel::WARM;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1264,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return CacheLevel::COLD;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1268,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::evictLRU(CacheLevel level) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1269,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (level == CacheLevel::HOT) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1272,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (it->second->expired_flag.load(std::memory_order_relaxed)) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1274,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1287,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::optional<std::string> victim;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1289,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1294,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1302,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "lru_it->second->last_accessed_ms.load(std::memory_order_relaxed),"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1303,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "lru_it->second->access_count.load(std::memory_order_relaxed));"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1306,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "it->second->last_accessed_ms.load(std::memory_order_relaxed),"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1307,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "it->second->access_count.load(std::memory_order_relaxed));"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1314,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1322,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} else if (level == CacheLevel::WARM) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1351,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "double AdaptiveQueryCache::calculateLRUScore(int64_t last_accessed_ms, int64_t access_count) const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1364,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "bool AdaptiveQueryCache::isWithinSizeLimit(size_t size) const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1499,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string AdaptiveQueryCache::makeTenantKey("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1500,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& fingerprint,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1501,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& tenant_id"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1538,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "bool AdaptiveQueryCache::writeThroughToL3("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1539,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& fingerprint,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1540,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const nlohmann::json& query_params,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1541,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const nlohmann::json& result,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1567,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1570,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l3_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1581,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1600,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json AdaptiveQueryCache::getStatsByTier() const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1601,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json stats;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1605,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1611,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evl(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1612,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "stats[\"l1\"][\"eviction_policy\"] = std::string(l1_eviction_strategy_->getName());"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1618,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1623,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "stats[\"l2\"][\"eviction_policy\"] = std::string(l2_eviction_strategy_->getName());"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1645,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json AdaptiveQueryCache::getHealthStatus() const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1646,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json health;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1648,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "health[\"warnings\"] = nlohmann::json::array();"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1651,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json tiers;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1655,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1658,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string tier_status = (util > 0.9) ? \"DEGRADED\" : \"OK\";"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1667,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "health[\"warnings\"].push_back(\"L1 cache utilization high: \" + std::to_string(util * 100) + \"%\");"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1673,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1676,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string tier_status = (util > 0.9) ? \"DEGRADED\" : \"OK\";"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1685,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "health[\"warnings\"].push_back(\"L2 cache utilization high: \" + std::to_string(util * 100) + \"%\");"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1693,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string tier_status = l3_open ? \"UNAVAILABLE\" : (l3_enabled ? \"OK\" : \"DISABLED\");"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1713,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(coordinator_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1752,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> keys;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1757,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1766,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1776,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json AdaptiveQueryCache::getTenantStats() const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1777,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json tenant_stats;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1787,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(tenant_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1789,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json tenant_info;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1805,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json AdaptiveQueryCache::getTenantStatsForTenant(const std::string& tenant_id) const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1807,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json result;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1813,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(tenant_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1816,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json result;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1824,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json result;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1837,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "size_t AdaptiveQueryCache::bulkPut("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1838,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::vector<std::tuple<std::string, nlohmann::json, nlohmann::json, std::string>>& entries"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1904,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1905,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string key_str(key);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1906,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (key_str.find(tenant_prefix) != std::string::npos) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1911,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1924,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l3_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1926,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1952,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string tenant_pattern = \"^tenant:\" + tenant_id + \":\";"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1955,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1963,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_ptr<cache::ICacheReplicationListener> rep_listener;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1965,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> rep_lock(replication_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1969,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cache::CacheReplicationEvent ev;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1993,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "keys_to_purge = std::move(it->second);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2007,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2016,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2020,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string l2_key = k;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2021,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string prefix = \"tenant:\";"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2023,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// Extract fingerprint from tenanted key format: tenant:xxx:fingerprint"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2025,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (last_colon != std::string::npos) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2041,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> pii_ref_keys;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2042,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> cache_keys;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2046,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unique_lock<std::mutex> lock(l3_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2053,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string pii_ref_prefix = \"pii_ref:\" + pii_uuid + \":\";"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2055,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l3_db_->scanPrefix(pii_ref_prefix, [&](std::string_view key, std::string_view) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2057,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string k(key);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2064,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2089,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l3_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2094,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2096,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l3_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2129,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "size_t AdaptiveQueryCache::getEffectiveTenantQuota(const std::string& tenant_id) const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2138,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json AdaptiveQueryCache::getCircuitBreakerStatus() const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2139,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json status;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2151,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case cache::CircuitBreaker::State::CLOSED:"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2154,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case cache::CircuitBreaker::State::OPEN:"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2157,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case cache::CircuitBreaker::State::HALF_OPEN:"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2165,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::resetCircuitBreaker() {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2178,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::recordQueryAccess(const std::string& fingerprint,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2179,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& tenant_id) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2185,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> AdaptiveQueryCache::getPrefetchCandidates("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2186,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& fingerprint,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2187,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& tenant_id) const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2201,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json AdaptiveQueryCache::getPrefetchStats() const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2205,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json j = prefetcher_->getStats();"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2212,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::recordPrefetchOverheadBytes(uint64_t bytes) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2218,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::savePrefetchModel() {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2224,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::loadPrefetchModel() {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2234,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::setCoordinator("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2235,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_ptr<cache::ICacheCoordinator> coordinator)"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2237,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(coordinator_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2259,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "[this, guard](const cache::ReplicationMessage& msg) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2260,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> alive_lock(guard->mutex);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2269,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "nlohmann::json AdaptiveQueryCache::getReplicationStats() const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2270,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(coordinator_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2279,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage& msg) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2287,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string result_str = msg.result.dump();"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2305,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "evictLRU(CacheLevel::HOT);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2307,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto entry = std::make_unique<L1Entry>();"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2309,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->created_at_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2310,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->last_accessed_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2311,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->access_count.store(0, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2312,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->ttl_seconds.store(ttl_seconds, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2313,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->window_start_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2314,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry->window_count.store(0, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2315,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l1_cache_[key] = std::move(entry);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2317,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2323,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto compressed = utils::zstd_compress(result_str, config_.l2_compression_level);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2326,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2329,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "evictLRU(CacheLevel::WARM);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2332,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "entry.compressed_result = std::move(compressed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2339,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "l2_cache_[key]          = std::move(entry);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2346,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMessage& msg) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2358,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (std::regex_search(it->first, re)) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2360,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2371,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2373,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (std::regex_search(it->first, re)) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2381,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::regex_error& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2391,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::setReplicationListener("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2392,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_ptr<cache::ICacheReplicationListener> listener) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2393,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(replication_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2394,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "replication_listener_ = std::move(listener);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2406,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// ICacheBackend<std::string, nlohmann::json> adapter implementations"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2411,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::optional<nlohmann::json> AdaptiveQueryCache::get(const std::string& fingerprint) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2413,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (!entry.has_value()) return std::nullopt;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2417,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void AdaptiveQueryCache::put(const std::string& fingerprint, nlohmann::json result,"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2422,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "put(fingerprint, nlohmann::json{}, std::move(result), \"\");"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2425,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "bool AdaptiveQueryCache::remove(const std::string& fingerprint) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2430,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unique_lock<std::shared_mutex> lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2434,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2444,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2455,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2459,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l3_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2466,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2467,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_WARN(\"AdaptiveQueryCache::remove: L3 operation failed: {}\", e.what());"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2474,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "bool AdaptiveQueryCache::contains(const std::string& fingerprint) const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2477,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2481,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const bool expired = e->expired_flag.load(std::memory_order_acquire);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2488,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2503,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::size_t AdaptiveQueryCache::size() const {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2504,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::size_t l1_sz = 0;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2505,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::size_t l2_sz = 0;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2508,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_lock<std::shared_mutex> lock(l1_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2512,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(l2_mutex_);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1244,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "// Formula: TTL = base_ttl * (1 + log(access_count + 1) / scaling_factor)"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1248,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "double log_factor = std::log(static_cast<double>(access_count + 1)) / config_.adaptive_ttl_scaling_factor;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 54,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Phase 2: Validate configuration on startup"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 117,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int retry_delay_ms = 1000;  // Start with 1 second"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 248,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t ws = ptr->window_start_ms.load(std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 250,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Window elapsed \u2013 attempt to claim the reset via CAS on window_start_ms"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 251,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (ptr->window_start_ms.compare_exchange_strong("
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 340,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (now_ms - entry.window_start_ms >= ADAPTIVE_TTL_WINDOW_MS) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 342,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (entry.window_start_ms > 0 && entry.window_count <= 1) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 351,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry.window_start_ms = now_ms;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 487,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t window_start_ms = entry_json.value(\"window_start_ms\", (int64_t)0);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 490,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (now_ms - window_start_ms >= ADAPTIVE_TTL_WINDOW_MS) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 492,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (window_start_ms > 0 && window_count <= 1) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 502,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry_json[\"window_start_ms\"] = now_ms;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 667,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "l1_entry->window_start_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 690,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "l2_entry.window_start_ms = now_ms;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 711,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "l3_entry_json[\"window_start_ms\"] = now_ms;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 781,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry->window_start_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 832,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry.window_start_ms = now_ms;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1564,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry_json[\"window_start_ms\"] = now_ms;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2248,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// AdaptiveQueryCache destructor has started but this callback fires concurrently."
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2313,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry->window_start_ms.store(now_ms, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2337,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry.window_start_ms   = now_ms;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1988,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> keys_to_purge;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 225,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != l1_cache_.end()) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 317,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != l2_cache_.end()) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 941,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 955,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1114,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1129,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1194,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "{\"enabled\", l3_db_ != nullptr},"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1271,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1304,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end(); ++it) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1335,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l2_cache_.begin(); it != l2_cache_.end(); ++it) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1418,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const int effective_min_ttl = (min_ttl_seconds != 60) ? min_ttl_seconds : adaptive_ttl_min_seconds;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1419,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const int effective_max_ttl = (max_ttl_seconds != 86400) ? max_ttl_seconds : adaptive_ttl_max_seconds;"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1627,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "stats[\"l3\"][\"enabled\"] = (l3_db_ != nullptr);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1692,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "bool l3_enabled = (l3_db_ != nullptr);"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1864,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1881,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1906,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key_str.find(tenant_prefix) != std::string::npos) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 1992,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != pii_key_index_.end()) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2005,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != l1_cache_.end()) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2025,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (last_colon != std::string::npos) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2030,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != l2_cache_.end()) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2132,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_quota_overrides_.end()) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2357,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2372,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2432,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != l1_cache_.end()) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2446,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != l2_cache_.end()) {"
+        },
+        {
+          "file": "src\\cache\\adaptive_query_cache.cpp",
+          "line": 2479,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != l1_cache_.end()) {"
         }
       ],
       "src\\cache\\bounded_lru_cache.cpp": [
@@ -6354,6 +10130,15 @@
           "function_name": "now",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\bounded_lru_cache.cpp",
+          "line": 101,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != cache_.end()) {"
         }
       ],
       "src\\cache\\distributed_cache_coordinator.cpp": [
@@ -7730,6 +11515,141 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 278,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "sub_thread_ = std::thread(&RedisCacheCoordinator::subscriberLoop, this);"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 107,
+          "category": "distributed_consistency",
+          "severity": "MEDIUM",
+          "pattern": "stale_read_undocumented",
+          "description": "Eventual/stale read without documentation of correctness",
+          "context": "//   one node is never propagated to other nodes via Redis pub/sub; stale reads"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 591,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Exponential back-off: starts at config_.reconnect_interval_ms, doubles"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 431,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (::getaddrinfo(config_.host.c_str(), port_str.c_str(), &hints, &res) != 0) {"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 436,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (struct addrinfo* p = res; p != nullptr; p = p->ai_next) {"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 459,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (fd != kInvalidSocket) {"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 484,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ch != '\\r') line_out += ch;"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 513,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_.db_index != 0) {"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 533,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pub_fd_ != kInvalidSocket && pub_ok_) {"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 583,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return !reply.empty() && reply[0] != '-';"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 717,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (line[0] != '$') return false;"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 741,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (::recv(fd, crlf, 2, MSG_WAITALL) != 2) return false;"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 748,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hdr.empty() || hdr[0] != '*') return false;"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 885,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (received_sig.size() != expected_sig.size()) {"
+        },
+        {
+          "file": "src\\cache\\distributed_cache_coordinator.cpp",
+          "line": 890,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "expected_sig.size()) != 0) {"
         }
       ],
       "src\\cache\\predictive_prefetcher.cpp": [
@@ -8637,6 +12557,114 @@
           "function_name": "max",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 224,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(candidates[i].second));"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 354,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto tod_from_it = tod_buckets_.find(from);"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 356,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto tod_to_it = tod_from_it->second.find(to);"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 224,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < limit; ++i) {"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 342,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function commit without trace point",
+          "context": "batch->commit();"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 122,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != last_fingerprint_.end() && !it->second.empty() &&"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 123,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "it->second != fingerprint) {"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 143,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "successors.find(fingerprint) != successors.end()) {"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 196,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (use_tod && tod_from_it != tod_buckets_.end()) {"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 198,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tod_to_it != tod_from_it->second.end()) {"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 355,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tod_from_it != tod_buckets_.end()) {"
+        },
+        {
+          "file": "src\\cache\\predictive_prefetcher.cpp",
+          "line": 357,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tod_to_it != tod_from_it->second.end()) {"
         }
       ],
       "src\\cache\\redis_cache_coordinator.cpp": [
@@ -9541,6 +13569,69 @@
           "function_name": "THEMIS_WARN",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 88,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start background subscribe thread"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 428,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Exponential back-off: starts at config_.reconnect_interval_ms, doubles"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 314,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pub_ctx_ != nullptr && !pub_ctx_->err) {"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 469,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (running_.load() && sub_ctx_ != nullptr) {"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 472,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != REDIS_OK) {"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 699,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (received_sig.size() != expected_sig.size()) {"
+        },
+        {
+          "file": "src\\cache\\redis_cache_coordinator.cpp",
+          "line": 704,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "expected_sig.size()) != 0) {"
         }
       ],
       "src\\cache\\semantic_cache.cpp": [
@@ -10124,6 +14215,24 @@
           "function_name": "while",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 163,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "std::optional<SemanticCache::CacheEntry> SemanticCache::query("
+        },
+        {
+          "file": "src\\cache\\semantic_cache.cpp",
+          "line": 182,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::duration_cast<std::chrono::microseconds>(end - start).count());"
         }
       ],
       "src\\cache\\cache_hit_rate_slo_monitor.cpp": [
@@ -11248,6 +15357,96 @@
           "function_name": "now",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 116,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (desired_latency != ViolationLevel::NONE) {"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 117,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (desired_latency != active_latency_violation_ ||"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 119,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (active_latency_violation_ != ViolationLevel::NONE &&"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 120,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "active_latency_violation_ != desired_latency) {"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 126,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (active_latency_violation_ != ViolationLevel::NONE) {"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 150,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (desired != ViolationLevel::NONE) {"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 152,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (desired != active_violation_ || isCooldownExpired(desired)) {"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (active_violation_ != ViolationLevel::NONE && active_violation_ != desired) {"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 161,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (active_violation_ != ViolationLevel::NONE) {"
+        },
+        {
+          "file": "src\\cache\\cache_hit_rate_slo_monitor.cpp",
+          "line": 188,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return active_violation_ != ViolationLevel::NONE;"
         }
       ],
       "src\\cache\\cache_replication.cpp": [
@@ -11807,6 +16006,42 @@
           "function_name": "store",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 228,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 222,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& state : replicas_) {"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 177,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_consensus",
+          "description": "Write without consensus/replication acknowledgment",
+          "context": "void CacheReplicationManager::notifyWrite(const std::string& key,"
+        },
+        {
+          "file": "src\\cache\\cache_replication.cpp",
+          "line": 274,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (state.health != CacheReplicaHealth::UNHEALTHY) {"
         }
       ],
       "src\\cache\\cache_replication_coordinator.cpp": [
@@ -12470,6 +16705,114 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 214,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "new_peers.emplace_back(it->second);"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 353,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "failed_peers.push_back(peer);"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 74,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto* peer : bus_->peers) {"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 98,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto* peer : bus_->peers) {"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 340,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& peer : peers_to_contact) {"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 176,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "fanout_thread_ = std::thread(&CacheReplicationCoordinator::fanoutWorker, this);"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 18,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "\u2022 efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... \u2551"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 18,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "\u2022 efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... \u2551"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 203,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::shared_ptr<IRemoteCachePeer>> existing;"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 75,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (peer != this) {"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 99,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (peer != this) {"
+        },
+        {
+          "file": "src\\cache\\cache_replication_coordinator.cpp",
+          "line": 213,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != existing.end()) {"
         }
       ],
       "src\\cache\\embedding_cache.cpp": [
@@ -13492,6 +17835,123 @@
           "function_name": "THEMIS_INFO",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 47,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "// F-004: shared_mutex allows concurrent query() calls (all read-only under shared_lock)."
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 112,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query("
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 121,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "// F-004: Use shared_lock so multiple concurrent query() calls can run the"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 47,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "// F-004: shared_mutex allows concurrent query() calls (all read-only under shared_lock)."
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 112,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query("
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 121,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "// F-004: Use shared_lock so multiple concurrent query() calls can run the"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 115,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (query_embedding.size() != config_.embedding_dim) {"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 150,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->entries.end()) {"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 161,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (wit != impl_->entries.end() && isExpired(wit->second)) {"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 256,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (embedding.size() != config_.embedding_dim) {"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 271,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = impl_->entries.begin(); it != impl_->entries.end(); ++it) {"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 292,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it->second.timestamp_ms != ts) {"
+        },
+        {
+          "file": "src\\cache\\embedding_cache.cpp",
+          "line": 351,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = impl_->entries.begin(); it != impl_->entries.end(); ) {"
         }
       ],
       "src\\cache\\grpc_remote_cache_peer.cpp": [
@@ -13788,6 +18248,15 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\grpc_remote_cache_peer.cpp",
+          "line": 136,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!got_event || !ok || tag != reinterpret_cast<void*>(1)) {"
         }
       ],
       "src\\cache\\warmup.cpp": [
@@ -14853,6 +19322,114 @@
           "function_name": "lk",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 100,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(kB64Chars[(buf >> bits) & 0x3F]);"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 442,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "futures.push_back("
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 216,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Worker lambda: processes lines[start..end) independently."
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 223,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto processChunk = [&](size_t start, size_t end) {"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 224,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = start; i < end; ++i) {"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 440,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const size_t start = w * chunk_size;"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 441,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start >= total_lines) break;"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 442,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const size_t end = std::min(start + chunk_size, total_lines);"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 444,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::async(std::launch::async, processChunk, start, end));"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 109,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (out.size() % 4 != 0) out.push_back('=');"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 131,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {"
+        },
+        {
+          "file": "src\\cache\\warmup.cpp",
+          "line": 150,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {"
         }
       ]
     }

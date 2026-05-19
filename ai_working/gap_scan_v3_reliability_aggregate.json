@@ -3435,7 +3435,7 @@
       "src\\analytics\\knowledge_base.cpp": [
         {
           "file": "src\\analytics\\knowledge_base.cpp",
-          "line": 253,
+          "line": 249,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (!file.is_open()) return -1;",
@@ -3444,7 +3444,7 @@
         },
         {
           "file": "src\\analytics\\knowledge_base.cpp",
-          "line": 292,
+          "line": 288,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { current.priority = 0; }",
@@ -3453,7 +3453,7 @@
         },
         {
           "file": "src\\analytics\\knowledge_base.cpp",
-          "line": 301,
+          "line": 297,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { current.ml_confidence_threshold = 0.0; }",
@@ -6612,7 +6612,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 163,
+          "line": 164,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(",
@@ -6621,7 +6621,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 173,
+          "line": 174,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(",
@@ -6630,7 +6630,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 227,
+          "line": 228,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(",
@@ -6639,7 +6639,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 623,
+          "line": 624,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.system_prompt && !request.system_prompt->empty())",
@@ -6648,7 +6648,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 637,
+          "line": 638,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.max_tokens = std::stoi(options.at(\"max_tokens\"));",
@@ -6657,7 +6657,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 640,
+          "line": 641,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.temperature = std::stof(options.at(\"temperature\"));",
@@ -6666,7 +6666,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 643,
+          "line": 644,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.top_p = std::stof(options.at(\"top_p\"));",
@@ -6675,7 +6675,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 646,
+          "line": 647,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.top_k = std::stoi(options.at(\"top_k\"));",
@@ -6684,7 +6684,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 649,
+          "line": 650,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.repetition_penalty = std::stof(options.at(\"repetition_penalty\"));",
@@ -6693,7 +6693,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 735,
+          "line": 736,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::INVALID_OPTIONS,",
@@ -6702,7 +6702,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 755,
+          "line": 756,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::INFERENCE_FAILED,",
@@ -6711,7 +6711,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 793,
+          "line": 794,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.max_tokens = std::stoi(options.at(\"max_tokens\"));",
@@ -6720,7 +6720,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 869,
+          "line": 870,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::INFERENCE_FAILED,",
@@ -6729,7 +6729,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 927,
+          "line": 928,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (status.ok) {",
@@ -6738,7 +6738,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 956,
+          "line": 957,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6747,7 +6747,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1000,
+          "line": 1001,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.max_tokens = std::stoi(options.at(\"max_tokens\"));",
@@ -6756,7 +6756,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1003,
+          "line": 1004,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.temperature = std::stof(options.at(\"temperature\"));",
@@ -6765,7 +6765,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1006,
+          "line": 1007,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "request.top_p = std::stof(options.at(\"top_p\"));",
@@ -6774,7 +6774,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1093,
+          "line": 1094,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::INVALID_OPTIONS,",
@@ -6783,7 +6783,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1114,
+          "line": 1115,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::RAG_FAILED,",
@@ -6792,7 +6792,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1159,
+          "line": 1160,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -6801,7 +6801,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1164,
+          "line": 1165,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -6810,7 +6810,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1282,
+          "line": 1283,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -6819,7 +6819,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1373,
+          "line": 1374,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -6828,7 +6828,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1530,
+          "line": 1512,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
@@ -6837,7 +6837,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1562,
+          "line": 1544,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -6846,7 +6846,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1569,
+          "line": 1551,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
@@ -6855,7 +6855,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1637,
+          "line": 1619,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
@@ -6864,7 +6864,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1664,
+          "line": 1646,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
@@ -6873,7 +6873,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1672,
+          "line": 1654,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -6882,7 +6882,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1725,
+          "line": 1707,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6891,7 +6891,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1789,
+          "line": 1771,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -6900,7 +6900,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1934,
+          "line": 1916,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
@@ -6909,7 +6909,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1959,
+          "line": 1941,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -6918,7 +6918,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 1966,
+          "line": 1948,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw LLMException(LLMErrorCode::INVALID_RESPONSE,",
@@ -6927,7 +6927,7 @@
         },
         {
           "file": "src\\aql\\llm_aql_handler.cpp",
-          "line": 2041,
+          "line": 2023,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -21528,14 +21528,14 @@
     }
   },
   "exporters": {
-    "total": 215,
-    "severity_critical": 69,
+    "total": 217,
+    "severity_critical": 71,
     "severity_high": 110,
     "severity_medium": 36,
     "by_type": {
       "no_health_check": 31,
       "uncaught_exception": 115,
-      "no_timeout": 69
+      "no_timeout": 71
     },
     "gaps_by_file": {
       "src\\exporters\\aql_predicate_filter.cpp": [
@@ -22907,7 +22907,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 207,
+          "line": 208,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -22916,7 +22916,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 214,
+          "line": 215,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -22925,11 +22925,29 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 343,
+          "line": 344,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "f.read(buf.data(), file_size);",
           "description": "file_io without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 528,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!backoff.wait()) break;",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 712,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!backoff.wait()) break;",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         }
       ],
@@ -39899,7 +39917,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 475,
+          "line": 471,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AQLTrainParser: adapter name must not be empty\");",
@@ -39908,7 +39926,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 480,
+          "line": 476,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -39917,7 +39935,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 485,
+          "line": 481,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AQLTrainParser: adapter name exceeds 128 characters\");",
@@ -39926,7 +39944,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 491,
+          "line": 487,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AQLTrainParser: base_model must not be empty\");",
@@ -39935,7 +39953,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 497,
+          "line": 493,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AQLTrainParser: epochs must be in [1, 100]\");",
@@ -39944,7 +39962,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 500,
+          "line": 496,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AQLTrainParser: learning_rate must be in (0, 1]\");",
@@ -39953,7 +39971,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 503,
+          "line": 499,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"AQLTrainParser: lora_rank must be in [1, 256]\");",
@@ -39962,7 +39980,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 517,
+          "line": 513,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -39971,7 +39989,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 681,
+          "line": 677,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -39980,7 +39998,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 693,
+          "line": 689,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -39989,7 +40007,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 748,
+          "line": 744,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -39998,7 +40016,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 794,
+          "line": 790,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -40007,7 +40025,7 @@
         },
         {
           "file": "src\\llm\\aql_train_parser.cpp",
-          "line": 842,
+          "line": 838,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { stmt->limit = std::stoi(tokens[0]); } catch (...) {}",
@@ -63410,7 +63428,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 70,
+          "line": 67,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -75706,7 +75724,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 110,
+          "line": 106,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EventTrigger: changefeed cannot be null\");",
@@ -75715,7 +75733,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 114,
+          "line": 110,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EventTrigger: invalid config - \" +",
@@ -75724,7 +75742,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 119,
+          "line": 115,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EventTrigger: callback cannot be null\");",
@@ -75733,7 +75751,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 128,
+          "line": 124,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -75742,7 +75760,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 146,
+          "line": 142,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -75751,7 +75769,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 164,
+          "line": 160,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EventTrigger: invalid config - \" +",
@@ -75760,7 +75778,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 169,
+          "line": 165,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -75769,7 +75787,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 194,
+          "line": 190,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(cb_mutex_);",
@@ -75778,7 +75796,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 202,
+          "line": 198,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(cb_mutex_);",
@@ -75787,7 +75805,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 207,
+          "line": 203,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(cb_mutex_);",
@@ -75796,7 +75814,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 221,
+          "line": 217,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(cb_mutex_);",
@@ -75805,7 +75823,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 230,
+          "line": 226,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(cb_mutex_);",
@@ -75814,7 +75832,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 283,
+          "line": 279,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(debounce_mutex_);",
@@ -75823,7 +75841,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 377,
+          "line": 373,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> clock(condition_cache_mutex_);",
@@ -75832,7 +75850,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 492,
+          "line": 488,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"EventTriggerManager: changefeed cannot be null\");",
@@ -75841,7 +75859,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 503,
+          "line": 499,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -75850,7 +75868,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 524,
+          "line": 520,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -75859,7 +75877,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 535,
+          "line": 531,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -75868,7 +75886,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 545,
+          "line": 541,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -75877,7 +75895,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 556,
+          "line": 552,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -75886,7 +75904,7 @@
         },
         {
           "file": "src\\scheduler\\event_trigger.cpp",
-          "line": 568,
+          "line": 564,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -83313,14 +83331,14 @@
     }
   },
   "server": {
-    "total": 2089,
+    "total": 2108,
     "severity_critical": 290,
-    "severity_high": 148,
-    "severity_medium": 1651,
+    "severity_high": 154,
+    "severity_medium": 1664,
     "by_type": {
-      "no_health_check": 1482,
+      "no_health_check": 1495,
       "no_timeout": 290,
-      "uncaught_exception": 230,
+      "uncaught_exception": 236,
       "no_retry_logic": 87
     },
     "gaps_by_file": {
@@ -85793,7 +85811,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 178,
+          "line": 193,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Missing entity key\");",
@@ -85802,7 +85820,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 188,
+          "line": 203,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Invalid key format\");",
@@ -85811,7 +85829,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 196,
+          "line": 211,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Entity not found\");",
@@ -85820,7 +85838,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 225,
+          "line": 240,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -85829,7 +85847,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 232,
+          "line": 247,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { entity_json = json::parse(blob_str); } catch (...) {",
@@ -85838,7 +85856,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 234,
+          "line": 249,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Stored blob is not valid JSON\");",
@@ -85847,7 +85865,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 260,
+          "line": 275,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { encFlag = entity_json[f + \"_enc\"].get<bool>(); } catch (...) {",
@@ -85856,7 +85874,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 273,
+          "line": 288,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "try { group_name = entity_json[f + \"_group\"].get<std::string>(); } catch (...) {",
@@ -85865,7 +85883,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 302,
+          "line": 317,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -85874,7 +85892,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 321,
+          "line": 336,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -85883,7 +85901,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 327,
+          "line": 342,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, e.what());",
@@ -85892,7 +85910,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 356,
+          "line": 371,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Missing entity key\");",
@@ -85901,7 +85919,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 363,
+          "line": 378,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Missing blob field\");",
@@ -85910,7 +85928,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 370,
+          "line": 385,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Invalid key format\");",
@@ -85919,7 +85937,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 512,
+          "line": 527,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Unique constraint violation\");",
@@ -85928,7 +85946,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 516,
+          "line": 531,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, st.message);",
@@ -85937,7 +85955,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 586,
+          "line": 601,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "auto write_result = strategy->write(",
@@ -85946,7 +85964,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 665,
+          "line": 680,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, write_result.error_message);",
@@ -85955,7 +85973,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 683,
+          "line": 698,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, e.what());",
@@ -85964,7 +85982,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 688,
+          "line": 703,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, e.what());",
@@ -85973,7 +85991,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 707,
+          "line": 722,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Missing entity key\");",
@@ -85982,7 +86000,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 716,
+          "line": 731,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Invalid key format\");",
@@ -85991,7 +86009,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 751,
+          "line": 766,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, st.message);",
@@ -86000,7 +86018,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 785,
+          "line": 800,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, e.what());",
@@ -86009,7 +86027,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 803,
+          "line": 818,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Missing or invalid operations array\");",
@@ -86018,7 +86036,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 812,
+          "line": 827,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Empty operations array\");",
@@ -86027,7 +86045,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 820,
+          "line": 835,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Batch too large\");",
@@ -86036,7 +86054,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 1006,
+          "line": 1030,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"WriteBatch commit failed\");",
@@ -86045,28 +86063,10 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 1063,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(false, e.what());",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\entity_api_handler.cpp",
-          "line": 1068,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(false, e.what());",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\entity_api_handler.cpp",
           "line": 1087,
           "type": "no_health_check",
           "severity": "MEDIUM",
-          "snippet": "http::status status, const std::string& message, const http::request<http::string_body>& req",
+          "snippet": "span.setStatus(false, e.what());",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
@@ -86075,13 +86075,31 @@
           "line": 1092,
           "type": "no_health_check",
           "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, e.what());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\entity_api_handler.cpp",
+          "line": 1111,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status status, const std::string& message, const http::request<http::string_body>& req",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\entity_api_handler.cpp",
+          "line": 1116,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
           "snippet": "{\"status_code\", static_cast<int>(status)}",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 1127,
+          "line": 1151,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Unsupported Media Type\");",
@@ -86090,7 +86108,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 1134,
+          "line": 1158,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Empty body\");",
@@ -86099,7 +86117,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 1155,
+          "line": 1179,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Too many documents\");",
@@ -86108,7 +86126,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 1207,
+          "line": 1231,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true, \"bulk_ndjson_complete\");",
@@ -86117,7 +86135,7 @@
         },
         {
           "file": "src\\server\\entity_api_handler.cpp",
-          "line": 1210,
+          "line": 1234,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "errors.empty() ? http::status::ok : http::status::multi_status;",
@@ -86701,7 +86719,7 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 42,
+          "line": 69,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"FeedbackAPIHandler: storage_service is required\");",
@@ -86710,7 +86728,7 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 63,
+          "line": 90,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -86719,7 +86737,16 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 71,
+          "line": 101,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 109,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::created,",
@@ -86728,19 +86755,10 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 78,
+          "line": 116,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 85,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::internal_server_error,",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
@@ -86755,34 +86773,7 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 140,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::not_found,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 151,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::internal_server_error,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 175,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::not_found,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 187,
+          "line": 160,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -86791,7 +86782,16 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 194,
+          "line": 166,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 174,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -86800,7 +86800,16 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 211,
+          "line": 189,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 199,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found,",
@@ -86809,7 +86818,7 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 226,
+          "line": 210,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -86818,7 +86827,43 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 269,
+          "line": 225,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 242,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 253,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::not_found,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 265,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 272,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -86827,7 +86872,25 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 306,
+          "line": 287,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 297,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::not_found,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 312,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -86836,7 +86899,52 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 318,
+          "line": 327,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 346,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 370,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::internal_server_error,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 399,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 414,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::internal_server_error,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 426,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -86845,7 +86953,7 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 333,
+          "line": 441,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -86854,12 +86962,66 @@
         },
         {
           "file": "src\\server\\feedback_api_handler.cpp",
-          "line": 347,
+          "line": 455,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 491,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid adapter_id filter\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 497,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid user_id filter\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 504,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid min_rating filter\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 514,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid flagged_for_training filter\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 519,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid training_category filter\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\feedback_api_handler.cpp",
+          "line": 526,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"Invalid limit filter\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         }
       ],
       "src\\server\\geo_topology_api_handler.cpp": [
@@ -95053,7 +95215,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 75,
+          "line": 93,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::service_unavailable,",
@@ -95062,7 +95224,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 87,
+          "line": 105,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -95071,7 +95233,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 134,
+          "line": 152,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -95080,7 +95242,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 139,
+          "line": 157,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -95089,7 +95251,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 153,
+          "line": 171,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::service_unavailable,",
@@ -95098,7 +95260,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 169,
+          "line": 187,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -95107,16 +95269,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 183,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::service_unavailable,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 193,
+          "line": 204,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -95125,7 +95278,25 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 201,
+          "line": 211,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\prompt_engineering_api_handler.cpp",
+          "line": 218,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::service_unavailable,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\prompt_engineering_api_handler.cpp",
+          "line": 226,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found,",
@@ -95134,28 +95305,10 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 210,
+          "line": 235,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 224,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::service_unavailable,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 240,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::bad_request,",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
@@ -95164,13 +95317,13 @@
           "line": 249,
           "type": "no_health_check",
           "severity": "MEDIUM",
-          "snippet": "http::status::bad_request,",
+          "snippet": "http::status::service_unavailable,",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 272,
+          "line": 265,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -95179,7 +95332,25 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 277,
+          "line": 274,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\prompt_engineering_api_handler.cpp",
+          "line": 297,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\prompt_engineering_api_handler.cpp",
+          "line": 302,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -95188,7 +95359,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 322,
+          "line": 347,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -95197,7 +95368,25 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 336,
+          "line": 364,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\prompt_engineering_api_handler.cpp",
+          "line": 371,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\prompt_engineering_api_handler.cpp",
+          "line": 378,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::service_unavailable,",
@@ -95206,16 +95395,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 346,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::bad_request,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 362,
+          "line": 394,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -95224,7 +95404,25 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 376,
+          "line": 411,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\prompt_engineering_api_handler.cpp",
+          "line": 418,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\prompt_engineering_api_handler.cpp",
+          "line": 425,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::service_unavailable,",
@@ -95233,16 +95431,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 386,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::bad_request,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 403,
+          "line": 442,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -95251,7 +95440,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 417,
+          "line": 456,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::service_unavailable,",
@@ -95260,7 +95449,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 428,
+          "line": 467,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -95269,7 +95458,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 443,
+          "line": 482,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -95278,7 +95467,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 448,
+          "line": 487,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -95287,7 +95476,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 472,
+          "line": 511,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -95296,7 +95485,7 @@
         },
         {
           "file": "src\\server\\prompt_engineering_api_handler.cpp",
-          "line": 490,
+          "line": 529,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -96480,7 +96669,7 @@
         },
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 87,
+          "line": 129,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"health_status\",       \"HEALTHY\"},",
@@ -96489,7 +96678,7 @@
         },
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 103,
+          "line": 145,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"health_status\",        r.is_healthy ? \"HEALTHY\" : \"FAILED\"},",
@@ -96498,7 +96687,7 @@
         },
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 159,
+          "line": 201,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "replicas.size()) - healthy_replicas;",
@@ -96507,7 +96696,7 @@
         },
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 175,
+          "line": 217,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"healthy_replicas\", healthy_replicas},",
@@ -96516,7 +96705,7 @@
         },
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 210,
+          "line": 256,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -96525,7 +96714,7 @@
         },
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 216,
+          "line": 262,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", static_cast<unsigned>(status)}",
@@ -96534,7 +96723,7 @@
         },
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 222,
+          "line": 268,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -96543,7 +96732,7 @@
         },
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 258,
+          "line": 304,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "<< \"if(!t.ok)throw new Error('topology '+t.status);\\n\"",
@@ -96552,7 +96741,7 @@
         },
         {
           "file": "src\\server\\replication_topology_api_handler.cpp",
-          "line": 259,
+          "line": 305,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "<< \"if(!h.ok)throw new Error('health '+h.status);\\n\"",
@@ -98068,7 +98257,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 231,
+          "line": 249,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -98077,7 +98266,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 246,
+          "line": 264,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -98086,7 +98275,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 300,
+          "line": 327,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98095,7 +98284,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 334,
+          "line": 365,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98104,7 +98293,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 354,
+          "line": 389,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98113,7 +98302,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 381,
+          "line": 420,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98122,7 +98311,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 446,
+          "line": 498,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98131,7 +98320,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 472,
+          "line": 528,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98140,7 +98329,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 532,
+          "line": 592,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -126809,14 +126998,14 @@
     }
   },
   "updates": {
-    "total": 235,
-    "severity_critical": 139,
+    "total": 236,
+    "severity_critical": 140,
     "severity_high": 20,
     "severity_medium": 76,
     "by_type": {
       "no_health_check": 66,
       "uncaught_exception": 29,
-      "no_timeout": 139,
+      "no_timeout": 140,
       "no_retry_logic": 1
     },
     "gaps_by_file": {
@@ -128314,7 +128503,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 82,
+          "line": 83,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ParallelDownloader::setConcurrency: n must be >= 1\");",
@@ -128323,7 +128512,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 208,
+          "line": 209,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "if (!f.is_open()) return {};",
@@ -128332,7 +128521,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 267,
+          "line": 268,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "size_t n = fwrite(ptr, sz, nmemb, ctx->fp);",
@@ -128341,7 +128530,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 273,
+          "line": 274,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "FILE* fp = fopen(dest.c_str(), open_mode);",
@@ -128350,7 +128539,16 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 496,
+          "line": 384,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!backoff.wait()) break;",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\updates\\parallel_downloader.cpp",
+          "line": 506,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::unique_lock<std::mutex> lock(queue_mutex);",
@@ -128359,7 +128557,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 497,
+          "line": 507,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "cv.wait(lock, [&]() { return !pq.empty() || all_queued; });",
@@ -128368,7 +128566,7 @@
         },
         {
           "file": "src\\updates\\parallel_downloader.cpp",
-          "line": 510,
+          "line": 520,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::unique_lock<std::mutex> lock(queue_mutex);",

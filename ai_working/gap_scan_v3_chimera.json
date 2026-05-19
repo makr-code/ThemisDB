@@ -1,9 +1,9 @@
 {
   "chimera": {
-    "total": 408,
-    "severity_critical": 35,
-    "severity_high": 279,
-    "severity_medium": 94,
+    "total": 487,
+    "severity_critical": 39,
+    "severity_high": 307,
+    "severity_medium": 141,
     "by_category": {
       "security": 1,
       "reliability": 59,
@@ -15,7 +15,11 @@
       "input_validation": 26,
       "exception_safety": 1,
       "uninitialized": 77,
-      "oop_design": 132
+      "oop_design": 132,
+      "audit_logging": 4,
+      "performance_patterns": 34,
+      "observability": 20,
+      "determinism": 21
     },
     "by_file": {
       "src\\chimera\\themisdb_adapter.cpp": [
@@ -4371,6 +4375,717 @@
           "function_name": "while",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 137,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"execute_query\" without audit log",
+          "context": "Result<RelationalTable> ThemisDBAdapter::execute_query("
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1370,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"execute_query\" without audit log",
+          "context": "return execute_query(query, params);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1496,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"execute_query\" without audit log",
+          "context": "auto table_result = execute_query(query, params);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1671,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"execute_query\" without audit log",
+          "context": "auto result = adapter_->execute_query(effective_query, pos_params);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1736,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (c == '\\\\') escaped += \"\\\\\\\\\";"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1736,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (c == '\\\\') escaped += \"\\\\\\\\\";"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 168,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "table.column_names.push_back(col);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 168,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "table.column_names.push_back(col);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 220,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "table.column_names.push_back(col);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 220,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "table.column_names.push_back(col);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 312,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "store.emplace_back(generate_id(), v);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 348,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.emplace_back(std::move(v), static_cast<double>(r.distance));"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 398,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(i, cos_dist);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 398,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(i, cos_dist);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 414,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.emplace_back(store[idx].second, dist);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 521,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "path.nodes.push_back(std::move(node));"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 596,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "node_seq.push_back(cur);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 596,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "node_seq.push_back(cur);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 608,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "path.nodes.push_back(nit->second);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 617,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "path.edges.push_back(eit->second);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 654,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "nodes.push_back(it->second);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 839,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matched.push_back(doc);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 839,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matched.push_back(doc);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1558,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(kv.first);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 166,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (std::find(table.column_names.begin(),"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 218,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (std::find(table.column_names.begin(),"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 832,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto field_it = doc.fields.find(key);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 868,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto fld = doc.fields.find(key);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 323,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, Scalar>& filters"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 559,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> parent;   // node -> predecessor node"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 560,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> via_edge; // node -> edge_id used to reach it"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 701,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, bool> visited;"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 810,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, Scalar>& filter,"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 848,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, Scalar>& filter,"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 849,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, Scalar>& updates"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1441,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, Scalar>& filters,"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 414,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [idx, dist] : scored) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 875,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [ukey, uval] : updates) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 137,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "Result<RelationalTable> ThemisDBAdapter::execute_query("
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 747,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "Result<std::vector<GraphPath>> ThemisDBAdapter::execute_graph_query("
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1370,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return execute_query(query, params);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1496,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto table_result = execute_query(query, params);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1631,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::string ThemisDBPreparedStatement::get_query() const { return query_; }"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1685,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return execute();"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1662,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "Result<RelationalTable> ThemisDBPreparedStatement::execute() {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1685,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "return execute();"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 116,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"Invalid ThemisDB connection string: must start with \""
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 699,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// In-memory simulation: BFS from start_id up to max_depth hops."
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 706,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "visited[start_id] = true;"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 707,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bfs_q.push({start_id, 0});"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 902,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry.start_time   = std::chrono::system_clock::now();"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 903,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry.steady_start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1115,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "stats.start_time       = entry.start_time;"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1117,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "now_steady - entry.steady_start);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1158,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "state.start_time      = entry.start_time;"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1162,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "now_steady - entry.steady_start);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1663,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto t_start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1674,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - t_start);"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 647,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> seen_ids;"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 194,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "// Activation: Only reachable when (a) query_engine_ != nullptr AND"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 215,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != table_store_.end()) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 358,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "// Activation: Only when vector_index_ != nullptr AND"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 387,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (vdata.size() != qdata.size() || qdata.empty()) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 499,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (max_depth != 10U) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 519,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != graph_nodes_.end()) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 530,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "// Activation: Only when graph_index_ != nullptr AND"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 549,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "it != graph_nodes_.end()) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 599,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (eit != via_edge.end()) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 608,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (nit != graph_nodes_.end()) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 617,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (eit != graph_edges_.end()) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 654,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != graph_nodes_.end()) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 688,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "// Activation: Only when graph_index_ != nullptr AND"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 715,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (nit != graph_nodes_.end()) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 834,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "field_it->second != expected) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 869,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (fld == doc.fields.end() || fld->second != expected) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 988,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (entry.savepoint_set.count(savepoint_name) != 0) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1037,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it2 = sp_it + 1; it2 != entry.savepoints.end(); ++it2) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1266,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (connection_string.rfind(prefix, 0) != 0) {"
+        },
+        {
+          "file": "src\\chimera\\themisdb_adapter.cpp",
+          "line": 1748,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = q.find(token, pos)) != std::string::npos) {"
         }
       ],
       "include\\chimera\\database_adapter.hpp": [

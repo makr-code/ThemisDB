@@ -346,17 +346,31 @@ ServerlessFunctionApiHandler::handleList(
     const std::string target{req.target()};
     auto qpos = target.find('?');
     if (qpos != std::string::npos) {
-        const std::string qs = target.substr(qpos + 1);
-        const std::string key = "tenant_id=";
-        auto kpos = qs.find(key);
-        if (kpos != std::string::npos) {
-            tenant_filter = qs.substr(kpos + key.size());
-            auto amp = tenant_filter.find('&');
-            if (amp != std::string::npos) tenant_filter = tenant_filter.substr(0, amp);
-            if (!tenant_filter.empty() && !isValidServerlessIdentifier(tenant_filter, true)) {
-                return makeErrorResponse(http::status::bad_request,
-                                         "invalid tenant_id filter", req);
+        std::string_view query{target};
+        query.remove_prefix(qpos + 1);
+        while (!query.empty()) {
+            const auto amp = query.find('&');
+            const auto token = query.substr(0, amp);
+            const auto eq = token.find('=');
+            const auto key = token.substr(0, eq);
+            if (key == "tenant_id") {
+                if (eq == std::string_view::npos) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "invalid tenant_id filter", req);
+                }
+
+                tenant_filter = std::string(token.substr(eq + 1));
+                if (!tenant_filter.empty() && !isValidServerlessIdentifier(tenant_filter, true)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "invalid tenant_id filter", req);
+                }
+                break;
             }
+
+            if (amp == std::string_view::npos) {
+                break;
+            }
+            query.remove_prefix(amp + 1);
         }
     }
 

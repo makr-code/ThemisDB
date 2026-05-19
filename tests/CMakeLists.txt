@@ -4575,6 +4575,80 @@ else()
     message(STATUS "Service Mesh API Handler tests not found")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hot_reload_api_handler.cpp")
+    message(STATUS "Adding Hot Reload API Handler tests")
+
+    add_executable(test_hot_reload_api_handler
+        test_hot_reload_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/hot_reload_api_handler.cpp
+    )
+
+    target_include_directories(test_hot_reload_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_hot_reload_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_hot_reload_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HotReloadApiHandlerTests
+             COMMAND test_hot_reload_api_handler)
+
+    set_tests_properties(HotReloadApiHandlerTests PROPERTIES
+        LABELS "server;updates;hot-reload;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Hot Reload API Handler: rejects invalid version and rollback path parameters")
+else()
+    message(STATUS "Hot Reload API Handler tests not found")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_profiling_api_handler.cpp")
+    message(STATUS "Adding Profiling API Handler tests")
+
+    add_executable(test_profiling_api_handler
+        test_profiling_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/profiling_api_handler.cpp
+    )
+
+    target_include_directories(test_profiling_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_profiling_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_profiling_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProfilingApiHandlerTests
+             COMMAND test_profiling_api_handler)
+
+    set_tests_properties(ProfilingApiHandlerTests PROPERTIES
+        LABELS "server;profiling;observability;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Profiling API Handler: exact query matching and invalid numeric parameter rejection")
+else()
+    message(STATUS "Profiling API Handler tests not found")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_udf_api_handler.cpp")
     message(STATUS "Adding UDF API Handler tests")
 
@@ -18566,6 +18640,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp" AND NOT TARGET t
     )
 
     add_test(NAME VoiceCoverageFocusedTests COMMAND test_voice_coverage_focused)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_api_handler.cpp")
+    message(STATUS "Adding Voice API Handler tests")
+
+    add_executable(test_voice_api_handler
+        test_voice_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/voice_api_handler.cpp
+    )
+
+    target_include_directories(test_voice_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_voice_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_voice_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VoiceApiHandlerTests COMMAND test_voice_api_handler)
+
+    set_tests_properties(VoiceApiHandlerTests PROPERTIES
+        LABELS "voice;server;api;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Voice API Handler: rejects invalid path IDs before assistant access")
+else()
+    message(STATUS "Voice API Handler tests not found")
 endif()
 
 # CanaryRollout - focused tests for canary rollout mode

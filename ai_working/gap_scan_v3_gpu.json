@@ -1,9 +1,9 @@
 {
   "gpu": {
-    "total": 1594,
-    "severity_critical": 242,
-    "severity_high": 1066,
-    "severity_medium": 286,
+    "total": 2053,
+    "severity_critical": 269,
+    "severity_high": 1434,
+    "severity_medium": 350,
     "by_category": {
       "security": 4,
       "memory": 2,
@@ -17,7 +17,13 @@
       "input_validation": 88,
       "exception_safety": 9,
       "uninitialized": 284,
-      "oop_design": 586
+      "oop_design": 586,
+      "audit_logging": 5,
+      "performance_patterns": 112,
+      "gpu_memory_safety": 37,
+      "query_correctness": 184,
+      "observability": 23,
+      "determinism": 98
     },
     "by_file": {
       "src\\gpu\\device_discovery.cpp": [
@@ -262,6 +268,96 @@
           "function_name": "HasGPU",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 87,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(d);"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 155,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(d);"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 236,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(d);"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 236,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(d);"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 76,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cudaGetDeviceCount(&count) != cudaSuccess || count == 0) {"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 85,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cudaGetDeviceProperties(&props, i) != cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 144,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipGetDeviceCount(&count) != hipSuccess || count == 0) {"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 153,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipGetDeviceProperties(&props, i) != hipSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 216,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (best != nullptr) {"
+        },
+        {
+          "file": "src\\gpu\\device_discovery.cpp",
+          "line": 245,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (d.is_healthy && d.backend != \"CPU_FALLBACK\") {"
         }
       ],
       "src\\gpu\\load_balancer.cpp": [
@@ -715,6 +811,96 @@
           "function_name": "reserve",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 55,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "devices_.push_back(std::move(e));"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 270,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(dl));"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 51,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& d : devices) {"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 64,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& e : devices_) {"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 75,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& e : devices_) {"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 166,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (int j = 0; j < topology_.num_gpus; ++j) {"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 207,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& e : devices_) {"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 223,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& e : devices_) {"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 248,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& e : devices_) {"
+        },
+        {
+          "file": "src\\gpu\\load_balancer.cpp",
+          "line": 250,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "e.info.backend != \"CPU_FALLBACK\") {"
         }
       ],
       "src\\gpu\\rocm_backend.cpp": [
@@ -1110,6 +1296,141 @@
           "function_name": "getStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 191,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "names.push_back(kv.first);"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 201,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function allocate without trace point",
+          "context": "ROCmBackend::AllocationRecord ROCmBackend::allocate(size_t size_bytes,"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 228,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function deallocate without trace point",
+          "context": "ROCmBackend::Result ROCmBackend::deallocate(AllocationRecord& rec) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 53,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipGetDeviceCount(&count) != hipSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 74,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipSetDevice(device_index) != hipSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 116,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipSetDevice(device_index) != hipSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 124,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipStreamCreate(&stream) != hipSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 143,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it->second.native != 0) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 162,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it->second.native != 0) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 164,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipStreamSynchronize(stream) != hipSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 213,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipMalloc(&ptr, size_bytes) != hipSuccess || ptr == nullptr) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 219,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rec.device_ptr != 0) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 235,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipFree(ptr) != hipSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 244,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "it != active_allocations_.end(); ++it) {"
+        },
+        {
+          "file": "src\\gpu\\rocm_backend.cpp",
+          "line": 271,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipMemset(ptr, 0, size_bytes) != hipSuccess) {"
         }
       ],
       "src\\gpu\\stream_manager.cpp": [
@@ -1625,6 +1946,96 @@
           "function_name": "find",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 275,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "names.push_back(kv.first);"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 366,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(kv.second.stats);"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 275,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : streams_) {"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 77,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (kv.second.cuda_stream != 0) {"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 153,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cudaSetDevice(device_index) != cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 156,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (cudaStreamCreate(&cuda_stream) != cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 213,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != reg.end()) {"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 244,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cuda_handle != 0) {"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 252,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != reg.end()) {"
+        },
+        {
+          "file": "src\\gpu\\stream_manager.cpp",
+          "line": 327,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != streams_.end()) {"
         }
       ],
       "src\\gpu\\kernel_validator.cpp": [
@@ -1955,6 +2366,42 @@
           "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\kernel_validator.cpp",
+          "line": 82,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(kv.first);"
+        },
+        {
+          "file": "src\\gpu\\kernel_validator.cpp",
+          "line": 44,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < length; ++i) {"
+        },
+        {
+          "file": "src\\gpu\\kernel_validator.cpp",
+          "line": 82,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : registry_) {"
+        },
+        {
+          "file": "src\\gpu\\kernel_validator.cpp",
+          "line": 122,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (r.computed_checksum != r.expected_checksum) {"
         }
       ],
       "src\\gpu\\admin_api.cpp": [
@@ -3665,6 +4112,60 @@
           "function_name": "firingCount",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\alerts.cpp",
+          "line": 164,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(kv.second);"
+        },
+        {
+          "file": "src\\gpu\\alerts.cpp",
+          "line": 105,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& cb : callbacks_) {"
+        },
+        {
+          "file": "src\\gpu\\alerts.cpp",
+          "line": 150,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : statuses_) {"
+        },
+        {
+          "file": "src\\gpu\\alerts.cpp",
+          "line": 164,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : statuses_) {"
+        },
+        {
+          "file": "src\\gpu\\alerts.cpp",
+          "line": 173,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : statuses_) {"
+        },
+        {
+          "file": "src\\gpu\\alerts.cpp",
+          "line": 94,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (new_state != s.state) {"
         }
       ],
       "src\\gpu\\audit_log.cpp": [
@@ -3935,6 +4436,42 @@
           "function_name": "capacity",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\audit_log.cpp",
+          "line": 122,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(ring_[i]);"
+        },
+        {
+          "file": "src\\gpu\\audit_log.cpp",
+          "line": 127,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(ring_[(head_ + i) % capacity_]);"
+        },
+        {
+          "file": "src\\gpu\\audit_log.cpp",
+          "line": 122,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < count_; ++i) {"
+        },
+        {
+          "file": "src\\gpu\\audit_log.cpp",
+          "line": 127,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < capacity_; ++i) {"
         }
       ],
       "src\\gpu\\cluster_coordinator.cpp": [
@@ -4707,6 +5244,105 @@
           "function_name": "totalNodes",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 66,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "local.device_indices.push_back(d.index);"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 319,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "nodes_.push_back(std::move(n));"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 435,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(n);"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 66,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& d : devices) {"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 127,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& lnk : topology_.links) {"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 280,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& n : nodes_) {"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 388,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& n : nodes_) {"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 406,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& n : nodes_) {"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 434,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& n : nodes_) {"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 89,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "!node.node_id.empty() && node.node_id != config_.node_id)"
+        },
+        {
+          "file": "src\\gpu\\cluster_coordinator.cpp",
+          "line": 407,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (n.status != NodeStatus::ONLINE) continue;"
         }
       ],
       "src\\gpu\\cluster_topology.cpp": [
@@ -5090,6 +5726,51 @@
           "function_name": "nodeIds",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\cluster_topology.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "topo.links.push_back(lnk);"
+        },
+        {
+          "file": "src\\gpu\\cluster_topology.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "topo.links.push_back(lnk);"
+        },
+        {
+          "file": "src\\gpu\\cluster_topology.cpp",
+          "line": 183,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "nodes.push_back(node);"
+        },
+        {
+          "file": "src\\gpu\\cluster_topology.cpp",
+          "line": 297,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(n.node_id);"
+        },
+        {
+          "file": "src\\gpu\\cluster_topology.cpp",
+          "line": 95,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != cudaSuccess || !can_access) {"
         }
       ],
       "src\\gpu\\config.cpp": [
@@ -5747,6 +6428,78 @@
           "function_name": "getAll",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 208,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(s);"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 128,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto f : all) {"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 106,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return ed != edition::EditionType::UNKNOWN;"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 117,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return ed != edition::EditionType::UNKNOWN;"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 150,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ov != overrides_.end()) {"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 155,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (def != defaults_.end()) {"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 201,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ov != overrides_.end()) {"
+        },
+        {
+          "file": "src\\gpu\\feature_flags.cpp",
+          "line": 206,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "s.enabled    = (def != defaults_.end()) ? def->second : false;"
         }
       ],
       "src\\gpu\\gpu_memory_manager_edition.cpp": [
@@ -7073,6 +7826,141 @@
           "function_name": "GetGPUFallbackStrategy",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 289,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "error += \"GB) exceeds edition limit (\";"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 373,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(ts));"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 128,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& h : active_hints_) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 148,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = active_hints_.begin(); it != active_hints_.end(); ++it) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 368,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : tenant_states_) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 56,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_states_.end() && it->second.quota_bytes > 0) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 100,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_states_.end()) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 125,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_states_.end() && it->second.quota_bytes > 0) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 148,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = active_hints_.begin(); it != active_hints_.end(); ++it) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 164,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = active_hints_.begin(); it != active_hints_.end(); ++it) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 229,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = active_allocations_.begin(); it != active_allocations_.end(); ++it) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 236,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tit != tenant_states_.end()) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 260,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = active_allocations_.begin(); it != active_allocations_.end(); ++it) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 270,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tit != tenant_states_.end()) {"
+        },
+        {
+          "file": "src\\gpu\\gpu_memory_manager_edition.cpp",
+          "line": 355,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_states_.end()) {"
         }
       ],
       "src\\gpu\\gpu_module.cpp": [
@@ -7567,6 +8455,24 @@
           "function_name": "getMemoryStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\gpu_module.cpp",
+          "line": 150,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function allocate without trace point",
+          "context": "bool GPUModule::allocate(const std::string& caller_id,"
+        },
+        {
+          "file": "src\\gpu\\gpu_module.cpp",
+          "line": 198,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function deallocate without trace point",
+          "context": "void GPUModule::deallocate(const std::string& tenant_id, uint64_t bytes) {"
         }
       ],
       "src\\gpu\\graph_cache.cpp": [
@@ -7838,6 +8744,24 @@
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\graph_cache.cpp",
+          "line": 56,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != entries_.end()) {"
+        },
+        {
+          "file": "src\\gpu\\graph_cache.cpp",
+          "line": 139,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = entries_.begin(); it != entries_.end(); ++it) {"
         }
       ],
       "src\\gpu\\launcher.cpp": [
@@ -8101,6 +9025,33 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\launcher.cpp",
+          "line": 133,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(executeOne(std::move(item)));"
+        },
+        {
+          "file": "src\\gpu\\launcher.cpp",
+          "line": 133,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& item : items) {"
+        },
+        {
+          "file": "src\\gpu\\launcher.cpp",
+          "line": 87,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - start);"
         }
       ],
       "src\\gpu\\memory_pool.cpp": [
@@ -8519,6 +9470,105 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 53,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < n; ++i) {"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 148,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& sl : slabs_) {"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 167,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& s : slabs_) {"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 221,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "gpu_memory_leak",
+          "description": "GPU memory allocated without RAII wrapper or guaranteed cleanup",
+          "context": "// caller must have performed a cudaMalloc / hipMalloc of at"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 221,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMalloc() without error checking",
+          "context": "// caller must have performed a cudaMalloc / hipMalloc of at"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 222,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// least total_bytes_ bytes starting at device_base_ptr_."
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 214,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (s.offset != new_offset) {"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 230,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (device_base_ptr_ != 0) {"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 233,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cudaMemcpy(dst, src, slab_size_, cudaMemcpyDeviceToDevice) != cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 239,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (device_base_ptr_ != 0) {"
+        },
+        {
+          "file": "src\\gpu\\memory_pool.cpp",
+          "line": 242,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipMemcpy(dst, src, slab_size_, hipMemcpyDeviceToDevice) != hipSuccess) {"
         }
       ],
       "src\\gpu\\metrics.cpp": [
@@ -9726,6 +10776,60 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\metrics.cpp",
+          "line": 46,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!first) key += ',';"
+        },
+        {
+          "file": "src\\gpu\\metrics.cpp",
+          "line": 268,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(s));"
+        },
+        {
+          "file": "src\\gpu\\metrics.cpp",
+          "line": 275,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(s));"
+        },
+        {
+          "file": "src\\gpu\\metrics.cpp",
+          "line": 264,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : counters_) {"
+        },
+        {
+          "file": "src\\gpu\\metrics.cpp",
+          "line": 271,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : gauges_) {"
+        },
+        {
+          "file": "src\\gpu\\metrics.cpp",
+          "line": 42,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_map<std::string, std::string>& labels) {"
         }
       ],
       "src\\gpu\\mig_manager.cpp": [
@@ -10511,6 +11615,78 @@
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 290,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(kv.second);"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 302,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(kv.second);"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 315,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(kv.second);"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 290,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : instances_) {"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 301,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : instances_) {"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 314,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : instances_) {"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 165,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != device_instance_count_.end()) ? it->second : 0;"
+        },
+        {
+          "file": "src\\gpu\\mig_manager.cpp",
+          "line": 226,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (count_it != device_instance_count_.end() && count_it->second > 0) {"
         }
       ],
       "src\\gpu\\p2p_transfer.cpp": [
@@ -11013,6 +12189,105 @@
           "function_name": "getStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 328,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaError_t err = cudaMemcpyPeer("
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 335,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "result.error_message = \"cudaMemcpyPeer failed\";"
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 94,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return src < n && dst < n && src != dst;"
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 126,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (err == cudaSuccess) && (can != 0);"
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 133,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (err == hipSuccess) && (can != 0);"
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cudaDeviceCanAccessPeer(&can, src_idx, dst_idx) != cudaSuccess || !can) {"
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 187,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != cudaSuccess && err != cudaErrorPeerAccessAlreadyEnabled) {"
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 196,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipDeviceCanAccessPeer(&can, src_idx, dst_idx) != hipSuccess || !can) {"
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 206,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != hipSuccess && err != hipErrorPeerAccessAlreadyEnabled) {"
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 333,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\p2p_transfer.cpp",
+          "line": 345,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != hipSuccess) {"
         }
       ],
       "src\\gpu\\policy.cpp": [
@@ -11395,6 +12670,51 @@
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\policy.cpp",
+          "line": 122,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(kv.first);"
+        },
+        {
+          "file": "src\\gpu\\policy.cpp",
+          "line": 134,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(static_cast<Capability>(v));"
+        },
+        {
+          "file": "src\\gpu\\policy.cpp",
+          "line": 34,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& id : pre_granted_callers) {"
+        },
+        {
+          "file": "src\\gpu\\policy.cpp",
+          "line": 122,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : grants_) {"
+        },
+        {
+          "file": "src\\gpu\\policy.cpp",
+          "line": 134,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (int v : it->second) {"
         }
       ],
       "src\\gpu\\profiler.cpp": [
@@ -11886,6 +13206,60 @@
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 93,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "completed.start_ns = active.start_ns;"
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 112,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ev.start_ns = now;"
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 144,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const bool   is_instant = (r.start_ns == r.end_ns);"
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 148,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "<< \"\\\"ts\\\": \" << (r.start_ns / 1000) << \", \""
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 152,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "<< \"\\\"ts\\\": \" << (r.start_ns / 1000) << \", \""
+        },
+        {
+          "file": "src\\gpu\\profiler.cpp",
+          "line": 153,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "<< \"\\\"dur\\\": \" << ((r.end_ns - r.start_ns) / 1000) << \", \""
         }
       ],
       "src\\gpu\\query_accelerator.cpp": [
@@ -13868,6 +15242,2427 @@
           "function_name": "getStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 745,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// FP16: cublasGemmEx / hipblasGemmEx with CUDA_R_16F / HIPBLAS_R_16F inputs"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 748,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// BF16: cublasGemmEx with CUDA_R_16BF inputs + CUDA_R_32F output (CUDA only;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 787,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// Use CUDA_R_16F inputs with CUDA_R_32F output + FP32 compute"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 928,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// Use HIPBLAS_R_16F inputs + HIPBLAS_R_32F output to avoid"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1048,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// Validate inputs --------------------------------------------------------"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 296,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.rows.push_back(rows[static_cast<size_t>(i)]);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 323,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.rows.push_back(row);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 323,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.rows.push_back(row);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 661,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.pairs.emplace_back((*build_side)[bi],"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 661,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.pairs.emplace_back((*build_side)[bi],"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 704,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.pairs.emplace_back(*it->second, row);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 704,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.pairs.emplace_back(*it->second, row);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 704,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.pairs.emplace_back(*it->second, row);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1191,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "heap.emplace_back(dist, vi);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1191,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "heap.emplace_back(dist, vi);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 296,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (uint64_t i : h_idx) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 311,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& r : rows) bytes += r.data.size();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 322,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& row : rows) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 331,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& r : rows) bytes += r.data.size();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 402,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < n; ++i) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 416,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& r : result.rows) bytes += r.data.size();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 436,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& r : result.rows) bytes += r.data.size();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 526,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& r : rows) bytes += r.data.size();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 541,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& row : rows) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 557,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& r : rows) bytes += r.data.size();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 681,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& r : left)  bytes += r.data.size();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 682,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& r : right) bytes += r.data.size();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 696,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& row : *build_side) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 700,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& row : *probe_side) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 703,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = beg; it != end; ++it) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 712,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& r : left)  bytes += r.data.size();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 713,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& r : right) bytes += r.data.size();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1004,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < a.size(); ++i) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1010,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < a.size(); ++i) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1017,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < a.size(); ++i) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1129,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t qi = 0; qi < numQueries; ++qi) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1131,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t ni = 0; ni < k; ++ni) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1207,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t ni = 0; ni < heap.size(); ++ni) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1138,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "gpu_memory_leak",
+          "description": "GPU memory allocated without RAII wrapper or guaranteed cleanup",
+          "context": "// cudaMalloc failure or cuVS error \u2014 fall through to CPU path."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 767,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMalloc() without error checking",
+          "context": "cudaMalloc(&d_a, n * sizeof(float)) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 770,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpy(d_a, a.data(), n * sizeof(float),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 771,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpyHostToDevice) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 772,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpy(d_b, b.data(), n * sizeof(float),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 773,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpyHostToDevice) == cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 798,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMalloc() without error checking",
+          "context": "cudaMalloc(&d_a, n * sizeof(__half)) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 799,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMalloc() without error checking",
+          "context": "cudaMalloc(&d_b, n * sizeof(__half)) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 802,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpy(d_a, ha.data(), n * sizeof(__half),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 803,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpyHostToDevice) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 804,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpy(d_b, hb.data(), n * sizeof(__half),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 805,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpyHostToDevice) == cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 820,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpyDeviceToHost) == cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 842,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMalloc() without error checking",
+          "context": "cudaMalloc(&d_a, n * sizeof(__nv_bfloat16)) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 843,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMalloc() without error checking",
+          "context": "cudaMalloc(&d_b, n * sizeof(__nv_bfloat16)) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 846,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpy(d_a, ba.data(), n * sizeof(__nv_bfloat16),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 847,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpyHostToDevice) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 848,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpy(d_b, bb.data(), n * sizeof(__nv_bfloat16),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 849,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpyHostToDevice) == cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 863,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMemcpy() without error checking",
+          "context": "cudaMemcpyDeviceToHost) == cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1138,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMalloc() without error checking",
+          "context": "// cudaMalloc failure or cuVS error \u2014 fall through to CPU path."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 793,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_a",
+          "context": "__half* d_a = nullptr;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 794,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_b",
+          "context": "__half* d_b = nullptr;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 837,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_a",
+          "context": "__nv_bfloat16* d_a = nullptr;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 838,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_b",
+          "context": "__nv_bfloat16* d_b = nullptr;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 839,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_c",
+          "context": "float*         d_c = nullptr;  // accumulate in FP32"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 934,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_a",
+          "context": "hipblasHalf* d_a = nullptr;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 935,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: d_b",
+          "context": "hipblasHalf* d_b = nullptr;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 8,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "Last Modified:   2026-04-15 18:49:00                                \u2551"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 83,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::memcpy(&bits, &f, 4);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 144,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::memcpy(&f, &bits, 4);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 156,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::memcpy(&bits, &f, 4);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 166,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::memcpy(&f, &bits, 4);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 179,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::GPUQueryAccelerator()"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 182,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::GPUQueryAccelerator(const Config& config)"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 190,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void GPUQueryAccelerator::enableGraphCache() {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 191,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "graph_cache_enabled_.store(true, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 194,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void GPUQueryAccelerator::disableGraphCache() {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 195,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "graph_cache_enabled_.store(false, std::memory_order_relaxed);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 198,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUGraphCache::Stats GPUQueryAccelerator::getGraphCacheStats() const {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 206,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "bool GPUQueryAccelerator::shouldUseGPU(size_t num_rows) const noexcept {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 211,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void GPUQueryAccelerator::recordOp(size_t rows, uint64_t bytes, bool gpu_used) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 219,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "QueryShape GPUQueryAccelerator::makeShape(QueryShape::OpType op,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 233,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::ScanResult"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 234,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::scan(const std::vector<Row>& rows, FilterFn filter) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 253,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 264,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// Pass-all scan: use thrust::copy_if with an always-true device"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 270,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::device_vector<uint64_t> d_idx(n);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 271,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::sequence(thrust::device, d_idx.begin(), d_idx.end(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 281,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::device_vector<uint64_t> d_selected(n);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 282,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto d_end = thrust::copy_if(thrust::device,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 290,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<uint64_t> h_idx(selected_count);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 291,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::copy(thrust::device,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 301,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch ([[maybe_unused]] const std::exception& ex) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 302,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// Thrust system_error or std::runtime_error \u2014 fall through."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 312,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 332,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 343,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::SortResult"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 344,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::sort(std::vector<Row> rows, KeyFn key_fn, SortOrder order) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 375,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<double>   h_keys(n);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 376,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<uint64_t> h_idx(n);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 383,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::device_vector<double>   d_keys(h_keys.begin(), h_keys.end());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 384,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::device_vector<uint64_t> d_idx(h_idx.begin(), h_idx.end());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 387,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (order == SortOrder::ASC) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 388,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 391,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 393,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::greater<double>());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 397,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<uint64_t> sorted_idx(n);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 398,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::copy(d_idx.begin(), d_idx.end(), sorted_idx.begin());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 401,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<Row> sorted_rows(n);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 403,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "sorted_rows[i] = std::move(rows[static_cast<size_t>(sorted_idx[i])]);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 405,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "rows = std::move(sorted_rows);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 407,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch ([[maybe_unused]] const std::exception& ex) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 408,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// Thrust system_error or std::runtime_error \u2014 fall through to CPU."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 414,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.rows = std::move(rows);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 417,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 427,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::stable_sort(rows.begin(), rows.end(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 431,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return (order == SortOrder::ASC) ? ka < kb : ka > kb;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 433,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.rows = std::move(rows);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 437,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 448,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::AggResult"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 449,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::aggregate(const std::vector<Row>& rows,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 478,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (use_gpu && func != AggFunc::COUNT) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 484,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<double> h_values(n);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 488,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::device_vector<double> d_values(h_values.begin(), h_values.end());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 493,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case AggFunc::SUM:"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 494,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "gpu_result = thrust::reduce(d_values.begin(), d_values.end(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 495,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "0.0, thrust::plus<double>());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 497,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case AggFunc::MIN:"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 498,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "gpu_result = thrust::reduce(d_values.begin(), d_values.end(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 499,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::numeric_limits<double>::max(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 500,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::minimum<double>());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 502,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case AggFunc::MAX:"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 503,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "gpu_result = thrust::reduce(d_values.begin(), d_values.end(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 504,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::numeric_limits<double>::lowest(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 505,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::maximum<double>());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 507,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case AggFunc::AVG: {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 508,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "double s = thrust::reduce(d_values.begin(), d_values.end(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 509,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "0.0, thrust::plus<double>());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 518,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch ([[maybe_unused]] const std::exception& ex) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 519,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// Thrust system_error or std::runtime_error \u2014 fall through to CPU."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 527,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 538,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "double mn  = std::numeric_limits<double>::max();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 539,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "double mx  = std::numeric_limits<double>::lowest();"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 549,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case AggFunc::SUM:   result.value = sum;                         break;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 550,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case AggFunc::COUNT: result.value = static_cast<double>(rows.size()); break;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 551,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case AggFunc::MIN:   result.value = mn;                          break;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 552,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case AggFunc::MAX:   result.value = mx;                          break;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 553,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case AggFunc::AVG:   result.value = sum / static_cast<double>(rows.size()); break;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 558,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 569,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::JoinResult"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 570,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::hashJoin(const std::vector<Row>& left,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 571,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::vector<Row>& right,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 596,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::vector<Row>* build_side  = &left;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 597,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::vector<Row>* probe_side  = &right;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 603,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::swap(build_side, probe_side);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 604,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::swap(build_key,  probe_key);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 611,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "//   using thrust::stable_sort_by_key \u2014 this is where the GPU is used."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 613,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "//   key run std::lower/upper_bound over the host-side sorted array."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 629,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<uint64_t> h_build_keys(bn);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 630,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<uint64_t> h_build_idx(bn);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 637,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::device_vector<uint64_t> d_bkeys(h_build_keys.begin(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 639,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::device_vector<uint64_t> d_bidx(h_build_idx.begin(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 641,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::stable_sort_by_key(d_bkeys.begin(), d_bkeys.end(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 645,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<uint64_t> sorted_bkeys(bn);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 646,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<uint64_t> sorted_bidx(bn);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 647,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::copy(d_bkeys.begin(), d_bkeys.end(), sorted_bkeys.begin());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 648,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "thrust::copy(d_bidx.begin(), d_bidx.end(),  sorted_bidx.begin());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 654,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto lo = std::lower_bound(sorted_bkeys.begin(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 656,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto hi = std::upper_bound(sorted_bkeys.begin(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 660,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "static_cast<size_t>(std::distance(sorted_bkeys.begin(), it))]);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 671,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch ([[maybe_unused]] const std::exception& ex) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 672,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// Thrust system_error or std::runtime_error \u2014 fall through to CPU."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 683,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 694,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unordered_multimap<uint64_t, const Row*> ht;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 714,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 725,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::DotProductResult"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 726,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::dotProduct(const std::vector<float>& a,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 727,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::vector<float>& b)"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 733,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 762,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (config_.precision_mode == PrecisionMode::FP32) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 785,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} else if (config_.precision_mode == PrecisionMode::FP16) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 789,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<__half> ha(n), hb(n);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 833,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<__nv_bfloat16> ba(n), bb(n);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 875,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch ([[maybe_unused]] const std::exception& ex) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 876,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// cuBLAS, Thrust, or std::runtime_error \u2014 fall through to CPU."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 884,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 886,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (config_.precision_mode == PrecisionMode::FP16) ++stats_.fp16_ops;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 887,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "else if (config_.precision_mode == PrecisionMode::BF16) ++stats_.bf16_ops;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 903,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (config_.precision_mode == PrecisionMode::FP32) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 926,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} else if (config_.precision_mode == PrecisionMode::FP16) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 930,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<hipblasHalf> ha(n), hb(n);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 979,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch ([[maybe_unused]] const std::exception& ex) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 980,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// hipBLAS, Thrust, or std::runtime_error \u2014 fall through to CPU."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 988,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 990,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (config_.precision_mode == PrecisionMode::FP16) ++stats_.fp16_ops;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 991,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "else if (config_.precision_mode == PrecisionMode::BF16) ++stats_.bf16_ops;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1003,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case PrecisionMode::FP16:"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1009,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case PrecisionMode::BF16:"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1015,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case PrecisionMode::FP32:"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1024,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1026,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (config_.precision_mode == PrecisionMode::FP16) ++stats_.fp16_ops;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1027,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "else if (config_.precision_mode == PrecisionMode::BF16) ++stats_.bf16_ops;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1037,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::AnnResult"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1038,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::annSearch(const std::vector<float>& queries,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1041,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::vector<float>& database,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1071,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1075,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1092,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "raft::device_resources handle;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1095,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto db_dev = raft::make_device_matrix<float>(handle, numVectors, dim);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1096,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "raft::copy(db_dev.data_handle(), database.data(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1100,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cuvs::neighbors::ivf_flat::index_params idx_params;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1102,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "? cuvs::distance::DistanceType::L2Unexpanded"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1103,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": ": cuvs::distance::DistanceType::InnerProduct;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1104,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto index = cuvs::neighbors::ivf_flat::build("
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1108,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto q_dev = raft::make_device_matrix<float>(handle, numQueries, dim);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1109,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "raft::copy(q_dev.data_handle(), queries.data(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1112,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "raft::make_device_matrix<uint32_t>(handle, numQueries, k);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1114,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "raft::make_device_matrix<float>(handle, numQueries, k);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1115,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cuvs::neighbors::ivf_flat::search_params search_params;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1116,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "cuvs::neighbors::ivf_flat::search(handle, search_params, index,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1120,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<uint32_t> neighbor_idx(numQueries * k);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1121,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<float>    host_distances(numQueries * k);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1122,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "raft::copy(neighbor_idx.data(), neighbors_dev.data_handle(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1124,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "raft::copy(host_distances.data(), distances_dev.data_handle(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1146,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1157,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const size_t actual_k = std::min(k, numVectors);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1166,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "using Pair = std::pair<float, size_t>;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1167,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<Pair> heap;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1194,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::make_heap(heap.begin(), heap.end());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1197,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::pop_heap(heap.begin(), heap.end());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1199,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::push_heap(heap.begin(), heap.end());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1204,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::sort_heap(heap.begin(), heap.end());"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1214,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1223,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "GPUQueryAccelerator::Stats GPUQueryAccelerator::getStats() const {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1224,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1228,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void GPUQueryAccelerator::resetStats() {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1229,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lk(mutex_);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 566,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "// hashJoin"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 569,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "GPUQueryAccelerator::JoinResult"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 570,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "GPUQueryAccelerator::hashJoin(const std::vector<Row>& left,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 572,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "JoinKeyFn               left_key,"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 573,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "JoinKeyFn               right_key) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 574,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "JoinResult result;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 583,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "QueryShape shape = makeShape(QueryShape::OpType::JOIN, total);"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 598,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "JoinKeyFn                build_key  = left_key;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 599,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "JoinKeyFn                probe_key  = right_key;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 608,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "// GPU path \u2014 two-phase sort-based join using Thrust (CUDA/HIP)."
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 614,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "//   The probe is sequential since JoinKeyFn is a host functor; the GPU"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 617,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "// Sort-based joins deliver predictable O(n log n) device-side work without"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 684,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "++stats_.total_joins;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 715,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "++stats_.total_joins;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1096,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "raft::copy(db_dev.data_handle(), database.data(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1109,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "raft::copy(q_dev.data_handle(), queries.data(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1122,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "raft::copy(neighbor_idx.data(), neighbors_dev.data_handle(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1124,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "raft::copy(host_distances.data(), distances_dev.data_handle(),"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 478,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (use_gpu && func != AggFunc::COUNT) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 658,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = lo; it != hi; ++it) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 703,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = beg; it != end; ++it) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 732,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.empty() || a.size() != b.size()) {"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 767,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "cudaMalloc(&d_a, n * sizeof(float)) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 768,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "cudaMalloc(&d_b, n * sizeof(float)) == cudaSuccess;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 800,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "cudaMalloc(&d_c, sizeof(float))      == cudaSuccess;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 842,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "cudaMalloc(&d_a, n * sizeof(__nv_bfloat16)) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 843,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "cudaMalloc(&d_b, n * sizeof(__nv_bfloat16)) == cudaSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 844,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "cudaMalloc(&d_c, sizeof(float))              == cudaSuccess;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 908,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "hipMalloc(&d_a, n * sizeof(float)) == hipSuccess &&"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 909,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "hipMalloc(&d_b, n * sizeof(float)) == hipSuccess;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 941,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "hipMalloc(&d_c, sizeof(float))           == hipSuccess;"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1050,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "queries.size() != numQueries * dim ||"
+        },
+        {
+          "file": "src\\gpu\\query_accelerator.cpp",
+          "line": 1051,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "database.size() != numVectors * dim) {"
         }
       ],
       "src\\gpu\\safe_fail.cpp": [
@@ -14267,6 +18062,42 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\safe_fail.cpp",
+          "line": 71,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "attempt_gpu = (state_ != State::CIRCUIT_OPEN && state_ != State::FAILED);"
+        },
+        {
+          "file": "src\\gpu\\safe_fail.cpp",
+          "line": 143,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (state_ != State::CIRCUIT_OPEN && state_ != State::FAILED);"
+        },
+        {
+          "file": "src\\gpu\\safe_fail.cpp",
+          "line": 148,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (state_ != State::CIRCUIT_OPEN) return false;"
+        },
+        {
+          "file": "src\\gpu\\safe_fail.cpp",
+          "line": 155,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (state_ != State::CIRCUIT_OPEN) return;"
         }
       ],
       "src\\gpu\\tensor_buffer.cpp": [
@@ -15351,6 +19182,42 @@
           "function_name": "getGlobalStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\tensor_buffer.cpp",
+          "line": 305,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "shape.dims.push_back(read32(p)); p += 4;"
+        },
+        {
+          "file": "src\\gpu\\tensor_buffer.cpp",
+          "line": 65,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "bool GPUTensorBuffer::Shape::operator!=(const Shape& other) const noexcept {"
+        },
+        {
+          "file": "src\\gpu\\tensor_buffer.cpp",
+          "line": 93,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &other) {"
+        },
+        {
+          "file": "src\\gpu\\tensor_buffer.cpp",
+          "line": 294,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (magic != 0x54454E53u)"
         }
       ],
       "src\\gpu\\time_slice_scheduler.cpp": [
@@ -16071,6 +19938,96 @@
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 256,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(s);"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 209,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : tenants_) {"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 223,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : tenants_) {"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 252,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& tenant_id : round_robin_order_) {"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 141,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto slice_start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 155,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - slice_start);"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 171,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto item_start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 175,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - item_start);"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 192,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenants_.end()) {"
+        },
+        {
+          "file": "src\\gpu\\time_slice_scheduler.cpp",
+          "line": 254,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenants_.end()) {"
         }
       ],
       "src\\gpu\\training_loop.cpp": [
@@ -16301,6 +20258,24 @@
           "function_name": "lastEpochStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\training_loop.cpp",
+          "line": 87,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "history_.push_back(rec);"
+        },
+        {
+          "file": "src\\gpu\\training_loop.cpp",
+          "line": 60,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = order.size(); i > 1; --i) {"
         }
       ],
       "src\\gpu\\unified_memory.cpp": [
@@ -16676,6 +20651,114 @@
           "function_name": "reset",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 28,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "gpu_memory_leak",
+          "description": "GPU memory allocated without RAII wrapper or guaranteed cleanup",
+          "context": "* Real cudaMallocManaged / hipMallocManaged calls are gated behind"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 95,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "gpu_memory_leak",
+          "description": "GPU memory allocated without RAII wrapper or guaranteed cleanup",
+          "context": "if (cudaMallocManaged(&ptr, bytes, cudaMemAttachGlobal) != cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 28,
+          "category": "gpu_memory_safety",
+          "severity": "HIGH",
+          "pattern": "unchecked_cuda_call",
+          "description": "CUDA call cudaMalloc() without error checking",
+          "context": "* Real cudaMallocManaged / hipMallocManaged calls are gated behind"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 170,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: ptr",
+          "context": "std::free(ptr);"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 170,
+          "category": "gpu_memory_safety",
+          "severity": "CRITICAL",
+          "pattern": "use_after_free_gpu",
+          "description": "Use of freed GPU memory: ptr",
+          "context": "std::free(ptr);"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 87,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function allocate without trace point",
+          "context": "void* GPUUnifiedMemoryAllocator::allocate(size_t             bytes,"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 66,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return prop.unifiedAddressing != 0;"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 74,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return prop.unifiedAddressing != 0;"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 95,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cudaMallocManaged(&ptr, bytes, cudaMemAttachGlobal) != cudaSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 99,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (hipMallocManaged(&ptr, bytes, hipMemAttachGlobal) != hipSuccess) {"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 156,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tit != tenant_bytes_.end()) {"
+        },
+        {
+          "file": "src\\gpu\\unified_memory.cpp",
+          "line": 276,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != tenant_bytes_.end()) ? it->second : 0u;"
         }
       ],
       "src\\gpu\\vulkan_backend.cpp": [
@@ -16972,6 +21055,33 @@
           "function_name": "getStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\vulkan_backend.cpp",
+          "line": 252,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "names.push_back(kv.first);"
+        },
+        {
+          "file": "src\\gpu\\vulkan_backend.cpp",
+          "line": 252,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : streams_) {"
+        },
+        {
+          "file": "src\\gpu\\vulkan_backend.cpp",
+          "line": 75,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (vkCreateInstance(&ci, nullptr, &inst) != VK_SUCCESS) {"
         }
       ],
       "src\\gpu\\wasm_kernel_sandbox.cpp": [
@@ -17404,6 +21514,33 @@
           "function_name": "resetStats",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\gpu\\wasm_kernel_sandbox.cpp",
+          "line": 88,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "WASMKernelSandbox::execute(const std::string&          kernel_id,"
+        },
+        {
+          "file": "src\\gpu\\wasm_kernel_sandbox.cpp",
+          "line": 88,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "WASMKernelSandbox::execute(const std::string&          kernel_id,"
+        },
+        {
+          "file": "src\\gpu\\wasm_kernel_sandbox.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (vr.status != GPUKernelValidator::Status::OK) {"
         }
       ]
     }

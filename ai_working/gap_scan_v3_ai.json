@@ -1,12 +1,14 @@
 {
   "ai": {
-    "total": 9,
-    "severity_critical": 0,
-    "severity_high": 9,
+    "total": 16,
+    "severity_critical": 1,
+    "severity_high": 15,
     "severity_medium": 0,
     "by_category": {
       "uninitialized": 1,
-      "oop_design": 8
+      "oop_design": 8,
+      "audit_logging": 2,
+      "llm_ai_safety": 5
     },
     "by_file": {
       "src\\ai\\ai_plugin_generator.cpp": [
@@ -98,6 +100,69 @@
           "function_name": "debug",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 21,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "*   - generatePlugin()  validates inputs, then returns ERR_PLUGIN_LOAD_FAILED."
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 63,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// 1. Validate inputs first."
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 7,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "* Purpose: Provide structurally-valid input validation for AI plugin generation"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 7,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "* Purpose: Provide structurally-valid input validation for AI plugin generation"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 21,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "*   - generatePlugin()  validates inputs, then returns ERR_PLUGIN_LOAD_FAILED."
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 63,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "// 1. Validate inputs first."
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 23,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "* Phase 2 (Target v1.6.0): wire a real ILLMInferenceEngine for code generation."
         }
       ]
     }

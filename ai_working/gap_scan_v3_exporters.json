@@ -1,22 +1,27 @@
 {
   "exporters": {
-    "total": 1488,
-    "severity_critical": 89,
-    "severity_high": 1114,
-    "severity_medium": 285,
+    "total": 1665,
+    "severity_critical": 96,
+    "severity_high": 1194,
+    "severity_medium": 375,
     "by_category": {
       "security": 16,
       "memory": 33,
-      "reliability": 215,
+      "reliability": 217,
       "concurrency": 10,
       "raii": 24,
-      "container": 74,
+      "container": 72,
       "platform": 2,
       "performance": 6,
-      "type_conversion": 175,
+      "type_conversion": 173,
       "input_validation": 98,
-      "uninitialized": 385,
-      "oop_design": 450
+      "uninitialized": 387,
+      "oop_design": 448,
+      "audit_logging": 2,
+      "performance_patterns": 43,
+      "llm_ai_safety": 10,
+      "observability": 45,
+      "determinism": 79
     },
     "by_file": {
       "src\\exporters\\export_format_registry.cpp": [
@@ -640,6 +645,15 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\export_format_registry.cpp",
+          "line": 72,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "keys.push_back(k);"
         }
       ],
       "src\\exporters\\arrow_ipc_exporter.cpp": [
@@ -2795,6 +2809,204 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 355,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "field_refs.push_back(C_field);"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 646,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "vals.push_back(fieldToString(e, col));"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 702,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.buf_offsets.push_back(body_pos);"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 841,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!exclude_set.count(f)) cols.push_back(f);"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 848,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!exclude_set.count(f)) cols.push_back(f);"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1049,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arrow_fields.push_back(arrow::field(col, arrow::utf8()));"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1056,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "keys.push_back(kv.first);"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1119,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arrays.push_back(*maybe_arr);"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1119,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arrays.push_back(*maybe_arr);"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1119,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arrays.push_back(*maybe_arr);"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 1103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto status = builders[i]->Append(fieldToString(entity, columns[i]));"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 193,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return cursor();  // = C_obj (cursor after length field, the \"start\" of string)"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 261,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Table data layout (offsets from table start = position of soffset_t):"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 298,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// field offsets relative to table start (= C_soffset position in final buf):"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 873,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 909,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time);"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 961,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "[[maybe_unused]] int64_t schema_frame_start = file_pos;"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 970,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t rb_frame_start = file_pos;"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 979,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "blk.offset           = rb_frame_start;"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 112,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (buf_.size() % n != 0) preByte(0);"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 691,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (body_pos % 8 != 0) {"
+        },
+        {
+          "file": "src\\exporters\\arrow_ipc_exporter.cpp",
+          "line": 709,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (body_pos % 8 != 0) {"
         }
       ],
       "src\\exporters\\export_encryption.cpp": [
@@ -6462,6 +6674,456 @@
           "function_name": "DecryptionException",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 60,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "buf.push_back(static_cast<uint8_t>((v >> (i * 8)) & 0xFFu));"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 951,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Seek back to start of ciphertext"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 26,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <openssl/rand.h>"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 194,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Generate a random 12-byte IV."
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 199,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "\"ExportEncryption: failed to generate random IV\");"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 657,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "throw EncryptionException(\"Failed to generate random job ID\");"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 789,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// \u2500\u2500 4. Generate random IV \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 793,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "throw EncryptionException(\"Failed to generate random IV for export encryption\");"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 155,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (kek.size() != KEY_LEN) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 196,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(iv.data(), static_cast<int>(IV_LEN)) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 218,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "nullptr, nullptr, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 222,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(IV_LEN), nullptr) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 226,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "dek.data(), iv.data()) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 235,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(aad.size())) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 248,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(plaintext.size())) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 254,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "&final_len) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 261,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "tag.data()) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 312,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (total < 4 || std::memcmp(buf, MAGIC, 4) != 0) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 324,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ver != FORMAT_VER) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 405,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "nullptr, nullptr, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 409,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(IV_LEN), nullptr) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 413,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "dek.data(), iv.data()) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 422,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(aad.size())) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 435,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(ct_len)) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 443,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const_cast<uint8_t*>(tag.data())) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 476,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (src_path != dst_path) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 533,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (src_path != dst_path) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 656,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 713,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (in.gcount() != 4) return false;"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 714,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (std::memcmp(magic, kMagic, 4) != 0) return false;"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 719,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (version != kFormatVersion) return false;"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 727,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (in.gcount() != kek_id_len) return false;"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 739,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (in.gcount() != job_id_len) return false;"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 745,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (in.gcount() != 12) return false;"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 791,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(iv.data(), 12) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 825,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 829,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 833,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptInit_ex(ctx, nullptr, nullptr, dek.data(), iv.data()) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 844,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(effective_job_id.size())) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 863,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(bytes_read)) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 875,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptFinal_ex(ctx, cipher_buf.data(), &final_len) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 885,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 947,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (in_f.gcount() != 16) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 996,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1000,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1004,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DecryptInit_ex(ctx, nullptr, nullptr, dek.data(), iv.data()) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1014,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(job_id.size())) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1037,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(bytes_read)) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1048,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, expected_tag) != 1) {"
+        },
+        {
+          "file": "src\\exporters\\export_encryption.cpp",
+          "line": 1054,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DecryptFinal_ex(ctx, plain_buf.data(), &final_len) != 1) {"
         }
       ],
       "src\\exporters\\huggingface_exporter.cpp": [
@@ -7402,12 +8064,111 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 362,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "inferred_features_.push_back(std::move(feat));"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 362,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "inferred_features_.push_back(std::move(feat));"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 362,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "inferred_features_.push_back(std::move(feat));"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 353,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (field_dtypes.find(field_name) == field_dtypes.end()) {"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 349,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> field_dtypes;"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 59,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 66,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - start_time"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 136,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 155,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 166,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time"
+        },
+        {
+          "file": "src\\exporters\\huggingface_exporter.cpp",
+          "line": 174,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time"
         }
       ],
       "src\\exporters\\huggingface_hub_client.cpp": [
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 71,
+          "line": 72,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "s->append(data, sz * nmemb);",
@@ -7416,7 +8177,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 112,
+          "line": 113,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "hdrs->append(buffer, size * nitems);",
@@ -7425,7 +8186,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 269,
+          "line": 270,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "[[maybe_unused]] const char* data,",
@@ -7443,7 +8204,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 207,
+          "line": 208,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -7452,7 +8213,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 214,
+          "line": 215,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -7461,7 +8222,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 343,
+          "line": 344,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "f.read(buf.data(), file_size);",
@@ -7470,7 +8231,25 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 212,
+          "line": 528,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!backoff.wait()) break;",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 712,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "if (!backoff.wait()) break;",
+          "description": "semaphore_wait without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 213,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto token_bytes = config_.key_provider->getKey(config_.hf_token_kek_id);",
@@ -7479,7 +8258,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 425,
+          "line": 426,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const auto decision = config_.policy_engine->checkExportPermission(req);",
@@ -7488,7 +8267,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 623,
+          "line": 634,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "const auto decision = config_.policy_engine->checkExportPermission(req);",
@@ -7497,7 +8276,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 344,
+          "line": 345,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "f.close();",
@@ -7506,7 +8285,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 482,
+          "line": 483,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "for (const auto& entry : fs::recursive_directory_iterator(dataset_dir)) {",
@@ -7515,7 +8294,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 484,
+          "line": 485,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "files.push_back(entry.path().string());",
@@ -7524,16 +8303,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 516,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 572,
+          "line": 583,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::seconds(sleep_secs));",
@@ -7542,16 +8312,7 @@
         },
         {
           "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 690,
-          "type": "range_temporary",
-          "severity": "HIGH",
-          "snippet": "std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));",
-          "description": "Range-for on temporary container \u2014 references may be invalid",
-          "remediation": "Store container in variable first: auto c = func(); for (auto x : c) { ... }"
-        },
-        {
-          "file": "src\\exporters\\huggingface_hub_client.cpp",
-          "line": 749,
+          "line": 770,
           "type": "range_temporary",
           "severity": "HIGH",
           "snippet": "std::this_thread::sleep_for(std::chrono::seconds(sleep_secs));",
@@ -7562,7 +8323,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 263,
+          "line_number": 264,
           "line_content": "return {static_cast<int>(http_code), response};",
           "context": [
             "        return {0, std::string(\"CURL error: \") + curl_easy_strerror(res)};",
@@ -7580,7 +8341,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 323,
+          "line_number": 324,
           "line_content": "return static_cast<int>(http_code);",
           "context": [
             "        *retry_after_out = extractRetryAfterHeader(raw_headers);",
@@ -7595,46 +8356,10 @@
           "reason": "Explicit cast to int detected (verify no overflow on source)"
         },
         {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 515,
-          "line_content": "const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));",
-          "context": [
-            "        for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {",
-            "            if (attempt > 0 && !rate_limited) {",
-            "                const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));",
-            "                std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));",
-            "                THEMIS_WARN(\"HuggingFaceHubClient: retry {} for file {}\", attempt, rel);"
-          ],
-          "pattern_matched": "const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 689,
-          "line_content": "const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));",
-          "context": [
-            "        for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {",
-            "            if (attempt > 0 && !rate_limited) {",
-            "                const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));",
-            "                std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));",
-            "                THEMIS_WARN(\"HuggingFaceHubClient: retry {} for shard {}\", attempt, rel);"
-          ],
-          "pattern_matched": "const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
           "gap_type": "UNCHECKED_MEMCPY",
           "severity": "CRITICAL",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 104,
+          "line_number": 105,
           "line_content": "std::memcpy(dest, state->data + state->offset, to_copy);",
           "context": [
             "    const std::size_t to_copy   = std::min(sz * nmemb, available);",
@@ -7652,14 +8377,14 @@
           "gap_type": "OFF_BY_ONE_LOOP",
           "severity": "CRITICAL",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 513,
+          "line_number": 525,
           "line_content": "for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {",
           "context": [
-            "        bool file_ok = false;",
-            "        bool rate_limited = false;",
+            "        themis::utils::ExponentialBackoff backoff(retry_cfg);",
+            "",
             "        for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {",
             "            if (attempt > 0 && !rate_limited) {",
-            "                const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));"
+            "                THEMIS_WARN(\"HuggingFaceHubClient: retry {} for file {}\", attempt, rel);"
           ],
           "pattern_matched": "for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {",
           "operation": "Loop with <= condition",
@@ -7670,14 +8395,14 @@
           "gap_type": "OFF_BY_ONE_LOOP",
           "severity": "CRITICAL",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 687,
+          "line_number": 709,
           "line_content": "for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {",
           "context": [
-            "        bool shard_ok = false;",
-            "        bool rate_limited = false;",
+            "        themis::utils::ExponentialBackoff backoff(retry_cfg);",
+            "",
             "        for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {",
             "            if (attempt > 0 && !rate_limited) {",
-            "                const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));"
+            "                THEMIS_WARN(\"HuggingFaceHubClient: retry {} for shard {}\", attempt, rel);"
           ],
           "pattern_matched": "for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {",
           "operation": "Loop with <= condition",
@@ -7688,7 +8413,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 71,
+          "line_number": 72,
           "var_name": "s",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -7697,7 +8422,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 84,
+          "line_number": 85,
           "var_name": "file_fraction_start",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7706,7 +8431,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 86,
+          "line_number": 87,
           "var_name": "pd",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -7715,7 +8440,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 101,
+          "line_number": 102,
           "var_name": "state",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -7724,19 +8449,10 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 103,
+          "line_number": 104,
           "var_name": "size",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 104,
-          "var_name": "state",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
         },
         {
           "gap_type": "pointer_without_null_check",
@@ -7751,7 +8467,16 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 112,
+          "line_number": 106,
+          "var_name": "state",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 113,
           "var_name": "hdrs",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -7760,7 +8485,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 131,
+          "line_number": 132,
           "var_name": "key",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7769,7 +8494,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 134,
+          "line_number": 135,
           "var_name": "key",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7778,7 +8503,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 138,
+          "line_number": 139,
           "var_name": "key",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7787,7 +8512,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 156,
+          "line_number": 157,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7796,7 +8521,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 176,
+          "line_number": 177,
           "var_name": "retry_time",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7805,17 +8530,8 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 179,
+          "line_number": 180,
           "var_name": "retry_time",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 205,
-          "var_name": "token_bytes",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
@@ -7829,10 +8545,19 @@
           "reason": "Use outside conditional block may use uninitialized value"
         },
         {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 207,
+          "var_name": "token_bytes",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 212,
+          "line_number": 213,
           "var_name": "key_provider",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -7841,7 +8566,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 213,
+          "line_number": 214,
           "var_name": "token_bytes",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7850,7 +8575,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 237,
+          "line_number": 238,
           "var_name": "auth_hdr",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7859,7 +8584,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 260,
+          "line_number": 261,
           "var_name": "res",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7868,7 +8593,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 279,
+          "line_number": 280,
           "var_name": "auth_hdr",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7877,7 +8602,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 304,
+          "line_number": 305,
           "var_name": "res",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7886,7 +8611,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 316,
+          "line_number": 317,
           "var_name": "res",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7895,7 +8620,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 338,
+          "line_number": 339,
           "var_name": "file_size",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7904,7 +8629,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 418,
+          "line_number": 419,
           "var_name": "decision",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7913,7 +8638,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 425,
+          "line_number": 426,
           "var_name": "policy_engine",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -7922,7 +8647,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 426,
+          "line_number": 427,
           "var_name": "decision",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7931,7 +8656,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 429,
+          "line_number": 430,
           "var_name": "decision",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7940,16 +8665,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 463,
-          "var_name": "repo_res",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 472,
+          "line_number": 464,
           "var_name": "repo_res",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -7967,106 +8683,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 514,
-          "var_name": "rel",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 535,
-          "var_name": "http_status",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 539,
-          "var_name": "http_status",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 542,
-          "var_name": "http_status",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 560,
-          "var_name": "sleep_secs",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 561,
-          "var_name": "sleep_secs",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 562,
-          "var_name": "metrics",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 565,
-          "var_name": "sleep_secs",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 623,
-          "var_name": "policy_engine",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 624,
-          "var_name": "decision",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 627,
-          "var_name": "decision",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 656,
+          "line_number": 474,
           "var_name": "repo_res",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -8075,8 +8692,8 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 664,
-          "var_name": "repo_res",
+          "line_number": 526,
+          "var_name": "attempt",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
@@ -8084,16 +8701,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 665,
-          "var_name": "repo_res",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 700,
+          "line_number": 536,
           "var_name": "frac_start",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -8102,7 +8710,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 711,
+          "line_number": 546,
           "var_name": "http_status",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -8111,7 +8719,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 715,
+          "line_number": 550,
           "var_name": "http_status",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -8120,7 +8728,16 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 737,
+          "line_number": 553,
+          "var_name": "http_status",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 571,
           "var_name": "sleep_secs",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -8129,7 +8746,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 738,
+          "line_number": 572,
           "var_name": "sleep_secs",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -8138,7 +8755,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 739,
+          "line_number": 573,
           "var_name": "metrics",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -8147,7 +8764,133 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 742,
+          "line_number": 576,
+          "var_name": "sleep_secs",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 634,
+          "var_name": "policy_engine",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 635,
+          "var_name": "decision",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 638,
+          "var_name": "decision",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 667,
+          "var_name": "repo_res",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 675,
+          "var_name": "repo_res",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 676,
+          "var_name": "repo_res",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 710,
+          "var_name": "attempt",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 721,
+          "var_name": "frac_start",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 732,
+          "var_name": "http_status",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 736,
+          "var_name": "http_status",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 758,
+          "var_name": "sleep_secs",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 759,
+          "var_name": "sleep_secs",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 760,
+          "var_name": "metrics",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 763,
           "var_name": "sleep_secs",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -8156,7 +8899,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 102,
+          "line_number": 103,
           "class_name": "Unknown",
           "function_name": "memoryReadCb",
           "issue": "Virtual function called in constructor",
@@ -8166,7 +8909,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 104,
+          "line_number": 105,
           "class_name": "Unknown",
           "function_name": "memoryReadCb",
           "issue": "Virtual function called in constructor",
@@ -8176,7 +8919,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 129,
+          "line_number": 130,
           "class_name": "Unknown",
           "function_name": "headerCaptureCb",
           "issue": "Virtual function called in constructor",
@@ -8186,7 +8929,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 136,
+          "line_number": 137,
           "class_name": "Unknown",
           "function_name": "line",
           "issue": "Virtual function called in constructor",
@@ -8196,7 +8939,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 137,
+          "line_number": 138,
           "class_name": "Unknown",
           "function_name": "stream",
           "issue": "Virtual function called in constructor",
@@ -8206,7 +8949,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 161,
+          "line_number": 162,
           "class_name": "Unknown",
           "function_name": "seconds",
           "issue": "Virtual function called in constructor",
@@ -8216,19 +8959,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 178,
+          "line_number": 179,
           "class_name": "Unknown",
           "function_name": "strptime",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 193,
-          "class_name": "Unknown",
-          "function_name": "HuggingFaceHubClient",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -8246,7 +8979,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 198,
+          "line_number": 195,
           "class_name": "Unknown",
           "function_name": "HuggingFaceHubClient",
           "issue": "Virtual function called in constructor",
@@ -8256,7 +8989,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 207,
+          "line_number": 199,
+          "class_name": "Unknown",
+          "function_name": "HuggingFaceHubClient",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 208,
           "class_name": "Unknown",
           "function_name": "resolveToken",
           "issue": "Virtual function called in constructor",
@@ -8266,7 +9009,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 214,
+          "line_number": 215,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -8276,17 +9019,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 218,
-          "class_name": "Unknown",
-          "function_name": "getKey",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 222,
+          "line_number": 219,
           "class_name": "Unknown",
           "function_name": "getKey",
           "issue": "Virtual function called in constructor",
@@ -8298,6 +9031,16 @@
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
           "line_number": 223,
           "class_name": "Unknown",
+          "function_name": "getKey",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
+          "line_number": 224,
+          "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
@@ -8306,7 +9049,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 228,
+          "line_number": 229,
           "class_name": "Unknown",
           "function_name": "string",
           "issue": "Virtual function called in constructor",
@@ -8316,7 +9059,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 261,
+          "line_number": 262,
           "class_name": "Unknown",
           "function_name": "curl_easy_setopt",
           "issue": "Virtual function called in constructor",
@@ -8326,7 +9069,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 267,
+          "line_number": 268,
           "class_name": "Unknown",
           "function_name": "curl_slist_free_all",
           "issue": "Virtual function called in constructor",
@@ -8336,7 +9079,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 327,
+          "line_number": 328,
           "class_name": "Unknown",
           "function_name": "THEMIS_WARN",
           "issue": "Virtual function called in constructor",
@@ -8346,7 +9089,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 353,
+          "line_number": 354,
           "class_name": "Unknown",
           "function_name": "read",
           "issue": "Virtual function called in constructor",
@@ -8356,7 +9099,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 371,
+          "line_number": 372,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -8366,7 +9109,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 381,
+          "line_number": 382,
           "class_name": "Unknown",
           "function_name": "repo",
           "issue": "Virtual function called in constructor",
@@ -8376,7 +9119,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 408,
+          "line_number": 409,
           "class_name": "Unknown",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -8386,7 +9129,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 413,
+          "line_number": 414,
           "class_name": "Unknown",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -8396,7 +9139,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 444,
+          "line_number": 445,
           "class_name": "Unknown",
           "function_name": "resolveToken",
           "issue": "Virtual function called in constructor",
@@ -8406,7 +9149,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 482,
+          "line_number": 483,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -8416,7 +9159,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 496,
+          "line_number": 497,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -8426,7 +9169,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 505,
+          "line_number": 506,
           "class_name": "Unknown",
           "function_name": "sort",
           "issue": "Virtual function called in constructor",
@@ -8436,17 +9179,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 516,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 569,
+          "line_number": 580,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -8456,7 +9189,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 572,
+          "line_number": 583,
           "class_name": "Unknown",
           "function_name": "recordRateLimitHit",
           "issue": "Virtual function called in constructor",
@@ -8466,7 +9199,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 582,
+          "line_number": 593,
           "class_name": "Unknown",
           "function_name": "sleep_for",
           "issue": "Virtual function called in constructor",
@@ -8476,7 +9209,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 608,
+          "line_number": 619,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -8486,7 +9219,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 613,
+          "line_number": 624,
           "class_name": "Unknown",
           "function_name": "uploadShards",
           "issue": "Virtual function called in constructor",
@@ -8496,17 +9229,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 690,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 746,
+          "line_number": 767,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -8516,7 +9239,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 749,
+          "line_number": 770,
           "class_name": "Unknown",
           "function_name": "recordRateLimitHit",
           "issue": "Virtual function called in constructor",
@@ -8526,11 +9249,83 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\exporters\\huggingface_hub_client.cpp",
-          "line_number": 760,
+          "line_number": 781,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 484,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "files.push_back(entry.path().string());"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 78,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "double file_fraction_start = 0.0;"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 87,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "pd->cb(pd->file_fraction_start + frac * pd->file_fraction_range);"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 143,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (first != std::string::npos) value = value.substr(first);"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 177,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (parsed != nullptr) {"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 261,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (res != CURLE_OK) {"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 317,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (res != CURLE_OK) {"
+        },
+        {
+          "file": "src\\exporters\\huggingface_hub_client.cpp",
+          "line": 371,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cs != 200 && cs != 201) {"
         }
       ],
       "src\\exporters\\parquet_exporter.cpp": [
@@ -10107,6 +10902,168 @@
           "function_name": "write",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 93,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "buf.push_back(static_cast<uint8_t>((u >> s) & 0xFF));"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 379,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "value_buf.push_back(static_cast<uint8_t>(len & 0xFF));"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 460,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (exclude_set.find(f) == exclude_set.end()) cols.push_back(f);"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 467,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (exclude_set.find(f) == exclude_set.end()) cols.push_back(f);"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 489,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cols.push_back(hint.name);"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 489,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cols.push_back(hint.name);"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 489,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cols.push_back(hint.name);"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 601,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "fields.push_back(arrow::field(col, dt, true /* nullable */));"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 601,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "fields.push_back(arrow::field(col, dt, true /* nullable */));"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 664,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arrays.push_back(arr);"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 664,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arrays.push_back(arr);"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 478,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (exclude_set.find(kv.first) == exclude_set.end()) {"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 505,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 541,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time);"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 931,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t col_start_offset = static_cast<int64_t>(file_offset);"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 954,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "info.file_offset      = col_start_offset;"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 692,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tenant_val && *tenant_val != options.tenant_context->tenant_id) {"
+        },
+        {
+          "file": "src\\exporters\\parquet_exporter.cpp",
+          "line": 813,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tenant_val && *tenant_val != options.tenant_context->tenant_id) {"
         }
       ],
       "src\\exporters\\aql_predicate_filter.cpp": [
@@ -10831,6 +11788,51 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 133,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += ' ';"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 256,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "fields.push_back(kv.first);"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 182,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<std::string>> combined;"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 57,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "{\"start\",     {\"begin\", \"initiate\", \"launch\"}},"
+        },
+        {
+          "file": "src\\exporters\\data_augmentation.cpp",
+          "line": 205,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != combined.end() && !it->second.empty()) {"
         }
       ],
       "src\\exporters\\exporter_metrics.cpp": [
@@ -12684,6 +13686,60 @@
           "function_name": "visit",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 64,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 68,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"IncrementalExporter: starting delta export, watermark={}\", watermark);"
+        },
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 139,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "now - start_time);"
+        },
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 206,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time);"
+        },
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 233,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time);"
+        },
+        {
+          "file": "src\\exporters\\incremental_exporter.cpp",
+          "line": 129,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (seq != std::numeric_limits<int64_t>::min() && seq > max_sequence) {"
         }
       ],
       "src\\exporters\\join_exporter.cpp": [
@@ -13185,6 +14241,60 @@
           "function_name": "estimateEntityBytes",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 113,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 258,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time);"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 313,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const std::string src_name  = (colon_pos != std::string::npos)"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 316,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const std::string out_name  = (colon_pos != std::string::npos)"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 324,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != left_fields.end()) {"
+        },
+        {
+          "file": "src\\exporters\\join_exporter.cpp",
+          "line": 330,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != right_fields.end()) {"
         }
       ],
       "src\\exporters\\jsonl_llm_exporter.cpp": [
@@ -14718,6 +15828,204 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 789,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// Skip empty outputs"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 790,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "if (quality.skip_empty_outputs && (!output || output->empty())) {"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 899,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "runtime_metrics_.validation_errors.push_back(err_msg);"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 1124,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "j[\"schema_validation\"][\"recent_errors\"].push_back("
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 475,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "// Optional input field"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 476,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "if (isFieldAllowed(mapping.input_field, options.include_fields, options.exclude_fields)) {"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 477,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "auto input = entity.getFieldAsString(mapping.input_field);"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 478,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "if (input && !input->empty()) {"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 479,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "j[\"input\"] = *input;"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 475,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "// Optional input field"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 476,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "if (isFieldAllowed(mapping.input_field, options.include_fields, options.exclude_fields)) {"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 477,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "auto input = entity.getFieldAsString(mapping.input_field);"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 478,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "if (input && !input->empty()) {"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 479,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "j[\"input\"] = *input;"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 390,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 1120,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = runtime_metrics_.validation_errors.size() > 10"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 1124,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = start; i < runtime_metrics_.validation_errors.size(); ++i) {"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 207,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tenant_field && *tenant_field != options.tenant_context->tenant_id) {"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 634,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = j.begin(); it != j.end(); ) {"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 749,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = lower.find(marker, pos)) != std::string::npos) {"
+        },
+        {
+          "file": "src\\exporters\\jsonl_llm_exporter.cpp",
+          "line": 765,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_.format_template_type != FormatTemplateType::NONE) {"
         }
       ],
       "src\\exporters\\pii_detector.cpp": [
@@ -15245,6 +16553,186 @@
           "function_name": "str",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 220,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += std::string(value.length() - config_.partial_keep_prefix - config_.partial_keep_suffix, '*');"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 76,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back(match);"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 89,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back(match);"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 102,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back(match);"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 115,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back(match);"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 128,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back(match);"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 75,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "match.start_pos = it->position();"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 88,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "match.start_pos = it->position();"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 101,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "match.start_pos = it->position();"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 114,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "match.start_pos = it->position();"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "match.start_pos = it->position();"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 150,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return a.start_pos > b.start_pos;"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 162,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "result.replace(match.start_pos, match.end_pos - match.start_pos, redacted);"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 71,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (; it != end; ++it) {"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 84,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (; it != end; ++it) {"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 97,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (; it != end; ++it) {"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 110,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (; it != end; ++it) {"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 123,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (; it != end; ++it) {"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 157,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (strategy != config_.default_strategy) {"
+        },
+        {
+          "file": "src\\exporters\\pii_detector.cpp",
+          "line": 174,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != config_.strategy_per_type.end()) {"
         }
       ],
       "src\\exporters\\streaming_exporter.cpp": [
@@ -15949,6 +17437,60 @@
           "function_name": "calculateETA",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 168,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "line += '\\n';"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 94,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 105,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_WARN(\"StreamingExporter: seekTo({}) failed, starting from beginning\","
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 297,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end_time - start_time);"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 399,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::time_point start_time"
+        },
+        {
+          "file": "src\\exporters\\streaming_exporter.cpp",
+          "line": 405,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - start_time).count();"
         }
       ],
       "src\\exporters\\stream_writer.cpp": [
@@ -16348,6 +17890,42 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 45,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_.compression != CompressionType::NONE) {"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 74,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_.compression != CompressionType::NONE) {"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 94,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_.compression != CompressionType::NONE) {"
+        },
+        {
+          "file": "src\\exporters\\stream_writer.cpp",
+          "line": 121,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_.compression != CompressionType::NONE) {"
         }
       ]
     }

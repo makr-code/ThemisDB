@@ -1,9 +1,9 @@
 {
   "timeseries": {
-    "total": 1593,
+    "total": 1872,
     "severity_critical": 87,
-    "severity_high": 1278,
-    "severity_medium": 228,
+    "severity_high": 1411,
+    "severity_medium": 374,
     "by_category": {
       "security": 22,
       "memory": 34,
@@ -17,7 +17,11 @@
       "input_validation": 86,
       "exception_safety": 20,
       "uninitialized": 424,
-      "oop_design": 586
+      "oop_design": 586,
+      "performance_patterns": 40,
+      "query_correctness": 57,
+      "observability": 120,
+      "determinism": 62
     },
     "by_file": {
       "src\\timeseries\\aggregate_scheduler.cpp": [
@@ -935,6 +939,204 @@
           "function_name": "getCurrentTimeMs",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 198,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(agg);"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 164,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [id, agg] : aggregates_) {"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 198,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, agg] : aggregates_) {"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 54,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void AggregateScheduler::start() {"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 65,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"AggregateScheduler started with {} aggregates, check interval: {}s\","
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 143,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"AggregateScheduler.refreshNow\");"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 159,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"AggregateScheduler.refreshAll\");"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 213,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"AggregateScheduler loop started\");"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 216,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"AggregateScheduler.tick\");"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 257,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"AggregateScheduler.refreshAggregate\");"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 261,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 286,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t window_start = window_end - window_ms;"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 287,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "span.setAttribute(\"window_start_ms\", window_start);"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 288,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "agg_manager_->refresh(agg.config, window_start, window_end);"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 296,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 346,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"AggregateScheduler.catchUpMissedWindows\");"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 353,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t window_start = window_end - window_ms;"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 356,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "agg_manager_->refresh(agg.config, window_start, window_end);"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 358,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "window_start, window_end, agg.id);"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 110,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != aggregates_.end()) {"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 124,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != aggregates_.end()) {"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler.cpp",
+          "line": 134,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != aggregates_.end()) {"
         }
       ],
       "src\\timeseries\\aggregate_scheduler_helper.cpp": [
@@ -1067,6 +1269,87 @@
           "function_name": "backfill_range",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 55,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void AggregateScheduler::backfill_range(const std::string& agg_id, int64_t start_ms, int64_t end_ms) {"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 56,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start_ms >= end_ms) {"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 57,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_WARN(\"backfill_range: invalid range [{}, {}) for aggregate '{}' \u2013 start must be < end\","
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 58,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_ms, end_ms, agg_id);"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 62,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"AggregateScheduler.backfill_range\");"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 64,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "span.setAttribute(\"start_ms\", start_ms);"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 78,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"backfill_range: running backfill for '{}' over [{}, {})\", agg_id, start_ms, end_ms);"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 84,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "agg_manager_->refresh(cfg, start_ms, end_ms - 1);"
+        },
+        {
+          "file": "src\\timeseries\\aggregate_scheduler_helper.cpp",
+          "line": 85,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"backfill_range: completed for '{}' over [{}, {})\", agg_id, start_ms, end_ms);"
         }
       ],
       "src\\timeseries\\continuous_agg.cpp": [
@@ -2052,6 +2335,132 @@
           "function_name": "getAllStatus",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 126,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "partial_results.push_back(shard_query_(s, cfg, from_ms, to_ms));"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 427,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (s.has_value()) result.push_back(std::move(*s));"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 107,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto pts = local_store_->query(qopt);"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 192,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = store_->query(qopt);"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 242,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto first_point = store_->query(first);"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 401,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = store_->query(qopt);"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 107,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "auto pts = local_store_->query(qopt);"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 192,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "auto result = store_->query(qopt);"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 242,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "auto first_point = store_->query(first);"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 401,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "auto result = store_->query(qopt);"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 182,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (int64_t wstart = from_ms; wstart <= to_ms; wstart += win_ms) {"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 183,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t wend = std::min(wstart + win_ms - 1, to_ms);"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 188,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "qopt.from_timestamp_ms = wstart;"
+        },
+        {
+          "file": "src\\timeseries\\continuous_agg.cpp",
+          "line": 218,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "{\"from_ms\", wstart}, {\"to_ms\", wend}"
         }
       ],
       "src\\timeseries\\hypertable.cpp": [
@@ -2701,6 +3110,213 @@
           "function_name": "THEMIS_INFO",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 108,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "chunk_batches[chunk_name].emplace_back(timestamp, data);"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 136,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "chunks_to_scan.push_back(getChunkName(t));"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 160,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.emplace_back(timestamp, data);"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 105,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<std::pair<int64_t, std::string>>> chunk_batches;"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::vector<std::pair<int64_t, std::string>> Hypertable::query("
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "std::vector<std::pair<int64_t, std::string>> Hypertable::query("
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 46,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Calculate chunk start time (align to chunk interval)"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 47,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t chunk_start = (timestamp / config_.chunk_interval_seconds) * config_.chunk_interval_seconds;"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 51,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "oss << \"hypertable_\" << config_.table_name << \"_chunk_\" << chunk_start;"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 128,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t start_time,"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 233,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t start_time = std::stoll(timestamp_str);"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 234,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t end_time = start_time + config_.chunk_interval_seconds;"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 235,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return {start_time, end_time};"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 257,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto [start_time, end_time] = parseChunkTimeRange(cf.name);"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 258,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start_time == 0 && end_time == 0) {"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 266,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "info.start_time   = start_time;"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 280,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return a.start_time < b.start_time;"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 361,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (stats.oldest_timestamp == 0 || chunk.start_time < stats.oldest_timestamp) {"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 362,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "stats.oldest_timestamp = chunk.start_time;"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (underscore_pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 218,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "h.is_healthy = (h.status != ChunkStatus::Expired);"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 253,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cf.name.rfind(prefix, 0) != 0) {"
+        },
+        {
+          "file": "src\\timeseries\\hypertable.cpp",
+          "line": 171,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Sort by timestamp"
         }
       ],
       "src\\timeseries\\timeseries.cpp": [
@@ -3519,6 +4135,141 @@
           "function_name": "it",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 125,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query("
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 187,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query("
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 190,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return query(metric, entity, RangeQuery{});"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 199,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto points = this->query(metric, entity, query);"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 125,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query("
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 187,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "std::vector<TimeSeriesStore::DataPoint> TimeSeriesStore::query("
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 190,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "return query(metric, entity, RangeQuery{});"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 199,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "auto points = this->query(metric, entity, query);"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 147,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start from to_key and iterate backwards"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 149,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (!it->Valid() || !it->key().starts_with(prefix)) {"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 154,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "while (it->Valid() && it->key().starts_with(prefix) && results.size() < query.limit) {"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 170,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "while (it->Valid() && it->key().starts_with(prefix) && results.size() < query.limit) {"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 280,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (it->Valid() && it->key().starts_with(prefix)) {"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 71,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cf_ != nullptr) {"
+        },
+        {
+          "file": "src\\timeseries\\timeseries.cpp",
+          "line": 75,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return db_ != nullptr ? db_->DefaultColumnFamily() : nullptr;"
         }
       ],
       "src\\timeseries\\timeseries_metrics.cpp": [
@@ -4810,6 +5561,15 @@
           "function_name": "str",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\timeseries_metrics.cpp",
+          "line": 388,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [agg_id, stats] : agg_refresh_stats_) {"
         }
       ],
       "src\\timeseries\\tsstore.cpp": [
@@ -8197,6 +8957,474 @@
           "function_name": "string",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 287,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "grouped[group_key].push_back(point);"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 327,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "timestamps.push_back(p.timestamp_ms);"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 593,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.row_errors.emplace_back(idx,"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 859,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(dp);"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 282,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& point : points) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 293,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [group_key, group_points] : grouped) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 422,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& point : points) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 490,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < rows.size(); ++i) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 619,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < rows.size(); ++i) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 676,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "TSStore::query(const QueryOptions& options) const {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 921,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto plan = optimizer.optimizeAggregateQuery("
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 941,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result_or_error = query(agg_options);"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 980,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result_or_error = query(options);"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 246,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - start_time).count();"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 262,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TSStore.putDataPoints\");"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 264,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 403,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - start_time).count();"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 461,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - start_time).count();"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 474,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TSStore.putBatch\");"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 476,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 610,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - start_time).count();"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 669,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - start_time).count();"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 677,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 678,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TSStore.query\");"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 709,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::string start_key, end_key;"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 712,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_key = makeKey(options.metric, *options.entity, options.from_timestamp_ms);"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 715,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_key = KEY_PREFIX + options.metric + \":\";"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 719,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "it->Seek(start_key);"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 753,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::string start_key, end_key;"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 756,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_key = std::string(GORILLA_CHUNK_PREFIX) + options.metric + \":\" + *options.entity + \":\";"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 759,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_key = std::string(GORILLA_CHUNK_PREFIX) + options.metric + \":\";"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 763,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "it->Seek(start_key);"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 886,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - start_time).count();"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 900,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "[[maybe_unused]] auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 901,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TSStore.aggregate\");"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 102,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 144,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = tag_filter.begin(); it != tag_filter.end(); ++it) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 148,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!point.tags.contains(tag_key) || point.tags[tag_key] != tag_value) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 158,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != watermarks_.end()) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 220,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_.compression == CompressionType::Gorilla && auto_buffer_ != nullptr) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 728,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, expected_prefix.size(), expected_prefix) != 0) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 773,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!chunk_meta.contains(\"compression\") || chunk_meta[\"compression\"] != \"gorilla\") {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 782,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "size_t pos3 = (pos2 != std::string::npos) ? key.find(':', pos2 + 1) : std::string::npos;"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1037,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1105,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1163,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, prefix.size(), prefix) != 0) break;"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1213,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, prefix.size(), prefix) != 0) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 1260,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 273,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// 2. Sorted by timestamp"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 294,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Sort by timestamp for Gorilla efficiency"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 522,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Sort by timestamp for Gorilla efficiency"
+        },
+        {
+          "file": "src\\timeseries\\tsstore.cpp",
+          "line": 874,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Sort results by timestamp (mixed raw + compressed may be out of order)"
         }
       ],
       "src\\timeseries\\ts_encrypted_key_rotation.cpp": [
@@ -8749,6 +9977,51 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 60,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// start / stop"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 63,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void TsEncryptedKeyRotation::start()"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 147,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key >= end_marker || key.compare(0, prefix.size(), prefix) != 0) break;"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "chunk_meta[\"encryption\"] != ENCRYPTED_MARKER) {"
+        },
+        {
+          "file": "src\\timeseries\\ts_encrypted_key_rotation.cpp",
+          "line": 170,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "size_t pos3 = (pos2 != std::string::npos) ? key.find(':', pos2 + 1) : std::string::npos;"
         }
       ],
       "src\\timeseries\\aggregates.cpp": [
@@ -9327,6 +10600,105 @@
           "function_name": "sorted",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 65,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "window_data[window_start].push_back(values[i]);"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 71,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.timestamps.push_back(window_ts);"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 134,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "window_values.push_back(values[j]);"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 134,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "window_values.push_back(values[j]);"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 62,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Calculate window start time"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 63,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t window_start = (timestamps[i] / window.interval_seconds) * window.interval_seconds;"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 65,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (window_start >= window.start_time && window_start < window.end_time) {"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 66,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "window_data[window_start].push_back(values[i]);"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 102,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "window.start_time = min_time;"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 129,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t window_start = timestamps[i] - window_size_seconds;"
+        },
+        {
+          "file": "src\\timeseries\\aggregates.cpp",
+          "line": 134,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (timestamps[j] >= window_start && timestamps[j] <= timestamps[i]) {"
         }
       ],
       "src\\timeseries\\ts_auto_buffer.cpp": [
@@ -10401,6 +11773,69 @@
           "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 372,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "flush_cv_.wait_for(lock, config_.flush_interval, [this] {"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 104,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TSAutoBuffer.add\");"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 245,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TSAutoBuffer.flush\");"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 282,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TSAutoBuffer.flushBuffer\");"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 286,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto t_start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 295,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "double latency_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer.cpp",
+          "line": 366,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"TSAutoBuffer flush thread started\");"
         }
       ],
       "src\\timeseries\\adaptive_flush_controller.cpp": [
@@ -11062,6 +12497,42 @@
           "function_name": "load",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 221,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "buffer_.push_back(p);"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 260,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "batch.push_back(std::move(buffer_.front()));"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 183,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& p : points) {"
+        },
+        {
+          "file": "src\\timeseries\\adaptive_flush_controller.cpp",
+          "line": 313,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"AdaptiveFlushController flush thread started\");"
         }
       ],
       "src\\timeseries\\anomaly_detection.cpp": [
@@ -11517,6 +12988,78 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 88,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(ap);"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 88,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(ap);"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 137,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(ap);"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 80,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = score_map.find(p.timestamp_ms);"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 180,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = merged.find(ap.timestamp_ms);"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 74,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<int64_t, double> score_map;"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 177,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<int64_t, AnomalyPoint> merged;"
+        },
+        {
+          "file": "src\\timeseries\\anomaly_detection.cpp",
+          "line": 188,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Collect and sort by timestamp"
         }
       ],
       "src\\timeseries\\compression_selector.cpp": [
@@ -11861,6 +13404,33 @@
           "function_name": "clearCache",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\compression_selector.cpp",
+          "line": 62,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "deltas.push_back(points[i].timestamp_ms - points[i - 1].timestamp_ms);"
+        },
+        {
+          "file": "src\\timeseries\\compression_selector.cpp",
+          "line": 170,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != pinned_.end()) return it->second;"
+        },
+        {
+          "file": "src\\timeseries\\compression_selector.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != cached_.end()) return it->second;"
         }
       ],
       "src\\timeseries\\downsampling.cpp": [
@@ -12333,6 +13903,15 @@
           "function_name": "watermarkKey",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\downsampling.cpp",
+          "line": 241,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != watermarks_.end()) ? it->second : 0;"
         }
       ],
       "src\\timeseries\\encrypted_chunk_store.cpp": [
@@ -13249,6 +14828,141 @@
           "function_name": "auditKeyAccess",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 28,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <openssl/rand.h>"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 109,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// 3. Generate a random 12-byte IV (nonce)."
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 111,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(iv.data(), static_cast<int>(IV_LEN)) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 125,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 128,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, static_cast<int>(IV_LEN), nullptr) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 131,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptInit_ex(ctx, nullptr, nullptr, dek.data(), iv.data()) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 137,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "plaintext.data(), static_cast<int>(plaintext.size())) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 142,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &final_len) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 146,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, static_cast<int>(TAG_LEN), tag.data()) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 231,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 234,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, static_cast<int>(IV_LEN), nullptr) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 237,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DecryptInit_ex(ctx, nullptr, nullptr, dek.data(), iv) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 243,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "ct, static_cast<int>(ct_len)) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 250,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, static_cast<int>(TAG_LEN), tag_copy.data()) != 1) {"
+        },
+        {
+          "file": "src\\timeseries\\encrypted_chunk_store.cpp",
+          "line": 255,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &final_len) != 1) {"
         }
       ],
       "src\\timeseries\\gap_fill.cpp": [
@@ -13776,6 +15490,78 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 107,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(*exact);"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 159,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(*exact);"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 233,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(*exact);"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 315,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ts.push_back(t);"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 119,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// gap from start-of-series"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 107,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (exact != points.end() && exact->timestamp_ms == target_ts) {"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 159,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (exact != points.end() && exact->timestamp_ms == target_ts) {"
+        },
+        {
+          "file": "src\\timeseries\\gap_fill.cpp",
+          "line": 233,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (exact != points.end() && exact->timestamp_ms == target_ts) {"
         }
       ],
       "src\\timeseries\\gorilla.cpp": [
@@ -14432,6 +16218,51 @@
           "function_name": "readBits",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 87,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "buf_.push_back(static_cast<uint8_t>(v & 0x7FUL) | 0x80U);"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 131,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Ensure we start new point with varint aligned to byte boundary"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 100,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (bitpos_ != 0) {"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 108,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (bitpos_ != 0) {"
+        },
+        {
+          "file": "src\\timeseries\\gorilla.cpp",
+          "line": 194,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data[2] != kGorillaCurrentVersion) {"
         }
       ],
       "src\\timeseries\\gorilla_simd.cpp": [
@@ -15140,6 +16971,42 @@
           "function_name": "tiny",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\gorilla_simd.cpp",
+          "line": 374,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.emplace_back(dods_buf[b], bits_to_dbl_simd(xors_buf[b]));"
+        },
+        {
+          "file": "src\\timeseries\\gorilla_simd.cpp",
+          "line": 57,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (info[1] & (1 << 5)) != 0;  // EBX bit 5 = AVX2"
+        },
+        {
+          "file": "src\\timeseries\\gorilla_simd.cpp",
+          "line": 61,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (ebx & (1u << 5)) != 0;     // EBX bit 5 = AVX2"
+        },
+        {
+          "file": "src\\timeseries\\gorilla_simd.cpp",
+          "line": 277,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data_[2] != kGorillaCurrentVersion) {"
         }
       ],
       "src\\timeseries\\prometheus_remote_write.cpp": [
@@ -16615,6 +18482,600 @@
           "function_name": "max",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 8,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "Last Modified:   2026-04-15 18:51:16                                \u2551"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 37,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::vector<std::chrono::milliseconds> TSQueryOptimizer::COMMON_WINDOWS = {"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 38,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::minutes(1),"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 39,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::minutes(5),"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 40,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::minutes(15),"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 41,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::hours(1),"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 42,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::hours(6),"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 43,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::hours(24)"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 46,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TSQueryOptimizer::TSQueryOptimizer(TSStore* store)"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 50,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "throw std::invalid_argument(\"TSQueryOptimizer: TSStore cannot be null\");"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 54,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery("
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 55,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& metric,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 56,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::optional<std::string>& entity,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 61,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto span = Tracer::startSpan(\"TSQueryOptimizer.optimizeAggregateQuery\");"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 136,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string agg_metric = *agg_metric_opt;"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 138,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (pos == std::string::npos) {"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 143,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string window_str = agg_metric.substr(pos + 6);  // Skip \"__agg_\""
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 145,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int64_t window_ms = std::stoll(window_str);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 166,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "plan.estimated_speedup = static_cast<double>(raw_points) / std::max(agg_points, size_t(1));"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 177,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 178,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(cache_mutex_);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 185,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery("
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 186,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& metric,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 187,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::optional<std::string>& entity,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 194,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::optional<std::string> TSQueryOptimizer::findBestAggregate("
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 195,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& metric,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 221,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "bool TSQueryOptimizer::aggregateExists("
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 222,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& metric,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 223,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::milliseconds window) {"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 225,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string agg_metric = ContinuousAggregateManager::derivedMetricName(metric, window);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 248,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void TSQueryOptimizer::clearCache() {"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 249,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(cache_mutex_);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 253,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "size_t TSQueryOptimizer::cacheSize() const {"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 254,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(cache_mutex_);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 260,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void TSQueryOptimizer::registerIndexHint(IndexHint hint) {"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 261,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(index_mutex_);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 262,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "index_hints_[hint.metric] = std::move(hint);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 265,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::optional<TSQueryOptimizer::IndexHint> TSQueryOptimizer::getIndexHint("
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 266,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& metric) const {"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 267,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(index_mutex_);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 269,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (it == index_hints_.end()) return std::nullopt;"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 273,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string TSQueryOptimizer::buildCacheKey("
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 274,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& metric,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 275,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::optional<std::string>& entity,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 278,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ostringstream oss;"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 318,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "double speedup = static_cast<double>(raw_points) / std::max(agg_points, size_t(1));"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 323,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string TSQueryOptimizer::buildExplanation("
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 329,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ostringstream oss;"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 334,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "oss << std::fixed << std::setprecision(1) << plan.estimated_speedup << \"x speedup)\";"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 347,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void TSQueryOptimizer::setTierSelector(const TierSelector* selector) {"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 351,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeWithTiers("
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 352,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& metric,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 353,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::optional<std::string>& entity,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 356,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::milliseconds requested_resolution_ms,"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 380,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ostringstream oss;"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 384,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "<< std::fixed << std::setprecision(1) << plan.estimated_speedup << \"x speedup)\";"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 388,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_DEBUG(\"TSQueryOptimizer::optimizeWithTiers: routed '{}' \u2192 '{}' ({}x speedup)\","
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 54,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery("
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 185,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery("
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 191,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return optimizeAggregateQuery(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 232,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = store_->query(opts);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 395,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return optimizeAggregateQuery(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 232,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "auto result = store_->query(opts);"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 61,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto span = Tracer::startSpan(\"TSQueryOptimizer.optimizeAggregateQuery\");"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 74,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != plan_cache_.end()) {"
+        },
+        {
+          "file": "src\\timeseries\\query_optimizer.cpp",
+          "line": 200,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = COMMON_WINDOWS.rbegin(); it != COMMON_WINDOWS.rend(); ++it) {"
         }
       ],
       "src\\timeseries\\retention.cpp": [
@@ -16787,6 +19248,15 @@
           "function_name": "stopAsync",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\retention.cpp",
+          "line": 87,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void RetentionManager::startAsync(std::chrono::seconds interval) {"
         }
       ],
       "src\\timeseries\\ts_auto_buffer_adaptive.cpp": [
@@ -17047,6 +19517,24 @@
           "function_name": "ewmaLatencyMs",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
+          "line": 125,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "bool ok = cv_.wait_for(lock, timeout, [this]() {"
+        },
+        {
+          "file": "src\\timeseries\\ts_auto_buffer_adaptive.cpp",
+          "line": 107,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (batch_size_ != old) {"
         }
       ],
       "src\\timeseries\\ts_stream_cursor.cpp": [
@@ -17417,6 +19905,33 @@
           "function_name": "query",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\timeseries\\ts_stream_cursor.cpp",
+          "line": 158,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = store_->query(page_opts);"
+        },
+        {
+          "file": "src\\timeseries\\ts_stream_cursor.cpp",
+          "line": 158,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "auto result = store_->query(page_opts);"
+        },
+        {
+          "file": "src\\timeseries\\ts_stream_cursor.cpp",
+          "line": 141,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Build a page-sized query starting just after the last consumed timestamp."
         }
       ]
     }

@@ -1,9 +1,9 @@
 {
   "llama_cpp": {
-    "total": 152,
+    "total": 162,
     "severity_critical": 17,
-    "severity_high": 106,
-    "severity_medium": 29,
+    "severity_high": 107,
+    "severity_medium": 38,
     "by_category": {
       "memory": 1,
       "reliability": 29,
@@ -12,7 +12,10 @@
       "type_conversion": 16,
       "input_validation": 9,
       "uninitialized": 38,
-      "oop_design": 53
+      "oop_design": 53,
+      "performance_patterns": 6,
+      "observability": 2,
+      "determinism": 2
     },
     "by_file": {
       "src\\llama_cpp\\llama_cpp_plugin.cpp": [
@@ -1032,6 +1035,51 @@
           "function_name": "themis_llm_create",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 174,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(info));"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 337,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "chunks.push_back(std::move(chunk));"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 536,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(generate(req));"
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 370,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "llm::ContextWindowBudget::compute("
+        },
+        {
+          "file": "src\\llama_cpp\\llama_cpp_plugin.cpp",
+          "line": 86,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// initialisation during startup (matches LlamaWrapper default comment)."
         }
       ],
       "src\\llama_cpp\\llama_cpp_registrar.cpp": [
@@ -1665,6 +1713,51 @@
           "function_name": "generate",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+          "line": 556,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back(worker);"
+        },
+        {
+          "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+          "line": 593,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back(worker);"
+        },
+        {
+          "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+          "line": 632,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back(lora_writer, t);"
+        },
+        {
+          "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+          "line": 54,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "*                  \u2014 3 + 3 + 3 = 9 total for O+P; grand total A-P = 56"
+        },
+        {
+          "file": "src\\llama_cpp\\tests\\test_llama_cpp_plugin.cpp",
+          "line": 586,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (static_cast<int>(results.size()) != kBatchSize) {"
         }
       ]
     }

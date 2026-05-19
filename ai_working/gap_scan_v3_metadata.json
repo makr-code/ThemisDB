@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "total": 1190,
+    "total": 1376,
     "severity_critical": 60,
-    "severity_high": 932,
-    "severity_medium": 198,
+    "severity_high": 993,
+    "severity_medium": 323,
     "by_category": {
       "security": 7,
       "memory": 16,
@@ -16,7 +16,11 @@
       "input_validation": 34,
       "exception_safety": 10,
       "uninitialized": 209,
-      "oop_design": 620
+      "oop_design": 620,
+      "performance_patterns": 128,
+      "distributed_consistency": 1,
+      "observability": 15,
+      "determinism": 42
     },
     "by_file": {
       "src\\metadata\\catalog_exporter.cpp": [
@@ -707,6 +711,33 @@
           "function_name": "info",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\catalog_exporter.cpp",
+          "line": 191,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entities.push_back(col_entity);"
+        },
+        {
+          "file": "src\\metadata\\catalog_exporter.cpp",
+          "line": 348,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "fields.push_back(field);"
+        },
+        {
+          "file": "src\\metadata\\catalog_exporter.cpp",
+          "line": 79,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (res != CURLE_OK) {"
         }
       ],
       "src\\metadata\\schema_constraints.cpp": [
@@ -2099,6 +2130,141 @@
           "function_name": "string",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 195,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(c);"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 195,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(c);"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 238,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (v.has_value()) violations.push_back(std::move(*v));"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 238,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (v.has_value()) violations.push_back(std::move(*v));"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 310,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_arr.push_back(c.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 310,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_arr.push_back(c.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 310,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_arr.push_back(c.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 496,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_arr.push_back(c.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 496,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "c_arr.push_back(c.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 212,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, ColumnValue>& row) const"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 270,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, ColumnValue> SchemaConstraints::applyDefaults("
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 272,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, ColumnValue> row) const"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 229,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (row_it != row.end()) {"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 418,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lhs != std::string(column_name)) continue;  // Different column, skip"
+        },
+        {
+          "file": "src\\metadata\\schema_constraints.cpp",
+          "line": 539,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.rfind(prefix, 0) != 0) break;"
         }
       ],
       "src\\metadata\\schema_manager.cpp": [
@@ -4748,6 +4914,393 @@
           "function_name": "dump",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 72,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "props.push_back(prop.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 78,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idxs.push_back(idx.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 93,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "props.push_back(prop.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 151,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tables.push_back(schema);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 198,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "relationships.push_back(schema);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 238,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "caps.push_back(\"llm\");"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 395,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tables_json.push_back(table.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 401,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rels_json.push_back(rel.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 597,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "properties.push_back(prop);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 626,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idx.columns.push_back(col);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 641,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idx.columns.push_back(col);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 650,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idx.columns.push_back(col);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 665,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idx.columns.push_back(col);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 674,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idx.columns.push_back(col);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 683,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idx.columns.push_back(col);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 911,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "schema.properties.push_back(prop);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 938,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "info.columns.push_back(col.get<std::string>());"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 938,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "info.columns.push_back(col.get<std::string>());"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 938,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "info.columns.push_back(col.get<std::string>());"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 945,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "schema.indexes.push_back(idx);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 1151,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idx.columns.push_back(col.get<std::string>());"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 586,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = property_map.find(col);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 495,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, PropertyInfo> property_map;"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 151,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [name, schema] : table_cache_) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 198,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [name, schema] : rel_cache_) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 125,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "loadCustomSchemas();  // Load persisted custom schemas on startup"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 771,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 822,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 174,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != table_cache_.end()) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 474,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (colon_pos != std::string::npos && colon_pos > 0) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 515,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.find(prefix) != 0) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 556,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (prop.type != type_str && type_str != \"null\") {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 557,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (prop.type != \"null\") {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 587,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != property_map.end()) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 630,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != metadata.regular_unique.end()) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 654,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != metadata.sparse_unique.end()) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 716,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.find(prefix) != 0) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 740,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (name_lower.find(\"vector\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 741,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "name_lower.find(\"embedding\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 743,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (name_lower.find(\"collection\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 744,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "name_lower.find(\"document\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 1004,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!std::isalnum(static_cast<unsigned char>(c)) && c != '_' && c != '-') {"
+        },
+        {
+          "file": "src\\metadata\\schema_manager.cpp",
+          "line": 1192,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.find(prefix) != 0) {"
         }
       ],
       "src\\metadata\\statistics_collector.cpp": [
@@ -6799,6 +7352,186 @@
           "function_name": "value",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 99,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "buckets.push_back(b.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 189,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tables.push_back(name);"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 292,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "col_samples[col_str].push_back(val_str);"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 417,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(s.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 417,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(s.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 417,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(s.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 555,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "numeric_vals.push_back(std::stod(v));"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 623,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "buckets.push_back(bucket);"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 690,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "hist_buckets.push_back(b);"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 716,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(s.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 758,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "stats.push_back(std::move(s));"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 320,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [col, values] : col_samples) {"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 443,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& s : stamped) {"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 165,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::info(\"StatisticsCollector: auto-refresh started (interval={}s)\", interval.count());"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 224,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto collect_start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 240,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - collect_start).count();"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 261,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.rfind(prefix, 0) != 0) {"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 308,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (key.rfind(prefix, 0) != 0) break;"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 357,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != stats_cache_.end()) {"
+        },
+        {
+          "file": "src\\metadata\\statistics_collector.cpp",
+          "line": 470,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != index_stats_cache_.end()) {"
         }
       ],
       "src\\metadata\\column_lineage.cpp": [
@@ -7481,6 +8214,213 @@
           "function_name": "array",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 101,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "sources.push_back(src.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 125,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(e.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 168,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "targets_by_source_[src].push_back(entry.target_column);"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 208,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(src);"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 208,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(src);"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 239,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(target);"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 260,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entries_arr.push_back(e.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 266,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "up_arr.push_back(ref.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 272,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "down_arr.push_back(ref.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 288,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(record.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 298,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entries_arr.push_back(e.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 207,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (visited.find(src) == visited.end()) {"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 168,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& src : entry.source_columns) {"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 205,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& entry : it->second) {"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 206,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& src : entry.source_columns) {"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 266,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& ref : upstream) {"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 272,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& ref : downstream) {"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 284,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [col_ref, entries] : entries_by_target_) {"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 298,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& e : all_entries_) {"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 191,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<ColumnRef, ColumnRefHash> visited;"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 223,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<ColumnRef, ColumnRefHash> visited;"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 181,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != entries_by_target_.end()) {"
+        },
+        {
+          "file": "src\\metadata\\column_lineage.cpp",
+          "line": 285,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (col_ref.table_name != table_name) continue;"
         }
       ],
       "src\\metadata\\distributed_catalog.cpp": [
@@ -7696,6 +8636,24 @@
           "function_name": "listKeys",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\distributed_catalog.cpp",
+          "line": 105,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "auto entry = router_.get("
+        },
+        {
+          "file": "src\\metadata\\distributed_catalog.cpp",
+          "line": 30,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "DistributedMetadataCatalog::DistributedMetadataCatalog("
         }
       ],
       "src\\metadata\\er_diagram_exporter.cpp": [
@@ -8435,6 +9393,60 @@
           "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 43,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "out += '_';"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 192,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "props.push_back(std::move(p));"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 192,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "props.push_back(std::move(p));"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 203,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idxs.push_back(std::move(i));"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 224,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "props.push_back(std::move(p));"
+        },
+        {
+          "file": "src\\metadata\\er_diagram_exporter.cpp",
+          "line": 224,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "props.push_back(std::move(p));"
         }
       ],
       "src\\metadata\\index_recommender.cpp": [
@@ -9507,6 +10519,240 @@
           "function_name": "min",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 228,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "table_names.push_back(tn);"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 253,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(ca);"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 253,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(ca);"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 263,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "table_names_to_delete.push_back(tn);"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 289,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "col_arr.push_back(ca.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 289,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "col_arr.push_back(ca.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 289,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "col_arr.push_back(ca.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 316,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(ca.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 316,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(ca.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 221,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<IndexRecommendation>> IndexRecommender::recommendAll("
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 222,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::vector<std::string>>& existing_indexes) const"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 233,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<IndexRecommendation>> result;"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 228,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [tn, _] : stats_) {"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 234,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& tn : table_names) {"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 253,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [_, ca] : t_it->second) {"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 272,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& tn : table_names_to_delete) {"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 289,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [_, ca] : cols) {"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 412,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [tname, err] : corrupt_entries) {"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 137,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void IndexRecommender::recordQuery() {"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 82,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::debug(\"IndexRecommender: background persist thread started (interval={}ms)\","
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 327,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Persist total_queries separately so it survives across restarts"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 346,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::string start_key(PREFIX);"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 347,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::string end_key = start_key;"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 354,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "db_->iterateRange(start_key, end_key,"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 237,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != existing_indexes.end()) {"
+        },
+        {
+          "file": "src\\metadata\\index_recommender.cpp",
+          "line": 471,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (col_it != tbl_stats.column_stats.end()) {"
         }
       ],
       "src\\metadata\\information_schema.cpp": [
@@ -10014,6 +11260,213 @@
           "function_name": "columnsToJSON",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 180,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 209,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(col));"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 209,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(col));"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 238,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 238,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 238,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 271,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 271,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 271,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(row));"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 307,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(rc));"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 318,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tables_arr.push_back(row.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 324,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cols_arr.push_back(row.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 330,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "stats_arr.push_back(row.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 336,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "kcu_arr.push_back(row.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 342,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rc_arr.push_back(row.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 352,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(row.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 360,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(row.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 368,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(row.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 193,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (table_filter.has_value() && t.name != *table_filter) {"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 223,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (table_filter.has_value() && t.name != *table_filter) {"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 253,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (table_filter.has_value() && t.name != *table_filter) {"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 286,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (table_filter.has_value() && t.name != *table_filter) {"
+        },
+        {
+          "file": "src\\metadata\\information_schema.cpp",
+          "line": 294,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (idx.name.rfind(\"fk_\", 0) != 0) {"
         }
       ],
       "src\\metadata\\schema_audit_log.cpp": [
@@ -10515,6 +11968,33 @@
           "function_name": "historyToJSON",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\schema_audit_log.cpp",
+          "line": 226,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(e.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_audit_log.cpp",
+          "line": 234,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(e.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_audit_log.cpp",
+          "line": 177,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Sort by id (which embeds timestamp) ascending"
         }
       ],
       "src\\metadata\\schema_consistency_checker.cpp": [
@@ -10913,6 +12393,69 @@
           "function_name": "getLastCheckResults",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 162,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "issues.push_back(std::move(issue));"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 183,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "issues.push_back(std::move(issue));"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 216,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "issues.push_back(std::move(issue));"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 279,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(issue.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 254,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "bg_cv_.wait_for(lk, bg_interval_,"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 228,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void SchemaConsistencyChecker::startBackgroundCheck(std::chrono::seconds interval) {"
+        },
+        {
+          "file": "src\\metadata\\schema_consistency_checker.cpp",
+          "line": 239,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::info(\"SchemaConsistencyChecker: background check started (interval={}s)\","
         }
       ],
       "src\\metadata\\schema_version_manager.cpp": [
@@ -12433,6 +13976,141 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 177,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "history.push_back(std::move(*maybe));"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 288,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added.push_back(prop.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 288,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added.push_back(prop.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 288,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added.push_back(prop.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 305,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "removed.push_back(prop.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 325,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(change.toJSON());"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 288,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (props_a.find(name) == props_a.end()) {"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 279,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, SchemaManager::PropertyInfo> props_a, props_b;"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 292,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (old_prop.type != prop.type ||"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 293,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "old_prop.nullable != prop.nullable ||"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 294,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "old_prop.indexed  != prop.indexed)"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 463,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (existing.properties[i].name != new_schema.properties[i].name ||"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 464,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "existing.properties[i].type != new_schema.properties[i].type) {"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 549,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (new_type != old_type) {"
+        },
+        {
+          "file": "src\\metadata\\schema_version_manager.cpp",
+          "line": 554,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (new_nullable != old_nullable) {"
         }
       ]
     }

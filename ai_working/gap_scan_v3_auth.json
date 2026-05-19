@@ -1,9 +1,9 @@
 {
   "auth": {
-    "total": 3002,
-    "severity_critical": 168,
-    "severity_high": 2373,
-    "severity_medium": 461,
+    "total": 3392,
+    "severity_critical": 184,
+    "severity_high": 2601,
+    "severity_medium": 607,
     "by_category": {
       "security": 27,
       "memory": 35,
@@ -17,7 +17,11 @@
       "input_validation": 80,
       "exception_safety": 59,
       "uninitialized": 655,
-      "oop_design": 1232
+      "oop_design": 1232,
+      "audit_logging": 18,
+      "performance_patterns": 80,
+      "observability": 55,
+      "determinism": 237
     },
     "by_file": {
       "src\\auth\\federated_identity_manager.cpp": [
@@ -1406,6 +1410,168 @@
           "function_name": "AuthException",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 107,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "b64 += '=';"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 310,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) body += '&';"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 522,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) scope_str += ' ';"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 125,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "decoded.push_back(static_cast<char>((val >> bits) & 0xFF));"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 215,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "issuers.push_back(kv.first);"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 525,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "params.emplace_back(\"scope\", scope_str);"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 215,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : realms_) {"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 379,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CURLMcode add_rc = curl_multi_add_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 411,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "curl_multi_remove_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 449,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (raw_subject_token.starts_with(\"Bearer \") ||"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 450,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "raw_subject_token.starts_with(\"bearer \")) {"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 604,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> granted;"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 107,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (b64.size() % 4 != 0) {"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 380,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (add_rc != CURLM_OK) {"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 393,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mc != CURLM_OK) break;"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 419,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mc != CURLM_OK) {"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 423,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (easy_rc != CURLE_OK) {"
+        },
+        {
+          "file": "src\\auth\\federated_identity_manager.cpp",
+          "line": 496,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (token_endpoint.compare(0, 8, \"https://\") != 0) {"
         }
       ],
       "src\\auth\\jwt_validator.cpp": [
@@ -3937,6 +4103,321 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 834,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "revoked_kids_runtime_.push_back(kid);"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 533,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& v : payload[\"aud\"]) {"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 212,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CURLMcode add_rc = curl_multi_add_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 241,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "curl_multi_remove_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 187,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int retry_delay_ms = 100; // Start with 100 ms; doubles each attempt"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 113,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (base64.size() % 4 != 0) base64 += '=';"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 213,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (add_rc != CURLM_OK) {"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 222,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mc != CURLM_OK) break;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 264,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != CURLE_OK || http_code != 200) {"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 328,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (jwk.value(\"kty\", \"\") != \"RSA\") return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 350,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RSA_set0_key(rsa.get(), n.get(), e.get(), nullptr) != 1) {"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 358,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_PKEY_assign_RSA(pkey.get(), rsa.get()) != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 379,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ok != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 381,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ok != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 399,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (jwk.value(\"kty\", \"\") != \"EC\") return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 408,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (crv != \"P-256\") return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 413,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (crv != \"P-384\") return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 418,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (crv != \"P-521\") return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 432,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (x_bytes.size() != coord_size || y_bytes.size() != coord_size) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 444,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EC_KEY_set_group(ec_key.get(), group.get()) != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 454,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "x_bn.get(), y_bn.get(), nullptr) != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 455,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EC_KEY_set_public_key(ec_key.get(), pub_point.get()) != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 460,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_PKEY_set1_EC_KEY(pkey.get(), ec_key.get()) != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 464,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (signature.size() != coord_size * 2) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 475,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ECDSA_SIG_set0(ecdsa_sig.get(), r_bn.get(), s_bn.get()) != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 485,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (encoded_len != der_len) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 490,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestVerifyInit(mctx.get(), nullptr, md, nullptr, pkey.get()) != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 491,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size()) != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 500,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it_crv == jwk.end() || it_crv->get<std::string>() != \"Ed25519\") return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 505,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pub_bytes.size() != 32) return false;  // Ed25519 public key is exactly 32 bytes"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 517,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DigestVerifyInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) != 1) return false;"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 580,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (parts.size() != 3) {"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 596,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (alg != \"RS256\" && alg != \"RS384\" && alg != \"RS512\" &&"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 597,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "alg != \"ES256\" && alg != \"ES384\" && alg != \"ES512\" && alg != \"EdDSA\") {"
+        },
+        {
+          "file": "src\\auth\\jwt_validator.cpp",
+          "line": 725,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cfg_.expected_issuer.has_value() && claims.issuer != *cfg_.expected_issuer) {"
         }
       ],
       "src\\auth\\ldap_connection_pool.cpp": [
@@ -4553,6 +5034,150 @@
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 99,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idle_.push_back(ld);"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 97,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (int i = 0; i < initial; ++i) {"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 119,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (LDAP* ld : idle_) {"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 120,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "destroyHandle(ld);"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 180,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "destroyHandle(candidate);"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 194,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "destroyHandle(candidate);"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 244,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "destroyHandle(handle);"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 397,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "void LDAPConnectionPool::destroyHandle(LDAP* handle) noexcept"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 280,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (ldap_start_tls_s(ld, nullptr, nullptr, nullptr, nullptr) != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 281,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::error(\"LDAPConnectionPool: StartTLS failed for server {}\","
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 66,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (this != &other) {"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 273,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ldap_set_option(ld, LDAP_OPT_REFERRALS, LDAP_OPT_OFF) != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 280,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ldap_start_tls_s(ld, nullptr, nullptr, nullptr, nullptr) != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 292,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != LDAP_SUCCESS || !ld) {"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 313,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_connection_pool.cpp",
+          "line": 322,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != LDAP_SUCCESS) {"
         }
       ],
       "src\\auth\\mtls_authenticator.cpp": [
@@ -5905,6 +6530,96 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 170,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "MTLSClaims MTLSAuthenticator::authenticate(const std::string& cert_pem) {"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 345,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "return authenticate(pem);"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 489,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.emplace_back(reinterpret_cast<const char*>(data),"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 510,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(oss.str());"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 136,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (X509_STORE_add_cert(impl_->ca_store.get(), ca.get()) != 1) {"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 194,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (X509_STORE_CTX_init(ctx.get(), impl_->ca_store.get(), cert.get(), nullptr) != 1) {"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 202,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (X509_verify_cert(ctx.get()) != 1) {"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 334,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!pem_bio || PEM_write_bio_X509(pem_bio.get(), cert.get()) != 1) {"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 462,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (X509_digest(cert, EVP_sha256(), digest, &digest_len) != 1) return {};"
+        },
+        {
+          "file": "src\\auth\\mtls_authenticator.cpp",
+          "line": 484,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!gn || gn->type != san_type) continue;"
         }
       ],
       "src\\auth\\oauth_device_flow.cpp": [
@@ -7000,6 +7715,105 @@
           "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 303,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "// High-level authenticate()"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 306,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "JWTClaims OAuthDeviceFlow::authenticate("
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) scope_str += ' ';"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 501,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) body += '&';"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 106,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "params.emplace_back(\"scope\", scope_str);"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 429,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CURLMcode add_rc = curl_multi_add_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 462,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "curl_multi_remove_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 430,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (add_rc != CURLM_OK) {"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 442,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mc != CURLM_OK) break;"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 466,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mc != CURLM_OK) {"
+        },
+        {
+          "file": "src\\auth\\oauth_device_flow.cpp",
+          "line": 470,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (easy_rc != CURLE_OK) {"
         }
       ],
       "src\\auth\\oauth_pkce_flow.cpp": [
@@ -7947,6 +8761,150 @@
           "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 152,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) scope_str += ' ';"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 448,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "out += (i + 1 < len) ? kTable[(triple >> 6) & 0x3F] : '=';"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 485,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) body += '&';"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 335,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CURLMcode add_rc = curl_multi_add_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 368,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "curl_multi_remove_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 28,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <openssl/rand.h>"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 100,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "rand_bytes_fn_ = std::move(fn);"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 108,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Generate 96 random bytes \u2192 128 Base64URL characters (fits 43\u2013128 limit)."
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 389,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "if (rand_bytes_fn_) {"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 390,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "rand_bytes_fn_(buf, len);"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 396,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "\"Failed to generate secure random bytes\","
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 336,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (add_rc != CURLM_OK) {"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 348,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mc != CURLM_OK) break;"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 372,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mc != CURLM_OK) {"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 376,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (easy_rc != CURLE_OK) {"
+        },
+        {
+          "file": "src\\auth\\oauth_pkce_flow.cpp",
+          "line": 393,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(buf, static_cast<int>(len)) != 1) {"
         }
       ],
       "src\\auth\\oidc_provider.cpp": [
@@ -8677,6 +9635,105 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 236,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CURLMcode add_rc = curl_multi_add_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 248,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "curl_multi_remove_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 257,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "curl_multi_remove_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 267,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "// actionable CURLcode for this easy handle (e.g., DNS/SSL/connect failures"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 283,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "curl_multi_remove_handle(multi, curl);"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 112,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (doc.issuer != base) {"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 237,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (add_rc != CURLM_OK) {"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 247,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mc != CURLM_OK) {"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 256,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mc != CURLM_OK) {"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 287,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (easy_rc != CURLE_OK) {"
+        },
+        {
+          "file": "src\\auth\\oidc_provider.cpp",
+          "line": 291,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (http_code != 200) {"
         }
       ],
       "src\\auth\\rate_limiter_backend.cpp": [
@@ -9518,6 +10575,24 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\rate_limiter_backend.cpp",
+          "line": 294,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return ctx_ != nullptr && ctx_->err == 0;"
+        },
+        {
+          "file": "src\\auth\\rate_limiter_backend.cpp",
+          "line": 206,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Each sorted-set member must be unique; use timestamp + per-node counter."
         }
       ],
       "src\\auth\\redis_token_blacklist.cpp": [
@@ -10117,6 +11192,51 @@
           "function_name": "isConnected",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\redis_token_blacklist.cpp",
+          "line": 211,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// They are NOT propagated to other nodes or persisted across restarts."
+        },
+        {
+          "file": "src\\auth\\redis_token_blacklist.cpp",
+          "line": 221,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"NOT propagate to other nodes or survive process restart.  \""
+        },
+        {
+          "file": "src\\auth\\redis_token_blacklist.cpp",
+          "line": 149,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "reply->str != nullptr &&"
+        },
+        {
+          "file": "src\\auth\\redis_token_blacklist.cpp",
+          "line": 197,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return ctx_ != nullptr && ctx_->err == 0;"
+        },
+        {
+          "file": "src\\auth\\redis_token_blacklist.cpp",
+          "line": 252,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = fallback_map_.begin(); it != fallback_map_.end(); ) {"
         }
       ],
       "src\\auth\\rocksdb_token_blacklist.cpp": [
@@ -10768,6 +11888,69 @@
           "function_name": "purgeLoop",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 114,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cf_descs.emplace_back(cf, rocksdb::ColumnFamilyOptions{});"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 130,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "other_cf_handles_.push_back(cf_handles[i]);"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 137,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto* h : other_cf_handles_) { db_->DestroyColumnFamilyHandle(h); }"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 137,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "for (auto* h : other_cf_handles_) { db_->DestroyColumnFamilyHandle(h); }"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 163,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "if (cf_) { db_->DestroyColumnFamilyHandle(cf_); cf_ = nullptr; }"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 164,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "for (auto* h : other_cf_handles_) { db_->DestroyColumnFamilyHandle(h); }"
+        },
+        {
+          "file": "src\\auth\\rocksdb_token_blacklist.cpp",
+          "line": 89,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// On a brand-new database, ListColumnFamilies will return \"path not found\""
         }
       ],
       "src\\auth\\saml_authenticator.cpp": [
@@ -12997,6 +14180,366 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 243,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "url += \"&RelayState=\" + urlEncode(relay_state);"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1261,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "claims.audience.push_back(nodeText(child));"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1318,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "claims.raw_attributes.emplace_back(attr_name, val);"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1318,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "claims.raw_attributes.emplace_back(attr_name, val);"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 121,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// SAML IDs must be NCName-safe: start with '_' + 32 hex chars"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 44,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 122,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static std::random_device rd;"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 123,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static std::mt19937_64 gen(rd());"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 124,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<uint64_t> dist;"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 184,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "-MAX_WBITS, 8, Z_DEFAULT_STRATEGY) != Z_OK) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 196,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != Z_STREAM_END) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 289,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "&year, &mon, &day, &hour, &min, &sec) != 6) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 336,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (digest_algorithm_uri.find(\"sha256\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 337,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "digest_algorithm_uri.find(\"SHA256\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 339,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (digest_algorithm_uri.find(\"sha1\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 340,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "digest_algorithm_uri.find(\"SHA1\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 368,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (sig_algorithm_uri.find(\"rsa-sha256\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 369,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "sig_algorithm_uri.find(\"RSA-SHA256\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 371,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (sig_algorithm_uri.find(\"rsa-sha1\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 372,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "sig_algorithm_uri.find(\"RSA-SHA1\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 407,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (computed_digest.size() != claimed_digest.size() ||"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 409,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "computed_digest.size()) != 0) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 432,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (verify_result != 1) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 450,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string lname = (colon != std::string::npos)"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 463,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string lname = (colon != std::string::npos)"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 648,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const bool using_pkcs1_v1_5 = (key_transport_alg.find(\"rsa-1_5\") != std::string::npos);"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 718,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (data_enc_alg.find(\"aes256-cbc\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 721,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (data_enc_alg.find(\"aes128-cbc\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 868,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (status_value != SUCCESS_STATUS) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 886,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (irt != in_response_to) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1035,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (issuer != config_.idp_entity_id) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1080,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((colon != std::string::npos ? aud_name.substr(colon + 1) : aud_name) == \"Audience\") {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1116,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!recipient.empty() && recipient != config_.sp_acs_url) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1128,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!irt.empty() && irt != in_response_to) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1178,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = seen_assertion_ids_.begin(); it != seen_assertion_ids_.end(); ) {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1261,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((c != std::string::npos ? cn.substr(c + 1) : cn) == \"Audience\") {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1308,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string lname = (colon != std::string::npos)"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1311,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lname != \"Attribute\") continue;"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1317,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if ((cv != std::string::npos ? vn.substr(cv + 1) : vn) == \"AttributeValue\") {"
+        },
+        {
+          "file": "src\\auth\\saml_authenticator.cpp",
+          "line": 1342,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "claims.name_id_format.find(\"emailAddress\") != std::string::npos) {"
         }
       ],
       "src\\auth\\api_key_authenticator.cpp": [
@@ -13561,6 +15104,51 @@
           "function_name": "hexEncode",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\api_key_authenticator.cpp",
+          "line": 86,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,"
+        },
+        {
+          "file": "src\\auth\\api_key_authenticator.cpp",
+          "line": 215,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "return authenticate(combined.substr(0, dot), combined.substr(dot + 1));"
+        },
+        {
+          "file": "src\\auth\\api_key_authenticator.cpp",
+          "line": 56,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (credential.secret_hash.size() != 64) {"
+        },
+        {
+          "file": "src\\auth\\api_key_authenticator.cpp",
+          "line": 156,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cred.expires_at != epoch &&"
+        },
+        {
+          "file": "src\\auth\\api_key_authenticator.cpp",
+          "line": 263,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.size() != b.size()) {"
         }
       ],
       "src\\auth\\jwks_security.cpp": [
@@ -14904,6 +16492,42 @@
           "function_name": "fopen",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 239,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 235,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (url.substr(0, 8) != \"https://\") {"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 296,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (res != CURLE_OK) {"
+        },
+        {
+          "file": "src\\auth\\jwks_security.cpp",
+          "line": 304,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (response_code != 200) {"
         }
       ],
       "src\\auth\\kerberos_security.cpp": [
@@ -16224,6 +17848,141 @@
           "function_name": "generateFromTLSExporter",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 84,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Read a DER-encoded length field starting at data[offset]."
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 271,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// (i.e., the start of the AP-REQ), and sets inner_size."
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 388,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start recursive depth validation"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 606,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (info.start_time > 0) {"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 607,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t skew = now_time_t - info.start_time;"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 651,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "info.start_time  = now_time_t;"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 129,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (size < 2u || data[0] != ASN1_TAG_SEQUENCE) return false;"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 146,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tag != 0x1Bu && tag != 0x0Cu && tag != 0x13u && tag != 0x16u) return {};"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 165,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (size < 2u || data[0] != KRB5_APP1_TAG) return false;"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 231,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (size < 2u || data[0] != KRB5_APP14_TAG) return false;"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 275,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (size < 2u || data[0] != GSSAPI_APP0_TAG) return nullptr;"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 286,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (std::memcmp(inner, KRB5_OID_DER, KRB5_OID_DER_LEN) != 0) return nullptr;"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 454,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "tag.is_constructed = (first_byte & 0x20) != 0;"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 547,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (inner_size < 2u || inner[0] != KRB5_APP14_TAG) {"
+        },
+        {
+          "file": "src\\auth\\kerberos_security.cpp",
+          "line": 636,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "info.has_mutual_auth = (fields.ap_options & AP_OPT_MUTUAL_REQUIRED) != 0u;"
         }
       ],
       "src\\auth\\ldap_authenticator.cpp": [
@@ -17292,6 +19051,294 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 294,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "LDAPAuthResult LDAPAuthenticator::authenticate(const std::string& username,"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 383,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authenticate\" without audit log",
+          "context": "return this->authenticate(username, password);"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 348,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// Validate inputs synchronously on the caller's thread to give fast"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 100,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "out += \"\\\\#\";"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 142,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case '*':  out += \"\\\\2a\"; break;"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 266,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "roles.push_back(mapping.role);"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 266,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "roles.push_back(mapping.role);"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 534,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "groups.emplace_back(vals[i]);"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 534,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "groups.emplace_back(vals[i]);"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 696,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "groups.emplace_back(vals[i]->bv_val,"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 696,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "groups.emplace_back(vals[i]->bv_val,"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 266,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (std::find(roles.begin(), roles.end(), mapping.role) == roles.end()) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 418,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ld = pooled_conn->rawHandle();"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 583,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ld = pooled_conn->rawHandle();"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 470,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const ULONG tls_result = ldap_start_tls_s(ld, nullptr, nullptr, nullptr, nullptr);"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 472,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::error(\"LDAPAuthenticator: StartTLS failed: {}\", tls_result);"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 623,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "rc2 = ldap_start_tls_s(ld, nullptr, nullptr);"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 625,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::error(\"LDAPAuthenticator: StartTLS failed: {}\","
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = target.find(placeholder, pos)) != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 431,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (referrals_result != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 461,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (referrals_result != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 471,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tls_result != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 487,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (bind_result != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 527,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "entry != nullptr;"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 534,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (int i = 0; vals[i] != nullptr; ++i) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 591,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc2 != LDAP_SUCCESS || !ld) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 614,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc2 != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 624,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc2 != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 644,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != LDAP_SUCCESS) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 690,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "entry != nullptr;"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 696,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (int i = 0; vals[i] != nullptr; ++i) {"
+        },
+        {
+          "file": "src\\auth\\ldap_authenticator.cpp",
+          "line": 704,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (rc != LDAP_SUCCESS) {"
         }
       ],
       "src\\auth\\totp_secret_encryption.cpp": [
@@ -18803,6 +20850,159 @@
           "function_name": "isSecretValid",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 395,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "secrets.push_back(new_version);"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 416,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "active_secrets.push_back(secret);"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 31,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <openssl/rand.h>"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 184,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Generate random salt and IV"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 49,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config.master_key.size() != 32) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 149,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (parts.size() != 5) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 200,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "derived_key.data(), result.iv.data()) != 1) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 210,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "plaintext.data(), static_cast<int>(plaintext.size())) != 1) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 217,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptFinal_ex(ctx, result.ciphertext.data() + len, &len) != 1) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 227,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(impl_->config.tag_size), result.tag.data()) != 1) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 254,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "derived_key.data(), encrypted.iv.data()) != 1) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 263,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "encrypted.ciphertext.data(), static_cast<int>(encrypted.ciphertext.size())) != 1) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 272,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const_cast<uint8_t*>(encrypted.tag.data())) != 1) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 277,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len) != 1) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 305,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (new_master_key.size() != 32) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 340,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "derived_key.data()) != 1) {"
+        },
+        {
+          "file": "src\\auth\\totp_secret_encryption.cpp",
+          "line": 350,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(bytes.data(), static_cast<int>(size)) != 1) {"
         }
       ],
       "src\\auth\\webauthn_authenticator.cpp": [
@@ -21520,6 +23720,312 @@
           "function_name": "to_string",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 308,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "out += (i + 1 < len) ? kB64Table[(t >>  6) & 0x3F] : '=';"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 329,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "while (padded.size() % 4 != 0) padded += '=';"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 329,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "while (padded.size() % 4 != 0) padded += '=';"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 360,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(static_cast<uint8_t>((a << 2) | (b >> 4)));"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 387,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "params.push_back({{\"type\", \"public-key\"}, {\"alg\", alg_id}});"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 404,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "excl.push_back({{\"type\", \"public-key\"}, {\"id\", cid}});"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 425,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "allow.push_back({{\"type\", \"public-key\"}, {\"id\", cid}});"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 471,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "WebAuthnAuthenticator::startRegistration(const User& user, bool resident_key)"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 489,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::info(\"WebAuthn: startRegistration for user '{}'\", user.name);"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 606,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "WebAuthnAuthenticator::startAuthentication(const std::optional<std::string>& /*user_id*/)"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 616,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::info(\"WebAuthn: startAuthentication (rpId='{}')\", rp_.id);"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 875,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Attested credential data starts at byte 37"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 26,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <openssl/rand.h>"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 458,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "rand_bytes_fn_ = std::move(fn);"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 777,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "if (rand_bytes_fn_) {"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 778,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "rand_bytes_fn_(buf, len);"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 149,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos >= d.size() || (d[pos] >> 5) != 5)"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 157,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos >= d.size() || (d[pos] >> 5) != 3) {"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 169,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos >= d.size() || (d[pos] >> 5) != 3)"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 178,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos >= d.size() || (d[pos] >> 5) != 2)"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 212,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos >= d.size() || (d[pos] >> 5) != 5)"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 330,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (padded.size() % 4 != 0) padded += '=';"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 362,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (padded[i + 2] != '=') out.push_back(static_cast<uint8_t>((b << 4) | (c >> 2)));"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 363,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (padded[i + 3] != '=') out.push_back(static_cast<uint8_t>((c << 6) | d));"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 498,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (type != \"public-key\") {"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 512,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cd.type != \"webauthn.create\") {"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 519,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cd.origin != expected_origin_) {"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 628,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (type != \"public-key\") {"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 646,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cd.type != \"webauthn.get\") {"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 653,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (cd.origin != expected_origin_) {"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 767,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = pending_challenges_.begin(); it != pending_challenges_.end(); ) {"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 781,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(buf, static_cast<int>(len)) != 1) {"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 934,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (fields.crv != 1)"
+        },
+        {
+          "file": "src\\auth\\webauthn_authenticator.cpp",
+          "line": 941,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (fields.neg2_bytes.size() != 32 || fields.neg3_bytes.size() != 32)"
         }
       ],
       "src\\auth\\auth_audit_logger.cpp": [
@@ -22193,6 +24699,114 @@
           "function_name": "str",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 219,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: auth",
+          "context": "ss << \"auth-\";"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 119,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "regex_in_loop",
+          "description": "std::regex compiled in loop (compile once, reuse)",
+          "context": "for (; it != end; ++it) {"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 25,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 213,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Generate a random request ID (format: auth-XXXXXXXX)"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 214,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static std::random_device rd;"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 215,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static std::mt19937 gen(rd());"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 216,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static std::uniform_int_distribution<> dis(0, 15);"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 92,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (msg.find(\"expired\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 94,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (msg.find(\"invalid\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 95,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "msg.find(\"Invalid\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 97,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (msg.find(\"signature\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\auth_error.cpp",
+          "line": 119,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (; it != end; ++it) {"
         }
       ],
       "src\\auth\\auth_metrics.cpp": [
@@ -24945,6 +27559,114 @@
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 533,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(day, sizeof(day), \"%04d%02d%02d\","
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 176,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [user_id, info] : lockout_state_) {"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 87,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto window_start = now - config_.lockout_window;"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 90,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "[window_start](const FailedAttempt& fa) {"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 91,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return fa.timestamp < window_start;"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 214,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto window_start = now - config_.lockout_window - config_.lockout_duration;"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 216,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::system_clock::to_time_t(window_start))) {"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 766,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// A side-effect is that any IP currently being tracked will restart from zero."
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 112,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != lockout_state_.end()) {"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 204,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = lockout_state_.begin(); it != lockout_state_.end();) {"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 652,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "bool ok = reply && reply->type != REDIS_REPLY_ERROR;"
+        },
+        {
+          "file": "src\\auth\\auth_rate_limiter.cpp",
+          "line": 829,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = stuffing_state_.begin(); it != stuffing_state_.end(); ) {"
         }
       ],
       "src\\auth\\gssapi_authenticator.cpp": [
@@ -25774,6 +28496,195 @@
           "function_name": "while",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 209,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "roles_str += \", \";"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 356,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "roles.push_back(mapping.role);"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 108,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "status = AcquireCredentialsHandle("
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 405,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "FreeCredentialsHandle(&server_creds_);"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 120,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (status != SEC_E_OK) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 266,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (status != SEC_E_OK && status != SEC_I_CONTINUE_NEEDED) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 318,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ctx != GSS_C_NO_CONTEXT) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 325,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (client_name != GSS_C_NO_NAME) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 341,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ctx != GSS_C_NO_CONTEXT) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 383,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pattern.find('*') != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 386,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (at_pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 389,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (principal_at_pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 409,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (context_ != GSS_C_NO_CONTEXT) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 414,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (server_creds_ != GSS_C_NO_CREDENTIAL) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 419,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (server_name_ != GSS_C_NO_NAME) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 452,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (message_context != 0) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 455,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} while (message_context != 0);"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 458,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (minor_status != 0) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 475,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (message_context != 0) {"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 478,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} while (message_context != 0);"
+        },
+        {
+          "file": "src\\auth\\gssapi_authenticator.cpp",
+          "line": 491,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (minor_status != 0) {"
         }
       ],
       "src\\auth\\jwks_validator.cpp": [
@@ -26297,6 +29208,42 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\jwks_validator.cpp",
+          "line": 299,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.warnings.push_back(\"Duplicate key ID: \" + kid);"
+        },
+        {
+          "file": "src\\auth\\jwks_validator.cpp",
+          "line": 161,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (use != \"sig\" && use != \"enc\") {"
+        },
+        {
+          "file": "src\\auth\\jwks_validator.cpp",
+          "line": 244,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (crv != \"P-256\" && crv != \"P-384\" && crv != \"P-521\" &&"
+        },
+        {
+          "file": "src\\auth\\jwks_validator.cpp",
+          "line": 245,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "crv != \"secp256k1\" && crv != \"Ed25519\") {"
         }
       ],
       "src\\auth\\jwt_key_rotation_manager.cpp": [
@@ -26939,6 +29886,132 @@
           "function_name": "getKeyInfo",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 205,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "to_revoke.push_back(kid);"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 232,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (info.status == JWKKeyInfo::Status::PASSIVE) result.push_back(kid);"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 232,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (info.status == JWKKeyInfo::Status::PASSIVE) result.push_back(kid);"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (info.status == JWKKeyInfo::Status::REVOKED) result.push_back(kid);"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 55,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [kid_str, info] : keys_) {"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 168,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [k, info] : keys_) {"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 184,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [kid, info] : keys_) {"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 210,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "// Revoke outside the range-for (modifies the map via revokeKey)"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 212,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kid : to_revoke) {"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 223,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [kid, info] : keys_) {"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 232,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [kid, info] : keys_) {"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [kid, info] : keys_) {"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 169,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (info.status == JWKKeyInfo::Status::ACTIVE && k != kid) {"
+        },
+        {
+          "file": "src\\auth\\jwt_key_rotation_manager.cpp",
+          "line": 202,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (info.status != JWKKeyInfo::Status::PASSIVE) continue;"
         }
       ],
       "src\\auth\\mfa_authenticator.cpp": [
@@ -27998,6 +31071,123 @@
           "function_name": "HMAC",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 131,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: secret",
+          "context": "<< \"?secret=\" << enrollment.secret_base32"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 240,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "codes.push_back(generateRecoveryCode());"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 344,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "output.push_back((buffer >> (bits_left - 8)) & 0xFF);"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 27,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 43,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Random device for cryptographic randomness"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 44,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::random_device rd;"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 45,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::mt19937_64 gen(rd());"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 264,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// Generate 20 random bytes (160 bits) for TOTP secret"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 266,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<> dis(0, 255);"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 278,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<> dis(0, sizeof(charset) - 2);"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 83,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_.code_length != 6 && config_.code_length != 8) {"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 144,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (code.length() != static_cast<size_t>(config_.code_length)) {"
+        },
+        {
+          "file": "src\\auth\\mfa_authenticator.cpp",
+          "line": 172,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (offset != 0) {"
         }
       ],
       "src\\auth\\password_policy.cpp": [
@@ -28539,6 +31729,87 @@
           "function_name": "PasswordPolicy",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 53,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: password",
+          "context": "msg << \"Password must be at least \" << config_.min_length << \" characters long\";"
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 59,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: password",
+          "context": "msg << \"Password must not exceed \" << config_.max_length << \" characters\";"
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 106,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: password",
+          "context": "msg << \"Password must contain at least \" << config_.min_unique_chars"
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 120,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: password",
+          "context": "msg << \"Password must not contain more than \""
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 137,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: password",
+          "context": "msg << \"Password entropy (\" << static_cast<int>(entropy)"
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 122,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.violations.push_back(msg.str());"
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 149,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.violations.push_back("
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 177,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<char, int> freq;"
+        },
+        {
+          "file": "src\\auth\\password_policy.cpp",
+          "line": 93,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return config_.special_chars.find(c) != std::string::npos;"
         }
       ],
       "src\\auth\\principal_validator.cpp": [
@@ -29231,6 +32502,42 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\principal_validator.cpp",
+          "line": 112,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authorize\" without audit log",
+          "context": "auto abac = abac_engine_->authorize(principal, action, resource,"
+        },
+        {
+          "file": "src\\auth\\principal_validator.cpp",
+          "line": 372,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "config.rules.push_back(rule);"
+        },
+        {
+          "file": "src\\auth\\principal_validator.cpp",
+          "line": 391,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "config.rules.push_back(rule);"
+        },
+        {
+          "file": "src\\auth\\principal_validator.cpp",
+          "line": 225,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (star_pos != std::string::npos) {"
         }
       ],
       "src\\auth\\session_manager.cpp": [
@@ -29933,6 +33240,105 @@
           "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 123,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "user_sessions.emplace_back(info.created_at, id);"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 248,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "to_erase.push_back(id);"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 276,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "expired_ids.push_back(id);"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 311,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "expired.push_back(id);"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 252,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& id : to_erase) {"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 282,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& id : expired_ids) {"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 26,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <openssl/rand.h>"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 79,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(buf, sizeof(buf)) != 1) {"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 226,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != sessions_.end()) {"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 248,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (info.user_id == user_id && info.session_id != keep_session_id) {"
+        },
+        {
+          "file": "src\\auth\\session_manager.cpp",
+          "line": 275,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (info.user_id != user_id) continue;"
         }
       ],
       "src\\auth\\token_blacklist.cpp": [
@@ -30351,6 +33757,33 @@
           "function_name": "now",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\token_blacklist.cpp",
+          "line": 187,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = blacklist_.begin(); it != blacklist_.end(); ) {"
+        },
+        {
+          "file": "src\\auth\\token_blacklist.cpp",
+          "line": 77,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = blacklist_.begin(); it != blacklist_.end(); ++it) {"
+        },
+        {
+          "file": "src\\auth\\token_blacklist.cpp",
+          "line": 187,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = blacklist_.begin(); it != blacklist_.end(); ) {"
         }
       ],
       "src\\auth\\totp_replay_cache.cpp": [
@@ -30961,6 +34394,51 @@
           "function_name": "clearUserCache",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 77,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "user_cache.push_back({code, now});"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 92,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [uid, codes] : user_caches_) {"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 110,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& used_code : it->second) {"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 127,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != user_caches_.end()) {"
+        },
+        {
+          "file": "src\\auth\\totp_replay_cache.cpp",
+          "line": 149,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = user_caches_.begin(); it != user_caches_.end();) {"
         }
       ],
       "src\\auth\\zero_trust_auth_verifier.cpp": [
@@ -31363,6 +34841,42 @@
           "function_name": "what",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\auth\\zero_trust_auth_verifier.cpp",
+          "line": 286,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "to_eval.push_back(entry);"
+        },
+        {
+          "file": "src\\auth\\zero_trust_auth_verifier.cpp",
+          "line": 236,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (;;) {"
+        },
+        {
+          "file": "src\\auth\\zero_trust_auth_verifier.cpp",
+          "line": 270,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "|| schedule_generation_.load() != gen;"
+        },
+        {
+          "file": "src\\auth\\zero_trust_auth_verifier.cpp",
+          "line": 279,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (schedule_generation_.load() != gen) {"
         }
       ]
     }

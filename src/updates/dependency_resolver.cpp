@@ -120,7 +120,7 @@ static bool parseConstraintToken(const std::string& token, ConstraintPart& out) 
     } else {
         return false;
     }
-    out.version = trim(token.substr(pos));
+    out.version = themis::utils::trim(token.substr(pos));
     return !out.version.empty();
 }
 

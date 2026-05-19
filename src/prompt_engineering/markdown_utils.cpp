@@ -11,7 +11,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#include "markdown_utils.h"
+#include "prompt_engineering/markdown_utils.h"
 #include "utils/string_utils.h"
 
 #include <algorithm>

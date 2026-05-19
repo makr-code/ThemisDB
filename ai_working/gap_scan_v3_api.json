@@ -1,9 +1,9 @@
 {
   "api": {
-    "total": 997,
-    "severity_critical": 25,
-    "severity_high": 823,
-    "severity_medium": 149,
+    "total": 1099,
+    "severity_critical": 26,
+    "severity_high": 849,
+    "severity_medium": 224,
     "by_category": {
       "security": 9,
       "memory": 52,
@@ -16,7 +16,11 @@
       "input_validation": 8,
       "exception_safety": 3,
       "uninitialized": 373,
-      "oop_design": 353
+      "oop_design": 353,
+      "audit_logging": 1,
+      "performance_patterns": 16,
+      "observability": 66,
+      "determinism": 19
     },
     "by_file": {
       "src\\api\\graphql.cpp": [
@@ -3677,6 +3681,222 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 871,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "resultList.push_back(executeSelections(resolvedField.selections, item, context));"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 903,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "resultList.push_back(executeSelections(field.selections, item, context));"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1100,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "field_list.push_back(Value::object(std::move(field_obj)));"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1157,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "field_list.push_back(Value::object(std::move(field_obj)));"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1438,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "aqlQuery.description = \"Execute a read-only AQL query (FOR/RETURN). \""
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 733,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "Executor::Result Executor::execute("
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1438,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "aqlQuery.description = \"Execute a read-only AQL query (FOR/RETURN). \""
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 248,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto fieldResult = parseField(1);  // Start at depth 1"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 405,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = pos_;"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 442,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::string numStr(source_.substr(start, pos_ - start));"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 642,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = pos_;"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 644,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Name must start with letter or underscore"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 652,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return themis::Ok(std::string(source_.substr(start, pos_ - start)));"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1475,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// graphTraversal(startNode: ID!, depth: Int, direction: String): [Node!]!"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 1479,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "graphQuery.arguments[\"startNode\"] = {\"ID\", true, false, nullptr};"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 212,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (op.type != OperationType::Query || !peek('{') && !peek('(')) {"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 604,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (pos_ < source_.size() && source_[pos_] != '\\n') {"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 663,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (pos_ < source_.size() && source_[pos_] != '\"') {"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 826,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != context.variables.end()) {"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 857,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != context.resolvers.end()) {"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 864,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (fieldIt != obj.end()) {"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 886,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != context.resolvers.end()) {"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 894,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (fieldIt != obj.end()) {"
+        },
+        {
+          "file": "src\\api\\graphql.cpp",
+          "line": 960,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return it != types_.end() ? &it->second : nullptr;"
         }
       ],
       "src\\api\\graphql_ws_handler.cpp": [
@@ -4325,6 +4545,60 @@
           "function_name": "validateVariables",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 205,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "errors_arr.push_back(json{{\"message\", e}});"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 431,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "const auto it = field.arguments.find(\"collection\");"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 217,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (op.type != graphql::OperationType::Subscription) {"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 428,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (op.type != graphql::OperationType::Subscription) continue;"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 430,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (field.name != \"onChange\") continue;"
+        },
+        {
+          "file": "src\\api\\graphql_ws_handler.cpp",
+          "line": 432,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != field.arguments.end() && it->second && it->second->isString()) {"
         }
       ],
       "src\\api\\otlp_exporter.cpp": [
@@ -4883,6 +5157,132 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 68,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (c != '-') out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 504,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "attrs.push_back({{\"key\", k}, {\"value\", {{\"stringValue\", v}}}});"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 361,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "// Set required options on the temporary handle (same as in start())"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 456,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_correlation_id",
+          "description": "Distributed call without correlation ID",
+          "context": "//     \"resource\": {\"attributes\": [{\"key\":\"service.name\",\"value\":{\"stringValue\":\"\u2026\"}}]},"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 108,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// start() / stop()"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 111,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void OtlpExporter::start()"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 149,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_WARN(\"OtlpExporter: curl_easy_init() failed at start \u2014 will retry per batch\");"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 181,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"OtlpExporter: started (endpoint={})\", config_.endpoint);"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 345,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// (e.g. start() was not called or curl_easy_init() failed at start time)."
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 361,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Set required options on the temporary handle (same as in start())"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 77,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "/// Build a random 16-hex-char span ID from the lower 64 bits of a trace ID."
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 79,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "/// to avoid a full random generator in the hot path."
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 69,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (c != '-') out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));"
+        },
+        {
+          "file": "src\\api\\otlp_exporter.cpp",
+          "line": 421,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (res != CURLE_OK) {"
         }
       ],
       "src\\api\\themisdb_grpc_service.cpp": [
@@ -7781,6 +8181,213 @@
           "function_name": "ThemisDBGrpcService",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 395,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "if (req->query().empty()) {"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 413,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = aql_engine_->execute(req->query());"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 458,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "if (req->query().empty()) {"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 469,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = aql_engine_->execute(req->query());"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 653,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "if (aql_engine_ && !req->sparse_query().empty()) {"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 656,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "\" FILTER FULLTEXT(doc, 'text', '\" + aqlEscape(req->sparse_query()) + \"')\""
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 658,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = aql_engine_->execute(aql);"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 707,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "if (req->query().empty() || req->collection().empty()) {"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 729,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "\" FILTER FULLTEXT(doc, 'text', '\" + aqlEscape(req->query()) + \"')\""
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 732,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = aql_engine_->execute(aql);"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 395,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "if (req->query().empty()) {"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 413,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "auto result = aql_engine_->execute(req->query());"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 458,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "if (req->query().empty()) {"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 469,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "auto result = aql_engine_->execute(req->query());"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 658,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "auto result = aql_engine_->execute(aql);"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 707,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "if (req->query().empty() || req->collection().empty()) {"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 729,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "\" FILTER FULLTEXT(doc, 'text', '\" + aqlEscape(req->query()) + \"')\""
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 732,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "auto result = aql_engine_->execute(aql);"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 6,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_correlation_id",
+          "description": "Distributed call without correlation ID",
+          "context": "File:            themisdb_grpc_service.cpp                          \u2551"
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 27,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_correlation_id",
+          "description": "Distributed call without correlation ID",
+          "context": "#include \"api/themisdb_grpc_service.h\""
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 39,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_correlation_id",
+          "description": "Distributed call without correlation ID",
+          "context": "// This mirrors the pattern used by WalGrpcService / wal_grpc_service.cpp."
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 89,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "/// needed and the counter survives a process restart."
+        },
+        {
+          "file": "src\\api\\themisdb_grpc_service.cpp",
+          "line": 799,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::time_point        start_time_;"
         }
       ],
       "src\\api\\geo_index_hooks.cpp": [
@@ -8931,6 +9538,87 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 142,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "geom_blob.push_back(byte);"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 312,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "geom_blob.push_back(byte);"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 322,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 425,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "geom_blob.push_back(byte);"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 532,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "geom_blob.push_back(byte);"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 542,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "geom_blob.push_back(static_cast<uint8_t>(byte.get<int>()));"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 109,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Quick heuristic: MessagePack blobs start with specific markers (0x80-0x8F for fixmap, 0xDE/0xDF for map16/32)"
+        },
+        {
+          "file": "src\\api\\geo_index_hooks.cpp",
+          "line": 110,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// JSON blobs start with '{' (0x7B) or '[' (0x5B)"
         }
       ],
       "src\\api\\federation_admin_handler.cpp": [
@@ -9603,6 +10291,141 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 83,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool GrpcApiServer::initialize(const GrpcServerConfig& config) {"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 87,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_WARN(\"GrpcApiServer::initialize called while server is already running\");"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 92,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"GrpcApiServer::initialize - invalid port 0\");"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 132,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_INFO(\"GrpcApiServer initialized, will listen on \" + server_address_);"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 151,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// start()"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 154,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool GrpcApiServer::start() {"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 156,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// BuildAndStart() call (which binds a network socket).  Holding the mutex"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 157,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// across BuildAndStart() would prevent other threads from calling stop()"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 162,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_WARN(\"GrpcApiServer::start - server is already running on \" + server_address_);"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 167,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"GrpcApiServer::start - call initialize() first\");"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 172,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"GrpcApiServer::start - no gRPC services registered\");"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 186,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(std::string(\"GrpcApiServer::start - credential build failed: \") + ex.what());"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 212,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto server = builder.BuildAndStart();"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 214,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(\"GrpcApiServer::start - BuildAndStart() returned nullptr for \" + address);"
+        },
+        {
+          "file": "src\\api\\grpc_server.cpp",
+          "line": 228,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "THEMIS_ERROR(std::string(\"GrpcApiServer::start exception: \") + ex.what());"
         }
       ],
       "src\\api\\tracing_middleware.cpp": [
@@ -9846,6 +10669,33 @@
           "function_name": "generateUuidV4",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\api\\tracing_middleware.cpp",
+          "line": 122,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "tl_span_start_ns = 0;"
+        },
+        {
+          "file": "src\\api\\tracing_middleware.cpp",
+          "line": 132,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "// thread_local avoids synchronisation overhead; random_generator is not"
+        },
+        {
+          "file": "src\\api\\tracing_middleware.cpp",
+          "line": 134,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "thread_local boost::uuids::random_generator gen;"
         }
       ],
       "src\\api\\ws_handler.cpp": [
@@ -9991,6 +10841,78 @@
           "function_name": "find",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\api\\ws_handler.cpp",
+          "line": 127,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "missing_audit_log",
+          "description": "Security function \"authorize\" without audit log",
+          "context": "const auto result = auth_->authorize(token, \"cdc:subscribe\");"
+        },
+        {
+          "file": "src\\api\\ws_handler.cpp",
+          "line": 111,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "const auto auth_hdr = req[http::field::authorization];"
+        },
+        {
+          "file": "src\\api\\ws_handler.cpp",
+          "line": 142,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//   from_sequence=<uint64>   \u2013 start delivering events from this sequence"
+        },
+        {
+          "file": "src\\api\\ws_handler.cpp",
+          "line": 143,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "//   key_prefix=<string>      \u2013 only deliver events whose key starts with"
+        },
+        {
+          "file": "src\\api\\ws_handler.cpp",
+          "line": 152,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto val_start = pos + search.size();"
+        },
+        {
+          "file": "src\\api\\ws_handler.cpp",
+          "line": 153,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto val_end   = qs.find('&', val_start);"
+        },
+        {
+          "file": "src\\api\\ws_handler.cpp",
+          "line": 155,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "? qs.substr(val_start)"
+        },
+        {
+          "file": "src\\api\\ws_handler.cpp",
+          "line": 156,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": ": qs.substr(val_start, val_end - val_start);"
         }
       ]
     }

@@ -1,9 +1,9 @@
 {
   "config": {
-    "total": 705,
+    "total": 814,
     "severity_critical": 45,
-    "severity_high": 547,
-    "severity_medium": 113,
+    "severity_high": 618,
+    "severity_medium": 151,
     "by_category": {
       "security": 5,
       "memory": 3,
@@ -17,7 +17,11 @@
       "input_validation": 28,
       "exception_safety": 45,
       "uninitialized": 139,
-      "oop_design": 280
+      "oop_design": 280,
+      "audit_logging": 5,
+      "performance_patterns": 14,
+      "observability": 24,
+      "determinism": 66
     },
     "by_file": {
       "src\\config\\config_file_watcher.cpp": [
@@ -1657,6 +1661,258 @@
           "function_name": "sizeof",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 150,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CloseHandle(static_cast<HANDLE>(stop_event_));"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 199,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CloseHandle(static_cast<HANDLE>(stop_event_));"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 552,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CloseHandle(dir_handle);"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 668,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CloseHandle(overlapped.hEvent);"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 669,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "CloseHandle(dir_handle);"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 91,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool ConfigFileWatcher::start() {"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 97,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::warn(\"ConfigFileWatcher: watch path '{}' does not exist \u2013 watcher not started\","
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 154,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::warn(\"ConfigFileWatcher: failed to start watcher thread for '{}'\","
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 158,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::info(\"ConfigFileWatcher: started watching '{}' (debounce {}ms)\","
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 104,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe2(fds, O_CLOEXEC | O_NONBLOCK) != 0) {"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 117,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe(fds) != 0) {"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 142,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 143,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 145,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 146,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 147,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (kqueue_fd_     != -1) { ::close(kqueue_fd_);     kqueue_fd_     = -1; }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 149,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (stop_event_ != nullptr) {"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 170,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe_write_fd_ != -1) {"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 175,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe_write_fd_ != -1) {"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 180,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (stop_event_ != nullptr) {"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 191,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 192,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 194,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 195,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 196,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (kqueue_fd_     != -1) { ::close(kqueue_fd_);     kqueue_fd_     = -1; }"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 198,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (stop_event_ != nullptr) {"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 350,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != wd_to_path.end()) {"
+        },
+        {
+          "file": "src\\config\\config_file_watcher.cpp",
+          "line": 574,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!ok && GetLastError() != ERROR_IO_PENDING) {"
         }
       ],
       "src\\config\\config_schema_validator.cpp": [
@@ -2740,6 +2996,105 @@
           "function_name": "addError",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 273,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (raw_token[i + 1] == '1') { key += '/'; ++i; }"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 71,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(yamlNodeToJsonImpl(child));"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 369,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "visited_refs.push_back(ref);"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 498,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "known_keys.push_back(k);"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 498,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "known_keys.push_back(k);"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 637,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// scheme \":\" hier-part; must start with a valid scheme"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 249,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ref.empty() || ref[0] != '#') return nullptr;"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 255,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ref.size() < 2 || ref[1] != '/') return nullptr;"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 359,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ref.empty() || ref[0] != '#') {"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 392,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (value != schema[\"const\"]) {"
+        },
+        {
+          "file": "src\\config\\config_schema_validator.cpp",
+          "line": 779,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (matched != 1) {"
         }
       ],
       "src\\config\\config_encrypted_store.cpp": [
@@ -4161,6 +4516,249 @@
           "function_name": "decryptBlob",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 63,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "out += have2 ? kB64Chars[(triple >> 6) & 0x3F] : '=';"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 90,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(static_cast<uint8_t>((a << 2) | (b >> 4)));"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 187,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(kv.first);"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 187,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : store_) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 287,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = entries.begin(); it != entries.end(); ++it) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 218,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, ConfigEncryptedBlob> new_store;"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 285,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, ConfigEncryptedBlob> new_store;"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 29,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <openssl/rand.h>"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 279,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (km.key_bytes.size() != 32) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 287,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = entries.begin(); it != entries.end(); ++it) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 312,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(key.data(), static_cast<int>(key.size())) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 320,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 345,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 348,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 351,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), out_iv.data()) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 360,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptUpdate(ctx, ciphertext.data(), &len, pt, pt_len) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 365,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &final_len) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 370,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, out_tag.data()) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 383,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (iv.size() != 12) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 386,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tag.size() != 16) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 400,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 403,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 406,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 414,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "static_cast<int>(ciphertext.size())) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 421,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, tag_copy.data()) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 426,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (EVP_DecryptFinal_ex(ctx, plaintext_buf.data() + len, &final_len) != 1) {"
+        },
+        {
+          "file": "src\\config\\config_encrypted_store.cpp",
+          "line": 449,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (blob.key_version != key_.version) {"
         }
       ],
       "src\\config\\config_audit_log.cpp": [
@@ -5788,6 +6386,24 @@
           "function_name": "Help",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 363,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [cat, count] : ConfigPathResolver::legacyFallbacksByCategory()) {"
+        },
+        {
+          "file": "src\\config\\config_metrics_exporter.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!serialized.empty() && serialized.back() != '\\n') {"
         }
       ],
       "src\\config\\config_path_resolver.cpp": [
@@ -7546,6 +8162,375 @@
           "function_name": "start",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 205,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "/// range.  Uses fprintf(stderr) rather than spdlog because this function is"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 217,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "fprintf(stderr,"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 222,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "fprintf(stderr,"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 245,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "fprintf(stderr,"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 250,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "fprintf(stderr,"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 89,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "report.push_back(std::move(entry));"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1622,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "categories.push_back(entry.first);"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1428,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::string>& ConfigPathResolver::legacyPathMappings() {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 109,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "* Start the background reporter thread."
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 113,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void start(int interval_seconds = DEFAULT_INTERVAL_SECONDS) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1208,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"config/scaling_optimizations_quickstart.yaml\","
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1210,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"config/scaling_optimizations_quickstart.yaml\","
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1211,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"config/performance/scaling_optimizations_quickstart.yaml\","
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1281,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (relative_part.starts_with(config_prefix)) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1336,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (relative_part.starts_with(config_prefix)) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1463,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (normalized.starts_with(prefix)) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1490,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (normalized.starts_with(\"./\")) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1642,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "aggregator_.start(interval_seconds);"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1778,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sa.sa_flags = SA_RESTART;"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1790,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool ConfigPathResolver::startHotReload(const std::string& watch_dir,"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1807,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool ok = file_watcher_->start();"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1810,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::warn(\"ConfigPathResolver: file-based hot-reload could not be started \""
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 209,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (env && *env != '\\0') {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 212,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (end != env && *end == '\\0') {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 237,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (env && *env != '\\0') {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 240,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (end != env && *end == '\\0') {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1278,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (env != ConfigEnvironment::PROD && !new_path.empty() && new_path != normalized) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1287,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!new_path.empty() && new_path != normalized) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1333,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (env != ConfigEnvironment::PROD && !new_path.empty() && new_path != normalized) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1350,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (normalized != new_path) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1357,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!new_path.empty() && new_path != normalized) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1379,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != legacy_fallbacks_by_category_.end()) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1415,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != PATH_MAPPING.end()) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1425,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return PATH_MAPPING.find(normalized) != PATH_MAPPING.end();"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1435,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != METADATA_TABLE.end()) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1441,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mapping_it != PATH_MAPPING.end()) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1504,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (path.find(\"..\") != std::string::npos) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1509,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (path.find('\\0') != std::string::npos) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1570,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (canonical_str != config_root_str &&"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1571,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "canonical_str.find(config_root_str + \"/\") != 0) {"
+        },
+        {
+          "file": "src\\config\\config_path_resolver.cpp",
+          "line": 1779,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (sigaction(SIGHUP, &sa, nullptr) != 0) {"
         }
       ]
     }

@@ -1,16 +1,19 @@
 {
   "chaos": {
-    "total": 68,
+    "total": 78,
     "severity_critical": 18,
-    "severity_high": 46,
-    "severity_medium": 4,
+    "severity_high": 54,
+    "severity_medium": 6,
     "by_category": {
       "reliability": 16,
       "container": 6,
       "performance": 1,
       "exception_safety": 1,
       "uninitialized": 10,
-      "oop_design": 34
+      "oop_design": 34,
+      "performance_patterns": 7,
+      "observability": 1,
+      "determinism": 2
     },
     "by_file": {
       "src\\chaos\\chaos_framework.cpp": [
@@ -659,6 +662,96 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 154,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(af);"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 95,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& cb : callbacks_) {"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 107,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& cb : callbacks_) {"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 124,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& cb : callbacks_) {"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 133,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [key, af] : active_faults_) {"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 154,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [_, af] : active_faults_) {"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 257,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& fault : to_fire) {"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 212,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void ChaosScheduler::start() {"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 105,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (it != active_faults_.end()) {"
+        },
+        {
+          "file": "src\\chaos\\chaos_framework.cpp",
+          "line": 178,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (it != active_faults_.end()) {"
         }
       ]
     }

@@ -1,9 +1,9 @@
 {
   "maintenance": {
-    "total": 378,
+    "total": 457,
     "severity_critical": 33,
-    "severity_high": 316,
-    "severity_medium": 29,
+    "severity_high": 351,
+    "severity_medium": 73,
     "by_category": {
       "security": 4,
       "reliability": 38,
@@ -12,7 +12,10 @@
       "type_conversion": 17,
       "input_validation": 12,
       "uninitialized": 142,
-      "oop_design": 152
+      "oop_design": 152,
+      "performance_patterns": 13,
+      "observability": 33,
+      "determinism": 33
     },
     "by_file": {
       "src\\maintenance\\database_maintenance_orchestrator.cpp": [
@@ -3445,6 +3448,690 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 308,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(entry);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 604,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(job);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 680,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "report.module_signals.push_back(std::move(sig));"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1443,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents[prereq].push_back(dep.task_type);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1443,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents[prereq].push_back(dep.task_type);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1443,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dependents[prereq].push_back(dep.task_type);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 734,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string>"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 738,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> result;"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1406,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<MaintenanceTaskType, std::size_t> taskIndex;"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 170,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [id, entry] : loaded) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 185,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [id, entry] : schedules_) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 660,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [id, job] : jobs_) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 962,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [jid, jobj] : jobs_) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1320,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto result = handler->execute(job.id, task_type);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1320,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "auto result = handler->execute(job.id, task_type);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 112,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "/// Returns true when the current UTC hour is inside [start, end)."
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 113,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "/// Handles wrap-around (e.g., start=22, end=4 spans midnight)."
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 114,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool isInMaintenanceWindow(int window_start_hour, int window_end_hour) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 116,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (window_start_hour < window_end_hour) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 117,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return h >= window_start_hour && h < window_end_hour;"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 120,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return h >= window_start_hour || h < window_end_hour;"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 148,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "Result<void> DatabaseMaintenanceOrchestrator::start() {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 161,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::error(\"DatabaseMaintenanceOrchestrator::start: failed to load \""
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 167,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// over any schedules that were inserted before start() was called."
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 191,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::info(\"DatabaseMaintenanceOrchestrator started ({} schedules registered)\","
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 238,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry.cron_expression = frequencyToCron(entry.frequency, entry.window_start_hour);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 348,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "entry.cron_expression = frequencyToCron(entry.frequency, entry.window_start_hour);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 407,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "frequencyToCron(updated.frequency, updated.window_start_hour);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 464,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// delete so the schedule does not resurrect itself on the next restart."
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 523,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "job.started_at_ms = nowMs();"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 538,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "{\"timestamp_ms\", job.started_at_ms},"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 901,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int window_hours = entry.window_end_hour - entry.window_start_hour;"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1006,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int  eff_window_start = entry.window_start_hour;"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1010,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "eff_window_start = tenant_cfg.window_start_hour;"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1015,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "!isInMaintenanceWindow(eff_window_start, eff_window_end)) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1017,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "job_id, eff_window_start, eff_window_end,"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1047,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t job_start_ms = themis::maintenance::nowMs();"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1092,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "sub_job.started_at_ms = themis::maintenance::nowMs();"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1097,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (sub_job.finished_at_ms > sub_job.started_at_ms) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1098,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "double dur_ms = static_cast<double>(sub_job.finished_at_ms - sub_job.started_at_ms);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1119,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "double total_dur_ms = static_cast<double>(now - job_start_ms);"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1174,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::info(\"Maintenance task starting: type={} job={}\","
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1382,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (entry.window_start_hour < 0 || entry.window_start_hour > 23) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1383,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "throw std::invalid_argument(\"window_start_hour must be in [0, 23]\");"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 60,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 78,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static std::mt19937_64 rng{std::random_device{}()};"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 79,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "static std::uniform_int_distribution<uint64_t> dist;"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 236,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (entry.frequency != ScheduleFrequency::CUSTOM || entry.cron_expression.empty()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 237,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (entry.frequency != ScheduleFrequency::CUSTOM) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 306,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!tenant_id_filter.empty() && entry.tenant_id != tenant_id_filter) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 347,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (entry.frequency != ScheduleFrequency::CUSTOM) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 405,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (updated.frequency != ScheduleFrequency::CUSTOM) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 561,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it->second.state != MaintenanceJobState::RUNNING &&"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 562,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "it->second.state != MaintenanceJobState::PENDING) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 601,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (active_only && job.state != MaintenanceJobState::PENDING &&"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 602,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "job.state != MaintenanceJobState::RUNNING) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 771,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != tenant_configs_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 845,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != jobs_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 872,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 914,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 923,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 965,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "jid != job_id) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 979,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 987,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1023,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1031,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1063,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (jit != jobs_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1081,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (jit != jobs_.end() &&"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1125,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (jit != jobs_.end() &&"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1126,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "jit->second.state != MaintenanceJobState::CANCELLED) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1139,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != schedules_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1314,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != task_handlers_.end()) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1356,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = jobs_.begin(); it != jobs_.end(); ) {"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1358,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (job.state != MaintenanceJobState::RUNNING &&"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1359,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "job.state != MaintenanceJobState::PENDING &&"
+        },
+        {
+          "file": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line": 1490,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (result.size() != entry.tasks.size()) {"
         }
       ],
       "src\\maintenance\\maintenance_schedule_store.cpp": [
@@ -3699,6 +4386,15 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line": 105,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (entry.id != id_from_key) {"
         }
       ],
       "src\\maintenance\\maintenance_registry.cpp": [
@@ -3834,6 +4530,24 @@
           "function_name": "createSchedule",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\maintenance\\maintenance_registry.cpp",
+          "line": 68,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "e.window_start_hour    = 2;"
+        },
+        {
+          "file": "src\\maintenance\\maintenance_registry.cpp",
+          "line": 93,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "e.window_start_hour    = 2;"
         }
       ]
     }

@@ -1,9 +1,9 @@
 {
   "toolbox": {
-    "total": 285,
+    "total": 296,
     "severity_critical": 3,
-    "severity_high": 255,
-    "severity_medium": 27,
+    "severity_high": 260,
+    "severity_medium": 33,
     "by_category": {
       "security": 4,
       "memory": 5,
@@ -14,7 +14,10 @@
       "type_conversion": 17,
       "input_validation": 2,
       "uninitialized": 96,
-      "oop_design": 138
+      "oop_design": 138,
+      "performance_patterns": 2,
+      "observability": 5,
+      "determinism": 4
     },
     "by_file": {
       "src\\toolbox\\content_toolbox_bridge.cpp": [
@@ -1449,6 +1452,33 @@
           "function_name": "buildWithBridges",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 128,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "impl_->format_extractors.push_back(std::move(ext));"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 170,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} else if (primary.find(\"vnd.openxmlformats\") != std::string::npos ||"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_builder.cpp",
+          "line": 174,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "primary.find(\"opendocument\") != std::string::npos) {"
         }
       ],
       "src\\toolbox\\ingestion_toolbox.cpp": [
@@ -2169,6 +2199,15 @@
           "function_name": "recordExtraction",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line": 150,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function execute without trace point",
+          "context": "auto result = engine->execute(ctx);"
         }
       ],
       "src\\toolbox\\toolbox_composite.cpp": [
@@ -2498,6 +2537,24 @@
           "function_name": "extractEntitySet",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_registry.cpp",
+          "line": 51,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"call ToolboxRegistry::initialize() at server startup\");"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_registry.cpp",
+          "line": 58,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return g_instance != nullptr;"
         }
       ],
       "src\\toolbox\\language_detector.cpp": [
@@ -2677,6 +2734,15 @@
           "function_name": "split",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\toolbox\\text_chunker.cpp",
+          "line": 43,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(c.text));"
         }
       ],
       "src\\toolbox\\content_fingerprinter.cpp": [
@@ -2791,6 +2857,33 @@
           "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\toolbox\\content_fingerprinter.cpp",
+          "line": 34,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ContentFingerprint ContentFingerprinter::compute(std::string_view text) const {"
+        },
+        {
+          "file": "src\\toolbox\\content_fingerprinter.cpp",
+          "line": 49,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ContentFingerprint ContentFingerprinter::compute("
+        },
+        {
+          "file": "src\\toolbox\\content_fingerprinter.cpp",
+          "line": 69,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return ContentFingerprinter{}.compute(text);"
         }
       ],
       "src\\toolbox\\text_quality_scorer.cpp": [
@@ -2858,6 +2951,15 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\toolbox\\text_quality_scorer.cpp",
+          "line": 59,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (c != ' ' && c != '\\t' && c != '\\n' && c != '\\r') {"
         }
       ],
       "src\\toolbox\\toolbox_streaming.cpp": [

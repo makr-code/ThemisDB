@@ -1,9 +1,9 @@
 {
   "observability": {
-    "total": 2115,
-    "severity_critical": 148,
-    "severity_high": 1564,
-    "severity_medium": 403,
+    "total": 2538,
+    "severity_critical": 157,
+    "severity_high": 1787,
+    "severity_medium": 594,
     "by_category": {
       "security": 2,
       "memory": 8,
@@ -17,7 +17,13 @@
       "input_validation": 97,
       "exception_safety": 9,
       "uninitialized": 573,
-      "oop_design": 792
+      "oop_design": 792,
+      "audit_logging": 3,
+      "performance_patterns": 144,
+      "query_correctness": 113,
+      "distributed_consistency": 27,
+      "observability": 63,
+      "determinism": 73
     },
     "by_file": {
       "src\\observability\\alertmanager.cpp": [
@@ -1441,6 +1447,132 @@
           "function_name": "clearRules",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 249,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "active_alerts_.push_back(alert);"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 249,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "active_alerts_.push_back(alert);"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 280,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "payload.push_back(entry);"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 280,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "payload.push_back(entry);"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 330,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "payload.push_back(entry);"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 577,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(rule);"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 583,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "int AlertRuleManager::evaluateRules(const std::map<std::string, double>& metrics,"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 642,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& action : to_fire) {"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 659,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& action : to_resolve) {"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 300,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != active_alerts_.end()) {"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 349,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != active_alerts_.end()) {"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 459,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "pos != std::string::npos;"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 468,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (dot_pos != std::string::npos) {"
+        },
+        {
+          "file": "src\\observability\\alertmanager.cpp",
+          "line": 473,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "pos != std::string::npos;"
         }
       ],
       "src\\observability\\advanced_metrics.cpp": [
@@ -2229,6 +2361,60 @@
           "function_name": "count",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\advanced_metrics.cpp",
+          "line": 162,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.buckets.push_back(b);"
+        },
+        {
+          "file": "src\\observability\\advanced_metrics.cpp",
+          "line": 90,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (double q : quantiles) {"
+        },
+        {
+          "file": "src\\observability\\advanced_metrics.cpp",
+          "line": 158,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [idx, count] : bucket_counts) {"
+        },
+        {
+          "file": "src\\observability\\advanced_metrics.cpp",
+          "line": 149,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "const double log_scale = std::log(data.scale);"
+        },
+        {
+          "file": "src\\observability\\advanced_metrics.cpp",
+          "line": 152,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "int idx = static_cast<int>(std::floor(std::log(v) / log_scale));"
+        },
+        {
+          "file": "src\\observability\\advanced_metrics.cpp",
+          "line": 225,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// interval is weighted by the value at the start of that interval."
         }
       ],
       "src\\observability\\alerting_engine.cpp": [
@@ -3141,6 +3327,51 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\alerting_engine.cpp",
+          "line": 221,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "fields.push_back(field);"
+        },
+        {
+          "file": "src\\observability\\alerting_engine.cpp",
+          "line": 449,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "active_alerts_.push_back(alert);"
+        },
+        {
+          "file": "src\\observability\\alerting_engine.cpp",
+          "line": 157,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::string> headers{"
+        },
+        {
+          "file": "src\\observability\\alerting_engine.cpp",
+          "line": 475,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != active_alerts_.end()) {"
+        },
+        {
+          "file": "src\\observability\\alerting_engine.cpp",
+          "line": 501,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != active_alerts_.end()) {"
         }
       ],
       "src\\observability\\continuous_profiler.cpp": [
@@ -4377,6 +4608,222 @@
           "function_name": "registerAnomalyCallback",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 110,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(addr_buf, sizeof(addr_buf), \"0x%p\", frame_ptrs[i]);"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 278,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) key += ';';"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 288,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "text += ' ';"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 434,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) key += ';';"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 434,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i > 0) key += ';';"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 491,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "text += ' ';"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 76,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "frames.emplace_back(symbols[i] ? symbols[i] : \"??\");"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 106,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "frames.emplace_back(sym->Name);"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 311,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(s);"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 341,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "diff.new_hotspots.push_back(stack);"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 341,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "diff.new_hotspots.push_back(stack);"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 341,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "diff.new_hotspots.push_back(stack);"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 357,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "diff.removed_hotspots.push_back(stack);"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 503,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "vec.push_back(snap);"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 340,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto baseIt = baseMap.find(stack);"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 287,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [stack, count] : cpu_stacks_) {"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 356,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [stack, _] : baseMap) {"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 421,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "cv_.wait_for(lk, sample_period, [this] { return !running_; });"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 434,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < frames.size(); ++i) {"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 92,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "const HANDLE process = ::GetCurrentProcess();"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 248,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void start() {"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 270,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// after start(). Capture one synchronous sample as a safe fallback"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 568,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void ContinuousProfiler::start() { impl_->start(); }"
+        },
+        {
+          "file": "src\\observability\\continuous_profiler.cpp",
+          "line": 321,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (baseline.type != ProfileType::CPU || current.type != ProfileType::CPU) {"
         }
       ],
       "src\\observability\\log_aggregator.cpp": [
@@ -5863,6 +6310,105 @@
           "function_name": "logWithContextAsync",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 80,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\","
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 68,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case '\"':  out += \"\\\\\\\"\"; break;"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 469,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (int i = 0; i < 6; ++i) {"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 345,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "void LogAggregator::log(Level level, const std::string& message) {"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 350,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log(Level::TRACE, message);"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 354,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log(Level::DEBUG, message);"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 358,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log(Level::INFO, message);"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 362,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log(Level::WARN, message);"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 366,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log(Level::ERROR, message);"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 370,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "log(Level::CRITICAL, message);"
+        },
+        {
+          "file": "src\\observability\\log_aggregator.cpp",
+          "line": 157,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start background worker thread for async dispatch."
         }
       ],
       "src\\observability\\distributed_flame_graph.cpp": [
@@ -6350,6 +6896,375 @@
           "function_name": "getNodeIds",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 70,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "out += ' ';"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 85,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "stacks_arr.push_back({{\"stack\", stack}, {\"count\", count}});"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 85,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "stacks_arr.push_back({{\"stack\", stack}, {\"count\", count}});"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 126,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(id);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 161,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.new_hotspots.push_back(stack);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 161,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.new_hotspots.push_back(stack);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 161,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.new_hotspots.push_back(stack);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 199,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(id);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 229,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.node_ids.push_back(id);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 160,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto baseIt = baseMap.find(stack);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 126,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, _] : profiles_) {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [stack, _] : baseMap) {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 199,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [id, _] : profiles_) {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 64,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "// MergedFlameGraph"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 67,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "std::string MergedFlameGraph::toFoldedText() const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 78,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "json MergedFlameGraph::toJSON() const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 132,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "MergedFlameGraph mergeFiltered(const std::vector<std::string>& node_ids) const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 134,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "return mergeProfiles(node_ids);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 137,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "ProfileDiff diff(const MergedFlameGraph& baseline,"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 138,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "const MergedFlameGraph& current) const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 245,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "// low-throughput ones in the merged flame graph."
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 64,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// MergedFlameGraph"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 67,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::string MergedFlameGraph::toFoldedText() const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 78,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "json MergedFlameGraph::toJSON() const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 122,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "MergedFlameGraph merge() const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 129,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "return mergeProfiles(ids);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 132,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "MergedFlameGraph mergeFiltered(const std::vector<std::string>& node_ids) const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 134,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "return mergeProfiles(node_ids);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 137,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "ProfileDiff diff(const MergedFlameGraph& baseline,"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 138,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "const MergedFlameGraph& current) const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 217,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "* Merge a specific list of node IDs."
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 220,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "MergedFlameGraph mergeProfiles(const std::vector<std::string>& ids) const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 221,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "MergedFlameGraph result;"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 245,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// low-throughput ones in the merged flame graph."
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 286,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "MergedFlameGraph DistributedFlameGraph::merge() const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 287,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "return impl_->merge();"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 290,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "MergedFlameGraph DistributedFlameGraph::mergeFiltered("
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 292,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "return impl_->mergeFiltered(node_ids);"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 295,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "ProfileDiff DistributedFlameGraph::diff(const MergedFlameGraph& baseline,"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 296,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "const MergedFlameGraph& current) const {"
+        },
+        {
+          "file": "src\\observability\\distributed_flame_graph.cpp",
+          "line": 228,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (np.snapshot.type != ProfileType::CPU) continue;"
         }
       ],
       "src\\observability\\ebpf_tracer.cpp": [
@@ -6867,6 +7782,69 @@
           "function_name": "registerEventCallback",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\ebpf_tracer.cpp",
+          "line": 384,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "cv_.wait_for(wlk, interval, [this]{ return !running_; });"
+        },
+        {
+          "file": "src\\observability\\ebpf_tracer.cpp",
+          "line": 397,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& ev : batch) {"
+        },
+        {
+          "file": "src\\observability\\ebpf_tracer.cpp",
+          "line": 151,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start();"
+        },
+        {
+          "file": "src\\observability\\ebpf_tracer.cpp",
+          "line": 160,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void start() {"
+        },
+        {
+          "file": "src\\observability\\ebpf_tracer.cpp",
+          "line": 193,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start();"
+        },
+        {
+          "file": "src\\observability\\ebpf_tracer.cpp",
+          "line": 223,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// deltas start from zero.  Using an atomic flag avoids a data race: the"
+        },
+        {
+          "file": "src\\observability\\ebpf_tracer.cpp",
+          "line": 497,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void EbpfTracer::start()  { impl_->start();  }"
         }
       ],
       "src\\observability\\log_search_engine.cpp": [
@@ -7121,6 +8099,141 @@
           "function_name": "distinctFieldValues",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 105,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matched.push_back(&entry);"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 142,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.entries.push_back(*matched[i]);"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 60,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "bool LogSearchEngine::matchesQuery(const LogEntry& entry,"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 105,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "if (matchesQuery(entry, query)) {"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 158,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "if (matchesQuery(entry, query)) {"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 49,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "case FieldMatchOp::STARTS_WITH:"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = std::min(query.offset, total);"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 132,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "end = std::min(start + query.limit, total);"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 140,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "result.entries.reserve(end - start);"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 142,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = start; i < end; ++i) {"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 38,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "// Key not present -- NOT_EQUALS is still \"true\" (absent != anything)."
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 46,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return actual != value;"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 48,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return actual.find(value) != std::string::npos;"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 176,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != entry.fields.end()) {"
+        },
+        {
+          "file": "src\\observability\\log_search_engine.cpp",
+          "line": 112,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Sort by timestamp."
         }
       ],
       "src\\observability\\metrics_collector.cpp": [
@@ -8753,6 +9866,132 @@
           "function_name": "metric_name_",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 303,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::string>& labels) {"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 311,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::string>& labels) {"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 321,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "void MetricsCollector::incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels) {"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 328,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "void MetricsCollector::setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels) {"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 335,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "void MetricsCollector::observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels) {"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 349,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::string>& labels) {"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 449,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": ": metric_name_(metric_name), labels_(labels), start_(std::chrono::steady_clock::now()) {"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 459,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return std::chrono::duration<double, std::milli>(end - start_).count();"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 194,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string name = (pos != std::string::npos) ? key.substr(0, pos) : key;"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 195,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string labels = (pos != std::string::npos) ? key.substr(pos) : \"\";"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 204,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string name = (pos != std::string::npos) ? key.substr(0, pos) : key;"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 205,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string labels = (pos != std::string::npos) ? key.substr(pos) : \"\";"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 216,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string name = (pos != std::string::npos) ? key.substr(0, pos) : key;"
+        },
+        {
+          "file": "src\\observability\\metrics_collector.cpp",
+          "line": 217,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "std::string labels = (pos != std::string::npos) ? key.substr(pos) : \"\";"
         }
       ],
       "src\\observability\\metrics_stream_server.cpp": [
@@ -9456,6 +10695,60 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\metrics_stream_server.cpp",
+          "line": 208,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\","
+        },
+        {
+          "file": "src\\observability\\metrics_stream_server.cpp",
+          "line": 196,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case '\"':  out += \"\\\\\\\"\"; break;"
+        },
+        {
+          "file": "src\\observability\\metrics_stream_server.cpp",
+          "line": 54,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void MetricsStreamServer::start(const std::string& bind_address, uint16_t port) {"
+        },
+        {
+          "file": "src\\observability\\metrics_stream_server.cpp",
+          "line": 56,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "throw std::runtime_error(\"MetricsStreamServer::start: bind_address must not be empty\");"
+        },
+        {
+          "file": "src\\observability\\metrics_stream_server.cpp",
+          "line": 59,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "throw std::runtime_error(\"MetricsStreamServer::start: port must not be 0\");"
+        },
+        {
+          "file": "src\\observability\\metrics_stream_server.cpp",
+          "line": 309,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!f.value.empty() && it->second != f.value) {"
         }
       ],
       "src\\observability\\metric_aggregator.cpp": [
@@ -10954,6 +12247,393 @@
           "function_name": "lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 268,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(rule);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 333,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "grouped[gk].push_back(v);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 333,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "grouped[gk].push_back(v);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 333,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "grouped[gk].push_back(v);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 333,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "grouped[gk].push_back(v);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 347,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 380,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "transient_snapshots[key].push_back(std::move(snap));"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 380,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "transient_snapshots[key].push_back(std::move(snap));"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 417,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "grouped[gk].push_back(v);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 417,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "grouped[gk].push_back(v);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 417,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "grouped[gk].push_back(v);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 417,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "grouped[gk].push_back(v);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 431,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 223,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = snap.labels.find(fk);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 286,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto brace = key.find('{');"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 325,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = effective_labels.find(gl);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 409,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = effective_labels.find(gl);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 140,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::string>& labels,"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 159,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::string>& labels) const {"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 205,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::string>& filter_labels) const {"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 311,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<double>> grouped;               // group_key \u2192 values"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 312,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::map<std::string, std::string>> glabels; // group_key \u2192 labels"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 323,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> group_labels;"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 365,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<HistogramSnapshot>> transient_snapshots;"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 370,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> base_labels = shard.labels;"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 397,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::vector<double>> grouped;               // group_key \u2192 values"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 398,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::map<std::string, std::string>> glabels; // group_key \u2192 labels"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 407,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, std::string> group_labels;"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 268,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [name, rule] : rules_) {"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 341,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [gk, vals] : grouped) {"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 475,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [key, deque] : rate_samples_) {"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 97,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "double p = (type == AggregationType::P50) ? 0.50"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 118,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != known.end()) {"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 124,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (limit_it != cardinality_limits_.end() && limit_it->second > 0) {"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 218,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (snap.metric_name != metric_name) continue;"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 224,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it == snap.labels.end() || it->second != fv) {"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 287,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (brace != std::string::npos) kname = key.substr(0, brace);"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 288,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (kname != metric_name) continue;"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 316,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (snap.metric_name != metric_name) continue;"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 326,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != effective_labels.end()) {"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 402,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (snap.metric_name != metric_name) continue;"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 410,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != effective_labels.end()) {"
+        },
+        {
+          "file": "src\\observability\\metric_aggregator.cpp",
+          "line": 463,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = snapshots_.begin(); it != snapshots_.end();) {"
         }
       ],
       "src\\observability\\metric_anomaly_detector.cpp": [
@@ -12000,6 +13680,96 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 281,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "anomalies_arr.push_back(a.toJson());"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 281,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "anomalies_arr.push_back(a.toJson());"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 281,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "anomalies_arr.push_back(a.toJson());"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 319,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "names.push_back(name);"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 164,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [name, state] : streams_) {"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 189,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& [name, state] : streams_) {"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 262,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = start; i < state->anomalies.size(); ++i) {"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 108,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto raw = state.sad.process(dp);  // may return nullopt during warm-up"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 260,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = state->anomalies.size() > 5"
+        },
+        {
+          "file": "src\\observability\\metric_anomaly_detector.cpp",
+          "line": 262,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = start; i < state->anomalies.size(); ++i) {"
         }
       ],
       "src\\observability\\ml_anomaly_detector.cpp": [
@@ -12993,6 +14763,105 @@
           "function_name": "explainAnomaly",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 85,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "diffs.push_back(pts[i].timestamp_ms - pts[i - 1].timestamp_ms);"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 109,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "neighbours.push_back(j);"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 181,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "e.feature_importance.push_back({factor.substr(0, pos), v});"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 217,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "fi.push_back({{\"name\", name}, {\"value\", value}});"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 299,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "dp.push_back(std::move(p));"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 118,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto neighbours = regionQuery(i);"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 131,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto nn = regionQuery(nidx);"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 117,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (labels[i] != UNVISITED) continue;"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 129,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (labels[nidx] != UNVISITED) continue;"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 179,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (pos != std::string::npos && pos + 1 < factor.size()) {"
+        },
+        {
+          "file": "src\\observability\\ml_anomaly_detector.cpp",
+          "line": 381,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "double dbscan_score = (labels[i] == -1) ? 1.0 : 0.0;"
         }
       ],
       "src\\observability\\opentelemetry_tracer.cpp": [
@@ -14130,6 +15999,141 @@
           "function_name": "otlpDroppedSpanCount",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 268,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "active_exporter_types_.push_back(et);"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 272,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Create and start an OTLP exporter for real span export."
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 281,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "otlp_exporter_->start();"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 367,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// context propagation for those backends happens via startSpan/"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 368,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// startSpanFromHeaders on their adapters, which the caller invokes."
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 431,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "OpenTelemetryTracer::startSpan(const std::string& name)"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 437,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "OpenTelemetryTracer::startChildSpan(const std::string& name,"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 449,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "OpenTelemetryTracer::startSpanFromHeaders("
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 52,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 80,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower != \"otlp\") {"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 573,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (metrics.cpu_usage_percent != 0.0) {"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 577,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (metrics.memory_usage_bytes != 0.0) {"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 581,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (metrics.active_connections != 0) {"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 585,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (metrics.query_count != 0) {"
+        },
+        {
+          "file": "src\\observability\\opentelemetry_tracer.cpp",
+          "line": 589,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (metrics.cache_hit_rate != 0.0) {"
         }
       ],
       "src\\observability\\performance_analyzer.cpp": [
@@ -15731,6 +17735,42 @@
           "function_name": "generate_html_footer",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\performance_analyzer.cpp",
+          "line": 59,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "recs.push_back(rec);"
+        },
+        {
+          "file": "src\\observability\\performance_analyzer.cpp",
+          "line": 77,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "issues_json.push_back(issue.toJSON());"
+        },
+        {
+          "file": "src\\observability\\performance_analyzer.cpp",
+          "line": 277,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "recommendations.push_back(\"Review and create missing indexes for frequently queried columns\");"
+        },
+        {
+          "file": "src\\observability\\performance_analyzer.cpp",
+          "line": 271,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<IssueCategory, size_t> category_counts;"
         }
       ],
       "src\\observability\\query_profiler.cpp": [
@@ -17818,6 +19858,1329 @@
           "function_name": "record_cache_hit",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 86,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "operators_json.push_back(op.toJSON());"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 86,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "operators_json.push_back(op.toJSON());"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 167,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "to_remove.push_back(id);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 179,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "times.push_back({id, profile->start_time});"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 179,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "times.push_back({id, profile->start_time});"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 340,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(profile);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 372,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(profile);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 397,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "profiles_json.push_back(profile->toJSON());"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 186,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < to_delete; ++i) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 340,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [_, profile] : impl_->profiles) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 353,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [_, profile] : impl_->profiles) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 372,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [_, profile] : impl_->profiles) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 397,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [_, profile] : impl_->profiles) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 8,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "Last Modified:   2026-04-15 18:49:49                                \u2551"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 38,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case QueryPhase::PARSE: return \"PARSE\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 50,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::SCAN: return \"SCAN\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 51,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::INDEX_SCAN: return \"INDEX_SCAN\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 52,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::FILTER: return \"FILTER\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 53,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::PROJECT: return \"PROJECT\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 54,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::AGGREGATE: return \"AGGREGATE\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 55,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::JOIN: return \"JOIN\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 56,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::SORT: return \"SORT\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 57,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::LIMIT: return \"LIMIT\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 58,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::SUBQUERY: return \"SUBQUERY\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 59,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::VECTOR_SEARCH: return \"VECTOR_SEARCH\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 60,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "case OperatorType::GRAPH_TRAVERSE: return \"GRAPH_TRAVERSE\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 65,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "json OperatorStats::toJSON() const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 79,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "json QueryProfile::toJSON() const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 80,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "json phases_json = json::object();"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 85,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "json operators_json = json::array();"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 90,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto time_t_val = std::chrono::system_clock::to_time_t(start_time);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 118,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string QueryProfile::toSummary() const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 119,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ostringstream oss;"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 121,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "oss << \"Duration: \" << std::fixed << std::setprecision(2)"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 151,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// QueryProfiler::Impl"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 152,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "class QueryProfiler::Impl {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 155,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unordered_map<std::string, std::shared_ptr<QueryProfile>> profiles;"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 156,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "mutable std::mutex mutex;"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 161,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto now = std::chrono::system_clock::now();"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 162,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> to_remove;"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 165,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto age = std::chrono::duration_cast<std::chrono::seconds>("
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 178,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> times;"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 182,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::sort(times.begin(), times.end(),"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 194,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "QueryProfiler::QueryProfiler(const QueryProfilerConfig& config)"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 195,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": ": impl_(std::make_unique<Impl>(config)) {}"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 199,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string QueryProfiler::start_query(const std::string& query_id,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 200,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& query_text) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 205,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 207,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto profile = std::make_shared<QueryProfile>();"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 210,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "profile->start_time = std::chrono::system_clock::now();"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 219,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::end_query(const std::string& query_id) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 224,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 229,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto now = std::chrono::system_clock::now();"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 230,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "profile->total_duration = std::chrono::duration_cast<std::chrono::microseconds>("
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 234,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "profile->total_duration >= std::chrono::duration_cast<std::chrono::microseconds>("
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 241,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::record_phase(const std::string& query_id, QueryPhase phase,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 242,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::microseconds duration) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 247,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 255,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::record_operator(const std::string& query_id,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 261,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 269,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::record_index_usage(const std::string& query_id,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 270,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& index_name) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 275,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 284,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::record_cache_usage(const std::string& query_id, bool cache_hit) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 289,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 299,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::add_hint(const std::string& query_id, const std::string& hint) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 304,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 312,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::add_warning(const std::string& query_id, const std::string& warning) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 317,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 325,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::shared_ptr<QueryProfile> QueryProfiler::get_profile(const std::string& query_id) const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 326,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 335,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_all_profiles() const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 336,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 338,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::shared_ptr<QueryProfile>> result;"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 346,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_slow_queries("
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 347,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::milliseconds threshold) const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 348,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 350,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::shared_ptr<QueryProfile>> result;"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 351,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto threshold_us = std::chrono::duration_cast<std::chrono::microseconds>(threshold);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 359,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::sort(result.begin(), result.end(),"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 367,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries(size_t limit) const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 368,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 370,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::shared_ptr<QueryProfile>> result;"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 376,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::sort(result.begin(), result.end(),"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 388,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::clear() {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 389,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 393,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::export_to_json(const std::string& filename) const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 394,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 396,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "json profiles_json = json::array();"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 401,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ofstream file(filename);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 405,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "QueryProfilerConfig QueryProfiler::get_config() const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 406,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 410,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::set_config(const QueryProfilerConfig& config) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 411,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 415,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::enable() {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 416,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 420,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::disable() {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 421,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 425,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "bool QueryProfiler::is_enabled() const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 426,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 430,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "json QueryProfiler::get_statistics() const {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 431,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::lock_guard<std::mutex> lock(impl_->mutex);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 434,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::microseconds total_duration{0};"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 463,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::cleanup_old_profiles() {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 467,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryProfiler::log_slow_query(const QueryProfile& profile) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 474,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ScopedQueryProfile::ScopedQueryProfile(QueryProfiler& profiler,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 475,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& query_id,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 476,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& query_text)"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 485,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void ScopedQueryProfile::record_phase(QueryPhase phase,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 486,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::chrono::microseconds duration) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 490,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void ScopedQueryProfile::record_operator(const OperatorStats& stats) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 494,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void ScopedQueryProfile::add_hint(const std::string& hint) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 498,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void ScopedQueryProfile::add_warning(const std::string& warning) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 503,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ScopedOperatorProfile::ScopedOperatorProfile(QueryProfiler& profiler,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 504,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& query_id,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 506,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& name)"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 508,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "start_(std::chrono::high_resolution_clock::now()) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 514,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto end = std::chrono::high_resolution_clock::now();"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 515,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "stats_.duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start_);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 519,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void ScopedOperatorProfile::record_rows(size_t count) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 523,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void ScopedOperatorProfile::record_bytes(size_t count) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 527,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void ScopedOperatorProfile::record_disk_read() {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 531,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void ScopedOperatorProfile::record_cache_hit() {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 535,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void ScopedOperatorProfile::record_cache_miss() {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 539,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void ScopedOperatorProfile::set_details(const std::string& details) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 55,
+          "category": "query_correctness",
+          "severity": "CRITICAL",
+          "pattern": "missing_join_condition",
+          "description": "JOIN without ON condition (Cartesian product risk)",
+          "context": "case OperatorType::JOIN: return \"JOIN\";"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 199,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::string QueryProfiler::start_query(const std::string& query_id,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 469,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function query without trace point",
+          "context": "// Log slow query (could be integrated with logging system)"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 90,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto time_t_val = std::chrono::system_clock::to_time_t(start_time);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 95,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "{\"start_time\", time_t_val},"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 166,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "now - profile->start_time);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 180,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "times.push_back({id, profile->start_time});"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 199,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::string QueryProfiler::start_query(const std::string& query_id,"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 210,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "profile->start_time = std::chrono::system_clock::now();"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 231,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "now - profile->start_time);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 478,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "profiler_.start_query(query_id_, query_text);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 508,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start_(std::chrono::high_resolution_clock::now()) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 515,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "stats_.duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start_);"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 155,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::shared_ptr<QueryProfile>> profiles;"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 227,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->profiles.end()) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 250,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->profiles.end()) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 264,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->profiles.end()) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 278,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->profiles.end()) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 292,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->profiles.end()) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 307,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->profiles.end()) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 320,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->profiles.end()) {"
+        },
+        {
+          "file": "src\\observability\\query_profiler.cpp",
+          "line": 329,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != impl_->profiles.end()) {"
         }
       ],
       "src\\observability\\root_cause_analyzer.cpp": [
@@ -19005,6 +22368,132 @@
           "function_name": "pearsonCorrelation",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 102,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "roots.push_back(kv.first);"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 102,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "roots.push_back(kv.first);"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 102,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "roots.push_back(kv.first);"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 113,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "edges_json.push_back({"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 218,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "v.push_back(p.value);"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 408,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "report.contributing_factors.push_back(oss.str());"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 408,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "report.contributing_factors.push_back(oss.str());"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 461,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(cm));"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 484,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "graph.nodes.push_back(ts.name);"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 328,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "static double deltaForKey(const std::map<std::string, double>& deltas,"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 366,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "std::map<std::string, double> deltas;"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 300,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"Warm up cache on restart\""
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 92,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, int> in_degree;"
+        },
+        {
+          "file": "src\\observability\\root_cause_analyzer.cpp",
+          "line": 191,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (x.size() != y.size() || x.empty()) {"
         }
       ],
       "src\\observability\\slo_reporter.cpp": [
@@ -19966,6 +23455,60 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\slo_reporter.cpp",
+          "line": 43,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "alerts_arr.push_back({"
+        },
+        {
+          "file": "src\\observability\\slo_reporter.cpp",
+          "line": 123,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(computeStatus(state_copy));"
+        },
+        {
+          "file": "src\\observability\\slo_reporter.cpp",
+          "line": 195,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(s.toJson());"
+        },
+        {
+          "file": "src\\observability\\slo_reporter.cpp",
+          "line": 195,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arr.push_back(s.toJson());"
+        },
+        {
+          "file": "src\\observability\\slo_reporter.cpp",
+          "line": 309,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "s.active_burn_rate_alerts.push_back(std::move(alert));"
+        },
+        {
+          "file": "src\\observability\\slo_reporter.cpp",
+          "line": 195,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& s : statuses) {"
         }
       ],
       "src\\observability\\storage_profiler.cpp": [
@@ -21057,6 +24600,105 @@
           "function_name": "set_from_sst",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 70,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "level_sizes_json.push_back(size);"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 347,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ops_json.push_back(op.toJSON());"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 352,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "stats_json.push_back(stats.toJSON());"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 262,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [type, count] : op_counts) {"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 352,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& stats : impl_->rocksdb_stats_history) {"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 406,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": ": profiler_(profiler), start_(std::chrono::high_resolution_clock::now()) {"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 413,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "stats_.duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start_);"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 249,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<StorageOpType, size_t> op_counts;"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 250,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<StorageOpType, std::chrono::microseconds> op_durations;"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 251,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<StorageOpType, size_t> op_bytes_read;"
+        },
+        {
+          "file": "src\\observability\\storage_profiler.cpp",
+          "line": 252,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<StorageOpType, size_t> op_bytes_written;"
         }
       ],
       "src\\observability\\tenant_metrics_namespace.cpp": [
@@ -22226,6 +25868,42 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\tenant_metrics_namespace.cpp",
+          "line": 73,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ids.push_back(kv.first);"
+        },
+        {
+          "file": "src\\observability\\tenant_metrics_namespace.cpp",
+          "line": 326,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(s));"
+        },
+        {
+          "file": "src\\observability\\tenant_metrics_namespace.cpp",
+          "line": 90,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "map_vs_unordered_map",
+          "description": "std::map used only for lookups (consider std::unordered_map)",
+          "context": "const std::map<std::string, std::string>& labels)"
+        },
+        {
+          "file": "src\\observability\\tenant_metrics_namespace.cpp",
+          "line": 320,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : stores_) {"
         }
       ],
       "src\\observability\\tracer.cpp": [
@@ -22839,6 +26517,42 @@
           "function_name": "completedSpans",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\observability\\tracer.cpp",
+          "line": 251,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Cache most-recently-started span context for injectContext()"
+        },
+        {
+          "file": "src\\observability\\tracer.cpp",
+          "line": 300,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ObservabilityTracer::startSpan(const std::string& name) {"
+        },
+        {
+          "file": "src\\observability\\tracer.cpp",
+          "line": 305,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "ObservabilityTracer::startChildSpan(const std::string& name,"
+        },
+        {
+          "file": "src\\observability\\tracer.cpp",
+          "line": 44,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
         }
       ],
       "src\\observability\\tracer_utils.h": [
@@ -22913,6 +26627,105 @@
           "conversion_from": "",
           "conversion_to": "",
           "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 10,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "#include <random>"
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 19,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "/// Generate a 128-bit random hex string for use as a W3C trace-id."
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 21,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "thread_local std::mt19937_64 rng{std::random_device{}()};"
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 22,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<uint64_t> dist;"
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 32,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "/// Generate a 64-bit random hex string for use as a W3C span-id."
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 34,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "thread_local std::mt19937_64 rng{std::random_device{}()};"
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 35,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::uniform_int_distribution<uint64_t> dist;"
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 45,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "thread_local std::mt19937_64 rng{std::random_device{}()};"
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 46,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);"
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 57,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (value[2] != '-' || value[35] != '-' || value[52] != '-')"
+        },
+        {
+          "file": "src\\observability\\tracer_utils.h",
+          "line": 65,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "[](unsigned char c) { return std::isxdigit(c) != 0; });"
         }
       ]
     }

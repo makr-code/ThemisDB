@@ -1,12 +1,16 @@
 {
   "main.cpp": {
-    "total": 59,
-    "severity_critical": 0,
-    "severity_high": 59,
-    "severity_medium": 0,
+    "total": 74,
+    "severity_critical": 3,
+    "severity_high": 65,
+    "severity_medium": 6,
     "by_category": {
       "uninitialized": 9,
-      "oop_design": 50
+      "oop_design": 50,
+      "audit_logging": 5,
+      "performance_patterns": 4,
+      "llm_ai_safety": 3,
+      "observability": 3
     },
     "by_file": {
       "src\\main.cpp": [
@@ -590,6 +594,141 @@
           "function_name": "THEMIS_INFO",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 48,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Usage: \" << prog << \" [options]\\n\""
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 65,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << THEMIS_VERSION_STRING << std::endl;"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 67,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"unknown\" << std::endl;"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 450,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\\n=== Demo completed successfully! ===\" << std::endl;"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 451,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Check vccdb.log for detailed logs\" << std::endl;"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 326,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i) path += \" -> \";"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 326,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i) path += \" -> \";"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 353,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i) orderStr += \", \";"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 353,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (i) orderStr += \", \";"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 174,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "BaseEntity retrieved = BaseEntity::deserialize(\"user_123\", *result);"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 263,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "BaseEntity retrieved = BaseEntity::deserialize(\"doc_1\", *result);"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 381,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "model_integrity_gap",
+          "description": "Model loading without integrity verification (poisoning risk)",
+          "context": "BaseEntity e = BaseEntity::deserialize(\"doc_1\", *blob);"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 351,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto plan = opt.chooseOrderForAndQuery(q, 1000);"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 426,
+          "category": "observability",
+          "severity": "HIGH",
+          "pattern": "missing_trace_point",
+          "description": "Critical function commit without trace point",
+          "context": "auto stc = tx.commit();"
+        },
+        {
+          "file": "src\\main.cpp",
+          "line": 134,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "config.enable_blobdb = false; // Start simple"
         }
       ]
     }

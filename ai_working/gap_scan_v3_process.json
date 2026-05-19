@@ -1,9 +1,9 @@
 {
   "process": {
-    "total": 1793,
+    "total": 2141,
     "severity_critical": 16,
-    "severity_high": 1253,
-    "severity_medium": 524,
+    "severity_high": 1388,
+    "severity_medium": 737,
     "by_category": {
       "security": 16,
       "memory": 23,
@@ -16,7 +16,12 @@
       "input_validation": 101,
       "exception_safety": 7,
       "uninitialized": 414,
-      "oop_design": 658
+      "oop_design": 659,
+      "audit_logging": 11,
+      "performance_patterns": 135,
+      "llm_ai_safety": 4,
+      "observability": 47,
+      "determinism": 150
     },
     "by_file": {
       "src\\process\\bpmn_serializer.cpp": [
@@ -1954,6 +1959,267 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 75,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if      (ent == \"&amp;\")  out += '&';"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 275,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case '&':  out += \"&amp;\";  break;"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 600,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.nodes.push_back(std::move(node));"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 805,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "nodes.push_back(std::move(n));"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 818,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "edges.push_back(std::move(e));"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 91,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "/// Strip XML namespace prefix: \"bpmn2:startEvent\" \u2192 \"startEvent\"."
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 293,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "case BPMNNodeType::START_EVENT:         return \"startEvent\";"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 320,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (tag == \"startEvent\")              return BPMNNodeType::START_EVENT;"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 366,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"startEvent\", \"endEvent\","
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 71,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (s[i] != '&') { out += s[i++]; continue; }"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 94,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (colon != std::string_view::npos) ? name.substr(colon + 1) : name;"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 119,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && src[i] != '=' && src[i] != '/' && src[i] != '>' &&"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 126,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (i >= n || src[i] != '=') {"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 141,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && src[i] != q) ++i;"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 147,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "src[i] != '>' && src[i] != '/') ++i;"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 168,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '<') ++i;"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 217,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>' && xml[i] != '/' &&"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 220,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>') ++i;"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 228,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>') ++i;"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 339,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (tag.find(\"Task\") != std::string_view::npos ||"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 449,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != t.attrs.end() && !it->second.empty()) {"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 478,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "result.process_id   = (it_id != t.attrs.end()) ? it_id->second : \"imported_process\";"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 479,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "result.process_name = (it_nm != t.attrs.end()) ? it_nm->second : result.process_id;"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 492,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != t.attrs.end()) ? it->second : std::string{};"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 510,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != t.attrs.end()) ? it->second : std::string{};"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 537,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != t.attrs.end()) ? it->second : std::string{};"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 554,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != t.attrs.end()) ? it->second : std::string{};"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 579,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "node.name     = (it_nm != t.attrs.end() && !it_nm->second.empty())"
+        },
+        {
+          "file": "src\\process\\bpmn_serializer.cpp",
+          "line": 594,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != t.attrs.end() &&"
         }
       ],
       "src\\process\\cmmn_serializer.cpp": [
@@ -3195,6 +3461,195 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 45,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if      (ent == \"&amp;\")  out += '&';"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 215,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case '&':  out += \"&amp;\";  break;"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 396,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.edges.push_back(std::move(edge));"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 35,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (colon != std::string_view::npos) ? name.substr(colon + 1) : name;"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 42,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (s[i] != '&') { out += s[i++]; continue; }"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 76,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && src[i] != '=' && src[i] != '/' && src[i] != '>' &&"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 81,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (i >= n || src[i] != '=') {"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 92,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && src[i] != q) ++i;"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 98,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "src[i] != '>' && src[i] != '/') ++i;"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 114,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '<') ++i;"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 153,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>' && xml[i] != '/' &&"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 156,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>') ++i;"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 163,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>') ++i;"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 275,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it_id != t.attrs.end() && !it_id->second.empty()) {"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 280,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it_name != t.attrs.end() && !it_name->second.empty()) {"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 293,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "result.case_id   = (it_id   != t.attrs.end()) ? it_id->second   : \"imported_case\";"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 294,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "result.case_name = (it_name != t.attrs.end()) ? it_name->second : result.case_id;"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 309,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "node.name    = (it_name != t.attrs.end() && !it_name->second.empty())"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 345,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != t.attrs.end()) {"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 356,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != t.attrs.end() && !current_sentry_id.empty()) {"
+        },
+        {
+          "file": "src\\process\\cmmn_serializer.cpp",
+          "line": 366,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != t.attrs.end()) {"
         }
       ],
       "src\\process\\epk_aris_xml_importer.cpp": [
@@ -4267,6 +4722,285 @@
           "function_name": "importAllAml",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 50,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if      (ent == \"&amp;\")  out += '&';"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 502,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "res.edges.push_back(std::move(edge));"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 596,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(buildImportResult(m, parsed.obj_defs));"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 454,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_map<std::string, ObjDefInfo>& obj_defs)"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 47,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (s[i] != '&') { out += s[i++]; continue; }"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 92,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (colon != std::string_view::npos) ? name.substr(colon + 1) : name;"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 112,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && src[i] != '=' && src[i] != '/' && src[i] != '>' &&"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 119,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (i >= n || src[i] != '=') {"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 132,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && src[i] != q) ++i;"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 138,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "src[i] != '>' && src[i] != '/') ++i;"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 157,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '<') ++i;"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 203,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>' && xml[i] != '/' &&"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 206,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>') ++i;"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 214,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>') ++i;"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 344,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "current_model.model_id   = (it_id   != tag.attrs.end()) ? it_id->second   : \"\";"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 345,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "current_model.model_type = (it_type != tag.attrs.end()) ? it_type->second : \"\";"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 352,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "current_model.model_type.find(\"EPK\") != std::string::npos);"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 366,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it_id != tag.attrs.end() && it_ref != tag.attrs.end()) {"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 368,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it_sym != tag.attrs.end()) {"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 383,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it_from != tag.attrs.end() && it_to != tag.attrs.end()) {"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 385,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "cx.cxn_occ_id = (it_id  != tag.attrs.end()) ? it_id->second  : \"\";"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 388,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "cx.cxn_def_id  = (it_def != tag.attrs.end()) ? it_def->second : \"\";"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 398,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "current_obj_id = (it_id != tag.attrs.end()) ? it_id->second : \"\";"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 399,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it_num != tag.attrs.end()) {"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 435,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a != std::string::npos) {"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 442,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a != std::string::npos) {"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 471,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (def_it != obj_defs.end()) {"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 478,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "int sym = (sym_it != model.occ_sym.end()) ? sym_it->second : 1;"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 485,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (sym_it != model.occ_sym.end()) {"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 566,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "m.model_type.find(\"EPK\") != std::string::npos)"
+        },
+        {
+          "file": "src\\process\\epk_aris_xml_importer.cpp",
+          "line": 595,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "m.model_type.find(\"EPK\") != std::string::npos)"
         }
       ],
       "src\\process\\ocel_exporter.cpp": [
@@ -4880,6 +5614,195 @@
           "function_name": "string",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 95,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "attrs.push_back({{\"name\", \"attached_by\"}, {\"time\", toIso8601_(0)},"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 100,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "attrs.push_back({{\"name\", k},"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 138,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entries.push_back({nid, ts});"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 138,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entries.push_back({nid, ts});"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 148,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entries.push_back({tok.current_node, ts});"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 181,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "attrs.push_back({{\"name\", \"node_id\"}, {\"value\", entry.node_id}});"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 181,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "attrs.push_back({{\"name\", \"node_id\"}, {\"value\", entry.node_id}});"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 191,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rels.push_back(rel);"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 210,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "types.push_back({{\"name\", t}, {\"attributes\", json::array()}});"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 226,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "types.push_back({{\"name\", t}, {\"attributes\", json::array()}});"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 295,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (auto& e : evt) all_events.push_back(e);"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 133,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto vt_it = tok.visit_timestamps.find(nid);"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 132,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t ts = inst.started_at_ms;"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 148,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t ts = tok.started_at_ms.value_or(inst.started_at_ms);"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 291,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (inst.started_at_ms < from_ms || inst.started_at_ms > to_ms) return true;"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 161,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::string> node_names;"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 206,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> seen;"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 222,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> seen;"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 134,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (vt_it != tok.visit_timestamps.end()) {"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 290,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (inst.process_definition_id != model_str) return true;"
+        },
+        {
+          "file": "src\\process\\ocel_exporter.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "timestamp_sorting_unstable",
+          "description": "Timestamp-based sorting without stable_sort (non-deterministic ties)",
+          "context": "// Sort by timestamp"
         }
       ],
       "src\\process\\process_community_detector.cpp": [
@@ -6178,6 +7101,141 @@
           "function_name": "scanPrefix",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 52,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "g.node_ids.push_back(id);"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 294,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "communities.push_back(std::move(pc));"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 273,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = g.adj[u].find(v);"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 287,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto nit = node_names.find(pc.node_ids[i]);"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 36,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, int> node_index;  // node_id \u2192 index"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 37,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::vector<std::unordered_map<int, float>> adj;  // adjacency list (weighted)"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 122,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<int, std::unordered_set<int>> comm_nodes;"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 131,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<int> visited_comms;"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 183,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::string> node_names;"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 204,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<int, int> label_remap;"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 247,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<int, std::vector<int>> comm_map;"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 101,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != g.adj[u].end()) k_u_in += it->second;"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 144,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (best_comm != current_comm) {"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 274,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != g.adj[u].end()) sum_in += it->second;"
+        },
+        {
+          "file": "src\\process\\process_community_detector.cpp",
+          "line": 288,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "label_ss << (nit != node_names.end() ? nit->second : pc.node_ids[i]);"
         }
       ],
       "src\\process\\process_graph_rag.cpp": [
@@ -10312,6 +11370,510 @@
           "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 147,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "kgn.aliases.push_back(n[\"name_en\"].get<std::string>());"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 183,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "kg.edges.push_back(std::move(kge));"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 229,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "kg.nodes.push_back(std::move(tok_node));"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 259,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "kg.nodes.push_back(std::move(att_node));"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 296,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "adj[from].push_back({to, e});"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 331,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result_nodes.push_back(n);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 331,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result_nodes.push_back(n);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 338,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result_edges.push_back(e);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 382,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out_neighbors[fi->second].push_back(ti->second);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 382,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out_neighbors[fi->second].push_back(ti->second);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 435,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(node_ids[i], r[i]);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 497,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.active_nodes.push_back(tok.current_node);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 500,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.visited_nodes.push_back(vn);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 537,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (top_set.count(n.value(\"id\", \"\"))) ppr_nodes.push_back(n);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 537,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (top_set.count(n.value(\"id\", \"\"))) ppr_nodes.push_back(n);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 542,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ppr_edges.push_back(e);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 576,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.attachments.push_back(att.toDocument());"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 576,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.attachments.push_back(att.toDocument());"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 576,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.attachments.push_back(att.toDocument());"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 586,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.missing_documents.push_back(std::move(m));"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 586,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.missing_documents.push_back(std::move(m));"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 607,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.similar_cases.push_back(std::move(sc_doc));"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 640,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.attachments.push_back(att.toDocument());"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 674,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "current_tasks.push_back(tok.current_node);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 704,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (auto& m : ms) missing.push_back(m);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 714,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (const auto& v : comp.violations) viol.push_back(v);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 759,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.violations.push_back(\"Instance not found: \" + std::string(instance_id));"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 775,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.violations.push_back("
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 775,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.violations.push_back("
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 834,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.violations.push_back("
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 884,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ref_embedding.push_back(v.get<float>());"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 939,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidates.push_back(std::move(sc));"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 982,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidates.push_back(std::move(sc));"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 982,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidates.push_back(std::move(sc));"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 380,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto fi = node_index.find(from);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 381,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto ti = node_index.find(to);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 391,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = node_index.find(seed);"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 207,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start from the model graph"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 791,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "int64_t elapsed = nowMs() - inst.started_at_ms;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 72,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "float jaccardSimilarity(const std::unordered_set<std::string>& a,"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 73,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_set<std::string>& b) {"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 292,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::vector<std::pair<std::string, json>>> adj;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 303,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> visited_nodes;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 304,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> visited_edges;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 370,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, int> node_index;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 529,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> top_set;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 680,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> all_visited;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 894,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> ref_var_keys;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 961,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> other_var_keys;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 60,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.empty() || b.empty() || a.size() != b.size()) return 0.f;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 106,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return it != haystack.end();"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 392,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != node_index.end()) personal[it->second] += 1.f;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 957,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (doc.value(\"process_definition_id\", \"\") != ref_inst.process_definition_id) {"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 1009,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "const bool de = (config.language != \"en\");"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 1078,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != ctx.node_scores.end()) score = it->second;"
+        },
+        {
+          "file": "src\\process\\process_graph_rag.cpp",
+          "line": 1312,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != sla_rules_.end() && it->second.callback) {"
         }
       ],
       "src\\process\\process_linker.cpp": [
@@ -11135,6 +12697,42 @@
           "function_name": "getMissingDocuments",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\process_linker.cpp",
+          "line": 310,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(std::move(att));"
+        },
+        {
+          "file": "src\\process\\process_linker.cpp",
+          "line": 499,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "missing.push_back(dtype);"
+        },
+        {
+          "file": "src\\process\\process_linker.cpp",
+          "line": 499,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "missing.push_back(dtype);"
+        },
+        {
+          "file": "src\\process\\process_linker.cpp",
+          "line": 486,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> present_types;"
         }
       ],
       "src\\process\\process_model_manager.cpp": [
@@ -12837,6 +14435,150 @@
           "function_name": "undeployFromEngine",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 212,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "r.compliance_tags.push_back(tag.get<std::string>());"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 224,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "r.embedding.push_back(v.get<float>());"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 372,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "jedges.push_back(std::move(je));"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 619,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(*rec));"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 676,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidates.emplace_back(std::move(*rec), sim);"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 704,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidates.emplace_back(std::move(r), sim);"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 744,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "nodes.push_back(n);"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 754,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "edges.push_back(e);"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 767,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "return LlmProcessDescriptor::generate(*record);"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 783,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "auto status = engine.registerProcess(record->id, record->name);"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 305,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "case BPMNNodeType::START_EVENT:         jn[\"type\"] = \"START_EVENT\"; break;"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 815,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if      (type_str == \"START_EVENT\")         node.node_type = BPMNNodeType::START_EVENT;"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 591,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (domain && r.domain != *domain) return true;"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 592,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (state  && r.state  != *state)  return true;"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 642,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return f_lower.find(q_lower) != std::string::npos;"
+        },
+        {
+          "file": "src\\process\\process_model_manager.cpp",
+          "line": 691,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (r.embedding.empty() || r.embedding.size() != query_embedding.size())"
         }
       ],
       "src\\process\\fim_importer.cpp": [
@@ -13882,6 +15624,276 @@
           "function_name": "SPDLOG_WARN",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 50,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if      (ent == \"&amp;\")  out += '&';"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 335,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 366,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "nodes_arr.push_back(std::move(jn));"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 374,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "edges_arr.push_back(std::move(je));"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 419,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "nodes_arr.push_back(std::move(jn));"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 427,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "edges_arr.push_back(std::move(je));"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 499,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(importSingleModel(bpmn_xml, domain));"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 211,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::string extractBpmnPayload(std::string_view catalogue_xml, size_t start_pos) {"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 212,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Find the opening <definitions or <bpmn:definitions after start_pos"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 215,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t pos1 = catalogue_xml.find(kDef1, start_pos);"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 216,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t pos2 = catalogue_xml.find(kDef2, start_pos);"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 264,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t      bpmn_start{0};   ///< Position in catalogue_xml after <prozess> open"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 519,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Removal Plan: Inject a real HTTP client via setHttpFetchFn() at startup"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 39,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (colon != std::string_view::npos) ? name.substr(colon + 1) : name;"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 47,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (s[i] != '&') { out += s[i++]; continue; }"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 82,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && src[i] != '=' && src[i] != '/' && src[i] != '>' &&"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 87,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (i >= n || src[i] != '=') {"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 98,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && src[i] != q) ++i;"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 104,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "src[i] != '>' && src[i] != '/') ++i;"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 123,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '<') ++i;"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 163,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>' && xml[i] != '/' &&"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 166,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>') ++i;"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 173,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (i < n && xml[i] != '>') ++i;"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 225,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (end1 != std::string_view::npos && end2 != std::string_view::npos) {"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 227,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "size_t end = (pos2 != std::string_view::npos && pos == pos2)"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 232,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (end1 != std::string_view::npos)"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 234,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (end2 != std::string_view::npos)"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 295,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "current.id        = (it_id    != t.attrs.end()) ? it_id->second    : \"\";"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 296,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "current.name      = (it_name  != t.attrs.end()) ? it_name->second  : current.id;"
+        },
+        {
+          "file": "src\\process\\fim_importer.cpp",
+          "line": 297,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "current.leika_key = (it_leika != t.attrs.end()) ? it_leika->second : \"\";"
         }
       ],
       "src\\process\\llm_process_descriptor.cpp": [
@@ -15013,6 +17025,60 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\llm_process_descriptor.cpp",
+          "line": 119,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "total_sla_ms += static_cast<size_t>(jn[\"timeout_ms\"].get<double>());"
+        },
+        {
+          "file": "src\\process\\llm_process_descriptor.cpp",
+          "line": 117,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "nodes_array.push_back(nodeToJson_(jn, cfg));"
+        },
+        {
+          "file": "src\\process\\llm_process_descriptor.cpp",
+          "line": 129,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "edges_array.push_back(edgeToJson_(je));"
+        },
+        {
+          "file": "src\\process\\llm_process_descriptor.cpp",
+          "line": 84,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "json LlmProcessDescriptor::generate(const ProcessModelRecord& record)"
+        },
+        {
+          "file": "src\\process\\llm_process_descriptor.cpp",
+          "line": 86,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "return generate(record, Config{});"
+        },
+        {
+          "file": "src\\process\\llm_process_descriptor.cpp",
+          "line": 89,
+          "category": "llm_ai_safety",
+          "severity": "MEDIUM",
+          "pattern": "missing_resource_limits",
+          "description": "LLM inference without token limit or timeout (DOS risk)",
+          "context": "json LlmProcessDescriptor::generate("
         }
       ],
       "src\\process\\object_centric_tracer.cpp": [
@@ -15516,6 +17582,132 @@
           "function_name": "THEMIS_INFO",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 51,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (const auto& ot : object_types_set) obj_types_arr.push_back(ot);"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 71,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "events_arr.push_back(std::move(ev));"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 71,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "events_arr.push_back(std::move(ev));"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 165,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arcs_arr.push_back({{\"from\", from}, {\"to\", to}, {\"frequency\", cnt}});"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 165,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arcs_arr.push_back({{\"from\", from}, {\"to\", to}, {\"frequency\", cnt}});"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 165,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "arcs_arr.push_back({{\"from\", from}, {\"to\", to}, {\"frequency\", cnt}});"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 41,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> object_types_set;"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 115,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> node_set;"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 125,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::unordered_map<std::string, int>> freq;"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 195,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::unordered_map<std::string, int>> in_deg;"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 196,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::unordered_map<std::string, int>> out_deg;"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 215,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> conv_set;"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 216,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> div_set;"
+        },
+        {
+          "file": "src\\process\\object_centric_tracer.cpp",
+          "line": 139,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (label.find(obj_type_str) != std::string::npos) {"
         }
       ],
       "src\\process\\process_agentic_rag.cpp": [
@@ -15983,6 +18175,105 @@
           "function_name": "runLoop",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 84,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "docs.push_back(std::move(d));"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 96,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "docs.push_back(std::move(d));"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 111,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "docs.push_back(std::move(d));"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 141,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.attachments.push_back(nlohmann::json::parse(doc.content));"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 141,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ctx.attachments.push_back(nlohmann::json::parse(doc.content));"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 201,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!already_seen) fresh.push_back(std::move(d));"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 201,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!already_seen) fresh.push_back(std::move(d));"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 233,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.iteration_history.push_back(std::move(s));"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 255,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ProcessAgenticResult ProcessAgenticRag::iterativeQuery("
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 164,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto wall_start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\process\\process_agentic_rag.cpp",
+          "line": 245,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "wall_end - wall_start).count()"
         }
       ],
       "src\\process\\dmn_evaluator.cpp": [
@@ -15997,7 +18288,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 70,
+          "line": 67,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -16006,7 +18297,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 277,
+          "line": 274,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto stripNs = [](std::string_view tag) -> std::string_view {",
@@ -16015,7 +18306,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 213,
+          "line": 210,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& c : dmn_json[\"input_columns\"]) dt.input_columns.push_back(c);",
@@ -16024,7 +18315,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 216,
+          "line": 213,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& c : dmn_json[\"output_columns\"]) dt.output_columns.push_back(c);",
@@ -16033,7 +18324,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 230,
+          "line": 227,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "rule.input_expressions.push_back(e.is_string() ? e.get<std::string>() : e.dump());",
@@ -16042,7 +18333,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 240,
+          "line": 237,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dt.rules.push_back(std::move(rule));",
@@ -16051,7 +18342,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 323,
+          "line": 320,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (attrs.count(\"label\")) dt.input_columns.push_back(attrs[\"label\"]);",
@@ -16060,7 +18351,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 324,
+          "line": 321,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "else if (attrs.count(\"id\")) dt.input_columns.push_back(attrs[\"id\"]);",
@@ -16069,7 +18360,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 329,
+          "line": 326,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!output_col_name.empty()) dt.output_columns.push_back(output_col_name);",
@@ -16078,7 +18369,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 350,
+          "line": 347,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "current_rule.input_expressions.push_back(expr);",
@@ -16087,7 +18378,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 362,
+          "line": 359,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "dt.rules.push_back(std::move(current_rule));",
@@ -16096,7 +18387,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 469,
+          "line": 466,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(rule.output_values);",
@@ -16105,7 +18396,7 @@
         },
         {
           "file": "src\\process\\dmn_evaluator.cpp",
-          "line": 491,
+          "line": 488,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "for (const auto& [id, _] : tables_) ids.push_back(id);",
@@ -16116,7 +18407,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 190,
+          "line_number": 187,
           "line_content": "const int n = static_cast<int>(",
           "context": [
             "    const json&                 input_context)",
@@ -16134,7 +18425,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 271,
+          "line_number": 268,
           "line_content": "if (dmn_xml.size() > 10 * 1024 * 1024) {",
           "context": [
             "",
@@ -16152,7 +18443,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 355,
+          "line_number": 352,
           "line_content": "const int out_idx = static_cast<int>(current_rule.output_values.size());",
           "context": [
             "            } else if (tag_lower == \"outputentry\" && in_rule) {",
@@ -16170,7 +18461,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 356,
+          "line_number": 353,
           "line_content": "if (out_idx < static_cast<int>(dt.output_columns.size())) {",
           "context": [
             "                // Determine which output column this is",
@@ -16188,7 +18479,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 193,
+          "line_number": 190,
           "line_content": "const json& col_value = input_context.contains(input_columns[i])",
           "context": [
             "        std::min(rule.input_expressions.size(), input_columns.size()));",
@@ -16206,7 +18497,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 194,
+          "line_number": 191,
           "line_content": "? input_context[input_columns[i]]",
           "context": [
             "    for (int i = 0; i < n; ++i) {",
@@ -16224,7 +18515,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 196,
+          "line_number": 193,
           "line_content": "if (!evaluateFeel(rule.input_expressions[i], col_value)) return false;",
           "context": [
             "                              ? input_context[input_columns[i]]",
@@ -16242,7 +18533,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 228,
+          "line_number": 225,
           "line_content": "if (r.contains(inputs_key) && r[inputs_key].is_array()) {",
           "context": [
             "                const auto& inputs_key =",
@@ -16260,7 +18551,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 229,
+          "line_number": 226,
           "line_content": "for (const auto& e : r[inputs_key]) {",
           "context": [
             "                    r.contains(\"inputs\") ? \"inputs\" : \"input_expressions\";",
@@ -16278,7 +18569,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 237,
+          "line_number": 234,
           "line_content": "if (r.contains(outputs_key) && r[outputs_key].is_object()) {",
           "context": [
             "                const auto& outputs_key =",
@@ -16296,7 +18587,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 238,
+          "line_number": 235,
           "line_content": "rule.output_values = r[outputs_key];",
           "context": [
             "                    r.contains(\"outputs\") ? \"outputs\" : \"output_values\";",
@@ -16314,7 +18605,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 375,
+          "line_number": 372,
           "line_content": "const char c = dmn_xml[i];",
           "context": [
             "    const size_t n = dmn_xml.size();",
@@ -16332,7 +18623,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 432,
+          "line_number": 429,
           "line_content": "attrs[attr_name] = attr_val;",
           "context": [
             "            if (c == '\"') {",
@@ -16350,7 +18641,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 62,
+          "line_number": 59,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16359,7 +18650,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 78,
+          "line_number": 75,
           "var_name": "left_closed",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16368,7 +18659,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 84,
+          "line_number": 81,
           "var_name": "left_closed",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16377,7 +18668,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 88,
+          "line_number": 85,
           "var_name": "left_closed",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16386,8 +18677,17 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 90,
+          "line_number": 87,
           "var_name": "right_closed",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\process\\dmn_evaluator.cpp",
+          "line_number": 107,
+          "var_name": "expr",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
@@ -16404,7 +18704,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 113,
+          "line_number": 111,
           "var_name": "expr",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16422,16 +18722,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 117,
-          "var_name": "expr",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 143,
+          "line_number": 140,
           "var_name": "rhs",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16440,7 +18731,25 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 148,
+          "line_number": 145,
+          "var_name": "rhs",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\process\\dmn_evaluator.cpp",
+          "line_number": 147,
+          "var_name": "rhs",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\process\\dmn_evaluator.cpp",
+          "line_number": 149,
           "var_name": "rhs",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16450,6 +18759,15 @@
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
           "line_number": 150,
+          "var_name": "rhs",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\process\\dmn_evaluator.cpp",
+          "line_number": 151,
           "var_name": "rhs",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16476,26 +18794,8 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 154,
-          "var_name": "rhs",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 155,
-          "var_name": "rhs",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 156,
-          "var_name": "rhs",
+          "line_number": 265,
+          "var_name": "stripNs",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
@@ -16512,16 +18812,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 271,
-          "var_name": "stripNs",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 387,
+          "line_number": 384,
           "var_name": "closing",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16530,7 +18821,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 459,
+          "line_number": 456,
           "var_name": "it",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16539,7 +18830,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 463,
+          "line_number": 460,
           "var_name": "it",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -16548,7 +18839,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 497,
+          "line_number": 494,
           "var_name": "it",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -16557,7 +18848,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 498,
+          "line_number": 495,
           "var_name": "it",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -16568,7 +18859,7 @@
           "file_path": "src\\process\\dmn_evaluator.cpp",
           "line_number": 54,
           "class_name": "Unknown",
-          "function_name": "trim",
+          "function_name": "trim_view",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -16576,9 +18867,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 55,
+          "line_number": 58,
           "class_name": "Unknown",
-          "function_name": "trim",
+          "function_name": "trim_view",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -16586,9 +18877,19 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 67,
+          "line_number": 64,
           "class_name": "Unknown",
-          "function_name": "parseNumber",
+          "function_name": "trim_view",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\process\\dmn_evaluator.cpp",
+          "line_number": 101,
+          "class_name": "Unknown",
+          "function_name": "evaluateFeel",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -16606,7 +18907,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 161,
+          "line_number": 158,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -16616,7 +18917,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 175,
+          "line_number": 172,
           "class_name": "Unknown",
           "function_name": "literal",
           "issue": "Virtual function called in constructor",
@@ -16626,7 +18927,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 185,
+          "line_number": 182,
           "class_name": "Unknown",
           "function_name": "string",
           "issue": "Virtual function called in constructor",
@@ -16636,7 +18937,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 191,
+          "line_number": 188,
           "class_name": "Unknown",
           "function_name": "matchRule_",
           "issue": "Virtual function called in constructor",
@@ -16646,7 +18947,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 205,
+          "line_number": 202,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -16656,7 +18957,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 240,
+          "line_number": 237,
           "class_name": "Unknown",
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
@@ -16666,7 +18967,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 248,
+          "line_number": 245,
           "class_name": "Unknown",
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
@@ -16676,7 +18977,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 260,
+          "line_number": 257,
           "class_name": "Unknown",
           "function_name": "catch",
           "issue": "Virtual function called in constructor",
@@ -16686,7 +18987,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 283,
+          "line_number": 280,
           "class_name": "Unknown",
           "function_name": "find",
           "issue": "Virtual function called in constructor",
@@ -16696,7 +18997,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 309,
+          "line_number": 306,
           "class_name": "State",
           "function_name": "toLower",
           "issue": "Virtual function called in constructor",
@@ -16706,7 +19007,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 319,
+          "line_number": 316,
           "class_name": "State",
           "function_name": "toLower",
           "issue": "Virtual function called in constructor",
@@ -16716,7 +19017,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 362,
+          "line_number": 359,
           "class_name": "State",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -16726,7 +19027,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 381,
+          "line_number": 378,
           "class_name": "State",
           "function_name": "size",
           "issue": "Virtual function called in constructor",
@@ -16736,7 +19037,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 401,
+          "line_number": 398,
           "class_name": "State",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -16746,7 +19047,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 419,
+          "line_number": 416,
           "class_name": "State",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -16756,7 +19057,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 431,
+          "line_number": 428,
           "class_name": "State",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -16766,7 +19067,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 447,
+          "line_number": 444,
           "class_name": "State",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -16776,7 +19077,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 455,
+          "line_number": 452,
           "class_name": "State",
           "function_name": "move",
           "issue": "Virtual function called in constructor",
@@ -16786,7 +19087,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 458,
+          "line_number": 455,
           "class_name": "State",
           "function_name": "evaluate",
           "issue": "Virtual function called in constructor",
@@ -16796,7 +19097,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 466,
+          "line_number": 463,
           "class_name": "State",
           "function_name": "find",
           "issue": "Virtual function called in constructor",
@@ -16806,7 +19107,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 488,
+          "line_number": 485,
           "class_name": "State",
           "function_name": "listDecisions",
           "issue": "Virtual function called in constructor",
@@ -16816,7 +19117,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 495,
+          "line_number": 492,
           "class_name": "State",
           "function_name": "listDecisions",
           "issue": "Virtual function called in constructor",
@@ -16826,11 +19127,209 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\process\\dmn_evaluator.cpp",
-          "line_number": 496,
+          "line_number": 493,
           "class_name": "State",
           "function_name": "listDecisions",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 222,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// Support both \"inputs\" (array) and \"input_expressions\" (array)"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 223,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "const auto& inputs_key ="
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 224,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "r.contains(\"inputs\") ? \"inputs\" : \"input_expressions\";"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 225,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "if (r.contains(inputs_key) && r[inputs_key].is_array()) {"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 226,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "for (const auto& e : r[inputs_key]) {"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 231,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// Support both \"outputs\" (object) and \"output_values\" (object)"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 232,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "const auto& outputs_key ="
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 233,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "r.contains(\"outputs\") ? \"outputs\" : \"output_values\";"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 234,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "if (r.contains(outputs_key) && r[outputs_key].is_object()) {"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 235,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "rule.output_values = r[outputs_key];"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 472,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// UNIQUE and FIRST: return first matching rule's outputs"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 212,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (const auto& c : dmn_json[\"output_columns\"]) dt.output_columns.push_back(c);"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 226,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rule.input_expressions.push_back(e.is_string() ? e.get<std::string>() : e.dump());"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 226,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rule.input_expressions.push_back(e.is_string() ? e.get<std::string>() : e.dump());"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 226,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rule.input_expressions.push_back(e.is_string() ? e.get<std::string>() : e.dump());"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 319,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (attrs.count(\"label\")) dt.input_columns.push_back(attrs[\"label\"]);"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 465,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(rule.output_values);"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 399,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start attribute parsing"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 120,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "expr.find(\"..\") != std::string_view::npos) {"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 131,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "// Numeric comparison operators: >=, <=, !=, >, <, ="
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 137,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "expr.substr(0, 2) == \"!=\") {"
+        },
+        {
+          "file": "src\\process\\dmn_evaluator.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (op == \"!=\") return lhs != *rhs;"
         }
       ],
       "src\\process\\epk_serializer.cpp": [
@@ -17491,6 +19990,123 @@
           "function_name": "array",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 154,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.nodes.push_back(node);"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 209,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.nodes.push_back(std::move(n));"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 220,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.edges.push_back(std::move(e));"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 244,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "adj[e.from_node].push_back(e.to_node);"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 333,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "jnodes.push_back(std::move(jn));"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 344,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "jedges.push_back(std::move(je));"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 254,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Find start nodes (no incoming edges)"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 243,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::vector<std::string>> adj;"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 249,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, const ProcessNodeInfo*> node_map;"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 255,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> has_incoming;"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 261,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> visited;"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 145,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (; ai != aend; ++ai) {"
+        },
+        {
+          "file": "src\\process\\epk_serializer.cpp",
+          "line": 298,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ait != adj.end()) {"
         }
       ],
       "src\\process\\process_light_retriever.cpp": [
@@ -17693,6 +20309,51 @@
           "function_name": "retrieve",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\process_light_retriever.cpp",
+          "line": 38,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.push_back(static_cast<char>(std::tolower(c)));"
+        },
+        {
+          "file": "src\\process\\process_light_retriever.cpp",
+          "line": 110,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "used_ids.push_back(communities[i].community_id);"
+        },
+        {
+          "file": "src\\process\\process_light_retriever.cpp",
+          "line": 59,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "RetrievalMode ProcessLightRetriever::classifyQuery(std::string_view query) const {"
+        },
+        {
+          "file": "src\\process\\process_light_retriever.cpp",
+          "line": 77,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "? classifyQuery(query)"
+        },
+        {
+          "file": "src\\process\\process_light_retriever.cpp",
+          "line": 62,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower.find(kw) != std::string::npos) {"
         }
       ],
       "src\\process\\process_model_generator.cpp": [
@@ -19331,6 +21992,231 @@
           "function_name": "buildFixPrompt_",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 259,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.errors.push_back(\"No startEvent node found\");"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 269,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.errors.push_back(\"Isolated node: \" + nid);"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 316,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "norm_nodes.push_back(node);"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 328,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "norm_nodes.push_back(node);"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 339,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "norm_nodes.push_back(node);"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 351,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "norm_edges.push_back(edge);"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 76,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (t == \"START_EVENT\" || t == \"END_EVENT\" || t == \"TASK\" ||"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 83,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (t == \"startEvent\")        return \"START_EVENT\";"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 126,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "<< \"    {\\\"id\\\": \\\"s1\\\", \\\"type\\\": \\\"startEvent\\\", \\\"name\\\": \\\"Antrag eingegangen\\\"},\\n\""
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 140,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "<< \"- Genau ein startEvent-Knoten\\n\""
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 155,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "<< \"  \\\"events\\\":     [{\\\"id\\\":\\\"s1\\\",\\\"type\\\":\\\"startEvent\\\",\\\"name\\\":\\\"Request received\\\"},\""
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 162,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "<< \"- Exactly one startEvent node\\n\""
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 203,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto start = llm_text.find('{');"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 205,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start == std::string::npos || end == std::string::npos || end <= start) {"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 209,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "return json::parse(llm_text.substr(start, end - start + 1));"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 230,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool has_start = false;"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 246,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Check both canonical (START_EVENT) and LLM camelCase (startEvent) forms"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 247,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (ntype == \"startEvent\" || ntype == \"START_EVENT\")  has_start = true;"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 258,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (!has_start) {"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 260,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "result.errors.push_back(\"No startEvent node found\");"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 316,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "node[\"type\"] = normalizeNodeType(ev.value(\"type\", \"startEvent\"));"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 232,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> all_node_ids;"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 233,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::string> node_types; // id \u2192 type"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 234,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, int>         out_degree;"
+        },
+        {
+          "file": "src\\process\\process_model_generator.cpp",
+          "line": 235,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, int>         in_degree;"
         }
       ],
       "src\\process\\vcc_vpb_importer.cpp": [
@@ -20536,6 +23422,258 @@
           "function_name": "importYamlList",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 242,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!val.empty()) comp_list.push_back(val);"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 242,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!val.empty()) comp_list.push_back(val);"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 262,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "comp_list.push_back(trimStr(m[1].str()));"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 293,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "activities.push_back(current_activity);"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 360,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "edges.push_back(current_edge);"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 449,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (tag.is_string()) rec.compliance_tags.push_back(tag.get<std::string>());"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 517,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "edges.push_back(std::move(edge));"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 573,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "jedges.push_back(std::move(je));"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 674,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(importYaml(chunk, meta_defaults));"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 699,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back({false, \"Cannot open: \" + entry.path().string(), {}});"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 711,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(importYaml(content, meta_defaults));"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 234,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "regex_in_loop",
+          "description": "std::regex compiled in loop (compile once, reuse)",
+          "context": "for (const auto& l : lines) {"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 241,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "regex_in_loop",
+          "description": "std::regex compiled in loop (compile once, reuse)",
+          "context": "for (; it != end; ++it) {"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 253,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "regex_in_loop",
+          "description": "std::regex compiled in loop (compile once, reuse)",
+          "context": "for (const auto& l : lines) {"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 279,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "regex_in_loop",
+          "description": "std::regex compiled in loop (compile once, reuse)",
+          "context": "for (size_t i = 0; i < lines.size(); ++i) {"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 348,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "regex_in_loop",
+          "description": "std::regex compiled in loop (compile once, reuse)",
+          "context": "for (const auto& l : lines) {"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 159,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// 1. The document starts with a top-level mapping (process definition)"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 160,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// 2. The document starts with a list key (e.g. administrative_models:)"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 540,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "case BPMNNodeType::START_EVENT:        jn[\"type\"] = \"START_EVENT\"; break;"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 622,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t list_start = text.find(key_pattern);"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 623,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (list_start == std::string::npos) {"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 630,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::string block = text.substr(list_start + key_pattern.size());"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 637,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Check for start of new model (line starts with 2 spaces + \"- \")"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 241,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (; it != end; ++it) {"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 259,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (l.empty() || l[0] != ' ') { in_compliance = false; continue; }"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 292,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (indent == 0 && !trimmed.empty() && trimmed[0] != '-') {"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 359,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (indent == 0 && !trimmed.empty() && trimmed[0] != '-') {"
+        },
+        {
+          "file": "src\\process\\vcc_vpb_importer.cpp",
+          "line": 696,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ext != \".yaml\" && ext != \".yml\") continue;"
         }
       ]
     }

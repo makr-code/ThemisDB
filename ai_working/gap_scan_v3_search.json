@@ -1,9 +1,9 @@
 {
   "search": {
-    "total": 979,
-    "severity_critical": 31,
-    "severity_high": 756,
-    "severity_medium": 192,
+    "total": 1284,
+    "severity_critical": 38,
+    "severity_high": 928,
+    "severity_medium": 318,
     "by_category": {
       "security": 1,
       "reliability": 126,
@@ -15,7 +15,13 @@
       "type_conversion": 86,
       "input_validation": 66,
       "uninitialized": 189,
-      "oop_design": 409
+      "oop_design": 409,
+      "performance_patterns": 76,
+      "query_correctness": 115,
+      "distributed_consistency": 20,
+      "llm_ai_safety": 2,
+      "observability": 41,
+      "determinism": 51
     },
     "by_file": {
       "src\\search\\autocomplete.cpp": [
@@ -468,6 +474,114 @@
           "function_name": "sort",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 72,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "for (auto& s : prefix_sug) combined.push_back(std::move(s));"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 86,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "deduped.push_back(std::move(s));"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 86,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "deduped.push_back(std::move(s));"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 147,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "suggestions.push_back(s);"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.emplace_back(query, count);"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 190,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "suggestions.push_back(std::move(s));"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 151,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "unnecessary_copy",
+          "description": "Unnecessary copy: use auto& for container element access",
+          "context": "auto val_opt = entities[0].getFieldAsString(column);"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 118,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Upper bound: prefix + '\\xff' covers all strings that start with prefix"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 135,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Each PK from the range scan is a document PK whose field value starts"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 175,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Collect queries that start with the prefix, sorted by frequency descending"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 178,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (query.rfind(prefix, 0) == 0) { // starts with prefix"
+        },
+        {
+          "file": "src\\search\\autocomplete.cpp",
+          "line": 78,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> seen;"
         }
       ],
       "src\\search\\conversational_search.cpp": [
@@ -687,6 +801,24 @@
           "function_name": "clearHistory",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\conversational_search.cpp",
+          "line": 95,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const size_t start  = history_.size() - window;"
+        },
+        {
+          "file": "src\\search\\conversational_search.cpp",
+          "line": 98,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t i = start; i < history_.size(); ++i) {"
         }
       ],
       "src\\search\\cross_lingual_search.cpp": [
@@ -1259,6 +1391,69 @@
           "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 101,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ranked_lists.push_back(std::move(list));"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 123,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "merged.emplace_back(doc_id, score);"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 157,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "scored.emplace_back(r.pk, sim);"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 110,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, double> rrf_scores;"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 175,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, double> boost_map;"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 189,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lang_it != lang_map_.end()) {"
+        },
+        {
+          "file": "src\\search\\cross_lingual_search.cpp",
+          "line": 196,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (boost_it != boost_map.end()) {"
         }
       ],
       "src\\search\\distributed_hybrid_search.cpp": [
@@ -1856,6 +2051,267 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 165,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "futures.push_back(std::async("
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 182,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "shard_results.push_back(futures[i].get());"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 182,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "shard_results.push_back(futures[i].get());"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 312,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "merged.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 183,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "shard_results.push_back(futures[i].get());"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 62,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "if (config_.max_concurrent_shards == 0) {"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 64,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "\"DistributedHybridSearch: Config::max_concurrent_shards must be > 0\");"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 313,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "merged.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 316,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "std::sort(merged.begin(), merged.end(),"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 321,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "if (merged.size() > config_.k) {"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 322,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "merged.resize(config_.k);"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 247,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// --- Merge ---"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 248,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "return mergeShardResults(shard_results);"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 252,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "// Cross-Shard RRF Merge"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 255,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults("
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 302,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::vector<HybridSearch::Result> merged;"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 303,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged.reserve(doc_map.size());"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 313,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 316,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "std::sort(merged.begin(), merged.end(),"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 321,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "if (merged.size() > config_.k) {"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 322,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "merged.resize(config_.k);"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 325,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "THEMIS_INFO(\"DistributedHybridSearch: merged {} shards -> {} results\","
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 326,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "shard_results.size(), merged.size());"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 328,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "undefined_conflict_resolution",
+          "description": "Merge without explicit conflict resolution strategy",
+          "context": "return merged;"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 345,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto t_start = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 362,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "t_end - t_start).count());"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 385,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "t_end - t_start).count());"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 269,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, Accum> doc_map;"
+        },
+        {
+          "file": "src\\search\\distributed_hybrid_search.cpp",
+          "line": 146,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (shard.shard_id != config_.local_shard_id) {"
         }
       ],
       "src\\search\\faceted_search.cpp": [
@@ -2484,6 +2940,69 @@
           "function_name": "reserve",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 108,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "facets.push_back(std::move(facet));"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 200,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "columns.push_back(stats.column);"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 221,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "facets.push_back(std::move(facet));"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 131,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_set<std::string> pk_filter(candidate_pks.begin(), candidate_pks.end());"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 162,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> remaining(candidate_pks.begin(), candidate_pks.end());"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 171,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_set<std::string> matching_set(matching_pks.begin(), matching_pks.end());"
+        },
+        {
+          "file": "src\\search\\faceted_search.cpp",
+          "line": 172,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> intersected;"
         }
       ],
       "src\\search\\federated_search.cpp": [
@@ -2890,6 +3409,60 @@
           "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 104,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (tenant_stats) tenant_stats->push_back(stats);"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 185,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "merged.push_back(std::move(res));"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 95,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, std::vector<HybridSearch::Result>>"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 144,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "const std::unordered_map<std::string,"
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 158,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, Accumulator> accum; // key = \"tenant_id\\ndoc_id\""
+        },
+        {
+          "file": "src\\search\\federated_search.cpp",
+          "line": 69,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (it != tenant_weights_.end()) ? it->second : 1.0;"
         }
       ],
       "src\\search\\fuzzy_matcher.cpp": [
@@ -3490,6 +4063,105 @@
           "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 175,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += static_cast<char>('0' + code);"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 175,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += static_cast<char>('0' + code);"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 175,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += static_cast<char>('0' + code);"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 210,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case 'B': if (prev != 'M') result += 'B'; break;"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 210,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case 'B': if (prev != 'M') result += 'B'; break;"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 175,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (code != '0' && code != prev_code) {"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 208,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (isVowel(c) && i != 0) continue; // drop non-initial vowels"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 211,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "case 'B': if (prev != 'M') result += 'B'; break;"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 224,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (next != 'H' && next != 'N' && !(next == 'G'))"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 231,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "case 'K': if (prev != 'C') result += 'K'; break;"
+        },
+        {
+          "file": "src\\search\\fuzzy_matcher.cpp",
+          "line": 285,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while (it_a != sa.end() && it_b != sb.end()) {"
         }
       ],
       "src\\search\\hybrid_search.cpp": [
@@ -4297,6 +4969,105 @@
           "function_name": "normalizeScores",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 142,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "bm25_results.push_back(r);"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 173,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "vector_results.push_back(r);"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 284,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "reranked_results.push_back(std::move(out));"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 284,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "reranked_results.push_back(std::move(out));"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 336,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "fused_results.push_back(result);"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 336,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "fused_results.push_back(result);"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 224,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, Result> doc_map;"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 276,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, const Result*> result_map;"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 188,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "bool bm25_attempted  = !text_query.empty() && fulltext_index_ != nullptr;"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 189,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "bool vector_attempted = vector_query != nullptr && vector_dim > 0 && vector_index_ != nullptr;"
+        },
+        {
+          "file": "src\\search\\hybrid_search.cpp",
+          "line": 282,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != result_map.end()) {"
         }
       ],
       "src\\search\\learning_to_rank.cpp": [
@@ -4570,6 +5341,24 @@
           "function_name": "regularize",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\learning_to_rank.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "clicks_.push_back(event);"
+        },
+        {
+          "file": "src\\search\\learning_to_rank.cpp",
+          "line": 51,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "weights_.popularity    = 0.0; // starts at zero; grows from training"
         }
       ],
       "src\\search\\llm_query_rewriter.cpp": [
@@ -5141,6 +5930,519 @@
           "function_name": "jaccardTokenOverlap",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 223,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rewrites.push_back(line);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 223,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "rewrites.push_back(line);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 282,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "kept.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 8,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "Last Modified:   2026-04-15 18:50:40                                \u2551"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 35,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "LlmQueryRewriter::LlmQueryRewriter(const Config& config, LlmBackend backend)"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 36,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": ": config_(config), backend_(std::move(backend)) {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 38,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "throw std::invalid_argument(\"LlmQueryRewriter: num_rewrites must be > 0\");"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 41,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "throw std::invalid_argument(\"LlmQueryRewriter: temperature must be in [0, 2]\");"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 51,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void LlmQueryRewriter::setBackend(LlmBackend backend) {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 52,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "backend_ = std::move(backend);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 60,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "RewrittenQuery LlmQueryRewriter::rewrite(const std::string& query) const {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 65,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_DEBUG(\"LlmQueryRewriter::rewrite: empty query, returning early\");"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 70,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_DEBUG(\"LlmQueryRewriter::rewrite: no backend set, using fallback\");"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 78,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string prompt = buildPrompt(query);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 79,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string llm_output = backend_(prompt);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 86,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "// falls below Config::min_token_overlap_ratio."
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 94,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.quality = RewriteQuality::FALLBACK;"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 102,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "result.rewrites = std::move(parsed);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 104,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_DEBUG(\"LlmQueryRewriter::rewrite('{}') -> {} rewrites\","
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 106,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "} catch (const std::exception& e) {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 130,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string LlmQueryRewriter::buildPrompt(const std::string& query) const {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 138,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ostringstream oss;"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 158,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> LlmQueryRewriter::parseRewrites("
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 159,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& llm_output,"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 160,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& original) const {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 162,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> rewrites;"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 170,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::istringstream iss(llm_output);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 171,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string line;"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 173,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "while (std::getline(iss, line)) {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 176,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (start == std::string::npos) continue;"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 179,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (end != std::string::npos) {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 186,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "while (i < line.size() && std::isdigit(static_cast<unsigned char>(line[i]))) {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 205,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto lower = [](std::string s) -> std::string {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 207,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 211,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string line_lower = lower(line);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 212,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string orig_lower = lower(original);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 240,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 241,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& b)"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 244,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto tokenise = [](const std::string& s) -> std::unordered_set<std::string> {"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 245,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unordered_set<std::string> tokens;"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 246,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::istringstream iss(s);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 247,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string tok;"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 249,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string lc;"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 253,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::tolower(static_cast<unsigned char>(c)));"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 255,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "tokens.insert(std::move(lc));"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 275,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "bool LlmQueryRewriter::applyOverlapFilter(std::vector<std::string>& rewrites,"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 276,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& original) const"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 278,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> kept;"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 283,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "kept.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 291,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "rewrites = std::move(kept);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 146,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"Output exactly one rewrite per line, numbered starting from 1 \""
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 175,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = line.find_first_not_of(\" \\t\\r\\n\");"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 176,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start == std::string::npos) continue;"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 177,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "line = line.substr(start);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 44,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "config_.num_rewrites, backend_ != nullptr);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 53,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "THEMIS_DEBUG(\"LlmQueryRewriter: backend updated (has_backend={})\", backend_ != nullptr);"
+        },
+        {
+          "file": "src\\search\\llm_query_rewriter.cpp",
+          "line": 179,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (end != std::string::npos) {"
         }
       ],
       "src\\search\\llm_reranker.cpp": [
@@ -5794,6 +7096,141 @@
           "function_name": "digit",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 147,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(r);"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 190,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "events.push_back(ev);"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 95,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "// Sort by final_score descending for consistent ordering regardless of input order"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 95,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "// Sort by final_score descending for consistent ordering regardless of input order"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 108,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (size_t start = 0; start < n; start += config_.batch_size) {"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 109,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const size_t end = std::min(start + config_.batch_size, n);"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 111,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "candidates.begin() + static_cast<ptrdiff_t>(start),"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 124,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "e.what(), start, end);"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start, end);"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 242,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t start = line.find_first_not_of(\" \\t\\r\\n\");"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 243,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start == std::string::npos) continue;"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 244,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "line = line.substr(start);"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 246,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Skip lines that don't start with a digit (e.g. \"Scores:\" header echo)"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 54,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "config_.batch_size, config_.llm_weight, backend_ != nullptr);"
+        },
+        {
+          "file": "src\\search\\llm_reranker.cpp",
+          "line": 63,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "THEMIS_DEBUG(\"LlmReranker: backend updated (has_backend={})\", backend_ != nullptr);"
         }
       ],
       "src\\search\\multi_field_search.cpp": [
@@ -6105,6 +7542,24 @@
           "function_name": "reserve",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\multi_field_search.cpp",
+          "line": 171,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\search\\multi_field_search.cpp",
+          "line": 112,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, DocAccumulator> accum;"
         }
       ],
       "src\\search\\multi_modal_search.cpp": [
@@ -6692,6 +8147,60 @@
           "function_name": "reserve",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 82,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!q.embedding_namespace.empty()) mod_label += \":\" + q.embedding_namespace;"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 72,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "all_lists.push_back(std::move(results));"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 162,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.emplace_back(r.pk, r.score);"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 193,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.emplace_back(r.pk, sim);"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 247,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\search\\multi_modal_search.cpp",
+          "line": 232,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "auto it = best_contribution.find(doc_id);"
         }
       ],
       "src\\search\\negative_keyword_filter.cpp": [
@@ -6999,6 +8508,51 @@
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 96,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!positive_buf.empty()) positive_buf += ' ';"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 78,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.negative_terms.push_back(std::move(neg));"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 168,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "filtered.push_back(pk);"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 50,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "NegativeKeywordFilter::parseQuery(const std::string& raw_query) {"
+        },
+        {
+          "file": "src\\search\\negative_keyword_filter.cpp",
+          "line": 133,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_set<std::string> excluded;"
         }
       ],
       "src\\search\\neural_sparse_retrieval.cpp": [
@@ -7547,6 +9101,51 @@
           "function_name": "size",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "inverted_index_[term].emplace_back(doc_id, weight);"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 103,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "inverted_index_[term].emplace_back(doc_id, weight);"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 261,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(std::move(r));"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 239,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, float> accum;"
+        },
+        {
+          "file": "src\\search\\neural_sparse_retrieval.cpp",
+          "line": 137,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (fwd_it != forward_index_.end()) {"
         }
       ],
       "src\\search\\personalized_ranker.cpp": [
@@ -7890,6 +9489,15 @@
           "function_name": "userCount",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\personalized_ranker.cpp",
+          "line": 100,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (interaction.document_id != document_id) continue;"
         }
       ],
       "src\\search\\query_expander.cpp": [
@@ -9265,6 +10873,852 @@
           "function_name": "prev",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 57,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "entry.push_back(s);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 97,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "corrected_tokens.push_back(c);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 121,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added_synonyms.push_back(syn);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 121,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added_synonyms.push_back(syn);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 121,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "added_synonyms.push_back(syn);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 133,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "result.all_terms.push_back(syn);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 198,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "candidates.push_back(sc);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 315,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(sc);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 375,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "alternatives.push_back(alt);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 375,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "alternatives.push_back(alt);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 375,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "alternatives.push_back(alt);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 414,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tokens.push_back(clean);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 120,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (std::find(work_tokens.begin(), work_tokens.end(), syn) == work_tokens.end() &&"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 121,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "std::find(added_synonyms.begin(), added_synonyms.end(), syn) == added_synonyms.end()) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 375,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "nested_loop_find",
+          "description": "O(n\u00b2) pattern: linear search inside nested loop",
+          "context": "if (std::find(alternatives.begin(), alternatives.end(), alt) == alternatives.end()) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 8,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "Last Modified:   2026-04-15 18:50:41                                \u2551"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 35,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "QueryExpander::QueryExpander(const Config& config) : config_(config) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 37,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "throw std::invalid_argument(\"QueryExpander: max_edit_distance must be >= 0\");"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 40,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "throw std::invalid_argument(\"QueryExpander: max_expansions must be > 0\");"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 50,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryExpander::addSynonyms(const std::string& term,"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 51,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::vector<std::string>& synonyms) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 52,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string key = toLower(term);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 55,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string s = toLower(syn);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 57,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (s != key && std::find(entry.begin(), entry.end(), s) == entry.end()) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 63,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryExpander::addVocabulary(const std::vector<std::string>& words) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 69,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "void QueryExpander::addVocabularyWithFrequencies("
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 70,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::vector<std::pair<std::string, size_t>>& words_with_frequencies) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 73,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string lower = toLower(w);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 83,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "ExpandedQuery QueryExpander::expand(const std::string& query) const {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 93,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> corrected_tokens;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 96,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string c = config_.correct_spelling ? correctSpelling(tok) : tok;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 101,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ostringstream oss;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 111,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> added_synonyms;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 120,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (std::find(work_tokens.begin(), work_tokens.end(), syn) == work_tokens.end() &&"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 121,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::find(added_synonyms.begin(), added_synonyms.end(), syn) == added_synonyms.end()) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 143,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_DEBUG(\"QueryExpander::expand('{}') -> {} synonyms, corrected='{}'\","
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 150,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string QueryExpander::correctSpelling(const std::string& word) const {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 154,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string lower = toLower(word);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 161,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string best = word;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 162,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int best_dist = std::numeric_limits<int>::max();"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 178,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<SpellingCorrection> QueryExpander::suggestSpellingCorrections("
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 179,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& word,"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 185,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string lower = toLower(word);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 192,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<SpellingCorrection> candidates;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 218,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::sort(candidates.begin(), candidates.end(),"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 254,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_DEBUG(\"QueryExpander::suggestSpellingCorrections('{}') -> {} candidates\","
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 259,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<SpellingCorrection> QueryExpander::suggestQueryCorrections("
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 260,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string& query,"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 274,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> best_corrections(tokens.size());"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 275,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<int> best_distances(tokens.size(), 0);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 278,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "const std::string lower = toLower(tokens[i]);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 299,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<SpellingCorrection> results;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 300,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::unordered_set<std::string> seen;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 302,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "auto addSuggestion = [&](const std::vector<std::string>& parts, int total_dist) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 303,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ostringstream oss;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 308,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string full = oss.str();"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 315,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "sc.confidence = std::max(0.0, 1.0 - (static_cast<double>(total_dist) / (max_d + 1.0)));"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 322,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> parts = tokens;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 337,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::sort(results.begin(), results.end(),"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 349,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "THEMIS_DEBUG(\"QueryExpander::suggestQueryCorrections('{}') -> {} suggestions\","
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 354,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> QueryExpander::suggestAlternatives(const std::string& query) const {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 356,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> alternatives;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 367,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ostringstream oss;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 374,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string alt = oss.str();"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 375,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (std::find(alternatives.begin(), alternatives.end(), alt) == alternatives.end()) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 384,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string QueryExpander::relaxQuery(const std::string& query) const {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 390,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::ostringstream oss;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 402,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> QueryExpander::tokenize(const std::string& text) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 403,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<std::string> tokens;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 404,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::istringstream iss(text);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 405,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string tok;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 408,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string clean;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 410,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (std::isalnum(static_cast<unsigned char>(c))) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 411,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "clean += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 421,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string QueryExpander::toLower(const std::string& s) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 422,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::string result = s;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 424,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 429,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "int QueryExpander::editDistance(const std::string& a, const std::string& b) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 434,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "if (std::abs(static_cast<int>(la) - static_cast<int>(lb)) > 3) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 435,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "return static_cast<int>(std::abs(static_cast<int>(la) - static_cast<int>(lb)));"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 438,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::vector<int> prev(lb + 1), curr(lb + 1);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 444,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "curr[j] = std::min({prev[j] + 1, curr[j-1] + 1, prev[j-1] + cost});"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 446,
+          "category": "query_correctness",
+          "severity": "HIGH",
+          "pattern": "missing_param_validation",
+          "description": "Query parameter binding without validation",
+          "context": "std::swap(prev, curr);"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 384,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "std::string QueryExpander::relaxQuery(const std::string& query) const {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 57,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (s != key && std::find(entry.begin(), entry.end(), s) == entry.end()) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 97,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (c != tok) any_correction = true;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 168,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "size_t freq = (it != word_frequencies_.end()) ? it->second : 0;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 211,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != word_frequencies_.end() && it->second > max_freq) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 220,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.edit_distance != b.edit_distance) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 225,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "size_t freq_a = (fa != word_frequencies_.end()) ? fa->second : 0;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 226,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "size_t freq_b = (fb != word_frequencies_.end()) ? fb->second : 0;"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 227,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (freq_a != freq_b) {"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 241,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "double freq_score = (it != word_frequencies_.end())"
+        },
+        {
+          "file": "src\\search\\query_expander.cpp",
+          "line": 339,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (a.edit_distance != b.edit_distance) {"
         }
       ],
       "src\\search\\search_analytics.cpp": [
@@ -9692,6 +12146,69 @@
           "function_name": "eventCount",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 105,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "latencies.push_back(ev.latency_ms);"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 74,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = events_.rbegin(); it != events_.rend(); ++it) {"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 88,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto it = events_.rbegin(); it != events_.rend() && result.size() < n; ++it) {"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 134,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (size_t i = 0; i < std::min(size_t{20}, freq_vec.size()); ++i) {"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 74,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = events_.rbegin(); it != events_.rend(); ++it) {"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 88,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto it = events_.rbegin(); it != events_.rend() && result.size() < n; ++it) {"
+        },
+        {
+          "file": "src\\search\\search_analytics.cpp",
+          "line": 156,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return a.second != b.second ? a.second > b.second"
         }
       ],
       "src\\search\\search_highlighter.cpp": [
@@ -10340,6 +12857,240 @@
           "function_name": "bestWindowOffset",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 55,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "tokens.push_back(std::move(current));"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 122,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back({pos, pos + term.size(), ti});"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 122,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "matches.push_back({pos, pos + term.size(), ti});"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 194,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ranges.emplace_back(pos, pos + term.size());"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 194,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "ranges.emplace_back(pos, pos + term.size());"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 213,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "merged.push_back(ranges[i]);"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 263,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "lower_terms.push_back(std::move(lt));"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 263,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "lower_terms.push_back(std::move(lt));"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 85,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "for (auto& [start, end] : offsets) {"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 86,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start > text.size() || end > text.size() || start >= end) continue;"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 88,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "result.append(text, cursor, start - cursor);"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 90,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "result.append(text, start, end - start);"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 107,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Collect all match positions (start offset of each term occurrence)"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 108,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "struct MatchPos { size_t start; size_t end; size_t term_idx; };"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 129,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Sliding window: for each candidate window start, count distinct terms"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 131,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "[](const MatchPos& a, const MatchPos& b){ return a.start < b.start; });"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 136,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Use two-pointer approach over match start positions as window anchors"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 137,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t max_start = text.size() - window_size;"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 139,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "size_t window_start = (m.start > window_size / 4)"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 140,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "? m.start - window_size / 4 : 0;"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 141,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (window_start > max_start) window_start = max_start;"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 143,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Count distinct term indices within [window_start, window_start + window_size)"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 147,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (mp.start < window_start) continue;"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 148,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (mp.start >= window_start + window_size) break;"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 122,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = lower_text.find(term, pos)) != std::string::npos) {"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 194,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = search_text.find(term, pos)) != std::string::npos) {"
         }
       ],
       "src\\search\\search_result_stream.cpp": [

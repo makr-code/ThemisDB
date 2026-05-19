@@ -1,9 +1,9 @@
 {
   "whisper": {
-    "total": 302,
+    "total": 324,
     "severity_critical": 12,
-    "severity_high": 267,
-    "severity_medium": 23,
+    "severity_high": 273,
+    "severity_medium": 39,
     "by_category": {
       "memory": 3,
       "reliability": 26,
@@ -14,7 +14,10 @@
       "type_conversion": 20,
       "input_validation": 37,
       "uninitialized": 75,
-      "oop_design": 127
+      "oop_design": 127,
+      "performance_patterns": 7,
+      "observability": 9,
+      "determinism": 6
     },
     "by_file": {
       "src\\whisper\\audio_chunk_reader.cpp": [
@@ -955,6 +958,114 @@
           "function_name": "readFile",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 201,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \"'\\\\''\";"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 201,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "result += \"'\\\\''\";"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 158,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(sum / static_cast<float>(num_channels));"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 158,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "out.push_back(sum / static_cast<float>(num_channels));"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 125,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const size_t data_start = pos + 8;"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 127,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "data.size() - data_start);"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 141,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::memcpy(&s, &data[data_start + (i * num_channels + ch) * 4], 4);"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 156,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::memcpy(&sample, &data[data_start + (i * num_channels + ch) * 2], 2);"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 99,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "data[0] != 'R' || data[1] != 'I' || data[2] != 'F' || data[3] != 'F' ||"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 100,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "data[8] != 'W' || data[9] != 'A' || data[10] != 'V' || data[11] != 'E') {"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 195,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (path.find('\\0') != std::string::npos) {"
+        },
+        {
+          "file": "src\\whisper\\audio_chunk_reader.cpp",
+          "line": 262,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (rc != 0 && samples.empty()) {"
         }
       ],
       "src\\whisper\\whisper_plugin.cpp": [
@@ -1430,6 +1541,24 @@
           "function_name": "themis_audio_create",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 246,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "total += seg.end_sample - seg.start_sample;"
+        },
+        {
+          "file": "src\\whisper\\whisper_plugin.cpp",
+          "line": 252,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "pcm.begin() + static_cast<std::ptrdiff_t>(seg.start_sample),"
         }
       ],
       "src\\whisper\\whisper_config.cpp": [
@@ -1815,6 +1944,15 @@
           "function_name": "whisper_full_n_segments",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\whisper\\whisper_transcriber.cpp",
+          "line": 89,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (whisper_full(ctx, wparams, pcm.data(), static_cast<int>(pcm.size())) != 0) {"
         }
       ],
       "src\\whisper\\tests\\test_whisper_plugin.cpp": [
@@ -3229,6 +3367,69 @@
           "function_name": "TEST",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line": 455,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back([&p]() {"
+        },
+        {
+          "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line": 479,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back([&p]() {"
+        },
+        {
+          "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line": 503,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "threads.emplace_back([&p]() {"
+        },
+        {
+          "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line": 796,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "EXPECT_EQ(segs.front().start_sample, 0u);"
+        },
+        {
+          "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line": 814,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "EXPECT_GE(segs[0].start_sample, 0u);"
+        },
+        {
+          "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line": 815,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "EXPECT_LE(segs[0].start_sample, 160u);"
+        },
+        {
+          "file": "src\\whisper\\tests\\test_whisper_plugin.cpp",
+          "line": 121,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return p.find(\".wav\") != std::string::npos;"
         }
       ],
       "src\\whisper\\tests\\test_whisper_plugin_registrar.cpp": [

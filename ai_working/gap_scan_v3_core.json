@@ -1,9 +1,9 @@
 {
   "core": {
-    "total": 597,
+    "total": 658,
     "severity_critical": 30,
-    "severity_high": 485,
-    "severity_medium": 82,
+    "severity_high": 525,
+    "severity_medium": 103,
     "by_category": {
       "security": 1,
       "memory": 1,
@@ -17,7 +17,11 @@
       "input_validation": 23,
       "exception_safety": 8,
       "uninitialized": 130,
-      "oop_design": 274
+      "oop_design": 274,
+      "audit_logging": 3,
+      "performance_patterns": 22,
+      "observability": 10,
+      "determinism": 26
     },
     "by_file": {
       "src\\core\\concerns\\redis_cache.cpp": [
@@ -2055,6 +2059,267 @@
           "function_name": "sendCommand",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 430,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "cmd += '$';"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 176,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "nodes_.push_back(std::move(nc));"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 802,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "parts.push_back(std::move(elem));"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 501,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (int i = 0; i < count; ++i) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 646,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& nc : nodes_) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 656,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& nc : nodes_) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 719,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& nc : nodes_) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 800,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (int i = 0; i < count; ++i) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 875,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& nc : nodes_) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 886,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& nc : nodes_) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 898,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& nc : nodes_) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 183,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "// Start background pub/sub subscriber thread."
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 251,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "WSAStartup(MAKEWORD(2, 2), &wsa);"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 111,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (at != std::string::npos) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 115,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (colon != std::string::npos) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 141,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (fd != static_cast<uintptr_t>(~0ULL)) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 260,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (::getaddrinfo(host.c_str(), port_str.c_str(), &hints, &res) != 0) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 265,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "for (auto* p = res; p != nullptr; p = p->ai_next) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 303,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (err != 0) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 398,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ch != '\\r') out += ch;"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 413,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (config_.db_index != 0) {"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 441,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (nc.ok && nc.fd != kInvalidSocket) return true;"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 466,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return (type != '-');  // '-' is an error reply"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 674,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!readLine(nc->fd, line) || line.empty() || line[0] != '*') break;"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 684,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "count_line[0] != '*') break;"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 706,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "} while (cursor != \"0\");"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 747,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (fd != kInvalidSocket && redisHandshake(fd)) break;"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 794,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!readLine(fd, line) || line.empty() || line[0] != '*') return false;"
+        },
+        {
+          "file": "src\\core\\concerns\\redis_cache.cpp",
+          "line": 900,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (nc->ok && nc->fd != kInvalidSocket) return true;"
         }
       ],
       "src\\core\\index_interface_stubs.cpp": [
@@ -2651,6 +2916,33 @@
           "function_name": "runtime_error",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 47,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!config_json.empty() && config_json != \"{}\") {"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 218,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!config_json.empty() && config_json != \"{}\") {"
+        },
+        {
+          "file": "src\\core\\security_initialization.cpp",
+          "line": 258,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (!hsm_enabled || std::string(hsm_enabled) != \"1\") {"
         }
       ],
       "src\\core\\adapters\\otel_tracer.cpp": [
@@ -3863,6 +4155,33 @@
           "function_name": "replaceAuditLog",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 117,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (production_mode && effective_tracer != \"otel\" &&"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 118,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "effective_tracer != \"jaeger\" && effective_tracer != \"zipkin\") {"
+        },
+        {
+          "file": "src\\core\\concerns\\concerns_context.cpp",
+          "line": 144,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (production_mode && effective_metrics != \"prometheus\") {"
         }
       ],
       "src\\core\\concerns\\context_propagation.cpp": [
@@ -5414,6 +5733,96 @@
           "function_name": "store",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 295,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "key += '{';"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 298,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "if (!first) key += ',';"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 175,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [key, entry] : gauges_) {"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 181,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [k, v] : entry->labels) {"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 406,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (auto& entry : snapshot) {"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 49,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "startFlushThread();"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 428,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "void LockFreeMetrics::startFlushThread()"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 322,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != counters_.end()) return it->second.get();"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 346,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != gauges_.end()) return it->second.get();"
+        },
+        {
+          "file": "src\\core\\concerns\\lockfree_metrics.cpp",
+          "line": 386,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != histos_.end()) return it->second.get();"
         }
       ],
       "src\\core\\concerns\\prometheus_metrics.cpp": [
@@ -6252,6 +6661,150 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 151,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(ms_str, sizeof(ms_str), \"%03lld\","
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 273,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(buf, sizeof(buf), \"\\\\u%04x\", c);"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 328,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::snprintf(ms_str, sizeof(ms_str), \"%03lld\","
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 164,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "buf += \",\\\"\";"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 178,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "buf += ' ';"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 264,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "case '\"':  out += \"\\\\\\\"\"; break;"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 330,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "buf += \"{\\\"ts\\\":\\\"\";"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 341,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "buf += \",\\\"\";"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 360,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "string_concat_loop",
+          "description": "String concatenation in loop (use std::stringstream)",
+          "context": "buf += ' ';"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 63,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "return logger_ && logger_->should_log(toSpdlogLevel(level));"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 72,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "logger_->log(toSpdlogLevel(level), message);"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 108,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "if (!logger_->should_log(toSpdlogLevel(level))) return;"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 119,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "logger_->log(toSpdlogLevel(level), buf);"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 130,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "if (!logger_->should_log(toSpdlogLevel(level))) return;"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 190,
+          "category": "observability",
+          "severity": "LOW",
+          "pattern": "unstructured_log",
+          "description": "Unstructured logging (use structured format)",
+          "context": "logger_->log(toSpdlogLevel(level), buf);"
+        },
+        {
+          "file": "src\\core\\concerns\\zero_copy_logger.cpp",
+          "line": 302,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower_key.find(token) != std::string_view::npos) {"
         }
       ]
     }

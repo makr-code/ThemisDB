@@ -1,13 +1,16 @@
 {
   "demo_encryption.cpp": {
-    "total": 44,
-    "severity_critical": 0,
-    "severity_high": 44,
-    "severity_medium": 0,
+    "total": 194,
+    "severity_critical": 13,
+    "severity_high": 174,
+    "severity_medium": 7,
     "by_category": {
       "exception_safety": 3,
       "uninitialized": 19,
-      "oop_design": 22
+      "oop_design": 22,
+      "audit_logging": 142,
+      "observability": 6,
+      "determinism": 2
     },
     "by_file": {
       "src\\demo_encryption.cpp": [
@@ -428,6 +431,1356 @@
           "function_name": "to_string",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 60,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 61,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 62,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2551         Themis Column-Level Encryption Demo                   \u2551\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 63,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2551         AES-256-GCM with HashiCorp Vault Integration          \u2551\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 64,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 65,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 89,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udccb Step 1: Setting up Key Provider (\" << mode_ << \" mode)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 90,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 110,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2705 Connected to Vault at \" << vault_addr << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 111,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Mount path: \" << config.kv_mount_path << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 112,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Cache: TTL=1h, Capacity=1000 keys\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 125,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udd11 Creating encryption keys...\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 127,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2713 user_pii (v1) - for email, phone, address\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 130,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2713 user_sensitive (v1) - for SSN, medical records\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 133,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2713 customer_financial (v1) - for credit scores, income\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 136,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\\n\u2705 MockKeyProvider initialized with 3 keys\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 141,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udd10 Step 2: Initializing Encryption Engine\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 142,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 151,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2705 FieldEncryption configured\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 152,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Algorithm: AES-256-GCM\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 153,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Key size: 256 bits (32 bytes)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 154,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   IV size: 96 bits (12 bytes, random per encryption)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 155,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Tag size: 128 bits (16 bytes, authentication)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 156,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Hardware: AES-NI auto-detected\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 160,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udcbe Step 3: Setting up Database\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 161,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 171,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2705 RocksDB opened at \" << config.db_path << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 172,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Memtable: \" << config.memtable_size_mb << \"MB\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 173,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Block cache: \" << config.block_cache_size_mb << \"MB\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 174,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Encrypted data stored as base64 blobs\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 178,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udc64 Step 4: Creating Encrypted User Entities\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 179,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 182,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Creating User: Alice Smith\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 183,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 194,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udcdd Plain data:\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 195,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Email: alice@example.com\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 196,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Phone: +1-555-0123\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 197,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   SSN: 123-45-6789\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 198,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Address: 123 Main St, New York, NY 10001\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 205,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udd12 Encrypted (base64 preview):\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 206,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Email: \" << alice.email.toBase64().substr(0, 50) << \"...\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 207,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Phone: \" << alice.phone.toBase64().substr(0, 50) << \"...\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 208,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   SSN: \" << alice.ssn.toBase64().substr(0, 50) << \"...\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 212,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udce6 JSON representation:\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 213,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << j.dump(2) << \"\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 218,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Creating Customer: Bob Johnson (Healthcare)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 219,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 227,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udcdd Plain data:\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 228,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Credit Score: 750\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 229,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Annual Income: $125,000.00\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 230,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Medical Record: MR-2024-56789\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 236,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udd12 Encrypted fields created\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 237,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Using keys: customer_financial, user_sensitive\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 243,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udcbe Step 5: Persisting to Database\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 244,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 255,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2713 Stored: \" << key << \" (\" << value.size() << \" bytes)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 265,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2713 Stored: \" << key << \" (\" << value.size() << \" bytes)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 271,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\\n\u23f1\ufe0f  Write performance: \" << duration << \"\u03bcs total\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 272,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Average: \" << duration / (users_.size() + customers_.size()) << \"\u03bcs per record\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 276,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udd0d Step 6: Retrieving and Decrypting Data\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 277,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 293,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Retrieved User: \" << alice.username << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 294,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 295,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udce6 Encrypted blob size: \" << alice_json.size() << \" bytes\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 296,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u23f1\ufe0f  Fetch time: \" << fetch_time << \"\u03bcs\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 309,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udd13 Decrypted values:\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 310,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Email: \" << email << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 311,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Phone: \" << phone << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 312,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   SSN: \" << ssn << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 313,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Address: \" << address << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 314,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\\n\u23f1\ufe0f  Decryption time: \" << decrypt_time << \"\u03bcs (4 fields)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 315,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Average: \" << decrypt_time / 4 << \"\u03bcs per field\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 319,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udd04 Step 7: Key Rotation Simulation\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 320,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 323,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u26a0\ufe0f  Skipping rotation in vault mode (would modify production keys)\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 329,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Phase 1: Rotate user_pii key\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 330,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 338,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Current version: \" << meta.version << \" (ACTIVE)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 344,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   New version: \" << new_version << \" (ACTIVE)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 345,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Old version: \" << old_version << \" (DEPRECATED)\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 347,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Phase 2: Verify old data still decryptable\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 348,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 360,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2705 Old encryption still works: \" << email << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 361,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   (Using deprecated key version \" << old_version << \")\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 363,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Phase 3: Re-encrypt with new key\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 364,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 370,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2705 Re-encrypted with version \" << blob.key_version << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 371,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Old data can be safely deleted after grace period\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 375,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u26a1 Step 8: Performance Benchmarks\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 376,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 380,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Benchmark: Encrypt \" << NUM_USERS << \" user records\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 381,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 396,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Total time: \" << duration << \"ms\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 397,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Per user: \" << (double)duration / NUM_USERS << \"ms\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 398,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Per field: \" << (double)duration / (NUM_USERS * 2) << \"ms\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 399,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Throughput: \" << (NUM_USERS * 1000.0) / duration << \" users/sec\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 401,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Benchmark: Database write with encryption\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 402,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 422,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Total time: \" << duration << \"ms (\" << NUM_DB_WRITES << \" records)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 423,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Per record: \" << (double)duration / NUM_DB_WRITES << \"ms\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 424,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   Throughput: \" << (NUM_DB_WRITES * 1000.0) / duration << \" writes/sec\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 428,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 429,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 430,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2551                         Summary                                \u2551\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 431,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 433,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2705 Encryption Setup:\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 434,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Key Provider: \" << mode_ << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 435,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Algorithm: AES-256-GCM\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 436,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Hardware Acceleration: Active (AES-NI)\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 438,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2705 Data Created:\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 439,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Users: \" << users_.size() << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 440,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Customers: \" << customers_.size() << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 441,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Encrypted Fields: \" << (users_.size() * 4 + customers_.size() * 3) << \"\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 443,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2705 Security Features:\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 444,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Encryption at rest: \u2713\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 445,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Authenticated encryption: \u2713 (GCM mode)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 446,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Key rotation: \u2713 (backward compatible)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 447,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Audit logging: Ready (via KeyProvider)\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 449,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\u2705 Performance:\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 450,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Encryption: <0.01ms per field\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 451,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Decryption: <0.01ms per field\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 452,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   \u2022 Throughput: >1000 records/sec\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 454,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83d\udcda Next Steps:\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 455,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   1. Deploy Vault in production\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 456,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   2. Configure key rotation policies\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 457,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   3. Set up monitoring (cache hit rate, latency)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 458,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   4. Implement bulk re-encryption for rotation\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 459,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"   5. Review docs/encryption_deployment.md\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 461,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"\ud83c\udf89 Demo completed successfully!\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 127,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: email",
+          "context": "std::cout << \"   \u2713 user_pii (v1) - for email, phone, address\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 127,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: phone",
+          "context": "std::cout << \"   \u2713 user_pii (v1) - for email, phone, address\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 130,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: ssn",
+          "context": "std::cout << \"   \u2713 user_sensitive (v1) - for SSN, medical records\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 195,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: email",
+          "context": "std::cout << \"   Email: alice@example.com\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 196,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: phone",
+          "context": "std::cout << \"   Phone: +1-555-0123\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 197,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: ssn",
+          "context": "std::cout << \"   SSN: 123-45-6789\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 206,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: email",
+          "context": "std::cout << \"   Email: \" << alice.email.toBase64().substr(0, 50) << \"...\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 207,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: phone",
+          "context": "std::cout << \"   Phone: \" << alice.phone.toBase64().substr(0, 50) << \"...\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 208,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: ssn",
+          "context": "std::cout << \"   SSN: \" << alice.ssn.toBase64().substr(0, 50) << \"...\\n\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 310,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: email",
+          "context": "std::cout << \"   Email: \" << email << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 311,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: phone",
+          "context": "std::cout << \"   Phone: \" << phone << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 312,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: ssn",
+          "context": "std::cout << \"   SSN: \" << ssn << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 360,
+          "category": "audit_logging",
+          "severity": "CRITICAL",
+          "pattern": "sensitive_data_logging",
+          "description": "Potential PII/credential logging: email",
+          "context": "std::cout << \"   \u2705 Old encryption still works: \" << email << \"\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 246,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = std::chrono::high_resolution_clock::now();"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 269,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 383,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start = std::chrono::high_resolution_clock::now();"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 394,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 405,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "start = std::chrono::high_resolution_clock::now();"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 420,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 154,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "random_unseeded",
+          "description": "RNG without explicit seeding (non-deterministic)",
+          "context": "std::cout << \"   IV size: 96 bits (12 bytes, random per encryption)\\n\";"
+        },
+        {
+          "file": "src\\demo_encryption.cpp",
+          "line": 473,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (mode != \"mock\" && mode != \"vault\") {"
         }
       ]
     }

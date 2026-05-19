@@ -1,9 +1,9 @@
 {
   "rpc_grpc": {
-    "total": 142,
+    "total": 161,
     "severity_critical": 11,
-    "severity_high": 74,
-    "severity_medium": 57,
+    "severity_high": 88,
+    "severity_medium": 62,
     "by_category": {
       "memory": 1,
       "reliability": 16,
@@ -14,7 +14,11 @@
       "input_validation": 1,
       "exception_safety": 1,
       "uninitialized": 21,
-      "oop_design": 49
+      "oop_design": 49,
+      "audit_logging": 9,
+      "performance_patterns": 2,
+      "observability": 4,
+      "determinism": 4
     },
     "by_file": {
       "src\\rpc_grpc\\grpc_plugin.cpp": [
@@ -1740,6 +1744,177 @@
           "function_name": "createPlugin",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 132,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"gRPC server listening on \" << server_address_ << std::endl;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 134,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"gRPC admin port bound on \" << admin_address_ << std::endl;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 159,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Shutting down gRPC server...\" << std::endl;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 171,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"gRPC server stopped\" << std::endl;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 197,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"Registered gRPC service\" << std::endl;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 229,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"TLS certificates reloaded successfully\" << std::endl;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 416,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// Replace std::cout with std::cerr + structured warning so the message is"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 452,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"gRPC server configured for mutual TLS (mTLS)\" << std::endl;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 456,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "std::cout << \"gRPC server configured for server-side TLS only\" << std::endl;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 327,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : errs)"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 334,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& kv : lats)"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 58,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool GRPCServer::initialize(const RPCServerConfig& config) {"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 64,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool GRPCServer::start() {"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 183,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto elapsed = std::chrono::steady_clock::now() - start_time_;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 436,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::cerr << \"Server will NOT start with insecure credentials for security\" << std::endl;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 305,
+          "category": "determinism",
+          "severity": "MEDIUM",
+          "pattern": "unordered_container_iter",
+          "description": "Non-deterministic unordered_map/set iteration order",
+          "context": "std::unordered_map<std::string, uint64_t> reqs, errs, lats;"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 79,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ka_it != config_.extra_config.end()) {"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 88,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (kt_it != config_.extra_config.end()) {"
+        },
+        {
+          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line": 97,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (ap_it != config_.extra_config.end()) {"
         }
       ],
       "src\\rpc_grpc\\bidi_stream_adapter.h": [

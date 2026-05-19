@@ -36,6 +36,7 @@
 #include "voice/voice_macro.h"
 #include "content/tts_processor.h"
 #include "utils/http_client_pool.h"
+#include "utils/input_validator.h"
 #include <sstream>
 #include <algorithm>
 #include <cctype>
@@ -45,6 +46,19 @@
 namespace themis::server {
 
 namespace {
+    constexpr size_t kMaxVoicePathIdentifierLength = 128;
+
+    bool isValidVoicePathIdentifier(std::string_view value) {
+        if (value.empty()) {
+            return false;
+        }
+
+        themis::utils::InputValidator validator;
+        return validator.validateStringLength(std::string(value), kMaxVoicePathIdentifierLength) &&
+               validator.validatePathSegment(std::string(value)) &&
+               validator.validateHeaderValue(std::string(value));
+    }
+
     /**
      * @brief Parse and validate IPv4 address, returning octets
      * @param str Input string
@@ -187,6 +201,10 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
             return createErrorResponse(
                 http::status::bad_request, "Bad Request", "Missing macro ID");
         }
+        if (!isValidVoicePathIdentifier(macro_id)) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request", "Invalid macro ID");
+        }
         if (method == http::verb::get) {
             return handleGetMacro(req, macro_id);
         }
@@ -208,8 +226,17 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
             session_id = session_id.substr(0, slash_pos);
             
             if (action == "context" && method == http::verb::post) {
+                if (!isValidVoicePathIdentifier(session_id)) {
+                    return createErrorResponse(
+                        http::status::bad_request, "Bad Request", "Invalid session ID");
+                }
                 return handleUpdateSessionContext(req, session_id);
             }
+        }
+
+        if (!isValidVoicePathIdentifier(session_id)) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request", "Invalid session ID");
         }
         
         if (method == http::verb::get) {
@@ -231,6 +258,10 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
         if (record_id.empty()) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request", "Missing recording ID");
+        }
+        if (!isValidVoicePathIdentifier(record_id)) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request", "Invalid recording ID");
         }
         return handleGetRecording(req, record_id);
     }
@@ -255,6 +286,10 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
         if (profile_id.empty()) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request", "Missing profile ID");
+        }
+        if (!isValidVoicePathIdentifier(profile_id)) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request", "Invalid profile ID");
         }
         return handleAuthDeleteProfile(req, profile_id);
     }

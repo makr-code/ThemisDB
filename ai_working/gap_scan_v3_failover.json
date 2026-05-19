@@ -1,9 +1,9 @@
 {
   "failover": {
-    "total": 222,
-    "severity_critical": 24,
-    "severity_high": 182,
-    "severity_medium": 16,
+    "total": 247,
+    "severity_critical": 26,
+    "severity_high": 194,
+    "severity_medium": 27,
     "by_category": {
       "memory": 1,
       "reliability": 33,
@@ -14,7 +14,11 @@
       "input_validation": 5,
       "exception_safety": 2,
       "uninitialized": 35,
-      "oop_design": 130
+      "oop_design": 130,
+      "performance_patterns": 8,
+      "distributed_consistency": 4,
+      "observability": 9,
+      "determinism": 4
     },
     "by_file": {
       "src\\failover\\auto_failover_manager.cpp": [
@@ -1696,6 +1700,186 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 175,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "failing_nodes.push_back(node_id);"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 649,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "failover_durations_.push_back(result.duration);"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 174,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [node_id, failures] : consecutive_failures_) {"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 231,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& [node_id, is_healthy] : cluster) {"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 259,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& node_id : failing_nodes) {"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 286,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "failover_cv_.wait_for(lock, std::chrono::seconds(1), [this] {"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 565,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (uint32_t attempt = 0; attempt < config_.max_recovery_attempts; ++attempt) {"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 62,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "monitoring_thread_ = std::thread(&AutoFailoverManager::monitoringLoop, this);"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 63,
+          "category": "distributed_consistency",
+          "severity": "HIGH",
+          "pattern": "unspecified_consistency",
+          "description": "Read without explicit consistency level (replication lag unknown)",
+          "context": "failover_thread_ = std::thread(&AutoFailoverManager::failoverLoop, this);"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 129,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "static_cast<float>(config_.max_concurrent_failovers);"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 147,
+          "category": "distributed_consistency",
+          "severity": "CRITICAL",
+          "pattern": "missing_version_tracking",
+          "description": "Concurrent update without version vector or causal ordering",
+          "context": "\"/\" + std::to_string(config_.max_concurrent_failovers);"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 54,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "bool AutoFailoverManager::start() {"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 64,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::info(\"AutoFailoverManager started successfully\");"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 67,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "spdlog::error(\"Failed to start AutoFailoverManager: {}\", e.what());"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 323,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "emitEvent(FailoverEventType::RECOVERY_STARTED, task.failed_node_id, \"\");"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 334,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "auto start_time = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 366,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "transitionState(FailoverOrchestratorState::STARTING_LEADER_ELECTION);"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 466,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (status != themisdb::replication::HealthStatus::HEALTHY) {"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 474,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "replica.role != themisdb::replication::ReplicationRole::WITNESS) {"
+        },
+        {
+          "file": "src\\failover\\auto_failover_manager.cpp",
+          "line": 615,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (current_state != new_state) {"
         }
       ],
       "src\\failover\\disaster_recovery_manager.cpp": [
@@ -2219,6 +2403,51 @@
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\failover\\disaster_recovery_manager.cpp",
+          "line": 356,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "std::this_thread::sleep_for("
+        },
+        {
+          "file": "src\\failover\\disaster_recovery_manager.cpp",
+          "line": 43,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto started_at = std::chrono::steady_clock::now();"
+        },
+        {
+          "file": "src\\failover\\disaster_recovery_manager.cpp",
+          "line": 53,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - started_at);"
+        },
+        {
+          "file": "src\\failover\\disaster_recovery_manager.cpp",
+          "line": 119,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "std::chrono::steady_clock::now() - started_at);"
+        },
+        {
+          "file": "src\\failover\\disaster_recovery_manager.cpp",
+          "line": 174,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (it != hooks_.end()) {"
         }
       ]
     }

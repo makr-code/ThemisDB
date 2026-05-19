@@ -1,9 +1,9 @@
 {
   "stable_diffusion": {
-    "total": 235,
+    "total": 249,
     "severity_critical": 9,
-    "severity_high": 172,
-    "severity_medium": 54,
+    "severity_high": 178,
+    "severity_medium": 62,
     "by_category": {
       "memory": 5,
       "reliability": 10,
@@ -13,7 +13,10 @@
       "input_validation": 33,
       "exception_safety": 3,
       "uninitialized": 50,
-      "oop_design": 76
+      "oop_design": 76,
+      "performance_patterns": 6,
+      "observability": 3,
+      "determinism": 5
     },
     "by_file": {
       "src\\stable_diffusion\\sd_plugin.cpp": [
@@ -1083,6 +1086,51 @@
           "function_name": "themis_imggen_create",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 125,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "v.push_back(static_cast<uint8_t>(x >> 24));"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 125,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "v.push_back(static_cast<uint8_t>(x >> 24));"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 169,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "idat_payload.push_back(0x78u);"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 303,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "results.push_back(generateLocked(p, cfg));"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line": 303,
+          "category": "performance",
+          "severity": "HIGH",
+          "pattern": "lock_in_loop",
+          "description": "Mutex lock acquired per iteration (move outside loop)",
+          "context": "for (const auto& p : prompts) {"
         }
       ],
       "src\\stable_diffusion\\sd_config.cpp": [
@@ -1490,6 +1538,60 @@
           "function_name": "isAllowed",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 45,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "if (!lower.empty()) blocked_keywords_.push_back(lower);"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 59,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "const auto start = line.find_first_not_of(\" \\t\\r\\n\");"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 60,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "if (start == std::string::npos) continue;"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 61,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "line = line.substr(start);"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 73,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (lower.find(kw) != std::string::npos) return false;"
+        },
+        {
+          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
+          "line": 88,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "while ((pos = lower_r.find(kw, pos)) != std::string::npos) {"
         }
       ],
       "src\\stable_diffusion\\tests\\test_sd_plugin.cpp": [
@@ -2743,6 +2845,33 @@
           "function_name": "png_idat_data",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line": 556,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (len != 13u) return {-1, -1};"
+        },
+        {
+          "file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line": 557,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (buf[pos + 4] != 'I' || buf[pos + 5] != 'H' ||"
+        },
+        {
+          "file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line": 558,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "buf[pos + 6] != 'D' || buf[pos + 7] != 'R') return {-1, -1};"
         }
       ],
       "src\\stable_diffusion\\tests\\test_sd_plugin_registrar.cpp": [
