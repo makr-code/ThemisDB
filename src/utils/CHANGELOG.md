@@ -6,6 +6,10 @@ Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Utils catch-all hardening (Phase 24, 2026-05-19): replaced all remaining 32 `catch(...)`
+  handlers with typed `catch (const std::exception&)` across 13 files; zero catch-all handlers
+  remain in `src/utils/*.cpp`.
+
 ## [1.5.0] — 2026-03-12
 ### Added
 - Streaming PII detector with configurable entity types

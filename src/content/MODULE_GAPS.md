@@ -28,6 +28,14 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 24 — Utils catch-all hardening (COMPLETE)
+
+- **All remaining `src/utils/` C++ catch-all handlers**: Replaced 32 catch-all handlers
+  with typed `std::exception` catches across 13 files.
+  - Largest batches: `pki_client.cpp` (×5), `lek_manager.cpp` (×5),
+    `pii_detector.cpp`/`audit_logger.cpp` (×4 each).
+  - Zero `catch(...)` remain in Utils C++ sources.
+
 ### Phase 23 — Ingestion catch-all hardening (COMPLETE)
 
 - **All remaining `src/ingestion/` C++ catch-all handlers**: Replaced 44 catch-all handlers

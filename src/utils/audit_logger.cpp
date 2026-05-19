@@ -291,7 +291,7 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         SignatureResult sig;
         if (pki_) {
             try { sig = pki_->signHash(hash); }
-            catch (...) { sig.ok = false; }
+            catch (const std::exception&) { sig.ok = false; }
         }
 
         auto jblob = themis::EncryptedBlob{blob}.toJson();
@@ -318,7 +318,7 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         SignatureResult sig;
         if (pki_) {
             try { sig = pki_->signHash(hash); }
-            catch (...) { sig.ok = false; }
+            catch (const std::exception&) { sig.ok = false; }
         }
         record["payload"] = {
             {"type", "plaintext"},
@@ -1497,7 +1497,7 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
                 seq_ = seq;
                 return;
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Fall through to re-initialise on corrupted file.
         }
     }
@@ -1546,7 +1546,7 @@ HashChainAuditWriter::HashChainAuditWriter(HashChainAuditWriterConfig cfg,
     try {
         fs::create_directories(fs::path(cfg_.log_path).parent_path());
         fs::create_directories(fs::path(cfg_.chain_head_path).parent_path());
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     loadOrInitChainHead(chain_seed);
 

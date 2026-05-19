@@ -22,6 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `HammingCoderFocusedTests` CTest target registered
 
 ### Fixed
+- **Utils module — catch-all hardening Phase 24 (complete)** 🔧
+  - Replaced all 32 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    13 C++ files in `src/utils/`.
+  - Largest batches: `pki_client.cpp` (×5), `lek_manager.cpp` (×5),
+    `pii_detector.cpp`/`audit_logger.cpp` (×4 each).
+  - Zero `catch(...)` remain in `src/utils/` C++ sources; best-effort behavior preserved.
+
 - **Ingestion module — catch-all hardening Phase 23 (complete)** 🔧
   - Replaced all 44 remaining `catch(...)` handlers with `catch (const std::exception&)` across
     14 C++ files in `src/ingestion/`.
