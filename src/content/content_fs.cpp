@@ -166,7 +166,7 @@ Result<std::vector<uint8_t>> ContentFS::get(const std::string& pk) const {
         }
     } catch (const std::exception&) {
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                                           fmt::format("get: invalid metadata for '{}'", pk));
+                                            fmt::format("get: invalid metadata for '{}'", pk));
     }
 }
 
@@ -229,7 +229,7 @@ Result<std::vector<uint8_t>> ContentFS::getRange(const std::string& pk, uint64_t
         }
     } catch (const std::exception&) {
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                                           fmt::format("getRange: invalid metadata for '{}'", pk));
+                                            fmt::format("getRange: invalid metadata for '{}'", pk));
     }
 }
 
@@ -252,7 +252,7 @@ Result<ContentMeta> ContentFS::head(const std::string& pk) const {
         return Ok(std::move(m));
     } catch (const std::exception&) {
         return Err<ContentMeta>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                                 fmt::format("head: invalid metadata encoding for '{}'", pk));
+                                  fmt::format("head: invalid metadata encoding for '{}'", pk));
     }
 }
 
@@ -283,4 +283,3 @@ Result<void> ContentFS::remove(const std::string& pk) {
 }
 
 } // namespace themis
-
