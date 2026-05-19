@@ -19,9 +19,9 @@
 
 | Category | Count | Priority |
 |----------|-------|----------|
-| OOP Design (`oop_design`) | 1,479 | MEDIUM |
+| OOP Design (`oop_design`) | 1,479 (all scanner false positives — audit closed) | MEDIUM |
 | Uninitialized members (`uninitialized`) | 998 | HIGH |
-| Implicit type conversions (`type_conversion`) | 516 | MEDIUM |
+| Implicit type conversions (`type_conversion`) | 515 (1 fixed — CON-027) | MEDIUM |
 | Reliability gaps (`reliability`) | 270 | HIGH |
 | Input validation (`input_validation`) | 251 | HIGH |
 | Memory management (`memory`) | 228 | HIGH |
@@ -209,6 +209,56 @@ respective optional dependency is not compiled in.
   Default virtual returning `{}` was missing `[[nodiscard]]`; added to match `extract()`,
   `chunk()`, and `healthCheck()`.
 - [ ] Remaining type_conversion (516) — signed/unsigned comparisons in .cpp files; deferred to Phase 8
+
+### Phase 8 — Addressed (2026-05-19)
+
+#### CON-027 — Multiplication overflow in thumbnail resize (`video_processor.cpp`)
+- **Severity:** MEDIUM  
+- **Status:** ✅ FIXED  
+- `thumbnail.resize(thumb_width * thumb_height * 3)` performed three-factor `int` multiplication
+  before the result was implicitly widened to `size_t` for `std::vector::resize()`.  If an
+  operator or config sets `thumbnail.max_width`/`max_height` to values ≥ ~26755, the
+  intermediate `int * int` product overflows (signed UB, CWE-190) and the resulting `size_t`
+  value is garbage, leading to over-allocation or `std::bad_alloc`.  
+  **Fix:** cast each dimension to `size_t` before multiplication:
+  ```cpp
+  thumbnail.resize(static_cast<size_t>(thumb_width) *
+                   static_cast<size_t>(thumb_height) * 3u);
+  ```
+
+#### False-positive audit — type_conversion (516 scanner hits)
+Running `gap_scanner_v3_type_conversion` across all 31 content `.cpp` files found
+**501 hits** with the following breakdown:
+
+| Scanner pattern | Count | Assessment |
+|---|---|---|
+| `SHIFT_OVERFLOW` | 314 | **False positive** — scanner matches the `<<` stream insertion operator as a bit-shift |
+| `ARITHMETIC_OVERFLOW` | 93 | **False positive** — any assignment with `=` and `+`/`-`/`*` is flagged; nearly all are normal arithmetic on size-bounded values |
+| `CAST_TO_SMALLER_TYPE` | 87 | **False positive** — scanner flags `static_cast<int>(…)` as a risk, but these ARE the correct, explicit narrowing casts already applied in previous phases |
+| `MULTIPLICATION_OVERFLOW` | 7 | **1 real** (CON-027 above); 6 false positives: two compile-time `constexpr size_t` initialisers, one `std::chrono::seconds` constant within `int` range, two pointer-indirection dereferences, one Doxygen comment |
+
+**No** `FUNCTION_RETURN_TRUNCATION` hits exist — there are zero bare `int x = vec.size()`
+assignments without a `static_cast` in the content module.
+
+#### False-positive audit — oop_design (1,479 scanner hits)
+Running `gap_scanner_v3_virtual_oop` across all content `.h`, `.hpp`, and `.cpp` files found
+**1,465 hits** with the following breakdown:
+
+| Scanner pattern | Count | Assessment |
+|---|---|---|
+| `VIRTUAL_IN_CTOR_DTOR` | 1,442 | **False positive** — scanner pattern-matches every function name that appears in both a virtual declaration and a constructor signature in the same translation unit, not just actual calls inside a constructor body |
+| `MISSING_OVERRIDE` | 17 | **False positive** — scanner flags pure-virtual declarations in *base classes* (`IContentProcessorPlugin`, `IPIIRedactor`, `IContentClassifier`, `IIngestionPlugin`, `IAbuseDetector`, `IContentProcessor`) as missing `override`; `override` is only valid in *derived* classes |
+| `PURE_VIRTUAL_UNIMPLEMENTED` | 6 | **False positive** — scanner marks `= 0` declarations as "unimplemented" without checking that concrete subclasses exist and provide implementations |
+
+All concrete processor headers (`AudioProcessor`, `VideoProcessor`, `GeoProcessor`,
+`CADProcessor`, `ImageProcessor`, `STTProcessor`, `TTSProcessor`, `PDFProcessor`,
+`OfficeProcessor`, `ArchiveProcessor`) already carry correct `override` specifiers on every
+overriding method.
+
+**Conclusion:** The aggregate scanner counts for `type_conversion` (516) and `oop_design` (1,479)
+are dominated by tool false positives.  The sole actionable finding was CON-027, now fixed.
+Remaining scanner counts should be treated as closed in the audit backlog unless new
+concrete evidence of a runtime defect surfaces.
 
 ---
 

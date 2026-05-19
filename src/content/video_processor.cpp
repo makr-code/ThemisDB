@@ -740,7 +740,10 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
                          rgb_frame->data, rgb_frame->linesize);
                 
                 // Copy RGB data - optimize for case without padding
-                thumbnail.resize(thumb_width * thumb_height * 3);
+                // Cast to size_t before multiplying to prevent signed-int overflow
+                // when caller configures unusually large thumbnail dimensions (CON-027).
+                thumbnail.resize(static_cast<size_t>(thumb_width) *
+                                 static_cast<size_t>(thumb_height) * 3u);
                 uint8_t* dst = thumbnail.data();
                 const uint8_t* src = rgb_frame->data[0];
                 const int row_size = thumb_width * 3;

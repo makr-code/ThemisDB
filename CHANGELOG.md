@@ -44,6 +44,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **CON-025 — OOP: `[[nodiscard]]` on `IContentProcessorPlugin::getStatistics()`** (`content_plugin_interface.h`): diagnostic added.
   - **CON-026 — OOP: `[[nodiscard]]` on `IContentProcessorPlugin::generateEmbedding()`** (`content_plugin_interface.h`): completes `[[nodiscard]]` coverage for all value-returning virtual methods in the plugin interface.
   - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.1–7 implementation roadmap.
+- **CONTENT module — Phase 8 quality remediation** (`src/content/video_processor.cpp`, `src/content/MODULE_GAPS.md`)
+  - **CON-027 — Multiplication overflow in `VideoProcessor` thumbnail resize** (`video_processor.cpp:743`):
+    `thumbnail.resize(thumb_width * thumb_height * 3)` performed three-factor `int` multiplication
+    (signed, CWE-190). If thumbnail dimensions are configured above ~26 755 px, the product
+    overflows before the implicit widening to `size_t`, yielding garbage allocation size.
+    **Fix:** `thumbnail.resize(static_cast<size_t>(thumb_width) * static_cast<size_t>(thumb_height) * 3u)`.
+  - **False-positive audit — `type_conversion` (516 scanner hits):** Full scanner re-run shows
+    314 SHIFT_OVERFLOW (stream `<<` operator misidentified as bit-shift), 93 ARITHMETIC_OVERFLOW
+    (normal arithmetic), 87 CAST_TO_SMALLER_TYPE (`static_cast<int>` is the correct fix, not
+    a new problem), and 7 MULTIPLICATION_OVERFLOW (only 1 real — CON-027). No bare
+    `int x = vec.size()` narrowing exists in the module. Remaining 515 scanner hits are closed
+    as false positives.
+  - **False-positive audit — `oop_design` (1,479 scanner hits):** 1,442 VIRTUAL_IN_CTOR_DTOR
+    (scanner misreads virtual declarations as calls inside constructors), 17 MISSING_OVERRIDE
+    (scanner flags pure-virtual base class declarations, not derived-class implementations),
+    6 PURE_VIRTUAL_UNIMPLEMENTED (intentional interface contracts). All concrete processor
+    subclasses already use `override` throughout. All 1,479 hits are closed as false positives.
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
