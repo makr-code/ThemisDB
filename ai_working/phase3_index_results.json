@@ -1,0 +1,55 @@
+{
+  "module": "index",
+  "model": "codellama:latest",
+  "execution_time": 315.19811844825745,
+  "tasks_total": 5,
+  "tasks_generated": 5,
+  "syntax_ok": 5,
+  "results": [
+    {
+      "task_id": "1.1",
+      "priority": "CRITICAL",
+      "effort_hours": 526,
+      "code_length": 2086,
+      "syntax_ok": true,
+      "has_comments": true,
+      "code": "```c++\n#include <iostream>\n#include <string>\n#include <vector>\n#include <unordered_map>\n#include <memory>\n\n// Forward declaration of the `Document` class\nclass Document;\n\n/**\n * @brief Index for a ThemisDB database\n */\nclass Index {\npublic:\n    /**\n     * @brief Constructor\n     *\n     * @param name The name of the index\n     * @param document_ids A vector of IDs of documents in this index\n     */\n    explicit Index(const std::string& name, const std::vector<std::size_t>& document_ids)\n        :"
+    },
+    {
+      "task_id": "1.2",
+      "priority": "CRITICAL",
+      "effort_hours": 526,
+      "code_length": 3433,
+      "syntax_ok": true,
+      "has_comments": true,
+      "code": "```c++\n#include <string>\n#include <vector>\n#include <unordered_map>\n#include <optional>\n#include <iostream>\n\n// Forward declaration of the Index class\nclass Index;\n\n/**\n * @brief Represents a single index entry in the database.\n */\nstruct IndexEntry {\n    // The key for this index entry\n    std::string key;\n    // The value for this index entry\n    std::optional<std::string> value;\n};\n\n/**\n * @brief Represents a collection of index entries in the database.\n */\nclass Index {\npublic:\n    /**\n     "
+    },
+    {
+      "task_id": "1.3",
+      "priority": "CRITICAL",
+      "effort_hours": 526,
+      "code_length": 3378,
+      "syntax_ok": true,
+      "has_comments": false,
+      "code": "```c++\n#include <algorithm>\n#include <functional>\n#include <iostream>\n#include <iterator>\n#include <optional>\n#include <string>\n#include <vector>\n\nnamespace themis {\n    class Index {\n        // Private members\n        std::vector<std::pair<std::string, int>> entries;\n\n        // Private helper functions\n        void insert(const std::string& key, int value) {\n            if (entries.size() == 0 || key < entries[0].first) {\n                entries.insert(entries.begin(), std::make_pair(key, valu"
+    },
+    {
+      "task_id": "1.4",
+      "priority": "CRITICAL",
+      "effort_hours": 526,
+      "code_length": 3736,
+      "syntax_ok": true,
+      "has_comments": false,
+      "code": "```c++\n#include <array>\n#include <vector>\n#include <string>\n#include <unordered_map>\n#include <utility>\n#include <algorithm>\n#include <fstream>\n#include <iostream>\n#include <stdexcept>\n#include <cassert>\n#include <concepts>\n#include <ranges>\n\nnamespace themisdb {\n    // Forward declarations\n    class Index;\n    class Document;\n\n    // Concept for a document key type\n    template<typename T>\n    concept KeyType = requires(T) {\n        { std::hash<T>()(std::declval<const T&>()) } -> std::same_as<s"
+    },
+    {
+      "task_id": "1.5",
+      "priority": "CRITICAL",
+      "effort_hours": 526,
+      "code_length": 2713,
+      "syntax_ok": true,
+      "has_comments": true,
+      "code": "```cpp\n#include <map>\n#include <memory>\n#include <utility>\n\n// Forward declaration of the Index class template\ntemplate<typename Key, typename Value>\nclass Index;\n\n/**\n * @brief An index implementation using a map data structure.\n * @tparam Key The type of keys in the index.\n * @tparam Value The type of values associated with each key.\n */\ntemplate<typename Key, typename Value>\nclass MapIndex : public Index<Key, Value> {\npublic:\n    /**\n     * @brief Constructs a new map index.\n     */\n    expli"
+    }
+  ]
+}
