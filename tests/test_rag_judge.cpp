@@ -127,6 +127,35 @@ TEST_F(RAGJudgeTest, EvaluationWithStructuredInput) {
     EXPECT_LE(result.overall_score, 1.0);
 }
 
+TEST_F(RAGJudgeTest, RelevancePenalizedWhenDocumentBiasMetadataPresent) {
+    RAGJudge judge(config_);
+
+    EvaluationInput neutral_input;
+    neutral_input.query = "What is the capital of France?";
+    neutral_input.documents = createTestDocuments();
+    neutral_input.generated_answer = "Paris is the capital of France.";
+
+    EvaluationInput biased_input = neutral_input;
+    for (auto& doc : biased_input.documents) {
+        BiasScore score;
+        score.overall_score = 1.0;
+        score.confidence = 1.0;
+        score.flagged = true;
+        doc.bias_score = score;
+    }
+
+    const double neutral_relevance =
+        judge.evaluateDimension(EvaluationDimension::RELEVANCE, neutral_input);
+    const double biased_relevance =
+        judge.evaluateDimension(EvaluationDimension::RELEVANCE, biased_input);
+
+    EXPECT_GE(neutral_relevance, 0.0);
+    EXPECT_LE(neutral_relevance, 1.0);
+    EXPECT_GE(biased_relevance, 0.0);
+    EXPECT_LE(biased_relevance, 1.0);
+    EXPECT_LE(biased_relevance, neutral_relevance);
+}
+
 // Test: Pairwise comparison
 TEST_F(RAGJudgeTest, PairwiseComparison) {
     RAGJudge judge(config_);

@@ -304,18 +304,24 @@ void DPRVectorizer::initialize() {
         impl_->passage_tokenizer = std::make_unique<themis::llm::LlamaTokenizer>();
 
 #if THEMIS_DPR_HAS_ONNX_RUNTIME
-        impl_->ort_env = std::make_unique<Ort::Env>(ORT_LOGGING_LEVEL_WARNING, "themis_dpr");
-        impl_->ort_session_options = std::make_unique<Ort::SessionOptions>();
-        impl_->ort_session_options->SetIntraOpNumThreads(1);
-        impl_->ort_session_options->SetGraphOptimizationLevel(
-            GraphOptimizationLevel::ORT_ENABLE_BASIC);
+        try {
+            impl_->ort_env = std::make_unique<Ort::Env>(ORT_LOGGING_LEVEL_WARNING, "themis_dpr");
+            impl_->ort_session_options = std::make_unique<Ort::SessionOptions>();
+            impl_->ort_session_options->SetIntraOpNumThreads(1);
+            impl_->ort_session_options->SetGraphOptimizationLevel(
+                GraphOptimizationLevel::ORT_ENABLE_BASIC);
 
-        impl_->query_session = std::make_unique<Ort::Session>(
-            *impl_->ort_env, config_.query_model_path.c_str(), *impl_->ort_session_options);
-        impl_->passage_session = std::make_unique<Ort::Session>(
-            *impl_->ort_env, config_.passage_model_path.c_str(), *impl_->ort_session_options);
+            impl_->query_session = std::make_unique<Ort::Session>(
+                *impl_->ort_env, config_.query_model_path.c_str(), *impl_->ort_session_options);
+            impl_->passage_session = std::make_unique<Ort::Session>(
+                *impl_->ort_env, config_.passage_model_path.c_str(), *impl_->ort_session_options);
 
-        THEMIS_INFO("DPRVectorizer ONNX sessions created successfully");
+            THEMIS_INFO("DPRVectorizer ONNX sessions created successfully");
+        } catch (const std::exception& e) {
+            impl_->query_session.reset();
+            impl_->passage_session.reset();
+            THEMIS_WARN("DPRVectorizer ONNX session init failed (fallback active): {}", e.what());
+        }
 #else
         THEMIS_WARN("DPRVectorizer built without ONNX runtime; using deterministic fallback embeddings");
 #endif

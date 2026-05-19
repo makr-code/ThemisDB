@@ -1296,9 +1296,12 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
     const llama_vocab* vocab = llama_model_get_vocab(lmodel);
     const int32_t n_vocab = llama_vocab_n_tokens(vocab);
     const llama_token eos_token = llama_vocab_eos(vocab);
-    const size_t produced_vocab_size =
-        (vocab_size_hint > 0) ? std::min(vocab_size_hint, static_cast<size_t>(n_vocab))
-                              : static_cast<size_t>(n_vocab);
+    const size_t produced_vocab_size = static_cast<size_t>(n_vocab);
+    if (vocab_size_hint > 0 && vocab_size_hint != produced_vocab_size) {
+        spdlog::debug(
+            "generateDraftTokens: vocab_size_hint={} differs from model vocab={} (using model vocab)",
+            vocab_size_hint, produced_vocab_size);
+    }
 
     const float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
     const float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
@@ -3110,5 +3113,4 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
 
 } // namespace llm
 } // namespace themis
-
 

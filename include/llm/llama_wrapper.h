@@ -363,8 +363,8 @@ public:
      *
      * @param request Inference request; only prompt and sampling parameters are used.
      * @param k Number of draft tokens to generate.
-     * @param vocab_size_hint Optional expected vocabulary size; when non-zero it is
-     *        used to validate/crop produced logit rows.
+     * @param vocab_size_hint Optional expected vocabulary size; if it differs from
+     *        the loaded model vocabulary, the model vocabulary is used.
      * @return Draft token IDs and aligned raw logits.
      *
      * @throws std::runtime_error if no model/context is loaded or llama_decode fails.

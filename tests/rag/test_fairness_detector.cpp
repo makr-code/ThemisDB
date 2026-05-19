@@ -80,6 +80,27 @@ TEST(FairnessDetector, FAIR_05_DetectBiasReturnsValidScore) {
     EXPECT_LE(score.gender_bias, 1.0);
     EXPECT_GE(score.confidence, 0.0);
     EXPECT_LE(score.confidence, 1.0);
+    EXPECT_GE(score.confidence, config.min_confidence);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FAIR-09: Highly biased text triggers flagged decision above threshold
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(FairnessDetector, FAIR_09_HighBiasDocumentIsFlagged) {
+    FairnessDetectorConfig config;
+    config.bias_threshold = 0.2;
+    config.min_confidence = 0.5;
+    FairnessDetector detector(config);
+    detector.initialize();
+
+    const std::string biased =
+        "man woman male female he she actor actress nurse doctor "
+        "foreign immigrant western eastern minority majority";
+    auto score = detector.detectBias(biased);
+
+    EXPECT_GE(score.overall_score, config.bias_threshold);
+    EXPECT_GE(score.confidence, config.min_confidence);
+    EXPECT_TRUE(score.flagged);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
