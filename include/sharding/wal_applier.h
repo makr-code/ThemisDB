@@ -20,6 +20,7 @@
 #pragma once
 
 #include "sharding/wal_manager.h"
+#include "utils/retry_policy.h"
 #include <string>
 #include <memory>
 #include <functional>
@@ -56,7 +57,11 @@ struct WALApplierConfig {
     std::string replica_id;
     bool strict_mode = true;  // Fail on LSN mismatch
     bool enable_conflict_detection = true;
+    /// Maximum number of times `applyEntry()` attempts the apply handler.
     size_t max_apply_retries = 3;
+    /// Initial delay before the first retry in milliseconds.
+    /// Each subsequent delay doubles (exponential backoff).
+    uint32_t retry_initial_delay_ms = 100;
 };
 
 /**

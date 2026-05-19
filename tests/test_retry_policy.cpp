@@ -229,6 +229,34 @@ TEST(ExponentialBackoff, ParallelDownloaderDelaySequenceMatchesOldImpl) {
     EXPECT_FALSE(more);
 }
 
+TEST(ExponentialBackoff, WALApplierDelaySequenceIsExponential) {
+    // Mirrors WALApplierConfig defaults: max_apply_retries=3,
+    // retry_initial_delay_ms=100.  The old linear sequence was 100 ms, 200 ms;
+    // the new exponential sequence is identical for 2 waits: 100 ms, 200 ms.
+    // For larger max_apply_retries the sequences diverge (200 ms vs 300 ms, etc.).
+    themis::utils::RetryConfig cfg;
+    cfg.max_attempts       = 3u;   // max_apply_retries
+    cfg.initial_backoff_ms = 100u; // retry_initial_delay_ms
+    cfg.max_backoff_ms     = 30'000u;
+    cfg.multiplier         = 2.0;
+    cfg.jitter_fraction    = 0.0;  // no jitter → deterministic
+
+    themis::utils::ExponentialBackoff bo(cfg);
+
+    // First retry delay: 100 ms
+    EXPECT_EQ(bo.current_delay_ms(), 100u);
+    bool more = bo.wait();  // attempt_=1 < max_attempts=3 → returns true
+    EXPECT_TRUE(more);
+
+    // Second retry delay: 100 * 2 = 200 ms
+    EXPECT_EQ(bo.current_delay_ms(), 200u);
+    more = bo.wait();       // attempt_=2 < max_attempts=3 → returns true
+    EXPECT_TRUE(more);
+
+    // Third call (attempt_=3 >= max_attempts=3) → returns false without sleeping
+    more = bo.wait();
+    EXPECT_FALSE(more);
+}
 
 
 TEST(CodecTags, KnownTagValues) {
