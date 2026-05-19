@@ -209,8 +209,11 @@ void VulkanBuffer::download(void* data, VkDeviceSize size, VkDeviceSize offset) 
         staging.download(data, size, 0);
     } else {
         // For host-visible buffers, map and copy directly
-        void* mapped_memory;
-        vkMapMemory(context_->device(), memory_, offset, size, 0, &mapped_memory);
+        void* mapped_memory = nullptr;
+        VkResult map_result = vkMapMemory(context_->device(), memory_, offset, size, 0, &mapped_memory);
+        if (map_result != VK_SUCCESS) {
+            throw std::runtime_error("Failed to map buffer memory for download");
+        }
         std::memcpy(data, mapped_memory, size);
         vkUnmapMemory(context_->device(), memory_);
     }
