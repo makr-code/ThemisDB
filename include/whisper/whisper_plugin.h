@@ -124,6 +124,7 @@ private:
     std::string model_path_;
     WhisperConfig cfg_;                         ///< config snapshot from initialize()
     mutable std::mutex transcriber_mutex_;      ///< serializes transcriber calls
+    mutable std::mutex vad_mutex_;              ///< guards vad_ and vad_cfg_ for thread-safe swap
 };
 
 } // namespace whisper
