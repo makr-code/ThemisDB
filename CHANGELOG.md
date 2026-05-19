@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **LLM module — reliability hardening (rest block)** (`src/llm/**/*.cpp`, `src/llm/CHANGELOG.md`)
+  - Replaced all remaining `catch (...)` handlers in LLM module `.cpp` files with typed `catch (const std::exception&)`.
+  - Targeted delta in this block: **61 → 0** across 24 files (`async_inference_engine`: 14→0, `inference_engine_enhanced`: 7→0, `lora_checkpoint_manager`: 6→0, `llm_model_storage`: 6→0).
+
 - **SERVER module — reliability hardening (rest block)** (`src/server/**/*.cpp`, `src/server/CHANGELOG.md`)
   - Replaced all remaining `catch (...)` handlers in server module `.cpp` files with typed `catch (const std::exception&)`.
   - Targeted delta in this block: **70 → 0** across 39 files (`vector_api_handler`: 5→0, `mqtt_client_service`: 5→0, `spatial_api_handler`: 4→0, `lora_api_handler`: 4→0, `entity_api_handler`: 4→0).
