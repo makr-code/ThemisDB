@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **CONTENT next block: typed exception hardening in metadata/chunk whitelist filter path**
+  - `buildChunkWhitelist()` now uses typed exception handling (`json::exception`,
+    `std::exception`, `std::invalid_argument`, `std::out_of_range`) instead of
+    catch-all handlers in filter parsing, schema loading, range conversion, and
+    chunk list decoding.
+  - Preserves fail-closed behavior for malformed filter fragments while removing
+    broad catch-all suppression in this critical search prefilter path.
+  - (`src/content/content_manager.cpp`)
 - **CONTENT Phase 8: thumbnail buffer sizing hardened in `VideoProcessor`**
   - `VideoProcessor::initialize()` now rejects non-positive or overflow-prone thumbnail
     dimensions instead of accepting configurations that could later overflow RGB buffer
