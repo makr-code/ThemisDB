@@ -28,6 +28,13 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 13 — ContentFS metadata reliability hardening
+
+- **`content_fs.cpp` (CON-033)**: Replaced remaining catch-all handlers in ContentFS metadata parse/cleanup path (lines ~125–287) with typed exception handling:
+  - `nlohmann::json::exception` for malformed CBOR/JSON metadata payloads
+  - `std::exception` fallback for non-fatal best-effort branches
+- Preserved runtime behavior: metadata decode failures in `get/getRange/head` still return corruption errors; `put/remove` legacy cleanup remains best-effort and idempotent.
+
 ### Phase 12 — VFS/stream search reliability hardening
 
 - **`content_manager.cpp` (CON-032)**: Replaced remaining catch-all handlers in search/VFS/stream config path (lines ~1545–2694) with typed exception handling:

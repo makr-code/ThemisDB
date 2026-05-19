@@ -27,6 +27,7 @@
 #include "utils/expected.h"
 #include <fmt/format.h>
 #include <algorithm>
+#include <exception>
 #include <sstream>
 #include <iomanip>
 
@@ -126,7 +127,11 @@ Result<void> ContentFS::put(const std::string& pk,
                 auto jm = nlohmann::json::from_cbor(*oldMeta);
                 uint64_t old_chunks = jm.value("chunks", static_cast<uint64_t>(0));
                 for (uint64_t i = 0; i < old_chunks; ++i) db_.del(chunkKey(pk, i));
-            } catch (...) {}
+            } catch (const nlohmann::json::exception&) {
+                // Keep best-effort cleanup semantics for legacy chunk keys.
+            } catch (const std::exception&) {
+                // Keep best-effort cleanup semantics on non-JSON metadata errors.
+            }
         }
     }
 
@@ -180,7 +185,10 @@ Result<std::vector<uint8_t>> ContentFS::get(const std::string& pk) const {
             }
             return Ok(std::move(out));
         }
-    } catch (...) {
+    } catch (const nlohmann::json::exception&) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                           fmt::format("get: invalid metadata for '{}'", pk));
+    } catch (const std::exception&) {
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
                                            fmt::format("get: invalid metadata for '{}'", pk));
     }
@@ -243,7 +251,10 @@ Result<std::vector<uint8_t>> ContentFS::getRange(const std::string& pk, uint64_t
             }
             return Ok(std::move(out));
         }
-    } catch (...) {
+    } catch (const nlohmann::json::exception&) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                           fmt::format("getRange: invalid metadata for '{}'", pk));
+    } catch (const std::exception&) {
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
                                            fmt::format("getRange: invalid metadata for '{}'", pk));
     }
@@ -266,7 +277,10 @@ Result<ContentMeta> ContentFS::head(const std::string& pk) const {
         m.chunk_size = j.value("chunk_size", static_cast<uint64_t>(0));
         m.chunks = j.value("chunks", static_cast<uint64_t>(0));
         return Ok(std::move(m));
-    } catch (...) {
+    } catch (const nlohmann::json::exception&) {
+        return Err<ContentMeta>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                 fmt::format("head: invalid metadata encoding for '{}'", pk));
+    } catch (const std::exception&) {
         return Err<ContentMeta>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
                                  fmt::format("head: invalid metadata encoding for '{}'", pk));
     }
@@ -279,7 +293,11 @@ Result<void> ContentFS::remove(const std::string& pk) {
         try {
             auto j = nlohmann::json::from_cbor(*meta);
             chunks = j.value("chunks", static_cast<uint64_t>(0));
-        } catch (...) {}
+        } catch (const nlohmann::json::exception&) {
+            // Keep remove() idempotent on malformed metadata.
+        } catch (const std::exception&) {
+            // Keep remove() idempotent on non-fatal metadata decode errors.
+        }
     }
     
     [[maybe_unused]] bool ok1 = db_.del(metaKey(pk));
@@ -299,4 +317,3 @@ Result<void> ContentFS::remove(const std::string& pk) {
 }
 
 } // namespace themis
-
