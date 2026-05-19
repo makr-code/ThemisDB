@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **CONTENT next block: `content_fs.cpp` catch-all hardening in metadata paths**
+  - Replaced `catch (...)` with typed exception handling (`nlohmann::json::exception` / `std::exception`)
+    in `ContentFS::{put,get,getRange,head,remove}` metadata decode/cleanup paths.
+  - Preserved existing behavior: malformed metadata still maps to corruption errors in read paths,
+    while best-effort cleanup paths continue safely without broad unknown-exception suppression.
+  - (`src/content/content_fs.cpp`)
 - **CONTENT next block: search/VFS/stream config catch-all hardening in `content_manager.cpp`**
   - Replaced remaining catch-all handlers in search expansion scoring/whitelist paths,
     virtual filesystem scan/list parsing paths, and stream ingest content-config parsing
