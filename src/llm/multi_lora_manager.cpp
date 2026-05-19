@@ -11,6 +11,7 @@
 
 #include "llm/multi_lora_manager.h"
 #include "llm/gguf_loader.h"
+#include "llm/lora_security_validator.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -1992,6 +1993,26 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
         spdlog::error("loadLoRAInternal: rejected untrusted LoRA path '{}' for adapter '{}'",
                       lora_path, lora_id);
         return nullptr;
+    }
+
+    // Security validation (v1.20.0): run LoRASecurityValidator::validateMetadata()
+    // before any file I/O so that malformed or tampered adapters are rejected
+    // early — before the GGUF parser streams adapter weights into memory.
+    if (config_.security_validator) {
+        if (!config_.security_validator->validateMetadata(lora_path)) {
+            if (config_.enforce_security_validation) {
+                spdlog::error("loadLoRAInternal: security-validator rejected adapter '{}' "
+                              "at path '{}' — metadata validation failed (enforce=true)",
+                              lora_id, lora_path);
+                return nullptr;
+            }
+            spdlog::warn("loadLoRAInternal: security-validator reported metadata issue for "
+                         "adapter '{}' at path '{}' — continuing (enforce=false)",
+                         lora_id, lora_path);
+        } else {
+            spdlog::debug("loadLoRAInternal: security-validator approved adapter '{}' "
+                          "at path '{}'", lora_id, lora_path);
+        }
     }
 
     // Validate that LoRA file exists

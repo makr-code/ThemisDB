@@ -18,6 +18,7 @@
 #include <gtest/gtest.h>
 #include "llm/multi_lora_manager.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/lora_security_validator.h"
 #include <filesystem>
 #include <fstream>
 #include <thread>
@@ -735,6 +736,124 @@ TEST_F(LoRAAdapterUnitTest, QuantizationPreservesLoRAMetadata) {
     EXPECT_EQ(info->id, "meta-lora");
     EXPECT_EQ(info->base_model_id, "specific-model");
     EXPECT_FLOAT_EQ(info->scale, 0.8f);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Security Validator Integration Tests (v1.20.0)
+// ═══════════════════════════════════════════════════════════
+
+/**
+ * @brief Stub LoRASecurityValidator that unconditionally passes metadata checks.
+ *
+ * Used to verify that a passing validator does not block LoRA loading.
+ */
+class AlwaysPassValidator : public themis::llm::LoRASecurityValidator {
+public:
+    AlwaysPassValidator()
+        : themis::llm::LoRASecurityValidator(themis::llm::LoRASecurityConfig{}) {}
+
+    bool validateMetadata(const std::string& /*lora_path*/) {
+        return true;
+    }
+};
+
+/**
+ * @brief Stub LoRASecurityValidator that unconditionally fails metadata checks.
+ *
+ * Used to verify that a failing validator blocks LoRA loading when
+ * enforce_security_validation is true.
+ */
+class AlwaysFailValidator : public themis::llm::LoRASecurityValidator {
+public:
+    AlwaysFailValidator()
+        : themis::llm::LoRASecurityValidator(themis::llm::LoRASecurityConfig{}) {}
+
+    bool validateMetadata(const std::string& /*lora_path*/) {
+        return false;
+    }
+};
+
+class LoRASecurityValidatorIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        test_dir_ = std::filesystem::temp_directory_path() / "themis_sec_validator_test";
+        std::filesystem::create_directories(test_dir_);
+    }
+
+    void TearDown() override {
+        if (std::filesystem::exists(test_dir_)) {
+            std::filesystem::remove_all(test_dir_);
+        }
+    }
+
+    std::string createMockAdapter(const std::string& name, size_t size_bytes = 512) {
+        auto path = test_dir_ / (name + ".bin");
+        std::ofstream file(path, std::ios::binary);
+        for (size_t i = 0; i < size_bytes; ++i) {
+            file.put(static_cast<char>(i % 256));
+        }
+        file.close();
+        return path.string();
+    }
+
+    std::filesystem::path test_dir_;
+};
+
+/// LSV-01: When no security_validator is configured, loadLoRA succeeds normally.
+TEST_F(LoRASecurityValidatorIntegrationTest, NoValidatorAllowsLoRALoad) {
+    MultiLoRAManager::Config config;
+    config.max_lora_vram_mb = 512;
+    config.lora_base_dir = test_dir_.string();
+    // security_validator left as nullptr (default)
+
+    MultiLoRAManager manager(config);
+    auto adapter_path = createMockAdapter("no-validator-lora");
+    bool loaded = manager.loadLoRA("no-validator-lora", adapter_path, "base-model", 1.0f);
+    EXPECT_TRUE(loaded) << "loadLoRA must succeed when no security validator is configured";
+}
+
+/// LSV-02: When a passing security_validator is configured, loadLoRA succeeds.
+TEST_F(LoRASecurityValidatorIntegrationTest, PassingValidatorAllowsLoRALoad) {
+    MultiLoRAManager::Config config;
+    config.max_lora_vram_mb = 512;
+    config.lora_base_dir = test_dir_.string();
+    config.security_validator = std::make_shared<AlwaysPassValidator>();
+    config.enforce_security_validation = true;
+
+    MultiLoRAManager manager(config);
+    auto adapter_path = createMockAdapter("pass-validator-lora");
+    bool loaded = manager.loadLoRA("pass-validator-lora", adapter_path, "base-model", 1.0f);
+    EXPECT_TRUE(loaded) << "loadLoRA must succeed when security validator approves the adapter";
+}
+
+/// LSV-03: When a failing security_validator is configured and enforcement is enabled,
+///         loadLoRA must be rejected.
+TEST_F(LoRASecurityValidatorIntegrationTest, FailingValidatorEnforcedRejectsLoRALoad) {
+    MultiLoRAManager::Config config;
+    config.max_lora_vram_mb = 512;
+    config.lora_base_dir = test_dir_.string();
+    config.security_validator = std::make_shared<AlwaysFailValidator>();
+    config.enforce_security_validation = true;
+
+    MultiLoRAManager manager(config);
+    auto adapter_path = createMockAdapter("fail-validator-lora");
+    bool loaded = manager.loadLoRA("fail-validator-lora", adapter_path, "base-model", 1.0f);
+    EXPECT_FALSE(loaded) << "loadLoRA must be rejected when security validator fails and enforcement is enabled";
+}
+
+/// LSV-04: When a failing security_validator is configured but enforcement is disabled,
+///         loadLoRA logs a warning and continues (non-blocking).
+TEST_F(LoRASecurityValidatorIntegrationTest, FailingValidatorNotEnforcedAllowsLoRALoad) {
+    MultiLoRAManager::Config config;
+    config.max_lora_vram_mb = 512;
+    config.lora_base_dir = test_dir_.string();
+    config.security_validator = std::make_shared<AlwaysFailValidator>();
+    config.enforce_security_validation = false;  // warn-only mode
+
+    MultiLoRAManager manager(config);
+    auto adapter_path = createMockAdapter("fail-nonenforced-lora");
+    bool loaded = manager.loadLoRA("fail-nonenforced-lora", adapter_path, "base-model", 1.0f);
+    EXPECT_TRUE(loaded) << "loadLoRA must succeed when security validation failure is non-enforced (warn-only)";
 }
 
 // ═══════════════════════════════════════════════════════════
