@@ -17,6 +17,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **NEXT BLOCK: feedback-store remediation (`src/llm/feedback_store.cpp`)**
+  - Added runtime spam-keyword provider injection API:
+    - `FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn)`
+  - `getSpamKeywords()` now reads provider-supplied keywords when configured and
+    falls back to built-in defaults when provider is unset, returns empty data, or throws.
+  - Plugin MODIFY decisions now apply sanitized payloads before persistence:
+    - `ValidationResponse.modified_comment` updates `FeedbackEntry.comment`
+    - `ValidationResponse.modified_metadata` updates `FeedbackEntry.metadata`
+  - Resolved stub inventory entries #296 and #297.
+  - (`include/llm/feedback_store.h`, `src/llm/feedback_store.cpp`, `src/STUB_INVENTORY.md`)
+
 - **NEXT BLOCK: cloud backup provider callback bridges (`src/sharding/cloud_backup.cpp`)**
   - Added callback injection APIs to replace placeholder/no-op paths in cloud providers:
     - **S3:** `setS3DeleteFn`, `setS3ListFn`, `setS3ExistsFn`

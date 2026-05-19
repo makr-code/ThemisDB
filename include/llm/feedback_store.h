@@ -29,6 +29,7 @@
 #include <memory>
 #include <cstdint>
 #include <chrono>
+#include <functional>
 #include <nlohmann/json.hpp>
 #include "llm/i_feedback_plugin.h"
 
@@ -87,6 +88,8 @@ enum class ValidationStatus {
  */
 class FeedbackStore {
 public:
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+
     /**
      * @brief Feedback entry structure
      */
@@ -165,6 +168,17 @@ public:
      * @brief Get current validation plugin
      */
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
+
+    /**
+     * @brief Set spam-keyword provider callback for runtime-configurable spam detection.
+     *
+     * When set, the provider is queried during validation and its returned keyword list
+     * is used for substring-based spam matching. If the provider is not set, throws, or
+     * returns an empty list, FeedbackStore falls back to the built-in default keywords.
+     *
+     * @param provider Callback returning the current spam keywords.
+     */
+    static void setSpamKeywordsProvider(SpamKeywordsProviderFn provider);
 
     /**
      * @brief Store a new feedback entry
@@ -301,11 +315,11 @@ private:
     std::string generateId() const;
     
     // Spam detection configuration (deprecated, use plugin instead)
-    static const std::vector<std::string>& getSpamKeywords();
+    static std::vector<std::string> getSpamKeywords();
     static bool isLikelySpam(const std::string& text);
     
     // Helper: Apply plugin validation if available
-    ValidationStatus applyPluginValidation(const FeedbackEntry& feedback);
+    ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 
 } // namespace llm

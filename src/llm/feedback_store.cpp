@@ -27,11 +27,17 @@
 #include <iomanip>
 #include <algorithm>
 #include <regex>
+#include <mutex>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
 
 namespace themis {
 namespace llm {
+
+namespace {
+std::mutex g_spam_keywords_provider_mutex;
+FeedbackStore::SpamKeywordsProviderFn g_spam_keywords_provider;
+} // namespace
 
 // ===== Helper function to convert enum to string =====
 
@@ -152,6 +158,11 @@ void FeedbackStore::setValidationPlugin(std::shared_ptr<IFeedbackPlugin> plugin)
 
 std::shared_ptr<IFeedbackPlugin> FeedbackStore::getValidationPlugin() const {
     return validation_plugin_;
+}
+
+void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn provider) {
+    std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+    g_spam_keywords_provider = std::move(provider);
 }
 
 
@@ -534,33 +545,42 @@ void FeedbackStore::clear() {
 
 // ===== Validation Logic =====
 
-const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
-    // STUB/SIMULATION NOTE (stub #296):
-    // Purpose: Provide a minimal spam-detection keyword list so that the feedback
-    //          validation pipeline works out of the box without an external config
-    //          source.
-    // Activation: Always — no runtime config loader or database table is wired;
-    //             the static list is always returned.
-    // Production Delta: The keyword set is fixed at compile time.  New spam patterns
-    //                   require a binary rebuild and redeployment.  Regional or
-    //                   language-specific keywords cannot be added at runtime.
-    //                   Operators cannot tune spam detection without source changes.
-    // Removal Plan: Add a `setSpamKeywordsProvider(fn)` injection API that receives
-    //               keywords from `config/spam_keywords.txt` or the
-    //               `themisdb.spam_detection.keywords` table; fall back to the static
-    //               list when no provider is injected.
-    //               See src/llm/FUTURE_ENHANCEMENTS.md §FeedbackStore SpamKeywords.
-    //               Target: v2.0.0.
-    // Configurable spam keywords list
-    // TODO: In production, load these from a configuration file or database
-    // for runtime updates without recompilation
-    // Example: config/spam_keywords.txt or themisdb.spam_detection.keywords table
-    static const std::vector<std::string> spam_keywords = {
+std::vector<std::string> FeedbackStore::getSpamKeywords() {
+    // Default spam keywords used when no runtime provider is configured.
+    static const std::vector<std::string> default_spam_keywords = {
         "buy now", "click here", "viagra", "casino", "lottery", 
         "free money", "million dollars", "nigerian prince",
         "weight loss", "work from home", "make money fast"
     };
-    return spam_keywords;
+
+    SpamKeywordsProviderFn provider;
+    {
+        std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+        provider = g_spam_keywords_provider;
+    }
+
+    if (provider) {
+        try {
+            auto runtime_keywords = provider();
+            if (!runtime_keywords.empty()) {
+                runtime_keywords.erase(
+                    std::remove_if(runtime_keywords.begin(),
+                                   runtime_keywords.end(),
+                                   [](const auto& keyword) { return keyword.empty(); }),
+                    runtime_keywords.end());
+            }
+
+            if (!runtime_keywords.empty()) {
+                return runtime_keywords;
+            }
+
+            THEMIS_WARN("Spam keywords provider returned empty list; using built-in defaults");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Spam keywords provider failed: {}; using built-in defaults", e.what());
+        }
+    }
+
+    return default_spam_keywords;
 }
 
 bool FeedbackStore::isLikelySpam(const std::string& text) {
@@ -585,7 +605,7 @@ bool FeedbackStore::isLikelySpam(const std::string& text) {
     }
     
     // Common spam patterns
-    const auto& spam_keywords = getSpamKeywords();
+    const auto spam_keywords = getSpamKeywords();
     
     std::string lower_text = text;
     std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
@@ -631,7 +651,7 @@ ValidationStatus FeedbackStore::validateFeedback(const FeedbackEntry& feedback) 
 
 // ===== Plugin Integration =====
 
-ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedback) {
+ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
     if (!validation_plugin_) {
         // No plugin, use basic validation
         return validateFeedback(feedback);
@@ -661,28 +681,13 @@ ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedb
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // STUB/SIMULATION NOTE (stub #297):
-                // Purpose: Allow the feedback plugin protocol to compile and route
-                //          MODIFY decisions without a concrete modification-apply
-                //          mechanism, so plugins that return MODIFY are not silently
-                //          discarded.
-                // Activation: Always — `FeedbackValidationResult.modified_comment` and
-                //              `.modified_metadata` are populated by the plugin but no
-                //              code reads them here yet.
-                // Production Delta: The plugin's suggested comment rewrite and metadata
-                //                   adjustments are silently ignored.  Feedback is stored
-                //                   verbatim and counted as APPROVED, potentially allowing
-                //                   policy-violating content that the plugin intended to
-                //                   sanitize.
-                // Removal Plan: Add `modified_comment` / `modified_metadata` fields to
-                //               `FeedbackValidationResult`; read them here and update
-                //               `data.comment` / `data.metadata` before returning
-                //               APPROVED.  Requires aligned plugin ABI changes.
-                //               See src/llm/FUTURE_ENHANCEMENTS.md §FeedbackPlugin Modify.
-                //               Target: v2.0.0.
-                // TODO(feedback-plugin): Apply modifications if provided
-                // For now, accept modified feedback as approved
-                // Future: Apply modified_comment and modified_metadata from result
+                // Apply plugin-provided transformations before storing the feedback.
+                if (result.modified_comment.has_value()) {
+                    feedback.comment = *result.modified_comment;
+                }
+                if (result.modified_metadata.has_value()) {
+                    feedback.metadata = *result.modified_metadata;
+                }
                 return ValidationStatus::APPROVED;
             default:
                 return ValidationStatus::PENDING;
@@ -893,4 +898,3 @@ bool FeedbackStore::isLinkedToAdapter(
 
 } // namespace llm
 } // namespace themis
-
