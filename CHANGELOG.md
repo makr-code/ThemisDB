@@ -45,6 +45,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `src/content/content_fs.cpp` (`put()`, `get()`, `getRange()`, `head()`, `remove()`):
     replaced catch-all handlers in metadata decode/cleanup branches with typed handling (`nlohmann::json::exception`, targeted `std::exception`).
   - Preserved behavior: corruption errors for invalid metadata remain unchanged in read APIs, while cleanup/delete branches stay best-effort and idempotent.
+- **CONTENT archive/html/embedding path — typed exception hardening** 🔧
+  - `src/content/archive_processor.cpp`, `src/content/html_processor.cpp`, `src/content/embedding_pipeline.cpp`:
+    replaced catch-all handlers in archive write/parse/extract branches, HTML numeric entity decoding, and embedding future-get handling with typed exceptions (`std::invalid_argument`, `std::out_of_range`, `std::filesystem::filesystem_error`, targeted `std::exception`).
+  - Preserved behavior: parse failures remain best-effort with prior fallback outputs, and archive extraction directory creation remains non-fatal.
 
 ### Security
 

@@ -28,6 +28,14 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 14 — Archive/HTML/Embedding reliability hardening
+
+- **`archive_processor.cpp`, `html_processor.cpp`, `embedding_pipeline.cpp` (CON-034)**: Replaced remaining catch-all handlers in archive write/parse/extract, HTML numeric entity decode, and embedding timeout/get path with typed exception handling:
+  - `std::invalid_argument` / `std::out_of_range` for numeric parsing conversions
+  - `std::exception` fallback for non-fatal best-effort paths
+  - `std::filesystem::filesystem_error` for best-effort archive directory creation
+- Preserved runtime behavior: parse failures still fall back to prior defaults (`false` / `file_size=0` / literal entity passthrough / empty embedding) and archive extraction directory creation remains non-fatal best-effort.
+
 ### Phase 13 — ContentFS metadata reliability hardening
 
 - **`content_fs.cpp` (CON-033)**: Replaced remaining catch-all handlers in ContentFS metadata parse/cleanup path (lines ~125–287) with typed exception handling:
