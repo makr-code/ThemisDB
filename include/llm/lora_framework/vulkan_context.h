@@ -141,6 +141,7 @@ public:
     
     /**
      * @brief Reset a fence
+     * @throws std::runtime_error if Vulkan fails to reset the fence
      */
     void reset_fence(VkFence fence);
     

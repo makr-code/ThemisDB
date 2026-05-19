@@ -439,7 +439,10 @@ bool VulkanContext::wait_for_fence(VkFence fence, uint64_t timeout_ns) {
 }
 
 void VulkanContext::reset_fence(VkFence fence) {
-    vkResetFences(device_, 1, &fence);
+    VkResult result = vkResetFences(device_, 1, &fence);
+    if (result != VK_SUCCESS) {
+        throw std::runtime_error("Failed to reset fence");
+    }
 }
 
 int32_t VulkanContext::find_memory_type(uint32_t type_filter,
@@ -455,11 +458,21 @@ int32_t VulkanContext::find_memory_type(uint32_t type_filter,
 }
 
 bool VulkanContext::check_validation_layer_support() const {
-    uint32_t layer_count;
-    vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
+    uint32_t layer_count = 0;
+    VkResult result = vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
+    if (result != VK_SUCCESS) {
+        std::cerr << "vkEnumerateInstanceLayerProperties (count) failed: "
+                  << result << std::endl;
+        return false;
+    }
     
     std::vector<VkLayerProperties> available_layers(layer_count);
-    vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
+    result = vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
+    if (result != VK_SUCCESS) {
+        std::cerr << "vkEnumerateInstanceLayerProperties (fill) failed: "
+                  << result << std::endl;
+        return false;
+    }
     
     for (const char* layer_name : validation_layers_) {
         bool layer_found = false;
