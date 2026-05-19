@@ -8,6 +8,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **Reliability hardening block — server module final rest-block (24 files, 24 catch-all handlers):**
+  - Replaced the last remaining server-module `catch(...)` handlers with typed `catch(const std::exception&)` in:
+    - `src/server/api_key_mgmt_handler.cpp`
+    - `src/server/async_job_api_handler.cpp`
+    - `src/server/audit_api_handler.cpp`
+    - `src/server/chunked_response_writer.cpp`
+    - `src/server/compliance_reporting_api_handler.cpp`
+    - `src/server/graph_api_handler.cpp`
+    - `src/server/grpc_web_proxy_handler.cpp`
+    - `src/server/import_api_handler.cpp`
+    - `src/server/mvcc_api_handler.cpp`
+    - `src/server/opa_adapter.cpp`
+    - `src/server/pki_api_handler.cpp`
+    - `src/server/postgres_session.cpp`
+    - `src/server/profiling_api_handler.cpp`
+    - `src/server/prompt_engineering_grpc_service.cpp`
+    - `src/server/reports_api_handler.cpp`
+    - `src/server/request_coalescing.cpp`
+    - `src/server/rope_api_handler.cpp`
+    - `src/server/rpc/blob_transfer_handler.cpp`
+    - `src/server/rpc/rpc_service_impl.cpp`
+    - `src/server/snapshot_api_handler.cpp`
+    - `src/server/themis_core_grpc_service.cpp`
+    - `src/server/transaction_api_handler.cpp`
+    - `src/server/wal_grpc_service.cpp`
+    - `src/server/wasm_handler_registry.cpp`
+  - Server module catch-all count reduced from **24 → 0** across **24 → 0** files.
 - **Reliability hardening block — server module batch 3 (10 files, 24 catch-all handlers):**
   - `src/server/voice_api_handler.cpp`: 3 `catch(...)` handlers replaced with typed `catch(const std::exception&)` handlers in TTS config parse and voice execution paths.
   - `src/server/task_scheduler_api_handler.cpp`: 3 `catch(...)` handlers replaced in JSON fallback extraction and string-to-int64 parsing (`std::stoll`) helpers.

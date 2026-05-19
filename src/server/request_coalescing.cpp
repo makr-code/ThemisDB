@@ -104,7 +104,7 @@ http::response<http::string_body> RequestCoalescingManager::handle(
             }
             spdlog::debug("RequestCoalescing: originator completed key='{}'", key);
             return response;
-        } catch (...) {
+        } catch (const std::exception&) {
             // Propagate the exception to all waiters, then clean up.
             try { my_promise->set_exception(std::current_exception()); }
             catch (const std::future_error&) { /* promise already satisfied */ }
