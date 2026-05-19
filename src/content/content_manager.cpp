@@ -1474,7 +1474,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
 
     // Erzeuge Map pk->score und Queue für Expansion
     std::unordered_map<std::string, double> bestScore; bestScore.reserve(base.size()*2);
-    struct QItem { std::string origin; std::string node; int hop; };
+    struct QItem { std::string origin; std::string node; int hop = 0; };  // CON-015: explicit default for hop
     std::queue<QItem> q;
 
     // Metrik beachten: COSINE liefert distance = 1 - cosine → similarity = 1 - d

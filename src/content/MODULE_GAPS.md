@@ -151,6 +151,24 @@ respective optional dependency is not compiled in.
   `themis_tests` when `THEMIS_ENABLE_CONTENT=OFF`.
 - [ ] Additional unit tests for CON-009/010/011 (deferred — covered by existing integration paths)
 
+### Phase 5 — Addressed (2026-05-19)
+- [x] **CON-014 — Uninitialized POD members in `IngestionJob` struct** (`async_ingestion_worker.h`):
+  `created_at`, `started_at`, `completed_at`, `total_items`, `processed_items`, `progress` had no
+  default member initializers — scanner flagged them as uninitialized. Added explicit in-class
+  defaults (`= 0` / `= 0.0f`). Removed 15 redundant zero-assignment lines across 4 call sites in
+  `async_ingestion_worker.cpp`; preserved all non-zero assignments (`created_at = getCurrentTimeMs()`
+  and `total_items = specific_value`).
+- [x] **CON-015 — Uninitialized member `hop` in local struct `QItem`** (`content_manager.cpp`):
+  `struct QItem { ...; int hop; }` had no default initializer; added `int hop = 0`.
+- [x] **CON-016 — Atomic stat members without in-class default initializers** (`async_ingestion_worker.h`):
+  `total_jobs_processed_`, `total_jobs_failed_`, `total_items_processed_`,
+  `total_backpressure_events_`, `queue_depth_high_watermark_` declared without `{0}`.
+  Added `{0}` in-class defaults; constructor still duplicates them for documentation but in-class
+  defaults guard against future delegating constructors.
+- [ ] Remaining 998 − 3 uninitialized instances — require full-module sweep; deferred to Phase 6
+- [ ] type_conversion (516) — signed/unsigned and int→float implicit conversions; deferred to Phase 6
+- [ ] OOP design (1,479) — `[[nodiscard]]`, `override`, non-virtual dtors; deferred to Phase 6
+
 ---
 
 ## 📍 Location

@@ -97,6 +97,9 @@
 - **Exception-in-destructor: `AsyncIngestionWorker::~AsyncIngestionWorker()`** — destructor called `stop()` without exception guard; if `stop()` throws (e.g. `mutex` op or `promise::set_exception` during stack unwinding), `std::terminate()` would be invoked. Destructor is now declared `noexcept` and wraps `stop()` in a `try/catch(...)` block (2026-05-19, CON-012).
 - **Scanner false positive: `executeWithRetry` loop uses `<= max_retries`** — static scanner flagged `for (i <= max_retries)` as `OFF_BY_ONE`; loop is correct (`max_retries=0` → one initial attempt, no retries). Clarifying comment added (2026-05-19, CON-013).
 - **Phase 4 unit tests** — `test_content_con007_con012_remediations.cpp` added with 5 regression tests: CON-007 simulation-mode healthCheck invariants (3 tests), shutdown regression (1 test), CON-012 `is_nothrow_destructible` compile-time check (1 test). Fixed `VideoProcessorExtendedTest::HealthCheck` in `test_video_processor_extended.cpp` to handle both FFmpeg and no-FFmpeg expected values (2026-05-19).
+- **CON-014 — Uninitialized `IngestionJob` POD fields** (`async_ingestion_worker.h`): added in-class defaults (`= 0` / `= 0.0f`) to `created_at`, `started_at`, `completed_at`, `total_items`, `processed_items`, `progress`; removed 15 redundant explicit zero-assignment lines across 4 call sites in `async_ingestion_worker.cpp` (2026-05-19).
+- **CON-015 — Uninitialized `QItem::hop`** (`content_manager.cpp`): added `= 0` default initializer to the `hop` field of the local `QItem` struct (2026-05-19).
+- **CON-016 — Atomic stat members without in-class defaults** (`async_ingestion_worker.h`): added `{0}` in-class initializers to 5 `std::atomic` member variables; constructor initializer list retained for documentation (2026-05-19).
 
 ### Open
 - **Plugin processor chain** — `IIngestionPlugin` API not yet implemented (Issue #1686); processor dispatch is hardcoded.

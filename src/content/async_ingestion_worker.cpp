@@ -221,36 +221,31 @@ std::string AsyncIngestionWorker::submitFile(
     job.config["mime_type"] = mime_type;
     job.user_context = user_context;
     job.created_at = getCurrentTimeMs();
-    job.started_at = 0;
-    job.completed_at = 0;
     job.total_items = 1;
-    job.processed_items = 0;
-    job.progress = 0.0f;
-    
+    // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
+
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
-        
+
         if (job_queue_.size() >= config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
-        
+
         job_queue_.push(job);
-        
+
         // Add to history
         std::lock_guard<std::mutex> hist_lock(history_mutex_);
         job_history_[job.job_id] = job;
     }
-    
+
     queue_cv_.notify_one();
-    
+
     if (config_.verbose_logging) {
         THEMIS_INFO("Job submitted: {} ({})", job.job_id, filename);
     }
-    
+
     return job.job_id;
 }
-
-std::string AsyncIngestionWorker::submitStream(
     std::istream& stream,
     const std::string& filename,
     const std::string& mime_type,
@@ -271,11 +266,8 @@ std::string AsyncIngestionWorker::submitStream(
     job.config["mime_type"] = mime_type;
     job.user_context = user_context;
     job.created_at   = getCurrentTimeMs();
-    job.started_at   = 0;
-    job.completed_at = 0;
     job.total_items  = 1;
-    job.processed_items = 0;
-    job.progress     = 0.0f;
+    // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
 
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
@@ -397,11 +389,8 @@ std::string AsyncIngestionWorker::submitArchive(
     job.config = config;
     job.user_context = user_context;
     job.created_at = getCurrentTimeMs();
-    job.started_at = 0;
-    job.completed_at = 0;
     job.total_items = -1;  // Unknown until extracted
-    job.processed_items = 0;
-    job.progress = 0.0f;
+    // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
     
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
@@ -443,11 +432,8 @@ std::string AsyncIngestionWorker::submitBatch(
     job.config = config;
     job.user_context = user_context;
     job.created_at = getCurrentTimeMs();
-    job.started_at = 0;
-    job.completed_at = 0;
     job.total_items = static_cast<int>(files.size());
-    job.processed_items = 0;
-    job.progress = 0.0f;
+    // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
     
     // Store file list in config
     json file_list = json::array();
@@ -1002,10 +988,7 @@ std::string AsyncIngestionWorker::submitSourceJob(
     job.config.merge_patch(additional_config);
     job.user_context = user_context;
     job.created_at = getCurrentTimeMs();
-    job.started_at = 0;
-    job.completed_at = 0;
-    job.processed_items = 0;
-    job.progress = 0.0f;
+    // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
     
     // Estimate size when a plugin is available; otherwise default to a single
     // logical item for handler-driven source jobs.

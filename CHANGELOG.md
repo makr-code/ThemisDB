@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **CONTENT module — Phase 3.1–4 quality remediation** (`src/content/`, `tests/`, related docs)
+- **CONTENT module — Phase 3.1–5 quality remediation** (`src/content/`, `tests/`, related docs)
   - **CON-007 — `VideoProcessor::healthCheck()` correctness**: `#else` (no-FFmpeg) branch was returning `initialized_` (always `true` after `initialize()`). Now returns `false` to surface the missing FFmpeg dependency to health-check aggregators, consistent with `TTSProcessor` and `STTProcessor`.
   - **CON-008 — `extractMetadata()` simulation stub documentation**: no-FFmpeg fallback in `video_processor.cpp` had no STUB/SIMULATION NOTE and contained an unreachable MKV-detection branch (identical EBML magic bytes as the WebM branch). STUB/SIMULATION NOTE added; dead branch removed.
   - **CON-009 — RAII fix: raw `new`/`delete` for tags JSON in metadata encryption** (`content_manager.cpp:901-950`): The "tags" field encryption loop allocated a temporary `nlohmann::json` on the heap via `new` and performed manual `delete` calls in every exit path (early continue, success, exception). Replaced with a local RAII variable (`tags_tmp`) that is automatically destroyed at end of scope. Eliminates three raw `delete` call sites and removes exception-unsafe `delete` in the catch block.
@@ -30,7 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `VideoProcessorHealthCheckCON007/AfterShutdown_AlwaysUnhealthy`
     - `AsyncIngestionWorkerCON012/DestructorIsNoexcept` (`std::is_nothrow_destructible` compile-time check)
   - **Phase 4 test fix**: `VideoProcessorExtendedTest::HealthCheck` in `test_video_processor_extended.cpp` updated to expect `false` in no-FFmpeg builds and `true` in FFmpeg builds.
-  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.1–4 implementation roadmap.
+  - **CON-014 — Uninitialized `IngestionJob` POD fields** (`async_ingestion_worker.h`): `created_at`, `started_at`, `completed_at`, `total_items`, `processed_items`, `progress` had no in-class defaults. Added `= 0` / `= 0.0f` defaults; removed 15 redundant explicit zero-assignment lines across 4 call sites in `async_ingestion_worker.cpp`.
+  - **CON-015 — Uninitialized `QItem::hop`** (`content_manager.cpp`): local struct `QItem` had `int hop` without initializer; added `= 0`.
+  - **CON-016 — Atomic stat members without in-class defaults** (`async_ingestion_worker.h`): added `{0}` in-class initializers to `total_jobs_processed_`, `total_jobs_failed_`, `total_items_processed_`, `total_backpressure_events_`, `queue_depth_high_watermark_`; guards against future delegating constructors.
+  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.1–5 implementation roadmap.
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
