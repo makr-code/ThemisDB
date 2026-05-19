@@ -52,6 +52,7 @@
 #include <sstream>
 #include <fstream>
 #include <thread>
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -197,7 +198,9 @@ static std::vector<std::string> buildChunkWhitelist(
             hasAnyFilter = true;
             for (const auto& t : filters["tags"]) if (t.is_string()) wantedTags.insert(t.get<std::string>());
         }
-    } catch (...) {}
+    } catch (const nlohmann::json::exception&) {
+        // Ignore malformed filter payloads; caller treats this as "no matches".
+    }
 
     if (!hasAnyFilter) return {};
 
@@ -215,12 +218,20 @@ static std::vector<std::string> buildChunkWhitelist(
                 }
             }
         }
-    } catch (...) {}
+    } catch (const nlohmann::json::exception&) {
+        // Ignore malformed schema configuration.
+    } catch (const std::exception&) {
+        // Keep legacy behavior: schema loading errors are non-fatal.
+    }
 
     auto jsonPathEq = [](const json& j, const std::string& path, const json& expected) -> bool {
         auto cur = jsonPathRef(j, path);
         if (!cur) return false;
-        try { return cur->dump() == expected.dump(); } catch (...) { return false; }
+        try {
+            return cur->dump() == expected.dump();
+        } catch (const nlohmann::json::exception&) {
+            return false;
+        }
     };
 
     std::vector<std::string> whitelist;
@@ -249,7 +260,7 @@ static std::vector<std::string> buildChunkWhitelist(
                         // allow string/numeric loose comparison fallback
                         try {
                             if (v.dump() != kv.second.dump()) { allMatch = false; break; }
-                        } catch (...) { allMatch = false; break; }
+                        } catch (const nlohmann::json::exception&) { allMatch = false; break; }
                     } else {
                         if (v.dump() != kv.second.dump()) { allMatch = false; break; }
                     }
@@ -284,17 +295,38 @@ static std::vector<std::string> buildChunkWhitelist(
                         // RANGE semantics (numeric). Convert vptr to number if possible.
                         double numeric_val = 0.0; bool ok = false;
                         if (vptr->is_number()) { numeric_val = vptr->get<double>(); ok = true; }
-                        else if (vptr->is_string()) { try { numeric_val = std::stod(vptr->get<std::string>()); ok = true; } catch (...) { ok = false; } }
+                        else if (vptr->is_string()) {
+                            try {
+                                numeric_val = std::stod(vptr->get<std::string>());
+                                ok = true;
+                            } catch (const std::invalid_argument&) {
+                                ok = false;
+                            } catch (const std::out_of_range&) {
+                                ok = false;
+                            }
+                        }
                         if (ok) {
                             double vmin = -std::numeric_limits<double>::infinity();
                             double vmax =  std::numeric_limits<double>::infinity();
                             if (cond.contains("min")) {
                                 if (cond["min"].is_number()) vmin = cond["min"].get<double>();
-                                else if (cond["min"].is_string()) { try { vmin = std::stod(cond["min"].get<std::string>()); } catch (...) {} }
+                                else if (cond["min"].is_string()) {
+                                    try {
+                                        vmin = std::stod(cond["min"].get<std::string>());
+                                    } catch (const std::invalid_argument&) {
+                                    } catch (const std::out_of_range&) {
+                                    }
+                                }
                             }
                             if (cond.contains("max")) {
                                 if (cond["max"].is_number()) vmax = cond["max"].get<double>();
-                                else if (cond["max"].is_string()) { try { vmax = std::stod(cond["max"].get<std::string>()); } catch (...) {} }
+                                else if (cond["max"].is_string()) {
+                                    try {
+                                        vmax = std::stod(cond["max"].get<std::string>());
+                                    } catch (const std::invalid_argument&) {
+                                    } catch (const std::out_of_range&) {
+                                    }
+                                }
                             }
                             match = (numeric_val >= vmin && numeric_val <= vmax);
                         } else {
@@ -304,7 +336,11 @@ static std::vector<std::string> buildChunkWhitelist(
                         // default: equality
                         match = (vptr->dump() == cond.dump());
                     }
-                } catch (...) { match = false; }
+                } catch (const nlohmann::json::exception&) {
+                    match = false;
+                } catch (const std::exception&) {
+                    match = false;
+                }
                 if (!match) return true; // mismatch → reject
             }
             // This content matches → add all its chunks to whitelist
@@ -320,10 +356,16 @@ static std::vector<std::string> buildChunkWhitelist(
                             if (cid.is_string()) whitelist.push_back(std::string("chunks:") + cid.get<std::string>());
                         }
                     }
-                } catch (...) {}
+                } catch (const nlohmann::json::exception&) {
+                    // Ignore malformed chunk-list payloads.
+                } catch (const std::exception&) {
+                    // Preserve legacy best-effort scan behavior.
+                }
             }
-        } catch (...) {
+        } catch (const nlohmann::json::exception&) {
             // ignore parsing errors
+        } catch (const std::exception&) {
+            // ignore scan callback errors to continue processing
         }
         return true;
     });
@@ -2801,4 +2843,3 @@ ContentManager::Stats ContentManager::getStats() {
 
 } // namespace content
 } // namespace themis
-

@@ -28,6 +28,15 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 9 — Filter/Scan reliability hardening
+
+- **`content_manager.cpp` (CON-029)**: Replaced catch-all handlers in `buildChunkWhitelist()` filter/scan path (lines ~167–328) with typed exception handling:
+  - `nlohmann::json::exception` for malformed filter/schema/chunk-list payloads
+  - `std::invalid_argument` / `std::out_of_range` for numeric parsing (`std::stod`)
+  - `std::exception` fallback where non-fatal best-effort behavior must be preserved
+- Added explicit `<stdexcept>` include for typed conversion exceptions.
+- Behavior remains unchanged (best-effort scan, parse failures ignored), but reliability diagnostics and static-analysis quality improve by removing catch-all usage from this hot path.
+
 ### Phase 8 — RAII and Performance fixes
 
 - **`content_manager.cpp` (CON-027)**: Replaced raw `new nlohmann::json(arr)` / manual `delete target` pattern (3 deletion sites, CWE-401) with `std::unique_ptr<nlohmann::json>` in the vector-metadata encryption loop. `tags_json_owner` auto-deletes on all exit paths. Eliminates `smart_ptr_misuse`, `allocation_loop`, and `delete_no_nullptr` gaps.
@@ -58,4 +67,3 @@
 ```
 src/content/MODULE_GAPS.md  ← You are here
 ```
-

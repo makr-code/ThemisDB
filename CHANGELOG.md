@@ -21,6 +21,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 16 focused tests in `tests/test_hamming_coder.cpp` (HC_01..HC_16): chunk invariants, single/multi-shard failure, canonical Hamming(7,4) coverage verification, 1 MB round-trip, edge cases
   - `HammingCoderFocusedTests` CTest target registered
 
+### Fixed
+- **CONTENT filter/scan path — typed exception hardening** 🔧
+  - `src/content/content_manager.cpp` (`buildChunkWhitelist()`):
+    replaced catch-all handlers in the filter/schema/scan path with typed exception handling
+    (`nlohmann::json::exception`, `std::invalid_argument`, `std::out_of_range`, and targeted `std::exception` fallbacks).
+  - Added explicit `<stdexcept>` include for conversion-exception handling.
+  - Runtime behavior remains best-effort and backward compatible (malformed optional filter payloads are still ignored), while reducing reliability/static-analysis findings from catch-all usage.
+
 ### Security
 
 - **SERVER Module P0 Auth-Logging Hardening (GAP-011/CWE-532)** 🔐
