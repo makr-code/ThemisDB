@@ -17,6 +17,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **NEXT BLOCK: sharding durability/signing remediation (`#310`, `#311`)**
+  - `AutoRebalancer` operation signing is now fail-closed:
+    - `signOperation()` returns empty on missing key/config/signing failures
+      instead of emitting `UNSIGNED:*` fallback signatures.
+    - `executeRebalance()` aborts when signature generation fails.
+  - `PaxosStatePersistence::persistAccept()` now persists structured ACCEPT
+    command payload metadata:
+    - writes `ConsensusLogEntry` with `index`, `term`, timestamp, and data
+      containing `raw_command` plus optional parsed JSON command.
+    - WAL replay now restores `accepted_value` from `raw_command` when present
+      (with backward-compatible fallback for older entries).
+  - Added focused test:
+    - `PSR11_AcceptWalContainsStructuredPayload`
+  - Resolved stub inventory entries #310 and #311.
+  - (`src/sharding/auto_rebalancer.cpp`,
+    `src/sharding/paxos_state_persistence.cpp`,
+    `tests/test_paxos_persistence_recovery.cpp`,
+    `src/STUB_INVENTORY.md`)
+
 - **NEXT BLOCK: LLM/LoRA/OAuth remediation (`#303`, `#304`, `#306`)**
   - `LLMModelStorage::listModels()` now enumerates persisted model IDs via
     `RocksDBWrapper::scanPrefix()` instead of returning an always-empty list.
