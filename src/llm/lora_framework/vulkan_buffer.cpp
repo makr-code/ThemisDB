@@ -132,7 +132,14 @@ bool VulkanBuffer::create_buffer() {
     }
     
     // Bind buffer to memory
-    vkBindBufferMemory(context_->device(), buffer_, memory_, 0);
+    result = vkBindBufferMemory(context_->device(), buffer_, memory_, 0);
+    if (result != VK_SUCCESS) {
+        vkFreeMemory(context_->device(), memory_, nullptr);
+        memory_ = VK_NULL_HANDLE;
+        vkDestroyBuffer(context_->device(), buffer_, nullptr);
+        buffer_ = VK_NULL_HANDLE;
+        return false;
+    }
     
     return true;
 }
