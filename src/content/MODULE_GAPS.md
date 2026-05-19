@@ -126,12 +126,15 @@ respective optional dependency is not compiled in.
 - [x] Remove redundant `file.close()` in `content_manager.cpp` archive ingestion loop
   — `std::ifstream` RAII already guarantees closure at end of loop iteration.
 
-### Phase 3.4 — Backlog
-- [ ] Reduce uninitialized member count (998) — add explicit zero-initialisation
-  where needed
-- [ ] Eliminate signed/unsigned comparison warnings (subset of 516 type_conversion)
-- [ ] OOP design improvements (1,479) — override annotation, non-virtual destructor
-  warnings; low-risk batch fix
+### Phase 3.4 — Addressed (2026-05-19)
+- [x] Exception-in-destructor: `AsyncIngestionWorker::~AsyncIngestionWorker()` now `noexcept` with
+  `try/catch` guard around `stop()` call — prevents `std::terminate()` if `stop()` throws
+  during stack unwinding (CON-012).
+- [x] OFF_BY_ONE_LOOP scanner false positive: `executeWithRetry` loop `for (i <= max_retries)`
+  is intentional (max_retries=0 → one attempt); clarifying comment added (CON-013).
+- [ ] Reduce uninitialized member count (998) — add explicit zero-initialisation where needed (deferred to Phase 4)
+- [ ] Eliminate signed/unsigned comparison warnings (subset of 516 type_conversion) (deferred to Phase 4)
+- [ ] OOP design improvements (1,479) — override annotation, non-virtual destructor warnings; low-risk batch fix (deferred to Phase 4)
 
 ---
 

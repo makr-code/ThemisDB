@@ -70,6 +70,8 @@ template <typename Fn>
 bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
                       std::string& error_out, int& attempts_out) {
     attempts_out = 0;
+    // i=0 is the initial attempt; i=1..max_retries are the retries.
+    // Using i <= max_retries is intentional: max_retries=0 means "no retries" (one attempt total).
     for (int i = 0; i <= max_retries; ++i) {
         if (i > 0 && retry_delay_ms > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));

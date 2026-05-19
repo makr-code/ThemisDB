@@ -141,7 +141,7 @@ public:
         AsyncIngestionConfig config = AsyncIngestionConfig{}
     );
     
-    ~AsyncIngestionWorker();
+    ~AsyncIngestionWorker() noexcept;
     
     /**
      * @brief Start the worker threads

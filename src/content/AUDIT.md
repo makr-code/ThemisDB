@@ -94,6 +94,8 @@
 - **RAII violation: manual `EVP_MD_CTX_free` in `content_fs.cpp::sha256Hex()`** — 4 raw `EVP_MD_CTX_free()` early-return call sites replaced by a `std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>` RAII wrapper; context is freed automatically on all exit paths including exception (2026-05-19, CON-010).
 - **RAII violation: manual `EVP_MD_CTX_free` in `content_manager.cpp::ingestStream()`** — 3 raw `EVP_MD_CTX_free(sha256_ctx); sha256_ctx = nullptr;` call sites (init-fail, update-fail, finalize) replaced by `unique_ptr::reset()`. Exception-unsafe leak path during stream processing eliminated (2026-05-19, CON-011).
 - **Redundant explicit `file.close()` in archive ingestion loop** — `std::ifstream` RAII already guarantees closure at end of loop iteration; explicit call removed (2026-05-19).
+- **Exception-in-destructor: `AsyncIngestionWorker::~AsyncIngestionWorker()`** — destructor called `stop()` without exception guard; if `stop()` throws (e.g. `mutex` op or `promise::set_exception` during stack unwinding), `std::terminate()` would be invoked. Destructor is now declared `noexcept` and wraps `stop()` in a `try/catch(...)` block (2026-05-19, CON-012).
+- **Scanner false positive: `executeWithRetry` loop uses `<= max_retries`** — static scanner flagged `for (i <= max_retries)` as `OFF_BY_ONE`; loop is correct (`max_retries=0` → one initial attempt, no retries). Clarifying comment added (2026-05-19, CON-013).
 
 ### Open
 - **Plugin processor chain** — `IIngestionPlugin` API not yet implemented (Issue #1686); processor dispatch is hardcoded.

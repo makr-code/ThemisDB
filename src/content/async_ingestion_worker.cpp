@@ -118,8 +118,15 @@ AsyncIngestionWorker::AsyncIngestionWorker(
     }
 }
 
-AsyncIngestionWorker::~AsyncIngestionWorker() {
-    stop(false);  // Force stop without waiting
+AsyncIngestionWorker::~AsyncIngestionWorker() noexcept {
+    try {
+        stop(false);  // Force stop without waiting
+    } catch (...) {
+        // Exceptions must not propagate from destructors (C++ standard §15.5.1).
+        // stop() can throw if a mutex operation or promise::set_exception fails;
+        // any such failure is silently absorbed here to prevent std::terminate().
+        THEMIS_WARN("AsyncIngestionWorker::~AsyncIngestionWorker: exception swallowed during stop()");
+    }
 }
 
 void AsyncIngestionWorker::start() {
