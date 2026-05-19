@@ -141,6 +141,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+- **LLM Module — LoRA Adapter Security Validator Integration (v1.20.0)** 🔐
+  - `LoRASecurityValidator::validateMetadata()` is now called inside `MultiLoRAManager::loadLoRAInternal()`
+    **before** any GGUF parse or file I/O, closing the compliance gap "LoRA adapter integrity verification: Bypassed".
+  - New `Config::security_validator` (`shared_ptr<LoRASecurityValidator>`, nullable) allows callers to supply
+    any validator implementation; null = no validation (backward-compatible default).
+  - New `Config::enforce_security_validation` (bool, default `true`): hard-rejects adapters that fail validation
+    when `true`; logs a warning and continues when `false` (warn-only / dev mode).
+  - `LoRASecurityValidator::validateMetadata()` and the destructor are now `virtual` to enable polymorphic
+    injection of test doubles and custom validators without pulling in the full OpenSSL chain (fixes an
+    `oop_design` gap from the P0-CRITICAL scan).
+  - `AUDIT.md`: closed `LLM-NEW-1`; compliance table updated — trusted-directory enforcement ✅,
+    LoRA adapter integrity verification ✅.
+  - 4 focused tests added (`LSV-01..LSV-04` in `tests/test_lora_adapter.cpp`): no-validator, passing-validator,
+    failing-validator-enforced, failing-validator-warn-only.
+
 - **Task Scheduler AuthZ Hardening (GAP-001)** 🔐
   - Activated runtime permission checks in `TaskScheduler` for:
     - `registerTask()` → requires `task:register`
