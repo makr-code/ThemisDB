@@ -49,6 +49,7 @@ class VoiceAssistant;
 namespace utils {
 class HTTPClientPool;
 }
+class AuthMiddleware;
 }
 
 namespace themis::server {
@@ -100,8 +101,12 @@ public:
      * @brief Construct Voice API handler
      * 
      * @param voice_assistant Voice assistant instance
+     * @param auth Optional shared authentication middleware used for
+     *             bearer token validation (static tokens and JWT when configured).
      */
-    explicit VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant);
+    explicit VoiceApiHandler(
+        std::shared_ptr<voice::VoiceAssistant> voice_assistant,
+        std::shared_ptr<themis::AuthMiddleware> auth = nullptr);
     
     /**
      * @brief Handle Voice API request
@@ -259,6 +264,7 @@ private:
 
     std::shared_ptr<voice::VoiceAssistant> voice_assistant_;
     std::shared_ptr<utils::HTTPClientPool> http_client_pool_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
 };
 
 } // namespace themis::server

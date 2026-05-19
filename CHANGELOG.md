@@ -17,6 +17,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **NEXT BLOCK: voice API auth/session remediation (`src/server/voice_api_handler.cpp`)**
+  - Replaced permissive bearer-token check with shared auth middleware validation:
+    - `VoiceApiHandler::validateBearerToken()` now uses
+      `AuthMiddleware::extractBearerToken()` and `AuthMiddleware::validateToken()`
+    - Constructor now accepts optional `AuthMiddleware` and bootstraps static
+      token + optional JWT setup from environment when not injected
+  - Added hard-delete session API in voice core:
+    - `VoiceAssistant::deleteSession(const std::string&) -> bool`
+  - DELETE `/api/v1/voice/sessions/{id}` now performs true session removal and
+    returns HTTP 404 when session is not found.
+  - Resolved stub inventory entries #302 and #308.
+  - (`include/server/voice_api_handler.h`, `src/server/voice_api_handler.cpp`,
+    `include/voice/voice_assistant.h`, `src/voice/voice_assistant.cpp`,
+    `src/STUB_INVENTORY.md`)
+
 - **NEXT BLOCK: feedback-store remediation (`src/llm/feedback_store.cpp`)**
   - Added runtime spam-keyword provider injection API:
     - `FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn)`

@@ -387,6 +387,17 @@ public:
     void updateSession(const std::string& session_id, const json& context);
 
     /**
+     * @brief Delete an existing voice session.
+     *
+     * Removes the session entry from the in-memory session table. If the
+     * session does not exist, no state is modified.
+     *
+     * @param session_id Session identifier to delete.
+     * @return true when a session was removed, false when it was not found.
+     */
+    bool deleteSession(const std::string& session_id);
+
+    /**
      * @brief Synthesize text to speech using the embedded TTS processor.
      *
      * @param text       Text to synthesize.
