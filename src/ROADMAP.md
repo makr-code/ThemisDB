@@ -495,6 +495,9 @@ See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
   > Alle anderen network-Subsysteme: single-shot sleeps (drain-timeout, QoS-throttle).
   > Kein Migrationsbedarf. `retry_policy.h`-Kommentar aktualisiert.
 - [x] Unit-Tests für `retry_policy.h` ergänzen + Assertions für `bo.attempts()` nach ok2/ok3 (v1.9.0)
+- [x] **Tier 1 (Phase 2a):** `src/exporters/huggingface_hub_client.cpp` — beide exponential-backoff Retry-Loops (file-upload + shard-upload) auf `ExponentialBackoff` umgestellt; `src/updates/parallel_downloader.cpp` — Retry-Loop auf `ExponentialBackoff` umgestellt. Delay-Sequenz identisch zur vorherigen Impl. (v2.0+)
+  > Regression-Tests `HubClientDelaySequenceMatchesOldImpl` + `ParallelDownloaderDelaySequenceMatchesOldImpl` in `tests/test_retry_policy.cpp`.
+- [ ] **Tier 2 (Phase 2b):** `src/updates/wal_applier.cpp` linearer Backoff 100×(attempt+1) ms → `ExponentialBackoff` mit angepassten Parametern (Target: v2.0+)
 
 ---
 

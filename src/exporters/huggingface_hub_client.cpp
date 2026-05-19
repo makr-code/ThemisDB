@@ -28,6 +28,7 @@
 #include "security/key_provider.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
+#include "utils/retry_policy.h"
 
 #include <nlohmann/json.hpp>
 
@@ -509,11 +510,20 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
 
         bool file_ok = false;
         bool rate_limited = false;
+        // Exponential backoff for transient errors (HTTP 429 uses its own
+        // Retry-After sleep and does NOT advance the backoff state).
+        themis::utils::RetryConfig hub_backoff_cfg;
+        hub_backoff_cfg.max_attempts       = static_cast<uint32_t>(config_.max_retries) + 1u;
+        hub_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(
+            std::max(0, config_.retry_delay_ms));
+        hub_backoff_cfg.max_backoff_ms     = 30'000u;
+        hub_backoff_cfg.multiplier         = 2.0;
+        hub_backoff_cfg.jitter_fraction    = 0.0;
+        themis::utils::ExponentialBackoff file_backoff(hub_backoff_cfg);
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
-                const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));
-                std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for file {}", attempt, rel);
+                file_backoff.wait();
             }
             rate_limited = false;
 
@@ -683,11 +693,20 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
 
         bool shard_ok = false;
         bool rate_limited = false;
+        // Exponential backoff for transient errors (HTTP 429 uses its own
+        // Retry-After sleep and does NOT advance the backoff state).
+        themis::utils::RetryConfig shard_backoff_cfg;
+        shard_backoff_cfg.max_attempts       = static_cast<uint32_t>(config_.max_retries) + 1u;
+        shard_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(
+            std::max(0, config_.retry_delay_ms));
+        shard_backoff_cfg.max_backoff_ms     = 30'000u;
+        shard_backoff_cfg.multiplier         = 2.0;
+        shard_backoff_cfg.jitter_fraction    = 0.0;
+        themis::utils::ExponentialBackoff shard_backoff(shard_backoff_cfg);
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
-                const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));
-                std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for shard {}", attempt, rel);
+                shard_backoff.wait();
             }
             rate_limited = false;
 
