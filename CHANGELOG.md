@@ -22,6 +22,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `HammingCoderFocusedTests` CTest target registered
 
 ### Fixed
+- **Query module — catch-all hardening Phase 22 (complete)** 🔧
+  - Replaced all 51 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    7 C++ files in `src/query/`.
+  - Largest batches: `query_engine.cpp` (×40), `let_evaluator.cpp` (×6).
+  - Zero `catch(...)` remain in `src/query/` C++ sources; best-effort behavior preserved.
+
 - **Analytics module — catch-all hardening Phase 21 (complete)** 🔧
   - Replaced all 55 remaining `catch(...)` handlers with `catch (const std::exception&)` across
     11 C++ files in `src/analytics/`.

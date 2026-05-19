@@ -28,6 +28,13 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 22 — Query catch-all hardening (COMPLETE)
+
+- **All remaining `src/query/` C++ catch-all handlers**: Replaced 51 catch-all handlers
+  with typed `std::exception` catches across 7 files.
+  - Largest batches: `query_engine.cpp` (×40), `let_evaluator.cpp` (×6).
+  - Zero `catch(...)` remain in Query C++ sources.
+
 ### Phase 21 — Analytics catch-all hardening (COMPLETE)
 
 - **All remaining `src/analytics/` C++ catch-all handlers**: Replaced 55 catch-all handlers
