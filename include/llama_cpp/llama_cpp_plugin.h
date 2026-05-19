@@ -95,7 +95,8 @@ public:
      * 
      * @param request        Inference request (prompt + generation parameters).
      * @param k              Number of draft tokens to produce.
-     * @param vocab_size_hint Expected vocabulary size; 32000 used as fallback.
+     * @param vocab_size_hint Expected vocabulary size; 32000 used as fallback
+     *                       and capped in stub/fallback mode to bound memory usage.
      * @return DraftTokensResult with k tokens and k logit rows.
      */
     llm::ILLMPlugin::DraftTokensResult generateDraftTokens(

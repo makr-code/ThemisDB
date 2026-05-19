@@ -52,4 +52,20 @@ TEST(PluginRegistrarFailClosedTest, LlamaReloadFailsWithoutModelPath) {
     EXPECT_FALSE(reload(plugin, nlohmann::json{{"model_path", ""}}));
 }
 
+TEST(PluginRegistrarFailClosedTest, LlamaDraftTokensCapsOversizedVocabHintInFallback) {
+    LlamaCppPlugin plugin;
+    themis::llm::InferenceRequest req;
+    req.prompt = "x";
+
+    constexpr size_t kHugeHint = 1000000000u;
+    constexpr size_t kExpectedCappedVocab = 65536u;
+
+    const auto result = plugin.generateDraftTokens(req, 1, kHugeHint);
+    ASSERT_EQ(result.tokens.size(), 1u);
+    ASSERT_EQ(result.logits.size(), 1u);
+    EXPECT_EQ(result.vocab_size, kExpectedCappedVocab);
+    EXPECT_EQ(result.logits[0].size(), kExpectedCappedVocab);
+    EXPECT_LT(static_cast<size_t>(result.tokens[0]), result.vocab_size);
+}
+
 } // namespace

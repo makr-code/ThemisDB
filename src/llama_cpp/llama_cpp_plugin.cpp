@@ -42,6 +42,11 @@ inline void warn(const char*, Args&&...) {}
 namespace themis {
 namespace llamacpp {
 
+namespace {
+constexpr size_t kDefaultDraftFallbackVocabSize = 32000u;
+constexpr size_t kMaxDraftFallbackVocabSize = 65536u;
+}
+
 LlamaCppPlugin::LlamaCppPlugin() = default;
 LlamaCppPlugin::~LlamaCppPlugin() { unloadModel(); }
 
@@ -524,7 +529,14 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
     std::lock_guard<std::mutex> lock(mutex_);
     
     llm::ILLMPlugin::DraftTokensResult result;
-    result.vocab_size = (vocab_size_hint > 0) ? vocab_size_hint : 32000u;
+    const size_t requested_vocab_size =
+        (vocab_size_hint > 0) ? vocab_size_hint : kDefaultDraftFallbackVocabSize;
+    result.vocab_size = std::min(requested_vocab_size, kMaxDraftFallbackVocabSize);
+    if (result.vocab_size != requested_vocab_size) {
+        spdlog::warn(
+            "LlamaCppPlugin::generateDraftTokens capped vocab_size_hint={} to {} for fallback safety",
+            requested_vocab_size, result.vocab_size);
+    }
     
 #ifdef THEMIS_LLM_ENABLED
     if (!wrapper_) {
