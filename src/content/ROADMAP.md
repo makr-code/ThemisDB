@@ -58,6 +58,7 @@
 - [x] Back-pressure for streaming ingestion when worker queue depth exceeds max_queue_depth (CON-005)
 - [x] Zip-bomb protection in content_security.cpp — max 100× decompression ratio, max 1 000 entries (CON-006)
 - [x] Content manager reliability hardening block: broad catch-all handlers removed from filter/config fallback code paths in `content_manager.cpp` (`buildChunkWhitelist`, duplicate-hash lookup, compression/encryption config+metrics parsing) and replaced with typed exception handling (`const std::exception&`). (Target: Q2 2026)
+- [x] Content manager reliability hardening block: remaining broad catch-all handlers removed from `content_manager.cpp` metadata decrypt/re-encryption, chunk retrieval, search-expansion/VFS scan-list, and `ingestStream()` config paths; replaced with typed exception handling (`const std::exception&`) while preserving fail-safe defaults. (Target: Q2 2026)
 
 ## Implementation Phases
 

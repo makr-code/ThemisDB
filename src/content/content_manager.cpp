@@ -793,11 +793,11 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     }
                 }
             }
-        } catch (const std::exception& e) {
+        } catch (const nlohmann::json::exception& e) {
             // Config parsing failed - continue with defaults (auto_fulltext_index = false)
             // This is acceptable as the feature is opt-in
             THEMIS_DEBUG("Failed to parse content config for fulltext index: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             // Unknown error during config parsing - continue with defaults
             THEMIS_DEBUG("Unknown error parsing content config for fulltext index");
         }
@@ -955,12 +955,12 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         if (f == "tags" && target) { delete target; }
                         // Hänge verschlüsselte Strings in eine Zusatzliste (wird später gemerged)
                         if (!meta.extracted_metadata.contains("__enc_meta")) {
-                            try { meta.extracted_metadata["__enc_meta"] = json::object(); } catch (...) {}
+                            try { meta.extracted_metadata["__enc_meta"] = json::object(); } catch (const std::exception&) {}
                         }
                         try {
                             meta.extracted_metadata["__enc_meta"][f + "_encrypted"] = enc_b64;
                             meta.extracted_metadata["__enc_meta"][f + "_enc"] = true;
-                        } catch (...) {}
+                        } catch (const std::exception&) {}
                     } catch (const std::exception& ex) {
                         THEMIS_WARN("vector metadata encryption field {} failed: {}", f, ex.what());
                         if (f == "tags" && target) { delete target; }
@@ -1018,8 +1018,6 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         return Status::OK();
     } catch (const std::exception& e) {
         return Status::Error(std::string("import error: ") + e.what());
-    } catch (...) {
-        return Status::Error("import error");
     }
 }
 
@@ -1044,7 +1042,7 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
                         for (const auto& f : mcfg["fields"]) if (f.is_string()) meta_fields.push_back(f.get<std::string>());
                     }
                 }
-            } catch (...) { meta_encrypt_enabled = false; }
+            } catch (const std::exception&) { meta_encrypt_enabled = false; }
             if (meta_encrypt_enabled) {
                 auto enc_section = j["_encrypted_meta"];
                 std::string ctx = user_context.empty() ? std::string("anonymous") : user_context;
@@ -1070,7 +1068,7 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
             }
         }
         return ContentMeta::fromJson(j);
-    } catch (...) { return std::nullopt; }
+    } catch (const std::exception&) { return std::nullopt; }
 }
 std::optional<std::string> ContentManager::getContentBlob(const std::string& content_id, const std::string& user_context) {
     std::string id = normalizeId(content_id, "content:");
@@ -1105,7 +1103,7 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
                     THEMIS_INFO("Content blob {} uses outdated key version {} (latest: {}), triggering re-encryption", 
                                 id, blob.key_version, latest_version);
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // If metadata check fails, skip re-encryption
             }
             
@@ -1168,7 +1166,7 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
         std::string s(lv->begin(), lv->end());
         json j = json::parse(s);
         if (j.contains("ids")) ids = j["ids"].get<std::vector<std::string>>();
-    } catch (...) { return out; }
+    } catch (const std::exception&) { return out; }
     for (const auto& cid : ids) {
         auto v = storage_->get(std::string("chunk:") + cid);
         if (!v) continue;
@@ -1176,7 +1174,7 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
             std::string s(v->begin(), v->end());
             json j = json::parse(s);
             out.push_back(ChunkMeta::fromJson(j));
-        } catch (...) { continue; }
+        } catch (const std::exception&) { continue; }
     }
     std::sort(out.begin(), out.end(), [](const ChunkMeta& a, const ChunkMeta& b){ return a.seq_num < b.seq_num; });
     return out;
@@ -1190,7 +1188,7 @@ std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
         std::string s(v->begin(), v->end());
         json j = json::parse(s);
         return ChunkMeta::fromJson(j);
-    } catch (...) { return std::nullopt; }
+    } catch (const std::exception&) { return std::nullopt; }
 }
 
 // ===================== Content Assembly & Navigation =====================
@@ -1487,7 +1485,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             if (sc.contains("beta")) beta = sc["beta"].get<double>();
             if (sc.contains("gamma")) gamma = sc["gamma"].get<double>();
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     // Erzeuge Map pk->score und Queue für Expansion
     std::unordered_map<std::string, double> bestScore; bestScore.reserve(base.size()*2);
@@ -1550,7 +1548,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             std::unordered_set<std::string> allowed(allow.begin(), allow.end());
             out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     std::sort(out.begin(), out.end(), [](const auto& a, const auto& b){ return a.second > b.second; });
     if (out.size() > static_cast<size_t>(k)) out.resize(static_cast<size_t>(k));
@@ -1613,7 +1611,7 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
                 }
                 return false; // Stop scanning
             }
-        } catch (...) {}
+        } catch (const std::exception&) {}
         return true; // Continue scanning
     });
     
@@ -1644,7 +1642,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                 if (j.contains("parent_id") && j["parent_id"].get<std::string>() == *dir_id) {
                     results.push_back(ContentMeta::fromJson(j));
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
             return true;
         });
     } else {
@@ -1666,7 +1664,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
             return true;
         });
     }
@@ -2621,7 +2619,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
                 }
             }
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     if (auto_fulltext_index && secondary_index_) {
         if (!secondary_index_->hasFulltextIndex("chunk", "text"))
