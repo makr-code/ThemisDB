@@ -9,6 +9,11 @@ All notable changes to the Analytics module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Fixed
+- **Analytics reliability hardening (rest block)** (`src/analytics/**/*.cpp`)
+  - Replaced all remaining `catch (...)` handlers in Analytics implementation files with typed `catch (const std::exception&)`.
+  - Targeted delta in this block: **55 → 0** across 11 files (`cep_engine`: 20→0, `streaming_window`: 11→0, `anomaly_detection`: 5→0, plus 8 additional Analytics files).
+
 - Federated analytics query dispatch across multiple ThemisDB clusters (Target: Q3 2026)
 - SARIMA and Prophet-style forecasting models (Target: Q4 2026)
 - AutoML ONNX export and deployment pipeline (Target: Q4 2026)

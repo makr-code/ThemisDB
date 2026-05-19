@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **ANALYTICS module — reliability hardening (rest block)** (`src/analytics/**/*.cpp`, `src/analytics/CHANGELOG.md`)
+  - Replaced all remaining `catch (...)` handlers in Analytics module `.cpp` files with typed `catch (const std::exception&)`.
+  - Targeted delta in this block: **55 → 0** across 11 files (`cep_engine`: 20→0, `streaming_window`: 11→0, `anomaly_detection`: 5→0).
+
 - **LLM module — reliability hardening (rest block)** (`src/llm/**/*.cpp`, `src/llm/CHANGELOG.md`)
   - Replaced all remaining `catch (...)` handlers in LLM module `.cpp` files with typed `catch (const std::exception&)`.
   - Targeted delta in this block: **61 → 0** across 24 files (`async_inference_engine`: 14→0, `inference_engine_enhanced`: 7→0, `lora_checkpoint_manager`: 6→0, `llm_model_storage`: 6→0).

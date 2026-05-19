@@ -967,7 +967,7 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string& data) {
     auto toDoubleVec = [&](const std::string& s) -> std::vector<double> {
         std::vector<double> v;
         for (const auto& t : splitComma(s)) {
-            try { v.push_back(std::stod(t)); } catch (...) {}
+            try { v.push_back(std::stod(t)); } catch (const std::exception&) {}
         }
         return v;
     };
@@ -993,7 +993,7 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string& data) {
             else if (key == "q1")      det.impl_->q1      = toDoubleVec(val);
             else if (key == "q3")      det.impl_->q3      = toDoubleVec(val);
             else if (key == "iqr")     det.impl_->iqr     = toDoubleVec(val);
-        } catch (...) { /* skip malformed line */ }
+        } catch (const std::exception&) { /* skip malformed line */ }
     }
     return det;
 }
@@ -1102,7 +1102,7 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint& 
                     // O(1) pointer swap under brief exclusive lock
                     std::unique_lock<std::shared_mutex> dl(detector_mu_);
                     detector_ = std::move(tmp);
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
             retraining_.store(false, std::memory_order_release);
         }
@@ -1139,7 +1139,7 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint& 
                             // O(1) Pimpl pointer swap under brief exclusive lock
                             std::unique_lock<std::shared_mutex> dl(detector_mu_);
                             detector_ = std::move(tmp);
-                        } catch (...) {}
+                        } catch (const std::exception&) {}
                     }
                     retraining_.store(false, std::memory_order_release);
                 });
@@ -1153,7 +1153,7 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint& 
         if (!detector_.isTrained()) return std::nullopt;
         try {
             result = detector_.predict(point);
-        } catch (...) {
+        } catch (const std::exception&) {
             return std::nullopt;
         }
     }
