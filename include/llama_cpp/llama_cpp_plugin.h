@@ -85,6 +85,23 @@ public:
     llm::InferenceResponse generateRAG(const llm::RAGContext& rag_context,
                                         const llm::InferenceRequest& request) override;
     std::vector<float> embed(const std::string& text) override;
+    
+    /**
+     * @brief Generate K draft tokens with per-token logit distributions.
+     * 
+     * Phase 2 Implementation: Real draft-logit pipeline using llama_get_logits()
+     * from the underlying llama.cpp context. Returns actual logit distributions
+     * for speculative decoding verification.
+     * 
+     * @param request        Inference request (prompt + generation parameters).
+     * @param k              Number of draft tokens to produce.
+     * @param vocab_size_hint Expected vocabulary size; 32000 used as fallback.
+     * @return DraftTokensResult with k tokens and k logit rows.
+     */
+    llm::ILLMPlugin::DraftTokensResult generateDraftTokens(
+        const llm::InferenceRequest& request,
+        size_t                       k,
+        size_t                       vocab_size_hint) override;
 
     llm::LLMCapabilities getCapabilities() const override;
     json getMemoryStats() const override;
