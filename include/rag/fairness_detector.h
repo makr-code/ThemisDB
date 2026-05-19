@@ -42,6 +42,7 @@
 #include <unordered_map>
 #include <memory>
 #include <stdexcept>
+#include <utility>
 
 namespace themis::rag {
 
@@ -154,10 +155,11 @@ public:
     /**
      * @brief Filter documents below bias threshold.
      *
-     * Returns documents with bias score < config.bias_threshold.
+     * Returns `(document, score)` pairs for documents with
+     * `bias_score.overall_score < config.bias_threshold`.
      *
      * @param documents Vector of document texts.
-     * @return Filtered documents with acceptable bias levels.
+     * @return Filtered document-score pairs with acceptable bias levels.
      * @throws std::runtime_error if analysis fails.
      */
     std::vector<std::pair<std::string, judge::BiasScore>>

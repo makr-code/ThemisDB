@@ -15,8 +15,22 @@
 
 #include <gtest/gtest.h>
 #include "rag/dpr_vectorizer.h"
+#include <filesystem>
+#include <fstream>
 
 using namespace themis::rag;
+
+namespace {
+std::string createTempModelFile(const std::string& name) {
+    const auto dir = std::filesystem::temp_directory_path() / "themis_dpr_tests";
+    std::filesystem::create_directories(dir);
+    const auto path = dir / name;
+    std::ofstream file(path, std::ios::binary);
+    file << "onnx";
+    file.close();
+    return path.string();
+}
+}  // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DPR-01: DPRVectorizer constructs with config
@@ -37,8 +51,8 @@ TEST(DPRVectorizer, DPR_01_ConstructsWithConfig) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(DPRVectorizer, DPR_02_InitializeSucceeds) {
     DPRVectorizerConfig config;
-    config.query_model_path = "/path/to/query_model";
-    config.passage_model_path = "/path/to/passage_model";
+    config.query_model_path = createTempModelFile("query_model.onnx");
+    config.passage_model_path = createTempModelFile("passage_model.onnx");
 
     DPRVectorizer vectorizer(config);
     EXPECT_NO_THROW(vectorizer.initialize());
@@ -91,8 +105,8 @@ TEST(DPRVectorizer, DPR_05_EncodeQueryFailsWhenNotInitialized) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(DPRVectorizer, DPR_06_EncodeQueryFailsWithEmptyQuery) {
     DPRVectorizerConfig config;
-    config.query_model_path = "/path/to/query_model";
-    config.passage_model_path = "/path/to/passage_model";
+    config.query_model_path = createTempModelFile("query_model_06.onnx");
+    config.passage_model_path = createTempModelFile("passage_model_06.onnx");
 
     DPRVectorizer vectorizer(config);
     vectorizer.initialize();
@@ -105,8 +119,8 @@ TEST(DPRVectorizer, DPR_06_EncodeQueryFailsWithEmptyQuery) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(DPRVectorizer, DPR_07_EncodeQueryReturnsCorrectDimension) {
     DPRVectorizerConfig config;
-    config.query_model_path = "/path/to/query_model";
-    config.passage_model_path = "/path/to/passage_model";
+    config.query_model_path = createTempModelFile("query_model_07.onnx");
+    config.passage_model_path = createTempModelFile("passage_model_07.onnx");
     config.embedding_dimension = 384;
 
     DPRVectorizer vectorizer(config);
@@ -122,8 +136,8 @@ TEST(DPRVectorizer, DPR_07_EncodeQueryReturnsCorrectDimension) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(DPRVectorizer, DPR_08_EncodePassageWorks) {
     DPRVectorizerConfig config;
-    config.query_model_path = "/path/to/query_model";
-    config.passage_model_path = "/path/to/passage_model";
+    config.query_model_path = createTempModelFile("query_model_08.onnx");
+    config.passage_model_path = createTempModelFile("passage_model_08.onnx");
     config.embedding_dimension = 768;
 
     DPRVectorizer vectorizer(config);
@@ -138,8 +152,8 @@ TEST(DPRVectorizer, DPR_08_EncodePassageWorks) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(DPRVectorizer, DPR_09_EncodePassageBatchWorks) {
     DPRVectorizerConfig config;
-    config.query_model_path = "/path/to/query_model";
-    config.passage_model_path = "/path/to/passage_model";
+    config.query_model_path = createTempModelFile("query_model_09.onnx");
+    config.passage_model_path = createTempModelFile("passage_model_09.onnx");
     config.embedding_dimension = 384;
 
     DPRVectorizer vectorizer(config);

@@ -543,71 +543,39 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
         }
         return result;
     }
-    
+
     // Phase 2: Real draft-logit pipeline using llama.cpp
     try {
-        // Create a modified request for draft generation
         llm::InferenceRequest draft_req = request;
         draft_req.max_tokens = static_cast<int>(k);
-        draft_req.stream_callback = nullptr;  // No streaming for draft tokens
-        
-        // Generate draft tokens
-        auto draft_response = wrapper_->generate(draft_req);
-        
-        if (!draft_response.success || draft_response.text.empty()) {
-            // Fallback to stub mode
-            constexpr float kPeak      =  5.0f;
-            constexpr float kBaseline  = -5.0f;
-            
-            for (size_t i = 0; i < k; ++i) {
-                int token_id = (i + 1) % static_cast<int>(result.vocab_size);
-                result.tokens.push_back(token_id);
-                
-                std::vector<float> logits(result.vocab_size, kBaseline);
-                logits[token_id] = kPeak;
-                result.logits.push_back(std::move(logits));
-            }
-            return result;
+        draft_req.stream_callback = nullptr;
+
+        const auto real_result = wrapper_->generateDraftTokens(
+            draft_req,
+            k,
+            vocab_size_hint > 0 ? vocab_size_hint : result.vocab_size);
+
+        if (!real_result.tokens.empty() &&
+            real_result.tokens.size() == real_result.logits.size() &&
+            real_result.vocab_size > 0) {
+            return real_result;
         }
-        
-        // Extract token IDs from the generated text
-        // In production, this would use the actual token IDs from the model
-        const std::string& text = draft_response.text;
-        for (size_t i = 0; i < k; ++i) {
-            int token_id = (i < text.size())
-                ? (static_cast<int>(static_cast<unsigned char>(text[i])) %
-                   static_cast<int>(result.vocab_size))
-                : 0;
-            result.tokens.push_back(token_id);
-            
-            // Generate logits with peaked distribution at the selected token
-            // In production, these would be the actual logits from llama_get_logits()
-            constexpr float kPeak      =  5.0f;
-            constexpr float kBaseline  = -5.0f;
-            
-            std::vector<float> logits(result.vocab_size, kBaseline);
-            logits[static_cast<size_t>(token_id)] = kPeak;
-            result.logits.push_back(std::move(logits));
-        }
-        
-        return result;
-        
+
+        spdlog::warn("LlamaCppPlugin::generateDraftTokens got invalid real result, using fallback");
     } catch (const std::exception& e) {
         spdlog::warn("LlamaCppPlugin::generateDraftTokens failed: {}", e.what());
-        
-        // Fallback to stub mode
-        constexpr float kPeak      =  5.0f;
-        constexpr float kBaseline  = -5.0f;
-        
-        for (size_t i = 0; i < k; ++i) {
-            int token_id = (i + 1) % static_cast<int>(result.vocab_size);
-            result.tokens.push_back(token_id);
-            
-            std::vector<float> logits(result.vocab_size, kBaseline);
-            logits[token_id] = kPeak;
-            result.logits.push_back(std::move(logits));
-        }
-        return result;
+    }
+
+    // Fallback to deterministic peaked logits if real path failed
+    constexpr float kPeak      =  5.0f;
+    constexpr float kBaseline  = -5.0f;
+    for (size_t i = 0; i < k; ++i) {
+        int token_id = (i + 1) % static_cast<int>(result.vocab_size);
+        result.tokens.push_back(token_id);
+
+        std::vector<float> logits(result.vocab_size, kBaseline);
+        logits[token_id] = kPeak;
+        result.logits.push_back(std::move(logits));
     }
 #else
     // Stub mode when THEMIS_LLM_ENABLED is not defined
@@ -666,4 +634,3 @@ void themis_llm_destroy(themis::llm::ILLMPlugin* p) {
     delete p;
 }
 #endif
-

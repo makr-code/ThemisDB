@@ -218,6 +218,52 @@ public:
                         difference_vectors.size());
         }
     }
+
+    /**
+     * @brief Compute ethnicity bias vector from contrastive word pairs.
+     */
+    void computeEthnicityBiasVector() {
+        std::vector<std::pair<std::string, std::string>> ethnicity_pairs = {
+            {"majority", "minority"},
+            {"native", "immigrant"},
+            {"western", "eastern"},
+            {"indigenous", "foreign"},
+            {"urban", "tribal"}
+        };
+
+        std::vector<std::vector<float>> difference_vectors;
+        for (const auto& [left_word, right_word] : ethnicity_pairs) {
+            auto left_it = embeddings.find(left_word);
+            auto right_it = embeddings.find(right_word);
+            if (left_it == embeddings.end() || right_it == embeddings.end()) {
+                continue;
+            }
+            const auto& lhs = left_it->second;
+            const auto& rhs = right_it->second;
+            if (lhs.size() != rhs.size()) {
+                continue;
+            }
+            std::vector<float> diff(lhs.size(), 0.0f);
+            for (size_t i = 0; i < lhs.size(); ++i) {
+                diff[i] = lhs[i] - rhs[i];
+            }
+            difference_vectors.push_back(std::move(diff));
+        }
+
+        if (!difference_vectors.empty()) {
+            ethnicity_bias_vector.assign(difference_vectors[0].size(), 0.0f);
+            for (const auto& diff : difference_vectors) {
+                for (size_t i = 0; i < diff.size(); ++i) {
+                    ethnicity_bias_vector[i] += diff[i];
+                }
+            }
+            for (float& val : ethnicity_bias_vector) {
+                val /= static_cast<float>(difference_vectors.size());
+            }
+            THEMIS_INFO("Computed ethnicity bias vector from {} word pairs",
+                        difference_vectors.size());
+        }
+    }
     
     /**
      * @brief Compute bias score for a word using PCA projection
@@ -293,6 +339,9 @@ void FairnessDetector::initialize() {
                 if (config_.detect_occupational_bias) {
                     impl_->computeOccupationalBiasVector();
                 }
+                if (config_.detect_ethnicity_bias) {
+                    impl_->computeEthnicityBiasVector();
+                }
             }
         }
         
@@ -313,7 +362,7 @@ bool FairnessDetector::isInitialized() const {
 
 // ─────────────────────────────────────────────────────────────────────
 
-BiasScore FairnessDetector::detectBias(const std::string& document) {
+judge::BiasScore FairnessDetector::detectBias(const std::string& document) {
     if (!isInitialized()) {
         THEMIS_WARN("FairnessDetector::detectBias called before initialize()");
         throw std::runtime_error("FairnessDetector not initialized");
@@ -324,7 +373,7 @@ BiasScore FairnessDetector::detectBias(const std::string& document) {
         throw std::invalid_argument("Document cannot be empty");
     }
 
-    BiasScore score;
+    judge::BiasScore score;
     
     try {
         // Tokenize document into words
@@ -411,13 +460,24 @@ BiasScore FairnessDetector::detectBias(const std::string& document) {
         
         // Compute overall score (weighted average)
         score.overall_score = (score.gender_bias * 0.4 + 
-                              score.occupational_bias * 0.35 + 
-                              score.ethnicity_bias * 0.25);
+                               score.occupational_bias * 0.35 + 
+                               score.ethnicity_bias * 0.25);
         
-        // Intersectional bias (compound gender × ethnicity)
+        // Intersectional bias (compound gender × ethnicity, plus occupational contribution)
         if (config_.detect_intersectional_bias) {
-            score.intersectional_bias = score.gender_bias * score.ethnicity_bias;
+            const double gx = score.gender_bias * score.ethnicity_bias;
+            const double go = score.gender_bias * score.occupational_bias;
+            score.overall_score = std::clamp(score.overall_score + 0.15 * (gx + go), 0.0, 1.0);
         }
+
+        // Confidence increases with observed evidence density.
+        const double evidence = static_cast<double>(total_biased);
+        score.confidence = std::clamp(
+            0.35 + 0.65 * (evidence / (evidence + 6.0)),
+            config_.min_confidence,
+            1.0);
+        score.flagged = score.overall_score >= config_.bias_threshold &&
+                        score.confidence >= config_.min_confidence;
         
         THEMIS_DEBUG("Bias detection: overall={:.3f}, gender={:.3f}, occupational={:.3f}, ethnicity={:.3f}",
                     score.overall_score, score.gender_bias, score.occupational_bias, score.ethnicity_bias);
@@ -432,7 +492,7 @@ BiasScore FairnessDetector::detectBias(const std::string& document) {
 
 // ─────────────────────────────────────────────────────────────────────
 
-std::vector<BiasScore> FairnessDetector::detectBiasBatch(
+std::vector<judge::BiasScore> FairnessDetector::detectBiasBatch(
     const std::vector<std::string>& documents) {
     if (!isInitialized()) {
         THEMIS_WARN("FairnessDetector::detectBiasBatch called before initialize()");
@@ -441,7 +501,7 @@ std::vector<BiasScore> FairnessDetector::detectBiasBatch(
 
     THEMIS_DEBUG("Batch bias detection for {} documents", documents.size());
     
-    std::vector<BiasScore> results;
+    std::vector<judge::BiasScore> results;
     results.reserve(documents.size());
     
     for (const auto& doc : documents) {
@@ -453,25 +513,24 @@ std::vector<BiasScore> FairnessDetector::detectBiasBatch(
 
 // ─────────────────────────────────────────────────────────────────────
 
-std::vector<std::string> FairnessDetector::filterByBiasThreshold(
-    const std::vector<std::string>& documents,
-    double threshold) {
+std::vector<std::pair<std::string, judge::BiasScore>>
+FairnessDetector::filterByBiasThreshold(const std::vector<std::string>& documents) {
     if (!isInitialized()) {
         THEMIS_WARN("FairnessDetector::filterByBiasThreshold called before initialize()");
         throw std::runtime_error("FairnessDetector not initialized");
     }
 
-    std::vector<std::string> filtered;
+    std::vector<std::pair<std::string, judge::BiasScore>> filtered;
     
     for (const auto& doc : documents) {
         auto bias_score = detectBias(doc);
-        if (bias_score.overall_score <= threshold) {
-            filtered.push_back(doc);
+        if (bias_score.overall_score < config_.bias_threshold) {
+            filtered.emplace_back(doc, bias_score);
         }
     }
     
     THEMIS_INFO("Filtered {} documents by bias threshold {}: {} passed",
-               documents.size(), threshold, filtered.size());
+               documents.size(), config_.bias_threshold, filtered.size());
     
     return filtered;
 }
@@ -480,6 +539,10 @@ std::vector<std::string> FairnessDetector::filterByBiasThreshold(
 
 const FairnessDetectorConfig& FairnessDetector::getConfig() const {
     return config_;
+}
+
+void FairnessDetector::setBiasThreshold(double threshold) {
+    config_.bias_threshold = std::clamp(threshold, 0.0, 1.0);
 }
 
 }  // namespace themis::rag

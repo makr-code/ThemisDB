@@ -1249,6 +1249,95 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     }
 }
 
+ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
+    const InferenceRequest& request,
+    size_t k,
+    size_t vocab_size_hint
+) {
+    if (k == 0) {
+        throw std::invalid_argument("generateDraftTokens requires k > 0");
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (current_model_id_.empty() && !configured_model_id_.empty()) {
+        current_model_id_ = configured_model_id_;
+    }
+    if (current_model_path_.empty() && !configured_model_path_.empty()) {
+        current_model_path_ = configured_model_path_;
+    }
+    if (current_model_id_.empty()) {
+        throw std::runtime_error("No model loaded for draft token generation");
+    }
+
+    auto* cached = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
+    if (!cached) {
+        throw std::runtime_error("Model failed to load for draft token generation");
+    }
+
+    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
+    auto* lctx   = reinterpret_cast<llama_context*>(cached->context_handle);
+    if (!lmodel || !lctx) {
+        throw std::runtime_error("Model/context not initialized for draft token generation");
+    }
+
+    const auto prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
+
+    llama_memory_t mem = llama_get_memory(lctx);
+    if (mem) {
+        llama_memory_seq_rm(mem, 0, -1, -1);
+    }
+
+    llama_batch prompt_batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+    if (llama_decode(lctx, prompt_batch) != 0) {
+        throw std::runtime_error("Failed to evaluate prompt for draft token generation");
+    }
+
+    const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+    const int32_t n_vocab = llama_vocab_n_tokens(vocab);
+    const llama_token eos_token = llama_vocab_eos(vocab);
+    const size_t produced_vocab_size =
+        (vocab_size_hint > 0) ? std::min(vocab_size_hint, static_cast<size_t>(n_vocab))
+                              : static_cast<size_t>(n_vocab);
+
+    const float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
+    const float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
+
+    ILLMPlugin::DraftTokensResult result;
+    result.vocab_size = produced_vocab_size;
+    result.tokens.reserve(k);
+    result.logits.reserve(k);
+
+    for (size_t i = 0; i < k; ++i) {
+        float* logits_ptr = llama_get_logits_ith(lctx, -1);
+        if (!logits_ptr) {
+            throw std::runtime_error("llama_get_logits_ith returned null");
+        }
+
+        std::vector<float> logit_row(produced_vocab_size, 0.0f);
+        for (size_t j = 0; j < produced_vocab_size; ++j) {
+            logit_row[j] = logits_ptr[j];
+        }
+
+        const llama_token next_token = sampleTokenInternal(
+            lctx, lmodel, logits_ptr, n_vocab, temperature, top_p, nullptr);
+
+        result.tokens.push_back(static_cast<int>(next_token));
+        result.logits.push_back(std::move(logit_row));
+
+        llama_batch next_batch = llama_batch_get_one(&next_token, 1);
+        if (llama_decode(lctx, next_batch) != 0) {
+            throw std::runtime_error("Failed to decode draft token");
+        }
+
+        if (next_token == eos_token) {
+            break;
+        }
+    }
+
+    return result;
+}
+
 InferenceResponse LlamaWrapper::generateRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request
@@ -3021,6 +3110,5 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
 
 } // namespace llm
 } // namespace themis
-
 
 

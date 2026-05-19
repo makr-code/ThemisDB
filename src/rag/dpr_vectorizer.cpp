@@ -18,6 +18,22 @@
 #include <algorithm>
 #include <numeric>
 #include <filesystem>
+#include <cstdint>
+#include <array>
+
+#if defined(THEMIS_HAS_ONNX)
+#  if __has_include(<onnxruntime/onnxruntime_cxx_api.h>)
+#    include <onnxruntime/onnxruntime_cxx_api.h>
+#    define THEMIS_DPR_HAS_ONNX_RUNTIME 1
+#  elif __has_include(<onnxruntime_cxx_api.h>)
+#    include <onnxruntime_cxx_api.h>
+#    define THEMIS_DPR_HAS_ONNX_RUNTIME 1
+#  else
+#    define THEMIS_DPR_HAS_ONNX_RUNTIME 0
+#  endif
+#else
+#  define THEMIS_DPR_HAS_ONNX_RUNTIME 0
+#endif
 
 namespace themis::rag {
 
@@ -49,6 +65,13 @@ public:
     // Tokenizers for query and passage encoding
     std::unique_ptr<themis::llm::LlamaTokenizer> query_tokenizer;
     std::unique_ptr<themis::llm::LlamaTokenizer> passage_tokenizer;
+
+#if THEMIS_DPR_HAS_ONNX_RUNTIME
+    std::unique_ptr<Ort::Env> ort_env;
+    std::unique_ptr<Ort::SessionOptions> ort_session_options;
+    std::unique_ptr<Ort::Session> query_session;
+    std::unique_ptr<Ort::Session> passage_session;
+#endif
     
     /**
      * @brief Normalize embedding vector to unit L2 norm
@@ -90,6 +113,126 @@ public:
         
         return tokens;
     }
+
+    /**
+     * @brief Deterministic non-ONNX fallback embedding.
+     *
+     * Used when ONNX runtime integration is unavailable at build/runtime.
+     */
+    std::vector<float> deterministicFallbackEmbedding(
+        const std::vector<int>& tokens,
+        bool use_cosine_phase) const {
+        std::vector<float> embedding(config.embedding_dimension, 0.0f);
+        for (size_t i = 0; i < tokens.size() && i < embedding.size(); ++i) {
+            const float phase = static_cast<float>(tokens[i]) * 0.1f + static_cast<float>(i) * 0.01f;
+            embedding[i] = use_cosine_phase ? std::cos(phase) : std::sin(phase);
+        }
+        return embedding;
+    }
+
+#if THEMIS_DPR_HAS_ONNX_RUNTIME
+    std::vector<float> runONNXEmbedding(const std::vector<int>& tokens, bool query_encoder) {
+        Ort::Session* session = query_encoder ? query_session.get() : passage_session.get();
+        if (!session) {
+            return deterministicFallbackEmbedding(tokens, !query_encoder);
+        }
+
+        std::vector<int64_t> input_ids(tokens.begin(), tokens.end());
+        std::vector<int64_t> attention_mask(tokens.size(), 0);
+        for (size_t i = 0; i < tokens.size(); ++i) {
+            attention_mask[i] = (tokens[i] == 0) ? 0 : 1;
+        }
+
+        constexpr int64_t batch_size = 1;
+        const int64_t seq_len = static_cast<int64_t>(tokens.size());
+        std::array<int64_t, 2> shape{batch_size, seq_len};
+
+        Ort::MemoryInfo mem_info = Ort::MemoryInfo::CreateCpu(
+            OrtArenaAllocator, OrtMemTypeDefault);
+
+        Ort::Value input_ids_tensor = Ort::Value::CreateTensor<int64_t>(
+            mem_info, input_ids.data(), input_ids.size(), shape.data(), shape.size());
+        Ort::Value attention_mask_tensor = Ort::Value::CreateTensor<int64_t>(
+            mem_info, attention_mask.data(), attention_mask.size(), shape.data(), shape.size());
+
+        Ort::AllocatorWithDefaultOptions allocator;
+        std::vector<Ort::AllocatedStringPtr> input_name_holders;
+        std::vector<const char*> input_names;
+        std::vector<Ort::Value> input_tensors;
+
+        const size_t input_count = static_cast<size_t>(session->GetInputCount());
+        input_name_holders.reserve(input_count);
+        input_names.reserve(input_count);
+        input_tensors.reserve(input_count);
+
+        input_name_holders.push_back(session->GetInputNameAllocated(0, allocator));
+        input_names.push_back(input_name_holders.back().get());
+        input_tensors.push_back(std::move(input_ids_tensor));
+        if (input_count > 1) {
+            input_name_holders.push_back(session->GetInputNameAllocated(1, allocator));
+            input_names.push_back(input_name_holders.back().get());
+            input_tensors.push_back(std::move(attention_mask_tensor));
+        }
+
+        auto output_name_ptr = session->GetOutputNameAllocated(0, allocator);
+        std::array<const char*, 1> output_names{output_name_ptr.get()};
+
+        auto outputs = session->Run(
+            Ort::RunOptions{nullptr},
+            input_names.data(),
+            input_tensors.data(),
+            input_tensors.size(),
+            output_names.data(),
+            output_names.size());
+
+        if (outputs.empty() || !outputs[0].IsTensor()) {
+            return deterministicFallbackEmbedding(tokens, !query_encoder);
+        }
+
+        const auto type_info = outputs[0].GetTensorTypeAndShapeInfo();
+        const auto out_shape = type_info.GetShape();
+        const auto* out_data = outputs[0].GetTensorData<float>();
+        if (!out_data) {
+            return deterministicFallbackEmbedding(tokens, !query_encoder);
+        }
+
+        std::vector<float> embedding(config.embedding_dimension, 0.0f);
+
+        // Common DPR output patterns: [1, hidden] or [1, seq, hidden].
+        if (out_shape.size() == 2 && out_shape[0] == 1 && out_shape[1] > 0) {
+            const size_t hidden = static_cast<size_t>(out_shape[1]);
+            const size_t copy = std::min(hidden, embedding.size());
+            std::copy_n(out_data, copy, embedding.begin());
+        } else if (out_shape.size() == 3 && out_shape[0] == 1 &&
+                   out_shape[1] > 0 && out_shape[2] > 0) {
+            const size_t seq = static_cast<size_t>(out_shape[1]);
+            const size_t hidden = static_cast<size_t>(out_shape[2]);
+            const size_t copy = std::min(hidden, embedding.size());
+            // CLS-pooling equivalent: first token embedding.
+            std::copy_n(out_data, copy, embedding.begin());
+            // If the first token is empty/zero, mean-pool as robust fallback.
+            const float abs_sum = std::accumulate(
+                embedding.begin(), embedding.begin() + copy, 0.0f,
+                [](float acc, float v) { return acc + std::abs(v); });
+            if (abs_sum <= 1e-6f) {
+                for (size_t h = 0; h < copy; ++h) {
+                    float sum = 0.0f;
+                    for (size_t s = 0; s < seq; ++s) {
+                        sum += out_data[s * hidden + h];
+                    }
+                    embedding[h] = sum / static_cast<float>(seq);
+                }
+            }
+        } else {
+            // Unexpected tensor shape: flatten-first strategy.
+            const auto total = static_cast<size_t>(type_info.GetElementCount());
+            const size_t copy = std::min(total, embedding.size());
+            std::copy_n(out_data, copy, embedding.begin());
+        }
+
+        return embedding;
+    }
+#endif
 };
 
 // ═════════════════════════════════════════════════════════════════════
@@ -156,10 +299,26 @@ void DPRVectorizer::initialize() {
         THEMIS_INFO("Loaded passage encoder: {} (size: {} bytes)", 
                     config_.passage_model_path, passage_model->model_size_bytes);
         
-        // Initialize tokenizers (using LlamaTokenizer as default)
-        // In production, these would be BERT-specific tokenizers
+        // Initialize tokenizers
         impl_->query_tokenizer = std::make_unique<themis::llm::LlamaTokenizer>();
         impl_->passage_tokenizer = std::make_unique<themis::llm::LlamaTokenizer>();
+
+#if THEMIS_DPR_HAS_ONNX_RUNTIME
+        impl_->ort_env = std::make_unique<Ort::Env>(ORT_LOGGING_LEVEL_WARNING, "themis_dpr");
+        impl_->ort_session_options = std::make_unique<Ort::SessionOptions>();
+        impl_->ort_session_options->SetIntraOpNumThreads(1);
+        impl_->ort_session_options->SetGraphOptimizationLevel(
+            GraphOptimizationLevel::ORT_ENABLE_BASIC);
+
+        impl_->query_session = std::make_unique<Ort::Session>(
+            *impl_->ort_env, config_.query_model_path.c_str(), *impl_->ort_session_options);
+        impl_->passage_session = std::make_unique<Ort::Session>(
+            *impl_->ort_env, config_.passage_model_path.c_str(), *impl_->ort_session_options);
+
+        THEMIS_INFO("DPRVectorizer ONNX sessions created successfully");
+#else
+        THEMIS_WARN("DPRVectorizer built without ONNX runtime; using deterministic fallback embeddings");
+#endif
         
         THEMIS_INFO("DPRVectorizer initialized successfully with embedding_dim={}",
                     config_.embedding_dimension);
@@ -198,14 +357,12 @@ std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
         // Tokenize query
         auto tokens = impl_->tokenizeText(query, impl_->query_tokenizer.get());
         
-        // In production, this would run through the ONNX query encoder
-        // For now, we generate a deterministic embedding based on token hash
-        std::vector<float> embedding(config_.embedding_dimension, 0.0f);
-        
-        // Generate embedding from tokens (deterministic hash-based approach)
-        for (size_t i = 0; i < tokens.size() && i < embedding.size(); ++i) {
-            embedding[i] = std::sin(static_cast<float>(tokens[i]) * 0.1f + i * 0.01f);
-        }
+        std::vector<float> embedding;
+#if THEMIS_DPR_HAS_ONNX_RUNTIME
+        embedding = impl_->runONNXEmbedding(tokens, /*query_encoder=*/true);
+#else
+        embedding = impl_->deterministicFallbackEmbedding(tokens, /*use_cosine_phase=*/false);
+#endif
         
         // Normalize to unit L2 norm for cosine similarity
         if (config_.normalize_embeddings) {
@@ -239,14 +396,12 @@ std::vector<float> DPRVectorizer::encodePassage(const std::string& passage) {
         // Tokenize passage
         auto tokens = impl_->tokenizeText(passage, impl_->passage_tokenizer.get());
         
-        // In production, this would run through the ONNX passage encoder
-        // For now, we generate a deterministic embedding based on token hash
-        std::vector<float> embedding(config_.embedding_dimension, 0.0f);
-        
-        // Generate embedding from tokens (deterministic hash-based approach)
-        for (size_t i = 0; i < tokens.size() && i < embedding.size(); ++i) {
-            embedding[i] = std::cos(static_cast<float>(tokens[i]) * 0.1f + i * 0.01f);
-        }
+        std::vector<float> embedding;
+#if THEMIS_DPR_HAS_ONNX_RUNTIME
+        embedding = impl_->runONNXEmbedding(tokens, /*query_encoder=*/false);
+#else
+        embedding = impl_->deterministicFallbackEmbedding(tokens, /*use_cosine_phase=*/true);
+#endif
         
         // Normalize to unit L2 norm for cosine similarity
         if (config_.normalize_embeddings) {
@@ -292,9 +447,18 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
                 batch_tokens.push_back(tokens);
             }
             
-            // Encode batch (in production, this would be a single GPU call)
-            for (size_t i = batch_start; i < batch_end; ++i) {
-                results.push_back(encodePassage(passages[i]));
+            // Encode batch
+            for (size_t i = 0; i < batch_tokens.size(); ++i) {
+                std::vector<float> embedding;
+#if THEMIS_DPR_HAS_ONNX_RUNTIME
+                embedding = impl_->runONNXEmbedding(batch_tokens[i], /*query_encoder=*/false);
+#else
+                embedding = impl_->deterministicFallbackEmbedding(batch_tokens[i], /*use_cosine_phase=*/true);
+#endif
+                if (config_.normalize_embeddings) {
+                    Impl::normalizeL2(embedding);
+                }
+                results.push_back(std::move(embedding));
             }
         }
         
