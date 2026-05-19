@@ -28,6 +28,14 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 11 — Metadata/chunk retrieval reliability hardening
+
+- **`content_manager.cpp` (CON-031)**: Replaced catch-all handlers in vector metadata encryption/decryption and chunk/meta retrieval path (lines ~944–1240) with typed exception handling:
+  - `nlohmann::json::exception` for malformed metadata/chunk JSON payloads
+  - `std::exception` fallback for non-fatal best-effort branches
+- Removed redundant nested catch-all wrappers in metadata encryption field patching; field failures continue to be handled by existing surrounding `std::exception` guard and warning logs.
+- Preserved runtime behavior: malformed records/config still degrade to `std::nullopt`/empty results or skip optional re-encryption without aborting content reads.
+
 ### Phase 10 — Import/config reliability hardening
 
 - **`content_manager.cpp` (CON-030)**: Replaced catch-all handlers in `checkDuplicateByHash()` and `importContent()` config/metrics path (lines ~563–842) with typed exception handling:
