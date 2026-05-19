@@ -103,7 +103,7 @@ bool VulkanBuffer::create_buffer() {
     }
     
     // Get memory requirements
-    VkMemoryRequirements mem_requirements;
+    VkMemoryRequirements mem_requirements = {};
     vkGetBufferMemoryRequirements(context_->device(), buffer_, &mem_requirements);
     
     // Allocate memory

@@ -198,7 +198,7 @@ bool VulkanContext::is_available() {
     create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     create_info.pApplicationInfo = &app_info;
     
-    VkInstance test_instance;
+    VkInstance test_instance = VK_NULL_HANDLE;
     VkResult result = vkCreateInstance(&create_info, nullptr, &test_instance);
     
     if (result == VK_SUCCESS) {
@@ -268,7 +268,7 @@ bool VulkanContext::select_physical_device(int device_id) {
     } else {
         // Otherwise, prefer discrete GPU
         for (const auto& device : devices) {
-            VkPhysicalDeviceProperties props;
+            VkPhysicalDeviceProperties props = {};
             vkGetPhysicalDeviceProperties(device, &props);
             
             if (props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
@@ -398,7 +398,7 @@ VkCommandBuffer VulkanContext::allocate_command_buffer(VkCommandBufferLevel leve
     alloc_info.level = level;
     alloc_info.commandBufferCount = 1;
     
-    VkCommandBuffer command_buffer;
+    VkCommandBuffer command_buffer = VK_NULL_HANDLE;
     VkResult result = vkAllocateCommandBuffers(device_, &alloc_info, &command_buffer);
     
     if (result != VK_SUCCESS) {
@@ -419,7 +419,7 @@ VkFence VulkanContext::create_fence(bool signaled) {
         fence_info.flags = VK_FENCE_CREATE_SIGNALED_BIT;
     }
     
-    VkFence fence;
+    VkFence fence = VK_NULL_HANDLE;
     VkResult result = vkCreateFence(device_, &fence_info, nullptr, &fence);
     
     if (result != VK_SUCCESS) {
@@ -484,4 +484,3 @@ bool VulkanContext::check_validation_layer_support() const {
 } // namespace themis
 
 #endif // THEMIS_HAS_VULKAN_HEADER
-

@@ -222,7 +222,7 @@ VkShaderModule VulkanComputePipeline::create_shader_module(const std::vector<uin
     create_info.codeSize = code.size() * sizeof(uint32_t);
     create_info.pCode = code.data();
     
-    VkShaderModule shader_module;
+    VkShaderModule shader_module = VK_NULL_HANDLE;
     VkResult result = vkCreateShaderModule(context_->device(), &create_info,
                                             nullptr, &shader_module);
     
