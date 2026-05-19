@@ -581,6 +581,13 @@ ValidationResult AQLQueryBuilder::validate() const {
     return result;
 }
 
+ValidationResult AQLQueryBuilder::validate(const std::vector<CollectionMetadata>& schema) const {
+    // Delegate to AQLQueryValidator which has full schema-aware logic for both
+    // structural checks and unknown-collection / unknown-field detection.
+    AQLQueryValidator validator;
+    return validator.validate(*this, schema);
+}
+
 // ============================================================================
 // Rule-based suggestions
 // ============================================================================

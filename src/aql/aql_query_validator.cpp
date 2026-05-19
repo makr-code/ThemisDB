@@ -449,6 +449,29 @@ ValidationResult AQLQueryValidator::validate(
     return result;
 }
 
+// ============================================================================
+// AQLQueryValidator::validate(AQLQueryBuilder, schema)
+// ============================================================================
+
+ValidationResult AQLQueryValidator::validate(
+    const AQLQueryBuilder& builder,
+    const std::vector<CollectionMetadata>& schema
+) const {
+    // Run all structural builder checks first (same as validate(builder))
+    ValidationResult result = validate(builder);
+
+    // Then apply schema-aware checks against the provided schema snapshot.
+    // The partial query is used because the builder may be incomplete; only
+    // collections and field accesses already present are checked.
+    const std::string partial = builder.getPartialQuery();
+    if (!partial.empty()) {
+        checkUnknownCollections(partial, schema, result);
+        checkUnknownFields(partial, schema, result);
+    }
+
+    return result;
+}
+
 } // namespace aql
 } // namespace themis
 

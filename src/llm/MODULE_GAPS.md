@@ -138,6 +138,13 @@ regression tests added (`test_vulkan_dispatch_reliability.cpp`).
 4. 🟠 **HIGH oop_design (7961)** — Virtual destructors and const correctness (Target: v1.21.0)
 5. 🟡 **MEDIUM type_conversion (1888)** — Narrowing conversions (Target: v1.22.0)
 
+**Status (v1.22.0-pre):** First batch of `size_t`→`int` narrowing conversions fixed in source
+files: `byzantine_detector.cpp` (3 sites: `int n = shard_gradients.size()`),
+`ethics_aware_confidence_detector.cpp` (`int violations = .size() + .size()`),
+`multi_perspective_generator.cpp` (`int threshold = ...size()`), and
+`lora_framework/lora_training_service.cpp` (`int total_steps = data.size()/...`).
+All converted to `static_cast<int>(...)` with explicit narrowing intent.
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)

@@ -637,7 +637,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findCommonThemes(
     }
     
     // Find themes that appear in multiple perspectives
-    int threshold = perspectives.size() >= 3 ? 2 : perspectives.size();
+    const int threshold = (perspectives.size() >= 3) ? 2 : static_cast<int>(perspectives.size());
     
     for (const auto& [theme, count] : theme_counts) {
         if (count >= threshold) {

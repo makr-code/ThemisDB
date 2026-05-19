@@ -116,6 +116,25 @@ public:
      */
     ValidationResult validate(const AQLQueryBuilder& builder) const;
 
+    /**
+     * @brief Validate an AQLQueryBuilder against an explicit schema snapshot.
+     *
+     * Runs all structural checks (same as @c validate(builder)), then applies
+     * schema-aware checks against the provided @p schema instead of any schema
+     * that may be attached to the builder via @c AQLQueryBuilder::setSchema():
+     *  - Warns when a collection used in a FOR clause is absent from @p schema.
+     *  - Warns when a field access (@c variable.field) refers to a field not
+     *    listed in the schema for that collection.
+     *
+     * @param builder Builder to validate (may be partial or complete).
+     * @param schema  External collection metadata snapshot to validate against.
+     * @return ValidationResult with all issues found.
+     */
+    ValidationResult validate(
+        const AQLQueryBuilder& builder,
+        const std::vector<CollectionMetadata>& schema
+    ) const;
+
 private:
     void checkUnknownCollections(
         const std::string& query,

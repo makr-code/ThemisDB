@@ -482,7 +482,9 @@ public:
             // Create learning rate scheduler using factory (more comprehensive than params-based)
             // Use config_ scheduler if available, otherwise fall back to params
             std::unique_ptr<LRScheduler> lr_scheduler;
-            int total_steps = (data.size() / params.batch_size) * params.num_epochs;
+            const int total_steps = static_cast<int>(
+                (data.size() / static_cast<size_t>(params.batch_size)) *
+                static_cast<size_t>(params.num_epochs));
             
             // Use production LR scheduler factory with full configuration support
             if (config_.lr_scheduler.type != SchedulerType::CONSTANT || config_.lr_scheduler.base_lr != 1e-4f) {
