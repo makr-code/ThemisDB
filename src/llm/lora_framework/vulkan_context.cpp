@@ -244,15 +244,23 @@ bool VulkanContext::create_instance(bool enable_validation) {
 
 bool VulkanContext::select_physical_device(int device_id) {
     uint32_t device_count = 0;
-    vkEnumeratePhysicalDevices(instance_, &device_count, nullptr);
-    
+    VkResult enum_result = vkEnumeratePhysicalDevices(instance_, &device_count, nullptr);
+    if (enum_result != VK_SUCCESS) {
+        std::cerr << "vkEnumeratePhysicalDevices (count) failed: " << enum_result << std::endl;
+        return false;
+    }
+
     if (device_count == 0) {
         std::cerr << "No Vulkan-capable GPU found" << std::endl;
         return false;
     }
     
     std::vector<VkPhysicalDevice> devices(device_count);
-    vkEnumeratePhysicalDevices(instance_, &device_count, devices.data());
+    enum_result = vkEnumeratePhysicalDevices(instance_, &device_count, devices.data());
+    if (enum_result != VK_SUCCESS && enum_result != VK_INCOMPLETE) {
+        std::cerr << "vkEnumeratePhysicalDevices (fill) failed: " << enum_result << std::endl;
+        return false;
+    }
     
     // If device_id is specified and valid, use it
     if (device_id >= 0 && device_id < static_cast<int>(device_count)) {

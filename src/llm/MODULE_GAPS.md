@@ -63,6 +63,15 @@ Security-sensitive input validation gaps found by static analysis:
 | IVB-04: Missing bounds re-validation before raw tensor `memcpy` | Added strict range checks against `mmap_size_` and `metadata_.total_size` directly in `getTensorData()` before copy | `gguf_loader.cpp` |
 | AUDIT.md inconsistency: LLM-NEW-1 shown as open despite path fixes | LLM-NEW-1 closed; compliance table updated | `AUDIT.md` |
 
+### Addressed in this PR (v1.21.0-pre — reliability hardening)
+
+| Gap | Fix | File |
+|-----|-----|------|
+| REL-01: `vkBeginCommandBuffer` return value silently ignored in `dispatch()` | Return value checked; throws `std::runtime_error` on failure | `lora_framework/vulkan_pipeline.cpp` |
+| REL-02: `vkEndCommandBuffer` return value silently ignored in `dispatch()` | Return value checked; throws `std::runtime_error` on failure | `lora_framework/vulkan_pipeline.cpp` |
+| REL-03: `vkQueueSubmit` return value silently ignored in `dispatch()` | Return value checked; throws `std::runtime_error` on failure | `lora_framework/vulkan_pipeline.cpp` |
+| REL-04: Both `vkEnumeratePhysicalDevices` calls unchecked in `select_physical_device()` | Return values checked; `VK_INCOMPLETE` tolerated on fill call; function returns false on any other error | `lora_framework/vulkan_context.cpp` |
+
 ### Previously addressed (2026-04-21 / 2026-05-04)
 
 | Gap ID | Fix |
@@ -108,6 +117,11 @@ Primarily in GPU-backend conditional compilation paths (`#ifdef THEMIS_ENABLE_CU
 - Some exception-unsafe resource acquisition patterns (raw `new` before try block)
 
 **Priority:** High; fix incrementally. No known crash vectors under current test workloads.
+
+**Status (v1.21.0-pre):** REL-01..REL-04 fixed — `vkBeginCommandBuffer`, `vkEndCommandBuffer`,
+`vkQueueSubmit` now throw `std::runtime_error` on failure; both `vkEnumeratePhysicalDevices`
+calls in `select_physical_device()` now checked. Focused regression tests added
+(`test_vulkan_dispatch_reliability.cpp`).
 
 ---
 

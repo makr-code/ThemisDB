@@ -169,6 +169,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `tests/test_kv_cache_buffer.cpp`: `AppendTokenRejectsNullPointers` (IVB-03)
     - `tests/test_gguf_loader.cpp`: `GetTensorDataRejectsOutOfBoundsRange` (IVB-04)
 
+- **LLM Module — Vulkan Backend Reliability Hardening (v1.21.0-pre)** 🛡️
+  - **REL-01:** `vkBeginCommandBuffer` return value now checked in `VulkanComputePipeline::dispatch()`; throws
+    `std::runtime_error` on failure — previously silently ignored.
+  - **REL-02:** `vkEndCommandBuffer` return value now checked in `dispatch()`; throws `std::runtime_error`
+    on failure.
+  - **REL-03:** `vkQueueSubmit` return value now checked in `dispatch()`; throws `std::runtime_error` on failure.
+  - **REL-04:** Both `vkEnumeratePhysicalDevices` calls in `VulkanContext::select_physical_device()` are now
+    checked; `VK_INCOMPLETE` tolerated on fill call; any other error causes the function to return `false`.
+  - Doxygen for `VulkanComputePipeline::dispatch()` updated with `@throws` contract.
+  - Regression test stubs added (`tests/test_vulkan_dispatch_reliability.cpp`, REL-01..REL-04) with
+    `GTEST_SKIP` guards pending Vulkan Mock ICD availability.
+
 - **Task Scheduler AuthZ Hardening (GAP-001)** 🔐
   - Activated runtime permission checks in `TaskScheduler` for:
     - `registerTask()` → requires `task:register`
