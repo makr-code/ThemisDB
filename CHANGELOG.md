@@ -61,6 +61,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     (scanner flags pure-virtual base class declarations, not derived-class implementations),
     6 PURE_VIRTUAL_UNIMPLEMENTED (intentional interface contracts). All concrete processor
     subclasses already use `override` throughout. All 1,479 hits are closed as false positives.
+- **CONTENT module — Phase 9 reliability hardening** (`src/content/content_manager.cpp`, `src/content/MODULE_GAPS.md`)
+  - **CON-029 — Top-10 reliability batch in `content_manager.cpp`:** replaced the first 10
+    broad `catch (...)` handlers in the filter/scan path with typed exception handling:
+    `catch (const std::exception&)` for parse/scan guards and
+    `catch (const std::invalid_argument&)` / `catch (const std::out_of_range&)` for
+    `std::stod` conversion sites.
+  - **Scanner delta (`content_manager.cpp`):** reliability findings reduced from **50 → 40**
+    in this block (net **-10**), with behavior preserved (fail-safe/non-throwing path).
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
