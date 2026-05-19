@@ -192,7 +192,7 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
             for (auto& f : c.data) f = readF32();
         }
         return t;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

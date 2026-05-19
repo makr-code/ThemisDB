@@ -412,7 +412,7 @@ ChangeManagementEvidence SecurityEvidenceCollector::collectChangeManagement(
             for (const auto& entry : entries) {
                 evidence.config_audit_trail.push_back(entry.record);
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Audit logger may not support config_change category; non-fatal
         }
     }
@@ -534,7 +534,7 @@ bool SecurityEvidenceCollector::verifyRetention(const std::string& evidence_stor
                                 entry.path().filename().string());
                     return false;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Ignore parse errors for individual files
             }
         }

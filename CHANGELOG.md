@@ -22,6 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `HammingCoderFocusedTests` CTest target registered
 
 ### Fixed
+- **Security/Storage modules — catch-all hardening Phase 19 (complete)** 🔧
+  - Replaced all 71 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    32 C++ files in `src/security/` and `src/storage/`.
+  - Largest batches: `field_encryption.cpp` (×9), `hsm_provider.cpp` (×7),
+    `timestamp_authority.cpp` (×4), `rocksdb_wrapper.cpp` (×4).
+  - Zero `catch(...)` remain in Security/Storage C++ sources; best-effort/ignore behavior preserved.
+
 - **LLM module — catch-all hardening Phase 18 (complete)** 🔧
   - Replaced all 61 remaining `catch(...)` handlers with `catch (const std::exception&)` across
     24 `src/llm/` files:

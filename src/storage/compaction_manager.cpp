@@ -228,7 +228,7 @@ CompactionManager::Stats CompactionManager::stats() const {
                             // L0 writes are exclusively from memtable flush
                             flush_gb = write_gb;
                         }
-                    } catch (...) {}
+                    } catch (const std::exception&) {}
                 }
             }
 

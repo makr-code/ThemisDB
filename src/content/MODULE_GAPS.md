@@ -28,6 +28,14 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 19 — Security/Storage catch-all hardening (COMPLETE)
+
+- **All remaining `src/security/` + `src/storage/` C++ catch-all handlers**: Replaced 71
+  catch-all handlers with typed `std::exception` catches across 32 files.
+  - Largest batches: `field_encryption.cpp` (×9), `hsm_provider.cpp` (×7),
+    `timestamp_authority.cpp` (×4), `rocksdb_wrapper.cpp` (×4).
+  - Zero `catch(...)` remain in Security/Storage C++ sources.
+
 ### Phase 18 — LLM module catch-all hardening (COMPLETE)
 
 - **All remaining `src/llm/` catch-all handlers**: Replaced 61 catch-all handlers with typed

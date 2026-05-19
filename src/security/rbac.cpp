@@ -202,7 +202,7 @@ bool RBAC::loadConfig(const std::string& path) {
         try {
             nlohmann::json j = nlohmann::json::parse(content);
             return loadFromJson(j);
-        } catch (...) {
+        } catch (const std::exception&) {
             return loadFromYaml(content);
         }
         
