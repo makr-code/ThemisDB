@@ -192,3 +192,22 @@ TEST(DPRVectorizer, DPR_10_GetConfigReturnsParameters) {
     EXPECT_EQ(retrieved_config.batch_size, 64u);
     EXPECT_EQ(retrieved_config.embedding_dimension, 512u);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-11: encodePassageBatch with empty input returns empty vector (no throw)
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_11_EncodePassageBatchEmptyInputReturnsEmpty) {
+    DPRVectorizerConfig config;
+    config.query_model_path = createTempModelFile("query_model_11.onnx");
+    config.passage_model_path = createTempModelFile("passage_model_11.onnx");
+    config.embedding_dimension = 384;
+
+    DPRVectorizer vectorizer(config);
+    vectorizer.initialize();
+
+    // An empty passages list must return an empty result without any exception.
+    const std::vector<std::string> empty_passages;
+    std::vector<std::vector<float>> results;
+    ASSERT_NO_THROW(results = vectorizer.encodePassageBatch(empty_passages));
+    EXPECT_TRUE(results.empty());
+}

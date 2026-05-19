@@ -68,4 +68,17 @@ TEST(PluginRegistrarFailClosedTest, LlamaDraftTokensCapsOversizedVocabHintInFall
     EXPECT_LT(static_cast<size_t>(result.tokens[0]), result.vocab_size);
 }
 
+TEST(PluginRegistrarFailClosedTest, LlamaDraftTokensZeroKReturnsEmptyResult) {
+    // k=0 is a valid (no-op) call: caller should receive an empty token/logit
+    // list and a valid (non-zero) vocab_size without any allocation of logit rows.
+    LlamaCppPlugin plugin;
+    themis::llm::InferenceRequest req;
+    req.prompt = "hello";
+
+    const auto result = plugin.generateDraftTokens(req, 0, 1024);
+    EXPECT_TRUE(result.tokens.empty());
+    EXPECT_TRUE(result.logits.empty());
+    EXPECT_GT(result.vocab_size, 0u);
+}
+
 } // namespace

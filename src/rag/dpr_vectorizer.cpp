@@ -435,6 +435,11 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
 
     THEMIS_DEBUG("Batch encoding {} passages", passages.size());
 
+    if (passages.empty()) {
+        THEMIS_DEBUG("DPRVectorizer::encodePassageBatch called with empty input; returning empty result");
+        return {};
+    }
+
     // Phase 2: Batch encoding with GPU acceleration
     std::vector<std::vector<float>> results;
     results.reserve(passages.size());

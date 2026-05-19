@@ -527,7 +527,16 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
         size_t                       k,
         size_t                       vocab_size_hint) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    // Fast-path: k=0 is a valid (no-op) call; return empty result immediately.
+    if (k == 0) {
+        llm::ILLMPlugin::DraftTokensResult empty;
+        empty.vocab_size = (vocab_size_hint > 0)
+                               ? std::min(vocab_size_hint, kMaxDraftFallbackVocabSize)
+                               : kDefaultDraftFallbackVocabSize;
+        return empty;
+    }
+
     llm::ILLMPlugin::DraftTokensResult result;
     const size_t requested_vocab_size =
         (vocab_size_hint > 0) ? vocab_size_hint : kDefaultDraftFallbackVocabSize;

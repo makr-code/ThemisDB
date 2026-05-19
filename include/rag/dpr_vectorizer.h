@@ -149,8 +149,11 @@ public:
      * Processes passages in batches for improved throughput on GPU.
      * Target: ≥ 100 docs/sec for batch_size=32.
      *
-     * @param passages Vector of passage texts.
-     * @return Vector of dense embeddings (same length as input).
+     * An empty @p passages input is valid and returns an empty vector immediately
+     * without any I/O or ONNX calls.
+     *
+     * @param passages Vector of passage texts (may be empty).
+     * @return Vector of dense embeddings (same length as input, empty when input is empty).
      * @throws std::runtime_error if not initialized or any encoding fails.
      */
     std::vector<std::vector<float>> encodePassageBatch(
