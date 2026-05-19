@@ -19,6 +19,7 @@
  */
 
 #include "server/rpc/blob_transfer_handler.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <zstd.h>
 #include <lz4.h>
@@ -387,7 +388,7 @@ private:
                 if (!bridged.empty()) {
                     return bridged;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
             }
         }
 

@@ -22,6 +22,7 @@
  */
 
 #include "server/monitoring_api_handler.h"
+#include <stdexcept>
 #include "server/openapi_route_registry.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
@@ -411,7 +412,7 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
         json rocksdb_json;
         try {
             rocksdb_json = json::parse(rocksdb_stats);
-        } catch (...) {
+        } catch (const std::exception&) {
             rocksdb_json = {{"error", "Failed to parse RocksDB stats"}};
         }
         
@@ -457,7 +458,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
             {"version", build_config.compiler_version},
             {"type", build_config.build_type}
         };
-    } catch (...) {
+    } catch (const std::exception&) {
         // If build info fails, continue with basic capabilities
     }
 
@@ -531,7 +532,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
                     {"capabilities", schema_caps["capabilities"]}
                 };
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // If schema manager fails, continue without schema capabilities
             caps["schema_awareness"] = {
                 {"enabled", false}
@@ -568,7 +569,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         json rdb;
         try {
             rdb = json::parse(storage_->getStats());
-        } catch (...) {
+        } catch (const std::exception&) {
             rdb = json::object();
         }
         json r = rdb.contains("rocksdb") ? rdb["rocksdb"] : json::object();
@@ -769,7 +770,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         } catch (const std::exception& e) {
             // If plugin metrics fail, log and continue without them
             THEMIS_WARN("Failed to collect plugin metrics: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             // Catch any other exceptions to prevent metrics collection from breaking /metrics endpoint
             THEMIS_WARN("Unknown error while collecting plugin metrics");
         }
@@ -783,7 +784,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             out += "# HELP themis_trace_active_spans Number of currently active spans\n";
             out += "# TYPE themis_trace_active_spans gauge\n";
             out += "themis_trace_active_spans " + std::to_string(Tracer::getActiveSpans()) + "\n";
-        } catch (...) {
+        } catch (const std::exception&) {
             // If tracing metrics fail, log and continue
             THEMIS_WARN("Failed to collect tracing metrics");
         }
@@ -797,7 +798,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             }
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to collect HSM security metrics: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_WARN("Unknown error while collecting HSM security metrics");
         }
 
@@ -812,7 +813,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             themis::config::ConfigMetricsExporter::updateMetricsCollector();
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to collect config path resolution metrics: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_WARN("Unknown error while collecting config path resolution metrics");
         }
 
@@ -827,7 +828,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             }
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to collect subsystem metrics: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_WARN("Unknown error while collecting subsystem metrics");
         }
 
@@ -1082,7 +1083,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
                 if (j.contains("duration_minutes") && j["duration_minutes"].is_number_integer()) {
                     duration_minutes = j["duration_minutes"].get<int>();
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // ignore JSON parse errors; use default duration
             }
         }

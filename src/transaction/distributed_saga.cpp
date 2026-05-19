@@ -438,7 +438,7 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
         } catch (const std::exception& e) {
             last_status = DistributedSagaStatus::Error(
                 std::string("exception: ") + e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             last_status = DistributedSagaStatus::Error("unknown exception");
         }
 
@@ -556,7 +556,7 @@ DistributedSagaStatus DistributedSagaCoordinator::compensateStep(
         } catch (const std::exception& e) {
             last_status = DistributedSagaStatus::Error(
                 std::string("compensation exception: ") + e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             last_status = DistributedSagaStatus::Error("unknown compensation exception");
         }
 
@@ -625,7 +625,7 @@ void DistributedSagaCoordinator::journalWrite(
             f << ",\"detail\":\"" << escaped << "\"";
         }
         f << "}\n";
-    } catch (...) {
+    } catch (const std::exception&) {
         // Journal write failures are non-fatal
     }
 }
@@ -728,7 +728,7 @@ std::vector<std::string> DistributedSagaCoordinator::recoverInProgressSAGAs() {
             if (!sid.empty() && !event.empty()) {
                 latest_event[sid] = event;
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Malformed lines are silently skipped
         }
     }

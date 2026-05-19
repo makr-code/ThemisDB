@@ -21,6 +21,7 @@
  */
 
 #include "server/saga_api_handler.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
@@ -165,7 +166,7 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
                 
                 break;
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             continue;
         }
     }
@@ -244,7 +245,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
                         }
                         break;
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     continue;
                 }
             }

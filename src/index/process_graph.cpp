@@ -29,6 +29,7 @@
 // Supports BPMN, EPK, and advanced process modeling patterns
 
 #include "index/process_graph.h"
+#include <stdexcept>
 #include "index/edge_types.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -338,7 +339,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
         } catch (const std::out_of_range&) {
             // Number too large
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             // Other unexpected errors
             return false;
         }
@@ -868,7 +869,7 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
     if (varsStr) {
         try {
             instance.variables = nlohmann::json::parse(*varsStr);
-        } catch (...) {
+        } catch (const std::exception&) {
             instance.variables = nlohmann::json::object();
         }
     }
@@ -1384,7 +1385,7 @@ ProcessGraphManager::findActiveTasks(std::string_view assignee_or_role) const {
             if (varsStr) {
                 try {
                     token.variables = nlohmann::json::parse(*varsStr);
-                } catch (...) {
+                } catch (const std::exception&) {
                     token.variables = nlohmann::json::object();
                 }
             }
@@ -1459,7 +1460,7 @@ ProcessGraphManager::getNodeHistory(
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         
         if (!visitedNode) return true;
@@ -1496,7 +1497,7 @@ ProcessGraphManager::getNodeHistory(
         if (varsStr) {
             try {
                 token.variables = nlohmann::json::parse(*varsStr);
-            } catch (...) {
+            } catch (const std::exception&) {
                 token.variables = nlohmann::json::object();
             }
         }
@@ -1800,7 +1801,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         
         auto targetsStr = entity.getFieldAsString("targets");
@@ -1814,7 +1815,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         
         // Parse sync type
@@ -1843,7 +1844,7 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         
         // Check completion status
@@ -1964,7 +1965,7 @@ ProcessGraphManager::queryTasksByFormData(
         nlohmann::json vars = nlohmann::json::object();
         const auto varsStr = tokenEntity.getFieldAsString("variables");
         if (varsStr) {
-            try { vars = nlohmann::json::parse(*varsStr); } catch (...) {}
+            try { vars = nlohmann::json::parse(*varsStr); } catch (const std::exception&) {}
         }
         // Also check form_data field.
         const auto formStr = tokenEntity.getFieldAsString("form_data");
@@ -1974,7 +1975,7 @@ ProcessGraphManager::queryTasksByFormData(
                 if (fd.is_object()) {
                     for (auto& [k, v] : fd.items()) vars[k] = v;
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
 
         // Check all filter conditions (AND semantics).
@@ -2071,7 +2072,7 @@ ProcessGraphManager::joinWithCollection(
                 doc[ff] = *ffVal;
                 foreignIndex[*ffVal] = std::move(doc);
             }
-        } catch (...) {}
+        } catch (const std::exception&) {}
         return true;
     });
 
@@ -2093,7 +2094,7 @@ ProcessGraphManager::joinWithCollection(
 
         nlohmann::json vars = nlohmann::json::object();
         const auto varsStr = tokenEntity.getFieldAsString("variables");
-        if (varsStr) { try { vars = nlohmann::json::parse(*varsStr); } catch (...) {} }
+        if (varsStr) { try { vars = nlohmann::json::parse(*varsStr); } catch (const std::exception&) {} }
 
         // Look up the local_field value.
         if (!vars.contains(lf)) return true;
@@ -2191,7 +2192,7 @@ ProcessGraphManager::aggregateByField(
 
         nlohmann::json vars = nlohmann::json::object();
         const auto varsStr = tokenEntity.getFieldAsString("variables");
-        if (varsStr) { try { vars = nlohmann::json::parse(*varsStr); } catch (...) {} }
+        if (varsStr) { try { vars = nlohmann::json::parse(*varsStr); } catch (const std::exception&) {} }
 
         if (!vars.contains(gf)) return true;
 
@@ -2255,7 +2256,7 @@ std::vector<float> parseEmbeddingJson(const std::string& s) {
                 if (v.is_number()) emb.push_back(v.get<float>());
             }
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
     return emb;
 }
 
@@ -2739,7 +2740,7 @@ ProcessGraphManager::findTasksInArea(
         [&](const std::string& iid, const std::string& tid, const BaseEntity& te) {
             nlohmann::json vars = nlohmann::json::object();
             const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
+            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (const std::exception&) {} }
 
             double lon, lat;
             if (!extractTokenGeo(vars, lon, lat)) return true;
@@ -2779,7 +2780,7 @@ ProcessGraphManager::findTasksInGeofence(
         [&](const std::string& iid, const std::string& tid, const BaseEntity& te) {
             nlohmann::json vars = nlohmann::json::object();
             const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
+            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (const std::exception&) {} }
 
             double lon, lat;
             if (!extractTokenGeo(vars, lon, lat)) return true;
@@ -2836,7 +2837,7 @@ ProcessGraphManager::optimizeTaskRoute(
 
             nlohmann::json vars = nlohmann::json::object();
             const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
+            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (const std::exception&) {} }
 
             stop.token.token_id            = tid;
             stop.token.process_instance_id = iid;
@@ -2965,7 +2966,7 @@ ProcessGraphManager::getRegionalParameters(
     nlohmann::json regParams;
     try {
         regParams = nlohmann::json::parse(*regParamsStr);
-    } catch (...) {
+    } catch (const std::exception&) {
         return {Status::Error("Failed to parse regional_parameters JSON"), {}};
     }
 
@@ -3057,7 +3058,7 @@ ProcessGraphManager::executeMultiModelQuery(
             // 2. Relational filter.
             nlohmann::json vars = nlohmann::json::object();
             const auto vs = te.getFieldAsString("variables");
-            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (...) {} }
+            if (vs) { try { vars = nlohmann::json::parse(*vs); } catch (const std::exception&) {} }
 
             if (!query.filter_conditions.is_null() && query.filter_conditions.is_object()) {
                 for (auto& [field, expected] : query.filter_conditions.items()) {

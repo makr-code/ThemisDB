@@ -184,7 +184,7 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
             msg2.ttl_seconds = ttl_seconds;
             msg2.tenant_id   = tenant_id;
             bool ok = false;
-            try { ok = fn(channel_, serializeMessage(msg2)); } catch (...) { ok = false; }
+            try { ok = fn(channel_, serializeMessage(msg2)); } catch (const std::exception&) { ok = false; }
             std::lock_guard<std::mutex> slk(stats_mutex_);
             if (ok) ++messages_published_; else ++publish_errors_;
         } else {
@@ -244,7 +244,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
             msg2.key       = pattern;
             msg2.tenant_id = tenant_id;
             bool ok = false;
-            try { ok = fn(channel_, serializeMessage(msg2)); } catch (...) { ok = false; }
+            try { ok = fn(channel_, serializeMessage(msg2)); } catch (const std::exception&) { ok = false; }
             std::lock_guard<std::mutex> slk(stats_mutex_);
             if (ok) ++messages_published_; else ++publish_errors_;
         } else {
@@ -445,7 +445,7 @@ void RedisCacheCoordinator::subscribeLoop() {
                     mc.addCounter("cache.redis.reconnect", 1);
                 } catch (const std::exception& ex) {
                     THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
-                } catch (...) {}
+                } catch (const std::exception&) {}
 
                 THEMIS_WARN("RedisCacheCoordinator: subscribe connect failed; "
                             "retrying in {} ms (back-off)", backoff_ms);
@@ -526,7 +526,7 @@ void RedisCacheCoordinator::subscribeLoop() {
                 mc.addCounter("cache.redis.reconnect", 1);
             } catch (const std::exception& ex) {
                 THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
-            } catch (...) {}
+            } catch (const std::exception&) {}
 
             THEMIS_WARN("RedisCacheCoordinator: subscriber connection lost; "
                         "reconnecting in {} ms (back-off)", backoff_ms);

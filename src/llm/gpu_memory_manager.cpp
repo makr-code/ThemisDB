@@ -22,6 +22,7 @@
  */
 
 #include "llm/gpu_memory_manager.h"
+#include <stdexcept>
 #include "utils/error_registry.h"
 #include "security/vram_secure_clear.h"
 #include <spdlog/spdlog.h>
@@ -105,7 +106,7 @@ public:
             }
         } catch (const std::exception& e) {
             spdlog::error("Exception during memory cleanup: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             spdlog::error("Unknown exception during memory cleanup");
         }
     }

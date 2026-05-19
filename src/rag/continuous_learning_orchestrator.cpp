@@ -28,6 +28,7 @@
  */
 
 #include "rag/continuous_learning_orchestrator.h"
+#include <stdexcept>
 #include "rag/bayesian_optimizer.h"
 #include "utils/logger.h"
 #include "distributed_knowledge/lora_federation_coordinator.h"
@@ -672,7 +673,7 @@ void ContinuousLearningOrchestrator::loadMetrics() {
                 case 4: impl_->stats.lora_retraining_count   = static_cast<size_t>(std::stoull(field)); break;
                 default: break;
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Ignore parse errors for individual fields
         }
         col++;

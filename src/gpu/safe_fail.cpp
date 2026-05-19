@@ -31,6 +31,7 @@
  */
 
 #include "themis/gpu/safe_fail.h"
+#include <stdexcept>
 
 namespace themis {
 namespace gpu {
@@ -76,7 +77,7 @@ bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op,
         bool gpu_ok = false;
         try {
             gpu_ok = gpu_op();
-        } catch (...) {
+        } catch (const std::exception&) {
             gpu_ok = false;
         }
 
@@ -102,7 +103,7 @@ bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op,
     bool cpu_ok = false;
     try {
         cpu_ok = cpu_fallback();
-    } catch (...) {
+    } catch (const std::exception&) {
         cpu_ok = false;
     }
 

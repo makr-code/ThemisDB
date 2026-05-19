@@ -24,6 +24,7 @@
  */
 
 #include "cdc/changefeed.h"
+#include <stdexcept>
 #include "cdc/cdc_error.h"
 #include "utils/logger.h"
 #include <rocksdb/utilities/transaction_db.h>
@@ -65,7 +66,7 @@ public:
                 try {
                     base = std::stoull(std::string(existing_value->data(),
                                                    existing_value->size()));
-                } catch (...) {
+                } catch (const std::exception&) {
                     base = 0;
                 }
             }
@@ -191,7 +192,7 @@ uint64_t Changefeed::loadInitialSequence() const {
         // Legacy decimal-string format (backward compatibility)
         try {
             return std::stoull(seq_value);
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     if (s.IsNotFound()) {
@@ -229,7 +230,7 @@ uint64_t Changefeed::scanMaxSequence() const {
             if (seq > max_seq) {
                 max_seq = seq;
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Skip unparseable entries
         }
     }
@@ -267,7 +268,7 @@ Changefeed::Changefeed(rocksdb::TransactionDB* db,
                 ? db_->GetOptions(cf_)
                 : db_->GetOptions();
             merge_available = (opts.merge_operator != nullptr);
-        } catch (...) {
+        } catch (const std::exception&) {
             // If introspection fails, default to disabled (safe — prevents error state).
             merge_available = false;
         }
@@ -1166,7 +1167,7 @@ void Changefeed::notifySubscribers(const ChangeEvent& event)
         if (entry.filter.matches(event)) {
             try {
                 entry.callback(event);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Callbacks must not throw; log and continue.
                 THEMIS_WARN("Changefeed: subscriber callback threw an exception — ignored");
             }

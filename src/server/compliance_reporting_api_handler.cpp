@@ -22,6 +22,7 @@
  */
 
 #include "server/compliance_reporting_api_handler.h"
+#include <stdexcept>
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
 
@@ -66,7 +67,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
                 if (body.contains("resources") && body["resources"].is_array()) {
                     resources = body["resources"].get<std::vector<std::string>>();
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // If parsing fails, analyze with empty resource list
             }
         }

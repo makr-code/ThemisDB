@@ -24,6 +24,7 @@
  */
 
 #include "api/graphql.h"
+#include <stdexcept>
 #include "api/graphql_cache.h"
 #include "api/graphql_metrics.h"
 #include "utils/error_registry.h"
@@ -770,7 +771,7 @@ Executor::Result Executor::execute(
             "ERR_EXECUTION_FAILED",
             context.mask_errors
         );
-    } catch (...) {
+    } catch (const std::exception&) {
         result.addError(
             "Unknown execution error",
             "ERR_EXECUTION_FAILED",

@@ -13,6 +13,7 @@
  */
 
 #include "aql/llm_aql_embedding_bridge.h"
+#include <stdexcept>
 #include "aql/llm_aql_handler.h"
 #include <spdlog/spdlog.h>
 
@@ -29,7 +30,7 @@ std::vector<float> LLMAQLEmbeddingBridge::embed(const std::string& text) {
         spdlog::debug("LLMAQLEmbeddingBridge::embed(): executeEmbed failed ({}); "
                       "few-shot ranking falls back to Jaccard", e.what());
         return {};
-    } catch (...) {
+    } catch (const std::exception&) {
         spdlog::debug("LLMAQLEmbeddingBridge::embed(): executeEmbed threw unknown exception; "
                       "few-shot ranking falls back to Jaccard");
         return {};

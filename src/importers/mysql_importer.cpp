@@ -23,6 +23,7 @@
  */
 
 #include "importers/mysql_importer.h"
+#include <stdexcept>
 #include "utils/hash_util.h"
 #include "importers/importer_common.h"
 #include "utils/logger.h"
@@ -286,7 +287,7 @@ std::shared_ptr<ImportHandle> MySQLImporter::importDataAsync(
             err.message  = std::string("Unhandled exception in async MySQL import: ") + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (...) {
+        } catch (const std::exception&) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;
@@ -1131,7 +1132,7 @@ bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
         out.host = host_port.substr(0, colon_pos);
         std::string port_str = host_port.substr(colon_pos + 1);
         if (!port_str.empty()) {
-            try { out.port = std::stoi(port_str); } catch (...) {
+            try { out.port = std::stoi(port_str); } catch (const std::exception&) {
                 THEMIS_WARN("MySQL/MariaDB Importer: invalid port '{}' in JDBC URL; using default {}",
                             port_str, out.port);
             }
@@ -1292,7 +1293,7 @@ std::unordered_set<uint64_t> MySQLImporter::loadDeltaHashes(const std::string& d
         if (line.empty()) continue;
         try {
             hashes.insert(std::stoull(line, nullptr, 16));
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
     return hashes;
 }

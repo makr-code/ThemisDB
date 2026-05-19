@@ -261,7 +261,7 @@ ExportEncryption::encrypt(const std::vector<uint8_t>& plaintext) const {
                                  tag.data()) != 1) {
             throw std::runtime_error("ExportEncryption: get tag failed");
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx);
         OPENSSL_cleanse(dek.data(), dek.size());
         throw;
@@ -452,7 +452,7 @@ ExportEncryption::decrypt(const std::vector<uint8_t>& container) const {
                 "ExportEncryption: authentication tag mismatch – "
                 "file may be corrupted or tampered with");
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx);
         OPENSSL_cleanse(dek.data(), dek.size());
         throw;
@@ -776,7 +776,7 @@ size_t ExportEncryptor::encryptFile(const std::string& input_path,
     std::vector<uint8_t> dek;
     try {
         dek = deriveDataKey(kek, effective_job_id);
-    } catch (...) {
+    } catch (const std::exception&) {
         std::fill(kek.begin(), kek.end(), uint8_t{0});
         throw;
     }
@@ -965,7 +965,7 @@ size_t ExportEncryptor::decryptFile(const std::string& input_path,
     std::vector<uint8_t> dek;
     try {
         dek = deriveDataKey(kek, job_id);
-    } catch (...) {
+    } catch (const std::exception&) {
         std::fill(kek.begin(), kek.end(), uint8_t{0});
         throw;
     }

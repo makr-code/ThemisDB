@@ -28,6 +28,7 @@
  */
 
 #include "prompt_engineering/feedback_collector.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "distributed_knowledge/cross_shard_feedback_sync.h"
 #include "utils/logger.h"
@@ -420,7 +421,7 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackInTimeRange(
                         auto j = nlohmann::json::parse(
                             std::string(raw->begin(), raw->end()));
                         result.push_back(FeedbackEntry::fromJson(j));
-                    } catch (...) {}
+                    } catch (const std::exception&) {}
                 }
                 return true;
             });
@@ -512,7 +513,7 @@ size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
             try {
                 auto j = nlohmann::json::parse(std::string(value));
                 to_delete.push_back(FeedbackEntry::fromJson(j));
-            } catch (...) {}
+            } catch (const std::exception&) {}
             return true;
         });
         for (const auto& e : to_delete) {

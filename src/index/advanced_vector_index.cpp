@@ -25,6 +25,7 @@
  */
 
 #include "index/advanced_vector_index.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cmath>
@@ -169,7 +170,7 @@ bool AdvancedVectorIndex::initializeIndex() {
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::initializeIndex callback failed: {}", e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("AdvancedVectorIndex::initializeIndex callback failed");
             return false;
         }
@@ -228,7 +229,7 @@ bool AdvancedVectorIndex::train([[maybe_unused]] const float* vectors, [[maybe_u
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::train callback failed: {}", e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("AdvancedVectorIndex::train callback failed");
             return false;
         }
@@ -273,7 +274,7 @@ bool AdvancedVectorIndex::add([[maybe_unused]] const float* vectors, [[maybe_unu
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::add callback failed: {}", e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("AdvancedVectorIndex::add callback failed");
             return false;
         }
@@ -317,7 +318,7 @@ bool AdvancedVectorIndex::addWithIds([[maybe_unused]] const float* vectors, [[ma
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::addWithIds callback failed: {}", e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("AdvancedVectorIndex::addWithIds callback failed");
             return false;
         }
@@ -361,7 +362,7 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] c
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::search callback failed: {}", e.what());
             return result;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("AdvancedVectorIndex::search callback failed");
             return result;
         }
@@ -422,7 +423,7 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::searchBatch callback failed: {}", e.what());
             return results;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("AdvancedVectorIndex::searchBatch callback failed");
             return results;
         }
@@ -462,7 +463,7 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
             return callbacks.stats();
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed");
         }
     }
@@ -501,7 +502,7 @@ bool AdvancedVectorIndex::save([[maybe_unused]] const std::string& path) {
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::save callback failed: {}", e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("AdvancedVectorIndex::save callback failed");
             return false;
         }
@@ -540,7 +541,7 @@ bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::load callback failed: {}", e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("AdvancedVectorIndex::load callback failed");
             return false;
         }

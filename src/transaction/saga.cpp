@@ -22,6 +22,7 @@
  */
 
 #include "transaction/saga.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -66,7 +67,7 @@ void Saga::compensate() {
         } catch (const std::exception& e) {
             THEMIS_ERROR("SAGA: Compensation failed for '{}': {}", it->operation_name, e.what());
             // Continue with other compensations
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("SAGA: Unknown error during compensation of '{}'", it->operation_name);
         }
     }
@@ -157,7 +158,7 @@ void Saga::compensateWithRetry(int max_retries,
             } catch (const std::exception& e) {
                 THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
                             it->operation_name, attempt + 1, e.what());
-            } catch (...) {
+            } catch (const std::exception&) {
                 THEMIS_WARN("SAGA: Unknown error during compensation of '{}' (attempt {})",
                             it->operation_name, attempt + 1);
             }

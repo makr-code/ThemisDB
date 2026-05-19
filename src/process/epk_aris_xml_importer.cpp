@@ -23,6 +23,7 @@
  */
 
 #include "process/epk_aris_xml_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -72,7 +73,7 @@ std::string unescapeAml(std::string_view s) {
                 } else {
                     out += std::string(ent); // keep as-is for supplementary planes
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 out += std::string(ent);
             }
         }
@@ -369,7 +370,7 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
                     try {
                         current_model.occ_sym[it_id->second] =
                             std::stoi(it_sym->second);
-                    } catch (...) {}
+                    } catch (const std::exception&) {}
                 }
             }
             return;
@@ -398,7 +399,7 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
             current_obj_id = (it_id != tag.attrs.end()) ? it_id->second : "";
             if (it_num != tag.attrs.end()) {
                 try { current_obj.type_num = std::stoi(it_num->second); }
-                catch (...) {}
+                catch (const std::exception&) {}
             }
             ctx = Context::OBJ_DEF;
             return;

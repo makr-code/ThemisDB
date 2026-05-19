@@ -25,6 +25,7 @@
  */
 
 #include "api/otlp_exporter.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <curl/curl.h>
@@ -171,7 +172,7 @@ void OtlpExporter::start()
     stop_.store(false, std::memory_order_relaxed);
     try {
         flush_thread_ = std::thread(&OtlpExporter::flushLoop, this);
-    } catch (...) {
+    } catch (const std::exception&) {
         // Thread creation failed; clean up curl resources and re-throw.
         if (curl_headers_) { curl_slist_free_all(curl_headers_); curl_headers_ = nullptr; }
         if (curl_handle_)  { curl_easy_cleanup(curl_handle_);    curl_handle_  = nullptr; }

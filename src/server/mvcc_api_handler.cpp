@@ -25,6 +25,7 @@
 // Licensed under MIT License
 
 #include "server/mvcc_api_handler.h"
+#include <stdexcept>
 #include "utils/input_validator.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
@@ -133,7 +134,7 @@ void MvccApiHandler::handleGetKey(const httplib::Request& req,
             uint64_t ts_val = 0;
             try {
                 ts_val = std::stoull(req.get_param_value("timestamp"));
-            } catch (...) {
+            } catch (const std::exception&) {
                 sendError(res, 400, "Invalid timestamp parameter (must be uint64)");
                 return;
             }

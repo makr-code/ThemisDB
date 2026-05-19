@@ -23,6 +23,7 @@
  */
 
 #include "importers/flatfile_importer.h"
+#include <stdexcept>
 #include "importers/schema_validator.h"
 #include "utils/logger.h"
 #include <fstream>
@@ -181,7 +182,7 @@ bool FlatFileImporter::validateSource(const std::string& source_path,
                     errors.push_back("First record is not a JSON object");
                     return false;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 errors.push_back("First record is not valid JSON: " + line);
                 return false;
             }
@@ -381,7 +382,7 @@ std::shared_ptr<ImportHandle> FlatFileImporter::importDataAsync(
                 "Unhandled exception in async flat-file import: ") + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (...) {
+        } catch (const std::exception&) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;
@@ -499,7 +500,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
                 if (sampled == 0) first_cols = cols;
                 detector.feedRow(cols, vals);
                 ++sampled;
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
 
         if (sampled > 0) {
@@ -953,7 +954,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                 if (sampled == 0) first_cols = cols;
                 detector.feedRow(cols, vals);
                 ++sampled;
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         file.clear();
         file.seekg(data_start);

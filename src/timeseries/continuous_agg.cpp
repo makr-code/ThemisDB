@@ -23,6 +23,7 @@
  */
 
 #include "timeseries/continuous_agg.h"
+#include <stdexcept>
 #include "timeseries/tsstore.h"
 #include <sstream>
 #include <algorithm>
@@ -142,7 +143,7 @@ int64_t ContinuousAggWatermarkStore::getWatermark(const std::string& agg_id) con
     }
     try {
         return std::stoll(**result);
-    } catch (...) {
+    } catch (const std::exception&) {
         return 0;
     }
 }

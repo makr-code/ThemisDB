@@ -24,6 +24,7 @@
  */
 
 #include "llm/applications/themis_help_lora.h"
+#include <stdexcept>
 #include "llm/lora_framework/lora_orchestrator.h"
 #include "llm/lora_framework/lora_audit_logger.h"
 #include "llm/lora_framework/lora_training_service.h"
@@ -645,7 +646,7 @@ std::string ThemisHelpLoRA::incrementVersion(const std::string& version) {
     try {
         int minor_num = std::stoi(minor);
         return "v" + major + "." + std::to_string(minor_num + 1);
-    } catch (...) {
+    } catch (const std::exception&) {
         return "v1.1";
     }
 }
@@ -683,7 +684,7 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
             // Already at minimum version v1.0
             return "v1.0";
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         return "v1.0";
     }
 }

@@ -19,6 +19,7 @@
  */
 
 #include "importers/mongo_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -267,7 +268,7 @@ std::shared_ptr<ImportHandle> MongoDBImporter::importDataAsync(
                            + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (...) {
+        } catch (const std::exception&) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;
@@ -348,10 +349,10 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
                 try {
                     json doc = json::parse(line);
                     processDoc(doc);
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     json schema = json::array();
     std::string collection = configured_collection_.empty()
@@ -529,7 +530,7 @@ bool MongoDBImporter::importDocument(const json& doc,
         try {
             json unwrapped = unwrapDocument(doc);
             unwrapped["_type"] = collection;
-        } catch (...) {
+        } catch (const std::exception&) {
             addError(stats, ImportErrorCode::TYPE_CONVERSION, ImportErrorSeverity::WARNING,
                      "Dry-run: document unwrap failed",
                      "document " + std::to_string(doc_index + 1));
@@ -645,7 +646,7 @@ json MongoDBImporter::unwrapBsonValue(const json& value) {
     if (value.contains("$numberInt")) {
         const json& n = value["$numberInt"];
         if (n.is_string()) {
-            try { return std::stoi(n.get<std::string>()); } catch (...) {}
+            try { return std::stoi(n.get<std::string>()); } catch (const std::exception&) {}
         }
         if (n.is_number()) return n;
     }
@@ -654,7 +655,7 @@ json MongoDBImporter::unwrapBsonValue(const json& value) {
     if (value.contains("$numberDouble")) {
         const json& n = value["$numberDouble"];
         if (n.is_string()) {
-            try { return std::stod(n.get<std::string>()); } catch (...) {}
+            try { return std::stod(n.get<std::string>()); } catch (const std::exception&) {}
         }
         if (n.is_number()) return n;
     }

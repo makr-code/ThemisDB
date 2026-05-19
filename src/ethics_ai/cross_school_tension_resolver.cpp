@@ -51,7 +51,7 @@ std::vector<SchoolTension> CrossSchoolTensionResolver::loadTensions(
 
         try {
             t.rebuttal_cite_weight = std::stof(weight_str);
-        } catch (...) {
+        } catch (const std::exception&) {
             t.rebuttal_cite_weight = 0.5f;
         }
 

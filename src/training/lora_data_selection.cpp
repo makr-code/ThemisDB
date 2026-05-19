@@ -1149,7 +1149,7 @@ public:
         double threshold = 0.0;
         if (j >= condition.size()) return false; // malformed condition: no threshold
         try { threshold = std::stod(condition.substr(j)); }
-        catch (...) { return false; } // malformed threshold: treat as not triggered
+        catch (const std::exception&) { return false; } // malformed threshold: treat as not triggered
 
         if (op == "<")  return metric_value <  threshold;
         if (op == ">")  return metric_value >  threshold;

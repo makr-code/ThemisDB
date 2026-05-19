@@ -24,6 +24,7 @@
  */
 
 #include "cache/adaptive_query_cache.h"
+#include <stdexcept>
 #include "cache/cache_replication.h"
 #include "cache/eviction_policy.h"
 #include "storage/rocksdb_wrapper.h"
@@ -2494,7 +2495,7 @@ bool AdaptiveQueryCache::contains(const std::string& fingerprint) const {
         try {
             std::lock_guard<std::mutex> lock(l3_mutex_);
             return l3_db_->get(QUERY_CACHE_PREFIX + fingerprint).has_value();
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     return false;

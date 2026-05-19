@@ -23,6 +23,7 @@
  */
 
 #include "server/rope_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/vector_index.h"
@@ -740,7 +741,7 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                     ++errors;
                 }
                 
-            } catch (...) {
+            } catch (const std::exception&) {
                 ++errors;
             }
         }

@@ -22,6 +22,7 @@
  */
 
 #include "sharding/cloud_backup.h"
+#include <stdexcept>
 #include "sharding/cloud_agent.h"
 #include "sharding/shard_topology.h"
 #include "storage/backup_manager.h"
@@ -115,7 +116,7 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("S3 upload callback failed: {}", e.what());
                 return false;
-            } catch (...) {
+            } catch (const std::exception&) {
                 THEMIS_ERROR("S3 upload callback failed: unknown error");
                 return false;
             }
@@ -182,7 +183,7 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("S3 download callback failed: {}", e.what());
                 return false;
-            } catch (...) {
+            } catch (const std::exception&) {
                 THEMIS_ERROR("S3 download callback failed: unknown error");
                 return false;
             }
@@ -540,7 +541,7 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("GCS delete callback failed: {}", e.what());
                 return false;
-            } catch (...) {
+            } catch (const std::exception&) {
                 THEMIS_ERROR("GCS delete callback failed: unknown error");
                 return false;
             }

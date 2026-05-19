@@ -23,6 +23,7 @@
  */
 
 #include "utils/self_awareness.h"
+#include <stdexcept>
 #include <yaml-cpp/yaml.h>
 #include <filesystem>
 #include <fstream>
@@ -628,7 +629,7 @@ void SelfAwareness::loadSnapshots() {
                             auto epoch_ms = std::stoll(fname.substr(sep + 1));
                             s.timestamp = std::chrono::system_clock::time_point(
                                 std::chrono::milliseconds(epoch_ms));
-                        } catch (...) {}
+                        } catch (const std::exception&) {}
                     }
                 }
                 s.triggered_by = j.value("triggered_by", "loaded");

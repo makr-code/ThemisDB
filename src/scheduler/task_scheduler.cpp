@@ -25,6 +25,7 @@
  */
 
 #include "scheduler/task_scheduler.h"
+#include <stdexcept>
 #include "scheduler/event_trigger.h"
 #include "scheduler/task_audit_manager.h"
 #include "scheduler/task_audit_event.h"
@@ -901,7 +902,7 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
                 THEMIS_WARN("executeTaskNow task {} attempt {}/{} failed: {} (will retry)",
                             task_id, attempt + 1, max_attempts, e.what());
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             last_error = "unknown non-exception thrown";
             THEMIS_ERROR("executeTaskNow task {} threw non-exception type", task_id);
             break;  // Non-std exceptions are never retried
@@ -1238,7 +1239,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                     task->last_error_category = categorizeError(e.what());
                     wave_results[i].error = e.what();
                     wave_results[i].error_type = "EXECUTION_ERROR";
-                } catch (...) {
+                } catch (const std::exception&) {
                     task->last_error = "unknown non-exception thrown";
                     task->last_error_category = ScheduledTask::ErrorCategory::TRANSIENT;
                     wave_results[i].error = "unknown non-exception thrown";
@@ -1834,7 +1835,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 THEMIS_WARN("Task {} attempt {}/{} failed: {} (will retry)",
                             task->id, attempt + 1, max_attempts, e.what());
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             last_error = "unknown non-exception thrown";
             THEMIS_ERROR("Task {} threw non-exception type; no retry", task->id);
             break;  // Non-std exceptions are never retried

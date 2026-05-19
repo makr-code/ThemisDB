@@ -26,6 +26,7 @@
 // See include/themis/base/hot_reload_manager.h for the public API.
 
 #include "themis/base/hot_reload_manager.h"
+#include <stdexcept>
 
 #include <chrono>
 #include <shared_mutex>
@@ -455,7 +456,7 @@ void HotReloadManager::notify(const std::string& name, ReloadPhase phase) {
             cb(name, phase);
         } catch (const std::exception& ex) {
             spdlog::warn("HotReloadManager: reload callback threw: {}", ex.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             spdlog::warn("HotReloadManager: reload callback threw unknown exception");
         }
     }

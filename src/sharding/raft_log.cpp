@@ -25,6 +25,7 @@
 // Licensed under MIT License
 
 #include "sharding/raft_log.h"
+#include <stdexcept>
 #include "utils/zstd_codec.h"
 #include <algorithm>
 #include <chrono>
@@ -530,7 +531,7 @@ std::vector<uint64_t> RaftSnapshotManager::listSnapshots() const {
                 const std::string id_str = name.substr(14, name.size() - 18);
                 try {
                     ids.push_back(std::stoull(id_str));
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
         }
         std::sort(ids.begin(), ids.end(), std::greater<uint64_t>());
@@ -618,7 +619,7 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
                     const std::string id_str = name.substr(14, name.size() - 18);
                     try {
                         ids.push_back(std::stoull(id_str));
-                    } catch (...) {}
+                    } catch (const std::exception&) {}
                 }
             }
         }

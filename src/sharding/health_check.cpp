@@ -19,6 +19,7 @@
  */
 
 #include "sharding/health_check.h"
+#include <stdexcept>
 #include "sharding/mtls_client.h"
 #include <openssl/x509.h>
 #include <openssl/pem.h>
@@ -317,7 +318,7 @@ bool HealthCheckSystem::checkStorageCapacity(const std::string& endpoint, double
         
         return true;
         
-    } catch (...) {
+    } catch (const std::exception&) {
         usage_percent = 0.0;
         return false;
     }
@@ -353,7 +354,7 @@ bool HealthCheckSystem::checkNetworkConnectivity(const std::string& endpoint, do
         
         return true;
         
-    } catch (...) {
+    } catch (const std::exception&) {
         response_time_ms = 0.0;
         return false;
     }

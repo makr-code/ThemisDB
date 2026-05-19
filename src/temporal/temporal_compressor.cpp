@@ -363,7 +363,7 @@ nlohmann::json TemporalCompressor::decompressLz4(const nlohmann::json& doc) {
 
     try {
         return nlohmann::json::parse(decompressed);
-    } catch (...) {
+    } catch (const std::exception&) {
         return doc;
     }
 }

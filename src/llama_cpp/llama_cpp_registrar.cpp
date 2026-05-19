@@ -22,6 +22,7 @@
  */
 
 #include "llama_cpp/llama_cpp_registrar.h"
+#include <stdexcept>
 #include "llm/llm_plugin_manager.h"
 #include <memory>
 
@@ -60,7 +61,7 @@ bool LlamaCppPluginRegistrar::registerWithLLMManager(
         auto plugin = createPlugin(config);
         manager.registerPlugin(plugin_name, std::move(plugin));
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

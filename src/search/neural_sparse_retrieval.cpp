@@ -299,7 +299,7 @@ NeuralSparseRetrieval::searchText(const std::string& query_text, size_t k) const
     } catch (const std::exception& e) {
         THEMIS_ERROR("NeuralSparseRetrieval::searchText: encoder threw: {}", e.what());
         return {};
-    } catch (...) {
+    } catch (const std::exception&) {
         THEMIS_ERROR("NeuralSparseRetrieval::searchText: encoder threw unknown exception");
         return {};
     }

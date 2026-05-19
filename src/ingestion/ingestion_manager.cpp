@@ -374,7 +374,7 @@ bool CheckpointStore::write(const IngestionCheckpoint& cp) {
           << "cursor="          << cp.cursor            << '\n'
           << "timestamp="       << cp.timestamp         << '\n';
         return f.good();
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -394,15 +394,15 @@ bool CheckpointStore::read(const std::string& source_id,
             std::string val = line.substr(eq + 1);
             if (key == "source_id")       out.source_id       = val;
             else if (key == "processed_count") {
-                try { out.processed_count = std::stoull(val); } catch (...) {}
+                try { out.processed_count = std::stoull(val); } catch (const std::exception&) {}
             } else if (key == "byte_offset") {
-                try { out.byte_offset = std::stoull(val); } catch (...) {}
+                try { out.byte_offset = std::stoull(val); } catch (const std::exception&) {}
             } else if (key == "cursor")    out.cursor          = val;
             else if (key == "timestamp")   out.timestamp       = val;
         }
         // A valid checkpoint must have a non-empty source_id
         return !out.source_id.empty();
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -411,7 +411,7 @@ bool CheckpointStore::clear(const std::string& source_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     try {
         return std::filesystem::remove(checkpointPath(source_id));
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -2177,7 +2177,7 @@ std::vector<SourceStatus> IngestionAdminApi::listSources() const {
             auto preview = mgr_.previewSource(cfg.source_id, 0);
             s.available = true;
             s.doc_count = preview.total_available;
-        } catch (...) {
+        } catch (const std::exception&) {
             s.available = false;
         }
 

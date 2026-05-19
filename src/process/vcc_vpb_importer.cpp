@@ -482,7 +482,7 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
                     sla_h = act["sla_hours"].get<double>();
                 } else if (act["sla_hours"].is_string()) {
                     try { sla_h = std::stod(act["sla_hours"].get<std::string>()); }
-                    catch (...) {}
+                    catch (const std::exception&) {}
                 }
                 if (sla_h > 0) {
                     n.timeout = std::chrono::milliseconds(

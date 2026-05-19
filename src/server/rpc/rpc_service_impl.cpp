@@ -18,6 +18,7 @@
  */
 
 #include "server/rpc_service_impl.h"
+#include <stdexcept>
 #include "plugins/rpc_plugin_interface.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/spatial_index.h"
@@ -1627,7 +1628,7 @@ json ThemisRPCService::handleStats([[maybe_unused]] const json& params) {
             if (!rocksdb_stats.empty()) {
                 stats["rocksdb_stats"] = rocksdb_stats;
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Ignore errors getting stats
         }
         

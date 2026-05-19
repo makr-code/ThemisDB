@@ -25,6 +25,7 @@
  */
 
 #include "server/vector_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -183,7 +184,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
                         "Field 'cursor' exceeds maximum allowed length", req);
                 }
                 offset = static_cast<size_t>(std::stoull(cur));
-            } catch (...) {
+            } catch (const std::exception&) {
                 offset = 0;
             }
         }
@@ -330,14 +331,14 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
                                     if (itf.value().is_object() && itf.value().value("encrypt", false)) {
                                         vector_enc_fields.push_back(itf.key());
                                     }
-                                } catch (...) { /* ignore */ }
+                                } catch (const std::exception&) { /* ignore */ }
                             }
                             vector_enc_enabled = !vector_enc_fields.empty();
                         }
                     }
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             vector_enc_enabled = false; // fail-safe
         }
 
@@ -418,7 +419,7 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
 
                 auto st = vector_index_->addEntity(e, *batch, vector_field);
                 if (st.ok) ++inserted; else { ++errors; }
-            } catch (...) {
+            } catch (const std::exception&) {
                 ++errors;
             }
         }
@@ -499,7 +500,7 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
                     std::string pk = KeySchema::extractPrimaryKey(key);
                     auto st = vector_index_->removeByPk(pk);
                     if (st.ok) ++deleted;
-                } catch (...) {}
+                } catch (const std::exception&) {}
                 return true; // continue
             });
             json resp = {{"deleted", deleted}, {"method", "prefix"}, {"prefix", prefix}};

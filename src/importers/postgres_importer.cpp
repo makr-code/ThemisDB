@@ -22,6 +22,7 @@
  */
 
 #include "importers/postgres_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -402,7 +403,7 @@ std::shared_ptr<ImportHandle> PostgreSQLImporter::importDataAsync(
             err.message  = std::string("Unhandled exception in async import: ") + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (...) {
+        } catch (const std::exception&) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;
@@ -2409,7 +2410,7 @@ std::unordered_set<uint64_t> PostgreSQLImporter::loadDeltaHashes(const std::stri
         if (line.empty()) continue;
         try {
             hashes.insert(std::stoull(line, nullptr, 16));
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
     return hashes;
 }

@@ -22,6 +22,7 @@
  */
 
 #include "utils/input_validator.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -54,7 +55,7 @@ std::optional<nlohmann::json> InputValidator::loadSchema(const std::string& sche
         buf << in.rdbuf();
         auto j = nlohmann::json::parse(buf.str());
         return j;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -248,7 +249,7 @@ std::optional<std::string> InputValidator::validateJson(
         }
 
         return std::nullopt;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::string("schema validation error");
     }
 }

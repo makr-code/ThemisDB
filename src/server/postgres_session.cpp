@@ -25,6 +25,7 @@
 #ifdef THEMIS_ENABLE_POSTGRES_WIRE
 
 #include "server/postgres_session.h"
+#include <stdexcept>
 #include "query/query_engine.h"
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
@@ -1482,7 +1483,7 @@ void PostgresSession::handleSchemaQuery(const std::string& query) {
                             }
                         }
                     }
-                } catch (...) {}
+                } catch (const std::exception&) {}
                 ++oid;
             }
             sendCommandComplete("SELECT " + std::to_string(total_cols));

@@ -23,6 +23,7 @@
  */
 
 #include "server/import_api_handler.h"
+#include <stdexcept>
 #include "server/import_wizard_builder.h"
 #include "utils/logger.h"
 
@@ -335,7 +336,7 @@ void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
                 total_failed   += stats.failed_records;
                 total_skipped  += stats.skipped_records;
                 total_duration += stats.elapsed_seconds;
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
     }
 

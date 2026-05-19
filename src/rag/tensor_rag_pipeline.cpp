@@ -47,6 +47,7 @@
  */
 
 #include "rag/tensor_rag_pipeline.h"
+#include <stdexcept>
 
 #include <cstdio>
 #include <mutex>
@@ -123,7 +124,7 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
                 if (efn) {
                     try {
                         decision.flare_query_embedding = efn(decision.flare_query);
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // Fail-closed: embedding fn threw; leave embedding empty.
                         // Distinct from "no fn wired" — the backend is registered but
                         // failed at runtime. Operators should diagnose the root cause.

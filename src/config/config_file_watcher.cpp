@@ -135,7 +135,7 @@ bool ConfigFileWatcher::start() {
     running_.store(true, std::memory_order_release);
     try {
         thread_ = std::thread(&ConfigFileWatcher::watchLoop, this);
-    } catch (...) {
+    } catch (const std::exception&) {
         running_.store(false, std::memory_order_release);
         // Roll back OS resources allocated above
 #if defined(__linux__)
@@ -505,7 +505,7 @@ void ConfigFileWatcher::watchLoopKqueue() {
                             register_path(entry_path);
                         }
                     }
-                } catch (...) {}
+                } catch (const std::exception&) {}
                 scheduleCallback();
             } else if (isWatchedExtension(path)) {
                 spdlog::debug("ConfigFileWatcher: kqueue event for '{}'", path);

@@ -146,7 +146,7 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, static_cast<int>(TAG_LEN), tag.data()) != 1) {
             throw std::runtime_error("EncryptedChunkStore: EVP_CTRL_GCM_GET_TAG failed");
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx);
         throw;
     }
@@ -258,7 +258,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
             throw std::runtime_error(
                 "EncryptedChunkStore: authentication tag mismatch — chunk is corrupted or tampered");
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx);
         throw;
     }

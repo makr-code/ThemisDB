@@ -175,7 +175,7 @@ PortabilityPackage GdprSubjectRightsManager::requestPortability(
                     combined += std::string(data.begin(), data.end());
                     if (combined.back() != '\n') combined += '\n';
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
     }
 

@@ -21,6 +21,7 @@
  */
 
 #include "server/reports_api_handler.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -76,7 +77,7 @@ nlohmann::json ReportsApiHandler::generateComplianceReport(const std::string& re
                         if (first_ts.empty()) first_ts = ts;
                         last_ts = ts;
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors for robustness
                 }
             }

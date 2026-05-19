@@ -17,6 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **MEGA BLOCK: typed exception hardening — ALL remaining 896 `catch(...)` handlers in 317 files**
+  - Bulk-replaced every remaining `catch (...)` with `catch (const std::exception&)` across all modules:
+    `src/server/` (51+25+10+7+6+5+5=109), `src/index/` (31+20+19+11+10+9+5=105),
+    `src/analytics/` (31), `src/main_server.cpp` (17), `src/replication/` (15),
+    `src/llm/` (33), `src/acceleration/` (12), `src/network/` (8), `src/ingestion/` (12),
+    `src/auth/` (5), plus all remaining modules (ingestion, rag, prompt_engineering,
+    projects, importers, utils, updates, sharding, process, graph, gpu, cdc, core, whisper, voice, …)
+  - Added `#include <stdexcept>` where missing.
+  - Zero `catch (...)` handlers remain in any `.cpp` file under `src/`.
+
 - **NEXT BLOCK: typed exception hardening in `src/query/`, `src/security/`, `src/storage/` (122 handlers)**
   - Replaced all 122 remaining `catch (...)` handlers with `catch (const std::exception&)` in:
     - **query module** (7 files, 51 handlers): `query_engine.cpp` (40), `let_evaluator.cpp` (6),

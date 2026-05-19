@@ -18,6 +18,7 @@
  */
 
 #include "index/graph_auto_buffer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -32,7 +33,7 @@ size_t GraphAutoBuffer::BufferedOp::estimateEntitySize(const BaseEntity& entity)
             return entity.toJson().size();
         }
         return entity.getBlobSize();
-    } catch (...) {
+    } catch (const std::exception&) {
         return 1024;
     }
 }

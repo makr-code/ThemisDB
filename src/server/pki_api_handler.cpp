@@ -21,6 +21,7 @@
  */
 
 #include "server/pki_api_handler.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include "utils/input_validator.h"
 #include <openssl/sha.h>
@@ -533,7 +534,7 @@ nlohmann::json PkiApiHandler::getStatus() {
                 auto keys = hsm_provider_->listKeys();
                 status["hsm_keys_count"] = keys.size();
                 status["hsm_status"] = "connected";
-            } catch (...) {
+            } catch (const std::exception&) {
                 status["hsm_status"] = "error";
             }
         }

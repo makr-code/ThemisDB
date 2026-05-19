@@ -460,7 +460,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             auto parseAttr = [&](const char* key) -> float {
                 auto it = t.attrs.find(key);
                 if (it == t.attrs.end()) return 0.f;
-                try { return std::stof(it->second); } catch (...) { return 0.f; }
+                try { return std::stof(it->second); } catch (const std::exception&) { return 0.f; }
             };
             b.x      = parseAttr("x");
             b.y      = parseAttr("y");
@@ -496,7 +496,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             ann.legal_basis      = get("legalBasis");
             std::string rd       = get("retentionDays");
             if (!rd.empty()) {
-                try { ann.retention_days = std::stoi(rd); } catch (...) {}
+                try { ann.retention_days = std::stoi(rd); } catch (const std::exception&) {}
             }
             ann.requires_consent = (get("requiresConsent") == "true");
             dsgvo_map[current_flow_node_id] = std::move(ann);

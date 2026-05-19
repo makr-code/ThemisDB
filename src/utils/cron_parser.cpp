@@ -19,6 +19,7 @@
  */
 
 #include "utils/cron_parser.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
@@ -496,7 +497,7 @@ static std::optional<int> parseToken(const std::string& token,
             int v = std::stoi(token);
             if (v < min_value || v > max_value) return std::nullopt;
             return v;
-        } catch (...) {
+        } catch (const std::exception&) {
             return std::nullopt;
         }
     }
@@ -664,7 +665,7 @@ std::optional<std::set<int>> CronExpression::parseStep(
         }
         
         return range_values.empty() ? std::nullopt : std::optional<std::set<int>>(range_values);
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

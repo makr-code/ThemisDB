@@ -26,6 +26,7 @@
  */
 
 #include "analytics/olap.h"
+#include <stdexcept>
 #include "analytics/detail/memory_pool.h"
 #include "themis/gpu/query_accelerator.h"
 #include <algorithm>
@@ -1857,7 +1858,7 @@ bool OLAPEngine::exportToParquet(
     if (fn) {
         try {
             return fn(result, path, compression);
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }
@@ -1879,7 +1880,7 @@ bool OLAPEngine::exportCollectionToParquet(
     if (fn) {
         try {
             return fn(collection, path, filters, compression);
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }

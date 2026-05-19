@@ -26,6 +26,7 @@
  */
 
 #include "server/llm_api_handler.h"
+#include <stdexcept>
 #include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
 #include "governance/policy_engine.h"
@@ -468,7 +469,7 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
             try {
                 int n = std::stoi(max_tokens_str);
                 if (n > 0 && n <= kMaxTokensLimit) max_tokens = n;
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
     }
 
@@ -1465,7 +1466,7 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
             try {
                 limit = std::stoul(limit_str);
                 if (limit > 1000) limit = 1000; // Cap at 1000
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         
         // Parse type filter

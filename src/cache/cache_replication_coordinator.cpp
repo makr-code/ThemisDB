@@ -25,6 +25,7 @@
 // Licensed under MIT License
 
 #include "cache/cache_replication_coordinator.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <unordered_map>
 
@@ -352,7 +353,7 @@ void CacheReplicationCoordinator::fanoutWorker() {
                 THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
                             peer->address(), e.what());
                 failed_peers.push_back(peer);
-            } catch (...) {
+            } catch (const std::exception&) {
                 THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed "
                             "(unknown exception)", peer->address());
                 failed_peers.push_back(peer);

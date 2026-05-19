@@ -954,7 +954,7 @@ std::string LLMAQLHandler::executeRAG(
                                                 } else {
                                                     doc.content = raw_str;
                                                 }
-                                            } catch (...) {
+                                            } catch (const std::exception&) {
                                                 doc.content = raw_str;
                                             }
                                         } else {
@@ -1704,7 +1704,7 @@ std::vector<LLMAQLHandler::BatchNLToAQLResult> LLMAQLHandler::translateBatchNLTo
                         result.aql_query.clear();
                         result.error   = e.what();
                         result.success = false;
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         result.aql_query.clear();
                         result.error   = "Unknown exception during translation";
                         result.success = false;
@@ -2020,7 +2020,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
                     result.score = std::stof(line.substr(7));
                     // Clamp to [0, 1]
                     result.score = std::max(0.0f, std::min(1.0f, result.score));
-                } catch (...) {
+                } catch (const std::exception&) {
                     result.score = -1.0f;
                 }
                 in_suggestions = false;

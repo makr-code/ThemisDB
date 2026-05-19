@@ -22,6 +22,7 @@
 // Licensed under MIT License
 
 #include "sharding/shard_durability.h"
+#include <stdexcept>
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/checkpoint.h>
@@ -145,7 +146,7 @@ std::optional<CheckpointInfo> ShardDurability::createCheckpoint(
                 info.size_bytes += entry.file_size();
             }
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         info.size_bytes = 0;
     }
     
@@ -259,7 +260,7 @@ bool ShardDurability::verifyWALIntegrity() const {
         std::string stats_str;
         db_->GetBaseDB()->GetProperty("rocksdb.stats", &stats_str);
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -310,7 +311,7 @@ void ShardDurability::cleanupOldCheckpoints() {
     for (size_t i = 0; i < to_remove; ++i) {
         try {
             std::filesystem::remove_all(checkpoints_[i].path);
-        } catch (...) {
+        } catch (const std::exception&) {
             // Ignore cleanup errors
         }
     }
@@ -341,7 +342,7 @@ void ShardDurability::scanCheckpointDirectory() {
                         std::chrono::system_clock::now()
                     );
                     info.created_at = sctp;
-                } catch (...) {
+                } catch (const std::exception&) {
                     info.created_at = std::chrono::system_clock::now();
                 }
                 
@@ -356,7 +357,7 @@ void ShardDurability::scanCheckpointDirectory() {
                 checkpoints_.push_back(info);
             }
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // Ignore scan errors
     }
     

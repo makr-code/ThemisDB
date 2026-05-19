@@ -23,6 +23,7 @@
  */
 
 #include "scraper/scraper_search_engine.h"
+#include <stdexcept>
 #include <algorithm>
 #include <array>
 #include <sstream>
@@ -381,7 +382,7 @@ SearchResultPage HtmlSearchEngine::parseResults(
         try {
             items = doc.select_nodes(xp.c_str());
             if (!items.empty()) break;
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     int rank = 1;
@@ -447,7 +448,7 @@ SearchResultPage HtmlSearchEngine::parseResults(
                     break;
                 }
             }
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     // Total results: look for a result count element
@@ -463,7 +464,7 @@ SearchResultPage HtmlSearchEngine::parseResults(
             }
             if (!num.empty()) page.total_results = std::stoi(num);
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
 #else
     // Fallback: scan for <a> tags as result items

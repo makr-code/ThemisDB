@@ -22,6 +22,7 @@
  */
 
 #include "updates/manifest_database.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <filesystem>
@@ -259,7 +260,7 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             if (!tempPath.empty()) {
                 try {
                     std::filesystem::remove(tempPath);
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore cleanup errors
                 }
             }

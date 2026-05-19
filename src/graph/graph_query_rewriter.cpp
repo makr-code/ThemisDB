@@ -587,7 +587,7 @@ size_t GraphQueryRewriter::applyCommonSubexpressionElimination(
             let_node["alias"] = alias;
             try {
                 let_node["expr"] = nlohmann::json::parse(key);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // If the key cannot be re-parsed (shouldn't happen), skip.
                 continue;
             }
@@ -619,7 +619,7 @@ size_t GraphQueryRewriter::applyCommonSubexpressionElimination(
                     let_node["alias"] = alias;
                     try {
                         let_node["expr"] = nlohmann::json::parse(key);
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         continue;
                     }
                     bindings_it->push_back(std::move(let_node));

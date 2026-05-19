@@ -22,6 +22,7 @@
 // Licensed under MIT License
 
 #include "sharding/quorum_manager.h"
+#include <stdexcept>
 #include <algorithm>
 #include <thread>
 
@@ -269,7 +270,7 @@ std::vector<std::pair<std::string, T>> QuorumManager::waitForOperations(
                         }
                     }
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Operation failed
             }
         } else {

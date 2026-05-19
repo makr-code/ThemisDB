@@ -23,6 +23,7 @@
  */
 
 #include "rag/agentic_rag.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -424,7 +425,7 @@ AgenticRAGResult AgenticRAG::run(
             } catch (const std::exception& ex) {
                 // Relay failure must not abort the agentic result.
                 THEMIS_WARN("AgenticRAG delegate relay failed (best-effort): {}", ex.what());
-            } catch (...) {
+            } catch (const std::exception&) {
                 THEMIS_WARN("AgenticRAG delegate relay failed with unknown error (best-effort).");
             }
         } else {

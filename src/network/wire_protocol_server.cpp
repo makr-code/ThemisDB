@@ -25,6 +25,7 @@
 // Binary protocol for high-performance native client communication
 
 #include "network/wire_protocol_server.h"
+#include <stdexcept>
 #include "network/wire_protocol_helpers.h"
 #ifdef THEMIS_ENABLE_WEBSOCKET
 #  include "network/wire_protocol_websocket.h"
@@ -412,7 +413,7 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
         std::string remote_ip = "unknown";
         try {
             remote_ip = session->socket_.remote_endpoint().address().to_string();
-        } catch (...) {
+        } catch (const std::exception&) {
             // Fall back to unknown if we can't get the endpoint
         }
 
@@ -512,7 +513,7 @@ void WireProtocolServer::Session::close() {
         if (socket_.is_open()) {
             socket_.close();
         }
-    } catch (...) {
+    } catch (const std::exception&) {
     }
 
     // Deregister from per-tenant QoS manager
@@ -529,7 +530,7 @@ void WireProtocolServer::Session::close() {
 std::string WireProtocolServer::Session::getRemoteIP() const {
     try {
         return socket_.remote_endpoint().address().to_string();
-    } catch (...) {
+    } catch (const std::exception&) {
         return "unknown";
     }
 }
@@ -1191,7 +1192,7 @@ void WireProtocolServer::Session::handleGet() {
             std::string value_str(value_bytes.begin(), value_bytes.end());
             try {
                 response["value"] = json::parse(value_str);
-            } catch (...) {
+            } catch (const std::exception&) {
                 response["value"] = value_str;
             }
             response["found"] = true;
@@ -1365,7 +1366,7 @@ void WireProtocolServer::Session::handleBatchGet() {
                 std::string value_str(value_bytes.begin(), value_bytes.end());
                 try {
                     item["value"] = json::parse(value_str);
-                } catch (...) {
+                } catch (const std::exception&) {
                     item["value"] = value_str;
                 }
                 item["found"] = true;
@@ -2105,7 +2106,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     std::string error_msg = "Time-series query failed";
                     try {
                         error_msg = std::string("Time-series query failed: ") + result.error().message();
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // Fallback if error() access fails
                     }
                     sendError(0x0005, error_msg);
@@ -2196,7 +2197,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     std::string error_msg = "Time-series aggregation failed";
                     try {
                         error_msg = std::string("Time-series aggregation failed: ") + agg_result.error().message();
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // Fallback if error() access fails
                     }
                     sendError(0x0005, error_msg);
@@ -2246,7 +2247,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 std::string error_msg = "Time-series query failed";
                 try {
                     error_msg = std::string("Time-series query failed: ") + result.error().message();
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Fallback if error() access fails
                 }
                 sendError(0x0005, error_msg);

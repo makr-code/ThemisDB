@@ -28,6 +28,7 @@
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "network/wire_protocol_websocket.h"
+#include <stdexcept>
 #include "network/wire_protocol_server.h"
 #include "network/wire_protocol_helpers.h"
 #include "utils/logger.h"
@@ -129,7 +130,7 @@ WireProtocolWebSocketSession::WireProtocolWebSocketSession(
     } else {
         try {
             client_ip_ = ws_.next_layer().socket().remote_endpoint().address().to_string();
-        } catch (...) {
+        } catch (const std::exception&) {
             client_ip_ = "unknown";
         }
     }

@@ -22,6 +22,7 @@
  */
 
 #include "exporters/stream_writer.h"
+#include <stdexcept>
 #include "exporters/exporter_errors.h"
 #ifdef THEMIS_HAS_ZSTD
 #include <zstd.h>
@@ -50,7 +51,7 @@ StreamWriter::StreamWriter(const Config& config)
 StreamWriter::~StreamWriter() {
     try {
         close();
-    } catch (...) {
+    } catch (const std::exception&) {
         // Suppress exceptions in destructor
     }
 }

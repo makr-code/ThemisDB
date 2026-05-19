@@ -19,6 +19,7 @@
  */
 
 #include "utils/pii_detector.h"
+#include <stdexcept>
 #include "utils/pii_detection_engine.h"
 #include "config/config_path_resolver.h"
 #include <algorithm>
@@ -253,22 +254,22 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
                         try {
                             json_node = yaml_node.as<bool>();
                             return;
-                        } catch (...) {}
+                        } catch (const std::exception&) {}
                         
                         try {
                             json_node = yaml_node.as<int>();
                             return;
-                        } catch (...) {}
+                        } catch (const std::exception&) {}
                         
                         try {
                             json_node = yaml_node.as<double>();
                             return;
-                        } catch (...) {}
+                        } catch (const std::exception&) {}
                         
                         // Fall back to string
                         try {
                             json_node = yaml_node.as<std::string>();
-                        } catch (...) {
+                        } catch (const std::exception&) {
                             json_node = nullptr;
                         }
                     } else if (yaml_node.IsSequence()) {

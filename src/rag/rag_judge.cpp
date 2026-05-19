@@ -24,6 +24,7 @@
  */
 
 #include "rag/rag_judge.h"
+#include <stdexcept>
 #include "rag/prompt_templates.h"
 #include "rag/response_parser.h"
 #include "rag/llm_judge_integration.h"
@@ -290,7 +291,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
         } catch (const std::exception& e) {
             THEMIS_WARN("RAGJudge {} evaluation failed: {}", name, e.what());
             return fallback;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_WARN("RAGJudge {} evaluation failed with unknown exception", name);
             return fallback;
         }
@@ -377,7 +378,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
                     }
                 } catch (const std::exception& e) {
                     THEMIS_WARN("RAGJudge claim verification pipeline failed: {}", e.what());
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_WARN("RAGJudge claim verification pipeline failed with unknown exception");
                 }
             }

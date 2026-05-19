@@ -19,6 +19,7 @@
  */
 
 #include "process/process_agentic_rag.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <chrono>
@@ -140,7 +141,7 @@ ProcessRagContext ProcessAgenticRag::mergeDocuments(
             if (!found) {
                 try {
                     ctx.attachments.push_back(nlohmann::json::parse(doc.content));
-                } catch (...) {
+                } catch (const std::exception&) {
                     ctx.attachments.push_back(nlohmann::json{{"_id", doc.id},
                                                               {"content", doc.content}});
                 }

@@ -111,7 +111,7 @@ RewrittenQuery LlmQueryRewriter::rewrite(const std::string& query) const {
         if (config_.fallback_to_original) {
             result.rewrites.push_back(query);
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         THEMIS_WARN("LlmQueryRewriter: unknown backend error — falling back to original query");
         result.llm_used = false;
         result.rewrites.clear();

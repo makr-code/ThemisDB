@@ -31,6 +31,7 @@
  */
 
 #include "server/voice_api_handler.h"
+#include <stdexcept>
 #include "voice/voice_assistant.h"
 #include "voice/voice_audio_storage.h"
 #include "voice/voice_macro.h"
@@ -1381,7 +1382,7 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
         try {
             int v = std::stoi(limit_str);
             if (v > 0) limit = static_cast<size_t>(v);
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     auto records = voice_assistant_->audioStorage().listRecords(tier, limit);
@@ -1461,7 +1462,7 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
         try {
             int v = std::stoi(limit_str);
             if (v > 0) limit = static_cast<size_t>(v);
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     auto records = voice_assistant_->audioStorage().searchTranscripts(query, limit);
@@ -1590,7 +1591,7 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
 ) {
     try {
         return json::parse(req.body());
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

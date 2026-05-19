@@ -26,6 +26,7 @@
 // Licensed under MIT License
 
 #include "cache/predictive_prefetcher.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "observability/metrics_collector.h"
 #include <algorithm>
@@ -388,7 +389,7 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper* db) {
             nlohmann::json val;
             try {
                 val = nlohmann::json::parse(raw_value);
-            } catch (...) {
+            } catch (const std::exception&) {
                 return true;
             }
 

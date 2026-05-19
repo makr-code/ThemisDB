@@ -35,6 +35,7 @@
  */
 
 #include "observability/opentelemetry_tracer.h"
+#include <stdexcept>
 #include "observability/metrics_collector.h"
 #include "tracer_utils.h"
 #include "api/otlp_exporter.h"
@@ -200,7 +201,7 @@ private:
         if (export_cb_) {
             try {
                 export_cb_(rec);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Export is best-effort; never block span completion
             }
         }

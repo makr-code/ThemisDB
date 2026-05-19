@@ -28,6 +28,7 @@
 // Graph adjacency index implementation
 
 #include "index/graph_index.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
@@ -186,7 +187,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					if (j.is_array()) {
 						for (const auto& v : j) if (v.is_string()) encryptList.push_back(v.get<std::string>());
 					}
-				} catch (...) {
+				} catch (const std::exception&) {
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
@@ -770,18 +771,18 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 				std::string dec = field_encryption_->decryptToString(eb);
 				try {
 					return std::stod(dec);
-				} catch (...) {
+				} catch (const std::exception&) {
 					// fallthrough
 				}
 			}
-		} catch (...) {
+		} catch (const std::exception&) {
 			// not an encrypted blob
 		}
 
 		// Fallback: attempt to parse as number
 		try {
 			return std::stod(wstr);
-		} catch (...) {
+		} catch (const std::exception&) {
 			return 1.0;
 		}
 	}
@@ -817,18 +818,18 @@ double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_vi
 				std::string dec = field_encryption_->decryptToString(eb);
 				try {
 					return std::stod(dec);
-				} catch (...) {
+				} catch (const std::exception&) {
 					// fallthrough
 				}
 			}
-		} catch (...) {
+		} catch (const std::exception&) {
 			// not an encrypted blob
 		}
 
 		// Fallback: attempt to parse as number
 		try {
 			return std::stod(wstr);
-		} catch (...) {
+		} catch (const std::exception&) {
 			return 1.0;
 		}
 	}
@@ -892,7 +893,7 @@ std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::strin
 			if (field_encryption_) {
 				return field_encryption_->decryptToString(eb);
 			}
-		} catch (...) {
+		} catch (const std::exception&) {
 			// not an encrypted blob
 		}
 		return t;
@@ -1301,7 +1302,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					if (j.is_array()) {
 						for (const auto& v : j) if (v.is_string()) encryptList.push_back(v.get<std::string>());
 					}
-				} catch (...) {
+				} catch (const std::exception&) {
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
@@ -1605,7 +1606,7 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 				size_t pos = 0;
 				int64_t parsed = std::stoll(*as_str, &pos, 10);
 				if (pos == as_str->size()) return parsed;
-			} catch (...) {
+			} catch (const std::exception&) {
 			}
 			return std::nullopt;
 		};
@@ -1664,7 +1665,7 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 				size_t pos = 0;
 				int64_t parsed = std::stoll(*as_str, &pos, 10);
 				if (pos == as_str->size()) return parsed;
-			} catch (...) {
+			} catch (const std::exception&) {
 			}
 			return std::nullopt;
 		};

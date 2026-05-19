@@ -19,6 +19,7 @@
  */
 
 #include "performance/cycle_metrics.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <cstring>
@@ -188,7 +189,7 @@ void* HardwareCycleCounter::gpu_cycles_start() noexcept {
     if (fn) {
         try {
             return fn();
-        } catch (...) {
+        } catch (const std::exception&) {
             return nullptr;
         }
     }
@@ -204,7 +205,7 @@ uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
     if (fn) {
         try {
             return fn(event);
-        } catch (...) {
+        } catch (const std::exception&) {
             return 0;
         }
     }

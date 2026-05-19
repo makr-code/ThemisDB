@@ -146,7 +146,7 @@ std::string HttpScraperApiClient::buildBody(
         };
         walk(j);
         return out.str();
-    } catch (...) {
+    } catch (const std::exception&) {
         return json_text; // return raw on parse error
     }
 }
@@ -194,7 +194,7 @@ std::string HttpScraperApiClient::buildBody(
             }
             out.push_back(std::move(r));
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
     return out;
 }
 
@@ -258,7 +258,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
                 } else {
                     break; // no cursor returned
                 }
-            } catch (...) { break; }
+            } catch (const std::exception&) { break; }
             if (cursor.empty()) break;
         } else {
             break; // "none"
@@ -271,7 +271,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
                 const int total = root[cfg.total_field].get<int>();
                 if (static_cast<int>(all.size()) >= total) break;
             }
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     return all;

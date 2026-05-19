@@ -22,6 +22,7 @@
  */
 
 #include "server/audit_api_handler.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -127,7 +128,7 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
         if (!event_data.empty()) {
             event = nlohmann::json::parse(event_data);
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // If parsing fails, treat as raw string
     }
     

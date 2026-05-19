@@ -22,6 +22,7 @@
  */
 
 #include "ingestion/ingestion_step.h"
+#include <stdexcept>
 #include "ingestion/inference_backend.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
@@ -213,7 +214,7 @@ private:
                 ent.provenance.confidence  = conf;
                 ctx.entities.push_back(std::move(ent));
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Non-JSON response — not an error, just not entity output
         }
     }

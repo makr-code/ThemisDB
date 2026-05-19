@@ -18,6 +18,7 @@
  */
 
 #include "api/geo_index_hooks.h"
+#include <stdexcept>
 #include "index/spatial_index.h"
 #include "storage/base_entity.h"
 #include "utils/geo/ewkb.h"
@@ -63,7 +64,7 @@ static bool validateGeoJSONBasic(const json& geojson) {
         }
         
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -85,7 +86,7 @@ static bool validateGeoJSONBasic(const json& geojson) {
         }
         
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -118,7 +119,7 @@ void GeoIndexHooks::onEntityPut(
             try {
                 std::string blob_str(reinterpret_cast<const char*>(blob.data()), blob.size());
                 j = nlohmann::json::parse(blob_str);
-            } catch (...) {
+            } catch (const std::exception&) {
                 throw;
             }
         } else {

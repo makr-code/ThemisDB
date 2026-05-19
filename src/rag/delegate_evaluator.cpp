@@ -76,7 +76,7 @@ std::optional<nlohmann::json> tryParseJson(const std::string& s) {
     try {
         auto j = nlohmann::json::parse(s, nullptr, /*allow_exceptions=*/true);
         if (j.is_object()) return j;
-    } catch (...) {}
+    } catch (const std::exception&) {}
     return std::nullopt;
 }
 
@@ -459,7 +459,7 @@ RelayResult RoundTripSimulator::run(
                     ++result.persistence_write_failures;
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Forward edit failed: record 0.0 and terminate
             const ReconstructionScore rs = 0.0;
             result.scores.rs_per_interaction.push_back(rs);
@@ -488,7 +488,7 @@ RelayResult RoundTripSimulator::run(
                     ++result.persistence_write_failures;
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Backward edit failed: record 0.0 and terminate
             const ReconstructionScore rs = 0.0;
             result.scores.rs_per_interaction.push_back(rs);

@@ -655,7 +655,7 @@ bool QUICClient::parseUrl(const std::string& url,
             return false;
         }
         port = static_cast<uint16_t>(p);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
     return !host.empty();

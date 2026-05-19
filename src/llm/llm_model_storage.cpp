@@ -23,6 +23,7 @@
  */
 
 #include "llm/llm_model_storage.h"
+#include <stdexcept>
 #include "storage/base_entity.h"
 #include "storage/security_signature_manager.h"
 #include "security/mock_key_provider.h"
@@ -274,7 +275,7 @@ public:
                         auto cap_json = json::parse(cap_str);
                         metadata.capabilities = cap_json.get<std::vector<std::string>>();
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -286,7 +287,7 @@ public:
                         auto lang_json = json::parse(lang_str);
                         metadata.languages = lang_json.get<std::vector<std::string>>();
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -298,7 +299,7 @@ public:
                         auto tags_json = json::parse(tags_str);
                         metadata.tags = tags_json.get<std::vector<std::string>>();
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -343,7 +344,7 @@ public:
                     if (!custom_str.empty()) {
                         metadata.custom_metadata = json::parse(custom_str);
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -824,7 +825,7 @@ std::vector<json> LLMModelStorage::getEdges(
                     if (include) {
                         edges.push_back(edge_json);
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Skip invalid edge data
                 }
             }
@@ -954,7 +955,7 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
                 if (other_embedding.size() != query_embedding.size()) {
                     continue;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 continue;  // Skip invalid embeddings
             }
             

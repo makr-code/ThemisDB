@@ -345,7 +345,7 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
                 THEMIS_ERROR("Parallel decoding worker failed: {}", ex.what());
                 std::lock_guard<std::mutex> elock(worker_err_mutex);
                 if (!worker_error) worker_error = std::current_exception();
-            } catch (...) {
+            } catch (const std::exception&) {
                 THEMIS_ERROR("Parallel decoding worker failed with unknown exception");
                 std::lock_guard<std::mutex> elock(worker_err_mutex);
                 if (!worker_error) worker_error = std::current_exception();
@@ -566,7 +566,7 @@ void LogicalReplicationManager::loadPersistedSlots() {
                 try {
                     runtime->meta.filter.include_collections =
                         jf["include_collections"].get<std::vector<std::string>>();
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_WARN("Failed to parse include_collections for slot {}", runtime->meta.slot_name);
                     it.increment(ec);
                     if (ec) {
@@ -579,7 +579,7 @@ void LogicalReplicationManager::loadPersistedSlots() {
                 try {
                     runtime->meta.filter.exclude_collections =
                         jf["exclude_collections"].get<std::vector<std::string>>();
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_WARN("Failed to parse exclude_collections for slot {}", runtime->meta.slot_name);
                     it.increment(ec);
                     if (ec) {

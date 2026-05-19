@@ -80,7 +80,7 @@ bool GRPCServer::start() {
             try {
                 int ms = std::stoi(ka_it->second);
                 builder.AddChannelArgument(GRPC_ARG_KEEPALIVE_TIME_MS, ms);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Invalid value — fall back to gRPC default
             }
         }
@@ -89,7 +89,7 @@ bool GRPCServer::start() {
             try {
                 int ms = std::stoi(kt_it->second);
                 builder.AddChannelArgument(GRPC_ARG_KEEPALIVE_TIMEOUT_MS, ms);
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
 
         // ---- v0.2.0: admin port binding ----------------------------------------
@@ -106,7 +106,7 @@ bool GRPCServer::start() {
                     builder.AddListeningPort(admin_address_,
                                              grpc::InsecureServerCredentials());
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 admin_address_.clear();
             }
         }

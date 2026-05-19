@@ -25,6 +25,7 @@
 // Graph Query Optimizer implementation
 
 #include "graph/graph_query_optimizer.h"
+#include <stdexcept>
 #include "graph/gpu_traversal.h"
 #include "graph/path_constraints.h"
 #include "query/result_stream.h"
@@ -2613,7 +2614,7 @@ bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
             algo_cost_models_[it->second] = m;
         }
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

@@ -143,7 +143,7 @@ CrashRecoveryManager::deserialize(const std::string& line) {
                 e.operation.new_value = base64Decode(j["new"].get<std::string>());
         }
         return e;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

@@ -802,7 +802,7 @@ public:
                 gpu_training_    = true;
                 lora_initialized_ = true;
                 return;
-            } catch (...) {
+            } catch (const std::exception&) {
                 // GPU init failed – fall through to CPU path
                 gpu_lora_layer_.reset();
                 gpu_optimizer_.reset();
@@ -820,7 +820,7 @@ public:
                 gpu_training_    = true;
                 lora_initialized_ = true;
                 return;
-            } catch (...) {
+            } catch (const std::exception&) {
                 // GPU init failed – fall through to CPU path
                 gpu_lora_layer_.reset();
                 gpu_optimizer_.reset();
@@ -1202,7 +1202,7 @@ public:
                     lora_layer_->set_weights(B, A);
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Weight file exists but is corrupt or wrong format;
             // start with fresh Kaiming/zero initialization.
 #ifndef THEMIS_NO_SPDLOG

@@ -31,6 +31,7 @@
 // v1.7.0 modular build architecture.
 
 #include "themis/base/module_loader.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 
 #ifdef _WIN32
@@ -76,7 +77,7 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
     }
     try {
         return std::stoi(content.substr(pos + zoneIdKey.size()));
-    } catch (...) {
+    } catch (const std::exception&) {
         return -1;
     }
 }

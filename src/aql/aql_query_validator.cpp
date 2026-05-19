@@ -21,6 +21,7 @@
  */
 
 #include "aql/aql_query_validator.h"
+#include <stdexcept>
 #include "aql/aql_query_builder.h"
 
 #include <algorithm>
@@ -96,7 +97,7 @@ bool containsKeyword(const std::string& text, const std::string& kw) {
     try {
         std::regex re(pattern);
         return std::regex_search(upper_text, re);
-    } catch (...) {
+    } catch (const std::exception&) {
         // Fallback: simple substring search
         return upper_text.find(upper_kw) != std::string::npos;
     }

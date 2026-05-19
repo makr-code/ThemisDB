@@ -23,6 +23,7 @@
  */
 
 #include "key_rotation_scheduler.hpp"
+#include <stdexcept>
 #include <thread>
 #include <chrono>
 #include <map>
@@ -148,7 +149,7 @@ Result<void> KeyRotationScheduler::scheduleRotation(
                     impl_->schedules[level].interval_days =
                         j["interval_days"].get<int>();
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Corrupted state; proceed with current time.
             }
         }
@@ -208,7 +209,7 @@ void KeyRotationScheduler::triggerRotation(SecurityLevel level) {
     if (schedule.callback) {
         try {
             schedule.callback(level, true, "");
-        } catch (...) {}
+        } catch (const std::exception&) {}
     }
 
     persistRotationState(level);
@@ -233,7 +234,7 @@ void KeyRotationScheduler::schedulerLoop() {
                 if (now_ms - schedule.last_check_ms >= interval_ms) {
                     try {
                         schedule.callback(schedule.level, true, "");
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // Callback must not propagate exceptions.
                     }
 
@@ -297,7 +298,7 @@ void KeyRotationScheduler::loadRotationState(SecurityLevel level) {
         if (j.contains("interval_days")) {
             it->second.interval_days = j["interval_days"].get<int>();
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // Ignore corrupted persisted state.
     }
 }

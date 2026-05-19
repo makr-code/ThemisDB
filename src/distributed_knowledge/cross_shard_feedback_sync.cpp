@@ -70,7 +70,7 @@ void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
         // silently skip and increment the skipped counter instead of propagating.
         try {
             gossip_message_fn_(std::move(payload));
-        } catch (...) {
+        } catch (const std::exception&) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++skipped_publish_count_;
         }
