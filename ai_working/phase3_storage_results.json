@@ -1,0 +1,50 @@
+{
+  "module": "storage",
+  "model": "codellama:latest",
+  "execution_time": 318.8154010772705,
+  "tasks_total": 5,
+  "tasks_generated": 5,
+  "syntax_ok": 5,
+  "results": [
+    {
+      "task_id": "1.1",
+      "priority": "CRITICAL",
+      "effort_hours": 448,
+      "code_length": 3852,
+      "syntax_ok": true,
+      "code": "```c++\n#include <array>\n#include <cstddef>\n#include <fstream>\n#include <stdexcept>\n#include <string>\n#include <vector>\n\nnamespace themisdb {\n    class Storage {\n        private:\n            std::string filename;\n            std::fstream file;\n\n        public:\n            explicit Storage(const std::string& filename) : filename(filename) {}\n\n            ~Storage() noexcept {\n                if (file.is_open()) {\n                    file.close();\n                }\n            }\n\n            void o"
+    },
+    {
+      "task_id": "1.2",
+      "priority": "CRITICAL",
+      "effort_hours": 448,
+      "code_length": 4230,
+      "syntax_ok": true,
+      "code": "```c++\n#include <vector>\n#include <unordered_map>\n#include <iostream>\n#include <fstream>\n#include <filesystem>\n#include <stdexcept>\n#include <memory>\n#include <utility>\n\n/**\n * @brief The Storage class is responsible for managing the storage of data in a ThemisDB database.\n */\nclass Storage {\npublic:\n    /**\n     * @brief Constructs a new instance of the Storage class and opens the specified file as the underlying storage.\n     * @param filename The name of the file to open as the underlying sto"
+    },
+    {
+      "task_id": "1.3",
+      "priority": "CRITICAL",
+      "effort_hours": 448,
+      "code_length": 3688,
+      "syntax_ok": true,
+      "code": "```c++\n#include <map>\n#include <memory>\n#include <mutex>\n#include <string>\n#include <unordered_map>\n#include <vector>\n\nnamespace themisdb {\n\nclass Storage {\n  public:\n    // Constructor and destructor\n    explicit Storage(const std::string& db_path);\n    ~Storage();\n\n    // CRITICAL METHODS\n\n    /**\n     * @brief Insert a new record into the database.\n     *\n     * @param key The key of the record to insert.\n     * @param value The value of the record to insert.\n     */\n    void insert(const std"
+    },
+    {
+      "task_id": "1.4",
+      "priority": "CRITICAL",
+      "effort_hours": 448,
+      "code_length": 1674,
+      "syntax_ok": true,
+      "code": "```c++\n#include <iostream>\n#include <vector>\n#include <string>\n#include <map>\n#include <unordered_map>\n#include <algorithm>\n#include <utility>\n\nusing namespace std;\n\nnamespace storage {\n    class StorageEngine {\n    public:\n        // Constructor and destructor\n        StorageEngine() = default;\n        ~StorageEngine() = default;\n\n        // Methods to read and write data to the storage engine\n        void read(const string& key, vector<string>& value) const;\n        void write(const string& ke"
+    },
+    {
+      "task_id": "1.5",
+      "priority": "CRITICAL",
+      "effort_hours": 448,
+      "code_length": 3316,
+      "syntax_ok": true,
+      "code": "```c++\n#include <fstream>\n#include <memory>\n#include <string>\n\nnamespace themis {\nnamespace storage {\n\nclass DataStore {\n public:\n  // Exception-safe constructor\n  explicit DataStore(const std::string& file_name) : file_name_(file_name) {\n    try {\n      // Open the file in binary mode and check if it exists\n      std::ifstream file(file_name_, std::ios::binary);\n      if (!file.good()) {\n        throw std::runtime_error(\"File not found\");\n      }\n      // Create a unique pointer to the file str"
+    }
+  ]
+}
