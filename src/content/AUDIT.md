@@ -106,6 +106,10 @@
 - **CON-020 — Uninitialized PDF structs** (`pdf_processor.h`): `PDFPageInfo::{page_number,width,height,rotation}` and `PDFMetadata::{page_count,is_encrypted,is_linearized}` defaulted to `0`/`false` (2026-05-19).
 - **CON-021 — Uninitialized office structs** (`office_processor.h`): `WordDocumentInfo`, `Sheet`, `Slide`, `OfficeMetadata` POD fields defaulted to `0` (2026-05-19).
 - **CON-022 — `[[nodiscard]]` on status-returning methods** (`content_manager.h`): `importContent()`, `ingestRawBlob()`, `ingestStream()`, `deleteContent()`, `createDirectory()`, `registerPath()` are now `[[nodiscard]]` (2026-05-19).
+- **CON-023 — Uninitialized `GeoExtractionData::bounds`** (`content_plugin_interface.h`): `std::array<double,4>` now has `= {}` default (2026-05-19).
+- **CON-024 — Uninitialized `CADExtractionData::bounding_box_min/max`** (`content_plugin_interface.h`): Both `std::array<double,3>` fields now have `= {}` defaults (2026-05-19).
+- **CON-025 — `[[nodiscard]]` on `IContentProcessorPlugin::getStatistics()`** (`content_plugin_interface.h`): Diagnostic added; callers that silently discard the statistics object now receive a compiler warning (2026-05-19).
+- **CON-026 — `[[nodiscard]]` on `IContentProcessorPlugin::generateEmbedding()`** (`content_plugin_interface.h`): Completes `[[nodiscard]]` coverage for all value-returning virtual methods in the plugin interface (2026-05-19).
 
 ### Open
 - **Plugin processor chain** — `IIngestionPlugin` API not yet implemented (Issue #1686); processor dispatch is hardcoded.

@@ -196,6 +196,20 @@ respective optional dependency is not compiled in.
 - [ ] type_conversion (516) — signed/unsigned comparisons; deferred to Phase 7
 - [ ] OOP design — `override` annotations, non-virtual dtors; deferred to Phase 7
 
+### Phase 7 — Addressed (2026-05-19)
+- [x] **CON-023 — Uninitialized `GeoExtractionData::bounds`** (`content_plugin_interface.h`):
+  `std::array<double, 4>` had no in-class initializer; value-initialization `= {}` added so all
+  four doubles are zero-initialized at construction time.
+- [x] **CON-024 — Uninitialized `CADExtractionData::bounding_box_min/max`** (`content_plugin_interface.h`):
+  Two `std::array<double, 3>` fields lacked defaults; `= {}` added to both.
+- [x] **CON-025 — OOP: `[[nodiscard]]` on `IContentProcessorPlugin::getStatistics()`** (`content_plugin_interface.h`):
+  The default no-op implementation returned `json::object()` without `[[nodiscard]]`; callers
+  that silently discard the statistics object now receive a diagnostic.
+- [x] **CON-026 — OOP: `[[nodiscard]]` on `IContentProcessorPlugin::generateEmbedding()`** (`content_plugin_interface.h`):
+  Default virtual returning `{}` was missing `[[nodiscard]]`; added to match `extract()`,
+  `chunk()`, and `healthCheck()`.
+- [ ] Remaining type_conversion (516) — signed/unsigned comparisons in .cpp files; deferred to Phase 8
+
 ---
 
 ## 📍 Location

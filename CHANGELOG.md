@@ -39,7 +39,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **CON-020 — Uninitialized PDF structs** (`pdf_processor.h`): `PDFPageInfo` and `PDFMetadata` POD fields default to `0`/`false`.
   - **CON-021 — Uninitialized office structs** (`office_processor.h`): `WordDocumentInfo`, `Sheet`, `Slide`, `OfficeMetadata` int fields default to `0`.
   - **CON-022 — OOP: `[[nodiscard]]` on result-returning methods** (`content_manager.h`): `importContent`, `ingestRawBlob`, `ingestStream`, `deleteContent`, `createDirectory`, `registerPath`.
-  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.1–6 implementation roadmap.
+  - **CON-023 — Uninitialized `GeoExtractionData::bounds`** (`content_plugin_interface.h`): `std::array<double,4>` zero-initialised with `= {}`.
+  - **CON-024 — Uninitialized `CADExtractionData::bounding_box_min/max`** (`content_plugin_interface.h`): Both `std::array<double,3>` fields zero-initialised with `= {}`.
+  - **CON-025 — OOP: `[[nodiscard]]` on `IContentProcessorPlugin::getStatistics()`** (`content_plugin_interface.h`): diagnostic added.
+  - **CON-026 — OOP: `[[nodiscard]]` on `IContentProcessorPlugin::generateEmbedding()`** (`content_plugin_interface.h`): completes `[[nodiscard]]` coverage for all value-returning virtual methods in the plugin interface.
+  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.1–7 implementation roadmap.
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
