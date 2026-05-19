@@ -661,25 +661,13 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     const std::string& session_id
 ) {
     auto span = Tracer::startSpan("handleDeleteSession");
-    {
-        auto session = voice_assistant_->getSession(session_id);
-        (void)session; // ensure session exists (throws/logs if not found)
+    if (!voice_assistant_->deleteSession(session_id)) {
+        return createErrorResponse(
+            http::status::not_found,
+            "Not Found",
+            "Session not found"
+        );
     }
-    // STUB/SIMULATION NOTE (stub #308):
-    // Purpose: Offer DELETE semantics at the HTTP layer before VoiceAssistant
-    //          provides a dedicated hard-delete API for session state.
-    // Activation: Always for DELETE /voice/session/{id}.
-    // Production Delta: Session records are only soft-cleared via updateSession
-    //                   with empty context; storage/lifecycle semantics differ from
-    //                   true deletion and stale metadata may remain addressable.
-    // Removal Plan: Introduce VoiceAssistant::deleteSession(session_id) and wire
-    //               this handler to use hard deletion with explicit not-found result.
-    //               See src/server/ROADMAP.md (voice endpoint coverage backlog).
-    //               Target: v2.1.0.
-    // Remove session from internal map by overwriting with an empty/closed session
-    // VoiceAssistant does not yet expose a dedicated deleteSession API; clearing
-    // via updateSession with an empty context marks it as inactive.
-    voice_assistant_->updateSession(session_id, json::object());
 
     json result;
     result["success"] = true;
@@ -1645,4 +1633,3 @@ http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
 }
 
 } // namespace themis::server
-

@@ -10,6 +10,9 @@
  *   - Stub #302: VoiceApiHandler::validateBearerToken() delegates to the
  *                AuthMiddleware when injected; falls back to non-empty token
  *                check in open mode (null auth).
+ *   - Stub #308: Voice session DELETE now performs hard-delete semantics
+ *                via VoiceAssistant::deleteSession() and returns explicit
+ *                NOT_FOUND for missing sessions.
  */
 
 #include <gtest/gtest.h>
@@ -155,6 +158,42 @@ TEST(StubRemediation302, NonEmptyBearerTokenAllowedInOpenMode) {
     // Open mode (no auth middleware injected): any non-empty token passes.
     auto handler = TestableVoiceHandler(nullptr);
     EXPECT_TRUE(handler.validateBearerToken(makeVoiceReq("Bearer some.opaque.token")));
+}
+
+TEST(StubRemediation308, VoiceAssistantDeleteSessionReturnsFalseWhenMissing) {
+    themis::voice::VoiceAssistant::Config cfg;
+    auto assistant = std::make_shared<themis::voice::VoiceAssistant>(cfg);
+    EXPECT_FALSE(assistant->deleteSession("missing-session"));
+}
+
+TEST(StubRemediation308, DeleteSessionEndpointUsesHardDeleteSemantics) {
+    namespace http = boost::beast::http;
+
+    themis::voice::VoiceAssistant::Config cfg;
+    auto assistant = std::make_shared<themis::voice::VoiceAssistant>(cfg);
+    themis::server::VoiceApiHandler handler(assistant, nullptr);
+
+    // Seed a real session that should be hard-deleted.
+    (void)assistant->getSession("session-42");
+
+    http::request<http::string_body> del_req_1{
+        http::verb::delete_, "/api/v1/voice/sessions/session-42", 11};
+    del_req_1.set(http::field::authorization, "Bearer test-token");
+
+    auto resp1 = handler.handleRequest(del_req_1);
+    EXPECT_EQ(resp1.result(), http::status::ok);
+
+    auto body1 = nlohmann::json::parse(resp1.body());
+    EXPECT_TRUE(body1.value("success", false));
+    EXPECT_EQ(body1.value("session_id", ""), "session-42");
+
+    // Second delete must return NOT_FOUND (explicit missing-session behavior).
+    http::request<http::string_body> del_req_2{
+        http::verb::delete_, "/api/v1/voice/sessions/session-42", 11};
+    del_req_2.set(http::field::authorization, "Bearer test-token");
+
+    auto resp2 = handler.handleRequest(del_req_2);
+    EXPECT_EQ(resp2.result(), http::status::not_found);
 }
 #else
 // Voice module unavailable — add a placeholder so the test binary still runs.
