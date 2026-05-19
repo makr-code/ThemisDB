@@ -83,6 +83,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Scanner delta (`content_manager.cpp`):** reliability findings reduced from **18 → 8**
     in this block (net **-10**), leaving only 4 `Status` return-signature false positives
     and 4 `no_timeout` file-I/O/mutex findings.
+- **CONTENT module — Phase 12 reliability hardening** (`tools/gap_scanner_v3_reliability.py`, `src/content/MODULE_GAPS.md`)
+  - **CON-032 — Reliability scanner heuristic corrections:** refined `gap_scanner_v3_reliability`
+    to reduce recurring false positives by:
+    - restricting `no_health_check` to declaration-like status lines (not `Status` return signatures),
+    - detecting lock timeout risk via explicit `.lock()` calls instead of RAII lock-wrapper construction,
+    - excluding member-call stream APIs (`.read` / `.write`) from non-timeout file-I/O heuristics.
+  - **Scanner delta (`content_manager.cpp`):** reliability findings reduced from **8 → 0**
+    in this block (net **-8**) by removing non-actionable scanner noise.
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
