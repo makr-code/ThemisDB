@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **Stub remediation next block — sharding signing + Paxos payload persistence (#310/#311):**
+  - `src/sharding/auto_rebalancer.cpp`:
+    - Removed permissive `UNSIGNED:*` signing fallback.
+    - Signing now fails closed and `executeRebalance()` aborts unless a valid `SIGNATURE:` payload is produced.
+  - `src/sharding/paxos_state_persistence.cpp`:
+    - Replaced placeholder ACCEPT payload mapping with structured `ConsensusLogEntry` construction.
+    - ACCEPT/COMMIT persistence now stores payload metadata (`raw_value`, `accepted_round`, `slot`) and replay decodes accepted raw values symmetrically.
+  - `tests/test_paxos_persistence_recovery.cpp`:
+    - Added WAL-level assertion that ACCEPT entries carry structured payload metadata (`PSR10_AcceptWalCarriesStructuredPayload`).
 - **Stub remediation next block — RoPE and voice session hard-delete (#307/#308):**
   - `include/index/vector_index.h` + `src/index/vector_index.cpp`:
     - Added `RotaryEmbeddingStats` runtime counters (positional/relational/query rotations + average latency).
