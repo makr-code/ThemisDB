@@ -28,6 +28,15 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 23 — Ingestion catch-all hardening (COMPLETE)
+
+- **All remaining `src/ingestion/` C++ catch-all handlers**: Replaced 44 catch-all handlers
+  with typed `std::exception` catches across 14 files.
+  - Largest batches: `ingestion_manager.cpp` (×6), `cdc_connector.cpp` (×5),
+    and five files with ×4 each (`api_connector.cpp`, `database_connector.cpp`,
+    `object_storage_connector.cpp`, `workflow_engine.cpp`, `ingestion_quality_judge.cpp`).
+  - Zero `catch(...)` remain in Ingestion C++ sources.
+
 ### Phase 22 — Query catch-all hardening (COMPLETE)
 
 - **All remaining `src/query/` C++ catch-all handlers**: Replaced 51 catch-all handlers

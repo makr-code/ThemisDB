@@ -130,7 +130,7 @@ static bool isFileWithinBase(const fs::path& base_dir, const fs::path& file_path
         auto [mb, mf] = std::mismatch(canonical_base.begin(), canonical_base.end(),
                                       canonical_file.begin(), canonical_file.end());
         return mb == canonical_base.end();
-    } catch (...) {
+    } catch (const std::exception&) {
         // canonical() throws if the path doesn't exist or is inaccessible.
         // Be conservative and reject the file.
         return false;
@@ -449,7 +449,7 @@ public:
                 if (fs::is_regular_file(base_dir)) {
                     base_dir = base_dir.parent_path();
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // If canonical() fails fall through; isFileWithinBase() will be
                 // conservative and reject files when it cannot resolve paths.
                 base_dir = fs::absolute(path_);

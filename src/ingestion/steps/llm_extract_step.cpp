@@ -213,7 +213,7 @@ private:
                 ent.provenance.confidence  = conf;
                 ctx.entities.push_back(std::move(ent));
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Non-JSON response — not an error, just not entity output
         }
     }

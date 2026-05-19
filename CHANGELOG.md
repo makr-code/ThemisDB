@@ -22,6 +22,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `HammingCoderFocusedTests` CTest target registered
 
 ### Fixed
+- **Ingestion module — catch-all hardening Phase 23 (complete)** 🔧
+  - Replaced all 44 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    14 C++ files in `src/ingestion/`.
+  - Largest batches: `ingestion_manager.cpp` (×6), `cdc_connector.cpp` (×5),
+    `api_connector.cpp`/`database_connector.cpp`/`object_storage_connector.cpp`/
+    `workflow_engine.cpp`/`ingestion_quality_judge.cpp` (×4 each).
+  - Zero `catch(...)` remain in `src/ingestion/` C++ sources; best-effort behavior preserved.
+
 - **Query module — catch-all hardening Phase 22 (complete)** 🔧
   - Replaced all 51 remaining `catch(...)` handlers with `catch (const std::exception&)` across
     7 C++ files in `src/query/`.

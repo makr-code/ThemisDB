@@ -154,7 +154,7 @@ public:
 
         try {
             max_keys_ = static_cast<size_t>(std::stoull(opt("max_keys", "0")));
-        } catch (...) {
+        } catch (const std::exception&) {
             max_keys_ = 0;
         }
 
@@ -369,7 +369,7 @@ private:
 
             auto outcome = s3->ListObjectsV2(req);
             return outcome.IsSuccess();
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }
@@ -494,7 +494,7 @@ private:
             // If the iterator doesn't throw, the bucket is reachable.
             (void)it.begin();
             return true;
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }
@@ -577,7 +577,7 @@ private:
                 connection_str_, container_);
             auto props = container_client.GetProperties();
             return props.Value.ETag.HasValue();
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }
