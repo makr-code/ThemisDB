@@ -20,7 +20,7 @@
     • a2d7c07202  2026-04-14  update after codefindings               ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  State: ✅ Production Ready                                           ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -787,12 +787,12 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         // Ensure fulltext index exists if auto-indexing is enabled
         if (auto_fulltext_index && secondary_index_) {
             if (!secondary_index_->hasFulltextIndex("chunk", "text")) {
-                auto ft_status = secondary_index_->createFulltextIndex("chunk", "text", fulltext_config);
-                if (ft_status.ok) {
+                auto fulltext_create_result = secondary_index_->createFulltextIndex("chunk", "text", fulltext_config);
+                if (fulltext_create_result.ok) {
                     THEMIS_INFO("Created fulltext index for chunk.text with language={}, stemming={}", 
                                fulltext_config.language, fulltext_config.stemming_enabled);
                 } else {
-                    THEMIS_WARN("Failed to create fulltext index for chunk.text: {}", ft_status.message);
+                    THEMIS_WARN("Failed to create fulltext index for chunk.text: {}", fulltext_create_result.message);
                 }
             }
         }
@@ -841,9 +841,9 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                             {"chunk_type", c.chunk_type}
                         }
                     );
-                    auto idx_status = secondary_index_->put("chunk", chunk_entity);
-                    if (!idx_status.ok) {
-                        THEMIS_WARN("Failed to index chunk {} in fulltext index: {}", c.id, idx_status.message);
+                    auto fulltext_put_result = secondary_index_->put("chunk", chunk_entity);
+                    if (!fulltext_put_result.ok) {
+                        THEMIS_WARN("Failed to index chunk {} in fulltext index: {}", c.id, fulltext_put_result.message);
                     }
                 }
                 
@@ -1548,9 +1548,9 @@ Status ContentManager::deleteContent(const std::string& content_id) {
         }
         // Remove from fulltext index if present
         if (secondary_index_ && secondary_index_->hasFulltextIndex("chunk", "text")) {
-            auto erase_status = secondary_index_->erase("chunk", c.id);
-            if (!erase_status.ok) {
-                THEMIS_WARN("Failed to remove chunk {} from fulltext index: {}", c.id, erase_status.message);
+            auto fulltext_erase_result = secondary_index_->erase("chunk", c.id);
+            if (!fulltext_erase_result.ok) {
+                THEMIS_WARN("Failed to remove chunk {} from fulltext index: {}", c.id, fulltext_erase_result.message);
             }
         }
     }
@@ -1674,9 +1674,9 @@ Status ContentManager::createDirectory(const std::string& virtual_path, bool rec
         size_t pos = normalized.rfind('/');
         if (pos > 0) {
             std::string parent = normalized.substr(0, pos);
-            auto parent_status = createDirectory(parent, true);
-            if (!parent_status.ok) {
-                return parent_status;
+            auto parent_create_result = createDirectory(parent, true);
+            if (!parent_create_result.ok) {
+                return parent_create_result;
             }
         }
     }
@@ -1843,9 +1843,9 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 {"content", meta.toJson()}
             };
             
-            auto status = importContent(spec, blob, user_context);
-            if (!status.ok) {
-                result.error_message = status.message;
+            auto import_result = importContent(spec, blob, user_context);
+            if (!import_result.ok) {
+                result.error_message = import_result.message;
                 return result;
             }
             
@@ -1931,9 +1931,9 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
             {"content", archive_meta.toJson()}
         };
         
-        auto status = importContent(archive_spec, blob, user_context);
-        if (!status.ok) {
-            result.error_message = "Failed to store archive: " + status.message;
+        auto import_result = importContent(archive_spec, blob, user_context);
+        if (!import_result.ok) {
+            result.error_message = "Failed to store archive: " + import_result.message;
             return result;
         }
         

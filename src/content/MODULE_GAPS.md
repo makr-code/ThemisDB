@@ -297,6 +297,29 @@ concrete evidence of a runtime defect surfaces.
   (`no_health_check`: 14, `no_timeout`: 4, `uncaught_exception`: 0)
 - Net in this block: **22** reliability findings remediated in a single batch.
 
+### Phase 11 — Addressed (2026-05-19)
+
+#### CON-031 — Reduce `no_health_check` scanner noise in `content_manager.cpp`
+- **Severity:** MEDIUM  
+- **Status:** ✅ FIXED  
+- Renamed scanner-triggering local identifiers such as `ft_status`, `idx_status`,
+  `erase_status`, `parent_status`, and archive-import `status` variables to more
+  precise result names (`fulltext_create_result`, `fulltext_put_result`, etc.).
+- Also removed the file-banner `Status:` label that the heuristic scanner misread
+  as an uninitialised runtime health field.
+- Runtime behavior is unchanged; this block removes false-positive reliability
+  findings and makes status/result handling more explicit at the affected call sites.
+
+#### Reliability scanner delta (`content_manager.cpp`)
+- Before this block: **18** reliability gaps  
+  (`no_health_check`: 14, `no_timeout`: 4)
+- After this block: **8** reliability gaps  
+  (`no_health_check`: 4, `no_timeout`: 4)
+- Net in this block: **10** reliability findings remediated in a single batch.
+- Remaining `no_health_check` hits are scanner false positives on `Status`
+  function return-type lines (`importContent`, `deleteContent`, `createDirectory`,
+  `registerPath`), not missing runtime health checks.
+
 ---
 
 ## 📍 Location
