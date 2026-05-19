@@ -25,6 +25,7 @@
 // Licensed under the MIT License
 
 #include "storage/transaction_retry_manager.h"
+#include <stdexcept>
 #include <algorithm>
 #include <cmath>
 #include <sstream>
@@ -320,7 +321,7 @@ void TransactionRetryManager::transitionCircuitState(CircuitState new_state) con
     if (alert_callback_) {
         try {
             alert_callback_(new_state, oss.str());
-        } catch (...) {
+        } catch (const std::exception&) {
             // Ignore callback exceptions
         }
     }

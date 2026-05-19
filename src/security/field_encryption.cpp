@@ -19,6 +19,7 @@
  */
 
 #include "security/encryption.h"
+#include <stdexcept>
 #include "security/mock_key_provider.h"
 #include "themis/runtime_license_gate.h"
 #include <openssl/evp.h>
@@ -81,7 +82,7 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
         }
     } catch (const std::exception& e) {
         fprintf(stderr, "write_debug_dump: exception: %s\n", e.what());
-    } catch (...) {
+    } catch (const std::exception&) {
         fprintf(stderr, "write_debug_dump: unknown exception\n");
     }
 }
@@ -284,7 +285,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                     // best-effort debug write (opt-in via env)
                     try {
                         write_debug_dump("encrypt", out[i], true);
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         logDebugDumpFailure(i, true, nullptr);
                     }
                 } catch (const std::exception& ex) {
@@ -293,7 +294,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                     THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                                 "(parallel item {}): {}", i, ex.what());
                     throw;
-                } catch (...) {
+                } catch (const std::exception&) {
                     THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                                 "(parallel item {}) with unknown exception", i);
                     throw;
@@ -309,7 +310,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                 // best-effort debug write (opt-in via env)
                 try {
                     write_debug_dump("encrypt", out[i], true);
-                } catch (...) {
+                } catch (const std::exception&) {
                     logDebugDumpFailure(i, false, nullptr);
                 }
             } catch (const std::exception& ex) {
@@ -318,7 +319,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                 THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                             "(item {}): {}", i, ex.what());
                 throw;
-            } catch (...) {
+            } catch (const std::exception&) {
                 THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
                             "(item {}) with unknown exception", i);
                 throw;
@@ -485,7 +486,7 @@ EncryptedBlob FieldEncryption::encrypt(const std::vector<uint8_t>& plaintext, co
         }
         
         return result;
-    } catch (...) {
+    } catch (const std::exception&) {
         metrics_.encrypt_errors_total.fetch_add(1, std::memory_order_relaxed);
         throw;
     }
@@ -528,7 +529,7 @@ std::vector<uint8_t> FieldEncryption::decryptToBytes(const EncryptedBlob& blob) 
         }
         
         return result;
-    } catch (...) {
+    } catch (const std::exception&) {
         metrics_.decrypt_errors_total.fetch_add(1, std::memory_order_relaxed);
         throw;
     }
@@ -616,7 +617,7 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
         
         EVP_CIPHER_CTX_free(ctx);
         
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx);
         throw;
     }
@@ -696,7 +697,7 @@ std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
         
         return plaintext;
         
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx);
         throw;
     }

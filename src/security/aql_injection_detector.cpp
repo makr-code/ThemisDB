@@ -22,6 +22,7 @@
  */
 
 #include "security/aql_injection_detector.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cctype>
@@ -214,7 +215,7 @@ bool AQLInjectionDetector::isValidAQLTemplate(const std::string& template_str) {
     try {
         auto result = parseAQL(template_str);
         return result.has_value();
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

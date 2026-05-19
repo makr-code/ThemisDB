@@ -115,7 +115,7 @@ void ConcurrentWriteController::shutdown() noexcept {
         try { to_notify.front().set_exception(
                   std::make_exception_ptr(
                       std::runtime_error("ConcurrentWriteController: shutdown"))); }
-        catch (...) {}
+        catch (const std::exception&) {}
         to_notify.pop();
     }
 }
@@ -169,7 +169,7 @@ WriteGuard ConcurrentWriteController::acquire() {
     if (got_slot) {
         try {
             f.get(); // propagates any stored exception (e.g. shutdown)
-        } catch (...) {
+        } catch (const std::exception&) {
             total_rejected_.fetch_add(1, std::memory_order_relaxed);
             throw;
         }
@@ -234,7 +234,7 @@ void ConcurrentWriteController::releaseSlot() noexcept {
     }
 
     if (have_next) {
-        try { next.set_value(); } catch (...) {}
+        try { next.set_value(); } catch (const std::exception&) {}
     }
 }
 

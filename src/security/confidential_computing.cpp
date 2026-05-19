@@ -276,7 +276,7 @@ void aes256gcm_encrypt(
             throw std::runtime_error("ConfidentialComputing: EVP_CTRL_GCM_GET_TAG failed");
 
         EVP_CIPHER_CTX_free(ctx);
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx);
         throw;
     }
@@ -323,7 +323,7 @@ std::vector<uint8_t> aes256gcm_decrypt(
         plaintext.resize(static_cast<size_t>(len + final_len));
         EVP_CIPHER_CTX_free(ctx);
         ctx = nullptr; // prevent double-free in catch if code above ever throws
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx); // no-op when ctx == nullptr (OpenSSL guarantees this)
         throw;
     }

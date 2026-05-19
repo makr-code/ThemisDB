@@ -1537,7 +1537,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
         }
         try {
             args.push_back(std::stoll(t));
-        } catch (...) {
+        } catch (const std::exception&) {
             return make_err(fmt::format("Invalid window argument '{}' in WINDOW clause", t));
         }
         ++ti;

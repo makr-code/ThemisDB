@@ -20,6 +20,7 @@
 
 // Phase 4.3: CTE Memory Management Implementation
 #include "query/cte_cache.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cstring>
@@ -162,7 +163,7 @@ void CTECache::clear() {
         if (entry.is_spilled && !entry.spill_file_path.empty()) {
             try {
                 std::filesystem::remove(entry.spill_file_path);
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
     }
     

@@ -17,6 +17,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **NEXT BLOCK: typed exception hardening in `src/query/`, `src/security/`, `src/storage/` (122 handlers)**
+  - Replaced all 122 remaining `catch (...)` handlers with `catch (const std::exception&)` in:
+    - **query module** (7 files, 51 handlers): `query_engine.cpp` (40), `let_evaluator.cpp` (6),
+      `aql_parser.cpp`, `aql_runner.cpp`, `query_compiler.cpp`, `query_federation.cpp`, `cte_cache.cpp` (1 each)
+    - **security module** (14 files, 40 handlers): `field_encryption.cpp` (9), `hsm_provider.cpp` (7),
+      `timestamp_authority.cpp` (4), plus 11 further security files (1–2 each)
+    - **storage module** (16 files, 31 handlers): `rocksdb_wrapper.cpp` (4),
+      `tensor_network_storage_engine.cpp` / `history_manager.cpp` / `concurrent_write_controller.cpp` (3 each),
+      and 12 further storage files (1–2 each)
+  - Preserved all existing error handling behavior (log-and-skip, return default,
+    fallback, and tolerant continuation paths) while removing broad unknown-exception suppression.
+  - Added `#include <stdexcept>` in 17 files that were missing it.
+
 - **CONTENT next block: typed exception hardening in video/geo/html/embedding processors**
   - Replaced remaining `catch (...)` handlers with typed exceptions in:
     `VideoProcessor` FFmpeg metadata/thumbnail/keyframe/scene cleanup paths,
