@@ -46,6 +46,7 @@ struct OIDCDiscoveryDocument {
     std::string issuer;                              ///< Issuer identifier (must match token iss)
     std::string jwks_uri;                            ///< JWKS endpoint for public key retrieval
     std::string token_endpoint;                      ///< Token endpoint (authorization_code / device)
+    std::string revocation_endpoint;                 ///< OAuth2 token revocation endpoint (RFC 7009)
     std::string authorization_endpoint;              ///< Authorization endpoint (code flow)
     std::string device_authorization_endpoint;       ///< Device authorization endpoint (RFC 8628)
     std::string userinfo_endpoint;                   ///< UserInfo endpoint (optional)

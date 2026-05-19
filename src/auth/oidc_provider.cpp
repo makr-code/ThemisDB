@@ -314,6 +314,9 @@ OIDCDiscoveryDocument OIDCProvider::parseDiscovery(const std::string& json_body)
     doc.token_endpoint         = j.at("token_endpoint").get<std::string>();
 
     // Optional but commonly present
+    if (j.contains("revocation_endpoint") && j["revocation_endpoint"].is_string()) {
+        doc.revocation_endpoint = j["revocation_endpoint"].get<std::string>();
+    }
     if (j.contains("device_authorization_endpoint") &&
         j["device_authorization_endpoint"].is_string())
     {

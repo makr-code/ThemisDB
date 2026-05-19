@@ -17,6 +17,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **NEXT BLOCK: LLM/LoRA/OAuth remediation (`#303`, `#304`, `#306`)**
+  - `LLMModelStorage::listModels()` now enumerates persisted model IDs via
+    `RocksDBWrapper::scanPrefix()` instead of returning an always-empty list.
+  - `FeedbackStorageService` now persists feedback↔adapter graph relationships:
+    - `createGraphLink()` builds deterministic edge IDs and calls
+      `GraphIndexManager::addEdge()`
+    - `removeGraphLink()` calls `GraphIndexManager::deleteEdge()`
+  - OAuth2 logout now performs best-effort RFC 7009 revocation when available:
+    - Added `OIDCDiscoveryDocument.revocation_endpoint`
+    - Discovery parsing now loads `revocation_endpoint`
+    - `OAuth2Provider::handleLogout()` POSTs refresh-token revocation to IdP
+      using client credentials when configured.
+  - Added focused tests:
+    - `GraphLinkCreatedAndRemovedWithFeedbackLifecycle`
+    - `LogoutPostsToRevocationEndpointWhenAvailable`
+  - Resolved stub inventory entries #303, #304, and #306.
+  - (`src/llm/llm_model_storage.cpp`,
+    `src/llm/lora_framework/lora_feedback_storage.cpp`,
+    `include/auth/oidc_provider.h`,
+    `src/auth/oidc_provider.cpp`,
+    `src/server/oauth2_provider.cpp`,
+    `tests/test_lora_feedback.cpp`,
+    `tests/test_oauth2_provider.cpp`,
+    `src/STUB_INVENTORY.md`)
+
 - **NEXT BLOCK: voice API auth/session remediation (`src/server/voice_api_handler.cpp`)**
   - Replaced permissive bearer-token check with shared auth middleware validation:
     - `VoiceApiHandler::validateBearerToken()` now uses

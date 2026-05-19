@@ -552,26 +552,24 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
 nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
 {
     if (!refresh_token.empty()) {
-        // STUB/SIMULATION NOTE (stub #306):
-        // Purpose: Preserve logout endpoint behavior without breaking callers while
-        //          RFC 7009 token revocation wiring is still incomplete in the
-        //          server-layer OAuth2 provider bridge.
-        // Activation: Always when refresh_token is provided to handleLogout().
-        // Production Delta: Refresh-token revocation is not sent to the upstream
-        //                   IdP revocation endpoint; this path only logs intent and
-        //                   returns success, leaving actual token invalidation to
-        //                   local/session-layer mechanisms.
-        // Removal Plan: Extend OIDCDiscoveryDocument with revocation_endpoint and
-        //               execute authenticated POST revocation calls from logout.
-        //               See src/server/FUTURE_ENHANCEMENTS.md §OAuth2/OIDC Native Support.
-        //               Target: v2.1.0.
-        // RFC 7009 – attempt best-effort token revocation.
-        // Many OIDC providers advertise a "revocation_endpoint" in discovery.
-        // OIDCDiscoveryDocument does not yet carry that field, so we note the
-        // intent here and log it.  A future enhancement can add
-        // revocation_endpoint to OIDCDiscoveryDocument and POST there.
-        THEMIS_INFO("OAuth2Provider::handleLogout – refresh token revocation "
-                    "requested (revocation_endpoint support planned)");
+        try {
+            const auto& doc = oidc_provider_->discoveryDocument();
+            if (!doc.revocation_endpoint.empty()) {
+                std::string body =
+                    "token=" + urlEncode(refresh_token) +
+                    "&token_type_hint=refresh_token" +
+                    "&client_id=" + urlEncode(config_.oidc.client_id);
+                if (!config_.oidc.client_secret.empty()) {
+                    body += "&client_secret=" + urlEncode(config_.oidc.client_secret);
+                }
+                (void)httpPost(doc.revocation_endpoint, body);
+                THEMIS_INFO("OAuth2Provider::handleLogout – refresh token revocation posted");
+            } else {
+                THEMIS_WARN("OAuth2Provider::handleLogout – revocation endpoint unavailable in discovery metadata");
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("OAuth2Provider::handleLogout – refresh token revocation failed: {}", e.what());
+        }
     }
     THEMIS_INFO("OAuth2Provider::handleLogout – session ended");
     return {{"success", true}};
@@ -613,4 +611,3 @@ void OAuth2Provider::setRandBytesForTesting(
 
 } // namespace server
 } // namespace themis
-
