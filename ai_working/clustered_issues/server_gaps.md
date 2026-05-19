@@ -31,6 +31,8 @@
 ### Phase 1: Critical Fixes
 Focus on CRITICAL severity gaps (data safety, security):
 
+- [x] Remove token-value logging in auth paths (`auth_middleware.cpp`, `http_server.cpp`) to harden against secret disclosure in logs (CWE-532).
+- [ ] Triage remaining CRITICAL findings by true-positive confidence and exploitability.
 
 ### Phase 2: High Priority Fixes
 Address HIGH severity gaps (performance, reliability):
@@ -54,10 +56,10 @@ Address HIGH severity gaps (performance, reliability):
 
 ## Acceptance Criteria
 
-- [ ] All CRITICAL gaps addressed
-- [ ] All HIGH gaps reviewed and prioritized
+- [ ] All CRITICAL gaps addressed *(in progress: token-log leakage hardening completed)*
+- [~] All HIGH gaps reviewed and prioritized
 - [ ] Documentation updated (ARCHITECTURE.md, ROADMAP.md)
-- [ ] Tests added for gap fixes
+- [x] Tests added for gap fixes
 - [ ] Code review completed
 
 ---

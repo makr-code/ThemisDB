@@ -1,7 +1,7 @@
 # server Module — Implementation Gap Analysis
 
-**Status:** Documentation Pending  
-**Last Updated:** Unknown  
+**Status:** In Progress  
+**Last Updated:** 2026-05-19  
 
 ---
 
@@ -12,6 +12,16 @@ This module's gap analysis is pending. Run the gap audit to populate this docume
 ```bash
 python tools/gap_audit_pipeline_v2.py
 ```
+
+---
+
+## ✅ Recent Remediation (2026-05-19)
+
+- Removed token-value logging from:
+  - `src/server/auth_middleware.cpp` (`AuthMiddleware::authorize`)
+  - `src/server/http_server.cpp` (`HttpServer::handlePiiDeleteByUuid`)
+- Security impact: avoids leaking bearer token fragments into logs (CWE-532 hardening).
+- Related test coverage: `tests/test_auth_middleware.cpp` (`AuthMiddlewareGap013Test.DeniedReason_DoesNotEchoPresentedToken`).
 
 ---
 

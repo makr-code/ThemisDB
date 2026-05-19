@@ -46,7 +46,9 @@ v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTT
   - Tests: `tests/test_connector_mode_api.cpp` (17 live API tests; latest validation: 15 passed, 2 skipped due runtime/model readiness conditions)
 
 ## In Progress 🚧
-*(none currently in progress – all Phase 1–6 items completed)*
+- [~] P0 security/code-quality gap remediation wave (Target: Q2 2026)
+  - [x] Remove token-value logging from `AuthMiddleware::authorize` and `HttpServer::handlePiiDeleteByUuid` (CWE-532 hardening; scanner `hardcoded_secret` false-positive hotspot reduction)
+  - [ ] Continue CRITICAL gap triage in `ai_working/gap_scan_v3_server.json` by true-positive priority (auth, memory, concurrency)
 
 ## Planned Features 📋
 
@@ -206,4 +208,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `AdaptiveRateLimiter` – Token-Bucket-Ratenlimiter mit dynamischer Anpassung; nur im Test geprüft
   > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
-

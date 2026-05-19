@@ -9176,18 +9176,12 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        // Diagnostic: mask token and log authorize attempts
-        auto mask = [](std::string_view t) {
-            std::string s(t);
-            if (s.size() <= 8) return s;
-            return s.substr(0,4) + std::string("...") + s.substr(s.size()-4);
-        };
-        THEMIS_INFO("PII Delete: Authorization header present, token='{}', required_scope='pii:write'", mask(*token));
+        THEMIS_INFO("PII Delete: Authorization header present, required_scope='pii:write'");
         
         auto ar = auth_->authorize(*token, "pii:write");
         THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
         if (!ar.authorized) {
-            THEMIS_INFO("PII Delete: trying fallback authorize('admin') for token='{}'", mask(*token));
+            THEMIS_INFO("PII Delete: trying fallback authorize('admin')");
             ar = auth_->authorize(*token, "admin");
             THEMIS_INFO("PII Delete: authorize('admin') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
             if (!ar.authorized) {
@@ -12919,4 +12913,3 @@ void HttpServer::setMcpServer(
 
 } // namespace server
 } // namespace themis
-

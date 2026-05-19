@@ -1212,3 +1212,18 @@ TEST(AuthMiddlewareGap013Test, Authorize_InvalidToken_ReturnsDenied) {
     auto result = auth.authorize("not-a-valid-token", "admin");
     EXPECT_FALSE(result.authorized) << "Invalid token must be denied (GAP-013)";
 }
+
+TEST(AuthMiddlewareGap013Test, DeniedReason_DoesNotEchoPresentedToken) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "known-token";
+    tc.user_id = "dave";
+    tc.scopes  = {"read"};
+    auth.addToken(tc);
+
+    const std::string presented = "sensitive-invalid-token";
+    auto result = auth.authorize(presented, "admin");
+    ASSERT_FALSE(result.authorized);
+    EXPECT_EQ(result.reason, "Invalid token");
+    EXPECT_EQ(result.reason.find(presented), std::string::npos);
+}
