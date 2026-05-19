@@ -177,6 +177,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **REL-03:** `vkQueueSubmit` return value now checked in `dispatch()`; throws `std::runtime_error` on failure.
   - **REL-04:** Both `vkEnumeratePhysicalDevices` calls in `VulkanContext::select_physical_device()` are now
     checked; `VK_INCOMPLETE` tolerated on fill call; any other error causes the function to return `false`.
+  - **REL-05:** Both `vkEnumeratePhysicalDevices` calls in `VRAMAllocator::vk_init()` now checked with the
+    same `VK_INCOMPLETE`-tolerant strategy; `vkBindBufferMemory` in `vk_alloc()` now checked — on failure
+    `vkFreeMemory`/`vkDestroyBuffer` are called and `nullptr` is returned.
+  - **REL-06:** `cudaGetDeviceProperties` in `FlashLoRA::get_optimal_config()` now checked; `cudaDeviceProp`
+    zero-initialised via `{}` before the call; falls through to safe defaults on error.
+  - **REL-07:** `cudaGetDeviceProperties` in `GPUMemoryManager::get_available_backends()` now checked;
+    `cudaDeviceProp` zero-initialised via `{}`; backend info filled only when the call succeeds.
   - Doxygen for `VulkanComputePipeline::dispatch()` updated with `@throws` contract.
   - Regression test stubs added (`tests/test_vulkan_dispatch_reliability.cpp`, REL-01..REL-04) with
     `GTEST_SKIP` guards pending Vulkan Mock ICD availability.

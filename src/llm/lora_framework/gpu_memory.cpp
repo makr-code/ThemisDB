@@ -241,12 +241,16 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
             info.available = true;
             
             // Query device 0 properties
-            cudaDeviceProp prop;
-            cudaGetDeviceProperties(&prop, 0);
-            
-            info.device_name = prop.name;
-            info.vram_bytes = prop.totalGlobalMem;
-            info.compute_units = prop.multiProcessorCount;
+            cudaDeviceProp prop{};
+            cudaError_t prop_err = cudaGetDeviceProperties(&prop, 0);
+            if (prop_err != cudaSuccess) {
+                spdlog::warn("GPUMemoryManager: cudaGetDeviceProperties failed: {}",
+                             cudaGetErrorString(prop_err));
+            } else {
+                info.device_name = prop.name;
+                info.vram_bytes = prop.totalGlobalMem;
+                info.compute_units = prop.multiProcessorCount;
+            }
             
             int runtime_version;
             cudaRuntimeGetVersion(&runtime_version);

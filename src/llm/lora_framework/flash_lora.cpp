@@ -430,8 +430,13 @@ FlashLoRA::Config FlashLoRA::get_recommended_config(
 #ifdef THEMIS_ENABLE_CUDA
     if (device.type == DeviceType::CUDA) {
         int device_id = device.index;
-        cudaDeviceProp prop;
-        cudaGetDeviceProperties(&prop, device_id);
+        cudaDeviceProp prop{};
+        cudaError_t prop_err = cudaGetDeviceProperties(&prop, device_id);
+        if (prop_err != cudaSuccess) {
+            spdlog::warn("FlashLoRA: cudaGetDeviceProperties failed for device {}: {}",
+                         device_id, cudaGetErrorString(prop_err));
+            // Fall through with zeroed prop; auto_tune_for_device will use safe defaults
+        }
         
         // Auto-tune based on device name
         config.auto_tune_for_device(std::string(prop.name));
