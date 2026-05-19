@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security Hardening Epic — ✅ COMPLETE (2026-05-19) 🔒
+
+- **Stub #302: `VoiceApiHandler::validateBearerToken()`** — Critical security gap resolved.
+  - `VoiceApiHandler` constructor now accepts optional `std::shared_ptr<AuthMiddleware>` (backward-compatible; null = open mode).
+  - `validateBearerToken()` delegates to `auth_->authorize(token, "voice:access")` when auth is enabled, performing full JWT/OIDC expiry, signature, issuer, audience, and revocation checks via the repository-wide auth stack.
+  - Open-mode fallback (null auth, dev/test) preserved: non-empty Bearer token string accepted.
+
+- **Stub #280: `RopeApiHandler::requireAccess()`** — High-severity RBAC gap resolved.
+  - `requireAccess()` now extracts the Bearer token via `AuthMiddleware::extractBearerToken()` and calls `auth_->authorize(token, permission)`, returning HTTP 403 on denied scopes (`vector:read`, `vector:write`, `data:read`, `data:write`).
+  - Mirrors the pattern already implemented in `VectorApiHandler`.
+
+- **Security Hardening Epic ROADMAP** marked ✅ COMPLETE in `src/ROADMAP.md`.  All items (#1–6 auth mutex/LDAP/constant-time/issuer, #75 LoRA cert TLS, #100 JWT scope RBAC, #218 PKI hash, #99 Arrow plugin, #27 AQL injection, #206 SecuritySignatureManager, #280 ROPE RBAC, #302 Voice JWT) verified done in code.
+
+### Bug Fixes / Correctness
+
+- **Stub #297: `FeedbackStore::applyPluginValidation()` MODIFY action** — correctness gap resolved.
+  - Method signature changed from `const FeedbackEntry&` to `FeedbackEntry&`.
+  - MODIFY case now applies `ValidationResponse::modified_comment` and `modified_metadata` in-place before persisting as APPROVED.
+  - Fields already existed in `ValidationResponse` (`include/llm/i_feedback_plugin.h`); no ABI change required.
+
+### Memory Safety / RAII
+
+- **Stub #298: `Http2Session::sendResponse()` raw-new eliminated** — RAII fix applied.
+  - `ResponseBuffer` struct promoted to `Http2Session` named type in `http2_session.h`.
+  - `response_buffers_` (`unordered_map<int32_t, shared_ptr<ResponseBuffer>>`) added to session; ensures buffer lifetime matches stream lifetime without explicit `delete`.
+  - `sendResponse()` and `sendServerPush()` both ported to `make_shared<ResponseBuffer>`; all raw `new`/`delete` calls removed.
+  - Buffers are erased from the map on `nghttp2_submit_response` failure.
+
+### Tests
+
+- New regression test `tests/test_stub_remediation_297_298_280_302.cpp` covering:
+  - `ValidationResponse` MODIFY fields (`modified_comment`, `modified_metadata`) structural verification (stub #297)
+  - `VoiceApiHandler::validateBearerToken()` open-mode fallback cases (stub #302)
+  - Documentation assertions for stub #298 and stub #280
+
 ### Released
 - **v1.9.0-alpha (2026-04-26) veröffentlicht**
   - GitHub Pre-Release: https://github.com/makr-code/ThemisDB/releases/tag/v1.9.0-alpha

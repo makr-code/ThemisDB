@@ -124,6 +124,15 @@ private:
     std::array<uint8_t, 16384> read_buffer_;
     std::vector<uint8_t> write_buffer_;
     std::unordered_map<int32_t, StreamData> streams_;
+
+    // RAII response buffers: keyed on stream_id so the buffer lives exactly as
+    // long as the nghttp2 data provider callback needs it.  Erased on EOF or
+    // stream-close callback to prevent unbounded accumulation.
+    struct ResponseBuffer {
+        std::string data;
+        std::size_t offset = 0;
+    };
+    std::unordered_map<int32_t, std::shared_ptr<ResponseBuffer>> response_buffers_;
     
     uint32_t max_concurrent_streams_;
     uint32_t initial_window_size_;

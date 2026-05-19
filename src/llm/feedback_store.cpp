@@ -630,7 +630,7 @@ ValidationStatus FeedbackStore::validateFeedback(const FeedbackEntry& feedback) 
 
 // ===== Plugin Integration =====
 
-ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedback) {
+ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
     if (!validation_plugin_) {
         // No plugin, use basic validation
         return validateFeedback(feedback);
@@ -660,28 +660,22 @@ ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedb
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // STUB/SIMULATION NOTE (stub #297):
-                // Purpose: Allow the feedback plugin protocol to compile and route
-                //          MODIFY decisions without a concrete modification-apply
-                //          mechanism, so plugins that return MODIFY are not silently
-                //          discarded.
-                // Activation: Always — `FeedbackValidationResult.modified_comment` and
-                //              `.modified_metadata` are populated by the plugin but no
-                //              code reads them here yet.
-                // Production Delta: The plugin's suggested comment rewrite and metadata
-                //                   adjustments are silently ignored.  Feedback is stored
-                //                   verbatim and counted as APPROVED, potentially allowing
-                //                   policy-violating content that the plugin intended to
-                //                   sanitize.
-                // Removal Plan: Add `modified_comment` / `modified_metadata` fields to
-                //               `FeedbackValidationResult`; read them here and update
-                //               `data.comment` / `data.metadata` before returning
-                //               APPROVED.  Requires aligned plugin ABI changes.
-                //               See src/llm/FUTURE_ENHANCEMENTS.md §FeedbackPlugin Modify.
-                //               Target: v2.0.0.
-                // TODO(feedback-plugin): Apply modifications if provided
-                // For now, accept modified feedback as approved
-                // Future: Apply modified_comment and modified_metadata from result
+                // Apply plugin-suggested modifications before storing the entry.
+                // Fields are overwritten only when the plugin explicitly set them
+                // (has_value()), preserving original values for unset optionals.
+                if (result.modified_comment.has_value()) {
+                    feedback.comment = *result.modified_comment;
+                    data.comment     = *result.modified_comment; // keep data in sync
+                }
+                if (result.modified_metadata.has_value()) {
+                    feedback.metadata = *result.modified_metadata;
+                    data.metadata     = *result.modified_metadata;
+                }
+                THEMIS_DEBUG("Plugin MODIFY applied for feedback {} "
+                             "(comment rewritten: {}, metadata rewritten: {})",
+                             feedback.id,
+                             result.modified_comment.has_value(),
+                             result.modified_metadata.has_value());
                 return ValidationStatus::APPROVED;
             default:
                 return ValidationStatus::PENDING;

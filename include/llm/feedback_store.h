@@ -304,8 +304,15 @@ private:
     static const std::vector<std::string>& getSpamKeywords();
     static bool isLikelySpam(const std::string& text);
     
-    // Helper: Apply plugin validation if available
-    ValidationStatus applyPluginValidation(const FeedbackEntry& feedback);
+    /**
+     * @brief Apply plugin validation and, for MODIFY decisions, rewrite the
+     *        entry's comment and metadata in-place before persisting.
+     *
+     * @param feedback  Feedback entry to validate; modified in-place when the
+     *                  plugin returns MODIFY with non-empty field overrides.
+     * @return Resolved ValidationStatus (APPROVED after a MODIFY).
+     */
+    ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 
 } // namespace llm

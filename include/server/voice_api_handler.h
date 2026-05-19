@@ -51,6 +51,12 @@ class HTTPClientPool;
 }
 }
 
+// Forward-declare AuthMiddleware so callers can pass it without pulling in the
+// full header in most translation units.
+namespace themis {
+class AuthMiddleware;
+}
+
 namespace themis::server {
 
 namespace beast = boost::beast;
@@ -97,11 +103,18 @@ using json = nlohmann::json;
 class VoiceApiHandler {
 public:
     /**
-     * @brief Construct Voice API handler
-     * 
-     * @param voice_assistant Voice assistant instance
+     * @brief Construct Voice API handler.
+     *
+     * @param voice_assistant  Voice assistant instance (required).
+     * @param auth             Optional authentication middleware.  When non-null
+     *                         and enabled, every request is validated via the
+     *                         repository-wide JWT/OIDC stack.  When null the
+     *                         handler operates in open mode (non-empty bearer
+     *                         token check only) for backward compatibility.
      */
-    explicit VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant);
+    explicit VoiceApiHandler(
+        std::shared_ptr<voice::VoiceAssistant> voice_assistant,
+        std::shared_ptr<::themis::AuthMiddleware> auth = nullptr);
     
     /**
      * @brief Handle Voice API request
@@ -259,6 +272,7 @@ private:
 
     std::shared_ptr<voice::VoiceAssistant> voice_assistant_;
     std::shared_ptr<utils::HTTPClientPool> http_client_pool_;
+    std::shared_ptr<::themis::AuthMiddleware> auth_; ///< JWT/OIDC auth middleware; null = open mode
 };
 
 } // namespace themis::server

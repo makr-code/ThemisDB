@@ -502,16 +502,14 @@ See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
 ---
 
 ### 🔒 Security Hardening Epic
-Affects: `auth`, `security`, `server`, `llm`, `utils`, `sharding`, `storage`
+**Status:** ✅ **COMPLETE (2026-05-19)** · **Epic Label:** `epic:security-hardening` · **Target:** v1.8.0
 
-- Auth: JWT JWKS mutex, LDAP injection, constant-time compare, issuer validation (items #1–6)
-- LLM: LoRA cert store never verifies certificates (#75)
-- Server: JWT scope extraction not enforced (#100)
-- Utils: PKI client fallback to base64-hash comparison (#218)
-- Security: Arrow plugin is a complete stub (#99); AQL injection AST-level validation implemented (#27 ✅)
-- Storage: SecuritySignatureManager cannot iterate without `RocksDBWrapper::iterateRange()` (#206)
-
-**Suggested Epic Label:** `epic:security-hardening` · **Target:** v1.8.0
+- Auth: JWT JWKS `shared_mutex`, LDAP DN/filter injection prevention, constant-time TOTP compare, mandatory issuer+audience validation (items #1–6 ✅)
+- LLM: LoRA cert store TLS verification via injectable `VerifyCertFn` (#75 ✅)
+- Server: JWT scope-based RBAC in VectorApiHandler (#100 ✅); ROPE `requireAccess()` scope enforcement (#280 ✅); Voice API JWT middleware injection (#302 ✅)
+- Utils: PKI client HKDF-hash comparison (#218 ✅)
+- Security: Arrow plugin bridge (#99 ✅); AQL injection AST-level validation (#27 ✅)
+- Storage: SecuritySignatureManager `iterateRange()` via RocksDBWrapper (#206 ✅)
 
 ---
 
