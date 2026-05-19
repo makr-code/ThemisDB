@@ -1,13 +1,13 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Content Module
 
-**Last Audit:** 2026-04-19
-**Auditor:** Copilot
-**Status:** ✅ Pass
+**Last Audit:** 2026-05-19  
+**Auditor:** Copilot  
+**Status:** ✅ Pass (with tracked open items)
 
 ## Summary
 
@@ -17,8 +17,9 @@
 | Source Files | 34 (`.cpp` in `src/content/`) |
 | Test Coverage | ✅ Production-ready; security tests cover LibreOffice, archive, OCR paths |
 | Open TODOs | 38 files contain TODOs (processor chain plugin API, video frames, LLM PII scrubbing) |
-| Open Stubs | 2 (plugin processor chain pending Issue #1686; video frame extraction pending Issue #1688) |
-| Security Issues | None (security hardening complete for LibreOffice and zip-bomb paths) |
+| Open Stubs | 6 compile-time conditional stubs (all documented with STUB/SIMULATION NOTE); see MODULE_GAPS.md §Acknowledged Stubs |
+| Gap Scan (v3) | 4,077 flagged items; 27 security, 29 concurrency (see MODULE_GAPS.md) |
+| Security Issues | None critical (security hardening complete for LibreOffice and zip-bomb paths); 27 lower-priority items tracked |
 
 ## Build System
 
@@ -86,11 +87,16 @@
 - **Zip/archive decompression bomb** — 100× ratio and 1000 entry limits enforced in `content_security.cpp`.
 - **LibreOffice environment poisoning** — minimal `HOME=tmpdir` environment; all inherited variables cleared.
 - **OCR input validation** — pre-processing to 300 DPI with Leptonica binarization before Tesseract.
+- **VideoProcessor::healthCheck() simulation-mode return** — was returning `initialized_` (always `true`) without FFmpeg; now returns `false`, consistent with `TTSProcessor`/`STTProcessor` pattern (2026-05-19).
+- **Undocumented simulation fallback in extractMetadata()** — `video_processor.cpp` `#else` branch lacked a STUB/SIMULATION NOTE and contained an unreachable MKV detection branch (same magic bytes as WebM); both corrected (2026-05-19).
+- **MODULE_GAPS.md unpopulated** — gap analysis document was a placeholder; populated with gap scan v3 results (4,077 items, categorized) and implementation roadmap (2026-05-19).
 
 ### Open
 - **Plugin processor chain** — `IIngestionPlugin` API not yet implemented (Issue #1686); processor dispatch is hardcoded.
 - **Video frame extraction** — FFmpeg integration pending (Issue #1688).
 - **LLM content analysis PII** — document summaries sent to LLM without PII scrubbing; operators should restrict LLM analysis to non-sensitive document categories.
+- **Concurrency gaps** — 29 instances flagged by gap scan v3; pending manual review to confirm or refute false positives.
+- **Security gaps** — 27 instances flagged by gap scan v3; all critical security controls (zip-bomb, subprocess) are in place; remaining items tracked in MODULE_GAPS.md.
 
 ## Compliance
 

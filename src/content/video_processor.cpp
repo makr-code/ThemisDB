@@ -1,4 +1,4 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+// THEMIS_GAP_STATS: gaps=8 unimpl=1 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-19
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -12,7 +12,7 @@
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   68.0/100                                       ║
     • Total Lines:     997                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d275653619  2026-04-14  update after codefindings               ║
@@ -347,8 +347,9 @@ bool VideoProcessor::healthCheck() const {
     // Check if FFmpeg libraries are properly loaded
     return initialized_;
 #else
-    // Simulation mode - always healthy
-    return initialized_;
+    // Without FFmpeg the processor is initialised but cannot do real work;
+    // report unhealthy so health-check aggregators surface the missing dependency.
+    return false;
 #endif
 }
 
@@ -369,7 +370,22 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t>& 
 #ifdef THEMIS_HAS_FFMPEG
     return extractMetadataFFmpeg(blob);
 #else
-    // Fallback to simulation mode
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a plausible MediaExtractionData structure when compiled
+    //          without FFmpeg (THEMIS_HAS_FFMPEG not defined).  Allows the
+    //          content pipeline to exercise the video-processing code path in
+    //          unit-test and development environments that lack FFmpeg.
+    // Activation: THEMIS_HAS_FFMPEG is NOT defined at compile time.
+    // Production Delta: Duration, resolution, bitrate, and codec fields are
+    //                   static placeholder values (120 s, 1920×1080, 5000 kbps,
+    //                   H.264/AAC) rather than actual values decoded from the
+    //                   container.  Container format is inferred from the first
+    //                   12 bytes only; codec detection is approximate.
+    // Removal Plan: Build with -DTHEMIS_HAS_FFMPEG=ON and link
+    //               libavformat/libavcodec; the real extractMetadataFFmpeg()
+    //               path above this #else is then used.
+    //               See src/content/ROADMAP.md § "Long-term: Video frame extraction"
+    //               and src/content/FUTURE_ENHANCEMENTS.md § "Video Processing".
     MediaExtractionData data;
     
     // Analyze blob header to detect format
@@ -380,22 +396,16 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t>& 
             data.video_codec = "h264";
             data.audio_codec = "aac";
         }
-        // WebM detection
+        // WebM detection (EBML magic bytes)
         else if (blob[0] == 0x1A && blob[1] == 0x45 && blob[2] == 0xDF && blob[3] == 0xA3) {
             data.container_format = "webm";
             data.video_codec = "vp9";
             data.audio_codec = "opus";
         }
-        // MKV detection
-        else if (blob[0] == 0x1A && blob[1] == 0x45 && blob[2] == 0xDF && blob[3] == 0xA3) {
-            data.container_format = "matroska";
-            data.video_codec = "h265";
-            data.audio_codec = "aac";
-        }
     }
     
-    // Simulated metadata (would be extracted from streams)
-    data.duration_ms = 120000;  // 2 minutes
+    // Placeholder metadata (static values — not decoded from container)
+    data.duration_ms = 120000;  // 2 minutes (placeholder)
     data.width = 1920;
     data.height = 1080;
     data.bitrate_kbps = 5000;
