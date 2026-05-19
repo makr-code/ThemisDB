@@ -20,6 +20,7 @@
 
 #include "scheduler/event_trigger.h"
 #include "utils/logger.h"
+#include "utils/string_utils.h"
 #include <algorithm>
 #include <sstream>
 #include <cctype>
@@ -45,12 +46,7 @@ namespace themis {
 namespace {
 
 // Trim leading/trailing whitespace
-static std::string trim(const std::string& s) {
-    size_t start = s.find_first_not_of(" \t\r\n");
-    if (start == std::string::npos) return "";
-    size_t end = s.find_last_not_of(" \t\r\n");
-    return s.substr(start, end - start + 1);
-}
+// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 // Strip surrounding double-quotes if present
 static std::string stripQuotes(const std::string& s) {
@@ -421,10 +417,10 @@ void EventTrigger::rebuildConditionCache_() const {
     while (pos < condition.size()) {
         size_t found = condition.find(AND_SEP, pos);
         if (found == std::string::npos) {
-            raw_clauses.push_back(trim(condition.substr(pos)));
+            raw_clauses.push_back(themis::utils::trim(condition.substr(pos)));
             break;
         }
-        raw_clauses.push_back(trim(condition.substr(pos, found - pos)));
+        raw_clauses.push_back(themis::utils::trim(condition.substr(pos, found - pos)));
         pos = found + AND_SEP.size();
     }
 
