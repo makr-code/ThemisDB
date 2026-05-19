@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **Stub remediation next block — callback bridges for #304/#306/#309:**
+  - `include/llm/lora_framework/lora_feedback_storage.h` + `src/llm/lora_framework/lora_feedback_storage.cpp`:
+    - Added `CreateGraphLinkFn` / `RemoveGraphLinkFn` bridge hooks in `FeedbackStorageService::Config`.
+    - Graph link creation/removal now uses injected callbacks when present, otherwise persists edges through `GraphIndexManager::addEdge/deleteEdge`.
+  - `include/server/oauth2_provider.h` + `src/server/oauth2_provider.cpp`:
+    - Added `RefreshTokenRevocationFn` bridge and `setRefreshTokenRevocationFn(...)`.
+    - `handleLogout()` now executes revocation via callback when configured (exception-safe) while preserving `{ "success": true }` response contract.
+  - `include/llm/gpu_memory_manager.h` + `src/llm/gpu_memory_manager.cpp`:
+    - Added `GPUTemperatureProviderFn` in manager config.
+    - `updateGPUHealth()` now consumes injected temperature telemetry in both CUDA and non-CUDA paths, with safe fallback on missing/failed callbacks.
+  - Tests extended:
+    - `tests/test_lora_feedback.cpp`: graph-link callback path coverage.
+    - `tests/test_oauth2_provider.cpp`: logout revocation callback and exception path coverage.
+    - `tests/test_multi_gpu_management.cpp`: temperature-provider callback coverage.
 - **Stub remediation rest-block — cloud backup callback bridges (stubs #312-#321):**
   - `include/sharding/cloud_backup.h`: added bridge callback types + setters for remaining placeholder provider operations:
     - S3: delete/list/exists (`setS3DeleteFn`, `setS3ListFn`, `setS3ExistsFn`)

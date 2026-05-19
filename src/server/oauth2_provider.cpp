@@ -540,36 +540,18 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
 nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
 {
     if (!refresh_token.empty()) {
-        // STUB/SIMULATION NOTE (stub #306):
-        // Purpose: Preserve logout endpoint behavior without breaking callers while
-        //          RFC 7009 token revocation wiring is still incomplete in the
-        //          server-layer OAuth2 provider bridge.
-        // Activation: When refresh_token is provided and no TokenRevocationFn has
-        //             been injected via setTokenRevocationFn().
-        // Production Delta: Refresh-token revocation is not sent to the upstream
-        //                   IdP revocation endpoint; token remains valid at the IdP
-        //                   until it expires naturally.
-        // Removal Plan: Extend OIDCDiscoveryDocument with revocation_endpoint and
-        //               inject a real revocation POST via setTokenRevocationFn().
-        //               See src/server/FUTURE_ENHANCEMENTS.md §OAuth2/OIDC Native Support.
-        //               Target: v2.1.0.
-        TokenRevocationFn revoke_fn;
-        {
-            std::lock_guard<std::mutex> lock(revocation_mutex_);
-            revoke_fn = token_revocation_fn_;
-        }
-        if (revoke_fn) {
+        if (refresh_token_revocation_fn_) {
             try {
-                bool ok = revoke_fn(refresh_token);
-                if (!ok) {
-                    THEMIS_WARN("OAuth2Provider::handleLogout – IdP revocation returned failure");
-                }
+                const bool revoked = refresh_token_revocation_fn_(refresh_token);
+                THEMIS_INFO("OAuth2Provider::handleLogout – revocation callback result: {}",
+                            revoked ? "revoked" : "not-revoked");
             } catch (const std::exception& e) {
-                THEMIS_ERROR("OAuth2Provider::handleLogout – revocation callback threw: {}", e.what());
+                THEMIS_ERROR("OAuth2Provider::handleLogout revocation callback failed: {}",
+                             e.what());
             }
         } else {
-            THEMIS_INFO("OAuth2Provider::handleLogout – refresh token revocation "
-                        "requested (revocation_endpoint support planned)");
+            THEMIS_INFO("OAuth2Provider::handleLogout – refresh token revocation requested "
+                        "(no revocation callback configured)");
         }
     }
     THEMIS_INFO("OAuth2Provider::handleLogout – session ended");
@@ -615,6 +597,10 @@ void OAuth2Provider::setRandBytesForTesting(
     }
 }
 
+void OAuth2Provider::setRefreshTokenRevocationFn(RefreshTokenRevocationFn fn)
+{
+    refresh_token_revocation_fn_ = std::move(fn);
+}
+
 } // namespace server
 } // namespace themis
-
