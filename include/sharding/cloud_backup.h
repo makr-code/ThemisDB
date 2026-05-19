@@ -222,12 +222,61 @@ using S3UploadFn = std::function<bool(const std::string& bucket,
                                       const std::string& local_path,
                                       const std::string& remote_path,
                                       const std::map<std::string, std::string>& metadata)>;
+using S3DeleteFn = std::function<bool(const std::string& bucket,
+                                      const std::string& remote_path)>;
+using S3ListFn = std::function<std::vector<std::string>(const std::string& bucket,
+                                                        const std::string& prefix)>;
+using S3ExistsFn = std::function<bool(const std::string& bucket,
+                                      const std::string& remote_path)>;
+
+using AzureUploadFn = std::function<bool(const std::string& account,
+                                         const std::string& container,
+                                         const std::string& local_path,
+                                         const std::string& remote_path,
+                                         const std::map<std::string, std::string>& metadata)>;
+using AzureDownloadFn = std::function<bool(const std::string& account,
+                                           const std::string& container,
+                                           const std::string& remote_path,
+                                           const std::string& local_path)>;
+using AzureDeleteFn = std::function<bool(const std::string& account,
+                                         const std::string& container,
+                                         const std::string& remote_path)>;
+using AzureListFn = std::function<std::vector<std::string>(const std::string& account,
+                                                           const std::string& container,
+                                                           const std::string& prefix)>;
+using AzureExistsFn = std::function<bool(const std::string& account,
+                                         const std::string& container,
+                                         const std::string& remote_path)>;
+
+using GCSUploadFn = std::function<bool(const std::string& bucket,
+                                       const std::string& local_path,
+                                       const std::string& remote_path,
+                                       const std::map<std::string, std::string>& metadata)>;
+using GCSDownloadFn = std::function<bool(const std::string& bucket,
+                                         const std::string& remote_path,
+                                         const std::string& local_path)>;
 using GCSDeleteFn = std::function<bool(const std::string& bucket,
+                                       const std::string& remote_path)>;
+using GCSListFn = std::function<std::vector<std::string>(const std::string& bucket,
+                                                         const std::string& prefix)>;
+using GCSExistsFn = std::function<bool(const std::string& bucket,
                                        const std::string& remote_path)>;
 
 void setS3DownloadFn(S3DownloadFn fn);
 void setS3UploadFn(S3UploadFn fn);
+void setS3DeleteFn(S3DeleteFn fn);
+void setS3ListFn(S3ListFn fn);
+void setS3ExistsFn(S3ExistsFn fn);
+void setAzureUploadFn(AzureUploadFn fn);
+void setAzureDownloadFn(AzureDownloadFn fn);
+void setAzureDeleteFn(AzureDeleteFn fn);
+void setAzureListFn(AzureListFn fn);
+void setAzureExistsFn(AzureExistsFn fn);
+void setGCSUploadFn(GCSUploadFn fn);
+void setGCSDownloadFn(GCSDownloadFn fn);
 void setGCSDeleteFn(GCSDeleteFn fn);
+void setGCSListFn(GCSListFn fn);
+void setGCSExistsFn(GCSExistsFn fn);
 
 } // namespace sharding
 } // namespace themis

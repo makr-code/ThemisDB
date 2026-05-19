@@ -256,6 +256,31 @@ public:
     void setRandBytesForTesting(
         std::function<void(unsigned char* buf, std::size_t len)> fn);
 
+    // ---------------------------------------------------------------------------
+    // Callback bridge for RFC 7009 token revocation (stub #306)
+    // ---------------------------------------------------------------------------
+    /**
+     * @brief Function type for injecting a real token revocation backend.
+     *
+     * The callee is responsible for resolving the revocation endpoint (e.g. via
+     * OIDC discovery) and performing the RFC 7009 POST.
+     *
+     * @param refresh_token  Refresh token to revoke
+     * @return true if the revocation was accepted
+     */
+    using TokenRevocationFn = std::function<bool(const std::string& refresh_token)>;
+
+    /**
+     * @brief Inject a real RFC 7009 token revocation implementation.
+     *
+     * When set, handleLogout() will call this function with the IdP revocation
+     * endpoint to properly invalidate the refresh token at the authorization
+     * server.  Without injection the logout succeeds locally but remote
+     * revocation is skipped (documented stub #306 behavior).
+     * Thread-safe (internal mutex).
+     */
+    void setTokenRevocationFn(TokenRevocationFn fn);
+
 private:
     Config config_;
     std::unique_ptr<auth::OIDCProvider>   oidc_provider_;
@@ -268,6 +293,10 @@ private:
     /// Injected random-bytes hook (for testing).
     std::function<void(unsigned char* buf, std::size_t len)>
         rand_bytes_fn_;
+
+    /// Injected RFC 7009 token revocation callback (stub #306).
+    TokenRevocationFn token_revocation_fn_;
+    mutable std::mutex revocation_mutex_;
 
     // -----------------------------------------------------------------------
     // Pending-state map (state → {code_verifier, expiry})

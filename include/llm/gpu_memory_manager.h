@@ -20,6 +20,7 @@
 #pragma once
 
 #include <cstddef>
+#include <functional>
 #include <string>
 #include <unordered_map>
 #include <mutex>
@@ -175,6 +176,26 @@ public:
     bool enablePeerAccess(int src_gpu, int dst_gpu);
     bool disablePeerAccess(int src_gpu, int dst_gpu);
     bool canAccessPeer(int src_gpu, int dst_gpu) const;
+
+    // ---------------------------------------------------------------------------
+    // Callback bridge for CUDA/NVML temperature telemetry (stub #309)
+    // ---------------------------------------------------------------------------
+    /**
+     * @brief Function type for injecting real NVML per-device temperature queries.
+     *
+     * @param gpu_device_id  CUDA device index to query
+     * @return Temperature in degrees Celsius; negative value signals query failure
+     */
+    using NVMLTemperatureFn = std::function<float(int gpu_device_id)>;
+
+    /**
+     * @brief Inject a real NVML temperature provider.
+     *
+     * When set, updateGPUHealth() uses this function to read the sensor value
+     * instead of the hardcoded 0.0°C placeholder.  Pass nullptr to revert to
+     * the placeholder behavior.  Thread-safe (internal mutex).
+     */
+    void setNVMLTemperatureFn(NVMLTemperatureFn fn);
     
 private:
     Config config_;
@@ -213,6 +234,9 @@ private:
     // Defragmentation helper methods
     bool defragmentModelGPU(const std::string& model_id, const std::vector<MemoryAllocation>& gpu_allocs);
     bool defragmentModelCPU(const std::string& model_id, const std::vector<MemoryAllocation>& cpu_allocs);
+
+    // Bridge callback for NVML temperature (stub #309)
+    NVMLTemperatureFn nvml_temperature_fn_;
 };
 
 } // namespace llm
