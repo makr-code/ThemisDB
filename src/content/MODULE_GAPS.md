@@ -342,6 +342,24 @@ concrete evidence of a runtime defect surfaces.
 - After this block: **0** reliability gaps
 - Net in this block: **8** reliability findings removed by scanner-heuristic correction.
 
+### Phase 13 — Addressed (2026-05-19)
+
+#### CON-033 — Catch-all cleanup in `content_fs` / `embedding_pipeline`
+- **Severity:** MEDIUM  
+- **Status:** ✅ FIXED  
+- Replaced remaining broad `catch (...)` handlers in:
+  - `src/content/content_fs.cpp` (`put`, `get`, `getRange`, `head`, `remove`)
+  - `src/content/embedding_pipeline.cpp` (`embedWithTimeout`)
+- New handling uses typed `catch (const std::exception&)` while preserving existing
+  fail-safe behavior (`Err(...)` conversion in metadata paths, silent best-effort
+  cleanup where intentional, and embedding failure fallback to empty vectors).
+
+#### Reliability scanner delta (targeted files)
+- Before this block: **6** catch-all handlers  
+  (`content_fs.cpp`: 5, `embedding_pipeline.cpp`: 1)
+- After this block: **0** catch-all handlers in the targeted files
+- Net in this block: **6** catch-all handlers remediated in one batch.
+
 ---
 
 ## 📍 Location

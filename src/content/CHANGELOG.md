@@ -12,6 +12,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Configurable processing pipeline: plugin-based processor chain via `ProcessorChainConfig` and `IIngestionPlugin` (Issue #1686, Target Q3 2026)
 - Video frame extraction and scene detection via FFmpeg (Issue #1688, Target Q4 2026)
 
+### Fixed
+- **CON-033 — Reliability hardening (`content_fs.cpp`, `embedding_pipeline.cpp`)**
+  - Replaced remaining broad `catch (...)` handlers with typed `catch (const std::exception&)` in:
+    - content metadata decode/remove paths (`ContentFS::put/get/getRange/head/remove`)
+    - embedding timeout result path (`EmbeddingPipeline::embedWithTimeout`)
+  - Runtime behavior preserved: metadata failures still map to storage corruption errors, best-effort cleanup remains non-fatal, and embedding failures still degrade to empty-vector fallback with failure metric update.
+
 ## [1.7.0] — 2026-03-09
 ### Added
 - Zip-bomb protection in `content_security.cpp`: max 100× decompression ratio, max 1000 entries (CON-006)

@@ -91,6 +91,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - excluding member-call stream APIs (`.read` / `.write`) from non-timeout file-I/O heuristics.
   - **Scanner delta (`content_manager.cpp`):** reliability findings reduced from **8 → 0**
     in this block (net **-8**) by removing non-actionable scanner noise.
+- **CONTENT module — Phase 13 reliability hardening** (`src/content/content_fs.cpp`, `src/content/embedding_pipeline.cpp`, `src/content/MODULE_GAPS.md`)
+  - **CON-033 — Catch-all cleanup batch:** replaced remaining `catch (...)` handlers with
+    typed `catch (const std::exception&)` in content metadata decode/remove paths (`ContentFS`)
+    and embedding timeout-get fallback path (`EmbeddingPipeline`), preserving fail-safe semantics.
+  - **Targeted delta:** `catch (...)` in edited files reduced from **6 → 0**
+    (`content_fs.cpp`: 5→0, `embedding_pipeline.cpp`: 1→0).
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
