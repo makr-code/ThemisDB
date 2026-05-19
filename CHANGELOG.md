@@ -22,6 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `HammingCoderFocusedTests` CTest target registered
 
 ### Fixed
+- **Analytics module — catch-all hardening Phase 21 (complete)** 🔧
+  - Replaced all 55 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    11 C++ files in `src/analytics/`.
+  - Largest batches: `cep_engine.cpp` (×20), `streaming_window.cpp` (×11),
+    `anomaly_detection.cpp` (×5).
+  - Zero `catch(...)` remain in `src/analytics/` C++ sources; best-effort behavior preserved.
+
 - **Index module — catch-all hardening Phase 20 (complete)** 🔧
   - Replaced all 117 remaining `catch(...)` handlers with `catch (const std::exception&)` across
     13 C++ files in `src/index/`.

@@ -236,7 +236,7 @@ double ExpertSystemEngine::mlConfidence(const HornClause&        rule,
                                          const std::vector<Fact>& matched) const {
     if (ml_scorer_fn_) {
         try { return ml_scorer_fn_(rule, matched); }
-        catch (...) { return 1.0; }  // Fallback: treat as confident
+        catch (const std::exception&) { return 1.0; }  // Fallback: treat as confident
     }
     if (ml_scorer_ && rule.ml_confidence_threshold > 0.0) {
         try {
@@ -247,8 +247,8 @@ double ExpertSystemEngine::mlConfidence(const HornClause&        rule,
             dp.set("priority",         static_cast<double>(rule.priority));
             std::string label = ml_scorer_->predict(ml_model_name_, ml_model_version_, dp);
             // Interpret numeric label as confidence.
-            try { return std::stod(label); } catch (...) { return 1.0; }
-        } catch (...) {
+            try { return std::stod(label); } catch (const std::exception&) { return 1.0; }
+        } catch (const std::exception&) {
             return 1.0;  // Scorer unavailable → fire rule deterministically
         }
     }

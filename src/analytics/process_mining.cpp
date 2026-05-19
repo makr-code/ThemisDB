@@ -328,7 +328,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(
                 log.max_timestamp = event.timestamp_ms;
             }
             
-        } catch (...) {
+        } catch (const std::exception&) {
             // Skip malformed documents
         }
         return true;
@@ -452,7 +452,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
             cases[caseId].push_back(event);
             activities.insert(activity);
             
-        } catch (...) {
+        } catch (const std::exception&) {
             // Skip invalid entities
             return true;
         }
@@ -564,7 +564,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromRef
                 cases[caseId] = std::move(eventChain);
             }
             
-        } catch (...) {
+        } catch (const std::exception&) {
             // Skip invalid entities
             return true;
         }

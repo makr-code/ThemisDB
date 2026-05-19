@@ -28,6 +28,14 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 21 — Analytics catch-all hardening (COMPLETE)
+
+- **All remaining `src/analytics/` C++ catch-all handlers**: Replaced 55 catch-all handlers
+  with typed `std::exception` catches across 11 files.
+  - Largest batches: `cep_engine.cpp` (×20), `streaming_window.cpp` (×11),
+    `anomaly_detection.cpp` (×5).
+  - Zero `catch(...)` remain in Analytics C++ sources.
+
 ### Phase 20 — Index catch-all hardening (COMPLETE)
 
 - **All remaining `src/index/` C++ catch-all handlers**: Replaced 117 catch-all handlers
