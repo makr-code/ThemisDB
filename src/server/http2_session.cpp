@@ -283,12 +283,51 @@ int Http2Session::onStreamCloseCallback(nghttp2_session* /*session*/, int32_t st
         std::lock_guard<std::mutex> lock(self->push_mutex_);
         self->cdc_subscribed_streams_.erase(stream_id);
     }
+    {
+        std::lock_guard<std::mutex> lock(self->response_mutex_);
+        self->response_buffers_.erase(stream_id);
+    }
     
     // Process complete request
     self->processStream(stream_id);
     self->streams_.erase(stream_id);
     
     return 0;
+}
+
+ssize_t Http2Session::responseDataReadCallback(nghttp2_session* /*session*/, int32_t stream_id,
+                                               uint8_t* buf, size_t length, uint32_t* data_flags,
+                                               nghttp2_data_source* /*source*/, void* user_data) {
+    auto* self = static_cast<Http2Session*>(user_data);
+    std::shared_ptr<ResponseBuffer> buffer;
+    {
+        std::lock_guard<std::mutex> lock(self->response_mutex_);
+        auto it = self->response_buffers_.find(stream_id);
+        if (it != self->response_buffers_.end()) {
+            buffer = it->second;
+        }
+    }
+
+    if (!buffer) {
+        *data_flags |= NGHTTP2_DATA_FLAG_EOF;
+        return 0;
+    }
+
+    const size_t remaining = buffer->data.size() - buffer->offset;
+    const size_t to_copy = std::min(length, remaining);
+
+    if (to_copy > 0) {
+        std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
+        buffer->offset += to_copy;
+    }
+
+    if (buffer->offset >= buffer->data.size()) {
+        *data_flags |= NGHTTP2_DATA_FLAG_EOF;
+        std::lock_guard<std::mutex> lock(self->response_mutex_);
+        self->response_buffers_.erase(stream_id);
+    }
+
+    return static_cast<ssize_t>(to_copy);
 }
 
 int Http2Session::onHeaderCallback(nghttp2_session* /*session*/,
@@ -463,59 +502,21 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
         });
     }
     
-    // STUB/SIMULATION NOTE (stub #298):
-    // Purpose: Keep the HTTP/2 response path functional while proper async buffer
-    //          lifetime management is deferred.  The raw-new pattern avoids
-    //          dangling references to a stack-allocated buffer across the async
-    //          read_callback invocations.
-    // Activation: Always — no shared_ptr or custom deleter is used for the
-    //             response buffer.
-    // Production Delta: Any exception thrown between `new ResponseBuffer` and
-    //                   the nghttp2_submit_response call leaks the buffer.  If
-    //                   `read_callback` is never called (e.g. stream reset), the
-    //                   buffer is also leaked.  Under high concurrency this
-    //                   accumulates into a measurable memory leak and prevents
-    //                   graceful server shutdown with in-flight HTTP/2 streams.
-    // Removal Plan: Replace with a shared_ptr<ResponseBuffer> captured in the
-    //               lambda; store it in a per-stream map keyed on stream_id and
-    //               erase on NGHTTP2_DATA_FLAG_EOF or stream-close callback.
-    //               See src/server/FUTURE_ENHANCEMENTS.md §HTTP2 BufferManagement.
-    //               Target: v2.1.0.
-    // Store response body in class member to ensure lifetime during async operation
-    // TODO: Use proper buffer management for production
-    struct ResponseBuffer {
-        std::string data;
-        size_t offset = 0;
-    };
-    
-    auto* resp_buffer = new ResponseBuffer{body, 0};
+    auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
+    {
+        std::lock_guard<std::mutex> lock(response_mutex_);
+        response_buffers_[stream_id] = resp_buffer;
+    }
     
     nghttp2_data_provider data_prd;
-    data_prd.source.ptr = resp_buffer;
-    data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
-                                 uint8_t* buf, size_t length, uint32_t* data_flags,
-                                 nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
-        auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
-        size_t remaining = buffer->data.size() - buffer->offset;
-        size_t to_copy = std::min(length, remaining);
-        
-        if (to_copy > 0) {
-            std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
-            buffer->offset += to_copy;
-        }
-        
-        if (buffer->offset >= buffer->data.size()) {
-            *data_flags |= NGHTTP2_DATA_FLAG_EOF;
-            delete buffer; // Clean up when done
-        }
-        
-        return to_copy;
-    };
+    data_prd.source.ptr = nullptr;
+    data_prd.read_callback = responseDataReadCallback;
     
     int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(), nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response failed: {}", nghttp2_strerror(rv));
-        delete resp_buffer; // Clean up on error
+        std::lock_guard<std::mutex> lock(response_mutex_);
+        response_buffers_.erase(stream_id);
     }
     
     doWrite();
@@ -618,41 +619,22 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
         }
     }
     
-    // Create data provider for push response body
-    struct ResponseBuffer {
-        std::string data;
-        size_t offset = 0;
-    };
-    
-    auto* resp_buffer = new ResponseBuffer{body, 0};
+    auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
+    {
+        std::lock_guard<std::mutex> lock(response_mutex_);
+        response_buffers_[promised_stream_id] = resp_buffer;
+    }
     
     nghttp2_data_provider data_prd;
-    data_prd.source.ptr = resp_buffer;
-    data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
-                                 uint8_t* buf, size_t length, uint32_t* data_flags,
-                                 nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
-        auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
-        size_t remaining = buffer->data.size() - buffer->offset;
-        size_t to_copy = std::min(length, remaining);
-        
-        if (to_copy > 0) {
-            std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
-            buffer->offset += to_copy;
-        }
-        
-        if (buffer->offset >= buffer->data.size()) {
-            *data_flags |= NGHTTP2_DATA_FLAG_EOF;
-            delete buffer; // Clean up when done
-        }
-        
-        return to_copy;
-    };
+    data_prd.source.ptr = nullptr;
+    data_prd.read_callback = responseDataReadCallback;
     
     rv = nghttp2_submit_response(ng2_session_, promised_stream_id, response_nva.data(), 
                                   response_nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response for push failed: {}", nghttp2_strerror(rv));
-        delete resp_buffer; // Clean up on error
+        std::lock_guard<std::mutex> lock(response_mutex_);
+        response_buffers_.erase(promised_stream_id);
         return;
     }
     

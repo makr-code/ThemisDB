@@ -91,6 +91,9 @@ private:
                                 const uint8_t* name, size_t namelen,
                                 const uint8_t* value, size_t valuelen,
                                 uint8_t flags, void* user_data);
+    static ssize_t responseDataReadCallback(nghttp2_session* session, int32_t stream_id,
+                                            uint8_t* buf, size_t length, uint32_t* data_flags,
+                                            nghttp2_data_source* source, void* user_data);
     
     // Stream data management
     struct StreamData {
@@ -102,6 +105,11 @@ private:
         bool headers_complete = false;
         bool cdc_subscribed = false;
         uint64_t cdc_last_sequence = 0;
+    };
+
+    struct ResponseBuffer {
+        std::string data;
+        size_t offset = 0;
     };
     
     void processStream(int32_t stream_id);
@@ -132,6 +140,8 @@ private:
     int32_t next_push_stream_id_;
     std::set<int32_t> cdc_subscribed_streams_;
     mutable std::mutex push_mutex_;
+    mutable std::mutex response_mutex_;
+    std::unordered_map<int32_t, std::shared_ptr<ResponseBuffer>> response_buffers_;
 };
 
 /**

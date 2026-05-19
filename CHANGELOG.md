@@ -17,6 +17,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **NEXT BLOCK: server HTTP2/RoPE remediation (`#298`, `#307`)**
+  - HTTP/2 response buffer lifetime is now RAII-based:
+    - `Http2Session` stores per-stream `shared_ptr<ResponseBuffer>` entries in
+      a mutex-guarded map for both normal responses and server-push responses.
+    - Read callback and stream-close callback now cleanly release per-stream
+      buffers without raw `new`/`delete`.
+  - RoPE stats endpoint now returns real runtime index metrics:
+    - `RopeApiHandler::handleStatsGet()` uses `VectorIndexManager::getStatistics()`
+      and returns concrete fields (`vector_count`, dimension, metric, distance
+      min/max/mean/stddev) instead of `N/A` placeholders.
+  - Added/updated test assertions:
+    - `HttpRopeApiTest.GetRoPEStats` now verifies concrete `statistics` payload fields.
+  - Resolved stub inventory entries #298 and #307.
+  - (`include/server/http2_session.h`,
+    `src/server/http2_session.cpp`,
+    `src/server/rope_api_handler.cpp`,
+    `tests/test_http_rope.cpp`,
+    `src/STUB_INVENTORY.md`)
+
 - **NEXT BLOCK: sharding durability/signing remediation (`#310`, `#311`)**
   - `AutoRebalancer` operation signing is now fail-closed:
     - `signOperation()` returns empty on missing key/config/signing failures

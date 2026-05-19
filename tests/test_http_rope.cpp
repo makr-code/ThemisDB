@@ -371,6 +371,10 @@ TEST_F(HttpRopeApiTest, GetRoPEStats) {
     EXPECT_TRUE(response["enabled"]);
     ASSERT_TRUE(response.contains("config"));
     ASSERT_TRUE(response.contains("statistics"));
+    ASSERT_TRUE(response["statistics"].contains("status"));
+    EXPECT_EQ(response["statistics"]["status"], "ok");
+    ASSERT_TRUE(response["statistics"].contains("vector_count"));
+    ASSERT_TRUE(response["statistics"].contains("distance_metric"));
 }
 
 // Test 8: Disable RoPE

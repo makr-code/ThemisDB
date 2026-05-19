@@ -812,28 +812,26 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                     {"normalize_after", config.normalize_after}
                 };
             }
-            
-            // STUB/SIMULATION NOTE (stub #307):
-            // Purpose: Keep the RoPE stats endpoint contract stable before
-            //          VectorIndexManager/RotaryEmbedding expose runtime counters.
-            // Activation: Always when RoPE is enabled and stats are requested.
-            // Production Delta: Statistics fields are synthetic `N/A` placeholders;
-            //                   operators cannot observe real rotation volume/latency
-            //                   from this endpoint.
-            // Removal Plan: Add counter/timer instrumentation in RotaryEmbedding and
-            //               surface it through VectorIndexManager to this handler.
-            //               See src/index/ROADMAP.md §GNN embeddings, temporal graphs, rotary embeddings.
-            //               Target: v2.2.0.
-            // Note: Detailed rotation statistics are not currently tracked by VectorIndexManager.
-            // Future enhancement: Add statistics tracking to RotaryEmbedding class
-            // - Track rotation count, average time, relational vs positional rotations
-            // - Integrate with performance monitoring infrastructure
-            response["statistics"] = {
-                {"note", "Detailed statistics not yet available"},
-                {"total_rotated_entities", "N/A"},
-                {"avg_rotation_time_us", "N/A"},
-                {"relational_rotations", "N/A"}
-            };
+
+            auto [stats_status, stats] = vector_index_->getStatistics();
+            if (!stats_status.ok) {
+                response["statistics"] = {
+                    {"status", "unavailable"},
+                    {"error", stats_status.message}
+                };
+            } else {
+                response["statistics"] = {
+                    {"status", "ok"},
+                    {"vector_count", stats.vector_count},
+                    {"index_dimension", stats.dimension},
+                    {"distance_metric", stats.metric_name},
+                    {"distance_min", stats.min_distance},
+                    {"distance_max", stats.max_distance},
+                    {"distance_mean", stats.mean_distance},
+                    {"distance_stddev", stats.std_dev_distance},
+                    {"rotation_ready", config_opt.has_value()}
+                };
+            }
         }
         
         span.setStatus(true);
