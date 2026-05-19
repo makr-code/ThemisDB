@@ -24,6 +24,7 @@
 
 #include "updates/parallel_downloader.h"
 #include "utils/logger.h"
+#include "utils/retry_policy.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
 #define LOG_INFO(...)  SPDLOG_INFO(__VA_ARGS__)
@@ -366,12 +367,21 @@ DownloadResult ParallelDownloader::executeTask(
 
     // Retry loop
     bool fetch_ok = false;
+    
+    // Use centralized exponential backoff policy (Phase 2a consolidation)
+    const themis::utils::RetryConfig retry_cfg{
+        .max_attempts       = static_cast<uint32_t>(task.max_retries + 1),
+        .initial_backoff_ms = 1000,  // 1 second
+        .max_backoff_ms     = 30'000,
+        .multiplier         = 2.0,
+        .jitter_fraction    = 0.0,
+    };
+    themis::utils::ExponentialBackoff backoff(retry_cfg);
+    
     for (int attempt = 0; attempt <= task.max_retries; ++attempt) {
         if (attempt > 0) {
-            // Exponential back-off: 1 s, 2 s, 4 s …
-            std::this_thread::sleep_for(
-                std::chrono::milliseconds(1000 * (1 << (attempt - 1))));
             LOG_DEBUG("ParallelDownloader: retry {}/{} for {}", attempt, task.max_retries, task.url);
+            if (!backoff.wait()) break;
         }
 
         uint64_t    bytes_this_call = 0;

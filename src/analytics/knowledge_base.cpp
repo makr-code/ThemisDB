@@ -11,6 +11,7 @@
 
 #include "analytics/knowledge_base.h"
 
+#include "utils/string_utils.h"
 #include <algorithm>
 #include <chrono>
 #include <fstream>
@@ -56,12 +57,7 @@ static int64_t nowMs() {
         .count();
 }
 
-static std::string trim(const std::string& s) {
-    const auto b = s.find_first_not_of(" \t\r\n");
-    if (b == std::string::npos) return {};
-    const auto e = s.find_last_not_of(" \t\r\n");
-    return s.substr(b, e - b + 1);
-}
+// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 static std::string stripQuotes(const std::string& s) {
     if (s.size() >= 2 && s.front() == '"' && s.back() == '"')
@@ -223,7 +219,7 @@ static TriplePattern parseTriplePattern(const std::string& line) {
     std::istringstream ss(inner);
     std::string token;
     while (std::getline(ss, token, ','))
-        parts.push_back(trim(stripQuotes(token)));
+        parts.push_back(themis::utils::trim(stripQuotes(token)));
 
     if (parts.size() >= 1) tp.subject   = parts[0];
     if (parts.size() >= 2) tp.predicate = parts[1];
@@ -272,7 +268,7 @@ int KnowledgeBase::loadRulesFromYaml(const std::string& path) {
 
     std::string line;
     while (std::getline(file, line)) {
-        const std::string t = trim(line);
+        const std::string t = themis::utils::trim(line);
 
         // Top-level block marker.
         if (t == "rules:") { in_rules_block = true; continue; }
@@ -281,23 +277,23 @@ int KnowledgeBase::loadRulesFromYaml(const std::string& path) {
         // New rule entry.
         if (t.substr(0, 5) == "- id:") {
             flushRule();
-            current.id = trim(stripQuotes(t.substr(5)));
+            current.id = themis::utils::trim(stripQuotes(t.substr(5)));
             in_rule = true;
             continue;
         }
         if (!in_rule) continue;
 
         if (t.substr(0, 9) == "priority:") {
-            try { current.priority = std::stoi(trim(t.substr(9))); }
+            try { current.priority = std::stoi(themis::utils::trim(t.substr(9))); }
             catch (...) { current.priority = 0; }
             continue;
         }
         if (t.substr(0, 12) == "description:") {
-            current.description = trim(stripQuotes(t.substr(12)));
+            current.description = themis::utils::trim(stripQuotes(t.substr(12)));
             continue;
         }
         if (t.substr(0, 25) == "ml_confidence_threshold:") {
-            try { current.ml_confidence_threshold = std::stod(trim(t.substr(25))); }
+            try { current.ml_confidence_threshold = std::stod(themis::utils::trim(t.substr(25))); }
             catch (...) { current.ml_confidence_threshold = 0.0; }
             continue;
         }
