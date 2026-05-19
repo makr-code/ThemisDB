@@ -3,12 +3,16 @@
 ## Summary
 
 **Module:** `llama_cpp`  
-**Total Gaps:** 36  
-**CRITICAL:** 17 | **HIGH:** 6 | **MEDIUM:** 13
+**Total Gaps:** 152  
+**CRITICAL:** 17 | **HIGH:** 106 | **MEDIUM:** 29
 
 ## Breakdown by Category
 
+- **oop_design:** 53 gaps
+- **uninitialized:** 38 gaps
 - **reliability:** 29 gaps
+- **type_conversion:** 16 gaps
+- **input_validation:** 9 gaps
 - **container:** 4 gaps
 - **raii:** 2 gaps
 - **memory:** 1 gaps
@@ -37,11 +41,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 36 |
+| Total Gaps | 152 |
 | CRITICAL | 17 |
-| HIGH | 6 |
-| MEDIUM | 13 |
-| Estimated Effort | 1.0 weeks |
+| HIGH | 106 |
+| MEDIUM | 29 |
+| Estimated Effort | 3.5 weeks |
 
 ## Acceptance Criteria
 
@@ -52,5 +56,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.837140*  
+*Generated: 2026-05-19T06:53:38.621133*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

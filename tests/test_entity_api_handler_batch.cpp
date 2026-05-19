@@ -266,6 +266,45 @@ TEST_F(EntityApiBatchTest, InvalidKeyFormatReportedAsError) {
     EXPECT_TRUE(resp_json.contains("errors"));
 }
 
+TEST_F(EntityApiBatchTest, InvalidKeyTraversalReportedAsError) {
+    auto handler = makeHandler();
+
+    json body = {
+        {"operations", json::array({
+            {{"op","put"}, {"key","../users:alice"}, {"blob",R"({"x":1})"}},
+            {{"op","put"}, {"key","valid:k1"}, {"blob",R"({"x":2})"}}
+        })}
+    };
+
+    auto resp = handler.handleBatch(makeBatchRequest(body.dump()));
+
+    EXPECT_EQ(resp.result(), boost::beast::http::status::ok);
+
+    auto resp_json = json::parse(resp.body());
+    EXPECT_EQ(resp_json["succeeded"].get<int>(), 1);
+    EXPECT_EQ(resp_json["failed"].get<int>(), 1);
+    EXPECT_TRUE(resp_json.contains("errors"));
+}
+
+TEST_F(EntityApiBatchTest, InvalidKeyHeaderInjectionReportedAsError) {
+    auto handler = makeHandler();
+
+    json body = {
+        {"operations", json::array({
+            {{"op","delete"}, {"key","users:alice\r\nbad"}}
+        })}
+    };
+
+    auto resp = handler.handleBatch(makeBatchRequest(body.dump()));
+
+    EXPECT_EQ(resp.result(), boost::beast::http::status::ok);
+
+    auto resp_json = json::parse(resp.body());
+    EXPECT_EQ(resp_json["succeeded"].get<int>(), 0);
+    EXPECT_EQ(resp_json["failed"].get<int>(), 1);
+    EXPECT_TRUE(resp_json.contains("errors"));
+}
+
 // ---------------------------------------------------------------------------
 // Validation: unknown op type is reported as per-item error
 // ---------------------------------------------------------------------------

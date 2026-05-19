@@ -3,16 +3,21 @@
 ## Summary
 
 **Module:** `aql`  
-**Total Gaps:** 396  
-**CRITICAL:** 54 | **HIGH:** 135 | **MEDIUM:** 207
+**Total Gaps:** 1983  
+**CRITICAL:** 55 | **HIGH:** 1519 | **MEDIUM:** 409
 
 ## Breakdown by Category
 
+- **oop_design:** 739 gaps
+- **uninitialized:** 533 gaps
+- **type_conversion:** 232 gaps
 - **reliability:** 160 gaps
 - **container:** 157 gaps
+- **input_validation:** 71 gaps
 - **platform:** 33 gaps
 - **concurrency:** 19 gaps
 - **memory:** 12 gaps
+- **exception_safety:** 12 gaps
 - **security:** 6 gaps
 - **performance:** 6 gaps
 - **raii:** 3 gaps
@@ -41,11 +46,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 396 |
-| CRITICAL | 54 |
-| HIGH | 135 |
-| MEDIUM | 207 |
-| Estimated Effort | 6.1 weeks |
+| Total Gaps | 1983 |
+| CRITICAL | 55 |
+| HIGH | 1519 |
+| MEDIUM | 409 |
+| Estimated Effort | 40.7 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +61,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.726773*  
+*Generated: 2026-05-19T06:53:38.572494*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

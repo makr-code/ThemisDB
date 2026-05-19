@@ -250,8 +250,23 @@ TEST_F(MvccApiHandlerTest, GetLatest_MissingKey_Returns404) {
     EXPECT_TRUE(body.contains("error"));
 }
 
+TEST_F(MvccApiHandlerTest, GetLatest_InvalidKeyTraversal_Returns400) {
+    auto req = makeKeyRequest("GET", "../nosuchkey");
+    httplib::Response res;
+    handler_->handleGetKey(req, res);
+
+    EXPECT_EQ(res.status, 400);
+}
+
 TEST_F(MvccApiHandlerTest, Put_MissingValueField_Returns400) {
     auto req = makeKeyRequest("POST", "k", R"({"wrong":"field"})");
+    httplib::Response res;
+    handler_->handlePutKey(req, res);
+    EXPECT_EQ(res.status, 400);
+}
+
+TEST_F(MvccApiHandlerTest, Put_InvalidKeyTraversal_Returns400) {
+    auto req = makeKeyRequest("POST", "../k", R"({"value":"hello"})");
     httplib::Response res;
     handler_->handlePutKey(req, res);
     EXPECT_EQ(res.status, 400);
@@ -405,6 +420,13 @@ TEST_F(MvccApiHandlerTest, GcVersions_DeletesOldVersions) {
 
 TEST_F(MvccApiHandlerTest, GcVersions_MissingTimestamp_Returns400) {
     auto req = makeVersionsRequest("DELETE", "k", R"({"min_versions_to_keep":1})");
+    httplib::Response res;
+    handler_->handleGcVersions(req, res);
+    EXPECT_EQ(res.status, 400);
+}
+
+TEST_F(MvccApiHandlerTest, GcVersions_InvalidKeyTraversal_Returns400) {
+    auto req = makeVersionsRequest("DELETE", "../k", R"({"before_timestamp":1})");
     httplib::Response res;
     handler_->handleGcVersions(req, res);
     EXPECT_EQ(res.status, 400);

@@ -140,6 +140,28 @@ TEST_F(PromptEngineeringApiHandlerTest, GetHistoryWithoutOrchestrator) {
     EXPECT_EQ(response.result(), boost::beast::http::status::service_unavailable);
 }
 
+    TEST_F(PromptEngineeringApiHandlerTest, GetABTestRejectsInvalidTestId) {
+        boost::beast::http::request<boost::beast::http::string_body> req;
+        req.method(boost::beast::http::verb::get);
+        req.target("/api/v1/prompt_engineering/ab_tests/../bad");
+
+        auto response = handler_->handleGetABTest(req);
+
+        EXPECT_EQ(response.result(), boost::beast::http::status::bad_request);
+        EXPECT_TRUE(response.body().find("Invalid test_id") != std::string::npos);
+    }
+
+    TEST_F(PromptEngineeringApiHandlerTest, GetHistoryRejectsInvalidPromptId) {
+        boost::beast::http::request<boost::beast::http::string_body> req;
+        req.method(boost::beast::http::verb::get);
+        req.target("/api/v1/prompt_engineering/history/../bad");
+
+        auto response = handler_->handleGetHistory(req);
+
+        EXPECT_EQ(response.result(), boost::beast::http::status::bad_request);
+        EXPECT_TRUE(response.body().find("Invalid prompt_id") != std::string::npos);
+    }
+
 TEST_F(PromptEngineeringApiHandlerTest, GetVersionsWithoutVersionControl) {
     boost::beast::http::request<boost::beast::http::string_body> req;
     req.method(boost::beast::http::verb::get);
@@ -149,6 +171,17 @@ TEST_F(PromptEngineeringApiHandlerTest, GetVersionsWithoutVersionControl) {
     
     EXPECT_EQ(response.result(), boost::beast::http::status::service_unavailable);
     EXPECT_TRUE(response.body().find("PromptVersionControl not available") != std::string::npos);
+}
+
+TEST_F(PromptEngineeringApiHandlerTest, GetVersionsRejectsInvalidPromptId) {
+    boost::beast::http::request<boost::beast::http::string_body> req;
+    req.method(boost::beast::http::verb::get);
+    req.target("/api/v1/prompt_engineering/versions/../bad");
+
+    auto response = handler_->handleGetVersions(req);
+
+    EXPECT_EQ(response.result(), boost::beast::http::status::bad_request);
+    EXPECT_TRUE(response.body().find("Invalid prompt_id") != std::string::npos);
 }
 
 TEST_F(PromptEngineeringApiHandlerTest, RollbackWithoutOrchestrator) {

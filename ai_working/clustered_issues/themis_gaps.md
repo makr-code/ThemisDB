@@ -3,15 +3,20 @@
 ## Summary
 
 **Module:** `themis`  
-**Total Gaps:** 234  
-**CRITICAL:** 52 | **HIGH:** 33 | **MEDIUM:** 149
+**Total Gaps:** 1181  
+**CRITICAL:** 64 | **HIGH:** 784 | **MEDIUM:** 333
 
 ## Breakdown by Category
 
+- **oop_design:** 475 gaps
+- **type_conversion:** 197 gaps
+- **uninitialized:** 178 gaps
 - **reliability:** 95 gaps
+- **input_validation:** 87 gaps
 - **raii:** 59 gaps
 - **container:** 48 gaps
 - **platform:** 20 gaps
+- **exception_safety:** 10 gaps
 - **memory:** 4 gaps
 - **security:** 3 gaps
 - **concurrency:** 3 gaps
@@ -41,11 +46,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 234 |
-| CRITICAL | 52 |
-| HIGH | 33 |
-| MEDIUM | 149 |
-| Estimated Effort | 3.4 weeks |
+| Total Gaps | 1181 |
+| CRITICAL | 64 |
+| HIGH | 784 |
+| MEDIUM | 333 |
+| Estimated Effort | 22.8 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +61,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.814044*  
+*Generated: 2026-05-19T06:53:38.596680*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

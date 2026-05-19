@@ -3,14 +3,19 @@
 ## Summary
 
 **Module:** `stable_diffusion`  
-**Total Gaps:** 30  
-**CRITICAL:** 6 | **HIGH:** 7 | **MEDIUM:** 17
+**Total Gaps:** 235  
+**CRITICAL:** 9 | **HIGH:** 172 | **MEDIUM:** 54
 
 ## Breakdown by Category
 
+- **oop_design:** 76 gaps
+- **uninitialized:** 50 gaps
+- **type_conversion:** 43 gaps
+- **input_validation:** 33 gaps
 - **container:** 13 gaps
 - **reliability:** 10 gaps
 - **memory:** 5 gaps
+- **exception_safety:** 3 gaps
 - **raii:** 2 gaps
 
 ## Top Files by Gap Density
@@ -37,11 +42,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 30 |
-| CRITICAL | 6 |
-| HIGH | 7 |
-| MEDIUM | 17 |
-| Estimated Effort | 2.4 dev-days |
+| Total Gaps | 235 |
+| CRITICAL | 9 |
+| HIGH | 172 |
+| MEDIUM | 54 |
+| Estimated Effort | 4.8 weeks |
 
 ## Acceptance Criteria
 
@@ -52,5 +57,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.841252*  
+*Generated: 2026-05-19T06:53:38.622234*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

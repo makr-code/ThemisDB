@@ -3,17 +3,22 @@
 ## Summary
 
 **Module:** `chimera`  
-**Total Gaps:** 114  
-**CRITICAL:** 35 | **HIGH:** 41 | **MEDIUM:** 38
+**Total Gaps:** 408  
+**CRITICAL:** 35 | **HIGH:** 279 | **MEDIUM:** 94
 
 ## Breakdown by Category
 
+- **oop_design:** 132 gaps
+- **uninitialized:** 77 gaps
 - **reliability:** 59 gaps
+- **type_conversion:** 58 gaps
 - **container:** 32 gaps
+- **input_validation:** 26 gaps
 - **raii:** 11 gaps
 - **performance:** 10 gaps
 - **security:** 1 gaps
 - **platform:** 1 gaps
+- **exception_safety:** 1 gaps
 
 ## Top Files by Gap Density
 
@@ -39,11 +44,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 114 |
+| Total Gaps | 408 |
 | CRITICAL | 35 |
-| HIGH | 41 |
-| MEDIUM | 38 |
-| Estimated Effort | 2.8 weeks |
+| HIGH | 279 |
+| MEDIUM | 94 |
+| Estimated Effort | 8.7 weeks |
 
 ## Acceptance Criteria
 
@@ -54,5 +59,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.738502*  
+*Generated: 2026-05-19T06:53:38.577135*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

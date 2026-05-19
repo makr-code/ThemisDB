@@ -1,0 +1,105 @@
+{
+  "ai": {
+    "total": 9,
+    "severity_critical": 0,
+    "severity_high": 9,
+    "severity_medium": 0,
+    "by_category": {
+      "uninitialized": 1,
+      "oop_design": 8
+    },
+    "by_file": {
+      "src\\ai\\ai_plugin_generator.cpp": [
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 65,
+          "var_name": "vr",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 39,
+          "class_name": "Unknown",
+          "function_name": "AIPluginGenerator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 45,
+          "class_name": "Unknown",
+          "function_name": "AIPluginGenerator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 48,
+          "class_name": "Unknown",
+          "function_name": "AIPluginGenerator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 53,
+          "class_name": "Unknown",
+          "function_name": "AIPluginGenerator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 60,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 66,
+          "class_name": "Unknown",
+          "function_name": "generatePlugin",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 69,
+          "class_name": "Unknown",
+          "function_name": "generatePlugin",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 79,
+          "class_name": "Unknown",
+          "function_name": "debug",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        }
+      ]
+    }
+  }
+}

@@ -3,15 +3,20 @@
 ## Summary
 
 **Module:** `tensor`  
-**Total Gaps:** 293  
-**CRITICAL:** 110 | **HIGH:** 115 | **MEDIUM:** 68
+**Total Gaps:** 1105  
+**CRITICAL:** 128 | **HIGH:** 850 | **MEDIUM:** 127
 
 ## Breakdown by Category
 
+- **oop_design:** 419 gaps
+- **uninitialized:** 204 gaps
 - **reliability:** 164 gaps
+- **type_conversion:** 95 gaps
+- **input_validation:** 80 gaps
 - **container:** 58 gaps
 - **memory:** 29 gaps
 - **security:** 15 gaps
+- **exception_safety:** 14 gaps
 - **concurrency:** 12 gaps
 - **raii:** 12 gaps
 - **platform:** 3 gaps
@@ -40,11 +45,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 293 |
-| CRITICAL | 110 |
-| HIGH | 115 |
-| MEDIUM | 68 |
-| Estimated Effort | 8.4 weeks |
+| Total Gaps | 1105 |
+| CRITICAL | 128 |
+| HIGH | 850 |
+| MEDIUM | 127 |
+| Estimated Effort | 27.6 weeks |
 
 ## Acceptance Criteria
 
@@ -55,5 +60,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.811807*  
+*Generated: 2026-05-19T06:53:38.596149*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

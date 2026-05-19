@@ -3,13 +3,18 @@
 ## Summary
 
 **Module:** `governance`  
-**Total Gaps:** 554  
-**CRITICAL:** 153 | **HIGH:** 60 | **MEDIUM:** 341
+**Total Gaps:** 2450  
+**CRITICAL:** 162 | **HIGH:** 1546 | **MEDIUM:** 742
 
 ## Breakdown by Category
 
+- **oop_design:** 824 gaps
+- **uninitialized:** 504 gaps
+- **type_conversion:** 436 gaps
 - **container:** 279 gaps
 - **reliability:** 192 gaps
+- **input_validation:** 81 gaps
+- **exception_safety:** 51 gaps
 - **memory:** 34 gaps
 - **performance:** 16 gaps
 - **platform:** 12 gaps
@@ -41,11 +46,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 554 |
-| CRITICAL | 153 |
-| HIGH | 60 |
-| MEDIUM | 341 |
-| Estimated Effort | 9.2 weeks |
+| Total Gaps | 2450 |
+| CRITICAL | 162 |
+| HIGH | 1546 |
+| MEDIUM | 742 |
+| Estimated Effort | 46.8 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +61,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.752498*  
+*Generated: 2026-05-19T06:53:38.581830*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

@@ -25,6 +25,7 @@
 
 #include "server/distributed_txn_api_handler.h"
 #include "sharding/distributed_transaction.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 #include <string_view>
 #include "utils/tracing.h"
@@ -32,6 +33,20 @@
 namespace themis::server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxDistributedTxnIdentifierLength = 256;
+
+bool isValidDistributedTxnIdentifier(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxDistributedTxnIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 DistributedTxnApiHandler::DistributedTxnApiHandler(
     std::shared_ptr<sharding::DistributedTransactionCoordinator> coordinator
@@ -61,7 +76,12 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
                 return error(http::status::bad_request,
                              "Each element of 'shards' must be a string", req);
             }
-            shard_ids.push_back(s.get<std::string>());
+            auto shard_id = s.get<std::string>();
+            if (!isValidDistributedTxnIdentifier(shard_id)) {
+                return error(http::status::bad_request,
+                             "Invalid shard identifier", req);
+            }
+            shard_ids.push_back(std::move(shard_id));
         }
 
         if (shard_ids.empty()) {
@@ -125,6 +145,13 @@ DistributedTxnApiHandler::handleOperation(const http::request<http::string_body>
         std::string shard   = body["shard_id"];
         auto        op      = body["operation"];
 
+        if (!isValidDistributedTxnIdentifier(txn_id)) {
+            return error(http::status::bad_request, "Invalid 'transaction_id'", req);
+        }
+        if (!isValidDistributedTxnIdentifier(shard)) {
+            return error(http::status::bad_request, "Invalid 'shard_id'", req);
+        }
+
         if (!coordinator_->addOperation(txn_id, shard, op)) {
             return error(http::status::unprocessable_entity,
                          "Failed to add operation – transaction not active or not found", req);
@@ -156,6 +183,9 @@ DistributedTxnApiHandler::handleCommit(const http::request<http::string_body>& r
         }
 
         std::string txn_id = body["transaction_id"];
+        if (!isValidDistributedTxnIdentifier(txn_id)) {
+            return error(http::status::bad_request, "Invalid 'transaction_id'", req);
+        }
         bool committed = coordinator_->commit(txn_id);
 
         if (committed) {
@@ -190,6 +220,9 @@ DistributedTxnApiHandler::handleAbort(const http::request<http::string_body>& re
         }
 
         std::string txn_id = body["transaction_id"];
+        if (!isValidDistributedTxnIdentifier(txn_id)) {
+            return error(http::status::bad_request, "Invalid 'transaction_id'", req);
+        }
         coordinator_->abort(txn_id);
 
         return ok({{"transaction_id", txn_id}, {"status", "aborted"}}, req);
@@ -224,7 +257,12 @@ DistributedTxnApiHandler::handleReadOnly(const http::request<http::string_body>&
                 return error(http::status::bad_request,
                              "Each element of 'shards' must be a string", req);
             }
-            shard_ids.push_back(s.get<std::string>());
+            auto shard_id = s.get<std::string>();
+            if (!isValidDistributedTxnIdentifier(shard_id)) {
+                return error(http::status::bad_request,
+                             "Invalid shard identifier", req);
+            }
+            shard_ids.push_back(std::move(shard_id));
         }
 
         auto operations = body.value("operations", json::object());
@@ -258,6 +296,10 @@ DistributedTxnApiHandler::handleStatus(const http::request<http::string_body>& r
                          "Missing transaction ID in path", req);
         }
         std::string txn_id(path.substr(prefix.size()));
+        if (!isValidDistributedTxnIdentifier(txn_id)) {
+            return error(http::status::bad_request,
+                         "Invalid transaction ID in path", req);
+        }
 
         auto state = coordinator_->getTransactionState(txn_id);
         if (!state) {

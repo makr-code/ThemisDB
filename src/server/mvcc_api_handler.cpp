@@ -25,6 +25,7 @@
 // Licensed under MIT License
 
 #include "server/mvcc_api_handler.h"
+#include "utils/input_validator.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include <chrono>
@@ -32,6 +33,20 @@
 
 namespace themis {
 namespace server {
+
+namespace {
+
+constexpr size_t kMaxMvccKeyLength = 256;
+
+bool isValidMvccKey(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxMvccKeyLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constructor
@@ -355,7 +370,11 @@ void MvccApiHandler::handleGetStats(const httplib::Request& /*req*/,
 
 std::string MvccApiHandler::extractKey(const httplib::Request& req) {
     if (req.matches.size() < 2) return {};
-    return req.matches[1];
+    std::string key = req.matches[1];
+    if (!isValidMvccKey(key)) {
+        return {};
+    }
+    return key;
 }
 
 std::string MvccApiHandler::valueToString(const std::vector<uint8_t>& v) {

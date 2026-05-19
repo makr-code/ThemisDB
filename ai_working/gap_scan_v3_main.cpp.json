@@ -1,0 +1,597 @@
+{
+  "main.cpp": {
+    "total": 59,
+    "severity_critical": 0,
+    "severity_high": 59,
+    "severity_medium": 0,
+    "by_category": {
+      "uninitialized": 9,
+      "oop_design": 50
+    },
+    "by_file": {
+      "src\\main.cpp": [
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 99,
+          "var_name": "cfg",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 101,
+          "var_name": "cfg",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 107,
+          "var_name": "cfg",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 140,
+          "var_name": "entity",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 166,
+          "var_name": "entity",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 266,
+          "var_name": "vec",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 267,
+          "var_name": "vec",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 327,
+          "var_name": "i",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 406,
+          "var_name": "user_456",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 63,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 70,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 75,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 82,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 96,
+          "class_name": "Unknown",
+          "function_name": "print_usage",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 106,
+          "class_name": "Unknown",
+          "function_name": "init",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 153,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 154,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 156,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 160,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 162,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 174,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 190,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 191,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 192,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 193,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 195,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 196,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 208,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 209,
+          "class_name": "Unknown",
+          "function_name": "put",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 210,
+          "class_name": "Unknown",
+          "function_name": "edge",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 211,
+          "class_name": "Unknown",
+          "function_name": "edge",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 214,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 245,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 246,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 247,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 254,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 255,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 263,
+          "class_name": "Unknown",
+          "function_name": "fromFields",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 273,
+          "class_name": "Unknown",
+          "function_name": "deserialize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 274,
+          "class_name": "Unknown",
+          "function_name": "extractVector",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 275,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 279,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 280,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 296,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 297,
+          "class_name": "Unknown",
+          "function_name": "idxm",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 299,
+          "class_name": "Unknown",
+          "function_name": "createIndex",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 301,
+          "class_name": "Unknown",
+          "function_name": "createIndex",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 379,
+          "class_name": "Unknown",
+          "function_name": "Index",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 381,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 408,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 409,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 411,
+          "class_name": "Unknown",
+          "function_name": "gidx",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 412,
+          "class_name": "Unknown",
+          "function_name": "vidx",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 418,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 419,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 420,
+          "class_name": "Unknown",
+          "function_name": "int64_t",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 421,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 422,
+          "class_name": "Unknown",
+          "function_name": "fromFields",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\main.cpp",
+          "line_number": 448,
+          "class_name": "Unknown",
+          "function_name": "THEMIS_INFO",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        }
+      ]
+    }
+  }
+}

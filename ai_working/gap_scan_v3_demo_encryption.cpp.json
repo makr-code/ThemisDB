@@ -1,0 +1,435 @@
+{
+  "demo_encryption.cpp": {
+    "total": 44,
+    "severity_critical": 0,
+    "severity_high": 44,
+    "severity_medium": 0,
+    "by_category": {
+      "exception_safety": 3,
+      "uninitialized": 19,
+      "oop_design": 22
+    },
+    "by_file": {
+      "src\\demo_encryption.cpp": [
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 343,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 344,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 363,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 121,
+          "var_name": "mock_provider",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 126,
+          "var_name": "mock_provider",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 129,
+          "var_name": "mock_provider",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 132,
+          "var_name": "mock_provider",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 169,
+          "var_name": "db_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 254,
+          "var_name": "db_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 264,
+          "var_name": "db_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 282,
+          "var_name": "db_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 283,
+          "var_name": "start",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 287,
+          "var_name": "alice_data",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 322,
+          "var_name": "mock_provider",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 333,
+          "var_name": "mock_provider",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 336,
+          "var_name": "mock_provider",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 343,
+          "var_name": "mock_provider",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 351,
+          "var_name": "db_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 356,
+          "var_name": "alice_data",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 416,
+          "var_name": "db_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 471,
+          "var_name": "mode",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 473,
+          "var_name": "mode",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 93,
+          "class_name": "EncryptionDemo",
+          "function_name": "setupKeyProvider",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 94,
+          "class_name": "EncryptionDemo",
+          "function_name": "setupKeyProvider",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 189,
+          "class_name": "EncryptionDemo",
+          "function_name": "Alice",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 246,
+          "class_name": "EncryptionDemo",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 268,
+          "class_name": "EncryptionDemo",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 279,
+          "class_name": "EncryptionDemo",
+          "function_name": "count",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 288,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 290,
+          "class_name": "EncryptionDemo",
+          "function_name": "get",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 299,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 306,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 357,
+          "class_name": "EncryptionDemo",
+          "function_name": "get",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 383,
+          "class_name": "EncryptionDemo",
+          "function_name": "demoPerformance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 387,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 388,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 389,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 390,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 393,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 405,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 409,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 410,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 411,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 419,
+          "class_name": "EncryptionDemo",
+          "function_name": "to_string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        }
+      ]
+    }
+  }
+}

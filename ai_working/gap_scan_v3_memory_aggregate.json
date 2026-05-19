@@ -14367,7 +14367,7 @@
       "src\\server\\async_job_api_handler.cpp": [
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 144,
+          "line": 174,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return (it != jobs_.end()) ? it->second : nullptr;",
@@ -14389,7 +14389,7 @@
       "src\\server\\bpmn_api_handler.cpp": [
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 252,
+          "line": 273,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response[\"active_task_ids\"] = json::array();",
@@ -14398,7 +14398,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 471,
+          "line": 499,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "event[\"data\"] = json::object();",
@@ -14407,7 +14407,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 472,
+          "line": 500,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "event[\"data\"][\"node_id\"] = node;",
@@ -14416,7 +14416,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 478,
+          "line": 506,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response[\"history\"] = json::array();",
@@ -14696,7 +14696,7 @@
       "src\\server\\changefeed_api_handler.cpp": [
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 181,
+          "line": 200,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response[\"events\"] = json::array();",
@@ -14754,7 +14754,7 @@
       "src\\server\\export_api_handler.cpp": [
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 439,
+          "line": 471,
           "type": "array_bounds",
           "severity": "CRITICAL",
           "snippet": "query = conditions[0];",
@@ -15630,7 +15630,7 @@
       "src\\server\\mvcc_api_handler.cpp": [
         {
           "file": "src\\server\\mvcc_api_handler.cpp",
-          "line": 240,
+          "line": 255,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "response[\"versions\"] = std::move(versions_array);",
@@ -15674,7 +15674,7 @@
       "src\\server\\pki_api_handler.cpp": [
         {
           "file": "src\\server\\pki_api_handler.cpp",
-          "line": 90,
+          "line": 129,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "SigningResult res = signing_service_->sign(data, key_id);",
@@ -15683,7 +15683,7 @@
         },
         {
           "file": "src\\server\\pki_api_handler.cpp",
-          "line": 146,
+          "line": 198,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto result = hsm_provider_->sign(data);",
@@ -15692,7 +15692,7 @@
         },
         {
           "file": "src\\server\\pki_api_handler.cpp",
-          "line": 218,
+          "line": 273,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto token = tsa_->getTimestamp(data);",
@@ -15701,7 +15701,7 @@
         },
         {
           "file": "src\\server\\pki_api_handler.cpp",
-          "line": 249,
+          "line": 304,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "std::string data_b64 = body[\"data_b64\"].get<std::string>();",
@@ -15710,7 +15710,7 @@
         },
         {
           "file": "src\\server\\pki_api_handler.cpp",
-          "line": 285,
+          "line": 346,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto hsm_result = hsm_provider_->sign(data);",
@@ -15752,7 +15752,7 @@
       "src\\server\\policy_versioning_api_handler.cpp": [
         {
           "file": "src\\server\\policy_versioning_api_handler.cpp",
-          "line": 99,
+          "line": 128,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto version_data = policy_manager_versioned_->getRuleVersion(rule_id, version);",
@@ -15761,7 +15761,7 @@
         },
         {
           "file": "src\\server\\policy_versioning_api_handler.cpp",
-          "line": 105,
+          "line": 134,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "return makeResponse(http::status::ok, version_data->toJson().dump(2), req);",
@@ -16287,7 +16287,7 @@
       "src\\server\\task_scheduler_api_handler.cpp": [
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 528,
+          "line": 589,
           "type": "new_without_delete",
           "severity": "CRITICAL",
           "snippet": "html += \"  return new Date(iso).toLocaleString();\\n\";",
@@ -16296,7 +16296,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 572,
+          "line": 633,
           "type": "new_without_delete",
           "severity": "CRITICAL",
           "snippet": "html += \"  document.getElementById('refresh-indicator').textContent = 'Updated ' + new Date().toLoca",
@@ -16305,7 +16305,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 974,
+          "line": 1064,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto task_ptr = scheduler_->getTask(id);",

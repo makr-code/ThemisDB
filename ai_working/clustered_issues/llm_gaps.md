@@ -3,17 +3,22 @@
 ## Summary
 
 **Module:** `llm`  
-**Total Gaps:** 3664  
-**CRITICAL:** 1280 | **HIGH:** 1305 | **MEDIUM:** 1079
+**Total Gaps:** 19838  
+**CRITICAL:** 1466 | **HIGH:** 15975 | **MEDIUM:** 2397
 
 ## Breakdown by Category
 
+- **oop_design:** 7961 gaps
+- **uninitialized:** 5263 gaps
+- **type_conversion:** 1888 gaps
 - **reliability:** 1637 gaps
+- **input_validation:** 929 gaps
 - **container:** 634 gaps
 - **concurrency:** 450 gaps
 - **memory:** 353 gaps
 - **security:** 265 gaps
 - **raii:** 205 gaps
+- **exception_safety:** 133 gaps
 - **performance:** 73 gaps
 - **platform:** 47 gaps
 
@@ -41,11 +46,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 3664 |
-| CRITICAL | 1280 |
-| HIGH | 1305 |
-| MEDIUM | 1079 |
-| Estimated Effort | 96.6 weeks |
+| Total Gaps | 19838 |
+| CRITICAL | 1466 |
+| HIGH | 15975 |
+| MEDIUM | 2397 |
+| Estimated Effort | 472.7 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +61,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.766309*  
+*Generated: 2026-05-19T06:53:38.585003*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

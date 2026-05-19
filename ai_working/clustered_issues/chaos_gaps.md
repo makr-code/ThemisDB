@@ -3,14 +3,17 @@
 ## Summary
 
 **Module:** `chaos`  
-**Total Gaps:** 23  
-**CRITICAL:** 17 | **HIGH:** 2 | **MEDIUM:** 4
+**Total Gaps:** 68  
+**CRITICAL:** 18 | **HIGH:** 46 | **MEDIUM:** 4
 
 ## Breakdown by Category
 
+- **oop_design:** 34 gaps
 - **reliability:** 16 gaps
+- **uninitialized:** 10 gaps
 - **container:** 6 gaps
 - **performance:** 1 gaps
+- **exception_safety:** 1 gaps
 
 ## Top Files by Gap Density
 
@@ -36,11 +39,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 23 |
-| CRITICAL | 17 |
-| HIGH | 2 |
+| Total Gaps | 68 |
+| CRITICAL | 18 |
+| HIGH | 46 |
 | MEDIUM | 4 |
-| Estimated Effort | 4.5 dev-days |
+| Estimated Effort | 2.0 weeks |
 
 ## Acceptance Criteria
 
@@ -51,5 +54,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.846997*  
+*Generated: 2026-05-19T06:53:38.632650*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

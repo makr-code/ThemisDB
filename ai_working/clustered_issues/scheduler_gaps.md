@@ -3,17 +3,22 @@
 ## Summary
 
 **Module:** `scheduler`  
-**Total Gaps:** 269  
-**CRITICAL:** 117 | **HIGH:** 83 | **MEDIUM:** 69
+**Total Gaps:** 1571  
+**CRITICAL:** 119 | **HIGH:** 1089 | **MEDIUM:** 363
 
 ## Breakdown by Category
 
+- **uninitialized:** 485 gaps
+- **oop_design:** 447 gaps
+- **type_conversion:** 310 gaps
 - **reliability:** 153 gaps
+- **input_validation:** 54 gaps
 - **container:** 50 gaps
 - **concurrency:** 20 gaps
 - **security:** 15 gaps
 - **performance:** 13 gaps
 - **memory:** 12 gaps
+- **exception_safety:** 6 gaps
 - **raii:** 5 gaps
 - **platform:** 1 gaps
 
@@ -41,11 +46,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 269 |
-| CRITICAL | 117 |
-| HIGH | 83 |
-| MEDIUM | 69 |
-| Estimated Effort | 7.9 weeks |
+| Total Gaps | 1571 |
+| CRITICAL | 119 |
+| HIGH | 1089 |
+| MEDIUM | 363 |
+| Estimated Effort | 33.2 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +61,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.795721*  
+*Generated: 2026-05-19T06:53:38.592005*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

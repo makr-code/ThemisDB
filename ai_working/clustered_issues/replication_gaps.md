@@ -3,13 +3,18 @@
 ## Summary
 
 **Module:** `replication`  
-**Total Gaps:** 481  
-**CRITICAL:** 234 | **HIGH:** 90 | **MEDIUM:** 157
+**Total Gaps:** 2172  
+**CRITICAL:** 235 | **HIGH:** 1465 | **MEDIUM:** 472
 
 ## Breakdown by Category
 
+- **oop_design:** 799 gaps
+- **uninitialized:** 444 gaps
+- **type_conversion:** 341 gaps
 - **reliability:** 280 gaps
 - **container:** 119 gaps
+- **input_validation:** 65 gaps
+- **exception_safety:** 42 gaps
 - **memory:** 32 gaps
 - **concurrency:** 17 gaps
 - **raii:** 14 gaps
@@ -41,11 +46,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 481 |
-| CRITICAL | 234 |
-| HIGH | 90 |
-| MEDIUM | 157 |
-| Estimated Effort | 13.9 weeks |
+| Total Gaps | 2172 |
+| CRITICAL | 235 |
+| HIGH | 1465 |
+| MEDIUM | 472 |
+| Estimated Effort | 48.4 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +61,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.793741*  
+*Generated: 2026-05-19T06:53:38.591549*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

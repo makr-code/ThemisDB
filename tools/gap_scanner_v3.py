@@ -25,6 +25,13 @@ from gap_scanner_v3_container_misuse import ContainerGapScanner
 from gap_scanner_v3_platform import PlatformGapScanner
 from gap_scanner_v3_performance import PerformanceGapScanner
 
+# Import Phase 5 scanners
+from gap_scanner_v3_type_conversion import TypeConversionGapScanner
+from gap_scanner_v3_input_validation import InputValidationGapScanner
+from gap_scanner_v3_exception_safety import ExceptionSafetyGapScanner
+from gap_scanner_v3_uninitialized import UninitializedGapScanner
+from gap_scanner_v3_virtual_oop import OOPGapScanner
+
 
 class UnifiedGapScannerV3:
     """Orchestrate Phase 1-4 security, memory, reliability, concurrency, RAII, container, platform & performance scanning"""
@@ -35,10 +42,10 @@ class UnifiedGapScannerV3:
         self.output_dir.mkdir(parents=True, exist_ok=True)
     
     def run_complete_scan(self) -> Dict[str, Any]:
-        """Execute Phase 1-4 security + memory + reliability + concurrency + RAII + container + platform + performance scan"""
+        """Execute Phase 1-5 security + memory + reliability + concurrency + RAII + container + platform + performance + type_conversion + input_validation scan"""
         
         print("\n" + "=" * 80)
-        print("ThemisDB Gap Scanner v3 — Phase 1-4 Complete Suite")
+        print("ThemisDB Gap Scanner v3 — Phase 1-5 Complete Suite (10 Scanners)")
         print("=" * 80)
         
         results = {}
@@ -98,6 +105,46 @@ class UnifiedGapScannerV3:
         perf_scanner = PerformanceGapScanner(str(self.repo_root))
         perf_results = perf_scanner.run_full_scan(str(self.output_dir))
         results['performance'] = perf_results
+        
+        # Run Type Conversion scanner (Phase 5)
+        print("\n[9/10] Type Conversion & Narrowing Gap Scanner (Phase 5)")
+        print("-" * 80)
+        type_conv_scanner = TypeConversionGapScanner()
+        src_path = self.repo_root / 'src'
+        type_conv_gaps = type_conv_scanner.run_full_scan(src_path)
+        # Convert to module-based format for aggregation
+        type_conv_results = self._convert_gaps_to_module_format(type_conv_gaps)
+        results['type_conversion'] = type_conv_results
+        
+        # Run Input Validation scanner (Phase 5)
+        print("\n[10/10] Input Validation & Bounds Gap Scanner (Phase 5)")
+        print("-" * 80)
+        input_val_scanner = InputValidationGapScanner()
+        input_val_gaps = input_val_scanner.run_full_scan(src_path)
+        # Convert to module-based format for aggregation
+        input_val_results = self._convert_gaps_to_module_format(input_val_gaps)
+        results['input_validation'] = input_val_results
+
+        print("\n[11/13] Exception Safety & Move Semantics Gap Scanner (Phase 5)")
+        print("-" * 80)
+        exc_safety_scanner = ExceptionSafetyGapScanner()
+        exc_safety_gaps = exc_safety_scanner.run_full_scan(src_path)
+        exc_safety_results = self._convert_gaps_to_module_format(exc_safety_gaps)
+        results['exception_safety'] = exc_safety_results
+
+        print("\n[12/13] Uninitialized Variables & Undefined Behavior Gap Scanner (Phase 5)")
+        print("-" * 80)
+        uninit_scanner = UninitializedGapScanner()
+        uninit_gaps = uninit_scanner.run_full_scan(src_path)
+        uninit_results = self._convert_gaps_to_module_format(uninit_gaps)
+        results['uninitialized'] = uninit_results
+
+        print("\n[13/13] OOP Design & Virtual Functions Gap Scanner (Phase 5)")
+        print("-" * 80)
+        oop_scanner = OOPGapScanner()
+        oop_gaps = oop_scanner.run_full_scan(src_path)
+        oop_results = self._convert_gaps_to_module_format(oop_gaps)
+        results['oop_design'] = oop_results
         
         # Aggregate results
         print("\n[...] Aggregating results...")
@@ -181,7 +228,12 @@ class UnifiedGapScannerV3:
             'raii': 0,
             'container': 0,
             'platform': 0,
-            'performance': 0
+            'performance': 0,
+            'type_conversion': 0,
+            'input_validation': 0,
+            'exception_safety': 0,
+            'uninitialized': 0,
+            'oop_design': 0
         }
         for module_data in aggregate.values():
             for cat, count in module_data.get('by_category', {}).items():
@@ -197,7 +249,7 @@ class UnifiedGapScannerV3:
         
         summary = {
             'scan_date': datetime.now().isoformat(),
-            'phase': 'Phase 1-4 (Security + Memory + Reliability + Concurrency + RAII + Container + Platform + Performance)',
+            'phase': 'Phase 1-5 Extended (13 scanners: Security + Memory + Reliability + Concurrency + RAII + Container + Platform + Performance + Type Conversion + Input Validation + Exception Safety + Uninitialized + OOP Design)',
             'total_gaps': total_gaps,
             'by_severity': {
                 'critical': critical,
@@ -219,7 +271,7 @@ class UnifiedGapScannerV3:
             json.dump(summary, f, indent=2)
         
         # Print to console
-        print(f"\n[SUMMARY] Phase 1-4 Complete Gap Analysis")
+        print(f"\n[SUMMARY] Phase 1-5 Complete Gap Analysis (10 Scanners)")
         print("=" * 80)
         print(f"  Total Gaps Found:        {total_gaps}")
         print(f"  CRITICAL Severity:       {critical}")
@@ -235,6 +287,8 @@ class UnifiedGapScannerV3:
         print(f"  Container Misuse Gaps:   {category_totals.get('container', 0)}")
         print(f"  Platform Portability:    {category_totals.get('platform', 0)}")
         print(f"  Performance Anti-Pat.:   {category_totals.get('performance', 0)}")
+        print(f"  Type Conversion Gaps:    {category_totals.get('type_conversion', 0)}")
+        print(f"  Input Validation Gaps:   {category_totals.get('input_validation', 0)}")
         print()
         print(f"  Modules Scanned:         {len(aggregate)}")
         print()
@@ -263,6 +317,40 @@ class UnifiedGapScannerV3:
         else:
             weeks = days / 5
             return f"{weeks:.1f} weeks ({int(days)} days)"
+    
+    def _convert_gaps_to_module_format(self, gaps: list) -> Dict[str, Dict]:
+        """Convert TypeConversionGap list to module-based aggregation format"""
+        modules = {}
+        
+        for gap in gaps:
+            # Extract module name from file path (e.g., 'src/server/...' → 'server')
+            file_parts = Path(gap.file_path).parts
+            module_name = file_parts[1] if len(file_parts) > 1 else 'unknown'
+            
+            if module_name not in modules:
+                modules[module_name] = {
+                    'total': 0,
+                    'severity_critical': 0,
+                    'severity_high': 0,
+                    'severity_medium': 0,
+                    'gaps_by_file': {}
+                }
+            
+            # Aggregate counts
+            modules[module_name]['total'] += 1
+            if gap.severity == 'CRITICAL':
+                modules[module_name]['severity_critical'] += 1
+            elif gap.severity == 'HIGH':
+                modules[module_name]['severity_high'] += 1
+            else:
+                modules[module_name]['severity_medium'] += 1
+            
+            # Store gap by file
+            if gap.file_path not in modules[module_name]['gaps_by_file']:
+                modules[module_name]['gaps_by_file'][gap.file_path] = []
+            modules[module_name]['gaps_by_file'][gap.file_path].append(gap.to_dict())
+        
+        return modules
 
 
 def main():

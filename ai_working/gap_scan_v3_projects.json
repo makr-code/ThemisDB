@@ -1,14 +1,19 @@
 {
   "projects": {
-    "total": 79,
+    "total": 335,
     "severity_critical": 33,
-    "severity_high": 6,
-    "severity_medium": 40,
+    "severity_high": 245,
+    "severity_medium": 57,
     "by_category": {
       "security": 4,
       "memory": 1,
       "reliability": 58,
-      "container": 16
+      "container": 16,
+      "type_conversion": 17,
+      "input_validation": 4,
+      "exception_safety": 3,
+      "uninitialized": 46,
+      "oop_design": 186
     },
     "by_file": {
       "src\\projects\\project_lifecycle.cpp": [
@@ -128,6 +133,418 @@
           "snippet": "} catch (...) {}",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 92,
+          "var_name": "from",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 125,
+          "var_name": "now",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 153,
+          "var_name": "log_key",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 171,
+          "var_name": "state_key",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 178,
+          "var_name": "state_key",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 188,
+          "var_name": "now",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 199,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 254,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 55,
+          "class_name": "Unknown",
+          "function_name": "projectStateFromString",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 66,
+          "class_name": "Unknown",
+          "function_name": "projectStateToString",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 83,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 84,
+          "class_name": "Unknown",
+          "function_name": "value_or",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 88,
+          "class_name": "Unknown",
+          "function_name": "ProjectLifecycle",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 110,
+          "class_name": "Unknown",
+          "function_name": "applyTransition",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 123,
+          "class_name": "Unknown",
+          "function_name": "state",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 126,
+          "class_name": "Unknown",
+          "function_name": "state",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 127,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 133,
+          "class_name": "Unknown",
+          "function_name": "Error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 134,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 138,
+          "class_name": "Unknown",
+          "function_name": "projectStateToString",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 150,
+          "class_name": "Unknown",
+          "function_name": "to_string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 155,
+          "class_name": "Unknown",
+          "function_name": "to_string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 162,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 167,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 172,
+          "class_name": "Unknown",
+          "function_name": "OK",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 179,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 183,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 184,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 186,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 189,
+          "class_name": "Unknown",
+          "function_name": "Error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 200,
+          "class_name": "Unknown",
+          "function_name": "put",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 203,
+          "class_name": "Unknown",
+          "function_name": "put",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 206,
+          "class_name": "Unknown",
+          "function_name": "put",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 211,
+          "class_name": "Unknown",
+          "function_name": "toJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 216,
+          "class_name": "Unknown",
+          "function_name": "activate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 222,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 227,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 232,
+          "class_name": "Unknown",
+          "function_name": "Error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 237,
+          "class_name": "Unknown",
+          "function_name": "deleteProject",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 247,
+          "class_name": "Unknown",
+          "function_name": "getState",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 257,
+          "class_name": "Unknown",
+          "function_name": "getAuditTrail",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_lifecycle.cpp",
+          "line_number": 258,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\projects\\project_template.cpp": [
@@ -157,6 +574,454 @@
           "snippet": "created.push_back(*name);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 62,
+          "line_content": "oss << std::hex << std::setfill('0')",
+          "context": [
+            "    std::uniform_int_distribution<uint64_t> dist;",
+            "    std::ostringstream oss;",
+            "    oss << std::hex << std::setfill('0')",
+            "        << std::setw(16) << dist(rng)",
+            "        << std::setw(16) << dist(rng);"
+          ],
+          "pattern_matched": "oss << std::hex << std::setfill('0')",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 63,
+          "line_content": "<< std::setw(16) << dist(rng)",
+          "context": [
+            "    std::ostringstream oss;",
+            "    oss << std::hex << std::setfill('0')",
+            "        << std::setw(16) << dist(rng)",
+            "        << std::setw(16) << dist(rng);",
+            "    auto s = oss.str();"
+          ],
+          "pattern_matched": "<< std::setw(16) << dist(rng)",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 64,
+          "line_content": "<< std::setw(16) << dist(rng);",
+          "context": [
+            "    oss << std::hex << std::setfill('0')",
+            "        << std::setw(16) << dist(rng)",
+            "        << std::setw(16) << dist(rng);",
+            "    auto s = oss.str();",
+            "    return s.substr(0,8) + \"-\" + s.substr(8,4) + \"-\" + s.substr(12,4)"
+          ],
+          "pattern_matched": "<< std::setw(16) << dist(rng);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 181,
+          "var_name": "type",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 225,
+          "var_name": "validation",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 250,
+          "var_name": "name",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 259,
+          "var_name": "name",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 263,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 265,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 52,
+          "class_name": "Unknown",
+          "function_name": "ProjectTemplate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 53,
+          "class_name": "Unknown",
+          "function_name": "ProjectTemplate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 55,
+          "class_name": "Unknown",
+          "function_name": "ProjectTemplate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 58,
+          "class_name": "Unknown",
+          "function_name": "ProjectTemplate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 62,
+          "class_name": "Unknown",
+          "function_name": "ProjectTemplate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 63,
+          "class_name": "Unknown",
+          "function_name": "storage_",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 64,
+          "class_name": "Unknown",
+          "function_name": "generateUuid",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 72,
+          "class_name": "Unknown",
+          "function_name": "setfill",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 75,
+          "class_name": "Unknown",
+          "function_name": "str",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 80,
+          "class_name": "Unknown",
+          "function_name": "getBuiltinTemplateSchema",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 93,
+          "class_name": "Unknown",
+          "function_name": "array",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 105,
+          "class_name": "Unknown",
+          "function_name": "array",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 117,
+          "class_name": "Unknown",
+          "function_name": "array",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 129,
+          "class_name": "Unknown",
+          "function_name": "array",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 140,
+          "class_name": "Unknown",
+          "function_name": "array",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 148,
+          "class_name": "Unknown",
+          "function_name": "array",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 153,
+          "class_name": "Unknown",
+          "function_name": "array",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 155,
+          "class_name": "Unknown",
+          "function_name": "array",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 157,
+          "class_name": "Unknown",
+          "function_name": "array",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 159,
+          "class_name": "Unknown",
+          "function_name": "validateTemplateDefinition",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 163,
+          "class_name": "Unknown",
+          "function_name": "validateTemplateDefinition",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 165,
+          "class_name": "Unknown",
+          "function_name": "Error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 167,
+          "class_name": "Unknown",
+          "function_name": "Error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 169,
+          "class_name": "Unknown",
+          "function_name": "Error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 174,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 192,
+          "class_name": "Unknown",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 193,
+          "class_name": "Unknown",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 197,
+          "class_name": "Unknown",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 210,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 217,
+          "class_name": "Unknown",
+          "function_name": "instantiate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 247,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 248,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 275,
+          "class_name": "Unknown",
+          "function_name": "del",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_template.cpp",
+          "line_number": 282,
+          "class_name": "Unknown",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\projects\\project_versioning.cpp": [
@@ -348,6 +1213,709 @@
           "snippet": "catch (...) { content_array.push_back(val); }",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 80,
+          "line_content": "oss << std::hex << std::setfill('0')",
+          "context": [
+            "    std::uniform_int_distribution<uint64_t> dist;",
+            "    std::ostringstream oss;",
+            "    oss << std::hex << std::setfill('0')",
+            "        << std::setw(16) << dist(rng)",
+            "        << std::setw(16) << dist(rng);"
+          ],
+          "pattern_matched": "oss << std::hex << std::setfill('0')",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 81,
+          "line_content": "<< std::setw(16) << dist(rng)",
+          "context": [
+            "    std::ostringstream oss;",
+            "    oss << std::hex << std::setfill('0')",
+            "        << std::setw(16) << dist(rng)",
+            "        << std::setw(16) << dist(rng);",
+            "    auto s = oss.str();"
+          ],
+          "pattern_matched": "<< std::setw(16) << dist(rng)",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 82,
+          "line_content": "<< std::setw(16) << dist(rng);",
+          "context": [
+            "    oss << std::hex << std::setfill('0')",
+            "        << std::setw(16) << dist(rng)",
+            "        << std::setw(16) << dist(rng);",
+            "    auto s = oss.str();",
+            "    // Insert dashes: 8-4-4-4-12"
+          ],
+          "pattern_matched": "<< std::setw(16) << dist(rng);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 104,
+          "line_content": "oss << std::hex << std::setfill('0') << std::setw(2) << (int)digest[i];",
+          "context": [
+            "    std::ostringstream oss;",
+            "    for (unsigned int i = 0; i < len; ++i)",
+            "        oss << std::hex << std::setfill('0') << std::setw(2) << (int)digest[i];",
+            "    return oss.str();",
+            "}"
+          ],
+          "pattern_matched": "oss << std::hex << std::setfill('0') << std::setw(2) << (int)digest[i];",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 104,
+          "line_content": "oss << std::hex << std::setfill('0') << std::setw(2) << (int)digest[i];",
+          "context": [
+            "    std::ostringstream oss;",
+            "    for (unsigned int i = 0; i < len; ++i)",
+            "        oss << std::hex << std::setfill('0') << std::setw(2) << (int)digest[i];",
+            "    return oss.str();",
+            "}"
+          ],
+          "pattern_matched": "oss << std::hex << std::setfill('0') << std::setw(2) << (int)digest[i];",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 90,
+          "line_content": "unsigned char digest[EVP_MAX_MD_SIZE];",
+          "context": [
+            "",
+            "Sha256Digest ProjectVersioning::computeChecksum(const std::string& data) const {",
+            "    unsigned char digest[EVP_MAX_MD_SIZE];",
+            "    unsigned int  len = 0;",
+            ""
+          ],
+          "pattern_matched": "unsigned char digest[EVP_MAX_MD_SIZE];",
+          "operation": "Array access: digest[EVP_MAX_MD_SIZE]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 104,
+          "line_content": "oss << std::hex << std::setfill('0') << std::setw(2) << (int)digest[i];",
+          "context": [
+            "    std::ostringstream oss;",
+            "    for (unsigned int i = 0; i < len; ++i)",
+            "        oss << std::hex << std::setfill('0') << std::setw(2) << (int)digest[i];",
+            "    return oss.str();",
+            "}"
+          ],
+          "pattern_matched": "oss << std::hex << std::setfill('0') << std::setw(2) << (int)digest[i];",
+          "operation": "Array access: digest[i]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 95,
+          "var_name": "len",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 113,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 127,
+          "var_name": "snap_uuid",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 171,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 178,
+          "var_name": "content_key",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 179,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 180,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 208,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 244,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 245,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 246,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 292,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 306,
+          "var_name": "snap_uuid",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 42,
+          "class_name": "Unknown",
+          "function_name": "toJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 54,
+          "class_name": "Unknown",
+          "function_name": "fromJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 62,
+          "class_name": "Unknown",
+          "function_name": "fromJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 68,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 69,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 73,
+          "class_name": "Unknown",
+          "function_name": "ProjectVersioning",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 76,
+          "class_name": "Unknown",
+          "function_name": "ProjectVersioning",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 80,
+          "class_name": "Unknown",
+          "function_name": "generateUuid",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 81,
+          "class_name": "Unknown",
+          "function_name": "generateUuid",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 82,
+          "class_name": "Unknown",
+          "function_name": "generateUuid",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 89,
+          "class_name": "Unknown",
+          "function_name": "setfill",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 104,
+          "class_name": "Unknown",
+          "function_name": "ctx",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 108,
+          "class_name": "Unknown",
+          "function_name": "EVP_DigestInit_ex",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 122,
+          "class_name": "Unknown",
+          "function_name": "scanPrefix",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 128,
+          "class_name": "Unknown",
+          "function_name": "createSnapshot",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 138,
+          "class_name": "Unknown",
+          "function_name": "Error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 142,
+          "class_name": "Unknown",
+          "function_name": "generateUuid",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 154,
+          "class_name": "Unknown",
+          "function_name": "dump",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 155,
+          "class_name": "Unknown",
+          "function_name": "dump",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 166,
+          "class_name": "Unknown",
+          "function_name": "size",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 172,
+          "class_name": "Unknown",
+          "function_name": "content_bytes",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 181,
+          "class_name": "Unknown",
+          "function_name": "del",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 187,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 195,
+          "class_name": "Unknown",
+          "function_name": "getSnapshot",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 201,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 212,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 215,
+          "class_name": "Unknown",
+          "function_name": "scanPrefix",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 222,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 229,
+          "class_name": "Unknown",
+          "function_name": "sort",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 234,
+          "class_name": "Unknown",
+          "function_name": "deleteSnapshot",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 238,
+          "class_name": "Unknown",
+          "function_name": "deleteSnapshot",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 240,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 248,
+          "class_name": "Unknown",
+          "function_name": "fromJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 251,
+          "class_name": "Unknown",
+          "function_name": "substr",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 259,
+          "class_name": "Unknown",
+          "function_name": "restoreSnapshot",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 263,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 265,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 271,
+          "class_name": "Unknown",
+          "function_name": "fromJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 276,
+          "class_name": "Unknown",
+          "function_name": "substr",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 281,
+          "class_name": "Unknown",
+          "function_name": "Error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 283,
+          "class_name": "Unknown",
+          "function_name": "computeChecksum",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 295,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 296,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 299,
+          "class_name": "Unknown",
+          "function_name": "dump",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 302,
+          "class_name": "Unknown",
+          "function_name": "put",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_versioning.cpp",
+          "line_number": 310,
+          "class_name": "Unknown",
+          "function_name": "verifySnapshot",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\projects\\collaboration_manager.cpp": [
@@ -530,6 +2098,493 @@
           "snippet": "result.push_back(c);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 160,
+          "line_content": "locks_[composite] = locker_id;",
+          "context": [
+            "            \"Object already locked by: \" + it->second);",
+            "",
+            "    locks_[composite] = locker_id;",
+            "    return Status::OK();",
+            "}"
+          ],
+          "pattern_matched": "locks_[composite] = locker_id;",
+          "operation": "Array access: locks_[composite]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 52,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 91,
+          "var_name": "key",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 95,
+          "var_name": "key",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 113,
+          "var_name": "key",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 117,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 150,
+          "var_name": "composite",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 156,
+          "var_name": "composite",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 158,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 235,
+          "var_name": "storage_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 263,
+          "var_name": "audit_log_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 271,
+          "var_name": "metrics_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 34,
+          "class_name": "Unknown",
+          "function_name": "toJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 46,
+          "class_name": "Unknown",
+          "function_name": "fromJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 60,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 62,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 66,
+          "class_name": "Unknown",
+          "function_name": "CollaborationManager",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 75,
+          "class_name": "Unknown",
+          "function_name": "permissionToString",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 86,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 92,
+          "class_name": "Unknown",
+          "function_name": "shareProject",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 96,
+          "class_name": "Unknown",
+          "function_name": "shareProject",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 103,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 106,
+          "class_name": "Unknown",
+          "function_name": "Error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 109,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 114,
+          "class_name": "Unknown",
+          "function_name": "OK",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 118,
+          "class_name": "Unknown",
+          "function_name": "revokeAccess",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 121,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 133,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 135,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 138,
+          "class_name": "Unknown",
+          "function_name": "permissionFromString",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 145,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 151,
+          "class_name": "Unknown",
+          "function_name": "lockObject",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 157,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 161,
+          "class_name": "Unknown",
+          "function_name": "Error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 164,
+          "class_name": "Unknown",
+          "function_name": "find",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 173,
+          "class_name": "Unknown",
+          "function_name": "unlockObject",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 175,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 179,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 182,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 192,
+          "class_name": "Unknown",
+          "function_name": "isLocked",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 195,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 198,
+          "class_name": "Unknown",
+          "function_name": "setAuditLog",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 204,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 207,
+          "class_name": "Unknown",
+          "function_name": "clearAuditLog",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 212,
+          "class_name": "Unknown",
+          "function_name": "setMetrics",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 228,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 231,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 234,
+          "class_name": "Unknown",
+          "function_name": "notifyChange",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\collaboration_manager.cpp",
+          "line_number": 261,
+          "class_name": "Unknown",
+          "function_name": "al_lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\projects\\in_memory_project_audit_log.cpp": [
@@ -604,6 +2659,171 @@
           "snippet": "result.push_back(e);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 35,
+          "var_name": "evict",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 54,
+          "var_name": "zero",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 56,
+          "var_name": "zero",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 58,
+          "var_name": "zero",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 60,
+          "var_name": "zero",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 21,
+          "class_name": "Unknown",
+          "function_name": "InMemoryProjectAuditLog",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 24,
+          "class_name": "Unknown",
+          "function_name": "InMemoryProjectAuditLog",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 29,
+          "class_name": "Unknown",
+          "function_name": "InMemoryProjectAuditLog",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 36,
+          "class_name": "Unknown",
+          "function_name": "record",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 44,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 71,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 79,
+          "class_name": "Unknown",
+          "function_name": "query",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 98,
+          "class_name": "Unknown",
+          "function_name": "erase",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 106,
+          "class_name": "Unknown",
+          "function_name": "count",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 113,
+          "class_name": "Unknown",
+          "function_name": "purge",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 123,
+          "class_name": "Unknown",
+          "function_name": "remove_if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\in_memory_project_audit_log.cpp",
+          "line_number": 129,
+          "class_name": "Unknown",
+          "function_name": "size",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\projects\\project_diff.cpp": [
@@ -723,6 +2943,279 @@
           "snippet": "result.conflicts.entries.push_back(their_entry);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 149,
+          "line_content": "if (!id.empty()) m[id] = doc;",
+          "context": [
+            "        for (const auto& doc : docs) {",
+            "            const std::string id = doc.value(\"id\", std::string{});",
+            "            if (!id.empty()) m[id] = doc;",
+            "        }",
+            "        return m;"
+          ],
+          "pattern_matched": "if (!id.empty()) m[id] = doc;",
+          "operation": "Array access: m[id]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 44,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 55,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 94,
+          "var_name": "child_path",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 146,
+          "var_name": "from_docs",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 149,
+          "var_name": "from_docs",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 36,
+          "class_name": "Unknown",
+          "function_name": "toJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 48,
+          "class_name": "Unknown",
+          "function_name": "fromJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 61,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 62,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 67,
+          "class_name": "Unknown",
+          "function_name": "toJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 71,
+          "class_name": "Unknown",
+          "function_name": "toJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 78,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 79,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 81,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 83,
+          "class_name": "Unknown",
+          "function_name": "ProjectDiff",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 86,
+          "class_name": "Unknown",
+          "function_name": "ProjectDiff",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 116,
+          "class_name": "Unknown",
+          "function_name": "diffRecursive",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 122,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 126,
+          "class_name": "Unknown",
+          "function_name": "diffDocuments",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 135,
+          "class_name": "Unknown",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 136,
+          "class_name": "Unknown",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 137,
+          "class_name": "Unknown",
+          "function_name": "substr",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 175,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 188,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 191,
+          "class_name": "Unknown",
+          "function_name": "ProjectMerge",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_diff.cpp",
+          "line_number": 220,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\projects\\project_metrics.cpp": [
@@ -734,6 +3227,197 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 31,
+          "line_content": "out << \"# HELP projects_changes_total Total collaboration change events recorded.\\n\";",
+          "context": [
+            "    std::ostringstream out;",
+            "",
+            "    out << \"# HELP projects_changes_total Total collaboration change events recorded.\\n\";",
+            "    out << \"# TYPE projects_changes_total counter\\n\";",
+            "    out << \"projects_changes_total \" << changes << \"\\n\";"
+          ],
+          "pattern_matched": "out << \"# HELP projects_changes_total Total collaboration change events recorded.\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 32,
+          "line_content": "out << \"# TYPE projects_changes_total counter\\n\";",
+          "context": [
+            "",
+            "    out << \"# HELP projects_changes_total Total collaboration change events recorded.\\n\";",
+            "    out << \"# TYPE projects_changes_total counter\\n\";",
+            "    out << \"projects_changes_total \" << changes << \"\\n\";",
+            ""
+          ],
+          "pattern_matched": "out << \"# TYPE projects_changes_total counter\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 33,
+          "line_content": "out << \"projects_changes_total \" << changes << \"\\n\";",
+          "context": [
+            "    out << \"# HELP projects_changes_total Total collaboration change events recorded.\\n\";",
+            "    out << \"# TYPE projects_changes_total counter\\n\";",
+            "    out << \"projects_changes_total \" << changes << \"\\n\";",
+            "",
+            "    out << \"# HELP project_diff_calls_total Total ProjectDiff::diff() invocations.\\n\";"
+          ],
+          "pattern_matched": "out << \"projects_changes_total \" << changes << \"\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 35,
+          "line_content": "out << \"# HELP project_diff_calls_total Total ProjectDiff::diff() invocations.\\n\";",
+          "context": [
+            "    out << \"projects_changes_total \" << changes << \"\\n\";",
+            "",
+            "    out << \"# HELP project_diff_calls_total Total ProjectDiff::diff() invocations.\\n\";",
+            "    out << \"# TYPE project_diff_calls_total counter\\n\";",
+            "    out << \"project_diff_calls_total \" << calls << \"\\n\";"
+          ],
+          "pattern_matched": "out << \"# HELP project_diff_calls_total Total ProjectDiff::diff() invocations.\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 36,
+          "line_content": "out << \"# TYPE project_diff_calls_total counter\\n\";",
+          "context": [
+            "",
+            "    out << \"# HELP project_diff_calls_total Total ProjectDiff::diff() invocations.\\n\";",
+            "    out << \"# TYPE project_diff_calls_total counter\\n\";",
+            "    out << \"project_diff_calls_total \" << calls << \"\\n\";",
+            ""
+          ],
+          "pattern_matched": "out << \"# TYPE project_diff_calls_total counter\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 37,
+          "line_content": "out << \"project_diff_calls_total \" << calls << \"\\n\";",
+          "context": [
+            "    out << \"# HELP project_diff_calls_total Total ProjectDiff::diff() invocations.\\n\";",
+            "    out << \"# TYPE project_diff_calls_total counter\\n\";",
+            "    out << \"project_diff_calls_total \" << calls << \"\\n\";",
+            "",
+            "    out << \"# HELP project_diff_duration_ms_total Cumulative diff computation time in milliseconds.\\n\";"
+          ],
+          "pattern_matched": "out << \"project_diff_calls_total \" << calls << \"\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 39,
+          "line_content": "out << \"# HELP project_diff_duration_ms_total Cumulative diff computation time in milliseconds.\\n\";",
+          "context": [
+            "    out << \"project_diff_calls_total \" << calls << \"\\n\";",
+            "",
+            "    out << \"# HELP project_diff_duration_ms_total Cumulative diff computation time in milliseconds.\\n\";",
+            "    out << \"# TYPE project_diff_duration_ms_total counter\\n\";",
+            "    out << \"project_diff_duration_ms_total \" << duration << \"\\n\";"
+          ],
+          "pattern_matched": "out << \"# HELP project_diff_duration_ms_total Cumulative diff computation time in milliseconds.\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 40,
+          "line_content": "out << \"# TYPE project_diff_duration_ms_total counter\\n\";",
+          "context": [
+            "",
+            "    out << \"# HELP project_diff_duration_ms_total Cumulative diff computation time in milliseconds.\\n\";",
+            "    out << \"# TYPE project_diff_duration_ms_total counter\\n\";",
+            "    out << \"project_diff_duration_ms_total \" << duration << \"\\n\";",
+            ""
+          ],
+          "pattern_matched": "out << \"# TYPE project_diff_duration_ms_total counter\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 41,
+          "line_content": "out << \"project_diff_duration_ms_total \" << duration << \"\\n\";",
+          "context": [
+            "    out << \"# HELP project_diff_duration_ms_total Cumulative diff computation time in milliseconds.\\n\";",
+            "    out << \"# TYPE project_diff_duration_ms_total counter\\n\";",
+            "    out << \"project_diff_duration_ms_total \" << duration << \"\\n\";",
+            "",
+            "    return out.str();"
+          ],
+          "pattern_matched": "out << \"project_diff_duration_ms_total \" << duration << \"\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 25,
+          "var_name": "changes",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 20,
+          "class_name": "Unknown",
+          "function_name": "getMetricsText",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\projects\\project_metrics.cpp",
+          "line_number": 35,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ]
     }

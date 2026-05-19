@@ -3,15 +3,20 @@
 ## Summary
 
 **Module:** `user_storage_encrypted`  
-**Total Gaps:** 166  
-**CRITICAL:** 28 | **HIGH:** 31 | **MEDIUM:** 107
+**Total Gaps:** 625  
+**CRITICAL:** 31 | **HIGH:** 433 | **MEDIUM:** 161
 
 ## Breakdown by Category
 
+- **uninitialized:** 194 gaps
+- **oop_design:** 139 gaps
 - **reliability:** 76 gaps
+- **type_conversion:** 56 gaps
+- **input_validation:** 56 gaps
 - **raii:** 39 gaps
 - **container:** 19 gaps
 - **memory:** 14 gaps
+- **exception_safety:** 14 gaps
 - **platform:** 13 gaps
 - **performance:** 4 gaps
 - **security:** 1 gaps
@@ -40,11 +45,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 166 |
-| CRITICAL | 28 |
-| HIGH | 31 |
-| MEDIUM | 107 |
-| Estimated Effort | 2.2 weeks |
+| Total Gaps | 625 |
+| CRITICAL | 31 |
+| HIGH | 433 |
+| MEDIUM | 161 |
+| Estimated Effort | 12.4 weeks |
 
 ## Acceptance Criteria
 
@@ -55,5 +60,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.826524*  
+*Generated: 2026-05-19T06:53:38.618397*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

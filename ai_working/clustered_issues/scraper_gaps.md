@@ -3,13 +3,17 @@
 ## Summary
 
 **Module:** `scraper`  
-**Total Gaps:** 84  
-**CRITICAL:** 9 | **HIGH:** 12 | **MEDIUM:** 63
+**Total Gaps:** 390  
+**CRITICAL:** 9 | **HIGH:** 283 | **MEDIUM:** 98
 
 ## Breakdown by Category
 
+- **oop_design:** 177 gaps
+- **uninitialized:** 72 gaps
+- **type_conversion:** 40 gaps
 - **container:** 34 gaps
 - **reliability:** 33 gaps
+- **input_validation:** 17 gaps
 - **raii:** 8 gaps
 - **platform:** 4 gaps
 - **memory:** 2 gaps
@@ -40,11 +44,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 84 |
+| Total Gaps | 390 |
 | CRITICAL | 9 |
-| HIGH | 12 |
-| MEDIUM | 63 |
-| Estimated Effort | 3.8 dev-days |
+| HIGH | 283 |
+| MEDIUM | 98 |
+| Estimated Effort | 7.5 weeks |
 
 ## Acceptance Criteria
 
@@ -55,5 +59,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.797572*  
+*Generated: 2026-05-19T06:53:38.592474*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

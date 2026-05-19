@@ -3,19 +3,24 @@
 ## Summary
 
 **Module:** `server`  
-**Total Gaps:** 4139  
-**CRITICAL:** 525 | **HIGH:** 842 | **MEDIUM:** 2772
+**Total Gaps:** 16186  
+**CRITICAL:** 551 | **HIGH:** 12094 | **MEDIUM:** 3541
 
 ## Breakdown by Category
 
-- **reliability:** 2068 gaps
+- **oop_design:** 5957 gaps
+- **uninitialized:** 4733 gaps
+- **reliability:** 2089 gaps
+- **type_conversion:** 910 gaps
 - **container:** 637 gaps
 - **platform:** 477 gaps
 - **security:** 407 gaps
+- **input_validation:** 360 gaps
 - **memory:** 247 gaps
 - **concurrency:** 152 gaps
 - **raii:** 85 gaps
 - **performance:** 66 gaps
+- **exception_safety:** 66 gaps
 
 ## Top Files by Gap Density
 
@@ -41,11 +46,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 4139 |
-| CRITICAL | 525 |
-| HIGH | 842 |
-| MEDIUM | 2772 |
-| Estimated Effort | 47.3 weeks |
+| Total Gaps | 16186 |
+| CRITICAL | 551 |
+| HIGH | 12094 |
+| MEDIUM | 3541 |
+| Estimated Effort | 329.9 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +61,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.804656*  
+*Generated: 2026-05-19T06:53:38.593967*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

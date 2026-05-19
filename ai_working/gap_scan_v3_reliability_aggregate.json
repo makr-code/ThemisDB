@@ -83313,14 +83313,14 @@
     }
   },
   "server": {
-    "total": 2068,
+    "total": 2089,
     "severity_critical": 290,
-    "severity_high": 139,
-    "severity_medium": 1639,
+    "severity_high": 148,
+    "severity_medium": 1651,
     "by_type": {
-      "no_health_check": 1470,
+      "no_health_check": 1482,
       "no_timeout": 290,
-      "uncaught_exception": 221,
+      "uncaught_exception": 230,
       "no_retry_logic": 87
     },
     "gaps_by_file": {
@@ -83692,7 +83692,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 69,
+          "line": 99,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::string asyncJobStatusToString(AsyncJobStatus s) {",
@@ -83701,7 +83701,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 98,
+          "line": 128,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mu);",
@@ -83710,7 +83710,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 123,
+          "line": 153,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -83719,7 +83719,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 129,
+          "line": 159,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> rlock(rec.mu);",
@@ -83728,7 +83728,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 142,
+          "line": 172,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -83737,7 +83737,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 148,
+          "line": 178,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -83746,7 +83746,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 158,
+          "line": 188,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
@@ -83755,7 +83755,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 162,
+          "line": 192,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> rlock(rec.mu);",
@@ -83764,7 +83764,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 221,
+          "line": 251,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(futures_mutex_);",
@@ -83773,7 +83773,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 260,
+          "line": 290,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -83782,61 +83782,16 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 287,
+          "line": 317,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> rlock(job->mu);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 293,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> rlock(job->mu);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 301,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::string final_status;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 303,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> rlock(job->mu);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 321,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "THEMIS_DEBUG(\"AsyncJob {} finished with status {}\", job->id, final_status);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
           "line": 323,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::string final_status;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 325,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> rlock(job->mu);",
@@ -83845,7 +83800,25 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 338,
+          "line": 331,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::string final_status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\async_job_api_handler.cpp",
+          "line": 333,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> rlock(job->mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\server\\async_job_api_handler.cpp",
+          "line": 351,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "THEMIS_DEBUG(\"AsyncJob {} finished with status {}\", job->id, final_status);",
@@ -83854,7 +83827,34 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 339,
+          "line": 353,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "std::string final_status;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\async_job_api_handler.cpp",
+          "line": 355,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> rlock(job->mu);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\server\\async_job_api_handler.cpp",
+          "line": 368,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "THEMIS_DEBUG(\"AsyncJob {} finished with status {}\", job->id, final_status);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\async_job_api_handler.cpp",
+          "line": 369,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -83863,7 +83863,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 341,
+          "line": 371,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> rlock(job->mu);",
@@ -83872,7 +83872,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 352,
+          "line": 382,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "THEMIS_DEBUG(\"AsyncJob {} finished with status failed\", job->id);",
@@ -83881,7 +83881,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 356,
+          "line": 386,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(futures_mutex_);",
@@ -83890,7 +83890,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 363,
+          "line": 393,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::future_status::ready;",
@@ -83899,7 +83899,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 421,
+          "line": 463,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> rlock(job->mu);",
@@ -83908,7 +83908,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 432,
+          "line": 474,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{{\"job_id\", job->id}, {\"status\", \"pending\"}}, req);",
@@ -83917,7 +83917,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 449,
+          "line": 491,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::response<http::string_body> AsyncJobApiHandler::handleGetStatus(",
@@ -83926,7 +83926,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 489,
+          "line": 539,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "AsyncJobStatus current;",
@@ -83935,7 +83935,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 491,
+          "line": 541,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> rlock(job->mu);",
@@ -83944,7 +83944,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 502,
+          "line": 552,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "asyncJobStatusToString(current)},",
@@ -83953,7 +83953,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 504,
+          "line": 554,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", asyncJobStatusToString(current)}},",
@@ -83962,7 +83962,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 511,
+          "line": 561,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> rlock(job->mu);",
@@ -83971,7 +83971,7 @@
         },
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 523,
+          "line": 573,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", asyncJobStatusToString(current)},",
@@ -84166,7 +84166,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 140,
+          "line": 155,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -84175,7 +84175,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 158,
+          "line": 173,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -84184,7 +84184,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 189,
+          "line": 204,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string process_key = request.value(\"process_definition_key\", \"\");",
@@ -84193,7 +84193,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 190,
+          "line": 205,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "json variables = request.value(\"variables\", json::object());",
@@ -84202,7 +84202,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 191,
+          "line": 206,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "std::string business_key = request.value(\"business_key\", \"\");",
@@ -84211,7 +84211,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 200,
+          "line": 221,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (!status.ok) {",
@@ -84220,7 +84220,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 202,
+          "line": 223,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "\"Failed to start process: \" + status.message, req);",
@@ -84229,7 +84229,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 215,
+          "line": 236,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (get_status.ok) {",
@@ -84238,7 +84238,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 301,
+          "line": 322,
           "type": "no_retry_logic",
           "severity": "HIGH",
           "snippet": "json variables = request.value(\"variables\", json::object());",
@@ -84247,7 +84247,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 323,
+          "line": 348,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (!status.ok) {",
@@ -84256,7 +84256,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 331,
+          "line": 356,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (get_status.ok && !instance.tokens.empty()) {",
@@ -84265,7 +84265,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 401,
+          "line": 429,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (!status.ok) {",
@@ -84274,7 +84274,7 @@
         },
         {
           "file": "src\\server\\bpmn_api_handler.cpp",
-          "line": 403,
+          "line": 431,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "\"Process instance not found: \" + status.message, req);",
@@ -84570,7 +84570,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 198,
+          "line": 235,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (status.contains(\"latency\")) {",
@@ -84579,7 +84579,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 317,
+          "line": 362,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", \"ok\"},",
@@ -84588,7 +84588,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 318,
+          "line": 363,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"circuit_breaker\", cache_->getCircuitBreakerStatus()}",
@@ -84597,7 +84597,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 327,
+          "line": 372,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::response<http::string_body> CacheAdminApiHandler::handleCircuitBreakerStatus(",
@@ -84606,7 +84606,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 345,
+          "line": 390,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "THEMIS_WARN(\"Cache admin circuit-breaker status error: {}\", e.what());",
@@ -84615,7 +84615,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 355,
+          "line": 400,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -84624,7 +84624,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 369,
+          "line": 414,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -84633,7 +84633,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 376,
+          "line": 421,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status_code\", static_cast<int>(status)}",
@@ -84642,7 +84642,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 425,
+          "line": 484,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\",                      \"ok\"},",
@@ -84651,7 +84651,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 482,
+          "line": 545,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\",          \"ok\"},",
@@ -84660,7 +84660,7 @@
         },
         {
           "file": "src\\server\\cache_admin_api_handler.cpp",
-          "line": 627,
+          "line": 698,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\",      \"ok\"},",
@@ -84846,7 +84846,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 190,
+          "line": 209,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -84855,7 +84855,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 196,
+          "line": 215,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"internal_error\");",
@@ -84864,7 +84864,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 288,
+          "line": 311,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -84873,7 +84873,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 304,
+          "line": 327,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -84882,7 +84882,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 324,
+          "line": 347,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -84891,7 +84891,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 344,
+          "line": 367,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -84900,7 +84900,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 376,
+          "line": 403,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -84909,7 +84909,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 390,
+          "line": 417,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -84918,7 +84918,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 553,
+          "line": 580,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -84927,7 +84927,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 558,
+          "line": 585,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"internal_error\");",
@@ -84936,7 +84936,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 606,
+          "line": 636,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -84945,19 +84945,10 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 615,
+          "line": 645,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"json_parse_error\");",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 619,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(false, \"internal_error\");",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
@@ -84966,13 +84957,22 @@
           "line": 649,
           "type": "no_health_check",
           "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"internal_error\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\changefeed_api_handler.cpp",
+          "line": 679,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 653,
+          "line": 683,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"internal_error\");",
@@ -84981,7 +84981,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 696,
+          "line": 726,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -84990,7 +84990,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 700,
+          "line": 730,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"json_parse_error\");",
@@ -84999,37 +84999,10 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 704,
+          "line": 734,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"internal_error\");",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 736,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(true);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 740,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(false, \"internal_error\");",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 762,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(true);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
@@ -85038,13 +85011,22 @@
           "line": 766,
           "type": "no_health_check",
           "severity": "MEDIUM",
+          "snippet": "span.setStatus(true);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\changefeed_api_handler.cpp",
+          "line": 770,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"internal_error\");",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 835,
+          "line": 792,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -85053,16 +85035,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 839,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(false, \"json_parse_error\");",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 844,
+          "line": 796,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"internal_error\");",
@@ -85071,7 +85044,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 883,
+          "line": 865,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -85080,7 +85053,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 887,
+          "line": 869,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"json_parse_error\");",
@@ -85089,7 +85062,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 892,
+          "line": 874,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"internal_error\");",
@@ -85098,7 +85071,34 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 898,
+          "line": 925,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(true);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\changefeed_api_handler.cpp",
+          "line": 929,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"json_parse_error\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\changefeed_api_handler.cpp",
+          "line": 934,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"internal_error\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\changefeed_api_handler.cpp",
+          "line": 940,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status, const std::string& message, const http::request<http::string_body>& req",
@@ -85107,7 +85107,7 @@
         },
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 903,
+          "line": 945,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status_code\", static_cast<int>(status)}",
@@ -85746,7 +85746,7 @@
         },
         {
           "file": "src\\server\\distributed_txn_api_handler.cpp",
-          "line": 89,
+          "line": 109,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\",          \"active\"},",
@@ -85755,7 +85755,7 @@
         },
         {
           "file": "src\\server\\distributed_txn_api_handler.cpp",
-          "line": 250,
+          "line": 288,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "DistributedTxnApiHandler::handleStatus(const http::request<http::string_body>& req) {",
@@ -85764,7 +85764,7 @@
         },
         {
           "file": "src\\server\\distributed_txn_api_handler.cpp",
-          "line": 311,
+          "line": 353,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "DistributedTxnApiHandler::error(http::status        status,",
@@ -85773,7 +85773,7 @@
         },
         {
           "file": "src\\server\\distributed_txn_api_handler.cpp",
-          "line": 319,
+          "line": 361,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status_code\", static_cast<int>(status)}}.dump();",
@@ -86564,7 +86564,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 65,
+          "line": 85,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Unauthorized\");",
@@ -86573,7 +86573,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 83,
+          "line": 103,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Plugin not found\");",
@@ -86582,7 +86582,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 177,
+          "line": 205,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -86591,7 +86591,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 213,
+          "line": 241,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -86600,7 +86600,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 292,
+          "line": 320,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::response<http::string_body> ExportApiHandler::handleExportStatus(",
@@ -86609,7 +86609,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 298,
+          "line": 326,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Unauthorized\");",
@@ -86618,7 +86618,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 307,
+          "line": 335,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Invalid export ID\");",
@@ -86627,7 +86627,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 315,
+          "line": 347,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(export_jobs_mutex_);",
@@ -86636,7 +86636,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 345,
+          "line": 377,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::string(\"Status check error: \") + e.what());",
@@ -86645,7 +86645,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 368,
+          "line": 400,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -86654,7 +86654,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 374,
+          "line": 406,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -86663,7 +86663,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 380,
+          "line": 412,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(",
@@ -86672,7 +86672,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 502,
+          "line": 534,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -86681,7 +86681,7 @@
         },
         {
           "file": "src\\server\\export_api_handler.cpp",
-          "line": 513,
+          "line": 545,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -86874,7 +86874,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 79,
+          "line": 95,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"is_healthy\", s.is_healthy},",
@@ -86883,7 +86883,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 136,
+          "line": 152,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"healthy_shards\", healthy_shards.size()},",
@@ -86892,7 +86892,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 191,
+          "line": 207,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"healthy_fraction\", ratio},",
@@ -86901,7 +86901,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 192,
+          "line": 208,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"healthy_shards\", health.size()},",
@@ -86910,7 +86910,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 196,
+          "line": 212,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "healthy_regions.push_back(region);",
@@ -86919,7 +86919,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 201,
+          "line": 217,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "std::string overall_status;",
@@ -86928,7 +86928,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 211,
+          "line": 227,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"overall_status\",   overall_status},",
@@ -86937,7 +86937,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 213,
+          "line": 229,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"healthy_shards\",   healthy_all.size()},",
@@ -86946,7 +86946,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 215,
+          "line": 231,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"healthy_regions\",  healthy_regions},",
@@ -86955,7 +86955,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 275,
+          "line": 295,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (j.contains(\"is_healthy\") && j[\"is_healthy\"].is_boolean())",
@@ -86964,7 +86964,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 535,
+          "line": 567,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -86973,7 +86973,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 542,
+          "line": 574,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status_code\", static_cast<int>(status)}",
@@ -86982,7 +86982,7 @@
         },
         {
           "file": "src\\server\\geo_topology_api_handler.cpp",
-          "line": 548,
+          "line": 580,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -92100,7 +92100,7 @@
         },
         {
           "file": "src\\server\\maintenance_api_handler.cpp",
-          "line": 71,
+          "line": 93,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, ex.what());",
@@ -92109,7 +92109,7 @@
         },
         {
           "file": "src\\server\\maintenance_api_handler.cpp",
-          "line": 80,
+          "line": 102,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -92118,7 +92118,16 @@
         },
         {
           "file": "src\\server\\maintenance_api_handler.cpp",
-          "line": 98,
+          "line": 115,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Invalid tenant_id filter\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\maintenance_api_handler.cpp",
+          "line": 124,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -93975,7 +93984,7 @@
         },
         {
           "file": "src\\server\\mvcc_api_handler.cpp",
-          "line": 48,
+          "line": 63,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"MvccApiHandler: store cannot be null\");",
@@ -93984,7 +93993,7 @@
         },
         {
           "file": "src\\server\\mvcc_api_handler.cpp",
-          "line": 60,
+          "line": 75,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "handleGetClock(req, res);",
@@ -93993,7 +94002,7 @@
         },
         {
           "file": "src\\server\\mvcc_api_handler.cpp",
-          "line": 121,
+          "line": 136,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -94002,7 +94011,7 @@
         },
         {
           "file": "src\\server\\mvcc_api_handler.cpp",
-          "line": 309,
+          "line": 324,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "void MvccApiHandler::handleGetClock(const httplib::Request& /*req*/,",
@@ -94011,7 +94020,7 @@
         },
         {
           "file": "src\\server\\mvcc_api_handler.cpp",
-          "line": 370,
+          "line": 389,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "int status_code,",
@@ -94020,7 +94029,7 @@
         },
         {
           "file": "src\\server\\mvcc_api_handler.cpp",
-          "line": 377,
+          "line": 396,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "spdlog::warn(\"MVCC API error ({}): {}\", status_code, message);",
@@ -94394,7 +94403,7 @@
         },
         {
           "file": "src\\server\\pki_api_handler.cpp",
-          "line": 446,
+          "line": 521,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "nlohmann::json PkiApiHandler::getStatus() {",
@@ -94403,7 +94412,7 @@
         },
         {
           "file": "src\\server\\pki_api_handler.cpp",
-          "line": 461,
+          "line": 536,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -94412,7 +94421,7 @@
         },
         {
           "file": "src\\server\\pki_api_handler.cpp",
-          "line": 478,
+          "line": 553,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "THEMIS_ERROR(\"PKI API getStatus failed: {}\", ex.what());",
@@ -94571,7 +94580,7 @@
         },
         {
           "file": "src\\server\\policy_manager_api_handler.cpp",
-          "line": 345,
+          "line": 407,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -94580,7 +94589,7 @@
         },
         {
           "file": "src\\server\\policy_manager_api_handler.cpp",
-          "line": 351,
+          "line": 413,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", static_cast<int>(status)}",
@@ -94589,7 +94598,7 @@
         },
         {
           "file": "src\\server\\policy_manager_api_handler.cpp",
-          "line": 365,
+          "line": 427,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -94685,7 +94694,7 @@
         },
         {
           "file": "src\\server\\policy_versioning_api_handler.cpp",
-          "line": 335,
+          "line": 396,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -94694,7 +94703,7 @@
         },
         {
           "file": "src\\server\\policy_versioning_api_handler.cpp",
-          "line": 349,
+          "line": 410,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -94703,7 +94712,7 @@
         },
         {
           "file": "src\\server\\policy_versioning_api_handler.cpp",
-          "line": 355,
+          "line": 416,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", static_cast<int>(status)}",
@@ -96724,7 +96733,7 @@
         },
         {
           "file": "src\\server\\retention_api_handler.cpp",
-          "line": 106,
+          "line": 138,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", \"error\"},",
@@ -96733,7 +96742,7 @@
         },
         {
           "file": "src\\server\\retention_api_handler.cpp",
-          "line": 115,
+          "line": 147,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", exists ? \"updated\" : \"created\"},",
@@ -96742,7 +96751,7 @@
         },
         {
           "file": "src\\server\\retention_api_handler.cpp",
-          "line": 121,
+          "line": 153,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", \"error\"},",
@@ -96751,7 +96760,7 @@
         },
         {
           "file": "src\\server\\retention_api_handler.cpp",
-          "line": 131,
+          "line": 167,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", \"error\"},",
@@ -96760,12 +96769,30 @@
         },
         {
           "file": "src\\server\\retention_api_handler.cpp",
-          "line": 139,
+          "line": 175,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", \"deleted\"},",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\retention_api_handler.cpp",
+          "line": 238,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"retention_period_days must be positive\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\retention_api_handler.cpp",
+          "line": 246,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"archive_after_days must be between 0 and retention_period_days\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         }
       ],
       "src\\server\\review_scheduling_api_handler.cpp": [
@@ -98162,7 +98189,7 @@
         },
         {
           "file": "src\\server\\session_api_handler.cpp",
-          "line": 62,
+          "line": 84,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!auth_)    { throw std::invalid_argument(\"SessionApiHandler: auth must not be null\"); }",
@@ -98171,7 +98198,7 @@
         },
         {
           "file": "src\\server\\session_api_handler.cpp",
-          "line": 63,
+          "line": 85,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!manager_) { throw std::invalid_argument(\"SessionApiHandler: manager must not be null\"); }",
@@ -98180,7 +98207,7 @@
         },
         {
           "file": "src\\server\\session_api_handler.cpp",
-          "line": 70,
+          "line": 92,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "nlohmann::json SessionApiHandler::makeError(int status_code, const std::string& message) {",
@@ -98189,7 +98216,7 @@
         },
         {
           "file": "src\\server\\session_api_handler.cpp",
-          "line": 73,
+          "line": 95,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status_code\", status_code}",
@@ -98806,7 +98833,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 297,
+          "line": 358,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "catch (...) { return def; }",
@@ -98815,7 +98842,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 329,
+          "line": 390,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "else if (v.is_string()) { try { ms = std::stoll(v.get<std::string>()); } catch (...) {} }",
@@ -98824,7 +98851,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 336,
+          "line": 397,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "else if (v.is_string()) { try { ms = std::stoll(v.get<std::string>()); } catch (...) {} }",
@@ -98833,7 +98860,52 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 773,
+          "line": 792,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(*err);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\task_scheduler_api_handler.cpp",
+          "line": 811,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(*err);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\task_scheduler_api_handler.cpp",
+          "line": 816,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"aql_query must not be empty for aql_query tasks\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\task_scheduler_api_handler.cpp",
+          "line": 820,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"aql_query exceeds maximum allowed length\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\task_scheduler_api_handler.cpp",
+          "line": 823,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"aql_query contains potentially unsafe patterns\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\task_scheduler_api_handler.cpp",
+          "line": 850,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"interval_ms must be a positive integer\");",
@@ -98842,7 +98914,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 779,
+          "line": 856,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"interval_seconds must be a positive integer\");",
@@ -98851,7 +98923,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 788,
+          "line": 865,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"timeout_ms must be a positive integer\");",
@@ -98860,7 +98932,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 794,
+          "line": 871,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"timeout_seconds must be a positive integer\");",
@@ -98869,7 +98941,25 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 840,
+          "line": 880,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(*err);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\task_scheduler_api_handler.cpp",
+          "line": 889,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(*err);",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\task_scheduler_api_handler.cpp",
+          "line": 930,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\",            \"executed\"},",
@@ -99516,7 +99606,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 102,
+          "line": 120,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Request body is required\");",
@@ -99525,7 +99615,16 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 113,
+          "line": 125,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Request body exceeds maximum allowed size\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 136,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, iso_error);",
@@ -99534,7 +99633,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 160,
+          "line": 196,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "TransactionManager::Status status;",
@@ -99543,7 +99642,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 194,
+          "line": 230,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (status.ok) {",
@@ -99552,7 +99651,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 197,
+          "line": 233,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "errors_array.push_back({{\"index\", i}, {\"error\", status.message}});",
@@ -99561,7 +99660,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 206,
+          "line": 242,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", \"rolled_back\"},",
@@ -99570,7 +99669,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 214,
+          "line": 250,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (!commit_status.ok) {",
@@ -99579,7 +99678,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 217,
+          "line": 253,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", \"failed\"},",
@@ -99588,7 +99687,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 219,
+          "line": 255,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"error\", commit_status.message}",
@@ -99597,7 +99696,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 227,
+          "line": 263,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status\", \"committed\"},",
@@ -99606,7 +99705,16 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 257,
+          "line": 289,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Request body exceeds maximum allowed size\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 298,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, iso_error);",
@@ -99615,7 +99723,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 272,
+          "line": 313,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -99624,7 +99732,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 276,
+          "line": 317,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Invalid JSON\");",
@@ -99633,7 +99741,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 280,
+          "line": 321,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, e.what());",
@@ -99642,73 +99750,10 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 294,
+          "line": 333,
           "type": "no_health_check",
           "severity": "MEDIUM",
-          "snippet": "span.setStatus(false, \"Missing transaction_id\");",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 304,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(true);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 307,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "{\"status\", \"committed\"},",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 312,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(false, status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 315,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "{\"status\", \"failed\"},",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 316,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "{\"error\", status.message}",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 322,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(false, \"Invalid JSON\");",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 326,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "span.setStatus(false, e.what());",
+          "snippet": "span.setStatus(false, \"Request body exceeds maximum allowed size\");",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
@@ -99723,7 +99768,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 349,
+          "line": 350,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -99732,16 +99777,43 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 352,
+          "line": 353,
           "type": "no_health_check",
           "severity": "MEDIUM",
-          "snippet": "{\"status\", \"rolled_back\"},",
+          "snippet": "{\"status\", \"committed\"},",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 359,
+          "line": 358,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, status.message);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 361,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\", \"failed\"},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 362,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"error\", status.message}",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 368,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Invalid JSON\");",
@@ -99750,7 +99822,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 363,
+          "line": 372,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, e.what());",
@@ -99759,16 +99831,16 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 413,
+          "line": 384,
           "type": "no_health_check",
           "severity": "MEDIUM",
-          "snippet": "span.setStatus(false, \"Request body is required\");",
+          "snippet": "span.setStatus(false, \"Request body exceeds maximum allowed size\");",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 420,
+          "line": 391,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Missing transaction_id\");",
@@ -99777,7 +99849,70 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 424,
+          "line": 400,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(true);",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 403,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "{\"status\", \"rolled_back\"},",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 410,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Invalid JSON\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 414,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, e.what());",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 464,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Request body is required\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 469,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Request body exceeds maximum allowed size\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 476,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Missing transaction_id\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 480,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Missing table\");",
@@ -99786,7 +99921,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 428,
+          "line": 484,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Missing key\");",
@@ -99795,7 +99930,25 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 441,
+          "line": 492,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Invalid table\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 497,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Invalid key length\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\transaction_api_handler.cpp",
+          "line": 507,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Transaction not found\");",
@@ -99804,7 +99957,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 485,
+          "line": 551,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Invalid path\");",
@@ -99813,7 +99966,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 493,
+          "line": 559,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Invalid path\");",
@@ -99822,7 +99975,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 502,
+          "line": 568,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -99831,7 +99984,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 503,
+          "line": 569,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Invalid transaction ID\");",
@@ -99840,7 +99993,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 511,
+          "line": 577,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Transaction not found\");",
@@ -99849,7 +100002,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 543,
+          "line": 609,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status, const std::string& message, const http::request<http::string_body>& req",
@@ -99858,7 +100011,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 549,
+          "line": 615,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status_code\", static_cast<int>(status)}",
@@ -99867,7 +100020,7 @@
         },
         {
           "file": "src\\server\\transaction_api_handler.cpp",
-          "line": 555,
+          "line": 621,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status, const std::string& body, const http::request<http::string_body>& req",
@@ -99887,7 +100040,7 @@
         },
         {
           "file": "src\\server\\udf_api_handler.cpp",
-          "line": 42,
+          "line": 43,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -99896,7 +100049,7 @@
         },
         {
           "file": "src\\server\\udf_api_handler.cpp",
-          "line": 56,
+          "line": 57,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -99905,7 +100058,7 @@
         },
         {
           "file": "src\\server\\udf_api_handler.cpp",
-          "line": 212,
+          "line": 243,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::response<http::string_body> res{http::status::no_content, req.version()};",
@@ -100035,7 +100188,16 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 95,
+          "line": 102,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Request body exceeds maximum allowed size\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\vector_api_handler.cpp",
+          "line": 129,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Missing vector field\");",
@@ -100044,7 +100206,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 107,
+          "line": 141,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Invalid vector element\");",
@@ -100053,7 +100215,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 113,
+          "line": 147,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Vector must be array\");",
@@ -100062,7 +100224,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 125,
+          "line": 159,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"K must be greater than 0\");",
@@ -100071,7 +100233,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 133,
+          "line": 167,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"Dimension mismatch\");",
@@ -100080,7 +100242,16 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 147,
+          "line": 181,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Cursor too long\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\vector_api_handler.cpp",
+          "line": 186,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -100089,7 +100260,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 158,
+          "line": 197,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, status.message);",
@@ -100098,7 +100269,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 160,
+          "line": 199,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "\"Vector search failed: \" + status.message, req);",
@@ -100107,7 +100278,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 179,
+          "line": 218,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -100116,7 +100287,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 189,
+          "line": 228,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -100125,7 +100296,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 194,
+          "line": 233,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, e.what());",
@@ -100134,7 +100305,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 198,
+          "line": 237,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, e.what());",
@@ -100143,7 +100314,16 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 221,
+          "line": 258,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"Request body exceeds maximum allowed size\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\vector_api_handler.cpp",
+          "line": 266,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"missing_items\");",
@@ -100152,7 +100332,16 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 250,
+          "line": 272,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "span.setStatus(false, \"invalid_vector_field\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\vector_api_handler.cpp",
+          "line": 301,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"cannot_infer_dim\");",
@@ -100161,7 +100350,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 282,
+          "line": 333,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) { /* ignore */ }",
@@ -100170,7 +100359,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 289,
+          "line": 340,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -100179,7 +100368,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 368,
+          "line": 421,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -100188,7 +100377,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 374,
+          "line": 427,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, \"batch_commit_failed\");",
@@ -100197,7 +100386,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 386,
+          "line": 439,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -100206,7 +100395,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 393,
+          "line": 446,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, e.what());",
@@ -100215,7 +100404,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 426,
+          "line": 485,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -100224,7 +100413,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 439,
+          "line": 502,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -100233,7 +100422,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 444,
+          "line": 507,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -100242,7 +100431,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 453,
+          "line": 516,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, e.what());",
@@ -100251,7 +100440,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 469,
+          "line": 532,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (!status.ok) {",
@@ -100260,7 +100449,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 471,
+          "line": 534,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "\"Failed to save index: \" + status.message, req);",
@@ -100269,7 +100458,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 505,
+          "line": 568,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "if (!status.ok) {",
@@ -100278,7 +100467,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 507,
+          "line": 570,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "\"Failed to load index: \" + status.message, req);",
@@ -100287,7 +100476,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 572,
+          "line": 635,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "\"Failed to set efSearch: \" + status.message, req);",
@@ -100296,7 +100485,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 652,
+          "line": 715,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(false, status.message);",
@@ -100305,7 +100494,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 669,
+          "line": 732,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "span.setStatus(true);",
@@ -100314,7 +100503,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 682,
+          "line": 745,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status, const std::string& message, const http::request<http::string_body>& req",
@@ -100323,7 +100512,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 687,
+          "line": 750,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "{\"status_code\", static_cast<int>(status)}",

@@ -165,8 +165,40 @@ class GitHubIssueCreator:
                     return None
             else:
                 error = result.stderr if result.stderr else result.stdout
-                print(f"[ERROR] Failed to create issue: {error[:100]}")
-                return None
+                # Handle missing label error gracefully - retry without the problematic label
+                if "could not add label" in error.lower() or "not found" in error.lower():
+                    print(f"[WARN] Label issue, retrying without base labels...")
+                    # Retry with only severity/module labels, skipping 'gap-scanner' and 'automated'
+                    cmd_retry = [
+                        'gh', 'issue', 'create',
+                        '--repo', self.repo,
+                        '--title', issue.title,
+                        '--body', issue.body,
+                    ]
+                    # Only add existing severity/module labels (skip base labels)
+                    for label in issue.labels:
+                        if label not in ['gap-scanner', 'automated']:
+                            cmd_retry.extend(['--label', label])
+                    if issue.milestone:
+                        cmd_retry.extend(['--milestone', issue.milestone])
+                    for assignee in issue.assignees:
+                        cmd_retry.extend(['--assignee', assignee])
+                    
+                    result_retry = subprocess.run(cmd_retry, capture_output=True, text=True, timeout=30)
+                    if result_retry.returncode == 0:
+                        output = result_retry.stdout + result_retry.stderr
+                        url_match = re.search(r'(https://github\.com/[^ ]+)', output)
+                        if url_match:
+                            issue_url = url_match.group(1)
+                            self.created_issues.append((issue.title, issue_url))
+                            print(f"[OK] Created: {issue.title}")
+                            print(f"     {issue_url}")
+                            return issue_url
+                    print(f"[ERROR] Retry also failed: {result_retry.stderr[:100]}")
+                    return None
+                else:
+                    print(f"[ERROR] Failed to create issue: {error[:100]}")
+                    return None
         
         except subprocess.TimeoutExpired:
             print("[ERROR] gh CLI command timed out")

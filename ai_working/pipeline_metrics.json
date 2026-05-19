@@ -1,8 +1,8 @@
 {
-  "scan_date": "2026-05-18T21:29:17.715366",
-  "total_gaps": 31720,
-  "severity_critical": 8626,
-  "severity_high": 8551,
-  "modules_scanned": 60,
-  "actionable_gaps": 17177
+  "scan_date": "2026-05-19T06:53:38.545307",
+  "total_gaps": 155634,
+  "severity_critical": 9404,
+  "severity_high": 118697,
+  "modules_scanned": 65,
+  "actionable_gaps": 128101
 }

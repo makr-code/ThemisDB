@@ -3,12 +3,16 @@
 ## Summary
 
 **Module:** `exporters`  
-**Total Gaps:** 380  
-**CRITICAL:** 85 | **HIGH:** 175 | **MEDIUM:** 120
+**Total Gaps:** 1488  
+**CRITICAL:** 89 | **HIGH:** 1114 | **MEDIUM:** 285
 
 ## Breakdown by Category
 
+- **oop_design:** 450 gaps
+- **uninitialized:** 385 gaps
 - **reliability:** 215 gaps
+- **type_conversion:** 175 gaps
+- **input_validation:** 98 gaps
 - **container:** 74 gaps
 - **memory:** 33 gaps
 - **raii:** 24 gaps
@@ -41,11 +45,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 380 |
-| CRITICAL | 85 |
-| HIGH | 175 |
-| MEDIUM | 120 |
-| Estimated Effort | 8.6 weeks |
+| Total Gaps | 1488 |
+| CRITICAL | 89 |
+| HIGH | 1114 |
+| MEDIUM | 285 |
+| Estimated Effort | 32.3 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +60,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.747572*  
+*Generated: 2026-05-19T06:53:38.580672*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

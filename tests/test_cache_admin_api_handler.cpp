@@ -190,6 +190,13 @@ TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForMissingKey) {
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForInvalidBase64Token) {
+    auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/key/not*base64");
+    auto res = handler_->handleEvictKey(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 // Regression test: evicting by fingerprint must also evict tenant-prefixed
 // entries stored under "tenant:{id}:{fingerprint}" in L1/L2.
 TEST_F(CacheAdminApiHandlerTest, EvictKeyAlsoEvictsTenantPrefixedEntry) {
@@ -238,6 +245,13 @@ TEST_F(CacheAdminApiHandlerTest, EvictTenantReturns400ForMissingTenantId) {
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(CacheAdminApiHandlerTest, EvictTenantReturns400ForInvalidTenantId) {
+    auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/tenant/../bad");
+    auto res = handler_->handleEvictTenant(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 // ---------------------------------------------------------------------------
 // Tests: null cache guard
 // ---------------------------------------------------------------------------
@@ -273,6 +287,20 @@ TEST_F(CacheAdminApiHandlerTest, WarmupReturns400ForMissingLogPath) {
 TEST_F(CacheAdminApiHandlerTest, WarmupReturns400ForEmptyLogPath) {
     auto req = makeRequest(http::verb::post, "/v1/admin/cache/warmup",
                            R"({"log_path":""})");
+    auto res = handler_->handleWarmup(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, WarmupReturns400ForInvalidLogPathTraversal) {
+    auto req = makeRequest(http::verb::post, "/v1/admin/cache/warmup",
+                           R"({"log_path":"../secrets.ndjson"})");
+    auto res = handler_->handleWarmup(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, WarmupReturns400ForTooLargeMaxEntries) {
+    auto req = makeRequest(http::verb::post, "/v1/admin/cache/warmup",
+                           R"({"log_path":"C:/tmp/warmup.ndjson","max_entries":1000001})");
     auto res = handler_->handleWarmup(req);
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
@@ -370,6 +398,13 @@ TEST_F(CacheAdminApiHandlerTest, WarmupSkipsExpiredEntries) {
 
 TEST_F(CacheAdminApiHandlerTest, SnapshotReturns400ForMissingOutPath) {
     auto req = makeRequest(http::verb::post, "/v1/admin/cache/snapshot", "{}");
+    auto res = handler_->handleSnapshot(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, SnapshotReturns400ForInvalidOutPathTraversal) {
+    auto req = makeRequest(http::verb::post, "/v1/admin/cache/snapshot",
+                           R"({"out_path":"../snapshot.ndjson"})");
     auto res = handler_->handleSnapshot(req);
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
@@ -485,6 +520,12 @@ TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns404ForUnknownTenant) {
 
 TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns400ForMissingTenantId) {
     auto req = makeRequest(http::verb::get, "/v1/admin/cache/tenant//stats");
+    auto res = handler_->handleTenantStats(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns400ForInvalidTenantId) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/tenant/../bad/stats");
     auto res = handler_->handleTenantStats(req);
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
@@ -745,6 +786,14 @@ TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns400ForMissingTenantId) 
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns400ForInvalidTenantId) {
+    auto req = makeRequest(http::verb::patch,
+                           "/v1/admin/cache/tenant/../bad/quota",
+                           R"({"quota_bytes":1024})");
+    auto res = handler_->handleUpdateTenantQuota(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns503WhenCacheIsNull) {
     auto handler_no_cache =
         std::make_unique<themis::server::CacheAdminApiHandler>(nullptr, nullptr);
@@ -786,6 +835,13 @@ TEST_F(CacheAdminApiHandlerTest, PiiEvictReturns400ForMissingUuid) {
     EXPECT_EQ(res.result(), http::status::bad_request);
     json body = json::parse(res.body());
     EXPECT_TRUE(body["error"].get<bool>());
+}
+
+TEST_F(CacheAdminApiHandlerTest, PiiEvictReturns400ForInvalidUuid) {
+    auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/pii/../bad");
+    auto res = handler_->handlePiiEvict(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 TEST_F(CacheAdminApiHandlerTest, PiiEvictReturns503WhenCacheIsNull) {

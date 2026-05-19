@@ -3,15 +3,19 @@
 ## Summary
 
 **Module:** `onnx_clip`  
-**Total Gaps:** 41  
-**CRITICAL:** 26 | **HIGH:** 6 | **MEDIUM:** 9
+**Total Gaps:** 164  
+**CRITICAL:** 26 | **HIGH:** 121 | **MEDIUM:** 17
 
 ## Breakdown by Category
 
+- **uninitialized:** 79 gaps
+- **oop_design:** 30 gaps
 - **concurrency:** 16 gaps
 - **reliability:** 12 gaps
+- **type_conversion:** 10 gaps
 - **raii:** 4 gaps
 - **container:** 4 gaps
+- **input_validation:** 4 gaps
 - **memory:** 3 gaps
 - **security:** 2 gaps
 
@@ -39,11 +43,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 41 |
+| Total Gaps | 164 |
 | CRITICAL | 26 |
-| HIGH | 6 |
-| MEDIUM | 9 |
-| Estimated Effort | 1.4 weeks |
+| HIGH | 121 |
+| MEDIUM | 17 |
+| Estimated Effort | 4.3 weeks |
 
 ## Acceptance Criteria
 
@@ -54,5 +58,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.776392*  
+*Generated: 2026-05-19T06:53:38.587629*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

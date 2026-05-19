@@ -1,0 +1,247 @@
+{
+  "document": {
+    "total": 22,
+    "severity_critical": 0,
+    "severity_high": 20,
+    "severity_medium": 2,
+    "by_category": {
+      "type_conversion": 2,
+      "uninitialized": 6,
+      "oop_design": 14
+    },
+    "by_file": {
+      "src\\document\\round_trip_editor.cpp": [
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 79,
+          "line_content": "Result<std::optional<RoundTripSnapshot>> StoreBackedRoundTripEditor::loadInteraction(",
+          "context": [
+            "}",
+            "",
+            "Result<std::optional<RoundTripSnapshot>> StoreBackedRoundTripEditor::loadInteraction(",
+            "    const std::string& relay_id,",
+            "    std::size_t interaction_index) const {"
+          ],
+          "pattern_matched": "Result<std::optional<RoundTripSnapshot>> StoreBackedRoundTripEditor::loadInteraction(",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 119,
+          "line_content": "oss << relay_id << ':' << std::setw(10) << std::setfill('0') << interaction_index;",
+          "context": [
+            "                                                       std::size_t interaction_index) const {",
+            "    std::ostringstream oss;",
+            "    oss << relay_id << ':' << std::setw(10) << std::setfill('0') << interaction_index;",
+            "    return oss.str();",
+            "}"
+          ],
+          "pattern_matched": "oss << relay_id << ':' << std::setw(10) << std::setfill('0') << interaction_index;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 51,
+          "var_name": "put_res",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 73,
+          "var_name": "put_res",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 83,
+          "var_name": "get_res",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 86,
+          "var_name": "get_res",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 90,
+          "var_name": "get_res",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 102,
+          "var_name": "list_res",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 28,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 34,
+          "class_name": "Unknown",
+          "function_name": "IDs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 36,
+          "class_name": "Unknown",
+          "function_name": "IDs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 38,
+          "class_name": "Unknown",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 52,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 57,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 74,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 79,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 84,
+          "class_name": "Unknown",
+          "function_name": "unexpected",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 96,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 99,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 103,
+          "class_name": "Unknown",
+          "function_name": "value",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 116,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\document\\round_trip_editor.cpp",
+          "line_number": 119,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        }
+      ]
+    }
+  }
+}

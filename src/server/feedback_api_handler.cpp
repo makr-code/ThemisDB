@@ -23,11 +23,38 @@
 
 #include "server/feedback_api_handler.h"
 #include "utils/logger.h"
+#include "utils/input_validator.h"
 #include <spdlog/spdlog.h>
 #include "utils/tracing.h"
 
 namespace themis {
 namespace server {
+
+namespace {
+
+constexpr size_t kMaxFeedbackIdentifierLength = 256;
+constexpr size_t kMaxFeedbackFilterValueLength = 256;
+constexpr size_t kMaxFeedbackQueryLimit = 1000;
+
+bool isValidFeedbackIdentifier(const std::string& value, const bool allow_empty = false) {
+    if (value.empty()) {
+        return allow_empty;
+    }
+
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(value, kMaxFeedbackIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+bool isValidFeedbackFilterValue(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(value, kMaxFeedbackFilterValueLength) &&
+           validator.validateHeaderValue(value) &&
+           validator.validatePathSegment(value);
+}
+
+} // namespace
 
 // ═══════════════════════════════════════════════════════════
 // FeedbackAPIHandler Implementation
@@ -54,6 +81,17 @@ http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
         
         // Create feedback from JSON
         auto feedback = llm::lora::Feedback::fromJSON(body_json);
+
+        if (!isValidFeedbackIdentifier(feedback.adapter_id, true) ||
+            !isValidFeedbackIdentifier(feedback.user_id, true) ||
+            (feedback.model_response_id.has_value() &&
+             !isValidFeedbackIdentifier(*feedback.model_response_id))) {
+            return makeErrorResponse(
+                http::status::bad_request,
+                "Feedback contains invalid identifier fields",
+                req
+            );
+        }
         
         // Store feedback
         auto stored = storage_service_->createFeedback(feedback);
@@ -116,6 +154,19 @@ http::response<http::string_body> FeedbackAPIHandler::handleListFeedback(
         }
         
         return makeJsonResponse(http::status::ok, response, req);
+    
+    } catch (const std::invalid_argument& e) {
+        return makeErrorResponse(
+            http::status::bad_request,
+            e.what(),
+            req
+        );
+    } catch (const std::out_of_range& e) {
+        return makeErrorResponse(
+            http::status::bad_request,
+            e.what(),
+            req
+        );
         
     } catch (const std::exception& e) {
         spdlog::error("Error listing feedback: {}", e.what());
@@ -133,6 +184,14 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetFeedback(
 ) {
     auto span = Tracer::startSpan("handleGetFeedback");
     try {
+        if (!isValidFeedbackIdentifier(id)) {
+            return makeErrorResponse(
+                http::status::bad_request,
+                "Invalid feedback id",
+                req
+            );
+        }
+
         auto feedback = storage_service_->getFeedback(id);
         
         if (!feedback) {
@@ -161,11 +220,30 @@ http::response<http::string_body> FeedbackAPIHandler::handleUpdateFeedback(
 ) {
     auto span = Tracer::startSpan("handleUpdateFeedback");
     try {
+        if (!isValidFeedbackIdentifier(id)) {
+            return makeErrorResponse(
+                http::status::bad_request,
+                "Invalid feedback id",
+                req
+            );
+        }
+
         // Parse request body
         auto body_json = json::parse(req.body());
         
         // Create feedback from JSON
         auto feedback = llm::lora::Feedback::fromJSON(body_json);
+
+        if (!isValidFeedbackIdentifier(feedback.adapter_id, true) ||
+            !isValidFeedbackIdentifier(feedback.user_id, true) ||
+            (feedback.model_response_id.has_value() &&
+             !isValidFeedbackIdentifier(*feedback.model_response_id))) {
+            return makeErrorResponse(
+                http::status::bad_request,
+                "Feedback contains invalid identifier fields",
+                req
+            );
+        }
         
         // Update feedback
         bool success = storage_service_->updateFeedback(id, feedback);
@@ -204,6 +282,14 @@ http::response<http::string_body> FeedbackAPIHandler::handleDeleteFeedback(
 ) {
     auto span = Tracer::startSpan("handleDeleteFeedback");
     try {
+        if (!isValidFeedbackIdentifier(id)) {
+            return makeErrorResponse(
+                http::status::bad_request,
+                "Invalid feedback id",
+                req
+            );
+        }
+
         bool success = storage_service_->deleteFeedback(id);
         
         if (!success) {
@@ -236,6 +322,14 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetAdapterFeedback(
 ) {
     auto span = Tracer::startSpan("handleGetAdapterFeedback");
     try {
+        if (!isValidFeedbackIdentifier(adapter_id)) {
+            return makeErrorResponse(
+                http::status::bad_request,
+                "Invalid adapter id",
+                req
+            );
+        }
+
         // Parse limit from query if provided
         std::string target(req.target());
         size_t query_pos = target.find('?');
@@ -247,6 +341,13 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetAdapterFeedback(
             size_t limit_pos = query.find("limit=");
             if (limit_pos != std::string::npos) {
                 limit = std::stoul(query.substr(limit_pos + 6));
+                if (limit == 0 || limit > kMaxFeedbackQueryLimit) {
+                    return makeErrorResponse(
+                        http::status::bad_request,
+                        "Invalid limit",
+                        req
+                    );
+                }
             }
         }
         
@@ -292,6 +393,13 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetStatistics(
                 size_t end_pos = adapter_id->find('&');
                 if (end_pos != std::string::npos) {
                     *adapter_id = adapter_id->substr(0, end_pos);
+                }
+                if (!isValidFeedbackIdentifier(*adapter_id, true)) {
+                    return makeErrorResponse(
+                        http::status::bad_request,
+                        "Invalid adapter_id",
+                        req
+                    );
                 }
             }
         }
@@ -379,22 +487,45 @@ llm::lora::FeedbackFilter FeedbackAPIHandler::parseFilterFromQuery(const std::st
     };
     
     if (auto val = parse_param("adapter_id")) {
+        if (!isValidFeedbackFilterValue(*val)) {
+            throw std::invalid_argument("Invalid adapter_id filter");
+        }
         filter.adapter_id = *val;
     }
     if (auto val = parse_param("user_id")) {
+        if (!isValidFeedbackFilterValue(*val)) {
+            throw std::invalid_argument("Invalid user_id filter");
+        }
         filter.user_id = *val;
     }
     if (auto val = parse_param("min_rating")) {
-        filter.min_rating = std::stoi(*val);
+        auto rating = std::stoi(*val);
+        if (rating < 0 || rating > 5) {
+            throw std::invalid_argument("Invalid min_rating filter");
+        }
+        filter.min_rating = rating;
     }
     if (auto val = parse_param("flagged_for_training")) {
-        filter.flagged_for_training = (*val == "true" || *val == "1");
+        if (*val == "true" || *val == "1") {
+            filter.flagged_for_training = true;
+        } else if (*val == "false" || *val == "0") {
+            filter.flagged_for_training = false;
+        } else {
+            throw std::invalid_argument("Invalid flagged_for_training filter");
+        }
     }
     if (auto val = parse_param("training_category")) {
+        if (!isValidFeedbackFilterValue(*val)) {
+            throw std::invalid_argument("Invalid training_category filter");
+        }
         filter.training_category = *val;
     }
     if (auto val = parse_param("limit")) {
-        filter.limit = std::stoul(*val);
+        auto limit = std::stoul(*val);
+        if (limit == 0 || limit > kMaxFeedbackQueryLimit) {
+            throw std::invalid_argument("Invalid limit filter");
+        }
+        filter.limit = limit;
     }
     if (auto val = parse_param("offset")) {
         filter.offset = std::stoul(*val);

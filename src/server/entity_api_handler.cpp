@@ -43,6 +43,7 @@
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
 #include "api/geo_index_hooks.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
@@ -55,6 +56,20 @@ namespace server {
 
 using json = nlohmann::json;
 using Tracer = themis::Tracer;
+
+namespace {
+
+constexpr size_t kMaxEntityBatchKeyPartLength = 256;
+
+bool isValidEntityBatchKeyPart(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxEntityBatchKeyPartLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 EntityApiHandler::EntityApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -888,6 +903,15 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
                 
                 std::string table = key.substr(0, pos);
                 std::string pk = key.substr(pos+1);
+
+                if (!isValidEntityBatchKeyPart(table) || !isValidEntityBatchKeyPart(pk)) {
+                    errors.push_back({
+                        {"index", i},
+                        {"key", key},
+                        {"error", "Key contains invalid table or pk characters"}
+                    });
+                    continue;
+                }
                 
                 ValidatedOp vop;
                 vop.op_type = op_type;

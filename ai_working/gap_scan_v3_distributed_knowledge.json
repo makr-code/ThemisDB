@@ -1,14 +1,19 @@
 {
   "distributed_knowledge": {
-    "total": 56,
-    "severity_critical": 16,
-    "severity_high": 32,
-    "severity_medium": 8,
+    "total": 303,
+    "severity_critical": 19,
+    "severity_high": 269,
+    "severity_medium": 15,
     "by_category": {
       "memory": 2,
       "reliability": 38,
       "concurrency": 6,
-      "container": 10
+      "container": 10,
+      "type_conversion": 6,
+      "input_validation": 5,
+      "exception_safety": 6,
+      "uninitialized": 36,
+      "oop_design": 194
     },
     "by_file": {
       "src\\distributed_knowledge\\lora_federation_coordinator.cpp": [
@@ -173,6 +178,1156 @@
           "snippet": "norms.push_back(l2norm(grad.data));",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "ARITHMETIC_OVERFLOW",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 17,
+          "line_content": "*   \u03c3 = sensitivity * sqrt(2 * ln(1.25 / \u03b4)) / \u03b5",
+          "context": [
+            " *",
+            " * DP noise formula (Gaussian mechanism):",
+            " *   \u03c3 = sensitivity * sqrt(2 * ln(1.25 / \u03b4)) / \u03b5",
+            " *",
+            " * References:"
+          ],
+          "pattern_matched": "*   \u03c3 = sensitivity * sqrt(2 * ln(1.25 / \u03b4)) / \u03b5",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 257,
+          "line_content": "std::map<std::string, std::vector<std::pair<double, size_t>>> key_values;",
+          "context": [
+            "    // \u2500\u2500 Step 1: collect all numeric fields across gradients \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+            "    // Determine the union of all keys present in any gradient",
+            "    std::map<std::string, std::vector<std::pair<double, size_t>>> key_values;",
+            "    // value: (gradient_value, sample_count) for FedAvg weighting",
+            ""
+          ],
+          "pattern_matched": "std::map<std::string, std::vector<std::pair<double, size_t>>> key_values;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 264,
+          "line_content": "key_values[key].emplace_back(val.get<double>(), grad.sample_count);",
+          "context": [
+            "        for (const auto& [key, val] : grad.data.items()) {",
+            "            if (val.is_number()) {",
+            "                key_values[key].emplace_back(val.get<double>(), grad.sample_count);",
+            "            }",
+            "        }"
+          ],
+          "pattern_matched": "key_values[key].emplace_back(val.get<double>(), grad.sample_count);",
+          "operation": "Array access: key_values[key]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 293,
+          "line_content": "aggregated[key] = (total_weight > 0.0)",
+          "context": [
+            "                total_weight  += w;",
+            "            }",
+            "            aggregated[key] = (total_weight > 0.0)",
+            "                ? weighted_sum / total_weight",
+            "                : 0.0;"
+          ],
+          "pattern_matched": "aggregated[key] = (total_weight > 0.0)",
+          "operation": "Array access: aggregated[key]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 557,
+          "line_content": "return [z_threshold](const EncryptedGradient& candidate,",
+          "context": [
+            "LoRAFederationCoordinator::makeL2NormOutlierFilter(double z_threshold)",
+            "{",
+            "    return [z_threshold](const EncryptedGradient& candidate,",
+            "                         const std::map<std::string, EncryptedGradient>& all_gradients)",
+            "        -> bool"
+          ],
+          "pattern_matched": "return [z_threshold](const EncryptedGradient& candidate,",
+          "operation": "Array access: return[z_threshold]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "exception_in_destructor",
+          "severity": "CRITICAL",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 51,
+          "class_name": "",
+          "issue": "Potential exception in destructor",
+          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()"
+        },
+        {
+          "gap_type": "missing_move_constructor_defaulted",
+          "severity": "MEDIUM",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 131,
+          "class_name": "",
+          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
+          "reason": "Missing move ctor prevents efficient rvalue transfers"
+        },
+        {
+          "gap_type": "missing_move_constructor_defaulted",
+          "severity": "MEDIUM",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 368,
+          "class_name": "",
+          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
+          "reason": "Missing move ctor prevents efficient rvalue transfers"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 121,
+          "var_name": "delta",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 133,
+          "var_name": "delta",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 165,
+          "var_name": "region",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 169,
+          "var_name": "region",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 170,
+          "var_name": "loc_it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 172,
+          "var_name": "cross_border_policy_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 173,
+          "var_name": "region",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 183,
+          "var_name": "delta",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 197,
+          "var_name": "delta",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 207,
+          "var_name": "audit_rec",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 261,
+          "var_name": "aggregated",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 263,
+          "var_name": "aggregated",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 440,
+          "var_name": "dr_processor_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 449,
+          "var_name": "total_budget",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 507,
+          "var_name": "future",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 582,
+          "var_name": "mean",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 598,
+          "var_name": "mean",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 42,
+          "class_name": "is",
+          "function_name": "LoRAFederationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 43,
+          "class_name": "is",
+          "function_name": "LoRAFederationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 46,
+          "class_name": "is",
+          "function_name": "LoRAFederationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 53,
+          "class_name": "is",
+          "function_name": "config_",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 55,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 57,
+          "class_name": "is",
+          "function_name": "LoRAFederationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 58,
+          "class_name": "is",
+          "function_name": "LoRAFederationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 59,
+          "class_name": "is",
+          "function_name": "LoRAFederationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 60,
+          "class_name": "is",
+          "function_name": "LoRAFederationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 62,
+          "class_name": "is",
+          "function_name": "LoRAFederationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 63,
+          "class_name": "is",
+          "function_name": "LoRAFederationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 64,
+          "class_name": "is",
+          "function_name": "config_",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 65,
+          "class_name": "is",
+          "function_name": "config_",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 70,
+          "class_name": "is",
+          "function_name": "dr_processor_",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 78,
+          "class_name": "is",
+          "function_name": "total_epsilon_spent_",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 81,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 83,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 84,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 85,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 86,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 88,
+          "class_name": "is",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 89,
+          "class_name": "is",
+          "function_name": "lk1",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 90,
+          "class_name": "is",
+          "function_name": "lk2",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 91,
+          "class_name": "is",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 96,
+          "class_name": "is",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 105,
+          "class_name": "is",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 146,
+          "class_name": "is",
+          "function_name": "catch",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 158,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 160,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 174,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 184,
+          "class_name": "is",
+          "function_name": "runtime_error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 186,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 187,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 224,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 246,
+          "class_name": "is",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 249,
+          "class_name": "is",
+          "function_name": "erase",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 250,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 270,
+          "class_name": "is",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 277,
+          "class_name": "is",
+          "function_name": "object",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 304,
+          "class_name": "is",
+          "function_name": "applyDifferentialPrivacy",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 305,
+          "class_name": "is",
+          "function_name": "applyDifferentialPrivacy",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 307,
+          "class_name": "is",
+          "function_name": "applyDifferentialPrivacy",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 319,
+          "class_name": "is",
+          "function_name": "nextDeltaVersion",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 335,
+          "class_name": "is",
+          "function_name": "clear",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 340,
+          "class_name": "is",
+          "function_name": "applyDifferentialPrivacy",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 359,
+          "class_name": "is",
+          "function_name": "noise_dist",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 360,
+          "class_name": "is",
+          "function_name": "nextDeltaVersion",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 367,
+          "class_name": "is",
+          "function_name": "nextDeltaVersion",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 371,
+          "class_name": "is",
+          "function_name": "setGlobalDeltaCallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 374,
+          "class_name": "is",
+          "function_name": "setGlobalDeltaCallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 379,
+          "class_name": "is",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 384,
+          "class_name": "is",
+          "function_name": "currentRound",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 389,
+          "class_name": "is",
+          "function_name": "submittedCount",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 401,
+          "class_name": "is",
+          "function_name": "size",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 411,
+          "class_name": "is",
+          "function_name": "advanceRound",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 415,
+          "class_name": "is",
+          "function_name": "setDecisionRecordProcessor",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 418,
+          "class_name": "is",
+          "function_name": "setDecisionRecordProcessor",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 433,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 435,
+          "class_name": "is",
+          "function_name": "to_string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 437,
+          "class_name": "is",
+          "function_name": "to_string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 440,
+          "class_name": "is",
+          "function_name": "to_string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 447,
+          "class_name": "is",
+          "function_name": "to_string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 453,
+          "class_name": "is",
+          "function_name": "privacyBudgetRemaining",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 456,
+          "class_name": "is",
+          "function_name": "privacyBudgetRemaining",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 468,
+          "class_name": "is",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 472,
+          "class_name": "is",
+          "function_name": "setCrossBorderPolicy",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 475,
+          "class_name": "is",
+          "function_name": "setCrossBorderPolicy",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 479,
+          "class_name": "is",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 482,
+          "class_name": "is",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 486,
+          "class_name": "is",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 489,
+          "class_name": "is",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 490,
+          "class_name": "is",
+          "function_name": "setAuditRecordCallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 493,
+          "class_name": "is",
+          "function_name": "void",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 500,
+          "class_name": "is",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 502,
+          "class_name": "is",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 508,
+          "class_name": "is",
+          "function_name": "triggerAggregation",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 511,
+          "class_name": "is",
+          "function_name": "async",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 513,
+          "class_name": "is",
+          "function_name": "triggerAggregation",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 518,
+          "class_name": "is",
+          "function_name": "wait_for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 534,
+          "class_name": "is",
+          "function_name": "eraseCount",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 543,
+          "class_name": "is",
+          "function_name": "eraseCount",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 546,
+          "class_name": "is",
+          "function_name": "setGradientOutlierFilter",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 549,
+          "class_name": "is",
+          "function_name": "setGradientOutlierFilter",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 555,
+          "class_name": "is",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 570,
+          "class_name": "is",
+          "function_name": "helper",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 588,
+          "class_name": "is",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 595,
+          "class_name": "is",
+          "function_name": "accumulate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\lora_federation_coordinator.cpp",
+          "line_number": 604,
+          "class_name": "is",
+          "function_name": "size",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp": [
@@ -238,6 +1393,410 @@
           "snippet": "std::lock_guard<std::mutex> lk(mutex_);",
           "description": "Multiple locks acquired in nested scope \u2014 potential deadlock",
           "remediation": "Use std::scoped_lock(m1, m2) or enforce consistent lock ordering"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 187,
+          "line_content": "oss << std::hex << now_ms << \"-\" << dist(rng);",
+          "context": [
+            "",
+            "    std::ostringstream oss;",
+            "    oss << std::hex << now_ms << \"-\" << dist(rng);",
+            "    return oss.str();",
+            "}"
+          ],
+          "pattern_matched": "oss << std::hex << now_ms << \"-\" << dist(rng);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "exception_in_destructor",
+          "severity": "CRITICAL",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 36,
+          "class_name": "",
+          "issue": "Potential exception in destructor",
+          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 68,
+          "var_name": "payload",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 92,
+          "var_name": "summary",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 222,
+          "var_name": "dr_processor_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 22,
+          "class_name": "Unknown",
+          "function_name": "CrossShardFeedbackSync",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 26,
+          "class_name": "Unknown",
+          "function_name": "CrossShardFeedbackSync",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 27,
+          "class_name": "Unknown",
+          "function_name": "CrossShardFeedbackSync",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 28,
+          "class_name": "Unknown",
+          "function_name": "CrossShardFeedbackSync",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 31,
+          "class_name": "Unknown",
+          "function_name": "CrossShardFeedbackSync",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 42,
+          "class_name": "Unknown",
+          "function_name": "CrossShardFeedbackSync",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 48,
+          "class_name": "Unknown",
+          "function_name": "publishFeedback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 50,
+          "class_name": "Unknown",
+          "function_name": "publishFeedback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 51,
+          "class_name": "Unknown",
+          "function_name": "publishFeedback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 57,
+          "class_name": "Unknown",
+          "function_name": "invalid_argument",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 72,
+          "class_name": "Unknown",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 84,
+          "class_name": "Unknown",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 85,
+          "class_name": "Unknown",
+          "function_name": "handleInboundSummary",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 99,
+          "class_name": "Unknown",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 130,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 132,
+          "class_name": "Unknown",
+          "function_name": "cb",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 135,
+          "class_name": "Unknown",
+          "function_name": "setFeedbackCallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 137,
+          "class_name": "Unknown",
+          "function_name": "setFeedbackCallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 144,
+          "class_name": "Unknown",
+          "function_name": "setInboundPolicyCheck",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 149,
+          "class_name": "Unknown",
+          "function_name": "publishedCount",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 154,
+          "class_name": "Unknown",
+          "function_name": "publishedCount",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 159,
+          "class_name": "Unknown",
+          "function_name": "receivedCount",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 164,
+          "class_name": "Unknown",
+          "function_name": "deduplicatedCount",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 178,
+          "class_name": "Unknown",
+          "function_name": "size",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 181,
+          "class_name": "Unknown",
+          "function_name": "size",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 195,
+          "class_name": "Unknown",
+          "function_name": "dist",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 199,
+          "class_name": "Unknown",
+          "function_name": "setDecisionRecordProcessor",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 202,
+          "class_name": "Unknown",
+          "function_name": "setDecisionRecordProcessor",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 220,
+          "class_name": "Unknown",
+          "function_name": "to_string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 222,
+          "class_name": "Unknown",
+          "function_name": "to_string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 229,
+          "class_name": "Unknown",
+          "function_name": "to_string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 231,
+          "class_name": "Unknown",
+          "function_name": "submit",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 234,
+          "class_name": "Unknown",
+          "function_name": "setZeroTrustEnforcer",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 239,
+          "class_name": "Unknown",
+          "function_name": "setZeroTrustEnforcer",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\cross_shard_feedback_sync.cpp",
+          "line_number": 254,
+          "class_name": "Unknown",
+          "function_name": "clear",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\distributed_knowledge\\federated_distillation_coordinator.cpp": [
@@ -447,6 +2006,429 @@
           "snippet": "std::lock_guard<std::mutex> lock(mutex_);",
           "description": "mutex_lock without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "gap_type": "exception_in_destructor",
+          "severity": "CRITICAL",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 67,
+          "class_name": "",
+          "issue": "Potential exception in destructor",
+          "reason": "Destructors must be noexcept; exceptions here cause std::terminate()"
+        },
+        {
+          "gap_type": "missing_move_constructor_defaulted",
+          "severity": "MEDIUM",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 219,
+          "class_name": "",
+          "issue": "Copy constructor exists but no move constructor (Rule of Five)",
+          "reason": "Missing move ctor prevents efficient rvalue transfers"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 46,
+          "var_name": "sum",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 118,
+          "var_name": "labels",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 128,
+          "var_name": "labels",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 337,
+          "var_name": "sigma",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 377,
+          "var_name": "last_round_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 33,
+          "class_name": "Unknown",
+          "function_name": "from",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 57,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 59,
+          "class_name": "Unknown",
+          "function_name": "FederatedDistillationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 62,
+          "class_name": "Unknown",
+          "function_name": "FederatedDistillationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 73,
+          "class_name": "Unknown",
+          "function_name": "FederatedDistillationCoordinator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 80,
+          "class_name": "Unknown",
+          "function_name": "submitSoftLabels",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 83,
+          "class_name": "Unknown",
+          "function_name": "submitSoftLabels",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 86,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 91,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 104,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 109,
+          "class_name": "Unknown",
+          "function_name": "broadcastToStudents",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 113,
+          "class_name": "Unknown",
+          "function_name": "broadcastToStudents",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 121,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 137,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 174,
+          "class_name": "Unknown",
+          "function_name": "currentRound",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 180,
+          "class_name": "Unknown",
+          "function_name": "currentRound",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 187,
+          "class_name": "Unknown",
+          "function_name": "submittedCount",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 193,
+          "class_name": "Unknown",
+          "function_name": "lastRound",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 217,
+          "class_name": "Unknown",
+          "function_name": "registerStudent",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 222,
+          "class_name": "Unknown",
+          "function_name": "registerStudent",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 225,
+          "class_name": "Unknown",
+          "function_name": "registerStudent",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 228,
+          "class_name": "Unknown",
+          "function_name": "void",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 235,
+          "class_name": "Unknown",
+          "function_name": "invalid_argument",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 238,
+          "class_name": "Unknown",
+          "function_name": "emplace_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 241,
+          "class_name": "Unknown",
+          "function_name": "setPolicyGate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 245,
+          "class_name": "Unknown",
+          "function_name": "setPolicyGate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 248,
+          "class_name": "Unknown",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 252,
+          "class_name": "Unknown",
+          "function_name": "void",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 255,
+          "class_name": "Unknown",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 258,
+          "class_name": "Unknown",
+          "function_name": "setRollbackTrigger",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 265,
+          "class_name": "Unknown",
+          "function_name": "setNoiseGeneratorFn",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 290,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 299,
+          "class_name": "Unknown",
+          "function_name": "privacyBudgetRemaining",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 309,
+          "class_name": "Unknown",
+          "function_name": "verifyPrivacyBudget",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 331,
+          "class_name": "Unknown",
+          "function_name": "clear",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+          "line_number": 369,
+          "class_name": "Unknown",
+          "function_name": "clamp",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\distributed_knowledge\\federated_rag_merger.cpp": [
@@ -521,6 +2503,547 @@
           "snippet": "result.push_back(std::move(doc));",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "ARITHMETIC_OVERFLOW",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 50,
+          "line_content": "const size_t remaining = max_chars - chars;",
+          "context": [
+            "        if (max_chars > 0 && chars + snippet.size() > max_chars) {",
+            "            // Truncate last document to fit budget",
+            "            const size_t remaining = max_chars - chars;",
+            "            if (remaining > 20) {",
+            "                snippet = snippet.substr(0, remaining - 3) + \"...\";"
+          ],
+          "pattern_matched": "const size_t remaining = max_chars - chars;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 53,
+          "line_content": "oss << snippet << \"\\n\\n\";",
+          "context": [
+            "            if (remaining > 20) {",
+            "                snippet = snippet.substr(0, remaining - 3) + \"...\";",
+            "                oss << snippet << \"\\n\\n\";",
+            "            }",
+            "            break;"
+          ],
+          "pattern_matched": "oss << snippet << \"\\n\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 58,
+          "line_content": "oss << snippet << \"\\n\\n\";",
+          "context": [
+            "        }",
+            "",
+            "        oss << snippet << \"\\n\\n\";",
+            "        chars += snippet.size() + 2;",
+            "        ++count;"
+          ],
+          "pattern_matched": "oss << snippet << \"\\n\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 186,
+          "line_content": "doc.relevance_score = rrf_scores[doc_id];",
+          "context": [
+            "    merged.reserve(rrf_scores.size());",
+            "    for (auto& [doc_id, doc] : best_doc) {",
+            "        doc.relevance_score = rrf_scores[doc_id];",
+            "        merged.push_back(std::move(doc));",
+            "    }"
+          ],
+          "pattern_matched": "doc.relevance_score = rrf_scores[doc_id];",
+          "operation": "Array access: rrf_scores[doc_id]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 223,
+          "line_content": "doc.relevance_score = sum_scores[doc_id];",
+          "context": [
+            "    merged.reserve(sum_scores.size());",
+            "    for (auto& [doc_id, doc] : best_doc) {",
+            "        doc.relevance_score = sum_scores[doc_id];",
+            "        merged.push_back(std::move(doc));",
+            "    }"
+          ],
+          "pattern_matched": "doc.relevance_score = sum_scores[doc_id];",
+          "operation": "Array access: sum_scores[doc_id]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 45,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 48,
+          "var_name": "snippet",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 87,
+          "var_name": "timed_out",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 92,
+          "var_name": "timed_out",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 163,
+          "var_name": "shard_boost",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 167,
+          "var_name": "shard_boost",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 207,
+          "var_name": "shard_weight",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 242,
+          "var_name": "any_remaining",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 254,
+          "var_name": "any_remaining",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 29,
+          "class_name": "Unknown",
+          "function_name": "buildPromptContext",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 70,
+          "class_name": "Unknown",
+          "function_name": "str",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 71,
+          "class_name": "Unknown",
+          "function_name": "str",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 74,
+          "class_name": "Unknown",
+          "function_name": "FederatedRAGMerger",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 82,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 88,
+          "class_name": "Unknown",
+          "function_name": "merge",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 94,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 97,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 130,
+          "class_name": "Unknown",
+          "function_name": "mergeScoreWeighted",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 139,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 143,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 155,
+          "class_name": "Unknown",
+          "function_name": "merge",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 187,
+          "class_name": "Unknown",
+          "function_name": "reserve",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 189,
+          "class_name": "Unknown",
+          "function_name": "reserve",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 200,
+          "class_name": "Unknown",
+          "function_name": "mergeScoreWeighted",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 213,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 224,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 226,
+          "class_name": "Unknown",
+          "function_name": "reserve",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 237,
+          "class_name": "Unknown",
+          "function_name": "mergeRoundRobin",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 268,
+          "class_name": "Unknown",
+          "function_name": "deduplicate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 276,
+          "class_name": "Unknown",
+          "function_name": "deduplicate",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\federated_rag_merger.cpp",
+          "line_number": 286,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        }
+      ],
+      "src\\distributed_knowledge\\adapter_capability_announcement.cpp": [
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 35,
+          "var_name": "payload",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 49,
+          "var_name": "announcement",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 14,
+          "class_name": "Unknown",
+          "function_name": "GossipAdapterPublisher",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 17,
+          "class_name": "Unknown",
+          "function_name": "GossipAdapterPublisher",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 18,
+          "class_name": "Unknown",
+          "function_name": "GossipAdapterPublisher",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 23,
+          "class_name": "Unknown",
+          "function_name": "GossipAdapterPublisher",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 25,
+          "class_name": "Unknown",
+          "function_name": "void",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 36,
+          "class_name": "Unknown",
+          "function_name": "toJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 40,
+          "class_name": "Unknown",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 41,
+          "class_name": "Unknown",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 54,
+          "class_name": "Unknown",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 56,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 60,
+          "class_name": "Unknown",
+          "function_name": "cb",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 69,
+          "class_name": "Unknown",
+          "function_name": "lastAnnouncement",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\distributed_knowledge\\adapter_capability_announcement.cpp",
+          "line_number": 84,
+          "class_name": "Unknown",
+          "function_name": "reset",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ]
     }

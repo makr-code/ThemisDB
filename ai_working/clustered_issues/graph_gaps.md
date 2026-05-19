@@ -3,14 +3,19 @@
 ## Summary
 
 **Module:** `graph`  
-**Total Gaps:** 352  
-**CRITICAL:** 91 | **HIGH:** 80 | **MEDIUM:** 181
+**Total Gaps:** 1996  
+**CRITICAL:** 99 | **HIGH:** 1509 | **MEDIUM:** 388
 
 ## Breakdown by Category
 
+- **oop_design:** 702 gaps
+- **uninitialized:** 573 gaps
+- **type_conversion:** 226 gaps
 - **container:** 157 gaps
+- **input_validation:** 115 gaps
 - **reliability:** 108 gaps
 - **performance:** 29 gaps
+- **exception_safety:** 28 gaps
 - **memory:** 19 gaps
 - **security:** 17 gaps
 - **concurrency:** 9 gaps
@@ -41,11 +46,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 352 |
-| CRITICAL | 91 |
-| HIGH | 80 |
-| MEDIUM | 181 |
-| Estimated Effort | 6.5 weeks |
+| Total Gaps | 1996 |
+| CRITICAL | 99 |
+| HIGH | 1509 |
+| MEDIUM | 388 |
+| Estimated Effort | 42.7 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +61,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.756955*  
+*Generated: 2026-05-19T06:53:38.582865*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

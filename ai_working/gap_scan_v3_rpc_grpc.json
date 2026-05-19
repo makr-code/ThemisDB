@@ -1,15 +1,20 @@
 {
   "rpc_grpc": {
-    "total": 23,
-    "severity_critical": 9,
-    "severity_high": 2,
-    "severity_medium": 12,
+    "total": 142,
+    "severity_critical": 11,
+    "severity_high": 74,
+    "severity_medium": 57,
     "by_category": {
       "memory": 1,
       "reliability": 16,
       "raii": 2,
       "container": 1,
-      "performance": 3
+      "performance": 3,
+      "type_conversion": 47,
+      "input_validation": 1,
+      "exception_safety": 1,
+      "uninitialized": 21,
+      "oop_design": 49
     },
     "by_file": {
       "src\\rpc_grpc\\grpc_plugin.cpp": [
@@ -219,6 +224,1562 @@
           "snippet": "else if (c == '\\n') out += \"\\\\n\";",
           "description": "String concatenation in loop \u2014 O(n\u00b2) behavior",
           "remediation": "Use std::ostringstream or pre-allocate string with .reserve()"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 66,
+          "line_content": "std::cerr << \"gRPC server is already running\" << std::endl;",
+          "context": [
+            "bool GRPCServer::start() {",
+            "    if (running_) {",
+            "        std::cerr << \"gRPC server is already running\" << std::endl;",
+            "        return false;",
+            "    }"
+          ],
+          "pattern_matched": "std::cerr << \"gRPC server is already running\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 103,
+          "line_content": "std::cerr << \"[SECURITY] GRPCServer: admin port \" << ap",
+          "context": [
+            "                    admin_address_ = config_.host + \":\" + std::to_string(ap);",
+            "                    // GAP-016: Log warning for insecure admin port binding (CWE-295).",
+            "                    std::cerr << \"[SECURITY] GRPCServer: admin port \" << ap",
+            "                              << \" bound with insecure credentials (GAP-016/CWE-295).\"",
+            "                              << std::endl;"
+          ],
+          "pattern_matched": "std::cerr << \"[SECURITY] GRPCServer: admin port \" << ap",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 104,
+          "line_content": "<< \" bound with insecure credentials (GAP-016/CWE-295).\"",
+          "context": [
+            "                    // GAP-016: Log warning for insecure admin port binding (CWE-295).",
+            "                    std::cerr << \"[SECURITY] GRPCServer: admin port \" << ap",
+            "                              << \" bound with insecure credentials (GAP-016/CWE-295).\"",
+            "                              << std::endl;",
+            "                    builder.AddListeningPort(admin_address_,"
+          ],
+          "pattern_matched": "<< \" bound with insecure credentials (GAP-016/CWE-295).\"",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 105,
+          "line_content": "<< std::endl;",
+          "context": [
+            "                    std::cerr << \"[SECURITY] GRPCServer: admin port \" << ap",
+            "                              << \" bound with insecure credentials (GAP-016/CWE-295).\"",
+            "                              << std::endl;",
+            "                    builder.AddListeningPort(admin_address_,",
+            "                                             grpc::InsecureServerCredentials());"
+          ],
+          "pattern_matched": "<< std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "MULTIPLICATION_OVERFLOW",
+          "severity": "CRITICAL",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 124,
+          "line_content": "builder.SetMaxReceiveMessageSize(100 * 1024 * 1024); // 100 MB",
+          "context": [
+            "",
+            "        // Max message sizes",
+            "        builder.SetMaxReceiveMessageSize(100 * 1024 * 1024); // 100 MB",
+            "        builder.SetMaxSendMessageSize(100 * 1024 * 1024);    // 100 MB",
+            ""
+          ],
+          "pattern_matched": "builder.SetMaxReceiveMessageSize(100 * 1024 * 1024); // 100 MB",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Multi-factor multiplication detected (CWE-190, likely overflow risk)"
+        },
+        {
+          "gap_type": "MULTIPLICATION_OVERFLOW",
+          "severity": "CRITICAL",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 125,
+          "line_content": "builder.SetMaxSendMessageSize(100 * 1024 * 1024);    // 100 MB",
+          "context": [
+            "        // Max message sizes",
+            "        builder.SetMaxReceiveMessageSize(100 * 1024 * 1024); // 100 MB",
+            "        builder.SetMaxSendMessageSize(100 * 1024 * 1024);    // 100 MB",
+            "",
+            "        server_ = builder.BuildAndStart();"
+          ],
+          "pattern_matched": "builder.SetMaxSendMessageSize(100 * 1024 * 1024);    // 100 MB",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Multi-factor multiplication detected (CWE-190, likely overflow risk)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 132,
+          "line_content": "std::cout << \"gRPC server listening on \" << server_address_ << std::endl;",
+          "context": [
+            "            running_ = true;",
+            "            start_time_ = std::chrono::steady_clock::now();",
+            "            std::cout << \"gRPC server listening on \" << server_address_ << std::endl;",
+            "            if (!admin_address_.empty()) {",
+            "                std::cout << \"gRPC admin port bound on \" << admin_address_ << std::endl;"
+          ],
+          "pattern_matched": "std::cout << \"gRPC server listening on \" << server_address_ << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 134,
+          "line_content": "std::cout << \"gRPC admin port bound on \" << admin_address_ << std::endl;",
+          "context": [
+            "            std::cout << \"gRPC server listening on \" << server_address_ << std::endl;",
+            "            if (!admin_address_.empty()) {",
+            "                std::cout << \"gRPC admin port bound on \" << admin_address_ << std::endl;",
+            "            }",
+            ""
+          ],
+          "pattern_matched": "std::cout << \"gRPC admin port bound on \" << admin_address_ << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 146,
+          "line_content": "std::cerr << \"Failed to start gRPC server\" << std::endl;",
+          "context": [
+            "            return true;",
+            "        } else {",
+            "            std::cerr << \"Failed to start gRPC server\" << std::endl;",
+            "            admin_address_.clear();",
+            "            return false;"
+          ],
+          "pattern_matched": "std::cerr << \"Failed to start gRPC server\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 151,
+          "line_content": "std::cerr << \"Exception starting gRPC server: \" << e.what() << std::endl;",
+          "context": [
+            "        }",
+            "    } catch (const std::exception& e) {",
+            "        std::cerr << \"Exception starting gRPC server: \" << e.what() << std::endl;",
+            "        admin_address_.clear();",
+            "        return false;"
+          ],
+          "pattern_matched": "std::cerr << \"Exception starting gRPC server: \" << e.what() << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 159,
+          "line_content": "std::cout << \"Shutting down gRPC server...\" << std::endl;",
+          "context": [
+            "void GRPCServer::stop() {",
+            "    if (server_ && running_) {",
+            "        std::cout << \"Shutting down gRPC server...\" << std::endl;",
+            "        // v0.3.0: mark global health as NOT_SERVING",
+            "        setServiceHealth(\"\", false);"
+          ],
+          "pattern_matched": "std::cout << \"Shutting down gRPC server...\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 171,
+          "line_content": "std::cout << \"gRPC server stopped\" << std::endl;",
+          "context": [
+            "        }",
+            "        running_ = false;",
+            "        std::cout << \"gRPC server stopped\" << std::endl;",
+            "    }",
+            "}"
+          ],
+          "pattern_matched": "std::cout << \"gRPC server stopped\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 192,
+          "line_content": "std::cerr << \"Cannot register null service\" << std::endl;",
+          "context": [
+            "void GRPCServer::registerService(void* service_impl) {",
+            "    if (!service_impl) {",
+            "        std::cerr << \"Cannot register null service\" << std::endl;",
+            "        return;",
+            "    }"
+          ],
+          "pattern_matched": "std::cerr << \"Cannot register null service\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 197,
+          "line_content": "std::cout << \"Registered gRPC service\" << std::endl;",
+          "context": [
+            "    auto* service = static_cast<grpc::Service*>(service_impl);",
+            "    services_.push_back(service);",
+            "    std::cout << \"Registered gRPC service\" << std::endl;",
+            "}",
+            ""
+          ],
+          "pattern_matched": "std::cout << \"Registered gRPC service\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 229,
+          "line_content": "std::cout << \"TLS certificates reloaded successfully\" << std::endl;",
+          "context": [
+            "        std::lock_guard<std::mutex> lock(tls_mutex_);",
+            "        credentials_ = std::move(new_creds);",
+            "        std::cout << \"TLS certificates reloaded successfully\" << std::endl;",
+            "        return true;",
+            "    } catch (const std::exception& e) {"
+          ],
+          "pattern_matched": "std::cout << \"TLS certificates reloaded successfully\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 232,
+          "line_content": "std::cerr << \"TLS reload failed (old credentials retained): \" << e.what() << std::endl;",
+          "context": [
+            "        return true;",
+            "    } catch (const std::exception& e) {",
+            "        std::cerr << \"TLS reload failed (old credentials retained): \" << e.what() << std::endl;",
+            "        return false;",
+            "    }"
+          ],
+          "pattern_matched": "std::cerr << \"TLS reload failed (old credentials retained): \" << e.what() << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 318,
+          "line_content": "out << \"# HELP grpc_server_requests_total Total gRPC requests received.\\n\";",
+          "context": [
+            "",
+            "    // grpc_server_requests_total",
+            "    out << \"# HELP grpc_server_requests_total Total gRPC requests received.\\n\";",
+            "    out << \"# TYPE grpc_server_requests_total counter\\n\";",
+            "    for (const auto& kv : reqs)"
+          ],
+          "pattern_matched": "out << \"# HELP grpc_server_requests_total Total gRPC requests received.\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 319,
+          "line_content": "out << \"# TYPE grpc_server_requests_total counter\\n\";",
+          "context": [
+            "    // grpc_server_requests_total",
+            "    out << \"# HELP grpc_server_requests_total Total gRPC requests received.\\n\";",
+            "    out << \"# TYPE grpc_server_requests_total counter\\n\";",
+            "    for (const auto& kv : reqs)",
+            "        out << \"grpc_server_requests_total{method=\\\"\" << kv.first << \"\\\"} \""
+          ],
+          "pattern_matched": "out << \"# TYPE grpc_server_requests_total counter\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 321,
+          "line_content": "out << \"grpc_server_requests_total{method=\\\"\" << kv.first << \"\\\"} \"",
+          "context": [
+            "    out << \"# TYPE grpc_server_requests_total counter\\n\";",
+            "    for (const auto& kv : reqs)",
+            "        out << \"grpc_server_requests_total{method=\\\"\" << kv.first << \"\\\"} \"",
+            "            << kv.second << \"\\n\";",
+            ""
+          ],
+          "pattern_matched": "out << \"grpc_server_requests_total{method=\\\"\" << kv.first << \"\\\"} \"",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 322,
+          "line_content": "<< kv.second << \"\\n\";",
+          "context": [
+            "    for (const auto& kv : reqs)",
+            "        out << \"grpc_server_requests_total{method=\\\"\" << kv.first << \"\\\"} \"",
+            "            << kv.second << \"\\n\";",
+            "",
+            "    // grpc_server_errors_total"
+          ],
+          "pattern_matched": "<< kv.second << \"\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 325,
+          "line_content": "out << \"# HELP grpc_server_errors_total Total gRPC requests that returned non-OK status.\\n\";",
+          "context": [
+            "",
+            "    // grpc_server_errors_total",
+            "    out << \"# HELP grpc_server_errors_total Total gRPC requests that returned non-OK status.\\n\";",
+            "    out << \"# TYPE grpc_server_errors_total counter\\n\";",
+            "    for (const auto& kv : errs)"
+          ],
+          "pattern_matched": "out << \"# HELP grpc_server_errors_total Total gRPC requests that returned non-OK status.\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 326,
+          "line_content": "out << \"# TYPE grpc_server_errors_total counter\\n\";",
+          "context": [
+            "    // grpc_server_errors_total",
+            "    out << \"# HELP grpc_server_errors_total Total gRPC requests that returned non-OK status.\\n\";",
+            "    out << \"# TYPE grpc_server_errors_total counter\\n\";",
+            "    for (const auto& kv : errs)",
+            "        out << \"grpc_server_errors_total{method=\\\"\" << kv.first << \"\\\"} \""
+          ],
+          "pattern_matched": "out << \"# TYPE grpc_server_errors_total counter\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 328,
+          "line_content": "out << \"grpc_server_errors_total{method=\\\"\" << kv.first << \"\\\"} \"",
+          "context": [
+            "    out << \"# TYPE grpc_server_errors_total counter\\n\";",
+            "    for (const auto& kv : errs)",
+            "        out << \"grpc_server_errors_total{method=\\\"\" << kv.first << \"\\\"} \"",
+            "            << kv.second << \"\\n\";",
+            ""
+          ],
+          "pattern_matched": "out << \"grpc_server_errors_total{method=\\\"\" << kv.first << \"\\\"} \"",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 329,
+          "line_content": "<< kv.second << \"\\n\";",
+          "context": [
+            "    for (const auto& kv : errs)",
+            "        out << \"grpc_server_errors_total{method=\\\"\" << kv.first << \"\\\"} \"",
+            "            << kv.second << \"\\n\";",
+            "",
+            "    // grpc_server_latency_ms_total"
+          ],
+          "pattern_matched": "<< kv.second << \"\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 332,
+          "line_content": "out << \"# HELP grpc_server_latency_ms_total Cumulative call latency in milliseconds.\\n\";",
+          "context": [
+            "",
+            "    // grpc_server_latency_ms_total",
+            "    out << \"# HELP grpc_server_latency_ms_total Cumulative call latency in milliseconds.\\n\";",
+            "    out << \"# TYPE grpc_server_latency_ms_total counter\\n\";",
+            "    for (const auto& kv : lats)"
+          ],
+          "pattern_matched": "out << \"# HELP grpc_server_latency_ms_total Cumulative call latency in milliseconds.\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 333,
+          "line_content": "out << \"# TYPE grpc_server_latency_ms_total counter\\n\";",
+          "context": [
+            "    // grpc_server_latency_ms_total",
+            "    out << \"# HELP grpc_server_latency_ms_total Cumulative call latency in milliseconds.\\n\";",
+            "    out << \"# TYPE grpc_server_latency_ms_total counter\\n\";",
+            "    for (const auto& kv : lats)",
+            "        out << \"grpc_server_latency_ms_total{method=\\\"\" << kv.first << \"\\\"} \""
+          ],
+          "pattern_matched": "out << \"# TYPE grpc_server_latency_ms_total counter\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 335,
+          "line_content": "out << \"grpc_server_latency_ms_total{method=\\\"\" << kv.first << \"\\\"} \"",
+          "context": [
+            "    out << \"# TYPE grpc_server_latency_ms_total counter\\n\";",
+            "    for (const auto& kv : lats)",
+            "        out << \"grpc_server_latency_ms_total{method=\\\"\" << kv.first << \"\\\"} \"",
+            "            << kv.second << \"\\n\";",
+            ""
+          ],
+          "pattern_matched": "out << \"grpc_server_latency_ms_total{method=\\\"\" << kv.first << \"\\\"} \"",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 336,
+          "line_content": "<< kv.second << \"\\n\";",
+          "context": [
+            "    for (const auto& kv : lats)",
+            "        out << \"grpc_server_latency_ms_total{method=\\\"\" << kv.first << \"\\\"} \"",
+            "            << kv.second << \"\\n\";",
+            "",
+            "    // grpc_server_active_connections"
+          ],
+          "pattern_matched": "<< kv.second << \"\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 344,
+          "line_content": "out << \"# HELP grpc_server_active_connections Current number of active gRPC connections.\\n\";",
+          "context": [
+            "        active = stats_.active_connections;",
+            "    }",
+            "    out << \"# HELP grpc_server_active_connections Current number of active gRPC connections.\\n\";",
+            "    out << \"# TYPE grpc_server_active_connections gauge\\n\";",
+            "    out << \"grpc_server_active_connections \" << active << \"\\n\";"
+          ],
+          "pattern_matched": "out << \"# HELP grpc_server_active_connections Current number of active gRPC connections.\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 345,
+          "line_content": "out << \"# TYPE grpc_server_active_connections gauge\\n\";",
+          "context": [
+            "    }",
+            "    out << \"# HELP grpc_server_active_connections Current number of active gRPC connections.\\n\";",
+            "    out << \"# TYPE grpc_server_active_connections gauge\\n\";",
+            "    out << \"grpc_server_active_connections \" << active << \"\\n\";",
+            ""
+          ],
+          "pattern_matched": "out << \"# TYPE grpc_server_active_connections gauge\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 346,
+          "line_content": "out << \"grpc_server_active_connections \" << active << \"\\n\";",
+          "context": [
+            "    out << \"# HELP grpc_server_active_connections Current number of active gRPC connections.\\n\";",
+            "    out << \"# TYPE grpc_server_active_connections gauge\\n\";",
+            "    out << \"grpc_server_active_connections \" << active << \"\\n\";",
+            "",
+            "    return out.str();"
+          ],
+          "pattern_matched": "out << \"grpc_server_active_connections \" << active << \"\\n\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 387,
+          "line_content": "js << \"{\"",
+          "context": [
+            "",
+            "    std::ostringstream js;",
+            "    js << \"{\"",
+            "       << \"\\\"timestamp_ms\\\":\" << std::chrono::duration_cast<std::chrono::milliseconds>(",
+            "              std::chrono::system_clock::now().time_since_epoch()).count()"
+          ],
+          "pattern_matched": "js << \"{\"",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 388,
+          "line_content": "<< \"\\\"timestamp_ms\\\":\" << std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "context": [
+            "    std::ostringstream js;",
+            "    js << \"{\"",
+            "       << \"\\\"timestamp_ms\\\":\" << std::chrono::duration_cast<std::chrono::milliseconds>(",
+            "              std::chrono::system_clock::now().time_since_epoch()).count()",
+            "       << \",\\\"method\\\":\"      << jsEscape(method)"
+          ],
+          "pattern_matched": "<< \"\\\"timestamp_ms\\\":\" << std::chrono::duration_cast<std::chrono::milliseconds>(",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 390,
+          "line_content": "<< \",\\\"method\\\":\"      << jsEscape(method)",
+          "context": [
+            "       << \"\\\"timestamp_ms\\\":\" << std::chrono::duration_cast<std::chrono::milliseconds>(",
+            "              std::chrono::system_clock::now().time_since_epoch()).count()",
+            "       << \",\\\"method\\\":\"      << jsEscape(method)",
+            "       << \",\\\"status_code\\\":\" << status_code",
+            "       << \",\\\"duration_ms\\\":\" << duration_ms"
+          ],
+          "pattern_matched": "<< \",\\\"method\\\":\"      << jsEscape(method)",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 391,
+          "line_content": "<< \",\\\"status_code\\\":\" << status_code",
+          "context": [
+            "              std::chrono::system_clock::now().time_since_epoch()).count()",
+            "       << \",\\\"method\\\":\"      << jsEscape(method)",
+            "       << \",\\\"status_code\\\":\" << status_code",
+            "       << \",\\\"duration_ms\\\":\" << duration_ms",
+            "       << \",\\\"client_cn\\\":\"   << jsEscape(client_cn)"
+          ],
+          "pattern_matched": "<< \",\\\"status_code\\\":\" << status_code",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 392,
+          "line_content": "<< \",\\\"duration_ms\\\":\" << duration_ms",
+          "context": [
+            "       << \",\\\"method\\\":\"      << jsEscape(method)",
+            "       << \",\\\"status_code\\\":\" << status_code",
+            "       << \",\\\"duration_ms\\\":\" << duration_ms",
+            "       << \",\\\"client_cn\\\":\"   << jsEscape(client_cn)",
+            "       << \"}\";"
+          ],
+          "pattern_matched": "<< \",\\\"duration_ms\\\":\" << duration_ms",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 393,
+          "line_content": "<< \",\\\"client_cn\\\":\"   << jsEscape(client_cn)",
+          "context": [
+            "       << \",\\\"status_code\\\":\" << status_code",
+            "       << \",\\\"duration_ms\\\":\" << duration_ms",
+            "       << \",\\\"client_cn\\\":\"   << jsEscape(client_cn)",
+            "       << \"}\";",
+            ""
+          ],
+          "pattern_matched": "<< \",\\\"client_cn\\\":\"   << jsEscape(client_cn)",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 394,
+          "line_content": "<< \"}\";",
+          "context": [
+            "       << \",\\\"duration_ms\\\":\" << duration_ms",
+            "       << \",\\\"client_cn\\\":\"   << jsEscape(client_cn)",
+            "       << \"}\";",
+            "",
+            "    sink_copy(js.str());"
+          ],
+          "pattern_matched": "<< \"}\";",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 407,
+          "line_content": "buf << file.rdbuf();",
+          "context": [
+            "    if (!file) throw std::runtime_error(\"Failed to open file: \" + path);",
+            "    std::ostringstream buf;",
+            "    buf << file.rdbuf();",
+            "    return buf.str();",
+            "}"
+          ],
+          "pattern_matched": "buf << file.rdbuf();",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 418,
+          "line_content": "std::cerr << \"[SECURITY] GRPCServer: TLS is disabled \u2014 using insecure gRPC \"",
+          "context": [
+            "        // Replace std::cout with std::cerr + structured warning so the message is",
+            "        // visible at default log levels.",
+            "        std::cerr << \"[SECURITY] GRPCServer: TLS is disabled \u2014 using insecure gRPC \"",
+            "                     \"credentials. All gRPC traffic is unencrypted. \"",
+            "                     \"Enable TLS in production (GAP-016/CWE-295).\" << std::endl;"
+          ],
+          "pattern_matched": "std::cerr << \"[SECURITY] GRPCServer: TLS is disabled \u2014 using insecure gRPC \"",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 420,
+          "line_content": "\"Enable TLS in production (GAP-016/CWE-295).\" << std::endl;",
+          "context": [
+            "        std::cerr << \"[SECURITY] GRPCServer: TLS is disabled \u2014 using insecure gRPC \"",
+            "                     \"credentials. All gRPC traffic is unencrypted. \"",
+            "                     \"Enable TLS in production (GAP-016/CWE-295).\" << std::endl;",
+            "        return grpc::InsecureServerCredentials();",
+            "    }"
+          ],
+          "pattern_matched": "\"Enable TLS in production (GAP-016/CWE-295).\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 435,
+          "line_content": "std::cerr << \"CRITICAL: Failed to configure TLS: \" << e.what() << std::endl;",
+          "context": [
+            "        return creds;",
+            "    } catch (const std::exception& e) {",
+            "        std::cerr << \"CRITICAL: Failed to configure TLS: \" << e.what() << std::endl;",
+            "        std::cerr << \"Server will NOT start with insecure credentials for security\" << std::endl;",
+            "        throw std::runtime_error(\"TLS configuration failed - aborting for security\");"
+          ],
+          "pattern_matched": "std::cerr << \"CRITICAL: Failed to configure TLS: \" << e.what() << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 436,
+          "line_content": "std::cerr << \"Server will NOT start with insecure credentials for security\" << std::endl;",
+          "context": [
+            "    } catch (const std::exception& e) {",
+            "        std::cerr << \"CRITICAL: Failed to configure TLS: \" << e.what() << std::endl;",
+            "        std::cerr << \"Server will NOT start with insecure credentials for security\" << std::endl;",
+            "        throw std::runtime_error(\"TLS configuration failed - aborting for security\");",
+            "    }"
+          ],
+          "pattern_matched": "std::cerr << \"Server will NOT start with insecure credentials for security\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 452,
+          "line_content": "std::cout << \"gRPC server configured for mutual TLS (mTLS)\" << std::endl;",
+          "context": [
+            "        ssl_opts.client_certificate_request =",
+            "            GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;",
+            "        std::cout << \"gRPC server configured for mutual TLS (mTLS)\" << std::endl;",
+            "    } else {",
+            "        ssl_opts.client_certificate_request ="
+          ],
+          "pattern_matched": "std::cout << \"gRPC server configured for mutual TLS (mTLS)\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 456,
+          "line_content": "std::cout << \"gRPC server configured for server-side TLS only\" << std::endl;",
+          "context": [
+            "        ssl_opts.client_certificate_request =",
+            "            GRPC_SSL_DONT_REQUEST_CLIENT_CERTIFICATE;",
+            "        std::cout << \"gRPC server configured for server-side TLS only\" << std::endl;",
+            "    }",
+            ""
+          ],
+          "pattern_matched": "std::cout << \"gRPC server configured for server-side TLS only\" << std::endl;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 251,
+          "line_content": "health_states_[service_name] = serving;",
+          "context": [
+            "void GRPCServer::setServiceHealth(const std::string& service_name, bool serving) {",
+            "    std::lock_guard<std::mutex> lock(health_mutex_);",
+            "    health_states_[service_name] = serving;",
+            "}",
+            ""
+          ],
+          "pattern_matched": "health_states_[service_name] = serving;",
+          "operation": "Array access: health_states_[service_name]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "resource_leaked_in_exception",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 228,
+          "class_name": "",
+          "issue": "Raw new without smart pointer protection",
+          "reason": "Exception before delete causes resource leak"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 65,
+          "var_name": "credentials",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 81,
+          "var_name": "ka_it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 90,
+          "var_name": "kt_it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 99,
+          "var_name": "ap_it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 119,
+          "var_name": "server_",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 158,
+          "var_name": "ok",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 162,
+          "var_name": "server_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 163,
+          "var_name": "ok",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 164,
+          "var_name": "idle_cq_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 167,
+          "var_name": "idle_cq_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 182,
+          "var_name": "result",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 217,
+          "var_name": "cert",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 218,
+          "var_name": "cert",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 257,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 258,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 267,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 271,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 309,
+          "var_name": "second",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 310,
+          "var_name": "second",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 311,
+          "var_name": "second",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 367,
+          "var_name": "jsEscape",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 41,
+          "class_name": "Unknown",
+          "function_name": "GRPCServer",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 54,
+          "class_name": "Unknown",
+          "function_name": "GRPCServer",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 58,
+          "class_name": "Unknown",
+          "function_name": "GRPCServer",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 60,
+          "class_name": "Unknown",
+          "function_name": "stop",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 64,
+          "class_name": "Unknown",
+          "function_name": "getProtocol",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 81,
+          "class_name": "Unknown",
+          "function_name": "credentials",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 90,
+          "class_name": "Unknown",
+          "function_name": "stoi",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 99,
+          "class_name": "Unknown",
+          "function_name": "stoi",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 101,
+          "class_name": "Unknown",
+          "function_name": "AddChannelArgument",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 107,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 131,
+          "class_name": "Unknown",
+          "function_name": "SetMaxReceiveMessageSize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 157,
+          "class_name": "Unknown",
+          "function_name": "clear",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 175,
+          "class_name": "Unknown",
+          "function_name": "while",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 179,
+          "class_name": "Unknown",
+          "function_name": "isRunning",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 183,
+          "class_name": "Unknown",
+          "function_name": "isRunning",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 190,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 200,
+          "class_name": "Unknown",
+          "function_name": "registerService",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 204,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 213,
+          "class_name": "Unknown",
+          "function_name": "resetStats",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 228,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 241,
+          "class_name": "Unknown",
+          "function_name": "catch",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 249,
+          "class_name": "Unknown",
+          "function_name": "getAdminAddress",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 254,
+          "class_name": "Unknown",
+          "function_name": "setServiceHealth",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 265,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 274,
+          "class_name": "Unknown",
+          "function_name": "methodMetricsLocked",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 301,
+          "class_name": "Unknown",
+          "function_name": "logAccess",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 355,
+          "class_name": "Unknown",
+          "function_name": "str",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 357,
+          "class_name": "Unknown",
+          "function_name": "str",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 360,
+          "class_name": "Unknown",
+          "function_name": "setAccessLogSink",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 389,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 403,
+          "class_name": "Unknown",
+          "function_name": "jsEscape",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 405,
+          "class_name": "Unknown",
+          "function_name": "sink_copy",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 412,
+          "class_name": "Unknown",
+          "function_name": "loadFile",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 421,
+          "class_name": "Unknown",
+          "function_name": "configureCredentials",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 437,
+          "class_name": "Unknown",
+          "function_name": "loadFile",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 442,
+          "class_name": "Unknown",
+          "function_name": "catch",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 466,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 469,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 473,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 477,
+          "class_name": "Unknown",
+          "function_name": "getName",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 481,
+          "class_name": "Unknown",
+          "function_name": "getVersion",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 491,
+          "class_name": "Unknown",
+          "function_name": "getCapabilities",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 497,
+          "class_name": "Unknown",
+          "function_name": "initialize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 501,
+          "class_name": "Unknown",
+          "function_name": "initialize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 505,
+          "class_name": "Unknown",
+          "function_name": "shutdown",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 509,
+          "class_name": "Unknown",
+          "function_name": "getInstance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 513,
+          "class_name": "Unknown",
+          "function_name": "createServer",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 517,
+          "class_name": "Unknown",
+          "function_name": "getProtocol",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.cpp",
+          "line_number": 533,
+          "class_name": "Unknown",
+          "function_name": "createPlugin",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        }
+      ],
+      "src\\rpc_grpc\\bidi_stream_adapter.h": [
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\bidi_stream_adapter.h",
+          "line_number": 87,
+          "line_content": "typename Stream = grpc::ServerReaderWriter<Resp, Req>>",
+          "context": [
+            " */",
+            "template <typename Req, typename Resp,",
+            "          typename Stream = grpc::ServerReaderWriter<Resp, Req>>",
+            "class BidiStreamAdapter {",
+            "public:"
+          ],
+          "pattern_matched": "typename Stream = grpc::ServerReaderWriter<Resp, Req>>",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        }
+      ],
+      "src\\rpc_grpc\\grpc_plugin.h": [
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\rpc_grpc\\grpc_plugin.h",
+          "line_number": 227,
+          "line_content": "std::unordered_map<std::string, std::unique_ptr<MethodMetrics>> method_metrics_;",
+          "context": [
+            "    mutable std::mutex metrics_mutex_;",
+            "    /// Key = method name (e.g. \"/pkg.Svc/Method\").",
+            "    std::unordered_map<std::string, std::unique_ptr<MethodMetrics>> method_metrics_;",
+            "",
+            "    mutable std::mutex health_mutex_;"
+          ],
+          "pattern_matched": "std::unordered_map<std::string, std::unique_ptr<MethodMetrics>> method_metrics_;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
         }
       ]
     }

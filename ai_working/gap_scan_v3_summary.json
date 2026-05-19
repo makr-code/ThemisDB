@@ -1,65 +1,70 @@
 {
-  "scan_date": "2026-05-18T21:29:17.712486",
-  "phase": "Phase 1-4 (Security + Memory + Reliability + Concurrency + RAII + Container + Platform + Performance)",
-  "total_gaps": 31720,
+  "scan_date": "2026-05-19T06:53:38.535091",
+  "phase": "Phase 1-5 Extended (13 scanners: Security + Memory + Reliability + Concurrency + RAII + Container + Platform + Performance + Type Conversion + Input Validation + Exception Safety + Uninitialized + OOP Design)",
+  "total_gaps": 155634,
   "by_severity": {
-    "critical": 8626,
-    "high": 8551,
-    "medium": 14543,
-    "actionable": 17177
+    "critical": 9404,
+    "high": 118697,
+    "medium": 27533,
+    "actionable": 128101
   },
   "by_category": {
     "security": 1514,
     "memory": 2227,
-    "reliability": 14498,
+    "reliability": 14519,
     "concurrency": 1834,
     "raii": 1855,
     "container": 7629,
     "platform": 1146,
-    "performance": 1017
+    "performance": 1017,
+    "type_conversion": 15930,
+    "input_validation": 8266,
+    "exception_safety": 1493,
+    "uninitialized": 39819,
+    "oop_design": 58385
   },
-  "modules_scanned": 60,
+  "modules_scanned": 65,
   "top_modules": [
     {
-      "module": "server",
-      "gaps": 4139
+      "module": "llm",
+      "gaps": 19838
     },
     {
-      "module": "llm",
-      "gaps": 3664
+      "module": "server",
+      "gaps": 16186
     },
     {
       "module": "sharding",
-      "gaps": 2051
-    },
-    {
-      "module": "query",
-      "gaps": 1340
-    },
-    {
-      "module": "storage",
-      "gaps": 1328
+      "gaps": 9296
     },
     {
       "module": "index",
-      "gaps": 1309
+      "gaps": 7633
+    },
+    {
+      "module": "query",
+      "gaps": 7327
+    },
+    {
+      "module": "storage",
+      "gaps": 6678
     },
     {
       "module": "analytics",
-      "gaps": 1159
+      "gaps": 5911
+    },
+    {
+      "module": "rag",
+      "gaps": 4982
     },
     {
       "module": "security",
-      "gaps": 1134
+      "gaps": 4343
     },
     {
       "module": "content",
-      "gaps": 806
-    },
-    {
-      "module": "utils",
-      "gaps": 773
+      "gaps": 4077
     }
   ],
-  "implementation_effort": "645.1 weeks (3225 days)"
+  "implementation_effort": "3437.6 weeks (17188 days)"
 }

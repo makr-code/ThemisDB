@@ -3,14 +3,19 @@
 ## Summary
 
 **Module:** `training`  
-**Total Gaps:** 228  
-**CRITICAL:** 30 | **HIGH:** 91 | **MEDIUM:** 107
+**Total Gaps:** 1518  
+**CRITICAL:** 34 | **HIGH:** 1233 | **MEDIUM:** 251
 
 ## Breakdown by Category
 
+- **oop_design:** 561 gaps
+- **uninitialized:** 446 gaps
+- **type_conversion:** 171 gaps
+- **input_validation:** 94 gaps
 - **reliability:** 92 gaps
 - **container:** 68 gaps
 - **performance:** 28 gaps
+- **exception_safety:** 18 gaps
 - **raii:** 13 gaps
 - **memory:** 11 gaps
 - **security:** 9 gaps
@@ -41,11 +46,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 228 |
-| CRITICAL | 30 |
-| HIGH | 91 |
-| MEDIUM | 107 |
-| Estimated Effort | 3.8 weeks |
+| Total Gaps | 1518 |
+| CRITICAL | 34 |
+| HIGH | 1233 |
+| MEDIUM | 251 |
+| Estimated Effort | 32.5 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +61,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.821066*  
+*Generated: 2026-05-19T06:53:38.598548*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

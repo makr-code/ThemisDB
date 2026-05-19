@@ -242,6 +242,12 @@ TEST_F(CdcSubscriptionAuthTest, Get_CdcAdminToken_Returns200) {
     EXPECT_EQ(res.result(), http::status::ok);
 }
 
+TEST_F(CdcSubscriptionAuthTest, Get_InvalidKeyPrefix_Returns400) {
+    auto req = makeGet("/changefeed?from_seq=0&limit=10&key_prefix=../orders:", bearer(TOKEN_READ));
+    auto res = handler_->handleGet(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 // ═════════════════════════════════════════════════════════════════════════════
 // Section 2: Authorization enforcement on GET /changefeed/stream (SSE)
 // ═════════════════════════════════════════════════════════════════════════════
@@ -272,6 +278,14 @@ TEST_F(CdcSubscriptionAuthTest, Stream_CdcReadToken_Returns200) {
         bearer(TOKEN_READ));
     auto res = handler_->handleStreamSse(req);
     EXPECT_EQ(res.result(), http::status::ok);
+}
+
+TEST_F(CdcSubscriptionAuthTest, Stream_InvalidConsumerId_Returns400) {
+    auto req = makeGet(
+        "/changefeed/stream?from_seq=0&keep_alive=false&max_seconds=1&consumer_id=../bad",
+        bearer(TOKEN_READ));
+    auto res = handler_->handleStreamSse(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -362,6 +376,14 @@ TEST_F(CdcSubscriptionAuthTest, RetentionPut_CdcAdminToken_Returns200) {
                        bearer(TOKEN_ADMIN));
     auto res = handler_->handleRetentionPut(req);
     EXPECT_EQ(res.result(), http::status::ok);
+}
+
+TEST_F(CdcSubscriptionAuthTest, StreamAck_InvalidConsumerId_Returns400) {
+    auto req = makePost("/changefeed/stream/ack",
+                        {{"consumer_id", "../bad"}, {"up_to_sequence", 1}},
+                        bearer(TOKEN_READ));
+    auto res = handler_->handleStreamAck(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 // ═════════════════════════════════════════════════════════════════════════════

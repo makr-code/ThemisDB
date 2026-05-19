@@ -23,6 +23,7 @@
  */
 
 #include "server/cache_admin_api_handler.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 
 #include <regex>
@@ -31,6 +32,42 @@
 
 namespace themis {
 namespace server {
+
+namespace {
+
+constexpr size_t kMaxCacheAdminPathParamLength = 256;
+constexpr size_t kMaxCacheWarmupEntries = 1000000;
+
+bool isValidPathSegmentParam(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(std::string(value), kMaxCacheAdminPathParamLength) &&
+           validator.validatePathSegment(std::string(value)) &&
+           validator.validateHeaderValue(std::string(value));
+}
+
+bool isLikelyValidBase64PathToken(std::string_view value) {
+    if (value.empty() || value.size() > kMaxCacheAdminPathParamLength) {
+        return false;
+    }
+
+    return std::all_of(value.begin(), value.end(), [](char ch) {
+        const unsigned char c = static_cast<unsigned char>(ch);
+        return (c >= 'A' && c <= 'Z') ||
+               (c >= 'a' && c <= 'z') ||
+               (c >= '0' && c <= '9') ||
+               c == '+' || c == '/' || c == '=' || c == '-' || c == '_';
+    });
+}
+
+bool isValidCacheAdminFilePath(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(value, 1024) &&
+           validator.validateHeaderValue(value) &&
+           validator.validateFilePath(value);
+}
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Static helpers
@@ -228,6 +265,10 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictKey(
         return makeErrorResponse(http::status::bad_request,
                                  "Missing key path parameter", req);
     }
+    if (!isLikelyValidBase64PathToken(encoded)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid base64-encoded key", req);
+    }
 
     std::string key = base64Decode(encoded);
     if (key.empty()) {
@@ -280,6 +321,10 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictTenant(
     if (tenant_id.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing tenant_id path parameter", req);
+    }
+    if (!isValidPathSegmentParam(tenant_id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid tenant_id path parameter", req);
     }
 
     try {
@@ -407,7 +452,21 @@ http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
                                      "Missing required field: log_path", req);
         }
         log_path    = body["log_path"].get<std::string>();
-        max_entries = body.value("max_entries", static_cast<size_t>(0));
+        if (!isValidCacheAdminFilePath(log_path)) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Invalid log_path", req);
+        }
+        if (body.contains("max_entries")) {
+            if (!body["max_entries"].is_number_unsigned()) {
+                return makeErrorResponse(http::status::bad_request,
+                                         "Invalid max_entries", req);
+            }
+            max_entries = body["max_entries"].get<size_t>();
+            if (max_entries > kMaxCacheWarmupEntries) {
+                return makeErrorResponse(http::status::bad_request,
+                                         "max_entries exceeds limit", req);
+            }
+        }
     } catch (const nlohmann::json::exception& e) {
         return makeErrorResponse(http::status::bad_request,
                                  std::string("JSON parse error: ") + e.what(), req);
@@ -465,6 +524,10 @@ http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
                                      "Missing required field: out_path", req);
         }
         out_path = body["out_path"].get<std::string>();
+        if (!isValidCacheAdminFilePath(out_path)) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Invalid out_path", req);
+        }
     } catch (const nlohmann::json::exception& e) {
         return makeErrorResponse(http::status::bad_request,
                                  std::string("JSON parse error: ") + e.what(), req);
@@ -553,6 +616,10 @@ http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
         return makeErrorResponse(http::status::bad_request,
                                  "Missing tenant_id path parameter", req);
     }
+    if (!isValidPathSegmentParam(tenant_id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid tenant_id path parameter", req);
+    }
 
     try {
         nlohmann::json body = cache_->getTenantStatsForTenant(tenant_id);
@@ -601,6 +668,10 @@ http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
     if (tenant_id.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing tenant_id path parameter", req);
+    }
+    if (!isValidPathSegmentParam(tenant_id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid tenant_id path parameter", req);
     }
 
     size_t quota_bytes = 0;
@@ -658,6 +729,10 @@ http::response<http::string_body> CacheAdminApiHandler::handlePiiEvict(
     if (pii_uuid.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing pii_uuid path parameter", req);
+    }
+    if (!isValidPathSegmentParam(pii_uuid)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid pii_uuid path parameter", req);
     }
 
     try {

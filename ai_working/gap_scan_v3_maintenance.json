@@ -1,14 +1,18 @@
 {
   "maintenance": {
-    "total": 55,
-    "severity_critical": 32,
-    "severity_high": 10,
-    "severity_medium": 13,
+    "total": 378,
+    "severity_critical": 33,
+    "severity_high": 316,
+    "severity_medium": 29,
     "by_category": {
       "security": 4,
       "reliability": 38,
       "raii": 2,
-      "container": 11
+      "container": 11,
+      "type_conversion": 17,
+      "input_validation": 12,
+      "uninitialized": 142,
+      "oop_design": 152
     },
     "by_file": {
       "src\\maintenance\\database_maintenance_orchestrator.cpp": [
@@ -461,6 +465,2986 @@
           "snippet": "result.push_back(cur);",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 81,
+          "line_content": "ss << std::hex << std::setfill('0')",
+          "context": [
+            "    static std::uniform_int_distribution<uint64_t> dist;",
+            "    std::ostringstream ss;",
+            "    ss << std::hex << std::setfill('0')",
+            "       << std::setw(8) << (dist(rng) & 0xFFFFFFFF)",
+            "       << \"-\""
+          ],
+          "pattern_matched": "ss << std::hex << std::setfill('0')",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 82,
+          "line_content": "<< std::setw(8) << (dist(rng) & 0xFFFFFFFF)",
+          "context": [
+            "    std::ostringstream ss;",
+            "    ss << std::hex << std::setfill('0')",
+            "       << std::setw(8) << (dist(rng) & 0xFFFFFFFF)",
+            "       << \"-\"",
+            "       << std::setw(4) << (dist(rng) & 0xFFFF)"
+          ],
+          "pattern_matched": "<< std::setw(8) << (dist(rng) & 0xFFFFFFFF)",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 83,
+          "line_content": "<< \"-\"",
+          "context": [
+            "    ss << std::hex << std::setfill('0')",
+            "       << std::setw(8) << (dist(rng) & 0xFFFFFFFF)",
+            "       << \"-\"",
+            "       << std::setw(4) << (dist(rng) & 0xFFFF)",
+            "       << \"-4\"  // version 4"
+          ],
+          "pattern_matched": "<< \"-\"",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 84,
+          "line_content": "<< std::setw(4) << (dist(rng) & 0xFFFF)",
+          "context": [
+            "       << std::setw(8) << (dist(rng) & 0xFFFFFFFF)",
+            "       << \"-\"",
+            "       << std::setw(4) << (dist(rng) & 0xFFFF)",
+            "       << \"-4\"  // version 4",
+            "       << std::setw(3) << (dist(rng) & 0xFFF)"
+          ],
+          "pattern_matched": "<< std::setw(4) << (dist(rng) & 0xFFFF)",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 85,
+          "line_content": "<< \"-4\"  // version 4",
+          "context": [
+            "       << \"-\"",
+            "       << std::setw(4) << (dist(rng) & 0xFFFF)",
+            "       << \"-4\"  // version 4",
+            "       << std::setw(3) << (dist(rng) & 0xFFF)",
+            "       << \"-\""
+          ],
+          "pattern_matched": "<< \"-4\"  // version 4",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 86,
+          "line_content": "<< std::setw(3) << (dist(rng) & 0xFFF)",
+          "context": [
+            "       << std::setw(4) << (dist(rng) & 0xFFFF)",
+            "       << \"-4\"  // version 4",
+            "       << std::setw(3) << (dist(rng) & 0xFFF)",
+            "       << \"-\"",
+            "       << std::setw(4) << ((dist(rng) & 0x3FFF) | 0x8000)"
+          ],
+          "pattern_matched": "<< std::setw(3) << (dist(rng) & 0xFFF)",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 87,
+          "line_content": "<< \"-\"",
+          "context": [
+            "       << \"-4\"  // version 4",
+            "       << std::setw(3) << (dist(rng) & 0xFFF)",
+            "       << \"-\"",
+            "       << std::setw(4) << ((dist(rng) & 0x3FFF) | 0x8000)",
+            "       << \"-\""
+          ],
+          "pattern_matched": "<< \"-\"",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 88,
+          "line_content": "<< std::setw(4) << ((dist(rng) & 0x3FFF) | 0x8000)",
+          "context": [
+            "       << std::setw(3) << (dist(rng) & 0xFFF)",
+            "       << \"-\"",
+            "       << std::setw(4) << ((dist(rng) & 0x3FFF) | 0x8000)",
+            "       << \"-\"",
+            "       << std::setw(12) << (dist(rng) & 0xFFFFFFFFFFFFULL);"
+          ],
+          "pattern_matched": "<< std::setw(4) << ((dist(rng) & 0x3FFF) | 0x8000)",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 89,
+          "line_content": "<< \"-\"",
+          "context": [
+            "       << \"-\"",
+            "       << std::setw(4) << ((dist(rng) & 0x3FFF) | 0x8000)",
+            "       << \"-\"",
+            "       << std::setw(12) << (dist(rng) & 0xFFFFFFFFFFFFULL);",
+            "    return ss.str();"
+          ],
+          "pattern_matched": "<< \"-\"",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 90,
+          "line_content": "<< std::setw(12) << (dist(rng) & 0xFFFFFFFFFFFFULL);",
+          "context": [
+            "       << std::setw(4) << ((dist(rng) & 0x3FFF) | 0x8000)",
+            "       << \"-\"",
+            "       << std::setw(12) << (dist(rng) & 0xFFFFFFFFFFFFULL);",
+            "    return ss.str();",
+            "}"
+          ],
+          "pattern_matched": "<< std::setw(12) << (dist(rng) & 0xFFFFFFFFFFFFULL);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 621,
+          "line_content": "total = static_cast<int>(schedules_.size());",
+          "context": [
+            "    {",
+            "        std::shared_lock<std::shared_mutex> lock(schedules_mutex_);",
+            "        total = static_cast<int>(schedules_.size());",
+            "        for (auto& [id, e] : schedules_) {",
+            "            if (e.enabled) ++enabled;"
+          ],
+          "pattern_matched": "total = static_cast<int>(schedules_.size());",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 651,
+          "line_content": "report.total_schedules = static_cast<int>(schedules_.size());",
+          "context": [
+            "    {",
+            "        std::shared_lock<std::shared_mutex> lock(schedules_mutex_);",
+            "        report.total_schedules = static_cast<int>(schedules_.size());",
+            "        for (auto& [id, e] : schedules_) {",
+            "            if (e.enabled) ++report.enabled_schedules;"
+          ],
+          "pattern_matched": "report.total_schedules = static_cast<int>(schedules_.size());",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "MULTIPLICATION_OVERFLOW",
+          "severity": "CRITICAL",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 657,
+          "line_content": "int64_t cutoff = nowMs() - 24LL * 60 * 60 * 1000;",
+          "context": [
+            "    }",
+            "",
+            "    int64_t cutoff = nowMs() - 24LL * 60 * 60 * 1000;",
+            "    {",
+            "        std::shared_lock<std::shared_mutex> lock(jobs_mutex_);"
+          ],
+          "pattern_matched": "int64_t cutoff = nowMs() - 24LL * 60 * 60 * 1000;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Multi-factor multiplication detected (CWE-190, likely overflow risk)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 724,
+          "line_content": "task_handlers_[static_cast<int>(task_type)] = std::move(handler);",
+          "context": [
+            "    }",
+            "    std::unique_lock<std::shared_mutex> lock(handlers_mutex_);",
+            "    task_handlers_[static_cast<int>(task_type)] = std::move(handler);",
+            "}",
+            ""
+          ],
+          "pattern_matched": "task_handlers_[static_cast<int>(task_type)] = std::move(handler);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1313,
+          "line_content": "auto it = task_handlers_.find(static_cast<int>(task_type));",
+          "context": [
+            "            {",
+            "                std::shared_lock<std::shared_mutex> lock(handlers_mutex_);",
+            "                auto it = task_handlers_.find(static_cast<int>(task_type));",
+            "                if (it != task_handlers_.end()) {",
+            "                    handler = it->second;"
+          ],
+          "pattern_matched": "auto it = task_handlers_.find(static_cast<int>(task_type));",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1431,
+          "line_content": "std::map<MaintenanceTaskType, std::vector<MaintenanceTaskType>> dependents;",
+          "context": [
+            "    // ---- Build in-degree map and reverse adjacency (Kahn's algorithm) ------",
+            "    std::map<MaintenanceTaskType, int>                          inDegree;",
+            "    std::map<MaintenanceTaskType, std::vector<MaintenanceTaskType>> dependents;",
+            "",
+            "    for (auto t : entry.tasks) {"
+          ],
+          "pattern_matched": "std::map<MaintenanceTaskType, std::vector<MaintenanceTaskType>> dependents;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1439,
+          "line_content": "std::map<MaintenanceTaskType, std::set<MaintenanceTaskType>> seen;",
+          "context": [
+            "",
+            "    // Deduplicate edges using a set per dependent to avoid double-counting.",
+            "    std::map<MaintenanceTaskType, std::set<MaintenanceTaskType>> seen;",
+            "    for (const auto& dep : entry.task_dependencies) {",
+            "        for (auto prereq : dep.depends_on) {"
+          ],
+          "pattern_matched": "std::map<MaintenanceTaskType, std::set<MaintenanceTaskType>> seen;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 711,
+          "line_content": "health_probes_[module_name] = std::move(probe);",
+          "context": [
+            "{",
+            "    std::lock_guard<std::mutex> lock(probes_mutex_);",
+            "    health_probes_[module_name] = std::move(probe);",
+            "}",
+            ""
+          ],
+          "pattern_matched": "health_probes_[module_name] = std::move(probe);",
+          "operation": "Array access: health_probes_[module_name]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 742,
+          "line_content": "result[task_type_str] = handler->handlerName();",
+          "context": [
+            "        const auto task_type_str = taskTypeToString(static_cast<MaintenanceTaskType>(key));",
+            "        if (handler) {",
+            "            result[task_type_str] = handler->handlerName();",
+            "        } else {",
+            "            result[task_type_str] = \"<null-handler>\";"
+          ],
+          "pattern_matched": "result[task_type_str] = handler->handlerName();",
+          "operation": "Array access: result[task_type_str]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 744,
+          "line_content": "result[task_type_str] = \"<null-handler>\";",
+          "context": [
+            "            result[task_type_str] = handler->handlerName();",
+            "        } else {",
+            "            result[task_type_str] = \"<null-handler>\";",
+            "        }",
+            "    }"
+          ],
+          "pattern_matched": "result[task_type_str] = \"<null-handler>\";",
+          "operation": "Array access: result[task_type_str]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 762,
+          "line_content": "tenant_configs_[tenant_id] = std::move(config);",
+          "context": [
+            "    }",
+            "    std::unique_lock<std::shared_mutex> lock(tenant_configs_mutex_);",
+            "    tenant_configs_[tenant_id] = std::move(config);",
+            "    spdlog::info(\"TenantMaintenanceConfig set for tenant '{}'\", tenant_id);",
+            "}"
+          ],
+          "pattern_matched": "tenant_configs_[tenant_id] = std::move(config);",
+          "operation": "Array access: tenant_configs_[tenant_id]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 838,
+          "line_content": "jobs_[job_id] = job;",
+          "context": [
+            "            {",
+            "                std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);",
+            "                jobs_[job_id] = job;",
+            "            }",
+            ""
+          ],
+          "pattern_matched": "jobs_[job_id] = job;",
+          "operation": "Array access: jobs_[job_id]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1408,
+          "line_content": "taskIndex[entry.tasks[i]] = i;",
+          "context": [
+            "    std::map<MaintenanceTaskType, std::size_t> taskIndex;",
+            "    for (std::size_t i = 0; i < entry.tasks.size(); ++i) {",
+            "        taskIndex[entry.tasks[i]] = i;",
+            "    }",
+            ""
+          ],
+          "pattern_matched": "taskIndex[entry.tasks[i]] = i;",
+          "operation": "Array access: tasks[i]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1434,
+          "line_content": "inDegree[t]   = 0;",
+          "context": [
+            "",
+            "    for (auto t : entry.tasks) {",
+            "        inDegree[t]   = 0;",
+            "        dependents[t] = {};",
+            "    }"
+          ],
+          "pattern_matched": "inDegree[t]   = 0;",
+          "operation": "Array access: inDegree[t]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1435,
+          "line_content": "dependents[t] = {};",
+          "context": [
+            "    for (auto t : entry.tasks) {",
+            "        inDegree[t]   = 0;",
+            "        dependents[t] = {};",
+            "    }",
+            ""
+          ],
+          "pattern_matched": "dependents[t] = {};",
+          "operation": "Array access: dependents[t]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1444,
+          "line_content": "dependents[prereq].push_back(dep.task_type);",
+          "context": [
+            "            if (seen[dep.task_type].insert(prereq).second) {",
+            "                // New edge: prereq \u2192 dep.task_type",
+            "                dependents[prereq].push_back(dep.task_type);",
+            "                inDegree[dep.task_type]++;",
+            "            }"
+          ],
+          "pattern_matched": "dependents[prereq].push_back(dep.task_type);",
+          "operation": "Array access: dependents[prereq]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1476,
+          "line_content": "const auto& deps = dependents[cur];",
+          "context": [
+            "",
+            "        // Sort this node's dependents by original position before merging into ready.",
+            "        const auto& deps = dependents[cur];",
+            "        std::vector<MaintenanceTaskType> sorted_deps(deps.begin(), deps.end());",
+            "        std::sort(sorted_deps.begin(), sorted_deps.end(), byOriginalOrder);"
+          ],
+          "pattern_matched": "const auto& deps = dependents[cur];",
+          "operation": "Array access: dependents[cur]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 116,
+          "var_name": "h",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 157,
+          "var_name": "load_result",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 159,
+          "var_name": "schedule_store_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 160,
+          "var_name": "load_result",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 246,
+          "var_name": "persist_result",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 247,
+          "var_name": "schedule_store_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 248,
+          "var_name": "persist_result",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 266,
+          "var_name": "audit_logger_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 292,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 296,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 329,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 336,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 337,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 341,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 342,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 343,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 344,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 347,
+          "var_name": "persist_result",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 353,
+          "var_name": "persist_result",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 354,
+          "var_name": "schedule_store_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 355,
+          "var_name": "persist_result",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 362,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 366,
+          "var_name": "id",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 373,
+          "var_name": "audit_logger_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 393,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 400,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 405,
+          "var_name": "updated",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 417,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 418,
+          "var_name": "persist_result",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 419,
+          "var_name": "schedule_store_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 420,
+          "var_name": "persist_result",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 427,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 431,
+          "var_name": "id",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 438,
+          "var_name": "audit_logger_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 456,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 461,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 465,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 466,
+          "var_name": "schedule_store_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 479,
+          "var_name": "id",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 480,
+          "var_name": "audit_logger_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 504,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 508,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 532,
+          "var_name": "audit_logger_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 557,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 561,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 562,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 566,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 567,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 571,
+          "var_name": "audit_logger_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 574,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 588,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 592,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 623,
+          "var_name": "enabled",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 633,
+          "var_name": "active",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 653,
+          "var_name": "cutoff",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 680,
+          "var_name": "worst",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 688,
+          "var_name": "sig",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 742,
+          "var_name": "handler",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 771,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 772,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 812,
+          "var_name": "scheduler_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 826,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 829,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 845,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 846,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 851,
+          "var_name": "scheduler_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 857,
+          "var_name": "tid",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 859,
+          "var_name": "scheduler_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 860,
+          "var_name": "scheduler_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 870,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 872,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 873,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 874,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 875,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 879,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 896,
+          "var_name": "ttl_ms",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 900,
+          "var_name": "ttl_ms",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 902,
+          "var_name": "ttl_ms",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 907,
+          "var_name": "dl",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 914,
+          "var_name": "holder",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 915,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 916,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 918,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 924,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 925,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 926,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 951,
+          "var_name": "running_count",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 958,
+          "var_name": "running_count",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 963,
+          "var_name": "running_count",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 970,
+          "var_name": "now",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 979,
+          "var_name": "now",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 980,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 981,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 982,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 988,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 989,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 990,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1009,
+          "var_name": "force",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1014,
+          "var_name": "eff_window_start",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1024,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1025,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1026,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1032,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1033,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1034,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1063,
+          "var_name": "err",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1064,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1065,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1066,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1081,
+          "var_name": "jit",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1082,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1097,
+          "var_name": "dur_ms",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1125,
+          "var_name": "now",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1126,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1127,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1129,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1130,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1131,
+          "var_name": "jit",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1139,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1140,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1141,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1142,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1148,
+          "var_name": "audit_logger_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1188,
+          "var_name": "index_maintenance_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1205,
+          "var_name": "index_maintenance_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1223,
+          "var_name": "index_maintenance_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1240,
+          "var_name": "index_maintenance_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1252,
+          "var_name": "active",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1258,
+          "var_name": "index_maintenance_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1271,
+          "var_name": "index_maintenance_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1283,
+          "var_name": "active",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1288,
+          "var_name": "index_maintenance_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1315,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1320,
+          "var_name": "handler",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1357,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1399,
+          "var_name": "i",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 81,
+          "class_name": "Unknown",
+          "function_name": "generation",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 82,
+          "class_name": "Unknown",
+          "function_name": "generation",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 84,
+          "class_name": "Unknown",
+          "function_name": "generation",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 86,
+          "class_name": "Unknown",
+          "function_name": "generateUuid",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 88,
+          "class_name": "Unknown",
+          "function_name": "setfill",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 90,
+          "class_name": "Unknown",
+          "function_name": "setfill",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 96,
+          "class_name": "Unknown",
+          "function_name": "setw",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 101,
+          "class_name": "Unknown",
+          "function_name": "str",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 102,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 129,
+          "class_name": "Unknown",
+          "function_name": "DatabaseMaintenanceOrchestrator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 135,
+          "class_name": "Unknown",
+          "function_name": "DatabaseMaintenanceOrchestrator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 136,
+          "class_name": "Unknown",
+          "function_name": "DatabaseMaintenanceOrchestrator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 148,
+          "class_name": "Unknown",
+          "function_name": "DatabaseMaintenanceOrchestrator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 161,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 171,
+          "class_name": "Unknown",
+          "function_name": "error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 177,
+          "class_name": "Unknown",
+          "function_name": "start",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 191,
+          "class_name": "Unknown",
+          "function_name": "store",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 196,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 205,
+          "class_name": "Unknown",
+          "function_name": "stop",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 208,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 216,
+          "class_name": "Unknown",
+          "function_name": "isRunning",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 223,
+          "class_name": "Unknown",
+          "function_name": "createSchedule",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 249,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 261,
+          "class_name": "Unknown",
+          "function_name": "error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 277,
+          "class_name": "Unknown",
+          "function_name": "frequencyToString",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 287,
+          "class_name": "Unknown",
+          "function_name": "getInstance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 293,
+          "class_name": "Unknown",
+          "function_name": "getSchedule",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 299,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 318,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 324,
+          "class_name": "Unknown",
+          "function_name": "Update",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 330,
+          "class_name": "Unknown",
+          "function_name": "validateEntry",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 356,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 370,
+          "class_name": "Unknown",
+          "function_name": "deregisterFromScheduler",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 388,
+          "class_name": "Unknown",
+          "function_name": "Patch",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 394,
+          "class_name": "Unknown",
+          "function_name": "Patch",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 413,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 421,
+          "class_name": "Unknown",
+          "function_name": "validateEntry",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 435,
+          "class_name": "Unknown",
+          "function_name": "deregisterFromScheduler",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 453,
+          "class_name": "Unknown",
+          "function_name": "deleteSchedule",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 457,
+          "class_name": "Unknown",
+          "function_name": "deleteSchedule",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 468,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 477,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 488,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 497,
+          "class_name": "Unknown",
+          "function_name": "getInstance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 505,
+          "class_name": "Unknown",
+          "function_name": "triggerNow",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 512,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 542,
+          "class_name": "Unknown",
+          "function_name": "logEvent",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 547,
+          "class_name": "Unknown",
+          "function_name": "getInstance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 554,
+          "class_name": "Unknown",
+          "function_name": "thread",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 558,
+          "class_name": "Unknown",
+          "function_name": "executeSchedule",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 563,
+          "class_name": "Unknown",
+          "function_name": "cancelJob",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 568,
+          "class_name": "Unknown",
+          "function_name": "unexpected",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 578,
+          "class_name": "Unknown",
+          "function_name": "warn",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 583,
+          "class_name": "Unknown",
+          "function_name": "getInstance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 589,
+          "class_name": "Unknown",
+          "function_name": "getJob",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 595,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 614,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 644,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 681,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 686,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 689,
+          "class_name": "Unknown",
+          "function_name": "probe",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 707,
+          "class_name": "Unknown",
+          "function_name": "registerHealthProbe",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 711,
+          "class_name": "Unknown",
+          "function_name": "registerHealthProbe",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 714,
+          "class_name": "Unknown",
+          "function_name": "registerHealthProbe",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 719,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 724,
+          "class_name": "Unknown",
+          "function_name": "registerTaskHandler",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 727,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 731,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 735,
+          "class_name": "Unknown",
+          "function_name": "setDistributedLock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 754,
+          "class_name": "Unknown",
+          "function_name": "setTenantMaintenanceConfig",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 758,
+          "class_name": "Unknown",
+          "function_name": "setTenantMaintenanceConfig",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 762,
+          "class_name": "Unknown",
+          "function_name": "setTenantMaintenanceConfig",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 763,
+          "class_name": "Unknown",
+          "function_name": "setTenantMaintenanceConfig",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 766,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 781,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 785,
+          "class_name": "Unknown",
+          "function_name": "generateId",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 786,
+          "class_name": "Unknown",
+          "function_name": "generateId",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 789,
+          "class_name": "Unknown",
+          "function_name": "generateId",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 795,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 820,
+          "class_name": "Unknown",
+          "function_name": "registerFunction",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 854,
+          "class_name": "Unknown",
+          "function_name": "find",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 863,
+          "class_name": "Unknown",
+          "function_name": "deregisterFromScheduler",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 875,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 908,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 911,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 929,
+          "class_name": "Unknown",
+          "function_name": "slock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 937,
+          "class_name": "Unknown",
+          "function_name": "getInstance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 947,
+          "class_name": "Unknown",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 971,
+          "class_name": "Unknown",
+          "function_name": "jlock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 976,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 993,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1016,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1020,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1037,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1047,
+          "class_name": "Unknown",
+          "function_name": "getInstance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1058,
+          "class_name": "Unknown",
+          "function_name": "resolveTaskExecutionOrder",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1059,
+          "class_name": "Unknown",
+          "function_name": "resolveTaskExecutionOrder",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1066,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1069,
+          "class_name": "Unknown",
+          "function_name": "error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1092,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1099,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1107,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1112,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1118,
+          "class_name": "Unknown",
+          "function_name": "taskTypeToString",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1160,
+          "class_name": "Unknown",
+          "function_name": "getInstance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1163,
+          "class_name": "Unknown",
+          "function_name": "getInstance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1171,
+          "class_name": "Unknown",
+          "function_name": "getInstance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1174,
+          "class_name": "Unknown",
+          "function_name": "pruneCompletedJobs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1261,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1291,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1330,
+          "class_name": "Unknown",
+          "function_name": "execute",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1348,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1349,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1353,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1354,
+          "class_name": "Unknown",
+          "function_name": "nowMs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1369,
+          "class_name": "Unknown",
+          "function_name": "erase",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1373,
+          "class_name": "Unknown",
+          "function_name": "validateEntry",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1376,
+          "class_name": "Unknown",
+          "function_name": "validateEntry",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1379,
+          "class_name": "Unknown",
+          "function_name": "validateEntry",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1383,
+          "class_name": "Unknown",
+          "function_name": "invalid_argument",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1386,
+          "class_name": "Unknown",
+          "function_name": "invalid_argument",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1396,
+          "class_name": "Unknown",
+          "function_name": "invalid_argument",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1414,
+          "class_name": "Unknown",
+          "function_name": "tasks",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1421,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1478,
+          "class_name": "Unknown",
+          "function_name": "reserve",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1483,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\database_maintenance_orchestrator.cpp",
+          "line_number": 1491,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\maintenance\\maintenance_schedule_store.cpp": [
@@ -481,6 +3465,240 @@
           "snippet": "Status: \u2705 Production Ready                                          \u2551",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 131,
+          "line_content": "schedules[id] = std::move(entry);",
+          "context": [
+            "    // Merge loaded entries into the caller's map.",
+            "    for (auto& [id, entry] : tmp) {",
+            "        schedules[id] = std::move(entry);",
+            "    }",
+            ""
+          ],
+          "pattern_matched": "schedules[id] = std::move(entry);",
+          "operation": "Array access: schedules[id]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 65,
+          "var_name": "engine_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 69,
+          "var_name": "engine_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 82,
+          "var_name": "engine_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 86,
+          "var_name": "skipped",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 42,
+          "class_name": "Unknown",
+          "function_name": "MaintenanceScheduleStore",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 50,
+          "class_name": "Unknown",
+          "function_name": "MaintenanceScheduleStore",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 62,
+          "class_name": "Unknown",
+          "function_name": "reserve",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 68,
+          "class_name": "Unknown",
+          "function_name": "save",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 72,
+          "class_name": "Unknown",
+          "function_name": "save",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 87,
+          "class_name": "Unknown",
+          "function_name": "scanPrefix",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 89,
+          "class_name": "Unknown",
+          "function_name": "scanPrefix",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 96,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 97,
+          "class_name": "Unknown",
+          "function_name": "warn",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 101,
+          "class_name": "Unknown",
+          "function_name": "id_from_key",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 103,
+          "class_name": "Unknown",
+          "function_name": "id_from_key",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 107,
+          "class_name": "Unknown",
+          "function_name": "fromJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 110,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 114,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 117,
+          "class_name": "Unknown",
+          "function_name": "warn",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 119,
+          "class_name": "Unknown",
+          "function_name": "string",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 131,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_schedule_store.cpp",
+          "line_number": 134,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\maintenance\\maintenance_registry.cpp": [
@@ -510,6 +3728,112 @@
           "snippet": "return [mgr]() -> ModuleHealthSignal {",
           "description": "Container element access before initialization",
           "remediation": "Use .at() for bounds checking or initialize element first"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_registry.cpp",
+          "line_number": 159,
+          "line_content": "return [mgr]() -> ModuleHealthSignal {",
+          "context": [
+            "    std::shared_ptr<IndexMaintenanceManager> mgr)",
+            "{",
+            "    return [mgr]() -> ModuleHealthSignal {",
+            "        ModuleHealthSignal sig;",
+            "        sig.module_name   = \"index_maintenance\";"
+          ],
+          "pattern_matched": "return [mgr]() -> ModuleHealthSignal {",
+          "operation": "Array access: return[mgr]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_registry.cpp",
+          "line_number": 171,
+          "var_name": "active_jobs",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_registry.cpp",
+          "line_number": 177,
+          "var_name": "mgr",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_registry.cpp",
+          "line_number": 34,
+          "class_name": "Unknown",
+          "function_name": "presets",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_registry.cpp",
+          "line_number": 163,
+          "class_name": "Unknown",
+          "function_name": "registerHealthProbe",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_registry.cpp",
+          "line_number": 178,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_registry.cpp",
+          "line_number": 185,
+          "class_name": "Unknown",
+          "function_name": "listActiveJobs",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_registry.cpp",
+          "line_number": 189,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_registry.cpp",
+          "line_number": 193,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\maintenance\\maintenance_registry.cpp",
+          "line_number": 236,
+          "class_name": "Unknown",
+          "function_name": "createSchedule",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ]
     }

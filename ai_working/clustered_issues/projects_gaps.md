@@ -3,14 +3,19 @@
 ## Summary
 
 **Module:** `projects`  
-**Total Gaps:** 79  
-**CRITICAL:** 33 | **HIGH:** 6 | **MEDIUM:** 40
+**Total Gaps:** 335  
+**CRITICAL:** 33 | **HIGH:** 245 | **MEDIUM:** 57
 
 ## Breakdown by Category
 
+- **oop_design:** 186 gaps
 - **reliability:** 58 gaps
+- **uninitialized:** 46 gaps
+- **type_conversion:** 17 gaps
 - **container:** 16 gaps
 - **security:** 4 gaps
+- **input_validation:** 4 gaps
+- **exception_safety:** 3 gaps
 - **memory:** 1 gaps
 
 ## Top Files by Gap Density
@@ -37,11 +42,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 79 |
+| Total Gaps | 335 |
 | CRITICAL | 33 |
-| HIGH | 6 |
-| MEDIUM | 40 |
-| Estimated Effort | 1.8 weeks |
+| HIGH | 245 |
+| MEDIUM | 57 |
+| Estimated Effort | 7.8 weeks |
 
 ## Acceptance Criteria
 
@@ -52,5 +57,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.785865*  
+*Generated: 2026-05-19T06:53:38.589552*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

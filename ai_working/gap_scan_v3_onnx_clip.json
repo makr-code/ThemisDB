@@ -1,16 +1,20 @@
 {
   "onnx_clip": {
-    "total": 41,
+    "total": 164,
     "severity_critical": 26,
-    "severity_high": 6,
-    "severity_medium": 9,
+    "severity_high": 121,
+    "severity_medium": 17,
     "by_category": {
       "security": 2,
       "memory": 3,
       "reliability": 12,
       "concurrency": 16,
       "raii": 4,
-      "container": 4
+      "container": 4,
+      "type_conversion": 10,
+      "input_validation": 4,
+      "uninitialized": 79,
+      "oop_design": 30
     },
     "by_file": {
       "src\\onnx_clip\\onnx_clip_plugin.cpp": [
@@ -382,6 +386,1271 @@
           "snippet": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
           "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
           "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 110,
+          "line_content": "hex << std::hex;",
+          "context": [
+            "    // Encode as lowercase hex string",
+            "    std::ostringstream hex;",
+            "    hex << std::hex;",
+            "    for (unsigned int i = 0; i < digest_len; ++i) {",
+            "        hex.width(2);"
+          ],
+          "pattern_matched": "hex << std::hex;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 114,
+          "line_content": "hex << static_cast<unsigned int>(digest[i]);",
+          "context": [
+            "        hex.width(2);",
+            "        hex.fill('0');",
+            "        hex << static_cast<unsigned int>(digest[i]);",
+            "    }",
+            "    return hex.str();"
+          ],
+          "pattern_matched": "hex << static_cast<unsigned int>(digest[i]);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 150,
+          "line_content": "state ^= state >> 12;",
+          "context": [
+            "static float nextFloat01(uint64_t& state) {",
+            "    // xorshift64*",
+            "    state ^= state >> 12;",
+            "    state ^= state << 25;",
+            "    state ^= state >> 27;"
+          ],
+          "pattern_matched": "state ^= state >> 12;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 151,
+          "line_content": "state ^= state << 25;",
+          "context": [
+            "    // xorshift64*",
+            "    state ^= state >> 12;",
+            "    state ^= state << 25;",
+            "    state ^= state >> 27;",
+            "    state *= 2685821657736338717ull;"
+          ],
+          "pattern_matched": "state ^= state << 25;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 152,
+          "line_content": "state ^= state >> 27;",
+          "context": [
+            "    state ^= state >> 12;",
+            "    state ^= state << 25;",
+            "    state ^= state >> 27;",
+            "    state *= 2685821657736338717ull;",
+            "    const uint32_t mantissa = static_cast<uint32_t>((state >> 40) & 0x00FFFFFFu);"
+          ],
+          "pattern_matched": "state ^= state >> 27;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 154,
+          "line_content": "const uint32_t mantissa = static_cast<uint32_t>((state >> 40) & 0x00FFFFFFu);",
+          "context": [
+            "    state ^= state >> 27;",
+            "    state *= 2685821657736338717ull;",
+            "    const uint32_t mantissa = static_cast<uint32_t>((state >> 40) & 0x00FFFFFFu);",
+            "    return static_cast<float>(mantissa) / 16777215.0f;",
+            "}"
+          ],
+          "pattern_matched": "const uint32_t mantissa = static_cast<uint32_t>((state >> 40) & 0x00FFFFFFu);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "ARITHMETIC_OVERFLOW",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 221,
+          "line_content": "const float v = (nextFloat01(state) * 2.0f) - 1.0f;",
+          "context": [
+            "        double l2 = 0.0;",
+            "        for (int i = 0; i < dim; ++i) {",
+            "            const float v = (nextFloat01(state) * 2.0f) - 1.0f;",
+            "            result.embedding[static_cast<size_t>(i)] = v;",
+            "            l2 += static_cast<double>(v) * static_cast<double>(v);"
+          ],
+          "pattern_matched": "const float v = (nextFloat01(state) * 2.0f) - 1.0f;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
+        },
+        {
+          "gap_type": "ARITHMETIC_OVERFLOW",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 262,
+          "line_content": "const float v = (nextFloat01(seed) * 2.0f) - 1.0f;",
+          "context": [
+            "        double l2 = 0.0;",
+            "        for (int i = 0; i < dim; ++i) {",
+            "            const float v = (nextFloat01(seed) * 2.0f) - 1.0f;",
+            "            result.embedding[static_cast<size_t>(i)] = v;",
+            "            l2 += static_cast<double>(v) * static_cast<double>(v);"
+          ],
+          "pattern_matched": "const float v = (nextFloat01(seed) * 2.0f) - 1.0f;",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Arithmetic operation result assigned to variable (potential overflow)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 428,
+          "line_content": "const std::vector<std::vector<uint8_t>>& images) {",
+          "context": [
+            "",
+            "std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(",
+            "    const std::vector<std::vector<uint8_t>>& images) {",
+            "    auto t0 = std::chrono::steady_clock::now();",
+            ""
+          ],
+          "pattern_matched": "const std::vector<std::vector<uint8_t>>& images) {",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 92,
+          "line_content": "char buf[65536];",
+          "context": [
+            "    }",
+            "",
+            "    char buf[65536];",
+            "    while (file.read(buf, sizeof(buf)) || file.gcount() > 0) {",
+            "        if (EVP_DigestUpdate(ctx, buf, static_cast<size_t>(file.gcount())) != 1) {"
+          ],
+          "pattern_matched": "char buf[65536];",
+          "operation": "Array access: buf[65536]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 100,
+          "line_content": "unsigned char digest[EVP_MAX_MD_SIZE];",
+          "context": [
+            "    }",
+            "",
+            "    unsigned char digest[EVP_MAX_MD_SIZE];",
+            "    unsigned int digest_len = 0;",
+            "    if (EVP_DigestFinal_ex(ctx, digest, &digest_len) != 1) {"
+          ],
+          "pattern_matched": "unsigned char digest[EVP_MAX_MD_SIZE];",
+          "operation": "Array access: digest[EVP_MAX_MD_SIZE]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 114,
+          "line_content": "hex << static_cast<unsigned int>(digest[i]);",
+          "context": [
+            "        hex.width(2);",
+            "        hex.fill('0');",
+            "        hex << static_cast<unsigned int>(digest[i]);",
+            "    }",
+            "    return hex.str();"
+          ],
+          "pattern_matched": "hex << static_cast<unsigned int>(digest[i]);",
+          "operation": "Array access: digest[i]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 451,
+          "line_content": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
+          "context": [
+            "        const size_t end = std::min(start + batch_limit, images.size());",
+            "        for (size_t i = start; i < end; ++i) {",
+            "            results.push_back(impl_->computeEmbedding(images[i], nullptr,",
+            "                                                      impl_->model_name,",
+            "                                                      impl_->embedding_dim));"
+          ],
+          "pattern_matched": "results.push_back(impl_->computeEmbedding(images[i], nullptr,",
+          "operation": "Array access: images[i]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 94,
+          "var_name": "digest_len",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 102,
+          "var_name": "digest_len",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 142,
+          "var_name": "metadata",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 144,
+          "var_name": "metadata",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 241,
+          "var_name": "dim",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 267,
+          "var_name": "l2",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 312,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 314,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 315,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 317,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 322,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 324,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 328,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 330,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 361,
+          "var_name": "actual",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 363,
+          "var_name": "actual",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 375,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 380,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 381,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 385,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 386,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 390,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 391,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 399,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 404,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 408,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 409,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 410,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 416,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 417,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 418,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 419,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 421,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 431,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 442,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 447,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 451,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 452,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 453,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 463,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 467,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 468,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 469,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 470,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 471,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 477,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 478,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 484,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 489,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 493,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 494,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 495,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 501,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 502,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 503,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 504,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 506,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 513,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 515,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 516,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 520,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 521,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 522,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 523,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 524,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 525,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 526,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 527,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 528,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 529,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 531,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 532,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 533,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 538,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 539,
+          "var_name": "r",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 545,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 546,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 547,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 549,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 51,
+          "class_name": "Unknown",
+          "function_name": "bridge",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 53,
+          "class_name": "Unknown",
+          "function_name": "bridge",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 163,
+          "class_name": "Unknown",
+          "function_name": "tokenize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 164,
+          "class_name": "Unknown",
+          "function_name": "tokenize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 170,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 212,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 227,
+          "class_name": "Unknown",
+          "function_name": "mixMetadata",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 247,
+          "class_name": "Unknown",
+          "function_name": "computeTextEmbedding",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 268,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 279,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 285,
+          "class_name": "Unknown",
+          "function_name": "ONNXClipPlugin",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 311,
+          "class_name": "Unknown",
+          "function_name": "initialize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 330,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 379,
+          "class_name": "Unknown",
+          "function_name": "check",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 384,
+          "class_name": "Unknown",
+          "function_name": "shutdown",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 389,
+          "class_name": "Unknown",
+          "function_name": "shutdown",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 394,
+          "class_name": "Unknown",
+          "function_name": "isReady",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 397,
+          "class_name": "Unknown",
+          "function_name": "getBackend",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 412,
+          "class_name": "Unknown",
+          "function_name": "computeEmbedding",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 427,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 429,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 440,
+          "class_name": "Unknown",
+          "function_name": "lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 449,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 457,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 476,
+          "class_name": "Unknown",
+          "function_name": "size",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 481,
+          "class_name": "Unknown",
+          "function_name": "size",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 482,
+          "class_name": "Unknown",
+          "function_name": "healthCheck",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 497,
+          "class_name": "Unknown",
+          "function_name": "computeTextEmbedding",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 512,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+          "line_number": 537,
+          "class_name": "Unknown",
+          "function_name": "warmup",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        }
+      ],
+      "src\\onnx_clip\\onnx_clip_plugin.h": [
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\onnx_clip\\onnx_clip_plugin.h",
+          "line_number": 81,
+          "line_content": "const std::vector<std::vector<uint8_t>>& images",
+          "context": [
+            "",
+            "    std::vector<EmbeddingResult> generateEmbeddingBatch(",
+            "        const std::vector<std::vector<uint8_t>>& images",
+            "    ) override;",
+            ""
+          ],
+          "pattern_matched": "const std::vector<std::vector<uint8_t>>& images",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
         }
       ]
     }

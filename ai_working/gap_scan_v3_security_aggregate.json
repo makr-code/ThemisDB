@@ -8872,7 +8872,7 @@
       "src\\server\\async_job_api_handler.cpp": [
         {
           "file": "src\\server\\async_job_api_handler.cpp",
-          "line": 144,
+          "line": 174,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "return (it != jobs_.end()) ? it->second : nullptr;",
@@ -8894,7 +8894,7 @@
       "src\\server\\changefeed_api_handler.cpp": [
         {
           "file": "src\\server\\changefeed_api_handler.cpp",
-          "line": 443,
+          "line": 470,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix, event_types);",
@@ -11692,7 +11692,7 @@
       "src\\server\\maintenance_api_handler.cpp": [
         {
           "file": "src\\server\\maintenance_api_handler.cpp",
-          "line": 206,
+          "line": 253,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto handlers = orchestrator_->listTaskHandlers();",
@@ -12290,7 +12290,7 @@
       "src\\server\\retention_api_handler.cpp": [
         {
           "file": "src\\server\\retention_api_handler.cpp",
-          "line": 102,
+          "line": 134,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "bool exists = (retention_manager_->getPolicy(policy.name) != nullptr);",
@@ -12350,7 +12350,7 @@
       "src\\server\\task_scheduler_api_handler.cpp": [
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 132,
+          "line": 158,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto task_ptr = scheduler_->getTask(task_id);",
@@ -12359,7 +12359,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 928,
+          "line": 1018,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto task_ptr = scheduler_->getTask(task_id);",
@@ -12368,7 +12368,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 948,
+          "line": 1038,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto task_ptr = scheduler_->getTask(task_id);",
@@ -12377,7 +12377,7 @@
         },
         {
           "file": "src\\server\\task_scheduler_api_handler.cpp",
-          "line": 974,
+          "line": 1064,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "auto task_ptr = scheduler_->getTask(id);",
@@ -12419,7 +12419,7 @@
       "src\\server\\vector_api_handler.cpp": [
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 226,
+          "line": 277,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::string object_name = vector_index_->getObjectName();",
@@ -12428,7 +12428,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 244,
+          "line": 295,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "object_name = vector_index_->getObjectName();",
@@ -12437,7 +12437,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 381,
+          "line": 434,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "{\"objectName\", vector_index_->getObjectName()},",
@@ -12446,7 +12446,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 433,
+          "line": 496,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "std::string fullPrefix = vector_index_->getObjectName() + \":\" + prefix;",
@@ -12455,7 +12455,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 434,
+          "line": 497,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "storage_->scanPrefix(fullPrefix, [&](std::string_view key, std::string_view /*value*/){",
@@ -12464,7 +12464,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 539,
+          "line": 602,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "{\"objectName\", vector_index_->getObjectName()},",
@@ -12473,7 +12473,7 @@
         },
         {
           "file": "src\\server\\vector_api_handler.cpp",
-          "line": 605,
+          "line": 668,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "{\"objectName\", vector_index_->getObjectName()},",

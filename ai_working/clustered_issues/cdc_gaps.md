@@ -3,15 +3,20 @@
 ## Summary
 
 **Module:** `cdc`  
-**Total Gaps:** 294  
-**CRITICAL:** 97 | **HIGH:** 104 | **MEDIUM:** 93
+**Total Gaps:** 1163  
+**CRITICAL:** 105 | **HIGH:** 960 | **MEDIUM:** 98
 
 ## Breakdown by Category
 
+- **oop_design:** 429 gaps
+- **uninitialized:** 392 gaps
 - **reliability:** 197 gaps
 - **container:** 38 gaps
+- **exception_safety:** 18 gaps
+- **input_validation:** 17 gaps
 - **memory:** 16 gaps
 - **raii:** 16 gaps
+- **type_conversion:** 13 gaps
 - **concurrency:** 10 gaps
 - **platform:** 9 gaps
 - **security:** 5 gaps
@@ -41,11 +46,11 @@ Address HIGH severity gaps (performance, reliability):
 
 | Metric | Value |
 |--------|-------|
-| Total Gaps | 294 |
-| CRITICAL | 97 |
-| HIGH | 104 |
-| MEDIUM | 93 |
-| Estimated Effort | 7.5 weeks |
+| Total Gaps | 1163 |
+| CRITICAL | 105 |
+| HIGH | 960 |
+| MEDIUM | 98 |
+| Estimated Effort | 29.2 weeks |
 
 ## Acceptance Criteria
 
@@ -56,5 +61,5 @@ Address HIGH severity gaps (performance, reliability):
 - [ ] Code review completed
 
 ---
-*Generated: 2026-05-18T21:29:17.736571*  
+*Generated: 2026-05-19T06:53:38.576558*  
 *Gap Scanner: v3 Phase 1 (Security, Memory, Reliability)*

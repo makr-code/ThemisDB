@@ -1,18 +1,18 @@
 
 # Gap Scanner Pipeline — Execution Report
 
-**Execution Time:** 2026-05-18T21:29:17.850092  
-**Duration:** 34.1s  
+**Execution Time:** 2026-05-19T06:55:04.472604  
+**Duration:** 175.8s  
 **Status:** [OK] Complete
 
 ## Metrics
 
 
-- **Total Gaps Found:** 31720
-- **CRITICAL Severity:** 8626
-- **HIGH Severity:** 8551
-- **Actionable Gaps:** 17177
-- **Modules Scanned:** 60
+- **Total Gaps Found:** 155634
+- **CRITICAL Severity:** 9404
+- **HIGH Severity:** 118697
+- **Actionable Gaps:** 128101
+- **Modules Scanned:** 65
 
 
 ## Artifacts Generated

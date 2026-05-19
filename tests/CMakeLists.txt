@@ -4324,6 +4324,89 @@ else()
 endif()
 
 # ============================================================================
+# Feedback API Handler Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_feedback_api_handler.cpp")
+    message(STATUS "Adding Feedback API Handler tests")
+
+    add_executable(test_feedback_api_handler
+        test_feedback_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/feedback_api_handler.cpp
+    )
+
+    target_include_directories(test_feedback_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_feedback_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_feedback_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME FeedbackApiHandlerTests
+             COMMAND test_feedback_api_handler)
+
+    set_tests_properties(FeedbackApiHandlerTests PROPERTIES
+        LABELS "server;feedback;llm;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Feedback API Handler: identifier validation, query parsing, error normalization")
+else()
+    message(STATUS "Feedback API Handler tests not found")
+endif()
+
+# ============================================================================
+# Prompt Engineering API Handler Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_api_handler.cpp")
+    message(STATUS "Adding Prompt Engineering API Handler tests")
+
+    add_executable(test_prompt_engineering_api_handler
+        test_prompt_engineering_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/prompt_engineering_api_handler.cpp
+    )
+
+    target_include_directories(test_prompt_engineering_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_prompt_engineering_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_prompt_engineering_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PromptEngineeringApiHandlerTests
+             COMMAND test_prompt_engineering_api_handler)
+
+    set_tests_properties(PromptEngineeringApiHandlerTests PROPERTIES
+        LABELS "server;prompt-engineering;llm;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Prompt Engineering API Handler: path-id validation, null dependency guards")
+else()
+    message(STATUS "Prompt Engineering API Handler tests not found")
+endif()
+
+# ============================================================================
 # WebAssembly Handler Registry Tests
 # ============================================================================
 
