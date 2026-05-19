@@ -196,7 +196,7 @@ static std::vector<std::string> buildChunkWhitelist(
             hasAnyFilter = true;
             for (const auto& t : filters["tags"]) if (t.is_string()) wantedTags.insert(t.get<std::string>());
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     if (!hasAnyFilter) return {};
 
@@ -214,12 +214,16 @@ static std::vector<std::string> buildChunkWhitelist(
                 }
             }
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     auto jsonPathEq = [](const json& j, const std::string& path, const json& expected) -> bool {
         auto cur = jsonPathRef(j, path);
         if (!cur) return false;
-        try { return cur->dump() == expected.dump(); } catch (...) { return false; }
+        try {
+            return cur->dump() == expected.dump();
+        } catch (const std::exception&) {
+            return false;
+        }
     };
 
     std::vector<std::string> whitelist;
@@ -248,7 +252,7 @@ static std::vector<std::string> buildChunkWhitelist(
                         // allow string/numeric loose comparison fallback
                         try {
                             if (v.dump() != kv.second.dump()) { allMatch = false; break; }
-                        } catch (...) { allMatch = false; break; }
+                        } catch (const std::exception&) { allMatch = false; break; }
                     } else {
                         if (v.dump() != kv.second.dump()) { allMatch = false; break; }
                     }
@@ -283,17 +287,32 @@ static std::vector<std::string> buildChunkWhitelist(
                         // RANGE semantics (numeric). Convert vptr to number if possible.
                         double numeric_val = 0.0; bool ok = false;
                         if (vptr->is_number()) { numeric_val = vptr->get<double>(); ok = true; }
-                        else if (vptr->is_string()) { try { numeric_val = std::stod(vptr->get<std::string>()); ok = true; } catch (...) { ok = false; } }
+                        else if (vptr->is_string()) {
+                            try {
+                                numeric_val = std::stod(vptr->get<std::string>());
+                                ok = true;
+                            } catch (const std::exception&) {
+                                ok = false;
+                            }
+                        }
                         if (ok) {
                             double vmin = -std::numeric_limits<double>::infinity();
                             double vmax =  std::numeric_limits<double>::infinity();
                             if (cond.contains("min")) {
                                 if (cond["min"].is_number()) vmin = cond["min"].get<double>();
-                                else if (cond["min"].is_string()) { try { vmin = std::stod(cond["min"].get<std::string>()); } catch (...) {} }
+                                else if (cond["min"].is_string()) {
+                                    try {
+                                        vmin = std::stod(cond["min"].get<std::string>());
+                                    } catch (const std::exception&) {}
+                                }
                             }
                             if (cond.contains("max")) {
                                 if (cond["max"].is_number()) vmax = cond["max"].get<double>();
-                                else if (cond["max"].is_string()) { try { vmax = std::stod(cond["max"].get<std::string>()); } catch (...) {} }
+                                else if (cond["max"].is_string()) {
+                                    try {
+                                        vmax = std::stod(cond["max"].get<std::string>());
+                                    } catch (const std::exception&) {}
+                                }
                             }
                             match = (numeric_val >= vmin && numeric_val <= vmax);
                         } else {
@@ -303,7 +322,7 @@ static std::vector<std::string> buildChunkWhitelist(
                         // default: equality
                         match = (vptr->dump() == cond.dump());
                     }
-                } catch (...) { match = false; }
+                } catch (const std::exception&) { match = false; }
                 if (!match) return true; // mismatch → reject
             }
             // This content matches → add all its chunks to whitelist
@@ -319,9 +338,9 @@ static std::vector<std::string> buildChunkWhitelist(
                             if (cid.is_string()) whitelist.push_back(std::string("chunks:") + cid.get<std::string>());
                         }
                     }
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // ignore parsing errors
         }
         return true;
@@ -528,7 +547,7 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
         if (j.contains("ids") && j["ids"].is_array() && !j["ids"].empty()) {
             return j["ids"][0].get<std::string>();
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
     return std::nullopt;
 }
 
@@ -613,7 +632,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         for (const auto& mv : cj["skip_compressed_mimes"]) if (mv.is_string()) skip_mimes.push_back(mv.get<std::string>());
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
 
             std::string matched_skip_prefix;
             auto should_compress = [&](const std::string& mime, size_t size) -> bool {
@@ -669,7 +688,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         else if (compression_ratio <= 10.0f) metrics_.comp_ratio_le_10.fetch_add(1);
                         else if (compression_ratio <= 100.0f) metrics_.comp_ratio_le_100.fetch_add(1);
                         else metrics_.comp_ratio_le_inf.fetch_add(1);
-                    } catch (...) {}
+                    } catch (const std::exception&) {}
                 } else {
                     // Fallback to raw (compression failed or increased size)
                     to_store.assign(bb.begin(), bb.end());
@@ -698,7 +717,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         else if (matched_skip_prefix == "video/" || matched_skip_prefix.rfind("video/",0)==0) metrics_.compression_skipped_video_total.fetch_add(1);
                         else if (matched_skip_prefix == "application/zip" || matched_skip_prefix == "application/gzip") metrics_.compression_skipped_zip_total.fetch_add(1);
                     }
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
 
             // Optional encryption of blob based on config:content_encryption_schema and user_context
@@ -712,7 +731,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     encrypt_blob = ej.value("enabled", false);
                     encryption_key_id = ej.value("key_id", "content_blob");
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
             if (encrypt_blob && field_encryption_) {
                 // Kontextuelle Ableitung via HKDF (salt = user_context) – nutzt aktuelle Key-Version.
                 // Falls user_context leer, verwende "anonymous" als Fallback
@@ -744,7 +763,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     // Only add uncompressed total if we didn't already add it for compressed path
                     if (!meta.compressed) metrics_.uncompressed_bytes_total.fetch_add(static_cast<uint64_t>(original_size));
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         // Chunks verarbeiten
         std::vector<std::string> chunk_ids;
@@ -2796,4 +2815,3 @@ ContentManager::Stats ContentManager::getStats() {
 
 } // namespace content
 } // namespace themis
-

@@ -57,6 +57,7 @@
 - [x] OCR DPI pre-processing — rescale to 300 DPI + adaptive binarization via Leptonica (CON-003)
 - [x] Back-pressure for streaming ingestion when worker queue depth exceeds max_queue_depth (CON-005)
 - [x] Zip-bomb protection in content_security.cpp — max 100× decompression ratio, max 1 000 entries (CON-006)
+- [x] Content manager reliability hardening block: broad catch-all handlers removed from filter/config fallback code paths in `content_manager.cpp` (`buildChunkWhitelist`, duplicate-hash lookup, compression/encryption config+metrics parsing) and replaced with typed exception handling (`const std::exception&`). (Target: Q2 2026)
 
 ## Implementation Phases
 
@@ -158,4 +159,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 - `detectorType` – Gibt den Typ des aktiven Abuse-Detectors zurück (PhotoDNA/Text/…)
 - `createPdfExtractorAdapter` – Factory-Funktion für den PDF-Format-Extractor; noch nicht in Pipeline verdrahtet
   > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
-
