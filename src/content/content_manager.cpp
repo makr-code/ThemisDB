@@ -901,19 +901,24 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 for (const auto& f : meta_fields) {
                     // Mapping: Feldname auf ContentMeta Struktur
                     // Unterstützte Felder: extracted_metadata, user_metadata, tags
+                    //
+                    // Use a unique_ptr to own the heap-allocated JSON object for the
+                    // "tags" field.  For the other two fields we point at an existing
+                    // ContentMeta member — no heap allocation needed.  This eliminates
+                    // the previous raw-new / manual-delete pattern (CWE-401 / RAII).
+                    std::unique_ptr<nlohmann::json> tags_json_owner;
                     nlohmann::json* target = nullptr;
                     if (f == "extracted_metadata") target = &meta.extracted_metadata;
                     else if (f == "user_metadata") target = &meta.user_metadata;
                     else if (f == "tags") {
                         // tags als Array -> JSON konvertieren
-                        nlohmann::json arr = meta.tags;
-                        target = new nlohmann::json(arr); // temporär, am Ende cleanup
+                        tags_json_owner = std::make_unique<nlohmann::json>(meta.tags);
+                        target = tags_json_owner.get();
                     }
                     if (!target) continue;
                     try {
                         if (target->is_null() || (target->is_object() && target->empty()) || (target->is_array() && target->empty())) {
-                            if (f == "tags" && target) { delete target; }
-                            continue; // nichts zu verschlüsseln
+                            continue; // nichts zu verschlüsseln; tags_json_owner auto-deleted
                         }
                         std::string plain = target->dump();
                         // HKDF ableiten: info = "vector_meta:" + feld
@@ -931,11 +936,10 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         } else if (f == "tags") {
                             meta.tags.clear();
                         }
+                        // tags_json_owner auto-deleted at end of loop iteration.
+                        // Hänge verschlüsselte Strings in eine Zusatzliste (wird später gemerged)
                         // Wir lagern verschlüsselte Meta-Felder im allgemeinen Meta-JSON als Platzhalter unter reserved key
                         // Da ContentMeta::toJson() Felder fix zusammenstellt, hängen wir Zusatzfelder erst nachher an (siehe unten mjsonPatch)
-                        // Temporär speichern in map structure
-                        if (f == "tags" && target) { delete target; }
-                        // Hänge verschlüsselte Strings in eine Zusatzliste (wird später gemerged)
                         if (!meta.extracted_metadata.contains("__enc_meta")) {
                             try { meta.extracted_metadata["__enc_meta"] = json::object(); } catch (...) {}
                         }
@@ -945,7 +949,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         } catch (...) {}
                     } catch (const std::exception& ex) {
                         THEMIS_WARN("vector metadata encryption field {} failed: {}", f, ex.what());
-                        if (f == "tags" && target) { delete target; }
+                        // tags_json_owner auto-deleted on exception unwind.
                     }
                 }
             }

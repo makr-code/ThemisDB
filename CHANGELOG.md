@@ -72,6 +72,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     CVE-2025-45582 (tar, MEDIUM) — alle ohne upstream-Fix; Waiver dokumentiert in
     `docs/audit-reports/cve-waivers.md`.
 
+### Fixed
+
+- **CONTENT module Phase 8 — raw-new/delete and O(n²) dedup fixes** 🔧
+  - `src/content/content_manager.cpp`: Replaced raw `new nlohmann::json(arr)` / manual `delete target` (3 call sites, CWE-401) with `std::unique_ptr<nlohmann::json>` (`std::make_unique`) for the `tags` field in the vector-metadata encryption loop. `tags_json_owner` auto-deletes on any exit path (early `continue`, exception unwind, normal completion). Eliminates `smart_ptr_misuse`, `allocation_loop`, and `delete_no_nullptr` scanner flags.
+  - `src/content/content_security.cpp`: Replaced `std::find()` on the growing `result.pii_types` vector (O(n²) worst case) with an `std::unordered_set<std::string> seen_types` for O(1) insertion-based deduplication. Added `#include <unordered_set>`. Eliminates `repeated_search` scanner flag.
+
 ### Testing
 
 - **Integration Pipeline Coverage Expansion** 🧪
