@@ -255,7 +255,11 @@ void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
     begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
     
-    vkBeginCommandBuffer(cmd_buffer, &begin_info);
+    VkResult begin_result = vkBeginCommandBuffer(cmd_buffer, &begin_info);
+    if (begin_result != VK_SUCCESS) {
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed to begin command buffer for buffer copy");
+    }
     
     VkBufferCopy copy_region = {};
     copy_region.srcOffset = src_offset;
@@ -264,7 +268,11 @@ void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
     
     vkCmdCopyBuffer(cmd_buffer, src.buffer_, buffer_, 1, &copy_region);
     
-    vkEndCommandBuffer(cmd_buffer);
+    VkResult end_result = vkEndCommandBuffer(cmd_buffer);
+    if (end_result != VK_SUCCESS) {
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed to end command buffer for buffer copy");
+    }
     
     // Submit command buffer
     VkSubmitInfo submit_info = {};
@@ -273,8 +281,18 @@ void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
     submit_info.pCommandBuffers = &cmd_buffer;
     
     VkFence fence = context_->create_fence(false);
-    vkQueueSubmit(context_->compute_queue(), 1, &submit_info, fence);
-    context_->wait_for_fence(fence);
+    VkResult submit_result = vkQueueSubmit(context_->compute_queue(), 1, &submit_info, fence);
+    if (submit_result != VK_SUCCESS) {
+        context_->destroy_fence(fence);
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed to submit buffer copy command");
+    }
+
+    if (!context_->wait_for_fence(fence)) {
+        context_->destroy_fence(fence);
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed while waiting for buffer copy completion");
+    }
     
     context_->destroy_fence(fence);
     context_->free_command_buffer(cmd_buffer);
