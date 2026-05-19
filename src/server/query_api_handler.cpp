@@ -443,7 +443,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                         std::string schema_json(schema_bytes->begin(), schema_bytes->end());
                         schema = nlohmann::json::parse(schema_json);
                     }
-                } catch (...) {}
+                } catch (const std::exception&) {}
                 bool enabled = false;
                 std::vector<std::string> fields;
                 std::string context_type = "user";
@@ -461,11 +461,11 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 auto pki = std::dynamic_pointer_cast<themis::security::PKIKeyProvider>(key_provider_);
                 for (const auto& e : res.second) {
                     nlohmann::json obj;
-                    try { obj = nlohmann::json::parse(e.toJson()); } catch (...) { entities.push_back(e.toJson()); continue; }
+                    try { obj = nlohmann::json::parse(e.toJson()); } catch (const std::exception&) { entities.push_back(e.toJson()); continue; }
                     if (enabled) {
                         for (const auto& f : fields) {
                             if (!obj.contains(f + "_enc") || !obj.contains(f + "_encrypted")) continue;
-                            bool encFlag = false; try { encFlag = obj[f + "_enc"].get<bool>(); } catch (...) { encFlag = false; }
+                            bool encFlag = false; try { encFlag = obj[f + "_enc"].get<bool>(); } catch (const std::exception&) { encFlag = false; }
                             if (!encFlag) continue;
                             try {
                                 auto enc_meta_str = obj[f + "_encrypted"].get<std::string>();
@@ -473,7 +473,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                                 auto blob = themis::EncryptedBlob::fromJson(enc_meta);
                                 std::vector<uint8_t> raw_key;
                                 if (context_type == "group" && pki && obj.contains(f + "_group")) {
-                                    std::string group_name; try { group_name = obj[f + "_group"].get<std::string>(); } catch (...) { group_name.clear(); }
+                                    std::string group_name; try { group_name = obj[f + "_group"].get<std::string>(); } catch (const std::exception&) { group_name.clear(); }
                                     if (!group_name.empty()) {
                                         auto gdek = pki->getGroupDEK(group_name);
                                         std::vector<uint8_t> salt; std::string info = "field:" + f;
@@ -496,7 +496,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                                     try {
                                         auto parsed = nlohmann::json::parse(plain_str);
                                         obj[f] = parsed;
-                                    } catch (...) {
+                                    } catch (const std::exception&) {
                                         obj[f] = plain_str;
                                     }
                                 } else {
@@ -1224,7 +1224,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 try {
                     auto ent = themis::BaseEntity::deserialize(pk, *blob);
                     return ent.getFieldAsString(field);
-                } catch (...) { return std::nullopt; }
+                } catch (const std::exception&) { return std::nullopt; }
             };
             auto getEFieldString = [&](const std::string& edgeId, const std::string& field)->std::optional<std::string>{
                 if (field == "id") return edgeId;
@@ -1233,7 +1233,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 try {
                     auto ent = themis::BaseEntity::deserialize(edgeId, *eblob);
                     return ent.getFieldAsString(field);
-                } catch (...) { return std::nullopt; }
+                } catch (const std::exception&) { return std::nullopt; }
             };
 
             using namespace themis::query;
@@ -1711,7 +1711,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto valOpt = ent.getFieldAsString(p.field);
                             if (!valOpt) return false;
                             if (!cmp(*valOpt, p.literal, p.op)) return false;
-                        } catch (...) { return false; }
+                        } catch (const std::exception&) { return false; }
                     }
                 }
                 return true;
@@ -1729,7 +1729,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto valOpt = ent.getFieldAsString(p.field);
                         if (!valOpt) return false;
                         return cmp(*valOpt, p.literal, p.op);
-                    } catch (...) { return false; }
+                    } catch (const std::exception&) { return false; }
                 }
             };
 
@@ -1754,7 +1754,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         if (!valOpt) return false;
                         if (!cmp(*valOpt, p.literal, p.op)) return false;
                     }
-                } catch (...) { return false; }
+                } catch (const std::exception&) { return false; }
                 return true;
             };
 
@@ -1770,7 +1770,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     auto valOpt = ent.getFieldAsString(p.field);
                     if (!valOpt) return false;
                     return cmp(*valOpt, p.literal, p.op);
-                } catch (...) { return false; }
+                } catch (const std::exception&) { return false; }
             };
 
             // BFS mit Eltern-/Kanten-Tracking f�r e/p
@@ -1943,7 +1943,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         try {
                             auto entity = themis::BaseEntity::deserialize(pk, *blob);
                             res["entities"].push_back(entity.toJson());
-                        } catch (...) {
+                        } catch (const std::exception&) {
                             res["entities"].push_back(nlohmann::json({{"_key", pk}}));
                         }
                     } else {
@@ -1958,7 +1958,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         try {
                             auto edgeEnt = themis::BaseEntity::deserialize(eid, *eblob);
                             res["entities"].push_back(edgeEnt.toJson());
-                        } catch (...) {
+                        } catch (const std::exception&) {
                             res["entities"].push_back(nlohmann::json({{"_edge", eid}}));
                         }
                     } else {
@@ -1999,7 +1999,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             try {
                                 auto ent = themis::BaseEntity::deserialize(pk, *blob);
                                 jpath["vertices"].push_back(ent.toJson());
-                            } catch (...) {
+                            } catch (const std::exception&) {
                                 jpath["vertices"].push_back(nlohmann::json({{"_key", pk}}));
                             }
                         } else {
@@ -2014,7 +2014,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             try {
                                 auto eent = themis::BaseEntity::deserialize(eid, *eblob);
                                 jpath["edges"].push_back(eent.toJson());
-                            } catch (...) {
+                            } catch (const std::exception&) {
                                 jpath["edges"].push_back(nlohmann::json({{"_edge", eid}}));
                             }
                         } else {
@@ -2090,7 +2090,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         themis::BaseEntity::Blob entity_blob(blob->begin(), blob->end());
                         auto entity = themis::BaseEntity::deserialize(key, entity_blob);
                         entities.push_back(nlohmann::json::parse(entity.toJson()));
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // Skip malformed entities
                     }
                 }
@@ -2102,7 +2102,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 {"entities", applyMasking(entities, req)}
             };
             // Provide "result" alias for compatibility with older clients/tests
-            try { response_body["result"] = response_body["entities"]; } catch (...) { /* ignore */ }
+            try { response_body["result"] = response_body["entities"]; } catch (const std::exception&) { /* ignore */ }
             
             if (explain) {
                 response_body["query"] = aql_query;
@@ -2278,7 +2278,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 // Project return
                                 auto projected = evalExpr(jq.return_node->expression);
                                 entities.push_back(projected);
-                            } catch (...) {
+                            } catch (const std::exception&) {
                                 // Skip malformed entry
                             }
                             return true; // continue scan
@@ -2433,7 +2433,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                         // Ohne Sortwert kein sicherer Anker
                                         early_empty_due_to_cursor = true;
                                     }
-                                } catch (...) {
+                                } catch (const std::exception&) {
                                     early_empty_due_to_cursor = true;
                                 }
                             }
@@ -2683,7 +2683,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 if (dv.has_value()) { out = *dv; return true; }
                 auto sv = e.getFieldAsString(col);
                 if (sv.has_value()) {
-                    try { out = std::stod(*sv); return true; } catch (...) { /* ignore */ }
+                    try { out = std::stod(*sv); return true; } catch (const std::exception&) { /* ignore */ }
                 }
                 return false;
             };
@@ -3134,7 +3134,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         if (maybe_value.has_value()) {
                             order_value = *maybe_value;
                         }
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // If extraction fails, continue without order_value
                     }
                 }
@@ -3154,7 +3154,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 {"entities", applyMasking(entities, req)}
             };
             // Provide "result" alias for compatibility
-            try { response_body["result"] = response_body["entities"]; } catch (...) { /* ignore */ }
+            try { response_body["result"] = response_body["entities"]; } catch (const std::exception&) { /* ignore */ }
         }
         
         if (explain) {
@@ -3163,7 +3163,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             if (!plan_json.is_null()) {
                 // Markiere, wenn LET-Filter vor der Übersetzung extrahiert wurden (MVP-Sonderpfad)
                 if (letFilterHandled) {
-                    try { plan_json["let_pre_extracted"] = true; } catch (...) { /* noop */ }
+                    try { plan_json["let_pre_extracted"] = true; } catch (const std::exception&) { /* noop */ }
                 }
                 response_body["plan"] = plan_json;
             }
@@ -3468,7 +3468,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
                 if (n < lo) n = lo;
                 if (n > hi) n = hi;
                 return n;
-            } catch (...) { return def; }
+            } catch (const std::exception&) { return def; }
         };
         max_seconds  = extractInt("max_seconds",  30,    1,    60);
         heartbeat_ms = extractInt("heartbeat_ms", 15000, 100, 60000);
@@ -3502,7 +3502,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         json result;
         try {
             result = json::parse(aql_resp.body());
-        } catch (...) {
+        } catch (const std::exception&) {
             result = json::object();
         }
 

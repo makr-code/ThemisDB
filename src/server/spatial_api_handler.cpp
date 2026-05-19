@@ -159,7 +159,7 @@ http::response<http::string_body> SpatialApiHandler::handleIndexRebuild(
                             try {
                                 geom_info = geo::EWKBParser::parseGeoJSON(geo_val.dump());
                                 parse_ok = true;
-                            } catch (...) {}
+                            } catch (const std::exception&) {}
                         }
                     } else if (geo_val.is_string()) {
                         const std::string& geo_str = geo_val.get<std::string>();
@@ -169,13 +169,13 @@ http::response<http::string_body> SpatialApiHandler::handleIndexRebuild(
                             try {
                                 geom_info = geo::EWKBParser::parseGeoJSON(geo_str);
                                 parse_ok = true;
-                            } catch (...) {}
+                            } catch (const std::exception&) {}
                         }
                         if (!parse_ok) {
                             try {
                                 geom_info = geo::EWKBParser::parseWKT(geo_str);
                                 parse_ok = true;
-                            } catch (...) {}
+                            } catch (const std::exception&) {}
                         }
                     }
                     if (!parse_ok) {
@@ -315,7 +315,7 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
             auto gpu_json_str = geo::getGpuSpatialBackendStatsJson();
             auto gpu_stats = json::parse(gpu_json_str);
             response["gpu_backend"] = gpu_stats;
-        } catch (...) {
+        } catch (const std::exception&) {
             response["gpu_backend"] = nullptr;
         }
         

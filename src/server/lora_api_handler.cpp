@@ -245,7 +245,7 @@ http::response<http::string_body> LoRAApiHandler::handleListModels(
                     limit_end == std::string_view::npos ? std::string_view::npos : limit_end - limit_pos - 6)};
                 try {
                     limit = std::stoul(limit_str);
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
             
             // Parse offset
@@ -256,7 +256,7 @@ http::response<http::string_body> LoRAApiHandler::handleListModels(
                     offset_end == std::string_view::npos ? std::string_view::npos : offset_end - offset_pos - 7)};
                 try {
                     offset = std::stoul(offset_str);
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
         }
         
@@ -540,7 +540,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
                     limit_end == std::string_view::npos ? std::string_view::npos : limit_end - limit_pos - 6)};
                 try {
                     limit = std::stoul(limit_str);
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
             
             // Parse offset
@@ -551,7 +551,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
                     offset_end == std::string_view::npos ? std::string_view::npos : offset_end - offset_pos - 7)};
                 try {
                     offset = std::stoul(offset_str);
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
             
             // Parse base_model filter
