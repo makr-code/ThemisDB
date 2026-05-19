@@ -49,6 +49,7 @@ v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTT
 - [~] P0 security/code-quality gap remediation wave (Target: Q2 2026)
   - [x] Remove token-value logging from `AuthMiddleware::authorize` and `HttpServer::handlePiiDeleteByUuid` (CWE-532 hardening; scanner `hardcoded_secret` false-positive hotspot reduction)
   - [x] Remove Authorization header value logging and ad-hoc `[AUTH-DBG]` stderr traces in `HttpServer::requireAccess` (CWE-532 hardening)
+  - [x] Remove auth decision detail logging (`user_id`/`reason`) and token-validation diagnostics from `HttpServer` PII delete auth flow (CWE-532 hardening)
   - [ ] Continue CRITICAL gap triage in `ai_working/gap_scan_v3_server.json` by true-positive priority (auth, memory, concurrency)
 
 ## Planned Features 📋

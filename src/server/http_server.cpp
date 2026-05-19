@@ -8864,11 +8864,6 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.prepare_payload();
             return res;
         }
-            // Diagnostic: validate token to see which user_id (if any) is associated
-            try {
-                auto vres = auth_->validateToken(*token);
-                THEMIS_INFO("requireAccess: validateToken -> authorized={} user_id='{}' reason='{}'", vres.authorized, vres.user_id, vres.reason);
-            } catch (...) {}
             auto ar = auth_->authorize(*token, required_scope);
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
@@ -9149,11 +9144,11 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
         THEMIS_INFO("PII Delete: Authorization header present, required_scope='pii:write'");
         
         auto ar = auth_->authorize(*token, "pii:write");
-        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
+        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={}", ar.authorized);
         if (!ar.authorized) {
             THEMIS_INFO("PII Delete: trying fallback authorize('admin')");
             ar = auth_->authorize(*token, "admin");
-            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
+            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={}", ar.authorized);
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");

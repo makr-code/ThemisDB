@@ -21,6 +21,7 @@ python tools/gap_audit_pipeline_v2.py
   - `src/server/auth_middleware.cpp` (`AuthMiddleware::authorize`)
   - `src/server/http_server.cpp` (`HttpServer::handlePiiDeleteByUuid`)
 - Removed Authorization header value logging and temporary `[AUTH-DBG]` stderr diagnostics from `src/server/http_server.cpp` (`HttpServer::requireAccess`).
+- Removed detailed auth decision logging (`user_id` / `reason`) and token-validation diagnostics in `src/server/http_server.cpp` PII-delete authorization paths.
 - Security impact: avoids leaking bearer token fragments into logs (CWE-532 hardening).
 - Related test coverage: `tests/test_auth_middleware.cpp` (`AuthMiddlewareGap013Test.DeniedReason_DoesNotEchoPresentedToken`).
 
