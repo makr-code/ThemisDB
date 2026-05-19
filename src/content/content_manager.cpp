@@ -180,7 +180,7 @@ static std::vector<std::string> buildChunkWhitelist(
             for (const auto& t : filters["tags"]) if (t.is_string()) wantedTags.insert(t.get<std::string>());
         }
     } catch (const std::exception& e) {
-        THEMIS_WARN("content hash index parse failed for {}: {}", hash, e.what());
+        THEMIS_WARN("invalid content filter definition, using fail-closed behavior: {}", e.what());
     }
 
     if (!hasAnyFilter) return {};
@@ -200,7 +200,7 @@ static std::vector<std::string> buildChunkWhitelist(
             }
         }
     } catch (const std::exception& e) {
-        THEMIS_WARN("content hash index parse failed for {}: {}", hash, e.what());
+        THEMIS_WARN("content filter schema parse failed, custom mappings disabled: {}", e.what());
     }
 
     auto jsonPathEq = [](const json& j, const std::string& path, const json& expected) -> bool {
@@ -239,7 +239,10 @@ static std::vector<std::string> buildChunkWhitelist(
                         // allow string/numeric loose comparison fallback
                         try {
                             if (v.dump() != kv.second.dump()) { allMatch = false; break; }
-                        } catch (const std::exception&) { allMatch = false; break; }
+                        } catch (const std::exception&) {
+                            allMatch = false;
+                            break;
+                        }
                     } else {
                         if (v.dump() != kv.second.dump()) { allMatch = false; break; }
                     }
@@ -309,7 +312,9 @@ static std::vector<std::string> buildChunkWhitelist(
                         // default: equality
                         match = (vptr->dump() == cond.dump());
                     }
-                } catch (const std::exception&) { match = false; }
+                } catch (const std::exception&) {
+                    match = false;
+                }
                 if (!match) return true; // mismatch → reject
             }
             // This content matches → add all its chunks to whitelist
@@ -325,10 +330,13 @@ static std::vector<std::string> buildChunkWhitelist(
                             if (cid.is_string()) whitelist.push_back(std::string("chunks:") + cid.get<std::string>());
                         }
                     }
-                } catch (const std::exception&) {}
+                } catch (const std::exception& e) {
+                    THEMIS_DEBUG("content chunk list parse failed for {}: {}", id, e.what());
+                }
             }
-        } catch (const std::exception&) {
+        } catch (const std::exception& e) {
             // ignore parsing errors
+            THEMIS_DEBUG("content meta parse failed in whitelist scan: {}", e.what());
         }
         return true;
     });
@@ -534,7 +542,9 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
         if (j.contains("ids") && j["ids"].is_array() && !j["ids"].empty()) {
             return j["ids"][0].get<std::string>();
         }
-    } catch (const std::exception&) {}
+    } catch (const std::exception& e) {
+        THEMIS_WARN("content hash index parse failed for {}: {}", hash, e.what());
+    }
     return std::nullopt;
 }
 
