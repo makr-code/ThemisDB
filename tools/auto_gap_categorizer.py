@@ -48,12 +48,22 @@ class GapCategorizer:
     def categorize_module(self, module: str) -> Dict[str, List[Dict]]:
         """Categorize all gaps in a module"""
         module_data = self.aggregate.get(module, {})
-        gaps = module_data.get("gaps", [])
+        
+        # Handle both formats: dict with "gaps" key and direct list
+        if isinstance(module_data, dict):
+            gaps = module_data.get("gaps", [])
+        elif isinstance(module_data, list):
+            gaps = module_data
+        else:
+            gaps = []
         
         categorized = defaultdict(list)
         for gap in gaps:
             category = self.categorize_gap(gap)
-            gap_with_category = {**gap, "category": category}
+            if isinstance(gap, dict):
+                gap_with_category = {**gap, "category": category}
+            else:
+                gap_with_category = {"gap": gap, "category": category}
             categorized[category].append(gap_with_category)
         
         return dict(categorized)

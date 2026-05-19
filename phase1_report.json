@@ -1,0 +1,17 @@
+{
+  "module": "sharding",
+  "total_gaps": 11012,
+  "categories": {
+    "Other": {
+      "count": 11012,
+      "critical": 0,
+      "high": 11012,
+      "medium": 0,
+      "samples": [
+        "sharding:0",
+        "sharding:1",
+        "sharding:2"
+      ]
+    }
+  }
+}

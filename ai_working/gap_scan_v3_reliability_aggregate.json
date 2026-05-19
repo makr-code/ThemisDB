@@ -83331,14 +83331,14 @@
     }
   },
   "server": {
-    "total": 2108,
+    "total": 2115,
     "severity_critical": 290,
-    "severity_high": 154,
-    "severity_medium": 1664,
+    "severity_high": 157,
+    "severity_medium": 1668,
     "by_type": {
-      "no_health_check": 1495,
+      "no_health_check": 1500,
       "no_timeout": 290,
-      "uncaught_exception": 236,
+      "uncaught_exception": 238,
       "no_retry_logic": 87
     },
     "gaps_by_file": {
@@ -88171,7 +88171,7 @@
         },
         {
           "file": "src\\server\\hot_reload_api_handler.cpp",
-          "line": 68,
+          "line": 106,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found,",
@@ -88180,7 +88180,7 @@
         },
         {
           "file": "src\\server\\hot_reload_api_handler.cpp",
-          "line": 84,
+          "line": 122,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found,",
@@ -88189,7 +88189,7 @@
         },
         {
           "file": "src\\server\\hot_reload_api_handler.cpp",
-          "line": 95,
+          "line": 133,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -88198,7 +88198,7 @@
         },
         {
           "file": "src\\server\\hot_reload_api_handler.cpp",
-          "line": 128,
+          "line": 166,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -88207,25 +88207,7 @@
         },
         {
           "file": "src\\server\\hot_reload_api_handler.cpp",
-          "line": 175,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::internal_server_error,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\hot_reload_api_handler.cpp",
-          "line": 205,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::internal_server_error,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\hot_reload_api_handler.cpp",
-          "line": 235,
+          "line": 213,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -88237,13 +88219,31 @@
           "line": 243,
           "type": "no_health_check",
           "severity": "MEDIUM",
+          "snippet": "http::status::internal_server_error,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\hot_reload_api_handler.cpp",
+          "line": 273,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::internal_server_error,",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\hot_reload_api_handler.cpp",
+          "line": 281,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
           "snippet": "http::status status,",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\server\\hot_reload_api_handler.cpp",
-          "line": 258,
+          "line": 296,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -95139,7 +95139,34 @@
         },
         {
           "file": "src\\server\\profiling_api_handler.cpp",
-          "line": 322,
+          "line": 302,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"storage_profiler.slow_op_threshold_ms must be >= 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\profiling_api_handler.cpp",
+          "line": 319,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"analyzer.slow_query_threshold_ms must be >= 0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\profiling_api_handler.cpp",
+          "line": 327,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(\"analyzer.cache_hit_rate_threshold must be between 0.0 and 1.0\");",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\server\\profiling_api_handler.cpp",
+          "line": 349,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status, const json& body) {",
@@ -95148,21 +95175,12 @@
         },
         {
           "file": "src\\server\\profiling_api_handler.cpp",
-          "line": 334,
+          "line": 361,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status, const std::string& message) {",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\profiling_api_handler.cpp",
-          "line": 359,
-          "type": "uncaught_exception",
-          "severity": "MEDIUM",
-          "snippet": "} catch (...) {",
-          "description": "Generic catch(...) \u2014 specific exception types ignored",
-          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
         }
       ],
       "src\\server\\prompt_api_handler.cpp": [
@@ -98284,7 +98302,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 365,
+          "line": 379,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98293,7 +98311,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 389,
+          "line": 403,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98302,7 +98320,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 420,
+          "line": 434,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98311,7 +98329,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 498,
+          "line": 512,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98320,7 +98338,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 528,
+          "line": 542,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -98329,7 +98347,7 @@
         },
         {
           "file": "src\\server\\serverless_function_api_handler.cpp",
-          "line": 592,
+          "line": 606,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "std::lock_guard<std::mutex> lock(registry_mutex_);",
@@ -100721,7 +100739,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 132,
+          "line": 146,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::unauthorized,",
@@ -100730,7 +100748,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 188,
+          "line": 202,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Missing macro ID\");",
@@ -100739,7 +100757,34 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 233,
+          "line": 206,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid macro ID\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 231,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid session ID\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 239,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid session ID\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 260,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Missing recording ID\");",
@@ -100748,7 +100793,16 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 257,
+          "line": 264,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid recording ID\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 288,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Missing profile ID\");",
@@ -100757,7 +100811,16 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 263,
+          "line": 292,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid profile ID\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 298,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found,",
@@ -100766,7 +100829,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 276,
+          "line": 311,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100775,7 +100838,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 294,
+          "line": 329,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100784,7 +100847,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 301,
+          "line": 336,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100793,7 +100856,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 337,
+          "line": 372,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100802,7 +100865,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 345,
+          "line": 380,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100811,7 +100874,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 370,
+          "line": 405,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error,",
@@ -100820,7 +100883,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 397,
+          "line": 432,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100829,7 +100892,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 431,
+          "line": 466,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100838,7 +100901,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 444,
+          "line": 479,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100847,7 +100910,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 452,
+          "line": 487,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100856,7 +100919,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 505,
+          "line": 540,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100865,7 +100928,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 529,
+          "line": 564,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100874,7 +100937,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 541,
+          "line": 576,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100883,7 +100946,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 573,
+          "line": 608,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100892,7 +100955,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 585,
+          "line": 620,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100901,7 +100964,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 641,
+          "line": 676,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request,",
@@ -100910,7 +100973,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 791,
+          "line": 826,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
@@ -100919,7 +100982,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 796,
+          "line": 831,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\",",
@@ -100928,7 +100991,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 803,
+          "line": 838,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"trigger_phrase must not be empty\");",
@@ -100937,7 +101000,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 809,
+          "line": 844,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"'steps' must be an array\");",
@@ -100946,7 +101009,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 828,
+          "line": 863,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error, \"Internal Error\",",
@@ -100955,7 +101018,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 847,
+          "line": 882,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::internal_server_error, \"Internal Error\",",
@@ -100964,7 +101027,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 894,
+          "line": 929,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found, \"Not Found\",",
@@ -100973,7 +101036,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 908,
+          "line": 943,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
@@ -100982,7 +101045,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 913,
+          "line": 948,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\",",
@@ -100991,7 +101054,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 918,
+          "line": 953,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"'steps' must be an array\");",
@@ -101000,7 +101063,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 937,
+          "line": 972,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found, \"Not Found\",",
@@ -101009,7 +101072,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 976,
+          "line": 1011,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found, \"Not Found\",",
@@ -101018,7 +101081,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1000,
+          "line": 1035,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -101027,7 +101090,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1028,
+          "line": 1063,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found, \"Not Found\",",
@@ -101036,7 +101099,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1070,
+          "line": 1105,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\",",
@@ -101045,7 +101108,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1080,
+          "line": 1115,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -101054,7 +101117,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1163,
+          "line": 1198,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status,",
@@ -101063,7 +101126,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1182,
+          "line": 1217,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status status",
@@ -101072,7 +101135,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1209,
+          "line": 1244,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -101081,7 +101144,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1286,
+          "line": 1321,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"URL cannot be empty\");",
@@ -101090,7 +101153,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1311,
+          "line": 1346,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Access to localhost is not allowed\");",
@@ -101099,7 +101162,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1321,
+          "line": 1356,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Access to metadata endpoints is not allowed\");",
@@ -101108,7 +101171,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1328,
+          "line": 1363,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"Access to private or restricted IP addresses is not allowed\");",
@@ -101117,7 +101180,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1347,
+          "line": 1382,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Audio download timed out\");",
@@ -101126,7 +101189,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1354,
+          "line": 1389,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(",
@@ -101135,7 +101198,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1355,
+          "line": 1390,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "\"Failed to download audio: HTTP \" + std::to_string(response.status_code)",
@@ -101144,7 +101207,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1361,
+          "line": 1396,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::runtime_error(\"Downloaded audio is empty\");",
@@ -101153,7 +101216,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1405,
+          "line": 1440,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
@@ -101162,7 +101225,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1410,
+          "line": 1445,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\",",
@@ -101171,7 +101234,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1417,
+          "line": 1452,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"user_id must not be empty\");",
@@ -101180,7 +101243,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1423,
+          "line": 1458,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"audio_samples must be a non-empty array\");",
@@ -101189,34 +101252,34 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1431,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::bad_request, \"Bad Request\",",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1442,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::bad_request, \"Bad Request\",",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1451,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::bad_request, \"Bad Request\",",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\voice_api_handler.cpp",
           "line": 1466,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request, \"Bad Request\",",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 1477,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request, \"Bad Request\",",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 1486,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request, \"Bad Request\",",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 1501,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::unprocessable_entity, \"Enrollment Failed\",",
@@ -101225,7 +101288,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1484,
+          "line": 1519,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
@@ -101234,7 +101297,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1489,
+          "line": 1524,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\",",
@@ -101243,7 +101306,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1496,
+          "line": 1531,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"profile_id must not be empty\");",
@@ -101252,46 +101315,10 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1518,
+          "line": 1553,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1523,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::bad_request, \"Bad Request\",",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1530,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "http::status::bad_request, \"Bad Request\", \"user_id must not be empty\");",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1546,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "? http::status::ok",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1547,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": ": http::status::unauthorized;",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
@@ -101300,13 +101327,49 @@
           "line": 1558,
           "type": "no_health_check",
           "severity": "MEDIUM",
+          "snippet": "http::status::bad_request, \"Bad Request\",",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 1565,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "http::status::bad_request, \"Bad Request\", \"user_id must not be empty\");",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 1581,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "? http::status::ok",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 1582,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": ": http::status::unauthorized;",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\server\\voice_api_handler.cpp",
+          "line": 1593,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Invalid JSON body\");",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1563,
+          "line": 1598,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\",",
@@ -101315,7 +101378,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1570,
+          "line": 1605,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"candidate_profiles must be an array\");",
@@ -101324,7 +101387,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1578,
+          "line": 1613,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\",",
@@ -101333,7 +101396,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1628,
+          "line": 1663,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::bad_request, \"Bad Request\", \"Missing profile ID\");",
@@ -101342,7 +101405,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1634,
+          "line": 1669,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "http::status::not_found, \"Not Found\", \"Voice profile not found\");",

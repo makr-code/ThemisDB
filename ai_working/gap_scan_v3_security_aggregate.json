@@ -12484,7 +12484,7 @@
       "src\\server\\voice_api_handler.cpp": [
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 679,
+          "line": 714,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "voice_assistant_->updateSession(session_id, json::object());",
@@ -12493,7 +12493,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 816,
+          "line": 851,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (body->contains(\"options\") && (*body)[\"options\"].is_object()) {",
@@ -12502,7 +12502,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 927,
+          "line": 962,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "if (body->contains(\"options\") && (*body)[\"options\"].is_object()) {",

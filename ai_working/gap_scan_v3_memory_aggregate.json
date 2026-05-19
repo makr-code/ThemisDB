@@ -16374,7 +16374,7 @@
       "src\\server\\voice_api_handler.cpp": [
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 459,
+          "line": 494,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto audio_data = decodeBase64((*body)[\"audio_base64\"]);",
@@ -16383,7 +16383,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 511,
+          "line": 546,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto detection = voice_assistant_->detectWakeWord(audio_data);",
@@ -16392,7 +16392,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 549,
+          "line": 584,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.call_id = body->value(\"call_id\", \"\");",
@@ -16401,7 +16401,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 550,
+          "line": 585,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.caller_number = body->value(\"caller\", \"\");",
@@ -16410,7 +16410,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 551,
+          "line": 586,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.callee_number = body->value(\"callee\", \"\");",
@@ -16419,7 +16419,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 552,
+          "line": 587,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.start_time = body->value(\"start_time\", 0LL);",
@@ -16428,7 +16428,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 553,
+          "line": 588,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.end_time = body->value(\"end_time\", 0LL);",
@@ -16437,7 +16437,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 554,
+          "line": 589,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.call_type = body->value(\"call_type\", \"inbound\");",
@@ -16446,7 +16446,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 561,
+          "line": 596,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto result = voice_assistant_->recordPhoneCall(audio_data, metadata);",
@@ -16455,7 +16455,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 593,
+          "line": 628,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.meeting_id = body->value(\"meeting_id\", \"\");",
@@ -16464,7 +16464,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 594,
+          "line": 629,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.title = body->value(\"title\", \"\");",
@@ -16473,7 +16473,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 595,
+          "line": 630,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.start_time = body->value(\"start_time\", 0LL);",
@@ -16482,7 +16482,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 596,
+          "line": 631,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.end_time = body->value(\"end_time\", 0LL);",
@@ -16491,7 +16491,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 597,
+          "line": 632,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "metadata.organizer = body->value(\"organizer\", \"\");",
@@ -16500,7 +16500,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 610,
+          "line": 645,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto result = voice_assistant_->generateMeetingProtocol(audio_data, metadata);",
@@ -16509,7 +16509,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 702,
+          "line": 737,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"languages\"] = json::array({",
@@ -16518,7 +16518,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 964,
+          "line": 999,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"macro\"]   = info ? macroInfoToResponseJson(*info) : json(nullptr);",
@@ -16527,7 +16527,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1014,
+          "line": 1049,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "r[\"metadata\"]         = rec.metadata;",
@@ -16536,7 +16536,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1056,
+          "line": 1091,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "result[\"metadata\"]         = rec->metadata;",
@@ -16545,7 +16545,7 @@
         },
         {
           "file": "src\\server\\voice_api_handler.cpp",
-          "line": 1097,
+          "line": 1132,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "r[\"metadata\"]         = rec.metadata;",
