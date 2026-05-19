@@ -1,0 +1,55 @@
+{
+  "module": "analytics",
+  "model": "codellama:latest",
+  "execution_time": 281.1268951892853,
+  "tasks_total": 5,
+  "tasks_generated": 5,
+  "syntax_ok": 4,
+  "results": [
+    {
+      "task_id": "1.1",
+      "priority": "CRITICAL",
+      "effort_hours": 420,
+      "code_length": 1773,
+      "syntax_ok": false,
+      "has_comments": false,
+      "code": "```cpp\n// analytics.hpp\n#include <array>\n#include <numeric>\n#include <algorithm>\n#include <cstddef>\n#include <memory>\n#include <stdexcept>\n#include <utility>\n\nnamespace themisdb {\n\nclass Analytics {\npublic:\n    // Constructor\n    explicit Analytics(size_t capacity);\n\n    // Add data point\n    void addDataPoint(double value);\n\n    // Calculate mean\n    double calculateMean() const;\n\n    // Calculate standard deviation\n    double calculateStandardDeviation() const;\n\nprivate:\n    // Array to store "
+    },
+    {
+      "task_id": "1.2",
+      "priority": "CRITICAL",
+      "effort_hours": 420,
+      "code_length": 2845,
+      "syntax_ok": true,
+      "has_comments": false,
+      "code": "```c++\n#include <algorithm>\n#include <functional>\n#include <iostream>\n#include <map>\n#include <memory>\n#include <numeric>\n#include <vector>\n\n// Forward declarations\nclass Analytics {\npublic:\n    // Constructor\n    Analytics(std::string_view file_name);\n\n    // Destructor\n    ~Analytics();\n\n    // Member functions\n    void analyze();\n    void print_stats() const;\n\nprivate:\n    std::string file_name_;\n};\n\n// Implementation\n\n// Constructor\nAnalytics::Analytics(std::string_view file_name) : file_nam"
+    },
+    {
+      "task_id": "1.3",
+      "priority": "CRITICAL",
+      "effort_hours": 420,
+      "code_length": 3359,
+      "syntax_ok": true,
+      "has_comments": false,
+      "code": "\n// analytics.h\n#pragma once\n#include <iostream>\n#include <string>\n#include <vector>\n#include <unordered_map>\n#include <optional>\n#include <fstream>\n#include <algorithm>\n\nnamespace themisdb {\n\n// class for storing analytics data\nclass AnalyticsData {\n public:\n  // constructor\n  explicit AnalyticsData(const std::string& file_path) : file_path_(file_path) {}\n\n  // function to read analytics data from file\n  void ReadFromFile();\n\n  // function to write analytics data to file\n  void WriteToFile();\n\n"
+    },
+    {
+      "task_id": "1.4",
+      "priority": "CRITICAL",
+      "effort_hours": 420,
+      "code_length": 2705,
+      "syntax_ok": true,
+      "has_comments": false,
+      "code": "```c++\n#include <iostream>\n#include <string>\n#include <vector>\n#include <algorithm>\n#include <utility>\n#include <memory>\n#include <optional>\n#include <stdexcept>\n#include <unordered_map>\n#include <type_traits>\n\nnamespace analytics {\n    // ThemisDB is a modern C++20 library for building scalable and fault-tolerant data processing pipelines.\n    // This module provides tools for analyzing data in ThemisDB.\n\n    class Analytics {\n    public:\n        // Constructor initializes the analytics system "
+    },
+    {
+      "task_id": "1.5",
+      "priority": "CRITICAL",
+      "effort_hours": 420,
+      "code_length": 2540,
+      "syntax_ok": true,
+      "has_comments": false,
+      "code": "```c++\n#include <algorithm>\n#include <concepts>\n#include <iostream>\n#include <ranges>\n#include <stdexcept>\n#include <string>\n#include <vector>\n\nusing namespace std;\n\nnamespace analytics {\n    template <typename T>\n    concept Numeric = requires (T t) {\n        { t + 0 } -> T;\n        { 0 + t } -> T;\n        { t - 0 } -> T;\n        { t * 0 } -> T;\n        { t / 0 } -> T;\n    };\n\n    template <Numeric T>\n    class Analyzer {\n    public:\n        void add_value(T value) {\n            values_.push_ba"
+    }
+  ]
+}
