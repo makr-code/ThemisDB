@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- **Server API/HTTP reliability hardening** (`src/server/http_server.cpp`, `src/server/query_api_handler.cpp`, `src/server/monitoring_api_handler.cpp`, `src/server/content_api_handler.cpp`, `src/server/changefeed_api_handler.cpp`)
+  - Replaced all remaining `catch (...)` handlers in the edited server handler files with typed `catch (const std::exception&)`.
+  - Targeted delta in this block: **99 → 0** catch-all handlers (`http_server`: 51→0, `query_api_handler`: 25→0, `monitoring_api_handler`: 10→0, `content_api_handler`: 7→0, `changefeed_api_handler`: 6→0).
+
 ## [1.9.0] — 2026-03-23
 ### Added
 - **MQTT Client Service** (`include/server/mqtt_client_service.h`, `src/server/mqtt_client_service.cpp`) — bidirectional MQTT integration for real-time environments
