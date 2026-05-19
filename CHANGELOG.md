@@ -97,6 +97,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     and embedding timeout-get fallback path (`EmbeddingPipeline`), preserving fail-safe semantics.
   - **Targeted delta:** `catch (...)` in edited files reduced from **6 → 0**
     (`content_fs.cpp`: 5→0, `embedding_pipeline.cpp`: 1→0).
+- **CONTENT module — Phase 14 reliability hardening** (`src/content/archive_processor.cpp`, `src/content/video_processor.cpp`, `src/content/geo_processor.cpp`, `src/content/html_processor.cpp`, `src/content/MODULE_GAPS.md`)
+  - **CON-034 — Catch-all cleanup batch:** replaced remaining `catch (...)` handlers with
+    typed `catch (const std::exception&)` in archive TAR guard paths, FFmpeg/GDAL cleanup paths,
+    and HTML numeric-entity decoding fallback.
+  - **Targeted delta:** `catch (...)` in edited files reduced from **12 → 0**
+    (`archive_processor.cpp`: 4→0, `video_processor.cpp`: 4→0, `geo_processor.cpp`: 3→0, `html_processor.cpp`: 1→0).
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)

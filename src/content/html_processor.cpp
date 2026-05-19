@@ -32,6 +32,7 @@
 
 #include "content/html_processor.h"
 
+#include <exception>
 #include <algorithm>
 #include <cctype>
 #include <cmath>
@@ -276,7 +277,7 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
                 } else {
                     code = std::stol(ref.substr(1));
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 result += text[pos++];
                 continue;
             }
@@ -643,4 +644,3 @@ std::unique_ptr<IContentProcessor> createHtmlProcessor(HtmlProcessor::Config con
 
 } // namespace content
 } // namespace themis
-

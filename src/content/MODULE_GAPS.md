@@ -360,6 +360,25 @@ concrete evidence of a runtime defect surfaces.
 - After this block: **0** catch-all handlers in the targeted files
 - Net in this block: **6** catch-all handlers remediated in one batch.
 
+### Phase 14 — Addressed (2026-05-19)
+
+#### CON-034 — Catch-all cleanup in archive/video/geo/html processors
+- **Severity:** MEDIUM  
+- **Status:** ✅ FIXED  
+- Replaced remaining broad `catch (...)` handlers in:
+  - `src/content/archive_processor.cpp` (temp file write guard, TAR size parse, TAR directory creation)
+  - `src/content/video_processor.cpp` (FFmpeg metadata/thumbnail/keyframe/scene cleanup paths)
+  - `src/content/geo_processor.cpp` (GDAL shapefile/geopackage/geotiff cleanup paths)
+  - `src/content/html_processor.cpp` (numeric entity decode fallback)
+- New handling uses typed `catch (const std::exception&)` while preserving
+  existing cleanup/rethrow semantics and fail-safe fallbacks.
+
+#### Reliability scanner delta (targeted files)
+- Before this block: **12** catch-all handlers  
+  (`archive_processor.cpp`: 4, `video_processor.cpp`: 4, `geo_processor.cpp`: 3, `html_processor.cpp`: 1)
+- After this block: **0** catch-all handlers in the targeted files
+- Net in this block: **12** catch-all handlers remediated in one batch.
+
 ---
 
 ## 📍 Location

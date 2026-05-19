@@ -18,6 +18,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
     - content metadata decode/remove paths (`ContentFS::put/get/getRange/head/remove`)
     - embedding timeout result path (`EmbeddingPipeline::embedWithTimeout`)
   - Runtime behavior preserved: metadata failures still map to storage corruption errors, best-effort cleanup remains non-fatal, and embedding failures still degrade to empty-vector fallback with failure metric update.
+- **CON-034 — Reliability hardening (`archive_processor.cpp`, `video_processor.cpp`, `geo_processor.cpp`, `html_processor.cpp`)**
+  - Replaced remaining broad `catch (...)` handlers with typed `catch (const std::exception&)` in:
+    - archive temp-write/TAR parse/create-directories guard paths (`ArchiveProcessor`)
+    - FFmpeg cleanup paths for metadata/thumbnail/keyframes/scenes (`VideoProcessor`)
+    - GDAL cleanup paths for shapefile/geopackage/geotiff (`GeoProcessor`)
+    - numeric HTML entity decode fallback (`HtmlProcessor::decodeEntities`)
+  - Runtime behavior preserved: existing cleanup/rethrow semantics and non-fatal parser fallbacks remain unchanged.
 
 ## [1.7.0] — 2026-03-09
 ### Added
