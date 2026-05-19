@@ -41,6 +41,8 @@ namespace llm {
 // Quantization and memory constants
 namespace {
     constexpr size_t TYPICAL_LORA_RANK8_BYTES = 32 * 1024 * 1024;  // 32 MB for rank-8 LoRA
+    constexpr size_t MIN_LORA_RANK = 4;    // Matches LoRASecurityConfig::min_rank default
+    constexpr size_t MAX_LORA_RANK = 128;  // Matches LoRASecurityConfig::max_rank default
     constexpr float INT8_MAX_VALUE = 127.0f;
     constexpr float INT4_MAX_VALUE = 7.0f;
     constexpr float MIN_SCALE_EPSILON = 1e-8f;
@@ -2052,6 +2054,12 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
             if (it_rank != meta.config.end()) {
                 try { lora->rank = std::stoi(it_rank->second); } catch (...) {}
             }
+            if (lora->rank != 0 && (lora->rank < MIN_LORA_RANK || lora->rank > MAX_LORA_RANK)) {
+                spdlog::error("loadLoRAInternal: adapter '{}' has out-of-bounds rank {} "
+                              "(allowed range: {}..{})",
+                              lora_id, lora->rank, MIN_LORA_RANK, MAX_LORA_RANK);
+                return nullptr;
+            }
             auto it_alpha = meta.config.find("lora.alpha");
             if (it_alpha != meta.config.end()) {
                 try { lora->alpha = std::stof(it_alpha->second); } catch (...) {}
@@ -3398,4 +3406,3 @@ void MultiLoRAManager::updateInferenceMetrics(
 
 } // namespace llm
 } // namespace themis
-

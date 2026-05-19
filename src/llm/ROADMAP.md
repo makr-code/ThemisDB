@@ -124,6 +124,7 @@ Key additions since v1.15.0:
 - [x] InlineTrainingEngine implemented (`src/llm/inline_training_engine.cpp`): on-the-fly LoRA fine-tuning from RocksDB data, AdamW/Adam/SGD/Adagrad/RMSProp optimizers, Cosine/Linear/Polynomial LR schedulers, gradient accumulation, gradient clipping, JSON checkpointing with pruning, progress/checkpoint callbacks (2026-04-13)
 - [x] `DecisionRecordYamlProcessor` wired to `LoRARouter`, `AdapterLoadBalancer`, `LoRAOrchestrator` via `setDecisionRecordProcessor()`; `DecisionRecordIntegrationFocusedTests` (DRI-01..11), `DecisionRecordYamlProcessorFocusedTests`, `DecisionRecordE2EFocusedTests` registered (2026-04-20)
 - [x] Gap audit remediation (P0-CRITICAL Issue — 19,838 gaps): S0/S1/S2 security findings all fixed; `LoRASecurityValidator::validateMetadata()` integrated into `loadLoRAInternal()`; trusted-directory enforcement confirmed; AUDIT.md and MODULE_GAPS.md updated; remaining HIGH/MEDIUM gaps (oop_design, uninitialized, type_conversion, reliability) reviewed and scheduled for v1.21.0–v1.22.0 (2026-05-19)
+- [x] v1.20.1 input-validation hardening (IVB-01..IVB-04): LoRA rank bounds enforced after GGUF extraction, `max_tokens` capped by `n_ctx` in all llama wrapper inference paths, null-pointer guard added to `KVCacheBuffer::appendToken()`, and GGUF tensor bounds re-validated immediately before raw `memcpy` in `getTensorData()`
 
 ## Known Issues & Limitations
 - Cancellation is best-effort only; in-flight inference cannot be interrupted at llama.cpp level.
@@ -206,4 +207,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 >
 > **Aktion:** `AdaptiveVRAMAllocator` in `LLMPluginManager` oder dem Inference-Server-Kontext
 > verdrahten, sobald die VRAM-Budget-Planung Teil des Modell-Ladevorgangs wird (Target: Q3 2026).
-

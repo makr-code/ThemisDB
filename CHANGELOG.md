@@ -156,6 +156,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 4 focused tests added (`LSV-01..LSV-04` in `tests/test_lora_adapter.cpp`): no-validator, passing-validator,
     failing-validator-enforced, failing-validator-warn-only.
 
+- **LLM Module — Input-Validation Backstop Hardening (v1.20.1)** 🛡️
+  - **IVB-01:** Added LoRA rank bounds enforcement in `MultiLoRAManager::loadLoRAInternal()` immediately
+    after GGUF metadata extraction (`lora.rank`) to fail closed on malformed ranks.
+  - **IVB-02:** Enforced `max_tokens <= n_ctx` across all llama wrapper inference paths
+    (`generate`, `generateSpeculative`, `generateRegular`) with explicit warning logs when capping occurs.
+  - **IVB-03:** Added null-pointer guard in `KVCacheBuffer::appendToken()` for `key`/`value` inputs.
+  - **IVB-04:** Added bounds re-validation in `GGUFLoader::getTensorData()` before raw `memcpy` to reject
+    out-of-range tensor slices using both `mmap_size_` and parsed file-size limits.
+  - Added focused regression tests:
+    - `tests/test_lora_adapter.cpp`: `RejectsOutOfBoundsRankFromGGUFMetadata` (IVB-01)
+    - `tests/test_kv_cache_buffer.cpp`: `AppendTokenRejectsNullPointers` (IVB-03)
+    - `tests/test_gguf_loader.cpp`: `GetTensorDataRejectsOutOfBoundsRange` (IVB-04)
+
 - **Task Scheduler AuthZ Hardening (GAP-001)** 🔐
   - Activated runtime permission checks in `TaskScheduler` for:
     - `registerTask()` → requires `task:register`

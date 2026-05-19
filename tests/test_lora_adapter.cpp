@@ -796,6 +796,55 @@ protected:
         return path.string();
     }
 
+    std::string createMockGGUFWithRank(const std::string& name, int rank) {
+        const auto path = test_dir_ / (name + ".gguf");
+        std::vector<uint8_t> buf;
+        auto append_raw = [&](const void* data, size_t size) {
+            const auto* p = static_cast<const uint8_t*>(data);
+            buf.insert(buf.end(), p, p + size);
+        };
+
+        buf.insert(buf.end(), {'G', 'G', 'U', 'F'});
+        uint32_t version = 3;
+        append_raw(&version, sizeof(version));
+        uint64_t tensor_count = 1;
+        append_raw(&tensor_count, sizeof(tensor_count));
+        uint64_t kv_count = 1;
+        append_raw(&kv_count, sizeof(kv_count));
+
+        const std::string rank_key = "lora.rank";
+        uint64_t rank_key_len = rank_key.size();
+        append_raw(&rank_key_len, sizeof(rank_key_len));
+        append_raw(rank_key.data(), rank_key.size());
+        uint32_t value_type_string = 8;  // GGUFValueType::STRING
+        append_raw(&value_type_string, sizeof(value_type_string));
+        const std::string rank_value = std::to_string(rank);
+        uint64_t rank_value_len = rank_value.size();
+        append_raw(&rank_value_len, sizeof(rank_value_len));
+        append_raw(rank_value.data(), rank_value.size());
+
+        const std::string tensor_name = "w.one";
+        uint64_t tensor_name_len = tensor_name.size();
+        append_raw(&tensor_name_len, sizeof(tensor_name_len));
+        append_raw(tensor_name.data(), tensor_name.size());
+        uint32_t n_dims = 1;
+        append_raw(&n_dims, sizeof(n_dims));
+        uint64_t dim = 1;
+        append_raw(&dim, sizeof(dim));
+        uint32_t tensor_type_f32 = 0;  // GGMLType::F32
+        append_raw(&tensor_type_f32, sizeof(tensor_type_f32));
+        uint64_t tensor_offset = 0;
+        append_raw(&tensor_offset, sizeof(tensor_offset));
+
+        const size_t aligned = ((buf.size() + 31) / 32) * 32;
+        buf.resize(aligned + sizeof(float), 0);
+
+        std::ofstream out(path, std::ios::binary);
+        out.write(reinterpret_cast<const char*>(buf.data()), static_cast<std::streamsize>(buf.size()));
+        out.close();
+        return path.string();
+    }
+
     std::filesystem::path test_dir_;
 };
 
@@ -854,6 +903,18 @@ TEST_F(LoRASecurityValidatorIntegrationTest, FailingValidatorNotEnforcedAllowsLo
     auto adapter_path = createMockAdapter("fail-nonenforced-lora");
     bool loaded = manager.loadLoRA("fail-nonenforced-lora", adapter_path, "base-model", 1.0f);
     EXPECT_TRUE(loaded) << "loadLoRA must succeed when security validation failure is non-enforced (warn-only)";
+}
+
+/// IVB-01: GGUF rank extracted from metadata must respect bounds in loadLoRAInternal().
+TEST_F(LoRASecurityValidatorIntegrationTest, RejectsOutOfBoundsRankFromGGUFMetadata) {
+    MultiLoRAManager::Config config;
+    config.max_lora_vram_mb = 512;
+    config.lora_base_dir = test_dir_.string();
+
+    MultiLoRAManager manager(config);
+    auto adapter_path = createMockGGUFWithRank("rank-oob-lora", 9999);
+    bool loaded = manager.loadLoRA("rank-oob-lora", adapter_path, "base-model", 1.0f);
+    EXPECT_FALSE(loaded) << "loadLoRA must reject out-of-bounds LoRA rank extracted from GGUF metadata";
 }
 
 // ═══════════════════════════════════════════════════════════

@@ -52,11 +52,15 @@ Security-sensitive input validation gaps found by static analysis:
 
 ## 🔴 CRITICAL Fixes — Status
 
-### Addressed in this PR (v1.20.0)
+### Addressed in this PR (v1.20.0 / v1.20.1)
 
 | Gap | Fix | File |
 |-----|-----|------|
 | LoRA security validator bypass in `loadLoRAInternal` | `LoRASecurityValidator::validateMetadata()` now called before GGUF parse via `Config::security_validator` | `multi_lora_manager.cpp` |
+| IVB-01: LoRA rank bounds not re-validated after GGUF extraction | Added fail-closed rank guard (`MIN_LORA_RANK..MAX_LORA_RANK`) immediately after `lora.rank` extraction | `multi_lora_manager.cpp` |
+| IVB-02: `max_tokens` missing `n_ctx` ceiling in inference paths | Added shared context-cap helper and enforced cap in `generate`, `generateSpeculative`, `generateRegular` | `llama_wrapper.cpp` |
+| IVB-03: Null-pointer dereference risk in `KVCacheBuffer::appendToken()` | Added early null guard (`key`/`value`) before vector insert operations | `kv_cache_buffer.cpp` |
+| IVB-04: Missing bounds re-validation before raw tensor `memcpy` | Added strict range checks against `mmap_size_` and `metadata_.total_size` directly in `getTensorData()` before copy | `gguf_loader.cpp` |
 | AUDIT.md inconsistency: LLM-NEW-1 shown as open despite path fixes | LLM-NEW-1 closed; compliance table updated | `AUDIT.md` |
 
 ### Previously addressed (2026-04-21 / 2026-05-04)
@@ -139,4 +143,3 @@ src/llm/MODULE_GAPS.md  ← You are here
 **Format:** THEMIS_MODULE_GAPS_v2  
 **Generator:** Manual + ThemisDB Gap Audit Pipeline v2 (`gap_scan_v3_llm.json`)  
 **Last Updated:** 2026-05-19
-
