@@ -53,6 +53,7 @@
 #include <cmath>
 #include <numbers>
 #include <limits>
+#include <exception>
 
 #include <tbb/parallel_invoke.h>
 #include <tbb/task_group.h>
@@ -164,7 +165,7 @@ static bool evalAqlExpression(const std::string& expression,
         if (!expr) return false;
         if (!ctx) return false;
         return engine->evaluateCondition(expr, *ctx);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -204,7 +205,7 @@ bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view express
         query::AQLParser parser;
         auto expr = parser.parseExpression(std::string(expression));
         return expr != nullptr;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -711,7 +712,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 			std::vector<BaseEntity> out;
 			out.emplace_back(BaseEntity::deserialize(pk, *blob));
 			return Ok(std::move(out));
-		} catch (...) {
+		} catch (const std::exception&) {
 			THEMIS_WARN("executeAndEntities pk_fast_path: Deserialisierung fehlgeschlagen für PK={}", pk);
 			return Ok(std::vector<BaseEntity>{});
 		}
@@ -740,7 +741,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-			catch (...) { THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
+			catch (const std::exception&) { THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
 		}
 	} else {
 		// Parallel für große Mengen: Batch-Processing mit TBB
@@ -759,7 +760,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-					catch (...) { THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
+					catch (const std::exception&) { THEMIS_WARN("executeAndEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
 				}
 
 				batches[batch_idx] = std::move(local_entities);
@@ -953,7 +954,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-			catch (...) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
+			catch (const std::exception&) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
 		}
 	} else {
 		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
@@ -969,7 +970,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-					catch (...) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
+					catch (const std::exception&) { THEMIS_WARN("executeOrEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
 				}
 				batches[batch_idx] = std::move(local_entities);
 			});
@@ -1007,7 +1008,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-			catch (...) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
+			catch (const std::exception&) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
 		}
 	} else {
 		std::vector<std::vector<BaseEntity>> batches((keys.size() + BATCH_SIZE - 1) / BATCH_SIZE);
@@ -1025,7 +1026,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 					auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-					catch (...) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
+					catch (const std::exception&) { THEMIS_WARN("executeOrEntities: Deserialisierung fehlgeschlagen für PK={}", pk); }
 				}
 
 				batches[batch_idx] = std::move(local_entities);
@@ -1128,7 +1129,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 			auto blob = db_->get(KeySchema::makeRelationalKey(table, pk));
 			if (!blob) continue;
 			try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-			catch (...) { THEMIS_WARN("executeAndEntitiesSequential: Deserialisierung fehlgeschlagen für PK={}", pk); }
+			catch (const std::exception&) { THEMIS_WARN("executeAndEntitiesSequential: Deserialisierung fehlgeschlagen für PK={}", pk); }
 		}
 	} else {
 		// Parallel für große Mengen
@@ -1147,7 +1148,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 					auto blob = db_->get(KeySchema::makeRelationalKey(table, pk));
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-					catch (...) { /* Silent failure in parallel context */ }
+					catch (const std::exception&) { /* Silent failure in parallel context */ }
 				}
 
 				batches[batch_idx] = std::move(local_entities);
@@ -1217,7 +1218,7 @@ static double qe_toNumber(const nlohmann::json& v) {
 	if (v.is_number()) return v.get<double>();
 	if (v.is_boolean()) return v.get<bool>() ? 1.0 : 0.0;
 	if (v.is_string()) {
-		try { return std::stod(v.get<std::string>()); } catch (...) { return 0.0; }
+		try { return std::stod(v.get<std::string>()); } catch (const std::exception&) { return 0.0; }
 	}
 	return 0.0;
 }
@@ -1241,7 +1242,7 @@ static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector
 			try {
 				size_t idx = static_cast<size_t>(std::stoull(key));
 				if (idx < current->size()) current = &((*current)[idx]); else return nullptr;
-			} catch (...) { return nullptr; }
+			} catch (const std::exception&) { return nullptr; }
 		} else {
 			return nullptr;
 		}
@@ -2159,7 +2160,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 				if (num_a > num_b) return 1;
 				return 0;
 			}
-		} catch (...) {
+		} catch (const std::exception&) {
 			// Not integers, try doubles
 			try {
 				size_t pos_a = 0, pos_b = 0;
@@ -2171,7 +2172,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 					if (num_a > num_b) return 1;
 					return 0;
 				}
-			} catch (...) {}
+			} catch (const std::exception&) {}
 		}
 
 		// Fall back to lexicographic string comparison
@@ -2223,7 +2224,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 			try {
 				BaseEntity e = BaseEntity::deserialize(entry.pk, entry.blob);
 				if (matchesPredicates(e)) out.push_back(std::move(entry.pk));
-			} catch (...) {
+			} catch (const std::exception&) {
 				// skip malformed entries
 			}
 		}
@@ -2248,7 +2249,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 					try {
 						BaseEntity e = BaseEntity::deserialize(entry.pk, entry.blob);
 						if (matchesPredicates(e)) local.push_back(std::move(entry.pk));
-					} catch (...) {
+					} catch (const std::exception&) {
 						// skip malformed entries
 					}
 				}
@@ -2365,7 +2366,7 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 		if (!blob) continue;
 		try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-		catch (...) { THEMIS_WARN("executeAndEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
+		catch (const std::exception&) { THEMIS_WARN("executeAndEntitiesWithFallback: Deserialisierung fehlgeschlagen für PK={}", pk); }
 	}
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
@@ -2498,7 +2499,7 @@ QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 		auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 		if (!blob) continue;
 		try { out.emplace_back(BaseEntity::deserialize(pk, *blob)); }
-		catch (...) { THEMIS_WARN("executeAndEntitiesRangeAware_: Deserialisierung fehlgeschlagen für PK={}", pk); }
+		catch (const std::exception&) { THEMIS_WARN("executeAndEntitiesRangeAware_: Deserialisierung fehlgeschlagen für PK={}", pk); }
 	}
 	span.setAttribute("query.entities_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
@@ -2754,7 +2755,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 							std::string join_key = doc[join_key_field].dump();
 							hash_table[join_key].push_back(doc);
 						}
-					} catch (...) {}
+					} catch (const std::exception&) {}
 					return true;
 				});
 			}
@@ -2886,7 +2887,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 						nlohmann::json doc = nlohmann::json::parse(entity.toJson());
 						doc["_key"] = pk;
 						processProbeDoc(doc);
-					} catch (...) {}
+					} catch (const std::exception&) {}
 					return true;
 				});
 			}
@@ -3021,7 +3022,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 					
 					// Recurse to next FOR level
 					nestedLoop(depth + 1, newCtx);
-				} catch (...) {
+				} catch (const std::exception&) {
 					// Skip malformed entities
 				}
 				return true; // Continue iteration
@@ -3122,7 +3123,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 			std::string key_str = groupKey_or_err->dump();
 			
 			groups[key_str].push_back(doc);
-		} catch (...) {
+		} catch (const std::exception&) {
 			// Skip malformed entities
 		}
 		return true; // Continue iteration
@@ -3375,7 +3376,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 				try {
 					auto entity = BaseEntity::deserialize(vertexPk, *vertexDataOpt);
 					vertex = nlohmann::json::parse(entity.toJson());
-				} catch (...) {
+				} catch (const std::exception&) {
 					pathValid = false;
 					break;
 				}
@@ -3470,7 +3471,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 						if (!vertexDataOpt.has_value()) continue;
 						nlohmann::json vertex;
 						try { auto entity = BaseEntity::deserialize(vertexPk, *vertexDataOpt); vertex = nlohmann::json::parse(entity.toJson()); }
-						catch (...) { continue; }
+						catch (const std::exception&) { continue; }
 						EvaluationContext ctx; ctx.bind("v", vertex);
 						if (evaluateCondition(sc.spatial_filter, ctx)) buf.push_back(vertexPk);
 					}
@@ -3606,7 +3607,7 @@ QueryEngine::executeGeneralTraversal(
 			if (vertexDataOpt.has_value()) {
 				try {
 					result.vertex_data = nlohmann::json::parse(*vertexDataOpt);
-				} catch (...) {
+				} catch (const std::exception&) {
 					// If parsing fails, create minimal JSON
 					result.vertex_data = nlohmann::json{{"_key", current.vertex}};
 				}
@@ -3798,7 +3799,7 @@ static HybridVGConfig loadHybridConfig_(RocksDBWrapper& db) {
 			if (j.contains("min_chunk_spatial_eval")) cfg.min_chunk_spatial_eval = (std::max)(static_cast<size_t>(16), static_cast<size_t>(j.value("min_chunk_spatial_eval", static_cast<int>(cfg.min_chunk_spatial_eval))));
 			if (j.contains("min_chunk_vector_bf")) cfg.min_chunk_vector_bf = (std::max)(static_cast<size_t>(64), static_cast<size_t>(j.value("min_chunk_vector_bf", static_cast<int>(cfg.min_chunk_vector_bf))));
 		}
-	} catch (...) {
+	} catch (const std::exception&) {
 		// keep defaults
 	}
 	return cfg;
@@ -3921,7 +3922,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					}
 					span.setAttribute("composite_prefilter_applied", true);
 				}
-			} catch(...) {
+			} catch (const std::exception&) {
 				// defensiv: bei Fehler keine Composite-Nutzung
 			}
 		}
@@ -3965,7 +3966,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			auto blobs = db_->multiGet(keys);
 			for (size_t i=0;i<vr.size();++i) {
 				if (!blobs[i].has_value()) continue;
-				nlohmann::json doc; try { std::string s(blobs[i]->begin(), blobs[i]->end()); doc = nlohmann::json::parse(s);} catch(...) { continue; }
+				nlohmann::json doc; try { std::string s(blobs[i]->begin(), blobs[i]->end()); doc = nlohmann::json::parse(s);} catch (const std::exception&) { continue; }
 				// Evaluate extra filters conjunctively
 				bool ok = true;
 				if (!q.extra_filters.empty()) {
@@ -3987,7 +3988,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				std::vector<uint8_t> blob(value.begin(), value.end());
 				BaseEntity entity = BaseEntity::deserialize(pk, blob);
 				doc = nlohmann::json::parse(entity.toJson());
-			} catch(...) { return true; }
+			} catch (const std::exception&) { return true; }
 			if (!doc.contains(q.vector_field) || !doc[q.vector_field].is_array()) return true;
 			std::vector<float> vec = doc[q.vector_field].get<std::vector<float>>();
 			if (vec.size() != q.query_vector.size()) return true;
@@ -4010,7 +4011,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			if (val_opt) {
 				try {
 					r.entity = nlohmann::json::parse(std::string(val_opt->begin(), val_opt->end()));
-				} catch(...) {}
+				} catch (const std::exception&) {}
 			}
 			results.push_back(std::move(r));
 		}
@@ -4084,7 +4085,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 							BaseEntity entity = BaseEntity::deserialize(vr[i].pk, *blobs[i]);
 							doc = nlohmann::json::parse(entity.toJson());
 						}
-						catch (...) { continue; }
+						catch (const std::exception&) { continue; }
 						EvaluationContext ctx; ctx.bind("doc", doc);
 						if (evaluateCondition(q.spatial_filter, ctx)) {
 							VectorGeoResult r; r.pk = vr[i].pk; r.vector_distance = vr[i].distance; r.entity = std::move(doc);
@@ -4146,7 +4147,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					nlohmann::json doc = nlohmann::json::parse(entity.toJson());
 					spatialCandidates.push_back(r.primary_key);
 					entityCache[r.primary_key] = std::move(doc);
-				} catch (...) { /* skip */ }
+				} catch (const std::exception&) { /* skip */ }
 			}
 		} else {
 			THEMIS_WARN("SpatialIndexManager available but could not extract BBox from filter, falling back to full scan");
@@ -4181,7 +4182,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					spatialCandidates.push_back(pk);
 					entityCache[pk] = entity;
 				}
-			} catch (...) {
+			} catch (const std::exception&) {
 				// Skip invalid JSON
 			}
 			return true;
@@ -4210,7 +4211,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					for (auto& ef : q.extra_filters) { if (!evaluateCondition(ef, ctx)) { extraOK=false; break; } }
 				}
 				if (spatialOK && extraOK) { spatialCandidates.push_back(pk); tmpCache[pk] = std::move(entity); }
-			} catch (...) { /* skip */ }
+			} catch (const std::exception&) { /* skip */ }
 			return true;
 		});
 		// merge cache
@@ -4370,7 +4371,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		auto blobs = db_->multiGet(keys);
 		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
 		std::vector<std::vector<ContentGeoResult>> buckets((n+CHUNK-1)/CHUNK); tbb::task_group tg;
-		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch(...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; r.bm25_score=bm25[pks[i]]; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch(...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.push_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
+		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (const std::exception&) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; r.bm25_score=bm25[pks[i]]; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (const std::exception&) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.push_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
 		tg.wait(); for(auto &b : buckets){ results.insert(results.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end())); }
 		child2.setAttribute("spatial_results", static_cast<int64_t>(results.size())); child2.setStatus(true);
 	} else {
@@ -4386,7 +4387,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 				std::vector<std::string> keys; keys.reserve(indexResults.size());
 				for (auto &r : indexResults) keys.push_back(q.table+":"+r.primary_key);
 				auto blobs = db_->multiGet(keys);
-				for(size_t i=0;i<indexResults.size();++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.push_back(indexResults[i].primary_key); cache[indexResults[i].primary_key]=std::move(doc);} catch(...) {} }
+				for(size_t i=0;i<indexResults.size();++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.push_back(indexResults[i].primary_key); cache[indexResults[i].primary_key]=std::move(doc);} catch (const std::exception&) {} }
 			} else {
 				childS.setAttribute("method","bbox_extract_failed_fallback_scan");
 			}
@@ -4402,12 +4403,12 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 			const auto &doc = it->second;
 			if (!doc.contains(q.text_field)) continue;
 			std::string text;
-			try { if (doc[q.text_field].is_string()) text = doc[q.text_field].get<std::string>(); else continue; } catch(...) { continue; }
+			try { if (doc[q.text_field].is_string()) text = doc[q.text_field].get<std::string>(); else continue; } catch (const std::exception&) { continue; }
 			auto docTokens = SecondaryIndexManager::tokenize(text); std::unordered_set<std::string> docSet(docTokens.begin(), docTokens.end());
 			bool all=true; for(auto &t : tokenSet){ if(docSet.find(t)==docSet.end()){ all=false; break; } }
 			if (!all) continue;
 			ContentGeoResult r; r.pk = pk; r.entity = doc; r.bm25_score = static_cast<double>(tokenSet.size());
-			if (q.boost_by_distance && q.center_point){ if (doc.contains(q.geom_field)){ nlohmann::json geom; if(doc[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(doc[q.geom_field].get<std::string>()); } catch(...) {} } else if(doc[q.geom_field].is_object()){ geom=doc[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } }
+			if (q.boost_by_distance && q.center_point){ if (doc.contains(q.geom_field)){ nlohmann::json geom; if(doc[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(doc[q.geom_field].get<std::string>()); } catch (const std::exception&) {} } else if(doc[q.geom_field].is_object()){ geom=doc[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } }
 			results.push_back(std::move(r));
 		}
 		childFT.setAttribute("fulltext_matches", static_cast<int64_t>(results.size())); childFT.setStatus(true);

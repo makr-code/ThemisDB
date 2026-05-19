@@ -13,6 +13,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Security audit: injection prevention hardening and resource exhaustion edge cases
 - AQL parser thread-safety refactor (per-thread instances or mutex protection)
 
+### Fixed
+- **QUERY-REL-001 — Catch-all cleanup in `query_engine.cpp`**
+  - Replaced all remaining broad `catch (...)` handlers with typed
+    `catch (const std::exception&)` across expression evaluation, entity
+    deserialization paths, numeric conversion fallbacks, scan/join/group
+    processing, and spatial/text hybrid query branches.
+  - Runtime behavior is preserved: malformed payloads still follow existing
+    skip/fallback semantics, while exception handling is now explicit and typed.
+
 ## [2.0.0] — 2026-04-27
 
 ### Added

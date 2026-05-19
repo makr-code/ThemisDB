@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **QUERY module — reliability hardening** (`src/query/query_engine.cpp`, `src/query/CHANGELOG.md`)
+  - Replaced all remaining `catch (...)` handlers in `query_engine.cpp`
+    with typed `catch (const std::exception&)` while preserving existing
+    fallback/skip behavior for malformed payloads and parse-conversion paths.
+  - Targeted delta: `query_engine.cpp` catch-all handlers reduced from **39 → 0**.
+
 - **CONTENT module — Phase 3.1–5 quality remediation** (`src/content/`, `tests/`, related docs)
   - **CON-007 — `VideoProcessor::healthCheck()` correctness**: `#else` (no-FFmpeg) branch was returning `initialized_` (always `true` after `initialize()`). Now returns `false` to surface the missing FFmpeg dependency to health-check aggregators, consistent with `TTSProcessor` and `STTProcessor`.
   - **CON-008 — `extractMetadata()` simulation stub documentation**: no-FFmpeg fallback in `video_processor.cpp` had no STUB/SIMULATION NOTE and contained an unreachable MKV-detection branch (identical EBML magic bytes as the WebM branch). STUB/SIMULATION NOTE added; dead branch removed.
