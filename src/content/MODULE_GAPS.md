@@ -279,6 +279,24 @@ concrete evidence of a runtime defect surfaces.
   (`no_health_check`: 14, `uncaught_exception`: 22, `no_timeout`: 4)
 - Net in this block: **10** reliability findings remediated in a single batch.
 
+### Phase 10 — Addressed (2026-05-19)
+
+#### CON-030 — Full catch-all cleanup in `content_manager.cpp`
+- **Severity:** MEDIUM  
+- **Status:** ✅ FIXED  
+- Completed the next reliability batch by replacing the **remaining** `catch (...)`
+  handlers in `content_manager.cpp` with typed exception handling (`const std::exception&`)
+  and by removing redundant generic fallback catches where a typed catch already existed.
+- Scope includes import/get/list/search/resolve/streaming config paths to ensure
+  fail-safe behavior remains intact without opaque catch-all handlers.
+
+#### Reliability scanner delta (`content_manager.cpp`)
+- Before this block: **40** reliability gaps  
+  (`no_health_check`: 14, `uncaught_exception`: 22, `no_timeout`: 4)
+- After this block: **18** reliability gaps  
+  (`no_health_check`: 14, `no_timeout`: 4, `uncaught_exception`: 0)
+- Net in this block: **22** reliability findings remediated in a single batch.
+
 ---
 
 ## 📍 Location

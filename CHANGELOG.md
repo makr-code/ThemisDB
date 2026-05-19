@@ -69,6 +69,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     `std::stod` conversion sites.
   - **Scanner delta (`content_manager.cpp`):** reliability findings reduced from **50 → 40**
     in this block (net **-10**), with behavior preserved (fail-safe/non-throwing path).
+- **CONTENT module — Phase 10 reliability hardening** (`src/content/content_manager.cpp`, `src/content/MODULE_GAPS.md`)
+  - **CON-030 — Catch-all cleanup batch in `content_manager.cpp`:** replaced all remaining
+    `catch (...)` handlers with typed exception handling (`catch (const std::exception&)`)
+    and removed redundant generic fallback catches where a typed catch already existed.
+  - **Scanner delta (`content_manager.cpp`):** reliability findings reduced from **40 → 18**
+    in this block (net **-22**), eliminating all `uncaught_exception` findings for this file.
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
