@@ -329,6 +329,13 @@ http::response<http::string_body> VoiceApiHandler::handleTranscribe(
                 "audio_base64 must be a base64 string"
             );
         }
+        if ((*body)["audio_base64"].get_ref<const std::string&>().empty()) {
+            return createErrorResponse(
+                http::status::bad_request,
+                "Bad Request",
+                "audio_base64 must not be empty"
+            );
+        }
         audio_data = decodeBase64((*body)["audio_base64"]);
     } else if (body->contains("audio_url")) {
         // Download audio from URL
@@ -341,6 +348,13 @@ http::response<http::string_body> VoiceApiHandler::handleTranscribe(
                 );
             }
             std::string audio_url = (*body)["audio_url"];
+            if (audio_url.empty()) {
+                return createErrorResponse(
+                    http::status::bad_request,
+                    "Bad Request",
+                    "audio_url must not be empty"
+                );
+            }
             audio_data = downloadAudioFromUrl(audio_url);
         } catch (const std::exception& e) {
             return createErrorResponse(
@@ -430,6 +444,13 @@ http::response<http::string_body> VoiceApiHandler::handleSynthesize(
     }
     
     std::string text = (*body)["text"];
+    if (text.empty()) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "Bad Request",
+            "text must not be empty"
+        );
+    }
     
     // Extract options
     if (body->contains("voice") && !(*body)["voice"].is_string()) {
@@ -459,6 +480,16 @@ http::response<http::string_body> VoiceApiHandler::handleSynthesize(
             "Bad Request",
             "format must be a string"
         );
+    }
+    if (body->contains("format")) {
+        const auto& format_value = (*body)["format"].get_ref<const std::string&>();
+        if (format_value != "wav" && format_value != "mp3" && format_value != "ogg") {
+            return createErrorResponse(
+                http::status::bad_request,
+                "Bad Request",
+                "format must be one of: wav, mp3, ogg"
+            );
+        }
     }
     if (body->contains("return_base64") && !(*body)["return_base64"].is_boolean()) {
         return createErrorResponse(
@@ -544,6 +575,13 @@ http::response<http::string_body> VoiceApiHandler::handleVoiceCommand(
             );
         }
         std::string text = (*body)["text"];
+        if (text.empty()) {
+            return createErrorResponse(
+                http::status::bad_request,
+                "Bad Request",
+                "text must not be empty"
+            );
+        }
         std::string response = voice_assistant_->processTextCommand(text, session_id);
         
         json result;
@@ -559,6 +597,13 @@ http::response<http::string_body> VoiceApiHandler::handleVoiceCommand(
                 http::status::bad_request,
                 "Bad Request",
                 "audio_base64 must be a base64 string"
+            );
+        }
+        if ((*body)["audio_base64"].get_ref<const std::string&>().empty()) {
+            return createErrorResponse(
+                http::status::bad_request,
+                "Bad Request",
+                "audio_base64 must not be empty"
             );
         }
         auto audio_data = decodeBase64((*body)["audio_base64"]);
@@ -613,6 +658,13 @@ http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
             http::status::bad_request,
             "Bad Request",
             "audio_base64 must be a base64 string"
+        );
+    }
+    if ((*body)["audio_base64"].get_ref<const std::string&>().empty()) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "Bad Request",
+            "audio_base64 must not be empty"
         );
     }
 
@@ -769,6 +821,15 @@ http::response<http::string_body> VoiceApiHandler::handleRecordCall(
             "custom_fields must be an object"
         );
     }
+    if (body->contains("start_time") && body->contains("end_time") &&
+        (*body)["start_time"].is_number_integer() && (*body)["end_time"].is_number_integer() &&
+        (*body)["end_time"].get<int64_t>() < (*body)["start_time"].get<int64_t>()) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "Bad Request",
+            "end_time must be greater than or equal to start_time"
+        );
+    }
 
     voice::PhoneCallMetadata metadata;
     metadata.call_id = body->value("call_id", "");
@@ -877,6 +938,15 @@ http::response<http::string_body> VoiceApiHandler::handleGenerateProtocol(
             "custom_fields must be an object"
         );
     }
+    if (body->contains("start_time") && body->contains("end_time") &&
+        (*body)["start_time"].is_number_integer() && (*body)["end_time"].is_number_integer() &&
+        (*body)["end_time"].get<int64_t>() < (*body)["start_time"].get<int64_t>()) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "Bad Request",
+            "end_time must be greater than or equal to start_time"
+        );
+    }
 
     voice::MeetingMetadata metadata;
     metadata.meeting_id = body->value("meeting_id", "");
@@ -944,6 +1014,13 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateSessionContext(
             http::status::bad_request,
             "Bad Request",
             "Missing context field"
+        );
+    }
+    if (!(*body)["context"].is_object()) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "Bad Request",
+            "context must be an object"
         );
     }
     
@@ -1014,6 +1091,32 @@ http::response<http::string_body> VoiceApiHandler::handleGetLanguages(
 // ---------------------------------------------------------------------------
 
 namespace {
+
+std::optional<std::string> validateMacroStepJson(const json& step_json) {
+    if (!step_json.is_object()) {
+        return "Each step must be an object";
+    }
+
+    if (step_json.contains("type") && !step_json["type"].is_string()) {
+        return "Each step type must be a string";
+    }
+    if (step_json.contains("action") && !step_json["action"].is_string()) {
+        return "Each step action must be a string";
+    }
+    if (step_json.contains("parameters") && !step_json["parameters"].is_object()) {
+        return "Each step parameters field must be an object";
+    }
+
+    if (step_json.contains("parameters") && step_json["parameters"].is_object()) {
+        for (auto it = step_json["parameters"].begin(); it != step_json["parameters"].end(); ++it) {
+            if (!it.value().is_string()) {
+                return "Each step parameter value must be a string";
+            }
+        }
+    }
+
+    return std::nullopt;
+}
 
 /** Convert a MacroStep JSON object from the request body into a MacroStep. */
 voice::MacroStep parseStep(const json& j) {
@@ -1117,10 +1220,10 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
             http::status::bad_request, "Bad Request", "'steps' must be an array");
     }
     for (const auto& sj : (*body)["steps"]) {
-        if (!sj.is_object()) {
+        if (const auto error = validateMacroStepJson(sj); error.has_value()) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
-                "Each step must be an object");
+                *error);
         }
         steps.push_back(parseStep(sj));
     }
@@ -1142,6 +1245,11 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
                 http::status::bad_request, "Bad Request",
                 "options.max_execution_time_ms must be an integer");
         }
+        if (opts.contains("max_execution_time_ms") && opts["max_execution_time_ms"].get<int>() <= 0) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "options.max_execution_time_ms must be positive");
+        }
         if (opts.contains("log_execution") && !opts["log_execution"].is_boolean()) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
@@ -1150,6 +1258,28 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
         options.require_confirmation  = opts.value("require_confirmation", false);
         options.max_execution_time_ms = opts.value("max_execution_time_ms", 30000);
         options.log_execution         = opts.value("log_execution", true);
+    }
+
+    if (body->contains("name") && !(*body)["name"].is_string()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "name must be a string");
+    }
+    if (body->contains("description") && !(*body)["description"].is_string()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "description must be a string");
+    }
+    if (body->contains("tags") && !(*body)["tags"].is_array()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "tags must be an array");
+    }
+    if (body->contains("tags") && (*body)["tags"].is_array()) {
+        for (const auto& tag : (*body)["tags"]) {
+            if (!tag.is_string()) {
+                return createErrorResponse(
+                    http::status::bad_request, "Bad Request",
+                    "Each tags element must be a string");
+            }
+        }
     }
 
     voice::MacroID id = voice_assistant_->macroManager().createMacro(
@@ -1164,21 +1294,9 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
     // Apply optional metadata fields (name, description, tags) if provided.
     // Defaults: name = trigger_phrase, description = "", tags = [].
     {
-        if (body->contains("name") && !(*body)["name"].is_string()) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request", "name must be a string");
-        }
-        if (body->contains("description") && !(*body)["description"].is_string()) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request", "description must be a string");
-        }
         std::string name = body->value("name", trigger);
         std::string description = body->value("description", std::string{});
         std::vector<std::string> tags;
-        if (body->contains("tags") && !(*body)["tags"].is_array()) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request", "tags must be an array");
-        }
         if (body->contains("tags") && (*body)["tags"].is_array()) {
             tags = (*body)["tags"].get<std::vector<std::string>>();
         }
@@ -1264,10 +1382,10 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
 
     std::vector<voice::MacroStep> steps;
     for (const auto& sj : (*body)["steps"]) {
-        if (!sj.is_object()) {
+        if (const auto error = validateMacroStepJson(sj); error.has_value()) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
-                "Each step must be an object");
+                *error);
         }
         steps.push_back(parseStep(sj));
     }
@@ -1289,6 +1407,11 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
                 http::status::bad_request, "Bad Request",
                 "options.max_execution_time_ms must be an integer");
         }
+        if (opts.contains("max_execution_time_ms") && opts["max_execution_time_ms"].get<int>() <= 0) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "options.max_execution_time_ms must be positive");
+        }
         if (opts.contains("log_execution") && !opts["log_execution"].is_boolean()) {
             return createErrorResponse(
                 http::status::bad_request, "Bad Request",
@@ -1297,6 +1420,32 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
         options.require_confirmation  = opts.value("require_confirmation", false);
         options.max_execution_time_ms = opts.value("max_execution_time_ms", 30000);
         options.log_execution         = opts.value("log_execution", true);
+    }
+
+    if (body->contains("name") && !(*body)["name"].is_string()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "name must be a string");
+    }
+    if (body->contains("description") && !(*body)["description"].is_string()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "description must be a string");
+    }
+    if (body->contains("tags") && !(*body)["tags"].is_array()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "tags must be an array");
+    }
+    if (body->contains("tags") && (*body)["tags"].is_array()) {
+        for (const auto& tag : (*body)["tags"]) {
+            if (!tag.is_string()) {
+                return createErrorResponse(
+                    http::status::bad_request, "Bad Request",
+                    "Each tags element must be a string");
+            }
+        }
+    }
+    if (body->contains("enabled") && !(*body)["enabled"].is_boolean()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "enabled must be a boolean");
     }
 
     bool ok = voice_assistant_->macroManager().updateMacro(macro_id, steps, options);
@@ -1311,22 +1460,6 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
     // Partial update semantics: omitted fields retain their previous values.
     auto info = voice_assistant_->macroManager().getMacro(macro_id);
     if (info) {
-        if (body->contains("name") && !(*body)["name"].is_string()) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request", "name must be a string");
-        }
-        if (body->contains("description") && !(*body)["description"].is_string()) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request", "description must be a string");
-        }
-        if (body->contains("tags") && !(*body)["tags"].is_array()) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request", "tags must be an array");
-        }
-        if (body->contains("enabled") && !(*body)["enabled"].is_boolean()) {
-            return createErrorResponse(
-                http::status::bad_request, "Bad Request", "enabled must be a boolean");
-        }
         std::string name = body->value("name", info->name);
         std::string description = body->value("description", info->description);
         std::vector<std::string> tags = info->tags;
@@ -1372,16 +1505,37 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
     auto span = Tracer::startSpan("handleListRecordings");
     std::string tier_str = parseQueryParam(std::string(req.target()), "tier");
     voice::StorageTier tier = voice::StorageTier::HOT;
-    if (tier_str == "warm")    tier = voice::StorageTier::WARM;
-    else if (tier_str == "cold") tier = voice::StorageTier::COLD;
+    if (!tier_str.empty()) {
+        if (tier_str == "hot") {
+            tier = voice::StorageTier::HOT;
+        } else if (tier_str == "warm") {
+            tier = voice::StorageTier::WARM;
+        } else if (tier_str == "cold") {
+            tier = voice::StorageTier::COLD;
+        } else {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "tier must be one of: hot, warm, cold");
+        }
+    }
 
     size_t limit = 100;
     std::string limit_str = parseQueryParam(std::string(req.target()), "limit");
     if (!limit_str.empty()) {
         try {
-            int v = std::stoi(limit_str);
-            if (v > 0) limit = static_cast<size_t>(v);
-        } catch (...) {}
+            size_t pos = 0;
+            int v = std::stoi(limit_str, &pos);
+            if (pos != limit_str.size() || v <= 0) {
+                return createErrorResponse(
+                    http::status::bad_request, "Bad Request",
+                    "limit must be a positive integer");
+            }
+            limit = static_cast<size_t>(v);
+        } catch (...) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "limit must be a positive integer");
+        }
     }
 
     auto records = voice_assistant_->audioStorage().listRecords(tier, limit);
@@ -1406,6 +1560,13 @@ http::response<http::string_body> VoiceApiHandler::handleGetRecording(
     const std::string& record_id
 ) {
     auto span = Tracer::startSpan("handleGetRecording");
+    std::string fmt = parseQueryParam(std::string(req.target()), "format");
+    if (!fmt.empty() && fmt != "metadata" && fmt != "audio") {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "format must be one of: metadata, audio");
+    }
+
     auto rec = voice_assistant_->audioStorage().getRecord(record_id);
     if (!rec.has_value()) {
         return createErrorResponse(
@@ -1416,7 +1577,6 @@ http::response<http::string_body> VoiceApiHandler::handleGetRecording(
     auto audio = voice_assistant_->audioStorage().retrieve(record_id);
 
     // Determine requested response format (metadata-only or audio bytes)
-    std::string fmt = parseQueryParam(std::string(req.target()), "format");
     if (fmt == "audio" && audio.has_value()) {
         std::string mime = "application/octet-stream";
         const auto& codec = rec->format.codec;
@@ -1459,9 +1619,19 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
     std::string limit_str = parseQueryParam(std::string(req.target()), "limit");
     if (!limit_str.empty()) {
         try {
-            int v = std::stoi(limit_str);
-            if (v > 0) limit = static_cast<size_t>(v);
-        } catch (...) {}
+            size_t pos = 0;
+            int v = std::stoi(limit_str, &pos);
+            if (pos != limit_str.size() || v <= 0) {
+                return createErrorResponse(
+                    http::status::bad_request, "Bad Request",
+                    "limit must be a positive integer");
+            }
+            limit = static_cast<size_t>(v);
+        } catch (...) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "limit must be a positive integer");
+        }
     }
 
     auto records = voice_assistant_->audioStorage().searchTranscripts(query, limit);
@@ -1852,7 +2022,13 @@ http::response<http::string_body> VoiceApiHandler::handleAuthEnroll(
                 http::status::bad_request, "Bad Request",
                 "Each element in audio_samples must be a base64-encoded string");
         }
-        audio_samples.push_back(decodeBase64(s.get<std::string>()));
+        const auto sample = s.get<std::string>();
+        if (sample.empty()) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "Each element in audio_samples must not be empty");
+        }
+        audio_samples.push_back(decodeBase64(sample));
     }
 
     voice::EnrollmentConfig enroll_cfg;
@@ -1945,6 +2121,11 @@ http::response<http::string_body> VoiceApiHandler::handleAuthVerify(
             http::status::bad_request, "Bad Request", "Invalid profile_id");
     }
 
+    if ((*body)["audio"].get_ref<const std::string&>().empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "audio must not be empty");
+    }
+
     const auto audio = decodeBase64((*body)["audio"].get<std::string>());
 
     auto result = voice_assistant_->verifyVoiceSpeaker(profile_id, audio);
@@ -1990,6 +2171,11 @@ http::response<http::string_body> VoiceApiHandler::handleAuthAuthenticate(
     if (!isValidVoicePathIdentifier(user_id)) {
         return createErrorResponse(
             http::status::bad_request, "Bad Request", "Invalid user_id");
+    }
+
+    if ((*body)["audio"].get_ref<const std::string&>().empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "audio must not be empty");
     }
 
     const auto audio = decodeBase64((*body)["audio"].get<std::string>());
@@ -2038,6 +2224,10 @@ http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
     if (!(*body)["audio"].is_string()) {
         return createErrorResponse(
             http::status::bad_request, "Bad Request", "audio must be a base64 string");
+    }
+    if ((*body)["audio"].get_ref<const std::string&>().empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "audio must not be empty");
     }
 
     std::vector<voice::VoiceProfileID> candidates;
