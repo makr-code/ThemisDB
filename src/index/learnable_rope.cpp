@@ -478,7 +478,7 @@ bool LearnableRotaryEmbedding::saveParameters(const std::string& path) const {
         
         file.close();
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -520,7 +520,7 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
                         try {
                             double value = std::stod(token);
                             loaded_theta.push_back(value);
-                        } catch (...) {
+                        } catch (const std::exception&) {
                             // Skip invalid values
                         }
                     }
@@ -542,7 +542,7 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
         }
         
         return false;
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

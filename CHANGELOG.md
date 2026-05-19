@@ -22,6 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `HammingCoderFocusedTests` CTest target registered
 
 ### Fixed
+- **Index module — catch-all hardening Phase 20 (complete)** 🔧
+  - Replaced all 117 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    13 C++ files in `src/index/`.
+  - Largest batches: `vector_index.cpp` (×31), `secondary_index.cpp` (×20),
+    `process_graph.cpp` (×19), `graph_index.cpp` (×11), `spatial_index.cpp` (×10).
+  - Zero `catch(...)` remain in `src/index/` C++ sources; fallback behavior preserved.
+
 - **Security/Storage modules — catch-all hardening Phase 19 (complete)** 🔧
   - Replaced all 71 remaining `catch(...)` handlers with `catch (const std::exception&)` across
     32 C++ files in `src/security/` and `src/storage/`.

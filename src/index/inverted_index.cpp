@@ -167,7 +167,7 @@ InvertedIndex::getConfig(std::string_view table,
                 if (w.is_string()) cfg.stopwords.push_back(w.get<std::string>());
         }
         return cfg;
-    } catch (...) {
+    } catch (const std::exception&) {
         return Config{}; // legacy or corrupt – return safe defaults
     }
 }
@@ -250,7 +250,7 @@ void InvertedIndex::removePostings_(std::string_view table,
                     db_.del(makeTFKey(table, column, tok, pk));
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Log and continue: a corrupt or missing reverse-index key means we
             // cannot clean up stale posting entries for this pk, but we must not
             // crash.  The stale entries will be invisible to callers (unreachable
@@ -380,7 +380,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
         double dl = 0.0;
         if (v && !v->empty()) {
             std::string s(v->begin(), v->end());
-            try { dl = static_cast<double>(std::stoull(s)); } catch (...) {}
+            try { dl = static_cast<double>(std::stoull(s)); } catch (const std::exception&) {}
         }
         docLen[pk]  = dl;
         totalLen   += dl;
@@ -411,7 +411,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
             double tf = 1.0;
             if (tfv && !tfv->empty()) {
                 std::string s(tfv->begin(), tfv->end());
-                try { tf = static_cast<double>(std::stoul(s)); } catch (...) {}
+                try { tf = static_cast<double>(std::stoul(s)); } catch (const std::exception&) {}
             }
             double denom = tf + k1 * (1.0 - b + b * (dl / avgdl));
             if (denom <= 0.0) denom = tf + k1;
@@ -502,7 +502,7 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
                            [](unsigned char c) { return std::tolower(c); });
             if (field.find(phraseNorm) != std::string::npos)
                 results.push_back({pk, 1.0});
-        } catch (...) {
+        } catch (const std::exception&) {
             // skip unreadable documents
         }
         if (results.size() >= limit) break;

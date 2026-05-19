@@ -28,6 +28,14 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 20 — Index catch-all hardening (COMPLETE)
+
+- **All remaining `src/index/` C++ catch-all handlers**: Replaced 117 catch-all handlers
+  with typed `std::exception` catches across 13 files.
+  - Largest batches: `vector_index.cpp` (×31), `secondary_index.cpp` (×20),
+    `process_graph.cpp` (×19), `graph_index.cpp` (×11), `spatial_index.cpp` (×10).
+  - Zero `catch(...)` remain in Index C++ sources.
+
 ### Phase 19 — Security/Storage catch-all hardening (COMPLETE)
 
 - **All remaining `src/security/` + `src/storage/` C++ catch-all handlers**: Replaced 71
