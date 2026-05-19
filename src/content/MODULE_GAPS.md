@@ -136,6 +136,21 @@ respective optional dependency is not compiled in.
 - [ ] Eliminate signed/unsigned comparison warnings (subset of 516 type_conversion) (deferred to Phase 4)
 - [ ] OOP design improvements (1,479) — override annotation, non-virtual destructor warnings; low-risk batch fix (deferred to Phase 4)
 
+### Phase 4 — Addressed (2026-05-19)
+- [x] Fix existing `VideoProcessorExtendedTest::HealthCheck` test: was asserting
+  `EXPECT_TRUE(healthCheck())` unconditionally; after CON-007 fix, no-FFmpeg builds
+  would fail. Test now uses `#ifdef THEMIS_HAS_FFMPEG` to differentiate expected value.
+- [x] New regression test file `test_content_con007_con012_remediations.cpp`:
+  - `VideoProcessorHealthCheckCON007/NotInitialized_AlwaysUnhealthy` — baseline invariant
+  - `VideoProcessorHealthCheckCON007/SimulationMode_InitializedButUnhealthy` — CON-007 core regression
+  - `VideoProcessorHealthCheckCON007/FFmpegMode_InitializedAndHealthy` — CON-007 regression guard
+  - `VideoProcessorHealthCheckCON007/AfterShutdown_AlwaysUnhealthy` — shutdown regression
+  - `AsyncIngestionWorkerCON012/DestructorIsNoexcept` — compile-time `is_nothrow_destructible` check
+- [x] New focused CMake target `test_content_con007_con012_remediations_focused` registered
+  under `ContentCON007CON012RemediationTests` CTest label; excluded from monolithic
+  `themis_tests` when `THEMIS_ENABLE_CONTENT=OFF`.
+- [ ] Additional unit tests for CON-009/010/011 (deferred — covered by existing integration paths)
+
 ---
 
 ## 📍 Location

@@ -426,6 +426,8 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_async_ingestion_backpressure\\.cpp$"
         # test_async_ingestion_yaml_config uses AsyncIngestionWorker + ConfigPathResolver (Issue #3998)
         ".*test_async_ingestion_yaml_config\\.cpp$"
+        # test_content_con007_con012_remediations uses video_processor + async_ingestion_worker headers
+        ".*test_content_con007_con012_remediations\\.cpp$"
     )
 endif()
 
@@ -11123,6 +11125,45 @@ if(THEMIS_ENABLE_CONTENT)
         message(STATUS "  LibreOfficeSecurity: relative-path rejection, shell-metachar injection, malformed OLE, RAII cleanup (CON-007)")
     else()
         message(STATUS "LibreOffice security focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_office_processor.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
+    # CON-007 / CON-012 remediation regression tests (Phase 4)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_con007_con012_remediations.cpp")
+        message(STATUS "Adding CON-007/CON-012 remediation regression tests (Phase 4)")
+
+        add_executable(test_content_con007_con012_remediations_focused
+            test_content_con007_con012_remediations.cpp
+        )
+
+        target_include_directories(test_content_con007_con012_remediations_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+
+        target_link_libraries(test_content_con007_con012_remediations_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_content_con007_con012_remediations_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ContentCON007CON012RemediationTests
+            COMMAND test_content_con007_con012_remediations_focused)
+
+        set_tests_properties(ContentCON007CON012RemediationTests PROPERTIES
+            LABELS "content;video;remediation;healthcheck;raii;noexcept;focused;unit;con007;con012"
+            TIMEOUT 30
+        )
+
+        message(STATUS "  CON-007: VideoProcessor::healthCheck() simulation-mode returns false")
+        message(STATUS "  CON-012: AsyncIngestionWorker dtor is_nothrow_destructible compile-time check")
+    else()
+        message(STATUS "CON-007/CON-012 remediation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_con007_con012_remediations.cpp")
     endif()
 
 endif() # THEMIS_ENABLE_CONTENT

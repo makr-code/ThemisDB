@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **CONTENT module — Phase 3.1–3.4 quality remediation** (`src/content/`, related docs)
+- **CONTENT module — Phase 3.1–4 quality remediation** (`src/content/`, `tests/`, related docs)
   - **CON-007 — `VideoProcessor::healthCheck()` correctness**: `#else` (no-FFmpeg) branch was returning `initialized_` (always `true` after `initialize()`). Now returns `false` to surface the missing FFmpeg dependency to health-check aggregators, consistent with `TTSProcessor` and `STTProcessor`.
   - **CON-008 — `extractMetadata()` simulation stub documentation**: no-FFmpeg fallback in `video_processor.cpp` had no STUB/SIMULATION NOTE and contained an unreachable MKV-detection branch (identical EBML magic bytes as the WebM branch). STUB/SIMULATION NOTE added; dead branch removed.
   - **CON-009 — RAII fix: raw `new`/`delete` for tags JSON in metadata encryption** (`content_manager.cpp:901-950`): The "tags" field encryption loop allocated a temporary `nlohmann::json` on the heap via `new` and performed manual `delete` calls in every exit path (early continue, success, exception). Replaced with a local RAII variable (`tags_tmp`) that is automatically destroyed at end of scope. Eliminates three raw `delete` call sites and removes exception-unsafe `delete` in the catch block.
@@ -23,7 +23,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Redundant `file.close()` removal** (`content_manager.cpp` archive ingestion loop): explicit `file.close()` removed; `std::ifstream` RAII already guarantees closure at end of loop iteration.
   - **CON-012 — exception-in-destructor: `AsyncIngestionWorker::~AsyncIngestionWorker()`**: destructor called `stop()` without exception guard; if `stop()` throws (mutex op or `promise::set_exception` during stack unwinding), `std::terminate()` would be invoked. Destructor is now `noexcept` with a `try/catch(...)` guard around `stop()`.
   - **CON-013 — scanner false positive: `executeWithRetry` loop `<= max_retries`**: static scanner flagged `for (i <= max_retries)` as `OFF_BY_ONE`; loop is correct (`max_retries=0` → one initial attempt). Clarifying comment added to suppress future false-positive reports.
-  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.1–3.4 implementation roadmap.
+  - **Phase 4 unit tests** (`tests/test_content_con007_con012_remediations.cpp`): 5 regression tests added:
+    - `VideoProcessorHealthCheckCON007/NotInitialized_AlwaysUnhealthy`
+    - `VideoProcessorHealthCheckCON007/SimulationMode_InitializedButUnhealthy` (CON-007 core regression)
+    - `VideoProcessorHealthCheckCON007/FFmpegMode_InitializedAndHealthy` (CON-007 guard)
+    - `VideoProcessorHealthCheckCON007/AfterShutdown_AlwaysUnhealthy`
+    - `AsyncIngestionWorkerCON012/DestructorIsNoexcept` (`std::is_nothrow_destructible` compile-time check)
+  - **Phase 4 test fix**: `VideoProcessorExtendedTest::HealthCheck` in `test_video_processor_extended.cpp` updated to expect `false` in no-FFmpeg builds and `true` in FFmpeg builds.
+  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.1–4 implementation roadmap.
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)

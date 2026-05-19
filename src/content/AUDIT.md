@@ -96,6 +96,7 @@
 - **Redundant explicit `file.close()` in archive ingestion loop** — `std::ifstream` RAII already guarantees closure at end of loop iteration; explicit call removed (2026-05-19).
 - **Exception-in-destructor: `AsyncIngestionWorker::~AsyncIngestionWorker()`** — destructor called `stop()` without exception guard; if `stop()` throws (e.g. `mutex` op or `promise::set_exception` during stack unwinding), `std::terminate()` would be invoked. Destructor is now declared `noexcept` and wraps `stop()` in a `try/catch(...)` block (2026-05-19, CON-012).
 - **Scanner false positive: `executeWithRetry` loop uses `<= max_retries`** — static scanner flagged `for (i <= max_retries)` as `OFF_BY_ONE`; loop is correct (`max_retries=0` → one initial attempt, no retries). Clarifying comment added (2026-05-19, CON-013).
+- **Phase 4 unit tests** — `test_content_con007_con012_remediations.cpp` added with 5 regression tests: CON-007 simulation-mode healthCheck invariants (3 tests), shutdown regression (1 test), CON-012 `is_nothrow_destructible` compile-time check (1 test). Fixed `VideoProcessorExtendedTest::HealthCheck` in `test_video_processor_extended.cpp` to handle both FFmpeg and no-FFmpeg expected values (2026-05-19).
 
 ### Open
 - **Plugin processor chain** — `IIngestionPlugin` API not yet implemented (Issue #1686); processor dispatch is hardcoded.
