@@ -127,7 +127,7 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
         if (!event_data.empty()) {
             event = nlohmann::json::parse(event_data);
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // If parsing fails, treat as raw string
     }
     

@@ -335,7 +335,7 @@ void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
                 total_failed   += stats.failed_records;
                 total_skipped  += stats.skipped_records;
                 total_duration += stats.elapsed_seconds;
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
     }
 

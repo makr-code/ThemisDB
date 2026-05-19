@@ -160,7 +160,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
         try {
             size_t limit = std::stoull(req.get_param_value("limit"));
             options.limit = limit;
-        } catch (...) {
+        } catch (const std::exception&) {
             throw std::invalid_argument("Invalid limit parameter");
         }
     }
@@ -170,7 +170,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
         try {
             size_t offset = std::stoull(req.get_param_value("offset"));
             options.offset = offset;
-        } catch (...) {
+        } catch (const std::exception&) {
             throw std::invalid_argument("Invalid offset parameter");
         }
     }
@@ -188,7 +188,7 @@ int64_t DiffApiHandler::parseTimestamp(const std::string& str) const {
     // Try to parse as milliseconds first
     try {
         return std::stoll(str);
-    } catch (...) {
+    } catch (const std::exception&) {
         spdlog::debug("DiffApiHandler::parseTimestamp: '{}' is not a numeric millisecond timestamp, trying ISO 8601", str);
     }
     

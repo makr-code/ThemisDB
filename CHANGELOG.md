@@ -22,6 +22,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `HammingCoderFocusedTests` CTest target registered
 
 ### Fixed
+- **Server module — catch-all hardening Phase 17 (complete)** 🔧
+  - Replaced all 133 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    all 39 remaining `src/server/` files (http_server, query_api_handler, lora_api_handler,
+    entity_api_handler, spatial_api_handler, mqtt_client_service, voice_api_handler,
+    task_scheduler_api_handler, policy_engine, diff_api_handler, schema_api_handler,
+    saga_api_handler, pii_api_handler, mcp_server, llm_api_handler, export_api_handler,
+    import_api_handler, audit_api_handler, reports_api_handler, wasm_handler_registry,
+    wal_grpc_service, transaction_api_handler, themis_core_grpc_service, snapshot_api_handler,
+    rpc/rpc_service_impl, rpc/blob_transfer_handler, rope_api_handler, request_coalescing,
+    postgres_session, pki_api_handler, opa_adapter, mvcc_api_handler, grpc_web_proxy_handler,
+    graph_api_handler, compliance_reporting_api_handler, chunked_response_writer,
+    async_job_api_handler, api_key_mgmt_handler, prompt_engineering_grpc_service).
+  - Zero `catch(...)` remain in `src/server/`. Best-effort/ignore semantics preserved.
+
 - **CONTENT filter/scan path — typed exception hardening** 🔧
   - `src/content/content_manager.cpp` (`buildChunkWhitelist()`):
     replaced catch-all handlers in the filter/schema/scan path with typed exception handling

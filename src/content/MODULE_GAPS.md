@@ -28,6 +28,17 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 17 — Server module catch-all hardening (COMPLETE)
+
+- **All 39 remaining `src/server/` files (SRV-005..SRV-043)**: Replaced 133 catch-all handlers
+  with typed `std::exception` catches. Zero `catch(...)` remain in the server module.
+  - http_server.cpp (×44), query_api_handler.cpp (×25), mqtt_client_service.cpp (×5),
+    spatial_api_handler.cpp (×4), lora_api_handler.cpp (×4), entity_api_handler.cpp (×4),
+    voice_api_handler.cpp (×3), task_scheduler_api_handler.cpp (×3), policy_engine.cpp (×3),
+    diff_api_handler.cpp (×3), schema_api_handler.cpp (×2), saga_api_handler.cpp (×2),
+    pii_api_handler.cpp (×2), mcp_server.cpp (×2), llm_api_handler.cpp (×2),
+    export_api_handler.cpp (×2), and 23 single-occurrence files.
+
 ### Phase 16 — Server handler reliability hardening
 
 - **`server/monitoring_api_handler.cpp` (SRV-001)**: Replaced 10 catch-all handlers:

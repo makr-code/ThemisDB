@@ -563,7 +563,7 @@ void MqttClientService::onConnAck(uint8_t /*flags*/, uint8_t return_code) {
         h = handler_;
     }
     if (h) {
-        try { h->onConnected(cid); } catch (...) {}
+        try { h->onConnected(cid); } catch (const std::exception&) {}
     }
 
     doWrite(); // Flush any queued publishes
@@ -579,7 +579,7 @@ void MqttClientService::onPublishReceived(const std::string& topic,
         h = handler_;
     }
     if (h) {
-        try { h->onMessage(topic, payload, qos); } catch (...) {}
+        try { h->onMessage(topic, payload, qos); } catch (const std::exception&) {}
     }
 }
 
@@ -707,7 +707,7 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
             h = handler_;
         }
         if (h) {
-            try { h->onDisconnected(reason); } catch (...) {}
+            try { h->onDisconnected(reason); } catch (const std::exception&) {}
         }
     }
 
@@ -726,7 +726,7 @@ void MqttClientService::doHandshake() {
     try {
         asio_->ssl_ctx = std::make_unique<boost::asio::ssl::context>(
             boost::asio::ssl::context::tlsv12_client);
-    } catch (...) {
+    } catch (const std::exception&) {
         scheduleReconnect();
         return;
     }
@@ -831,7 +831,7 @@ bool MqttCDCTransport::publish(const Changefeed::ChangeEvent& event) {
         std::string    payload = j.dump();
         std::string    topic   = topicForEvent(event);
         return service_.publish(topic, payload, qos_, false);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

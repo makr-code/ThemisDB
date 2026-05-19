@@ -335,7 +335,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
                 unit == 'm' || unit == 'u' || unit == 'n') {
                 ctx.set_deadline(deadline);
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // Ignore malformed grpc-timeout; use default deadline
         }
     } else if (config_.deadline_ms > 0) {
