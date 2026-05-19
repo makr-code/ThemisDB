@@ -196,7 +196,7 @@ public:
      * @return Status mit message; bei Erfolg ist message="ok"
      */
     // user_context: z.B. Benutzer-ID für kontextabhängige Verschlüsselung
-    Status importContent(const json& spec, const std::optional<std::string>& blob = std::nullopt, const std::string& user_context = "");
+    [[nodiscard]] Status importContent(const json& spec, const std::optional<std::string>& blob = std::nullopt, const std::string& user_context = "");
 
     /**
      * @brief Ingest raw blob with automatic processor selection and archive handling
@@ -215,7 +215,7 @@ public:
      * @return Status with message and JSON result containing content_id(s)
      */
     struct IngestResult {
-        bool success;
+        bool success = false;          ///< True when all required pipeline stages succeeded (CON-018)
         std::string error_message;
         std::string primary_content_id;  // Main content ID (archive or single file)
         std::vector<std::string> extracted_content_ids;  // IDs of extracted files (for archives)
@@ -232,7 +232,7 @@ public:
         std::vector<StageOutcome> stage_outcomes; ///< Ordered per-stage outcomes for this ingestion.
     };
     
-    IngestResult ingestRawBlob(
+    [[nodiscard]] IngestResult ingestRawBlob(
         const std::string& blob,
         const std::string& filename,
         const std::string& mime_type = "",
@@ -261,7 +261,7 @@ public:
      * @param config       Optional JSON configuration overrides
      * @return IngestResult with success flag and content_id on success
      */
-    IngestResult ingestStream(
+    [[nodiscard]] IngestResult ingestStream(
         std::istream& stream,
         const std::string& filename,
         const std::string& mime_type = "",
@@ -400,7 +400,7 @@ public:
      * @param content_id Content UUID
      * @return Status
      */
-    Status deleteContent(const std::string& content_id);
+    [[nodiscard]] Status deleteContent(const std::string& content_id);
 
     /**
      * @brief Virtual Filesystem: Resolve path to content ID
@@ -425,7 +425,7 @@ public:
      * @param recursive Create parent directories if needed
      * @return Status
      */
-    Status createDirectory(const std::string& virtual_path, bool recursive = false);
+    [[nodiscard]] Status createDirectory(const std::string& virtual_path, bool recursive = false);
 
     /**
      * @brief Virtual Filesystem: Register path for existing content
@@ -434,7 +434,7 @@ public:
      * @param virtual_path Path to register
      * @return Status
      */
-    Status registerPath(const std::string& content_id, const std::string& virtual_path);
+    [[nodiscard]] Status registerPath(const std::string& content_id, const std::string& virtual_path);
 
     /**
      * @brief Get processor for a category
@@ -445,11 +445,11 @@ public:
      * @brief Get statistics
      */
     struct Stats {
-        int total_content_items;
-        int total_chunks;
-        int total_embeddings;
+        int total_content_items = 0;   ///< CON-018
+        int total_chunks = 0;          ///< CON-018
+        int total_embeddings = 0;      ///< CON-018
         std::unordered_map<ContentCategory, int> items_by_category;
-        int64_t total_storage_bytes;
+        int64_t total_storage_bytes = 0; ///< CON-018
     };
     Stats getStats();
 

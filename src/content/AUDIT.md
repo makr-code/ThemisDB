@@ -100,6 +100,12 @@
 - **CON-014 — Uninitialized `IngestionJob` POD fields** (`async_ingestion_worker.h`): added in-class defaults (`= 0` / `= 0.0f`) to `created_at`, `started_at`, `completed_at`, `total_items`, `processed_items`, `progress`; removed 15 redundant explicit zero-assignment lines across 4 call sites in `async_ingestion_worker.cpp` (2026-05-19).
 - **CON-015 — Uninitialized `QItem::hop`** (`content_manager.cpp`): added `= 0` default initializer to the `hop` field of the local `QItem` struct (2026-05-19).
 - **CON-016 — Atomic stat members without in-class defaults** (`async_ingestion_worker.h`): added `{0}` in-class initializers to 5 `std::atomic` member variables; constructor initializer list retained for documentation (2026-05-19).
+- **CON-017 — Uninitialized `ExtractionResult` fields** (`content_processor.h`): `ok` defaulted to `false`; `MediaData::{duration_seconds, width, height, bitrate}` defaulted to `0` (2026-05-19).
+- **CON-018 — Uninitialized `IngestResult::success` and `Stats` fields** (`content_manager.h`): `success` defaulted to `false`; `Stats` POD fields defaulted to `0` (2026-05-19).
+- **CON-019 — Uninitialized archive structs** (`archive_processor.h`): `ArchiveMember`, `ArchiveMetadata`, `ArchiveExtractionResult`, `ArchiveProcessorResult` POD fields all have explicit in-class defaults (2026-05-19).
+- **CON-020 — Uninitialized PDF structs** (`pdf_processor.h`): `PDFPageInfo::{page_number,width,height,rotation}` and `PDFMetadata::{page_count,is_encrypted,is_linearized}` defaulted to `0`/`false` (2026-05-19).
+- **CON-021 — Uninitialized office structs** (`office_processor.h`): `WordDocumentInfo`, `Sheet`, `Slide`, `OfficeMetadata` POD fields defaulted to `0` (2026-05-19).
+- **CON-022 — `[[nodiscard]]` on status-returning methods** (`content_manager.h`): `importContent()`, `ingestRawBlob()`, `ingestStream()`, `deleteContent()`, `createDirectory()`, `registerPath()` are now `[[nodiscard]]` (2026-05-19).
 
 ### Open
 - **Plugin processor chain** — `IIngestionPlugin` API not yet implemented (Issue #1686); processor dispatch is hardcoded.

@@ -69,11 +69,11 @@ enum class ArchiveFormat {
  * @brief Archive member information
  */
 struct ArchiveMember {
-    std::string path;              // Path within archive
-    uint64_t uncompressed_size;    // Uncompressed size in bytes
-    uint64_t compressed_size;      // Compressed size in bytes
-    bool is_directory;             // True if this is a directory entry
-    bool is_encrypted;             // True if this member is encrypted
+    std::string path;                       // Path within archive
+    uint64_t uncompressed_size = 0;         ///< Uncompressed size in bytes (CON-019)
+    uint64_t compressed_size = 0;           ///< Compressed size in bytes (CON-019)
+    bool is_directory = false;              ///< True if this is a directory entry (CON-019)
+    bool is_encrypted = false;              ///< True if this member is encrypted (CON-019)
 };
 
 /**
@@ -81,12 +81,12 @@ struct ArchiveMember {
  */
 struct ArchiveMetadata {
     ArchiveFormat format;
-    bool is_encrypted;
-    uint64_t total_uncompressed_size;
-    uint64_t total_compressed_size;
-    size_t member_count;
-    size_t directory_count;
-    size_t file_count;
+    bool is_encrypted = false;              ///< CON-019
+    uint64_t total_uncompressed_size = 0;   ///< CON-019
+    uint64_t total_compressed_size = 0;     ///< CON-019
+    size_t member_count = 0;               ///< CON-019
+    size_t directory_count = 0;            ///< CON-019
+    size_t file_count = 0;                 ///< CON-019
     std::vector<ArchiveMember> members;
     std::string comment;  // Archive comment if any
 };
@@ -95,7 +95,7 @@ struct ArchiveMetadata {
  * @brief Archive extraction result (internal use)
  */
 struct ArchiveExtractionResult {
-    bool success;
+    bool success = false;  ///< CON-019
     std::string error_message;
     std::vector<std::string> extracted_files;  // Paths to extracted files in temp directory
     std::string temp_directory;  // Temporary directory used for extraction
@@ -105,7 +105,7 @@ struct ArchiveExtractionResult {
  * @brief Archive Processor Result (for process() method)
  */
 struct ArchiveProcessorResult {
-    bool success;
+    bool success = false;  ///< CON-019
     std::string error_message;
     json metadata;
 };

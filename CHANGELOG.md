@@ -32,8 +32,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Phase 4 test fix**: `VideoProcessorExtendedTest::HealthCheck` in `test_video_processor_extended.cpp` updated to expect `false` in no-FFmpeg builds and `true` in FFmpeg builds.
   - **CON-014 — Uninitialized `IngestionJob` POD fields** (`async_ingestion_worker.h`): `created_at`, `started_at`, `completed_at`, `total_items`, `processed_items`, `progress` had no in-class defaults. Added `= 0` / `= 0.0f` defaults; removed 15 redundant explicit zero-assignment lines across 4 call sites in `async_ingestion_worker.cpp`.
   - **CON-015 — Uninitialized `QItem::hop`** (`content_manager.cpp`): local struct `QItem` had `int hop` without initializer; added `= 0`.
-  - **CON-016 — Atomic stat members without in-class defaults** (`async_ingestion_worker.h`): added `{0}` in-class initializers to `total_jobs_processed_`, `total_jobs_failed_`, `total_items_processed_`, `total_backpressure_events_`, `queue_depth_high_watermark_`; guards against future delegating constructors.
-  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.1–5 implementation roadmap.
+  - **CON-016 — Atomic stat members without in-class defaults** (`async_ingestion_worker.h`): added `{0}` in-class initializers to 5 `std::atomic` member variables; guards against future delegating constructors.
+  - **CON-017 — Uninitialized `ExtractionResult` fields** (`content_processor.h`): `ok = false`; `MediaData::{duration_seconds, width, height, bitrate} = 0`.
+  - **CON-018 — Uninitialized `IngestResult::success` and `Stats` fields** (`content_manager.h`): `success = false`; `Stats` int/int64_t fields `= 0`.
+  - **CON-019 — Uninitialized archive structs** (`archive_processor.h`): `ArchiveMember`, `ArchiveMetadata`, `ArchiveExtractionResult`, `ArchiveProcessorResult` POD fields all have in-class defaults.
+  - **CON-020 — Uninitialized PDF structs** (`pdf_processor.h`): `PDFPageInfo` and `PDFMetadata` POD fields default to `0`/`false`.
+  - **CON-021 — Uninitialized office structs** (`office_processor.h`): `WordDocumentInfo`, `Sheet`, `Slide`, `OfficeMetadata` int fields default to `0`.
+  - **CON-022 — OOP: `[[nodiscard]]` on result-returning methods** (`content_manager.h`): `importContent`, `ingestRawBlob`, `ingestStream`, `deleteContent`, `createDirectory`, `registerPath`.
+  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.1–6 implementation roadmap.
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)

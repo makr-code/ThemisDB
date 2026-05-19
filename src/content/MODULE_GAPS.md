@@ -169,6 +169,33 @@ respective optional dependency is not compiled in.
 - [ ] type_conversion (516) — signed/unsigned and int→float implicit conversions; deferred to Phase 6
 - [ ] OOP design (1,479) — `[[nodiscard]]`, `override`, non-virtual dtors; deferred to Phase 6
 
+### Phase 6 — Addressed (2026-05-19)
+- [x] **CON-017 — Uninitialized `ExtractionResult` fields** (`content_processor.h`):
+  `ExtractionResult::ok` (bool, default `false`); `MediaData::duration_seconds`, `width`, `height`,
+  `bitrate` (all `int`, default `0`). These are wrapped in `std::optional<MediaData>` but the fields
+  themselves were uninitialized when the optional was populated.
+- [x] **CON-018 — Uninitialized `IngestResult::success` and `Stats` fields** (`content_manager.h`):
+  `IngestResult::success` (bool, default `false`); `Stats::total_content_items`,
+  `total_chunks`, `total_embeddings` (int, default `0`), `total_storage_bytes` (int64_t, default `0`).
+- [x] **CON-019 — Uninitialized `ArchiveMember`, `ArchiveMetadata`, result structs** (`archive_processor.h`):
+  `ArchiveMember::{uncompressed_size, compressed_size}` (uint64_t, `0`), `{is_directory,is_encrypted}` (bool, `false`).
+  `ArchiveMetadata::{is_encrypted, total_uncompressed_size, total_compressed_size, member_count, directory_count, file_count}`.
+  `ArchiveExtractionResult::success` and `ArchiveProcessorResult::success` (bool, `false`).
+- [x] **CON-020 — Uninitialized `PDFPageInfo` and `PDFMetadata` fields** (`pdf_processor.h`):
+  `PDFPageInfo::{page_number, width, height, rotation}` (int, `0`).
+  `PDFMetadata::{page_count}` (int, `0`), `{is_encrypted, is_linearized}` (bool, `false`).
+- [x] **CON-021 — Uninitialized `WordDocumentInfo`, `Sheet`, `Slide`, `OfficeMetadata` fields** (`office_processor.h`):
+  `WordDocumentInfo::{word_count, paragraph_count, page_count}` (int, `0`).
+  `Sheet::{row_count, col_count}` (int, `0`). `Slide::slide_number` (int, `0`).
+  `OfficeMetadata::{revision, edit_time_minutes}` (int, `0`).
+- [x] **CON-022 — OOP: `[[nodiscard]]` on key result-returning methods** (`content_manager.h`):
+  Added `[[nodiscard]]` to `importContent()`, `ingestRawBlob()`, `ingestStream()`,
+  `deleteContent()`, `createDirectory()`, `registerPath()`. Compiler now warns if callers
+  discard status/result objects. No existing call site was discarding the return value.
+- [ ] Remaining uninitialized members in `.cpp` local variables — deferred to Phase 7
+- [ ] type_conversion (516) — signed/unsigned comparisons; deferred to Phase 7
+- [ ] OOP design — `override` annotations, non-virtual dtors; deferred to Phase 7
+
 ---
 
 ## 📍 Location
