@@ -17,6 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **CONTENT Phase 8: thumbnail buffer sizing hardened in `VideoProcessor`**
+  - `VideoProcessor::initialize()` now rejects non-positive or overflow-prone thumbnail
+    dimensions instead of accepting configurations that could later overflow RGB buffer
+    sizing in thumbnail generation.
+  - FFmpeg thumbnail generation now clamps aspect-ratio-derived dimensions to at least
+    one pixel and computes row/buffer sizes in `size_t` before `std::vector::resize()`,
+    preventing signed intermediate overflow in the RGB copy path.
+  - Added regression tests for rejected zero/negative and overflow-prone thumbnail
+    dimensions. (`include/content/video_processor.h`, `src/content/video_processor.cpp`,
+    `tests/test_video_processor_extended.cpp`)
 - **whisper: division-by-zero / out-of-bounds in `WavAudioChunkReader::parseWav()`** 🛡️
   - Added `num_channels == 0` guard that throws `std::runtime_error` before the decode
     loops, preventing UB from a zero-division and an unbounded `memcpy` offset.

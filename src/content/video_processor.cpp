@@ -40,6 +40,7 @@
 #include <array>
 #include <cmath>
 #include <cstring>
+#include <limits>
 #include <sstream>
 #include <fstream>
 #include <chrono>
@@ -57,6 +58,27 @@ extern "C" {
 
 namespace themis {
 namespace content {
+
+namespace {
+
+bool isValidThumbnailBufferLayout(int width, int height) {
+    if (width <= 0 || height <= 0) {
+        return false;
+    }
+
+    constexpr auto kRgbChannels = size_t{3};
+    const auto safe_width = static_cast<size_t>(width);
+    const auto safe_height = static_cast<size_t>(height);
+
+    if (safe_width > static_cast<size_t>(std::numeric_limits<int>::max()) / kRgbChannels) {
+        return false;
+    }
+
+    const auto row_size = safe_width * kRgbChannels;
+    return safe_height <= std::numeric_limits<size_t>::max() / row_size;
+}
+
+} // namespace
 
 VideoProcessor::VideoProcessor() = default;
 
@@ -111,6 +133,10 @@ bool VideoProcessor::initialize(const PluginConfig& config) {
     extract_subtitles_ = config.get<bool>("subtitles.extract", true);
     enable_scene_detection_ = config.get<bool>("scene_detection.enabled", false);
     scene_detection_threshold_ = config.get<double>("scene_detection.threshold", 0.4);
+
+    if (!isValidThumbnailBufferLayout(max_thumbnail_width_, max_thumbnail_height_)) {
+        return false;
+    }
     
 #ifdef THEMIS_HAS_FFMPEG
     // Initialize FFmpeg library (only needed for older versions)
@@ -705,9 +731,13 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
             // Maintain aspect ratio
             double aspect = static_cast<double>(frame->width) / frame->height;
             if (frame->width > frame->height) {
-                thumb_height = static_cast<int>(thumb_width / aspect);
+                thumb_height = std::max(1, static_cast<int>(thumb_width / aspect));
             } else {
-                thumb_width = static_cast<int>(thumb_height * aspect);
+                thumb_width = std::max(1, static_cast<int>(thumb_height * aspect));
+            }
+
+            if (!isValidThumbnailBufferLayout(thumb_width, thumb_height)) {
+                throw std::runtime_error("Thumbnail dimensions exceed RGB buffer limits");
             }
             
             // Create scaling context
@@ -730,18 +760,26 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
                          rgb_frame->data, rgb_frame->linesize);
                 
                 // Copy RGB data - optimize for case without padding
-                thumbnail.resize(thumb_width * thumb_height * 3);
+                constexpr auto kRgbChannels = size_t{3};
+                const auto safe_width = static_cast<size_t>(thumb_width);
+                const auto safe_height = static_cast<size_t>(thumb_height);
+                const auto row_size = safe_width * kRgbChannels;
+                const auto thumbnail_size = row_size * safe_height;
+
+                thumbnail.resize(thumbnail_size);
                 uint8_t* dst = thumbnail.data();
                 const uint8_t* src = rgb_frame->data[0];
-                const int row_size = thumb_width * 3;
                 
-                if (rgb_frame->linesize[0] == row_size) {
+                if (rgb_frame->linesize[0] == static_cast<int>(row_size)) {
                     // No padding - single fast copy
                     memcpy(dst, src, thumbnail.size());
                 } else {
                     // Handle padding - copy row by row
                     for (int y = 0; y < thumb_height; y++) {
-                        memcpy(dst + y * row_size, src + y * rgb_frame->linesize[0], row_size);
+                        const auto row_index = static_cast<size_t>(y);
+                        memcpy(dst + row_index * row_size,
+                               src + row_index * static_cast<size_t>(rgb_frame->linesize[0]),
+                               row_size);
                     }
                 }
                 
@@ -996,4 +1034,3 @@ THEMIS_CONTENT_PLUGIN(VideoProcessor)
 
 } // namespace content
 } // namespace themis
-
