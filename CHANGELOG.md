@@ -25,13 +25,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Regression test `WALApplierDelaySequenceIsExponential` in `tests/test_retry_policy.cpp`
     - `src/ROADMAP.md` Code Consolidation Epic marked ✅ COMPLETE (all 6 phases done)
 
-- **Concurrency/Thread-Safety Epic — ExpertSystemEngine (items #41–45)** 🔀
-  - `include/analytics/expert_system_engine.h`: upgraded `std::mutex mutex_` → `std::shared_mutex mutex_`
-  - Read-only methods (`explain`, `factCount`, `ruleCount`, `queryGoal`) now use `std::shared_lock` — concurrent readers no longer block each other
-  - Write methods (`assertFact`, `retractFact`, `setMLScorer`, `setMLScorerFn`, `forwardChain`) use `std::unique_lock`
-  - **Lock-under-callback fix**: `forwardChain()` snapshots scorer state at start, releases `mutex_` before invoking `ml_scorer_->predict()` / `ml_scorer_fn_`, re-acquires after — eliminates re-entrancy deadlock when scorer callbacks call `assertFact`/`retractFact`
-  - Tests ES-21 (`ConcurrentReadersDoNotBlockEachOther`) and ES-22 (`ForwardChainScorerCallbackNoDeadlock`) added
-  - ROADMAP ticks off already-done items: PluginRegistry #193, schedules_mutex_ #185, DistributedGraphManager #174, ConfigEncryptedStore #164
+- **Concurrency/Thread-Safety Epic — ✅ COMPLETE (2026-05-19)** 🔀
+  - **`ExpertSystemEngine`** (`include/analytics/expert_system_engine.h`): `std::mutex mutex_` → `std::shared_mutex`; read-only methods (`explain`, `factCount`, `ruleCount`, `queryGoal`) use `std::shared_lock`; `forwardChain()` snapshots ML scorer state under lock, releases lock before calling external scorer, re-acquires after — eliminates re-entrancy deadlock; tests ES-21 + ES-22 added
+  - **`CEPEngine::timerLoop()` / `expiryLoop()` / `closeWindow()` (#41)** (`src/analytics/cep_engine.cpp`): window events + timestamps are now snapshotted under `windows_mutex_` and all user callbacks are dispatched after the lock is released — lock never held while executing arbitrary user code
+  - **`StreamingAnomalyDetector::process()` (#42)** (`src/analytics/anomaly_detection.cpp`): split into separate `window_mu_` (`std::shared_mutex`) for window updates and `detector_mu_` (`std::shared_mutex`) for model access; initial training and periodic retrain run fully off-lock via `std::async`; prediction runs under `shared_lock`; stress test `StreamingConcurrencyStress.EightProducersP99Latency` validates P99 ≤ 1 ms
+  - **`ModelServingEngine::predict()` / `predictBatch()` / `explain()` / `evaluate()` (#43)** (`src/analytics/model_serving.cpp`): `shared_mutex` registry; `lookupEntryOrThrow_()` captures a `shared_ptr<ModelServingEntry>` under a brief `shared_lock` and returns it — inference + health updates happen outside any registry lock; per-entry `health_mu` for metric writes; concurrent-readers + concurrent-unregister + throughput-benchmark tests added
+  - **`MLServingEngine::infer()` (#44)** (`src/analytics/ml_serving.cpp`): `shared_mutex sessions_mutex`; per-model `std::mutex` serialises concurrent loads of the same model without blocking unrelated models; `OrtSession::Run()` executes outside `sessions_mutex`; two-thread concurrent-inference test validates no inter-model blocking
+  - **`IncrementalView::applyChanges()` (#45)** (`src/analytics/incremental_view.cpp`): micro-batch loop (≤ 256 rows/batch); `unique_lock` acquired and released once per micro-batch; `std::this_thread::yield()` between batches lets concurrent readers acquire the shared lock; `passesBaseFilters()` pre-computed outside the write lock; `IncrementalViewPerfTest.ReaderP99DuringBatchApply` validates reader P99 ≤ 10 ms
+  - Already-done items confirmed ✅: PluginRegistry #193, schedules_mutex_ #185, DistributedGraphManager #174, ConfigEncryptedStore #164, MetricsCollector #191
+  - `src/ROADMAP.md` Concurrency Epic marked ✅ COMPLETE
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)

@@ -516,17 +516,23 @@ Affects: `auth`, `security`, `server`, `llm`, `utils`, `sharding`, `storage`
 ---
 
 ### 🔀 Concurrency / Thread-Safety Epic
+**Status:** ✅ **COMPLETE (2026-05-19)** · **Epic Label:** `epic:thread-safety` · **Target:** v1.8.0
+
 Affects: `analytics`, `acceleration`, `cache`, `config`, `graph`, `maintenance`, `observability`, `plugins`
 
-All modules still using exclusive mutexes on read paths (should upgrade to `std::shared_mutex`):
-- [~] `analytics` items #41–45 (6 lock-under-callback / lock-under-inference issues) — **In Progress (2026-05-19):** `ExpertSystemEngine` upgraded to `std::shared_mutex`; lock-under-callback in `forwardChain()` fixed by snapshotting scorer state and releasing lock before external scorer call; tests ES-21..ES-22 added.
+All modules upgraded from exclusive mutexes on read paths to `std::shared_mutex`:
+- [x] `analytics` items #41–45 — all lock-under-callback / lock-under-inference issues resolved:
+  - **#41 `CEPEngine::timerLoop()`**: snapshot window events + timestamps under `windows_mutex_`, release, then dispatch user callbacks; same pattern in `closeWindow()` and `expiryLoop()`.
+  - **#42 `StreamingAnomalyDetector::process()`**: separate `window_mu_` and `detector_mu_` (`std::shared_mutex`); training runs fully off-lock via `std::async`; `predict()` under `shared_lock`; stress test `StreamingConcurrencyStress.EightProducersP99Latency` validates P99 ≤ 1 ms.
+  - **#43 `ModelServingEngine::predict()`**: `shared_mutex` registry; `lookupEntryOrThrow_()` captures a `shared_ptr<Entry>` under a brief `shared_lock`, releases lock, runs inference outside any registry lock; `health_mu` per-entry for metrics. Concurrent-readers test + concurrent-unregister test + throughput benchmark added.
+  - **#44 `MLServingEngine::infer()`**: `shared_mutex sessions_mutex`; per-model `std::mutex` serialises concurrent loads of the same model without blocking unrelated models; `OrtSession::Run()` executes outside `sessions_mutex`. Two-thread concurrent inference test validates no inter-model blocking.
+  - **#45 `IncrementalView::applyChanges()`**: micro-batch loop (≤ 256 rows/batch); exclusive lock acquired + released per micro-batch; `std::this_thread::yield()` between batches; `passesBaseFilters()` pre-computed outside the lock. Read-latency regression test `IncrementalViewPerfTest.ReaderP99DuringBatchApply` validates P99 ≤ 10 ms.
+  - **`ExpertSystemEngine`** (v1.8.0, 2026-05-19): `std::mutex` → `std::shared_mutex`; read-only methods use `shared_lock`; `forwardChain()` snapshots scorer state under lock, releases lock before external scorer callback, re-acquires before writing; tests ES-21 (concurrent readers) + ES-22 (scorer-callback no-deadlock).
 - ~~`observability` MetricsCollector #191~~ ✅ Done (v1.8.0)
 - ~~`plugins` PluginRegistry #193~~ ✅ Done (already `std::shared_mutex`)
 - ~~`maintenance` schedules_mutex_ #185~~ ✅ Done (already `std::shared_mutex`)
 - ~~`graph` DistributedGraphManager #174~~ ✅ Done (already `std::shared_mutex`)
 - ~~`config` ConfigEncryptedStore #164~~ ✅ Done (already `std::shared_mutex`)
-
-**Suggested Epic Label:** `epic:thread-safety` · **Target:** v1.8.0
 
 ---
 
