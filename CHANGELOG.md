@@ -22,6 +22,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `HammingCoderFocusedTests` CTest target registered
 
 ### Fixed
+- **LLM module — catch-all hardening Phase 18 (complete)** 🔧
+  - Replaced all 61 remaining `catch(...)` handlers with `catch (const std::exception&)` across
+    24 `src/llm/` files:
+    `async_inference_engine.cpp` (×14), `inference_engine_enhanced.cpp` (×7),
+    `lora_framework/lora_checkpoint_manager.cpp` (×6), `llm_model_storage.cpp` (×6),
+    `embedded_llm_stub.cpp` (×3), and 19 additional files with 1–2 replacements each.
+  - Zero `catch(...)` remain in `src/llm/`. Best-effort/ignore behavior was preserved.
+
 - **Server module — catch-all hardening Phase 17 (complete)** 🔧
   - Replaced all 133 remaining `catch(...)` handlers with `catch (const std::exception&)` across
     all 39 remaining `src/server/` files (http_server, query_api_handler, lora_api_handler,

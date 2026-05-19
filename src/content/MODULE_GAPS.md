@@ -28,6 +28,14 @@
 
 ## ✅ Recent Remediation (2026-05-19)
 
+### Phase 18 — LLM module catch-all hardening (COMPLETE)
+
+- **All remaining `src/llm/` catch-all handlers**: Replaced 61 catch-all handlers with typed
+  `std::exception` catches across 24 files. Zero `catch(...)` remain in the LLM module.
+  - `async_inference_engine.cpp` (×14), `inference_engine_enhanced.cpp` (×7),
+    `lora_framework/lora_checkpoint_manager.cpp` (×6), `llm_model_storage.cpp` (×6),
+    `embedded_llm_stub.cpp` (×3), plus 19 additional files with 1–2 replacements each.
+
 ### Phase 17 — Server module catch-all hardening (COMPLETE)
 
 - **All 39 remaining `src/server/` files (SRV-005..SRV-043)**: Replaced 133 catch-all handlers
