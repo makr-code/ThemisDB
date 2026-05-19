@@ -7,84 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Reliability — Exception hardening (catch-all removal, batch 4)
-
-- **`server/http_server.cpp`** — 4 remaining `catch(...)` handlers replaced with typed
-  `catch (const std::exception&)` in `requireAccess()` diagnostic paths and the ADMIN-token
-  `validateToken()` post-addToken check.
-- **`query/query_engine.cpp`** — 8 remaining `catch(...)` handlers replaced with typed
-  `catch (const std::exception&)` / `catch (const nlohmann::json::exception&)` in composite
-  prefilter, KNN JSON parse, brute-force scan, geo-distance geometry parse, fulltext text-field
-  fetch, ContentGeoQuery TBB worker, spatial-index blob load, and spatial-then-fulltext geo boost paths.
-- **Result:** zero `catch (...)` handlers remain in `http_server.cpp` or `query_engine.cpp`.
-
-### Stub Remediation
-
-- **Stub #279: `DistributedTransactionManager::runPhase2Unlocked()` — remote phase-2 RPC missing** (🔴 Kritisch) — RESOLVED.
-  - `RemoteDecisionFn = std::function<bool(node_id, endpoint, txn_id, do_commit)>` type alias added to header.
-  - `setRemoteDecisionFn(fn)` / `clearRemoteDecisionFn()` public API added; guarded by `remote_decision_fn_mutex_`.
-  - `runPhase2Unlocked()` calls the injected fn per callback-less participant, logs WARN/ERROR on NACK or exception.
-  - Stub skip-path retained as `WARN` log when no fn and no endpoint are present.
-  - Tests: DTM-RPC-01..DTM-RPC-03 to be added in `tests/test_distributed_transaction_manager.cpp`.
-
-- **Stub #290: `DistributedTrainer::allreduce_cpu()` — local gradient scaling** (🟠 Hoch) — RESOLVED.
-  - `AllReduceCpuFn = std::function<void(std::vector<float>&)>` type alias added to header.
-  - `setAllReduceCpuFn(fn)` / `clearAllReduceCpuFn()` public API added.
-  - `allreduce_cpu()` delegates to injected fn first; falls back to local scale-only path when fn absent.
-  - Local scale fallback now has minimal STUB note (retained for single-process builds).
-
-- **Stub #296: `FeedbackStore::getSpamKeywords()` — hardcoded static list** (🟢 Niedrig) — RESOLVED.
-  - `SpamKeywordsProviderFn = std::function<std::vector<std::string>()>` type alias added to header.
-  - `setSpamKeywordsProvider(fn)` / `clearSpamKeywordsProvider()` static public API added; guarded by `s_spam_kw_mutex`.
-  - `getSpamKeywords()` calls injected fn first; falls back to built-in static list on empty return or exception.
-
-- **Stub #303: `LLMModelStorage::listModels()` — empty prefix scan** (🟡 Mittel) — RESOLVED.
-  - `listModels()` now uses `RocksDBWrapper::scanPrefix(config_.key_prefix, ...)` to enumerate all stored model keys.
-  - Edge graph scan (`getModelEdges()`) and embedding similarity scan (`findSimilarModels()`) in the same Impl also converted from empty-key-vector placeholders to real `scanPrefix` calls.
-
-
-- **`geo_processor.cpp`** — GDAL resource cleanup catch-all handlers (3 sites) replaced with `catch (const std::exception&)` in `parseGeoJSON()`, `parseGeoPackage()`, and `parseGeoTIFF()`. GDAL handles (GDALClose/VSIUnlink) are still released before rethrowing.
-- **`html_processor.cpp`** — HTML entity numeric-reference parse `catch (...)` replaced with `catch (const std::exception&)` in `decodeHTMLEntities()`.
-- **`video_processor.cpp`** — FFmpeg temp-file cleanup catch-all handlers (4 sites) replaced with `catch (const std::exception&)` in metadata extraction, thumbnail generation, keyframe extraction, and scene detection paths.
-- **`archive_processor.cpp`** — `writeBlobToFile()` return-false handler, TAR octal size parse handler, and two inline `create_directories` handlers (4 sites) replaced with `catch (const std::exception&)`.
-- **`embedding_pipeline.cpp`** — `embedWithTimeout()` `future.get()` catch-all replaced with `catch (const std::exception&)`; `notifyFailure()` and empty-vector return preserved.
-- **`content_fs.cpp`** — CBOR metadata decode catch-all handlers (5 sites) in `put()` chunk cleanup, `get()`, `getRange()`, `head()`, and `remove()` replaced with `catch (const std::exception&)`.
-- **Result:** zero `catch (...)` handlers remain in any `.cpp` file under `src/content/`.
-
-### Security Hardening Epic — ✅ COMPLETE (2026-05-19) 🔒
-
-- **Stub #302: `VoiceApiHandler::validateBearerToken()`** — Critical security gap resolved.
-  - `VoiceApiHandler` constructor now accepts optional `std::shared_ptr<AuthMiddleware>` (backward-compatible; null = open mode).
-  - `validateBearerToken()` delegates to `auth_->authorize(token, "voice:access")` when auth is enabled, performing full JWT/OIDC expiry, signature, issuer, audience, and revocation checks via the repository-wide auth stack.
-  - Open-mode fallback (null auth, dev/test) preserved: non-empty Bearer token string accepted.
-
-- **Stub #280: `RopeApiHandler::requireAccess()`** — High-severity RBAC gap resolved.
-  - `requireAccess()` now extracts the Bearer token via `AuthMiddleware::extractBearerToken()` and calls `auth_->authorize(token, permission)`, returning HTTP 403 on denied scopes (`vector:read`, `vector:write`, `data:read`, `data:write`).
-  - Mirrors the pattern already implemented in `VectorApiHandler`.
-
-- **Security Hardening Epic ROADMAP** marked ✅ COMPLETE in `src/ROADMAP.md`.  All items (#1–6 auth mutex/LDAP/constant-time/issuer, #75 LoRA cert TLS, #100 JWT scope RBAC, #218 PKI hash, #99 Arrow plugin, #27 AQL injection, #206 SecuritySignatureManager, #280 ROPE RBAC, #302 Voice JWT) verified done in code.
-
-### Bug Fixes / Correctness
-
-- **Stub #297: `FeedbackStore::applyPluginValidation()` MODIFY action** — correctness gap resolved.
-  - Method signature changed from `const FeedbackEntry&` to `FeedbackEntry&`.
-  - MODIFY case now applies `ValidationResponse::modified_comment` and `modified_metadata` in-place before persisting as APPROVED.
-  - Fields already existed in `ValidationResponse` (`include/llm/i_feedback_plugin.h`); no ABI change required.
-
-### Memory Safety / RAII
-
-- **Stub #298: `Http2Session::sendResponse()` raw-new eliminated** — RAII fix applied.
-  - `ResponseBuffer` struct promoted to `Http2Session` named type in `http2_session.h`.
-  - `response_buffers_` (`unordered_map<int32_t, shared_ptr<ResponseBuffer>>`) added to session; ensures buffer lifetime matches stream lifetime without explicit `delete`.
-  - `sendResponse()` and `sendServerPush()` both ported to `make_shared<ResponseBuffer>`; all raw `new`/`delete` calls removed.
-  - Buffers are erased from the map on `nghttp2_submit_response` failure.
-
-### Tests
-
-- New regression test `tests/test_stub_remediation_297_298_280_302.cpp` covering:
-  - `ValidationResponse` MODIFY fields (`modified_comment`, `modified_metadata`) structural verification (stub #297)
-  - `VoiceApiHandler::validateBearerToken()` open-mode fallback cases (stub #302)
-  - Documentation assertions for stub #298 and stub #280
+### Changed
+- **Reliability hardening block — HTTP server & query engine catch-all removal:**
+  - `src/server/http_server.cpp`: replaced all 51 `catch(...)` handlers with typed `catch(const std::exception&)` handlers; removed 7 dead belt-and-suspenders catch-all tails that were unreachable after a preceding `catch(const std::exception& e)` block; removed 1 passthrough `catch(...) { throw; }` block.
+  - `src/query/query_engine.cpp`: replaced all 39 `catch(...)` handlers with typed `catch(const std::exception&)` handlers across AQL evaluation, entity deserialization, composite-index prefilter, JSON parse, vector/geo/spatial scan paths; skip/continue semantics preserved.
+  - Both files now have **zero** catch-all exception handlers.
 
 ### Released
 - **v1.9.0-alpha (2026-04-26) veröffentlicht**
