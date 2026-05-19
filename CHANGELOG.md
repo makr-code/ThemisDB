@@ -17,6 +17,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **CONTENT next block: metadata/chunk retrieval exception hardening in `content_manager.cpp`**
+  - Replaced catch-all handlers with typed exception handling in vector metadata
+    encryption/decryption config parsing, content/chunk JSON decode paths, and
+    blob re-encryption metadata checks.
+  - Removed the generic unknown-exception fallback in `importContent()` and
+    retained existing `std::exception`-based error propagation.
+  - Reworked temporary `tags` metadata JSON handling to RAII (`std::optional`)
+    instead of manual `new`/`delete` during vector metadata encryption.
+  - (`src/content/content_manager.cpp`)
 - **CONTENT next block: import/config exception hardening in `content_manager.cpp`**
   - `checkDuplicateByHash()` now uses typed exception handling for malformed
     hash-index payloads and still returns `std::nullopt` for unreadable entries.

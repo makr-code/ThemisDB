@@ -959,17 +959,17 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     // Mapping: Feldname auf ContentMeta Struktur
                     // Unterstützte Felder: extracted_metadata, user_metadata, tags
                     nlohmann::json* target = nullptr;
+                    std::optional<nlohmann::json> tags_json_holder;
                     if (f == "extracted_metadata") target = &meta.extracted_metadata;
                     else if (f == "user_metadata") target = &meta.user_metadata;
                     else if (f == "tags") {
                         // tags als Array -> JSON konvertieren
-                        nlohmann::json arr = meta.tags;
-                        target = new nlohmann::json(arr); // temporär, am Ende cleanup
+                        tags_json_holder = nlohmann::json(meta.tags);
+                        target = &(*tags_json_holder);
                     }
                     if (!target) continue;
                     try {
                         if (target->is_null() || (target->is_object() && target->empty()) || (target->is_array() && target->empty())) {
-                            if (f == "tags" && target) { delete target; }
                             continue; // nichts zu verschlüsseln
                         }
                         std::string plain = target->dump();
@@ -991,18 +991,14 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         // Wir lagern verschlüsselte Meta-Felder im allgemeinen Meta-JSON als Platzhalter unter reserved key
                         // Da ContentMeta::toJson() Felder fix zusammenstellt, hängen wir Zusatzfelder erst nachher an (siehe unten mjsonPatch)
                         // Temporär speichern in map structure
-                        if (f == "tags" && target) { delete target; }
                         // Hänge verschlüsselte Strings in eine Zusatzliste (wird später gemerged)
                         if (!meta.extracted_metadata.contains("__enc_meta")) {
-                            try { meta.extracted_metadata["__enc_meta"] = json::object(); } catch (...) {}
+                            meta.extracted_metadata["__enc_meta"] = json::object();
                         }
-                        try {
-                            meta.extracted_metadata["__enc_meta"][f + "_encrypted"] = enc_b64;
-                            meta.extracted_metadata["__enc_meta"][f + "_enc"] = true;
-                        } catch (...) {}
+                        meta.extracted_metadata["__enc_meta"][f + "_encrypted"] = enc_b64;
+                        meta.extracted_metadata["__enc_meta"][f + "_enc"] = true;
                     } catch (const std::exception& ex) {
                         THEMIS_WARN("vector metadata encryption field {} failed: {}", f, ex.what());
-                        if (f == "tags" && target) { delete target; }
                     }
                 }
             }
@@ -1057,8 +1053,6 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         return Status::OK();
     } catch (const std::exception& e) {
         return Status::Error(std::string("import error: ") + e.what());
-    } catch (...) {
-        return Status::Error("import error");
     }
 }
 
@@ -1083,7 +1077,11 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
                         for (const auto& f : mcfg["fields"]) if (f.is_string()) meta_fields.push_back(f.get<std::string>());
                     }
                 }
-            } catch (...) { meta_encrypt_enabled = false; }
+            } catch (const json::exception&) {
+                meta_encrypt_enabled = false;
+            } catch (const std::exception&) {
+                meta_encrypt_enabled = false;
+            }
             if (meta_encrypt_enabled) {
                 auto enc_section = j["_encrypted_meta"];
                 std::string ctx = user_context.empty() ? std::string("anonymous") : user_context;
@@ -1109,7 +1107,11 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
             }
         }
         return ContentMeta::fromJson(j);
-    } catch (...) { return std::nullopt; }
+    } catch (const json::exception&) {
+        return std::nullopt;
+    } catch (const std::exception&) {
+        return std::nullopt;
+    }
 }
 std::optional<std::string> ContentManager::getContentBlob(const std::string& content_id, const std::string& user_context) {
     std::string id = normalizeId(content_id, "content:");
@@ -1144,7 +1146,7 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
                     THEMIS_INFO("Content blob {} uses outdated key version {} (latest: {}), triggering re-encryption", 
                                 id, blob.key_version, latest_version);
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // If metadata check fails, skip re-encryption
             }
             
@@ -1207,7 +1209,11 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
         std::string s(lv->begin(), lv->end());
         json j = json::parse(s);
         if (j.contains("ids")) ids = j["ids"].get<std::vector<std::string>>();
-    } catch (...) { return out; }
+    } catch (const json::exception&) {
+        return out;
+    } catch (const std::exception&) {
+        return out;
+    }
     for (const auto& cid : ids) {
         auto v = storage_->get(std::string("chunk:") + cid);
         if (!v) continue;
@@ -1215,7 +1221,11 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
             std::string s(v->begin(), v->end());
             json j = json::parse(s);
             out.push_back(ChunkMeta::fromJson(j));
-        } catch (...) { continue; }
+        } catch (const json::exception&) {
+            continue;
+        } catch (const std::exception&) {
+            continue;
+        }
     }
     std::sort(out.begin(), out.end(), [](const ChunkMeta& a, const ChunkMeta& b){ return a.seq_num < b.seq_num; });
     return out;
@@ -1229,7 +1239,11 @@ std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
         std::string s(v->begin(), v->end());
         json j = json::parse(s);
         return ChunkMeta::fromJson(j);
-    } catch (...) { return std::nullopt; }
+    } catch (const json::exception&) {
+        return std::nullopt;
+    } catch (const std::exception&) {
+        return std::nullopt;
+    }
 }
 
 // ===================== Content Assembly & Navigation =====================
