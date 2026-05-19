@@ -7,7 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Content Module — Reliability Hardening (catch-all removal, batch 3)
+### Reliability — Exception hardening (catch-all removal, batch 4)
+
+- **`server/http_server.cpp`** — 4 remaining `catch(...)` handlers replaced with typed
+  `catch (const std::exception&)` in `requireAccess()` diagnostic paths and the ADMIN-token
+  `validateToken()` post-addToken check.
+- **`query/query_engine.cpp`** — 8 remaining `catch(...)` handlers replaced with typed
+  `catch (const std::exception&)` / `catch (const nlohmann::json::exception&)` in composite
+  prefilter, KNN JSON parse, brute-force scan, geo-distance geometry parse, fulltext text-field
+  fetch, ContentGeoQuery TBB worker, spatial-index blob load, and spatial-then-fulltext geo boost paths.
+- **Result:** zero `catch (...)` handlers remain in `http_server.cpp` or `query_engine.cpp`.
+
+### Stub Remediation
+
+- **Stub #279: `DistributedTransactionManager::runPhase2Unlocked()` — remote phase-2 RPC missing** (🔴 Kritisch) — RESOLVED.
+  - `RemoteDecisionFn = std::function<bool(node_id, endpoint, txn_id, do_commit)>` type alias added to header.
+  - `setRemoteDecisionFn(fn)` / `clearRemoteDecisionFn()` public API added; guarded by `remote_decision_fn_mutex_`.
+  - `runPhase2Unlocked()` calls the injected fn per callback-less participant, logs WARN/ERROR on NACK or exception.
+  - Stub skip-path retained as `WARN` log when no fn and no endpoint are present.
+  - Tests: DTM-RPC-01..DTM-RPC-03 to be added in `tests/test_distributed_transaction_manager.cpp`.
+
+- **Stub #290: `DistributedTrainer::allreduce_cpu()` — local gradient scaling** (🟠 Hoch) — RESOLVED.
+  - `AllReduceCpuFn = std::function<void(std::vector<float>&)>` type alias added to header.
+  - `setAllReduceCpuFn(fn)` / `clearAllReduceCpuFn()` public API added.
+  - `allreduce_cpu()` delegates to injected fn first; falls back to local scale-only path when fn absent.
+  - Local scale fallback now has minimal STUB note (retained for single-process builds).
+
+- **Stub #296: `FeedbackStore::getSpamKeywords()` — hardcoded static list** (🟢 Niedrig) — RESOLVED.
+  - `SpamKeywordsProviderFn = std::function<std::vector<std::string>()>` type alias added to header.
+  - `setSpamKeywordsProvider(fn)` / `clearSpamKeywordsProvider()` static public API added; guarded by `s_spam_kw_mutex`.
+  - `getSpamKeywords()` calls injected fn first; falls back to built-in static list on empty return or exception.
+
+- **Stub #303: `LLMModelStorage::listModels()` — empty prefix scan** (🟡 Mittel) — RESOLVED.
+  - `listModels()` now uses `RocksDBWrapper::scanPrefix(config_.key_prefix, ...)` to enumerate all stored model keys.
+  - Edge graph scan (`getModelEdges()`) and embedding similarity scan (`findSimilarModels()`) in the same Impl also converted from empty-key-vector placeholders to real `scanPrefix` calls.
+
 
 - **`geo_processor.cpp`** — GDAL resource cleanup catch-all handlers (3 sites) replaced with `catch (const std::exception&)` in `parseGeoJSON()`, `parseGeoPackage()`, and `parseGeoTIFF()`. GDAL handles (GDALClose/VSIUnlink) are still released before rethrowing.
 - **`html_processor.cpp`** — HTML entity numeric-reference parse `catch (...)` replaced with `catch (const std::exception&)` in `decodeHTMLEntities()`.

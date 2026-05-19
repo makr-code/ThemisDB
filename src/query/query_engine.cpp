@@ -3920,8 +3920,9 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					}
 					span.setAttribute("composite_prefilter_applied", true);
 				}
-			} catch(...) {
+			} catch (const std::exception& ex) {
 				// defensiv: bei Fehler keine Composite-Nutzung
+				THEMIS_WARN("VectorGeoQuery: composite prefilter failed, skipping: {}", ex.what());
 			}
 		}
 		// Wende Range-Prädikate an (intersect)
@@ -3964,7 +3965,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			auto blobs = db_->multiGet(keys);
 			for (size_t i=0;i<vr.size();++i) {
 				if (!blobs[i].has_value()) continue;
-				nlohmann::json doc; try { std::string s(blobs[i]->begin(), blobs[i]->end()); doc = nlohmann::json::parse(s);} catch(...) { continue; }
+				nlohmann::json doc; try { std::string s(blobs[i]->begin(), blobs[i]->end()); doc = nlohmann::json::parse(s);} catch (const nlohmann::json::exception&) { continue; }
 				// Evaluate extra filters conjunctively
 				bool ok = true;
 				if (!q.extra_filters.empty()) {
@@ -3986,7 +3987,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				std::vector<uint8_t> blob(value.begin(), value.end());
 				BaseEntity entity = BaseEntity::deserialize(pk, blob);
 				doc = nlohmann::json::parse(entity.toJson());
-			} catch(...) { return true; }
+			} catch (const std::exception& ex) { THEMIS_WARN("VectorGeoQuery brute-force scan: deserialization failed: {}", ex.what()); return true; }
 			if (!doc.contains(q.vector_field) || !doc[q.vector_field].is_array()) return true;
 			std::vector<float> vec = doc[q.vector_field].get<std::vector<float>>();
 			if (vec.size() != q.query_vector.size()) return true;
@@ -4009,7 +4010,9 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			if (val_opt) {
 				try {
 					r.entity = nlohmann::json::parse(std::string(val_opt->begin(), val_opt->end()));
-				} catch(...) {}
+				} catch (const nlohmann::json::exception& jsonEx) {
+					THEMIS_WARN("VectorGeoQuery: entity JSON parse failed for pk='{}': {}", tmp[i].first, jsonEx.what());
+				}
 			}
 			results.push_back(std::move(r));
 		}
@@ -4369,7 +4372,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		auto blobs = db_->multiGet(keys);
 		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
 		std::vector<std::vector<ContentGeoResult>> buckets((n+CHUNK-1)/CHUNK); tbb::task_group tg;
-		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch(...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; r.bm25_score=bm25[pks[i]]; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch(...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.push_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
+		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (const std::exception&) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; r.bm25_score=bm25[pks[i]]; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (const nlohmann::json::exception&) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.push_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
 		tg.wait(); for(auto &b : buckets){ results.insert(results.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end())); }
 		child2.setAttribute("spatial_results", static_cast<int64_t>(results.size())); child2.setStatus(true);
 	} else {
@@ -4385,7 +4388,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 				std::vector<std::string> keys; keys.reserve(indexResults.size());
 				for (auto &r : indexResults) keys.push_back(q.table+":"+r.primary_key);
 				auto blobs = db_->multiGet(keys);
-				for(size_t i=0;i<indexResults.size();++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.push_back(indexResults[i].primary_key); cache[indexResults[i].primary_key]=std::move(doc);} catch(...) {} }
+				for(size_t i=0;i<indexResults.size();++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.push_back(indexResults[i].primary_key); cache[indexResults[i].primary_key]=std::move(doc);} catch (const std::exception&) {} }
 			} else {
 				childS.setAttribute("method","bbox_extract_failed_fallback_scan");
 			}
@@ -4401,12 +4404,12 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 			const auto &doc = it->second;
 			if (!doc.contains(q.text_field)) continue;
 			std::string text;
-			try { if (doc[q.text_field].is_string()) text = doc[q.text_field].get<std::string>(); else continue; } catch(...) { continue; }
+			try { if (doc[q.text_field].is_string()) text = doc[q.text_field].get<std::string>(); else continue; } catch (const std::exception&) { continue; }
 			auto docTokens = SecondaryIndexManager::tokenize(text); std::unordered_set<std::string> docSet(docTokens.begin(), docTokens.end());
 			bool all=true; for(auto &t : tokenSet){ if(docSet.find(t)==docSet.end()){ all=false; break; } }
 			if (!all) continue;
 			ContentGeoResult r; r.pk = pk; r.entity = doc; r.bm25_score = static_cast<double>(tokenSet.size());
-			if (q.boost_by_distance && q.center_point){ if (doc.contains(q.geom_field)){ nlohmann::json geom; if(doc[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(doc[q.geom_field].get<std::string>()); } catch(...) {} } else if(doc[q.geom_field].is_object()){ geom=doc[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } }
+			if (q.boost_by_distance && q.center_point){ if (doc.contains(q.geom_field)){ nlohmann::json geom; if(doc[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(doc[q.geom_field].get<std::string>()); } catch (const nlohmann::json::exception&) {} } else if(doc[q.geom_field].is_object()){ geom=doc[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } }
 			results.push_back(std::move(r));
 		}
 		childFT.setAttribute("fulltext_matches", static_cast<int64_t>(results.size())); childFT.setStatus(true);

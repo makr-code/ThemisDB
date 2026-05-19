@@ -25,12 +25,29 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <mutex>
 #include <regex>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
 
 namespace themis {
 namespace llm {
+
+// ── Spam-keywords provider bridge (stub #296) ─────────────────────────────
+namespace {
+std::mutex              s_spam_kw_mutex;
+FeedbackStore::SpamKeywordsProviderFn s_spam_kw_provider;
+} // anonymous namespace
+
+void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn fn) {
+    std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
+    s_spam_kw_provider = std::move(fn);
+}
+
+void FeedbackStore::clearSpamKeywordsProvider() {
+    std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
+    s_spam_kw_provider = SpamKeywordsProviderFn{};
+}
 
 // ===== Helper function to convert enum to string =====
 
@@ -534,26 +551,23 @@ void FeedbackStore::clear() {
 // ===== Validation Logic =====
 
 const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
-    // STUB/SIMULATION NOTE (stub #296):
-    // Purpose: Provide a minimal spam-detection keyword list so that the feedback
-    //          validation pipeline works out of the box without an external config
-    //          source.
-    // Activation: Always — no runtime config loader or database table is wired;
-    //             the static list is always returned.
-    // Production Delta: The keyword set is fixed at compile time.  New spam patterns
-    //                   require a binary rebuild and redeployment.  Regional or
-    //                   language-specific keywords cannot be added at runtime.
-    //                   Operators cannot tune spam detection without source changes.
-    // Removal Plan: Add a `setSpamKeywordsProvider(fn)` injection API that receives
-    //               keywords from `config/spam_keywords.txt` or the
-    //               `themisdb.spam_detection.keywords` table; fall back to the static
-    //               list when no provider is injected.
-    //               See src/llm/FUTURE_ENHANCEMENTS.md §FeedbackStore SpamKeywords.
-    //               Target: v2.0.0.
-    // Configurable spam keywords list
-    // TODO: In production, load these from a configuration file or database
-    // for runtime updates without recompilation
-    // Example: config/spam_keywords.txt or themisdb.spam_detection.keywords table
+    // Check for injected provider first (stub #296 bridge).
+    {
+        std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
+        if (s_spam_kw_provider) {
+            static thread_local std::vector<std::string> dynamic_keywords;
+            try {
+                auto kws = s_spam_kw_provider();
+                if (!kws.empty()) {
+                    dynamic_keywords = std::move(kws);
+                    return dynamic_keywords;
+                }
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("FeedbackStore::getSpamKeywords: provider threw: {}", ex.what());
+            }
+        }
+    }
+    // Built-in static fallback.
     static const std::vector<std::string> spam_keywords = {
         "buy now", "click here", "viagra", "casino", "lottery", 
         "free money", "million dollars", "nigerian prince",

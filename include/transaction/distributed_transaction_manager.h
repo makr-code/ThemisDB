@@ -273,6 +273,42 @@ public:
     using TransactionId = std::string;
 
     /**
+     * @brief Function type for remote phase-2 decision delivery.
+     *
+     * Inject a real mTLS/RPC transport via setRemoteDecisionFn().
+     * The function receives the node_id, endpoint, txn_id, and a bool
+     * indicating COMMIT (true) or ABORT (false).  It must return true if
+     * the remote participant acknowledged the decision, false on failure.
+     *
+     * @param node_id   Participant node identifier.
+     * @param endpoint  Remote endpoint string (e.g. "host:port").
+     * @param txn_id    Transaction identifier.
+     * @param do_commit true = COMMIT, false = ABORT.
+     * @return          true if the remote node acknowledged.
+     */
+    using RemoteDecisionFn = std::function<bool(
+        const std::string& node_id,
+        const std::string& endpoint,
+        const std::string& txn_id,
+        bool               do_commit
+    )>;
+
+    /**
+     * @brief Inject a real remote phase-2 transport (mTLS/RPC).
+     *
+     * When set, runPhase2Unlocked() calls the function for each
+     * callback-less participant instead of skipping it.  Exceptions
+     * from the function are caught and treated as delivery failure.
+     * Pass an empty function to clear.
+     *
+     * @param fn Callable implementing the remote decision delivery.
+     */
+    void setRemoteDecisionFn(RemoteDecisionFn fn);
+
+    /// Clear the injected remote-decision transport.
+    void clearRemoteDecisionFn();
+
+    /**
      * @brief Coordinator statistics snapshot (approximate).
      */
     struct Statistics {
@@ -564,6 +600,10 @@ private:
     std::vector<BatchPrepareEntry>        batch_queue_;
     std::thread                           batch_flush_thread_;
     std::atomic<bool>                     batch_stop_{false};
+
+    // ── Remote phase-2 transport bridge (stub #279) ───────────────────────────
+    mutable std::mutex    remote_decision_fn_mutex_;
+    RemoteDecisionFn      remote_decision_fn_;
 };
 
 } // namespace themis::transaction
