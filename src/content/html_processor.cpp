@@ -276,7 +276,7 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
                 } else {
                     code = std::stol(ref.substr(1));
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 result += text[pos++];
                 continue;
             }

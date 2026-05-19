@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Content Module — Reliability Hardening (catch-all removal, batch 3)
+
+- **`geo_processor.cpp`** — GDAL resource cleanup catch-all handlers (3 sites) replaced with `catch (const std::exception&)` in `parseGeoJSON()`, `parseGeoPackage()`, and `parseGeoTIFF()`. GDAL handles (GDALClose/VSIUnlink) are still released before rethrowing.
+- **`html_processor.cpp`** — HTML entity numeric-reference parse `catch (...)` replaced with `catch (const std::exception&)` in `decodeHTMLEntities()`.
+- **`video_processor.cpp`** — FFmpeg temp-file cleanup catch-all handlers (4 sites) replaced with `catch (const std::exception&)` in metadata extraction, thumbnail generation, keyframe extraction, and scene detection paths.
+- **`archive_processor.cpp`** — `writeBlobToFile()` return-false handler, TAR octal size parse handler, and two inline `create_directories` handlers (4 sites) replaced with `catch (const std::exception&)`.
+- **`embedding_pipeline.cpp`** — `embedWithTimeout()` `future.get()` catch-all replaced with `catch (const std::exception&)`; `notifyFailure()` and empty-vector return preserved.
+- **`content_fs.cpp`** — CBOR metadata decode catch-all handlers (5 sites) in `put()` chunk cleanup, `get()`, `getRange()`, `head()`, and `remove()` replaced with `catch (const std::exception&)`.
+- **Result:** zero `catch (...)` handlers remain in any `.cpp` file under `src/content/`.
+
 ### Security Hardening Epic — ✅ COMPLETE (2026-05-19) 🔒
 
 - **Stub #302: `VoiceApiHandler::validateBearerToken()`** — Critical security gap resolved.
