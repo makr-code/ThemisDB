@@ -769,6 +769,10 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
                 thumbnail.resize(thumbnail_size);
                 uint8_t* dst = thumbnail.data();
                 const uint8_t* src = rgb_frame->data[0];
+
+                if (rgb_frame->linesize[0] <= 0) {
+                    throw std::runtime_error("Invalid RGB frame line size");
+                }
                 
                 if (rgb_frame->linesize[0] == static_cast<int>(row_size)) {
                     // No padding - single fast copy
