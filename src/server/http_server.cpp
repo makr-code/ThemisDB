@@ -8852,25 +8852,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.prepare_payload();
             return res;
         }
-        // Log Authorization header presence for this DELETE request
-        try {
-            std::string auth_hdr = std::string(it->value());
-            auto mask = [](const std::string& s) {
-                if (s.size() <= 8) return s;
-                return s.substr(0,4) + "..." + s.substr(s.size()-4);
-            };
-            THEMIS_INFO("handlePiiDeleteByUuid: Authorization header='{}'", mask(auth_hdr));
-        } catch (...) {}
+        THEMIS_INFO("handlePiiDeleteByUuid: Authorization header present");
         auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
-        // Log presence of Authorization header for debugging (mask token)
-        try {
-            std::string auth_hdr = std::string(it->value());
-            auto mask = [](const std::string& s) {
-                if (s.size() <= 8) return s;
-                return s.substr(0,4) + "..." + s.substr(s.size()-4);
-            };
-            THEMIS_INFO("PII DELETE: Authorization header present: '{}'", mask(auth_hdr));
-        } catch (...) {}
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -8885,16 +8868,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             try {
                 auto vres = auth_->validateToken(*token);
                 THEMIS_INFO("requireAccess: validateToken -> authorized={} user_id='{}' reason='{}'", vres.authorized, vres.user_id, vres.reason);
-                try {
-                    std::cerr << "[AUTH-DBG] validateToken -> authorized=" << (vres.authorized?"true":"false")
-                              << " user_id='" << vres.user_id << "' reason='" << vres.reason << "'\n";
-                } catch(...) {}
             } catch (...) {}
             auto ar = auth_->authorize(*token, required_scope);
-            try {
-                std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
-                          << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
-            } catch(...) {}
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -8920,11 +8895,6 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             THEMIS_INFO("Policy check bypass for admin user_id='{}'", user_id);
             return std::nullopt;
         }
-        // Diagnostic: show user_id before policy check
-        try {
-            std::cerr << "[AUTH-DBG] before_policy_check -> user_id='" << user_id << "' action='" << action << "' resource='" << resource << "'\n";
-        } catch(...) {}
-
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
         std::optional<std::string> client_ip;
         for (const auto& h : req) {

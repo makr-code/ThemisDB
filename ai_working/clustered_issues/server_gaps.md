@@ -32,6 +32,7 @@
 Focus on CRITICAL severity gaps (data safety, security):
 
 - [x] Remove token-value logging in auth paths (`auth_middleware.cpp`, `http_server.cpp`) to harden against secret disclosure in logs (CWE-532).
+- [x] Remove Authorization header value logging and temporary stderr auth diagnostics in `http_server.cpp` (`requireAccess`) to further reduce secret leakage risk.
 - [ ] Triage remaining CRITICAL findings by true-positive confidence and exploitability.
 
 ### Phase 2: High Priority Fixes
