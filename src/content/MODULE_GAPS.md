@@ -108,17 +108,25 @@ respective optional dependency is not compiled in.
 ## 🚀 Implementation Roadmap
 
 ### Phase 3.1 — Addressed (2026-05-19)
-- [x] Fix `VideoProcessor::healthCheck()` to return `false` without FFmpeg
-- [x] Add STUB/SIMULATION NOTE + remove dead branch in `extractMetadata()` fallback
+- [x] Fix `VideoProcessor::healthCheck()` to return `false` without FFmpeg (CON-007)
+- [x] Add STUB/SIMULATION NOTE + remove dead branch in `extractMetadata()` fallback (CON-008)
 - [x] Update MODULE_GAPS.md with audit data
 
-### Phase 3.2 — Next
+### Phase 3.2 — Addressed (2026-05-19)
+- [x] RAII fix: raw `new`/`delete` for tags JSON in `content_manager.cpp` metadata encryption (CON-009)
 - [ ] Review 29 concurrency instances — confirm false positives or fix real races
 - [ ] Review 27 security instances — confirm controls or add missing validation
-- [ ] Address RAII violations (46 instances) — missing RAII guards for resources
 - [ ] Address top 10 reliability gaps in `content_manager.cpp` (654 total gaps)
 
-### Phase 3.3 — Backlog
+### Phase 3.3 — Addressed (2026-05-19)
+- [x] RAII fix: `EVP_MD_CTX` manual cleanup in `content_fs.cpp::sha256Hex()` (CON-010)
+  — 4 raw `EVP_MD_CTX_free()` calls replaced by `std::unique_ptr<EVP_MD_CTX, …>` RAII.
+- [x] RAII fix: `EVP_MD_CTX` manual cleanup in `content_manager.cpp::ingestStream()` (CON-011)
+  — 3 raw `EVP_MD_CTX_free()` + pointer-null assignments replaced by `unique_ptr::reset()`.
+- [x] Remove redundant `file.close()` in `content_manager.cpp` archive ingestion loop
+  — `std::ifstream` RAII already guarantees closure at end of loop iteration.
+
+### Phase 3.4 — Backlog
 - [ ] Reduce uninitialized member count (998) — add explicit zero-initialisation
   where needed
 - [ ] Eliminate signed/unsigned comparison warnings (subset of 516 type_conversion)

@@ -14,11 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **CONTENT module — Phase 3.1 quality remediation** (`src/content/`, related docs)
+- **CONTENT module — Phase 3.1–3.3 quality remediation** (`src/content/`, related docs)
   - **CON-007 — `VideoProcessor::healthCheck()` correctness**: `#else` (no-FFmpeg) branch was returning `initialized_` (always `true` after `initialize()`). Now returns `false` to surface the missing FFmpeg dependency to health-check aggregators, consistent with `TTSProcessor` and `STTProcessor`.
   - **CON-008 — `extractMetadata()` simulation stub documentation**: no-FFmpeg fallback in `video_processor.cpp` had no STUB/SIMULATION NOTE and contained an unreachable MKV-detection branch (identical EBML magic bytes as the WebM branch). STUB/SIMULATION NOTE added; dead branch removed.
   - **CON-009 — RAII fix: raw `new`/`delete` for tags JSON in metadata encryption** (`content_manager.cpp:901-950`): The "tags" field encryption loop allocated a temporary `nlohmann::json` on the heap via `new` and performed manual `delete` calls in every exit path (early continue, success, exception). Replaced with a local RAII variable (`tags_tmp`) that is automatically destroyed at end of scope. Eliminates three raw `delete` call sites and removes exception-unsafe `delete` in the catch block.
-  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.2/3.3 implementation roadmap.
+  - **CON-010 — RAII fix: `EVP_MD_CTX` manual cleanup in `content_fs.cpp::sha256Hex()`**: 4 raw `EVP_MD_CTX_free()` early-return call sites replaced with `std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>` RAII wrapper. Context is freed automatically on all exit paths (normal return, early return on error, and future exceptions).
+  - **CON-011 — RAII fix: `EVP_MD_CTX` manual cleanup in `content_manager.cpp::ingestStream()`**: 3 raw `EVP_MD_CTX_free(sha256_ctx); sha256_ctx = nullptr;` call sites (init-fail, update-fail in loop, finalize) replaced by `unique_ptr::reset()`. Eliminates the exception-unsafe leak path in the streaming ingest path.
+  - **Redundant `file.close()` removal** (`content_manager.cpp` archive ingestion loop): explicit `file.close()` removed; `std::ifstream` RAII already guarantees closure at end of loop iteration.
+  - **MODULE_GAPS.md populated**: was a boilerplate placeholder; now contains gap-scan v3 results (4,077 items), categorized by severity and file, with a Phase 3.2/3.3/3.4 implementation roadmap.
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)

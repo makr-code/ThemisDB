@@ -91,6 +91,9 @@
 - **Undocumented simulation fallback in extractMetadata()** — `video_processor.cpp` `#else` branch lacked a STUB/SIMULATION NOTE and contained an unreachable MKV detection branch (same magic bytes as WebM); both corrected (2026-05-19).
 - **MODULE_GAPS.md unpopulated** — gap analysis document was a placeholder; populated with gap scan v3 results (4,077 items, categorized) and implementation roadmap (2026-05-19).
 - **RAII violation: raw `new`/`delete` for tags JSON in metadata encryption** — `content_manager.cpp` metadata-encryption loop allocated a temporary `nlohmann::json` on the heap and performed manual `delete` in every exit path, including the exception handler. Replaced with a local stack variable (`tags_tmp`); all three raw `delete` call sites eliminated (2026-05-19, CON-009).
+- **RAII violation: manual `EVP_MD_CTX_free` in `content_fs.cpp::sha256Hex()`** — 4 raw `EVP_MD_CTX_free()` early-return call sites replaced by a `std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>` RAII wrapper; context is freed automatically on all exit paths including exception (2026-05-19, CON-010).
+- **RAII violation: manual `EVP_MD_CTX_free` in `content_manager.cpp::ingestStream()`** — 3 raw `EVP_MD_CTX_free(sha256_ctx); sha256_ctx = nullptr;` call sites (init-fail, update-fail, finalize) replaced by `unique_ptr::reset()`. Exception-unsafe leak path during stream processing eliminated (2026-05-19, CON-011).
+- **Redundant explicit `file.close()` in archive ingestion loop** — `std::ifstream` RAII already guarantees closure at end of loop iteration; explicit call removed (2026-05-19).
 
 ### Open
 - **Plugin processor chain** — `IIngestionPlugin` API not yet implemented (Issue #1686); processor dispatch is hardcoded.

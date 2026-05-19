@@ -1958,7 +1958,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                     (std::istreambuf_iterator<char>(file)),
                     std::istreambuf_iterator<char>()
                 );
-                file.close();
+                // std::ifstream closed automatically (RAII) at end of loop iteration.
                 
                 // Get relative path within archive
                 std::string relative_path = path_str;
@@ -2565,14 +2565,16 @@ ContentManager::IngestResult ContentManager::ingestStream(
         return stream_stage_cfg.embedding.enabled;
     }();
     // Incremental SHA-256 hash over all streamed bytes.
-    EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
+    // RAII wrapper — EVP_MD_CTX_free() is called automatically when the unique_ptr
+    // is reset or goes out of scope, guarding against exception-induced leaks.
+    using EvpCtxPtr = std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>;
+    EvpCtxPtr sha256_ctx(EVP_MD_CTX_new(), EVP_MD_CTX_free);
     if (sha256_ctx) {
-        if (EVP_DigestInit_ex(sha256_ctx, EVP_sha256(), nullptr) != 1) {
+        if (EVP_DigestInit_ex(sha256_ctx.get(), EVP_sha256(), nullptr) != 1) {
             THEMIS_WARN("ingestStream: EVP_DigestInit_ex failed; SHA-256 dedup disabled for '{}'", filename);
-            EVP_MD_CTX_free(sha256_ctx);
-            sha256_ctx = nullptr;
+            sha256_ctx.reset();
         } else {
-            EVP_DigestUpdate(sha256_ctx, header_buf.data(), header_buf.size());
+            EVP_DigestUpdate(sha256_ctx.get(), header_buf.data(), header_buf.size());
         }
     } else {
         THEMIS_WARN("ingestStream: EVP_MD_CTX_new failed; SHA-256 dedup disabled for '{}'", filename);
@@ -2698,10 +2700,9 @@ ContentManager::IngestResult ContentManager::ingestStream(
         if (n == 0) break;
         total_bytes += static_cast<int64_t>(n);
         if (sha256_ctx) {
-            if (EVP_DigestUpdate(sha256_ctx, read_buf.data(), n) != 1) {
+            if (EVP_DigestUpdate(sha256_ctx.get(), read_buf.data(), n) != 1) {
                 THEMIS_WARN("ingestStream: EVP_DigestUpdate failed; disabling SHA-256 for '{}'", filename);
-                EVP_MD_CTX_free(sha256_ctx);
-                sha256_ctx = nullptr;
+                sha256_ctx.reset();
             }
         }
         carry.append(read_buf.data(), n);
@@ -2723,9 +2724,8 @@ ContentManager::IngestResult ContentManager::ingestStream(
         if (!sha256_ctx) return {};
         unsigned char digest[SHA256_DIGEST_LENGTH];
         unsigned int  digest_len = 0;
-        int ok = EVP_DigestFinal_ex(sha256_ctx, digest, &digest_len);
-        EVP_MD_CTX_free(sha256_ctx);
-        sha256_ctx = nullptr;
+        int ok = EVP_DigestFinal_ex(sha256_ctx.get(), digest, &digest_len);
+        sha256_ctx.reset();
         if (!ok) return {};
         std::ostringstream oss;
         oss << std::hex << std::setfill('0');
