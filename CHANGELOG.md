@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **Stub remediation rest-block — cloud backup callback bridges (stubs #312-#321):**
+  - `include/sharding/cloud_backup.h`: added bridge callback types + setters for remaining placeholder provider operations:
+    - S3: delete/list/exists (`setS3DeleteFn`, `setS3ListFn`, `setS3ExistsFn`)
+    - GCS: upload/download/list/exists (`setGCSUploadFn`, `setGCSDownloadFn`, `setGCSListFn`, `setGCSExistsFn`)
+    - Azure: upload/download/delete/list/exists (`setAzureUploadFn`, `setAzureDownloadFn`, `setAzureDeleteFn`, `setAzureListFn`, `setAzureExistsFn`)
+  - `src/sharding/cloud_backup.cpp`: S3/GCS/Azure providers now delegate to injected callbacks (with typed exception handling) before stub/mock fallbacks.
+  - `tests/test_cloud_backup.cpp`: extended callback-bridge coverage for S3 delete, GCS upload/download, and Azure upload/download/delete callback execution paths.
+  - `src/STUB_INVENTORY.md`: stubs **#312-#321** marked resolved.
 - **Reliability hardening block — server module final rest-block (24 files, 24 catch-all handlers):**
   - Replaced the last remaining server-module `catch(...)` handlers with typed `catch(const std::exception&)` in:
     - `src/server/api_key_mgmt_handler.cpp`

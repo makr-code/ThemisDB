@@ -38,21 +38,21 @@ namespace sharding {
 
 namespace {
 std::mutex g_cloud_backup_fn_mutex;
-S3DownloadFn   g_s3_download_fn;
-S3UploadFn     g_s3_upload_fn;
-S3DeleteFn     g_s3_delete_fn;
-S3ListFn       g_s3_list_fn;
-S3ExistsFn     g_s3_exists_fn;
-AzureUploadFn  g_azure_upload_fn;
+S3DownloadFn g_s3_download_fn;
+S3UploadFn g_s3_upload_fn;
+S3DeleteFn g_s3_delete_fn;
+S3ListFn g_s3_list_fn;
+S3ExistsFn g_s3_exists_fn;
+GCSUploadFn g_gcs_upload_fn;
+GCSDownloadFn g_gcs_download_fn;
+GCSDeleteFn g_gcs_delete_fn;
+GCSListFn g_gcs_list_fn;
+GCSExistsFn g_gcs_exists_fn;
+AzureUploadFn g_azure_upload_fn;
 AzureDownloadFn g_azure_download_fn;
-AzureDeleteFn  g_azure_delete_fn;
-AzureListFn    g_azure_list_fn;
-AzureExistsFn  g_azure_exists_fn;
-GCSUploadFn    g_gcs_upload_fn;
-GCSDownloadFn  g_gcs_download_fn;
-GCSDeleteFn    g_gcs_delete_fn;
-GCSListFn      g_gcs_list_fn;
-GCSExistsFn    g_gcs_exists_fn;
+AzureDeleteFn g_azure_delete_fn;
+AzureListFn g_azure_list_fn;
+AzureExistsFn g_azure_exists_fn;
 } // namespace
 
 // Cloud storage provider interface
@@ -104,6 +104,20 @@ public:
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+        AzureUploadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_azure_upload_fn;
+        }
+        if (fn) {
+            try {
+                return fn(account_name_, container_, local_path, remote_path, metadata);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Azure upload callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         S3UploadFn fn;
         {
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
@@ -114,9 +128,6 @@ public:
                 return fn(bucket_, local_path, remote_path, metadata);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("S3 upload callback failed: {}", e.what());
-                return false;
-            } catch (...) {
-                THEMIS_ERROR("S3 upload callback failed: unknown error");
                 return false;
             }
         }
@@ -182,9 +193,6 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("S3 download callback failed: {}", e.what());
                 return false;
-            } catch (...) {
-                THEMIS_ERROR("S3 download callback failed: unknown error");
-                return false;
             }
         }
          
@@ -223,6 +231,20 @@ public:
     }
     
     bool deleteObject(const std::string& remote_path) override {
+        S3DeleteFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_s3_delete_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, remote_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("S3 delete callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         // STUB/SIMULATION NOTE (stub #313):
         // Purpose: Keep cloud-backup deletion API callable before S3 SDK delete wiring
         //          is integrated in this provider path.
@@ -261,6 +283,20 @@ public:
     }
     
     std::vector<std::string> listObjects(const std::string& prefix) override {
+        S3ListFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_s3_list_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, prefix);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("S3 list callback failed: {}", e.what());
+                return {};
+            }
+        }
+
         // STUB/SIMULATION NOTE (stub #317):
         // Purpose: Keep backup inventory API callable before S3 object listing
         //          is integrated for this provider.
@@ -289,6 +325,20 @@ public:
     }
     
     bool exists(const std::string& remote_path) override {
+        S3ExistsFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_s3_exists_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, remote_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("S3 exists callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         // STUB/SIMULATION NOTE (stub #314):
         // Purpose: Preserve provider interface completeness before real S3 object
         //          existence checks are wired.
@@ -410,7 +460,7 @@ public:
                 return false;
             }
         }
-
+        
         THEMIS_INFO("Azure download (placeholder): {}/{}/{} -> {}", 
                    account_name_, container_, remote_path, local_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
@@ -442,6 +492,7 @@ public:
                 return false;
             }
         }
+
         THEMIS_INFO("Azure delete (placeholder): {}/{}/{}", account_name_, container_, remote_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
@@ -456,6 +507,20 @@ public:
     }
     
     std::vector<std::string> listObjects(const std::string& prefix) override {
+        AzureListFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_azure_list_fn;
+        }
+        if (fn) {
+            try {
+                return fn(account_name_, container_, prefix);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Azure list callback failed: {}", e.what());
+                return {};
+            }
+        }
+
         // STUB/SIMULATION NOTE (stub #320):
         // Purpose: Preserve Azure provider list API compatibility before SDK-backed
         //          blob listing is connected.
@@ -484,6 +549,20 @@ public:
     }
     
     bool exists(const std::string& remote_path) override {
+        AzureExistsFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_azure_exists_fn;
+        }
+        if (fn) {
+            try {
+                return fn(account_name_, container_, remote_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Azure exists callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         // STUB/SIMULATION NOTE (stub #321):
         // Purpose: Keep provider interface complete for Azure blob existence probes
         //          while SDK metadata/head checks are pending.
@@ -544,6 +623,20 @@ public:
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+        GCSUploadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_gcs_upload_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, local_path, remote_path, metadata);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("GCS upload callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         // STUB/SIMULATION NOTE (stub #315):
         // Purpose: Keep GCS upload call-flow available in builds without linked
         //          google-cloud-cpp storage client.
@@ -588,6 +681,20 @@ public:
     
     bool download(const std::string& remote_path,
                  const std::string& local_path) override {
+        GCSDownloadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_gcs_download_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, remote_path, local_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("GCS download callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         // STUB/SIMULATION NOTE (stub #316):
         // Purpose: Keep restore-path integration testable without a linked GCS SDK.
         // Activation: GCS provider selected while no SDK-backed download bridge exists.
@@ -640,9 +747,6 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("GCS delete callback failed: {}", e.what());
                 return false;
-            } catch (...) {
-                THEMIS_ERROR("GCS delete callback failed: unknown error");
-                return false;
             }
         }
 
@@ -671,6 +775,20 @@ public:
     }
     
     std::vector<std::string> listObjects(const std::string& prefix) override {
+        GCSListFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_gcs_list_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, prefix);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("GCS list callback failed: {}", e.what());
+                return {};
+            }
+        }
+
         // STUB/SIMULATION NOTE (stub #318):
         // Purpose: Preserve GCS provider contract before SDK-backed object listing
         //          is connected.
@@ -699,6 +817,20 @@ public:
     }
     
     bool exists(const std::string& remote_path) override {
+        GCSExistsFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_gcs_exists_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, remote_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("GCS exists callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         // STUB/SIMULATION NOTE (stub #319):
         // Purpose: Keep interface completeness for GCS existence checks while
         //          Head/Get metadata integration is pending.
@@ -1063,31 +1195,6 @@ void setS3ExistsFn(S3ExistsFn fn) {
     g_s3_exists_fn = std::move(fn);
 }
 
-void setAzureUploadFn(AzureUploadFn fn) {
-    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-    g_azure_upload_fn = std::move(fn);
-}
-
-void setAzureDownloadFn(AzureDownloadFn fn) {
-    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-    g_azure_download_fn = std::move(fn);
-}
-
-void setAzureDeleteFn(AzureDeleteFn fn) {
-    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-    g_azure_delete_fn = std::move(fn);
-}
-
-void setAzureListFn(AzureListFn fn) {
-    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-    g_azure_list_fn = std::move(fn);
-}
-
-void setAzureExistsFn(AzureExistsFn fn) {
-    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-    g_azure_exists_fn = std::move(fn);
-}
-
 void setGCSUploadFn(GCSUploadFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_gcs_upload_fn = std::move(fn);
@@ -1111,6 +1218,31 @@ void setGCSListFn(GCSListFn fn) {
 void setGCSExistsFn(GCSExistsFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_gcs_exists_fn = std::move(fn);
+}
+
+void setAzureUploadFn(AzureUploadFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_azure_upload_fn = std::move(fn);
+}
+
+void setAzureDownloadFn(AzureDownloadFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_azure_download_fn = std::move(fn);
+}
+
+void setAzureDeleteFn(AzureDeleteFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_azure_delete_fn = std::move(fn);
+}
+
+void setAzureListFn(AzureListFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_azure_list_fn = std::move(fn);
+}
+
+void setAzureExistsFn(AzureExistsFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_azure_exists_fn = std::move(fn);
 }
 
 } // namespace sharding
