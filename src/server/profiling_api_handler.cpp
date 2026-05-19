@@ -356,7 +356,7 @@ int ProfilingApiHandler::get_query_param_int(const std::string& target,
     
     try {
         return std::stoi(value_str);
-    } catch (...) {
+    } catch (const std::exception&) {
         return default_value;
     }
 }

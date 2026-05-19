@@ -559,7 +559,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
     json output_json;
     try {
         output_json = json::parse(result.output);
-    } catch (...) {
+    } catch (const std::exception&) {
         output_json = json{{"output", result.output}};
     }
 

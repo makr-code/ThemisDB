@@ -387,7 +387,7 @@ private:
                 if (!bridged.empty()) {
                     return bridged;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
             }
         }
 

@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **SERVER module — reliability hardening (rest block)** (`src/server/**/*.cpp`, `src/server/CHANGELOG.md`)
+  - Replaced all remaining `catch (...)` handlers in server module `.cpp` files with typed `catch (const std::exception&)`.
+  - Targeted delta in this block: **70 → 0** across 39 files (`vector_api_handler`: 5→0, `mqtt_client_service`: 5→0, `spatial_api_handler`: 4→0, `lora_api_handler`: 4→0, `entity_api_handler`: 4→0).
+
 - **INDEX module — reliability hardening** (`src/index/*.cpp`, `src/index/CHANGELOG.md`)
   - Replaced all remaining `catch (...)` handlers in index module `.cpp` files with typed `catch (const std::exception&)`.
   - Targeted delta in this block: **117 → 0** (`vector_index`: 31→0, `secondary_index`: 20→0, `process_graph`: 19→0, `graph_index`: 11→0, `spatial_index`: 10→0, `advanced_vector_index`: 9→0).
