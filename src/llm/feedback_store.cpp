@@ -643,7 +643,7 @@ ValidationStatus FeedbackStore::validateFeedback(const FeedbackEntry& feedback) 
 
 // ===== Plugin Integration =====
 
-ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedback) {
+ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
     if (!validation_plugin_) {
         // No plugin, use basic validation
         return validateFeedback(feedback);
@@ -675,10 +675,10 @@ ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedb
             case FeedbackValidationResult::MODIFY:
                 // Apply plugin-suggested modifications (stub #297 resolved).
                 if (result.modified_comment.has_value()) {
-                    data.comment = *result.modified_comment;
+                    feedback.comment = *result.modified_comment;
                 }
                 if (result.modified_metadata.has_value()) {
-                    data.metadata = *result.modified_metadata;
+                    feedback.metadata = *result.modified_metadata;
                 }
                 return ValidationStatus::APPROVED;
             default:
@@ -890,4 +890,3 @@ bool FeedbackStore::isLinkedToAdapter(
 
 } // namespace llm
 } // namespace themis
-
