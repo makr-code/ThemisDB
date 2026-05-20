@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: document_splitter.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=61, M=25, L=0
+ * ThemisDB | File: document_splitter.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 417
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=86 | delta=83 | status=divergent
+ * External Severity (v3): C=0, H=61, M=25
+ * PR: #2752 feat(rag): configurable chunk size and overlap for document splitting (2026-03-12T05:57:25Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
