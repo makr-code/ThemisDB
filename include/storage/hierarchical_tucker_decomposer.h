@@ -38,10 +38,10 @@
  *    Recursion terminates at d_sub == 2 (leaf-pair: B = core) or
  *    d_sub == 1 (single leaf: U_effective = U_k · core).
  *
- * ## Remaining open items
- * - STUB #286 (Q2 2028): `HTTrain::toTTTrain()` performs a full O(∏ n_k)
- *   reconstruction + TT re-decomposition.  Direct HT→TT structural mapping
- *   requires extending `ITensorIndex` to support `IHierarchicalTuckerIndex`.
+ * ## Compatibility note
+ * - `HTTrain::toTTTrain()` performs lazy one-time dense reconstruction + TT
+ *   re-decomposition and memoizes the TT result for subsequent calls.
+ *   First call remains O(∏ n_k); repeated calls reuse cached TT output.
  */
 
 #pragma once

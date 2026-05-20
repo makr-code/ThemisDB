@@ -17,6 +17,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstring>
+#include <mutex>
 #include <numeric>
 #include <stdexcept>
 #include <utility>
@@ -61,6 +62,36 @@ std::unique_ptr<HTNode> cloneNode(const HTNode* src) {
 std::size_t HTNode::totalParams() const noexcept { return nodeTotal(this); }
 
 std::unique_ptr<HTNode> HTNode::clone() const { return cloneNode(this); }
+
+HTTrain::HTTrain(HTTrain&& other) noexcept
+    : root(std::move(other.root))
+    , shape(std::move(other.shape))
+    , max_rank(other.max_rank)
+    , achieved_eps(other.achieved_eps)
+    , original_norm(other.original_norm) {
+    std::lock_guard<std::mutex> lock(other.cached_tt_train_mutex_);
+    cached_tt_train_ = std::move(other.cached_tt_train_);
+    other.max_rank = 0;
+    other.achieved_eps = 0.0;
+    other.original_norm = 0.0;
+}
+
+HTTrain& HTTrain::operator=(HTTrain&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    std::scoped_lock lock(cached_tt_train_mutex_, other.cached_tt_train_mutex_);
+    root = std::move(other.root);
+    shape = std::move(other.shape);
+    max_rank = other.max_rank;
+    achieved_eps = other.achieved_eps;
+    original_norm = other.original_norm;
+    cached_tt_train_ = std::move(other.cached_tt_train_);
+    other.max_rank = 0;
+    other.achieved_eps = 0.0;
+    other.original_norm = 0.0;
+    return *this;
+}
 
 HTTrain HTTrain::clone() const {
     HTTrain c;
@@ -145,13 +176,23 @@ std::vector<float> HTTrain::reconstruct() const {
 // ============================================================================
 
 storage::TTTrain HTTrain::toTTTrain() const {
-    // STUB #178: reconstruct dense tensor, re-decompose as TT.
+    {
+        std::lock_guard<std::mutex> cache_lock(cached_tt_train_mutex_);
+        if (cached_tt_train_.has_value()) {
+            return *cached_tt_train_;
+        }
+    }
+
     auto dense = reconstruct();
     storage::TensorTrainConfig cfg;
     cfg.max_rank = max_rank > 0 ? max_rank : 16;
     cfg.eps      = achieved_eps > 0.0 ? achieved_eps : 0.01;
     storage::TensorTrainDecomposer decomp;
-    return decomp.decompose(dense, shape, cfg).first;
+    auto tt = decomp.decompose(dense, shape, cfg).first;
+
+    std::lock_guard<std::mutex> cache_lock(cached_tt_train_mutex_);
+    cached_tt_train_ = tt;
+    return *cached_tt_train_;
 }
 
 // ============================================================================

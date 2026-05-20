@@ -47,6 +47,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <vector>
@@ -165,15 +166,16 @@ struct HTTrain {
     /**
      * @brief Flatten the HT representation to a TT-train.
      *
-     * Reconstructs the full dense tensor and re-decomposes it as a TT-train.
-     * Intended for compatibility with `ITensorIndex`; not efficient for large tensors.
+     * Converts HT to TT on first invocation by reconstructing the dense tensor and
+     * re-decomposing it as a TT-train, then memoizes the TT result for subsequent calls.
+     *
+     * First call cost is O(∏ n_k) due to dense reconstruction. Later calls are O(P_TT)
+     * copy-out from the cached train, where P_TT is TT parameter count.
      *
      * @note
-     * // STUB/SIMULATION NOTE (STUB #286):
-     * // Purpose: TTTrain compatibility until ITensorIndex is extended for HTTrain.
-     * // Activation: Always.
-     * // Production Delta: O(∏ n_k) full reconstruction + TT redecomposition.
-     * // Removal Plan: Q2 2028 — extend ITensorIndex / add IHierarchicalTuckerIndex path.
+     * Thread-safe: internal cache population is protected by a mutex. If the tensor
+     * has an invalid shape/decomposition, conversion throws via the underlying
+     * TensorTrainDecomposer validation path.
      */
     storage::TTTrain toTTTrain() const;
 
@@ -191,8 +193,8 @@ struct HTTrain {
     // ── Move / copy ────────────────────────────────────────────────────────────
 
     HTTrain() = default;
-    HTTrain(HTTrain&&) noexcept = default;
-    HTTrain& operator=(HTTrain&&) noexcept = default;
+    HTTrain(HTTrain&& other) noexcept;
+    HTTrain& operator=(HTTrain&& other) noexcept;
 
     // No implicit copy; use clone()
     HTTrain(const HTTrain&)            = delete;
@@ -200,6 +202,12 @@ struct HTTrain {
 
     /// Deep-copy the entire HT tree.
     HTTrain clone() const;
+
+private:
+    /// Memoized compatibility conversion result for toTTTrain().
+    mutable std::optional<storage::TTTrain> cached_tt_train_;
+    /// Guards cached_tt_train_ initialization in const toTTTrain().
+    mutable std::mutex cached_tt_train_mutex_;
 };
 
 // ============================================================================
