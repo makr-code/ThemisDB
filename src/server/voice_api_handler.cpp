@@ -127,6 +127,16 @@ VoiceApiHandler::VoiceApiHandler(
     http_client_pool_ = std::make_shared<utils::HTTPClientPool>(http_config);
 }
 
+VoiceApiHandler::VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant,
+                                 std::shared_ptr<::themis::AuthMiddleware> auth)
+    : voice_assistant_(voice_assistant), auth_(std::move(auth)) {
+    utils::HTTPClientPool::Config http_config;
+    http_config.max_connections = 10;
+    http_config.connect_timeout = std::chrono::seconds(10);
+    http_config.request_timeout = std::chrono::seconds(60);
+    http_client_pool_ = std::make_shared<utils::HTTPClientPool>(http_config);
+}
+
 http::response<http::string_body> VoiceApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
@@ -1669,8 +1679,25 @@ bool VoiceApiHandler::validateBearerToken(
         auth_value.substr(0, bearer_prefix.size()) != bearer_prefix) {
         return false;
     }
-    const auto token = auth_value.substr(bearer_prefix.size());
-    return !token.empty();
+    
+    std::string auth_str = auth.substr(7);
+    std::string_view token_view(auth_str);
+
+    // When an AuthMiddleware is injected, perform full JWT/scope validation.
+    if (auth_ && auth_->isEnabled()) {
+        auto token = ::themis::AuthMiddleware::extractBearerToken(
+            std::string_view(auth.data(), auth.size())
+        );
+        if (!token) {
+            return false;
+        }
+        // "voice:use" is the required permission scope for all voice endpoints.
+        auto ar = auth_->authorize(*token, "voice:use");
+        return ar.authorized;
+    }
+
+    // Fallback when no AuthMiddleware is configured: accept any non-empty token.
+    return !token_view.empty();
 }
 
 http::response<http::string_body> VoiceApiHandler::createErrorResponse(

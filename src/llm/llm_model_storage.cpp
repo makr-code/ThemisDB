@@ -552,20 +552,21 @@ public:
         if (!config_.db) {
             return model_ids;
         }
-        
-        // Scan all keys with the model prefix using RocksDBWrapper::scanPrefix.
+
+        // Use RocksDBWrapper::scanPrefix() to enumerate all persisted model keys
+        // (stub #303 resolved). Keys are stored as "<key_prefix><model_id>".
         const std::string prefix = config_.key_prefix;
         config_.db->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {
-            std::string mid(key.substr(prefix.size()));
-            if (filter) {
-                if (mid.find(*filter) != std::string::npos)
-                    model_ids.push_back(std::move(mid));
-            } else {
-                model_ids.push_back(std::move(mid));
+            if (key.size() <= prefix.size()) {
+                return true; // continue
             }
-            return true;
+            std::string model_id(key.substr(prefix.size()));
+            if (!filter || model_id.find(*filter) != std::string::npos) {
+                model_ids.push_back(std::move(model_id));
+            }
+            return true; // continue iteration
         });
-        
+
         return model_ids;
     }
     

@@ -23,6 +23,22 @@
 #include <rocksdb/utilities/transaction.h>
 
 namespace themis {
+
+// ===== Static bridge storage for SpamKeywordsProvider =====
+namespace {
+    std::mutex g_spam_provider_mutex;
+    FeedbackStore::SpamKeywordsProviderFn g_spam_keywords_provider;
+} // anonymous namespace
+
+void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn fn) {
+    std::lock_guard<std::mutex> lock(g_spam_provider_mutex);
+    g_spam_keywords_provider = std::move(fn);
+}
+
+void FeedbackStore::clearSpamKeywordsProvider() {
+    std::lock_guard<std::mutex> lock(g_spam_provider_mutex);
+    g_spam_keywords_provider = nullptr;
+}
 namespace llm {
 
 // ── Spam-keywords provider bridge (stub #296) ─────────────────────────────
@@ -543,28 +559,31 @@ void FeedbackStore::clear() {
 // ===== Validation Logic =====
 
 const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
-    // Check for injected provider first (stub #296 bridge).
-    {
-        std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
-        if (s_spam_kw_provider) {
-            static thread_local std::vector<std::string> dynamic_keywords;
-            try {
-                auto kws = s_spam_kw_provider();
-                if (!kws.empty()) {
-                    dynamic_keywords = std::move(kws);
-                    return dynamic_keywords;
-                }
-            } catch (const std::exception& ex) {
-                THEMIS_WARN("FeedbackStore::getSpamKeywords: provider threw: {}", ex.what());
-            }
-        }
-    }
-    // Built-in static fallback.
+    // Built-in static keyword list used as fallback when no provider is injected.
     static const std::vector<std::string> spam_keywords = {
-        "buy now", "click here", "viagra", "casino", "lottery", 
+        "buy now", "click here", "viagra", "casino", "lottery",
         "free money", "million dollars", "nigerian prince",
         "weight loss", "work from home", "make money fast"
     };
+
+    // Delegate to the injected runtime provider when available (stub #296 resolved).
+    // Provider may load keywords from a config file or database table without recompilation.
+    {
+        std::lock_guard<std::mutex> lock(g_spam_provider_mutex);
+        if (g_spam_keywords_provider) {
+            // Cache per-call result in a thread_local to satisfy the const-ref return type.
+            thread_local std::vector<std::string> cached;
+            try {
+                cached = g_spam_keywords_provider();
+            } catch (...) {
+                // Fall back to static list on provider failure.
+                return spam_keywords;
+            }
+            if (!cached.empty()) {
+                return cached;
+            }
+        }
+    }
     return spam_keywords;
 }
 
@@ -666,22 +685,16 @@ ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // Apply plugin-suggested modifications before storing the entry.
-                // Fields are overwritten only when the plugin explicitly set them
-                // (has_value()), preserving original values for unset optionals.
-                if (result.modified_comment.has_value()) {
+                // Apply the plugin's suggested modifications to the feedback entry
+                // before accepting it (stub #297 resolved).
+                if (result.modified_comment) {
+                    data.comment = *result.modified_comment;
                     feedback.comment = *result.modified_comment;
-                    data.comment     = *result.modified_comment; // keep data in sync
                 }
-                if (result.modified_metadata.has_value()) {
+                if (result.modified_metadata) {
+                    data.metadata = *result.modified_metadata;
                     feedback.metadata = *result.modified_metadata;
-                    data.metadata     = *result.modified_metadata;
                 }
-                THEMIS_DEBUG("Plugin MODIFY applied for feedback {} "
-                             "(comment rewritten: {}, metadata rewritten: {})",
-                             feedback.id,
-                             result.modified_comment.has_value(),
-                             result.modified_metadata.has_value());
                 return ValidationStatus::APPROVED;
             default:
                 return ValidationStatus::PENDING;

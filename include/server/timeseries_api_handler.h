@@ -114,6 +114,32 @@ public:
      * @return HTTP response with retention policies
      */
     http::response<http::string_body> handleRetentionGet(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Inject a provider for the supported-aggregate-types list.
+     *
+     * When set, `handleAggregatesGet()` calls the provider to obtain the
+     * current aggregate function names from the running TSStore / engine
+     * instead of returning the built-in static list.
+     *
+     * @param fn  Callable returning a JSON array of aggregate name strings.
+     *            Pass `nullptr` to revert to the static default list.
+     */
+    using AggregateTypesProviderFn = std::function<nlohmann::json()>;
+    void setAggregateTypesProvider(AggregateTypesProviderFn fn);
+
+    /**
+     * @brief Inject a provider for the active retention-policy list.
+     *
+     * When set, `handleRetentionGet()` calls the provider to obtain the
+     * persisted retention policies from the backend instead of returning
+     * an empty list.
+     *
+     * @param fn  Callable returning a JSON array of retention-policy objects.
+     *            Pass `nullptr` to revert to the empty-array default.
+     */
+    using RetentionPoliciesProviderFn = std::function<nlohmann::json()>;
+    void setRetentionPoliciesProvider(RetentionPoliciesProviderFn fn);
     
     /**
      * @brief Handle GET /ts/metrics request
@@ -169,6 +195,8 @@ private:
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
+    AggregateTypesProviderFn aggregate_types_provider_;
+    RetentionPoliciesProviderFn retention_policies_provider_;
 
     /// Optional: exposes listAggregates() for the /aggregates endpoint.
     std::shared_ptr<ContinuousAggMaterializationEngine> agg_engine_;

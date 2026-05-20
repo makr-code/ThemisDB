@@ -8,7 +8,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- **Stub remediation next block — sharding signing + Paxos payload persistence (#310/#311):**
+- **Phase 25 stub remediation — 9 stubs resolved (#278/#280/#293/#296/#297/#298/#301/#302/#303):**
+  - `src/query/functions/function_registry.cpp` (#293):
+    - Re-enabled `registerFulltextFunctions()` call; FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE, DOUBLE_METAPHONE are now registered at startup.
+  - `src/server/rope_api_handler.cpp` (#280):
+    - `requireAccess()` now performs full bearer-token extraction + `auth_->authorize(token, permission)` scope check; returns HTTP 403 on denied scopes (mirrors VectorApiHandler pattern).
+  - `include/server/voice_api_handler.h` + `src/server/voice_api_handler.cpp` (#302):
+    - Added optional `shared_ptr<AuthMiddleware>` constructor parameter to `VoiceApiHandler`.
+    - `validateBearerToken()` uses `AuthMiddleware::extractBearerToken()` + `authorize(token, "voice:use")` when middleware is injected; non-empty fallback retained for unauthenticated builds.
+  - `include/llm/feedback_store.h` + `src/llm/feedback_store.cpp` (#296):
+    - Added `SpamKeywordsProviderFn`, `setSpamKeywordsProvider(fn)`, and `clearSpamKeywordsProvider()` static APIs.
+    - `getSpamKeywords()` delegates to injected runtime provider; static built-in list retained as fallback.
+  - `src/llm/feedback_store.cpp` (#297):
+    - `applyPluginValidation()` signature changed to `FeedbackEntry&` (non-const).
+    - MODIFY case now reads `result.modified_comment` / `result.modified_metadata` from `ValidationResponse` and applies them to the feedback entry before returning APPROVED.
+  - `src/server/http2_session.cpp` (#298):
+    - `ResponseBuffer` allocated with `std::make_unique`; `unique_ptr` destructor frees buffer automatically on `nghttp2_submit_response` failure; `release()` transfers ownership to read_callback on success.
+  - `src/llm/llm_model_storage.cpp` (#303):
+    - `listModels()` now enumerates persisted model keys via `config_.db->scanPrefix(key_prefix, callback)`; empty-list placeholder eliminated.
+  - `include/server/timeseries_api_handler.h` + `src/server/timeseries_api_handler.cpp` (#301):
+    - Added `AggregateTypesProviderFn` + `setAggregateTypesProvider(fn)` and `RetentionPoliciesProviderFn` + `setRetentionPoliciesProvider(fn)` injection APIs.
+    - `handleAggregatesGet()` and `handleRetentionGet()` delegate to injected providers when set; static defaults retained as fallback.
+  - `include/query/functions/process_mining_functions.h` + `src/query/functions/process_mining_functions.cpp` (#278):
+    - Added `PredictEndFn = std::function<json(const string& case_id)>` static bridge + `setPredictEndFn(fn)` / `clearPredictEndFn()` APIs to `PmPredictEndFunction`.
+    - `execute()` delegates to injected backend (fail-closed on exception); null-placeholder retained when no fn set.
+  - `src/STUB_INVENTORY.md`: 9 stubs marked resolved; inventory updated to 294 resolved, 22 active.
+
+
   - `src/sharding/auto_rebalancer.cpp`:
     - Removed permissive `UNSIGNED:*` signing fallback.
     - Signing now fails closed and `executeRebalance()` aborts unless a valid `SIGNATURE:` payload is produced.

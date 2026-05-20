@@ -37,16 +37,12 @@ TimeSeriesApiHandler::TimeSeriesApiHandler(
 {
 }
 
-void TimeSeriesApiHandler::setAggregateEngine(
-    std::shared_ptr<ContinuousAggMaterializationEngine> engine
-) {
-    agg_engine_ = std::move(engine);
+void TimeSeriesApiHandler::setAggregateTypesProvider(AggregateTypesProviderFn fn) {
+    aggregate_types_provider_ = std::move(fn);
 }
 
-void TimeSeriesApiHandler::setRetentionManager(
-    std::shared_ptr<RetentionManager> mgr
-) {
-    retention_manager_ = std::move(mgr);
+void TimeSeriesApiHandler::setRetentionPoliciesProvider(RetentionPoliciesProviderFn fn) {
+    retention_policies_provider_ = std::move(fn);
 }
 
 http::response<http::string_body> TimeSeriesApiHandler::handlePut(
@@ -403,33 +399,20 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
-        // Built-in aggregate function types supported by TSStore windows.
-        nlohmann::json agg_functions = nlohmann::json::array({"min","max","avg","sum","count"});
-
-        // Named continuous aggregates registered with the materialization engine.
-        nlohmann::json named_aggregates = nlohmann::json::array();
-        if (agg_engine_) {
-            for (const auto& name : agg_engine_->listAggregates()) {
-                auto def_opt = agg_engine_->getAggregate(name);
-                if (!def_opt) continue;
-                const auto& def = *def_opt;
-                named_aggregates.push_back({
-                    {"name",    def.name},
-                    {"metric",  def.config.metric},
-                    {"entity",  def.config.entity},
-                    {"window_ms", std::chrono::duration_cast<std::chrono::milliseconds>(
-                                      def.config.window.size).count()},
-                    {"status",  def.status == ContinuousAggStatus::ACTIVE   ? "active"
-                              : def.status == ContinuousAggStatus::STALE    ? "stale"
-                                                                             : "inactive"}
-                });
+        // Query the injected aggregate-types provider when available (stub #301 resolved).
+        // Fall back to the static built-in list when no provider is wired.
+        nlohmann::json aggregates;
+        if (aggregate_types_provider_) {
+            try {
+                aggregates = aggregate_types_provider_();
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("aggregate_types_provider threw: {}; using static list", ex.what());
+                aggregates = nlohmann::json::array({"min", "max", "avg", "sum", "count"});
             }
+        } else {
+            aggregates = nlohmann::json::array({"min", "max", "avg", "sum", "count"});
         }
-
-        nlohmann::json response = {
-            {"aggregate_functions", agg_functions},
-            {"named_aggregates",    named_aggregates}
-        };
+        nlohmann::json response = {{"aggregates", aggregates}};
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {
@@ -443,20 +426,19 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
-        nlohmann::json policies = nlohmann::json::array();
-
-        if (retention_manager_) {
-            const auto& policy = retention_manager_->getPolicy();
-
-            // Per-metric retention overrides.
-            for (const auto& [metric, duration] : policy.per_metric) {
-                policies.push_back({
-                    {"metric",        metric},
-                    {"retention_sec", duration.count()}
-                });
+        // Query the injected retention-policies provider when available (stub #301 resolved).
+        // Fall back to an empty array when no provider is wired.
+        nlohmann::json policies;
+        if (retention_policies_provider_) {
+            try {
+                policies = retention_policies_provider_();
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("retention_policies_provider threw: {}; returning empty list", ex.what());
+                policies = nlohmann::json::array();
             }
+        } else {
+            policies = nlohmann::json::array();
         }
-
         nlohmann::json response = {{"policies", policies}};
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);

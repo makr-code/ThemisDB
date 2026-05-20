@@ -152,6 +152,24 @@ public:
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
 
     /**
+     * @brief Inject a runtime spam-keywords provider.
+     *
+     * When set, `getSpamKeywords()` delegates to the injected function instead
+     * of returning the compile-time static keyword list.  The function receives
+     * no arguments and must return a non-empty vector of lowercase keyword
+     * strings to match against feedback text.
+     *
+     * @param fn  Callable that returns the current spam keyword list, or
+     *            `nullptr` to revert to the built-in static list.
+     *
+     * Thread-safety: the provider function pointer is stored atomically; it is
+     * safe to call `setSpamKeywordsProvider()` from any thread.
+     */
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+    static void setSpamKeywordsProvider(SpamKeywordsProviderFn fn);
+    static void clearSpamKeywordsProvider();
+
+    /**
      * @brief Store a new feedback entry
      * @param feedback Feedback to store (id will be generated if empty)
      * @return Stored feedback with generated ID
@@ -325,14 +343,7 @@ private:
     
     static bool isLikelySpam(const std::string& text);
     
-    /**
-     * @brief Apply plugin validation and, for MODIFY decisions, rewrite the
-     *        entry's comment and metadata in-place before persisting.
-     *
-     * @param feedback  Feedback entry to validate; modified in-place when the
-     *                  plugin returns MODIFY with non-empty field overrides.
-     * @return Resolved ValidationStatus (APPROVED after a MODIFY).
-     */
+    // Helper: Apply plugin validation if available; may modify feedback on MODIFY result
     ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 

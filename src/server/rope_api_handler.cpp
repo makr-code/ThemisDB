@@ -845,7 +845,7 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 }
 
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
-    [[maybe_unused]] const http::request<http::string_body>& req,
+    const http::request<http::string_body>& req,
     const std::string& permission,
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)
@@ -854,27 +854,26 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
         return std::nullopt; // Open mode — allow all
     }
 
-    auto auth_hdr = req.find(http::field::authorization);
-    if (auth_hdr == req.end()) {
-        return makeErrorResponse(http::status::unauthorized,
-                                 "Authentication required", req);
+    auto auth_header = req.find(http::field::authorization);
+    if (auth_header == req.end()) {
+        return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
     }
 
-    auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_hdr->value().data(), auth_hdr->value().size()));
+    auto token = ::themis::AuthMiddleware::extractBearerToken(
+        std::string_view(auth_header->value().data(), auth_header->value().size())
+    );
     if (!token) {
-        return makeErrorResponse(http::status::unauthorized,
-                                 "Invalid authorization header", req);
+        return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
     }
 
     auto ar = auth_->authorize(*token, permission);
     if (!ar.authorized) {
-        return makeErrorResponse(http::status::forbidden,
-                                 "Insufficient permissions for scope: " + permission,
-                                 req);
+        return makeErrorResponse(
+            http::status::forbidden,
+            "Insufficient permissions for scope: " + permission, req);
     }
 
-    return std::nullopt; // Access granted
+    return std::nullopt;  // null = access allowed
 }
 
 std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& path) {

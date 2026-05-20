@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include "server/auth_middleware.h"
 #include <boost/beast.hpp>
 #include <memory>
 #include <string>
@@ -38,6 +39,7 @@ class VoiceAssistant;
 namespace utils {
 class HTTPClientPool;
 }
+class AuthMiddleware;
 }
 
 // Forward-declare AuthMiddleware so callers can pass it without pulling in the
@@ -101,9 +103,16 @@ public:
      *                         handler operates in open mode (non-empty bearer
      *                         token check only) for backward compatibility.
      */
-    explicit VoiceApiHandler(
-        std::shared_ptr<voice::VoiceAssistant> voice_assistant,
-        std::shared_ptr<::themis::AuthMiddleware> auth = nullptr);
+    explicit VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant);
+
+    /**
+     * @brief Construct Voice API handler with authentication middleware.
+     *
+     * @param voice_assistant Voice assistant instance
+     * @param auth            Authentication middleware for JWT/OIDC bearer-token validation
+     */
+    VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant,
+                    std::shared_ptr<::themis::AuthMiddleware> auth);
     
     /**
      * @brief Handle Voice API request
@@ -261,7 +270,7 @@ private:
 
     std::shared_ptr<voice::VoiceAssistant> voice_assistant_;
     std::shared_ptr<utils::HTTPClientPool> http_client_pool_;
-    std::shared_ptr<::themis::AuthMiddleware> auth_; ///< JWT/OIDC auth middleware; null = open mode
+    std::shared_ptr<::themis::AuthMiddleware> auth_;
 };
 
 } // namespace themis::server
