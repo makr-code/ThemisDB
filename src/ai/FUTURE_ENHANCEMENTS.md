@@ -97,13 +97,13 @@ and integration impact.
 - **Tests:** SD-REAL-01..08 (extend existing focused suite); benchmark in `benchmarks/bench_llm_inference.cpp`
 
 #### A2: Dense Passage Retrieval (DPR) Vectorizer
-- **Status:** [~] In Progress (baseline implementation exists; production closure pending) | **Target:** 4 weeks | **Priority:** 🟠 High
+- **Status:** [~] In Progress (DPR + HybridRetriever integration completed; benchmark closure pending) | **Target:** 4 weeks | **Priority:** 🟠 High
 - **Reference:** Karpukhin et al. "Dense Passage Retrieval for Open-Domain QA" (ICLR 2021, arXiv:2004.04906)
 - **Rationale:** Hybrid BM25+Vector retrieval in RAG currently uses generic embeddings. DPR-style bi-encoder (query encoder + passage encoder) improves MRR@10 by 15-25% over unsupervised embeddings.
 - **Affected Systems:**
   - `include/rag/dpr_vectorizer.h` (new)
   - `src/rag/dpr_vectorizer.cpp` (new)
-  - `include/rag/hybrid_retriever.h`: wire DPR as `IVectorizer` option
+  - `include/rag/hybrid_retriever.h`: wire DPR as `IVectorizer` option ✅
 - **Interface:**
   ```cpp
   class DPRVectorizer : public IVectorizer {
