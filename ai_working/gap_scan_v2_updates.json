@@ -1,0 +1,1112 @@
+{
+  "module": "updates",
+  "stats": {
+    "total": 96,
+    "unimplemented": 34,
+    "incomplete": 14,
+    "stub_documented": 0,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 48,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 34,
+    "severity_high": 14,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 48
+  },
+  "gaps_by_file": {
+    "src\\updates\\build_verifier.cpp": [
+      {
+        "file": "src\\updates\\build_verifier.cpp",
+        "line": 91,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (b < 0) { return {}; }  // invalid character",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\build_verifier.cpp",
+        "line": 112,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAVE_OPENSSL",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\canary_rollout.cpp": [
+      {
+        "file": "src\\updates\\canary_rollout.cpp",
+        "line": 508,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { cb(stage_info); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\canary_rollout.cpp",
+        "line": 521,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { cb(reason); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\coordinated_update_manager.cpp": [
+      {
+        "file": "src\\updates\\coordinated_update_manager.cpp",
+        "line": 136,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr; // unreachable after construction",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\coordinated_update_manager.cpp",
+        "line": 143,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\coordinated_update_manager.cpp",
+        "line": 150,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\coordinated_update_manager.cpp",
+        "line": 155,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!local || local->sequence_number == 0) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\coordinated_update_manager.cpp",
+        "line": 160,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\delta_update_engine.cpp": [
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 46,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_ZSTD",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 165,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!f) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 211,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 246,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 291,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 340,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 360,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "result.files_fallback.push_back(fd.path);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 374,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "result.files_fallback.push_back(fd.path);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 384,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "result.files_fallback.push_back(fd.path);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 394,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "result.files_fallback.push_back(fd.path);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 406,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "result.files_fallback.push_back(fd.path);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 416,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "result.files_fallback.push_back(fd.path);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 432,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "result.files_fallback.push_back(fd.path);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 436,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Partial fallback is still a success at the engine level (caller decides",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 437,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// whether to run a full-download for the fallback files).",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 439,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (!result.files_fallback.empty()) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 441,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "std::to_string(result.files_fallback.size()) +",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 522,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_ZSTD",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 619,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_ZSTD",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 649,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Non-zstd fallback: the generator stored the raw target bytes",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 754,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_ZSTD",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\delta_update_engine.cpp",
+        "line": 806,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_ZSTD",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\hardware_telemetry.cpp": [
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 33,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 33,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 149,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!f.is_open()) { return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 166,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 223,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 230,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 232,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 337,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 337,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 383,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hardware_telemetry.cpp",
+        "line": 383,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\hot_reload_engine.cpp": [
+      {
+        "file": "src\\updates\\hot_reload_engine.cpp",
+        "line": 41,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hot_reload_engine.cpp",
+        "line": 41,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hot_reload_engine.cpp",
+        "line": 469,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hot_reload_engine.cpp",
+        "line": 469,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hot_reload_engine.cpp",
+        "line": 476,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\hot_reload_engine.cpp",
+        "line": 476,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\in_place_schema_migrator.cpp": [
+      {
+        "file": "src\\updates\\in_place_schema_migrator.cpp",
+        "line": 48,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\manifest_database.cpp": [
+      {
+        "file": "src\\updates\\manifest_database.cpp",
+        "line": 130,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\manifest_database.cpp",
+        "line": 137,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\manifest_database.cpp",
+        "line": 144,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\manifest_database.cpp",
+        "line": 346,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\manifest_database.cpp",
+        "line": 353,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\manifest_database.cpp",
+        "line": 411,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\manifest_database.cpp",
+        "line": 417,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\manifest_database.cpp",
+        "line": 456,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\manifest_database.cpp",
+        "line": 461,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\notification_webhook.cpp": [
+      {
+        "file": "src\\updates\\notification_webhook.cpp",
+        "line": 33,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\notification_webhook.cpp",
+        "line": 33,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\notification_webhook.cpp",
+        "line": 54,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\notification_webhook.cpp",
+        "line": 54,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\notification_webhook.cpp",
+        "line": 69,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\notification_webhook.cpp",
+        "line": 69,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\notification_webhook.cpp",
+        "line": 120,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": http_sender_(defaultHttpPost) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\parallel_downloader.cpp": [
+      {
+        "file": "src\\updates\\parallel_downloader.cpp",
+        "line": 47,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\parallel_downloader.cpp",
+        "line": 47,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\parallel_downloader.cpp",
+        "line": 208,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!f.is_open()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\parallel_downloader.cpp",
+        "line": 211,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ctx) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\parallel_downloader.cpp",
+        "line": 215,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\parallel_downloader.cpp",
+        "line": 258,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\parallel_downloader.cpp",
+        "line": 258,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CURL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\release_manifest.cpp": [
+      {
+        "file": "src\\updates\\release_manifest.cpp",
+        "line": 81,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\release_manifest.cpp",
+        "line": 101,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\release_manifest.cpp",
+        "line": 101,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\release_manifest.cpp",
+        "line": 159,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\release_manifest.cpp",
+        "line": 159,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\release_manifest.cpp",
+        "line": 202,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\schema_migration.cpp": [
+      {
+        "file": "src\\updates\\schema_migration.cpp",
+        "line": 200,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "explicit Impl(const std::string& ver) : version_(ver) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\schema_migration_tester.cpp": [
+      {
+        "file": "src\\updates\\schema_migration_tester.cpp",
+        "line": 64,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": SchemaMigrationTester(Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\schema_migration_tester.cpp",
+        "line": 67,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\tenant_update_scheduler.cpp": [
+      {
+        "file": "src\\updates\\tenant_update_scheduler.cpp",
+        "line": 89,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\tenant_update_scheduler.cpp",
+        "line": 131,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\tenant_update_scheduler.cpp",
+        "line": 328,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\tenant_update_scheduler.cpp",
+        "line": 328,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\tenant_update_scheduler.cpp",
+        "line": 512,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\tenant_update_scheduler.cpp",
+        "line": 583,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\tenant_update_scheduler.cpp",
+        "line": 583,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\tenant_update_scheduler.cpp",
+        "line": 666,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\tenant_update_scheduler.cpp",
+        "line": 666,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\updates\\update_state_machine.cpp": [
+      {
+        "file": "src\\updates\\update_state_machine.cpp",
+        "line": 70,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\update_state_machine.cpp",
+        "line": 70,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\update_state_machine.cpp",
+        "line": 101,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\update_state_machine.cpp",
+        "line": 101,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\update_state_machine.cpp",
+        "line": 111,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\updates\\update_state_machine.cpp",
+        "line": 461,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

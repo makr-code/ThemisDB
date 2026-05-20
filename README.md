@@ -6,21 +6,33 @@
 
 [![Version](https://img.shields.io/badge/version-1.8.2--rc-blue)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![Security](https://img.shields.io/badge/security-A+-green)](SECURITY.md)
-[![Docs](https://img.shields.io/badge/docs-online-blue)](https://makr-code.github.io/ThemisDB/)
+[![Status](https://img.shields.io/badge/status-ACTIVE_DEVELOPMENT-orange)](ROADMAP.md)
+[![Maturity](https://img.shields.io/badge/maturity-5_PROD_12_HARDENING_43_DEV-red)](ai_working/MODULE_MATURITY_MATRIX.md)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
 
-[📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [🛠️ Setup](SETUP.md) · [🆘 Support](SUPPORT.md) · [Release Notes](CHANGELOG.md)
+[📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [🛠️ Setup](SETUP.md) · [⚠️ Status](ROADMAP.md) · [🆘 Support](SUPPORT.md) · [Release Notes](CHANGELOG.md)
 
 </div>
 
 ---
 
+## ⚠️ IMPORTANT: Module Maturity Status
+
+**This is an active development project.** Of 60 modules:
+- ✅ **5 modules** are production-ready (base, config, utils, cache, plugins)
+- 🟡 **12 modules** are in hardening (API, auth, governance, etc.)
+- 🔴 **18 modules** are in active development (storage, query, index, etc.)
+- 🚨 **25+ modules** are not production-ready yet (server, llm, sharding, security, etc.)
+
+**See [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for details.**
+
+---
+
 ## What is ThemisDB?
 
-ThemisDB is an enterprise-grade, multi-model database engine that combines relational, graph, vector, document, geospatial, and time-series storage in a single system — with native AI/LLM integration built in. It is designed for workloads that require strong transactional guarantees, distributed operation, and advanced analytical capabilities alongside modern machine-learning workflows.
+ThemisDB is a **high-performance multi-model database engine in active development** that aims to combine relational, graph, vector, document, geospatial, and time-series storage in a single system — with native AI/LLM integration. **Current Status:** Core infrastructure and utilities are stable and production-ready (5 modules). Critical modules like server, sharding, storage, and LLM are not yet production-ready and require focused hardening before production deployment. See [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for detailed module status assessment.
 
-ThemisDB has **comprehensive documentation for all 58 modules** with production-ready standards:
+ThemisDB is under active development with **comprehensive documentation for all 60 modules**. **⚠️ Current Status:** Only 5 modules are production-ready; 12 are in hardening; 18 are in active development; 25 are not ready for production (see [ROADMAP.md](ROADMAP.md) and [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for details).
 
 **Key capabilities at a glance:**
 

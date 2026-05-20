@@ -44,7 +44,7 @@ function Get-CMakeText {
     param([string]$Root)
 
     $excludeDirNames = @(
-        ".git", "build", "build-msvc-ninja-debug", "build-msvc-ninja-release",
+        ".git", "build", "build-msvc-windows-debug", "build-msvc-windows-release",
         "vcpkg", "vcpkg_installed", "ffmpeg"
     )
 

@@ -25,6 +25,7 @@
 #include "storage/base_entity.h"
 #include "transaction/transaction_manager.h"
 #include "server/auth_middleware.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 
@@ -37,6 +38,23 @@ using json = nlohmann::json;
 
 static constexpr const char* INVALID_ISOLATION_MSG =
     "Invalid isolation level. Use 'read_committed', 'snapshot', or 'serializable'";
+
+static constexpr size_t MAX_TRANSACTION_BODY_SIZE = 1'000'000;
+
+static bool validateBodySize(std::string_view body) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(body), MAX_TRANSACTION_BODY_SIZE);
+}
+
+static bool validateTxnField(std::string_view value, size_t max_len) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(value), max_len);
+}
+
+static bool validateTxnTableName(std::string_view table) {
+    themis::utils::InputValidator validator;
+    return validateTxnField(table, 128) && validator.validatePathSegment(std::string(table));
+}
 
 /// Parse the "isolation" field from a JSON body.
 /// Returns ReadCommitted when the field is absent.
@@ -103,6 +121,11 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
             return makeErrorResponse(http::status::bad_request,
                 "Request body is required", req);
         }
+        if (!validateBodySize(req.body())) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
         json body = json::parse(req.body());
 
         // --- Parse isolation level ---
@@ -156,6 +179,19 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
             const std::string op_type = op["type"].get<std::string>();
             const std::string table   = op["table"].get<std::string>();
             const std::string key     = op["key"].get<std::string>();
+
+            if (!validateTxnField(op_type, 64)) {
+                errors_array.push_back({{"index", i}, {"error", "Field 'type' exceeds maximum allowed length"}});
+                continue;
+            }
+            if (!validateTxnTableName(table)) {
+                errors_array.push_back({{"index", i}, {"error", "Field 'table' contains invalid characters or length"}});
+                continue;
+            }
+            if (!validateTxnField(key, 512)) {
+                errors_array.push_back({{"index", i}, {"error", "Field 'key' exceeds maximum allowed length"}});
+                continue;
+            }
 
             TransactionManager::Status status;
             if (op_type == "put") {
@@ -249,6 +285,11 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
         IsolationLevel isolation = IsolationLevel::ReadCommitted;
 
         if (!req.body().empty()) {
+            if (!validateBodySize(req.body())) {
+                span.setStatus(false, "Request body exceeds maximum allowed size");
+                return makeErrorResponse(http::status::bad_request,
+                    "Request body exceeds maximum allowed size", req);
+            }
             json body = json::parse(req.body());
             bool iso_valid = true;
             std::string iso_error;
@@ -288,6 +329,11 @@ http::response<http::string_body> TransactionApiHandler::handleCommit(
     auto span = Tracer::startSpan("POST /transaction/commit");
     // Implementation moved from http_server.cpp handleTransactionCommit()
     try {
+        if (!validateBodySize(req.body())) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
         json body = json::parse(req.body());
         
         if (!body.contains("transaction_id")) {
@@ -334,6 +380,11 @@ http::response<http::string_body> TransactionApiHandler::handleRollback(
     auto span = Tracer::startSpan("POST /transaction/rollback");
     // Implementation moved from http_server.cpp handleTransactionRollback()
     try {
+        if (!validateBodySize(req.body())) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
         json body = json::parse(req.body());
         
         if (!body.contains("transaction_id")) {
@@ -414,6 +465,11 @@ http::response<http::string_body> TransactionApiHandler::handleGetVersion(
             return makeErrorResponse(http::status::bad_request,
                 "Request body is required", req);
         }
+        if (!validateBodySize(req.body())) {
+            span.setStatus(false, "Request body exceeds maximum allowed size");
+            return makeErrorResponse(http::status::bad_request,
+                "Request body exceeds maximum allowed size", req);
+        }
         json body = json::parse(req.body());
 
         if (!body.contains("transaction_id")) {
@@ -432,6 +488,16 @@ http::response<http::string_body> TransactionApiHandler::handleGetVersion(
         TransactionManager::TransactionId txn_id = body["transaction_id"];
         const std::string table = body["table"].get<std::string>();
         const std::string key   = body["key"].get<std::string>();
+        if (!validateTxnTableName(table)) {
+            span.setStatus(false, "Invalid table");
+            return makeErrorResponse(http::status::bad_request,
+                "Field 'table' contains invalid characters or length", req);
+        }
+        if (!validateTxnField(key, 512)) {
+            span.setStatus(false, "Invalid key length");
+            return makeErrorResponse(http::status::bad_request,
+                "Field 'key' exceeds maximum allowed length", req);
+        }
         span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
         span.setAttribute("transaction.table", table);
         span.setAttribute("transaction.key", key);

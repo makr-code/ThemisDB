@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -26,6 +27,7 @@
 #include "server/bpmn_api_handler.h"
 #include "index/process_graph.h"
 #include "server/auth_middleware.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 
 #include <sstream>
@@ -36,6 +38,20 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxBpmnIdentifierLength = 256;
+
+bool isValidBpmnIdentifier(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxBpmnIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 BpmnApiHandler::BpmnApiHandler(
     std::shared_ptr<ProcessGraphManager> process_graph,
@@ -192,6 +208,12 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
         if (process_key.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing process_definition_key", req);
         }
+        if (!isValidBpmnIdentifier(process_key)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid process_definition_key", req);
+        }
+        if (!business_key.empty() && !isValidBpmnIdentifier(business_key)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid business_key", req);
+        }
         
         // Start process instance
         auto [status, instance_id] = process_graph_->startProcess(process_key, variables);
@@ -311,6 +333,10 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
             return makeErrorResponse(http::status::bad_request, 
                                    "Invalid task_id format. Expected 'instance_id:node_id'", req);
         }
+        if (!isValidBpmnIdentifier(instance_id) || !isValidBpmnIdentifier(node_id)) {
+            return makeErrorResponse(http::status::bad_request,
+                                   "Invalid task_id format. Expected safe 'instance_id:node_id'", req);
+        }
         
         // Complete the task
         auto status = process_graph_->completeTask(instance_id, node_id, variables);
@@ -377,6 +403,9 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
         
         if (instance_id.empty()) {
             return makeErrorResponse(http::status::bad_request, "Missing instance ID", req);
+        }
+        if (!isValidBpmnIdentifier(instance_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid instance ID", req);
         }
         
         // Parse query parameters

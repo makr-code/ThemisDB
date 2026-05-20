@@ -16,7 +16,7 @@ Current beta modules in central roadmap:
 
 1. Run phase4 readiness gates:
 ```powershell
-pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 -BuildPreset msvc-ninja-release -RepeatCount 20
+pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 -BuildPreset windows-release -RepeatCount 20
 ```
 
 2. Build + run focused tests for changed module targets only.
@@ -29,10 +29,10 @@ pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 -BuildPreset m
 - [x] OpenAPI 3.x completeness finished for all existing REST + async endpoints (Issue #1491)
 	- Status (2026-04-03): local checker reports 0 undocumented server route hints (`artifacts/production-readiness/openapi_check_latest.json`)
 - [x] GraphQL parser supports fragments/directives/inline fragments or limitations explicitly version-gated
-	- Status (2026-04-03): unsupported fragments/directives are now explicitly rejected as v1.x limitations; focused test `GraphQLParserTests` passed via `ctest --preset msvc-ninja-release -R "^GraphQLParserTests$" --output-on-failure` (evidence: `build-msvc-ninja-release/Testing/Temporary/LastTest.log`)
+	- Status (2026-04-03): unsupported fragments/directives are now explicitly rejected as v1.x limitations; focused test `GraphQLParserTests` passed via focused CTest run (evidence: `Testing/Temporary/LastTest.log` im damaligen Build-Ordner)
 - [x] URL-decoding in WebSocket change handler validation fixed (`from_sequence`, `key_prefix`)
 - [x] Evidence captured: focused API tests + OpenAPI validation artifacts
-	- Evidence: `artifacts/production-readiness/openapi_check_latest.json`, `build-msvc-ninja-release/Testing/Temporary/LastTest.log`
+	- Evidence: `artifacts/production-readiness/openapi_check_latest.json`, `Testing/Temporary/LastTest.log` (historischer Build-Ordner)
 
 ### content
 - [x] Unit-test coverage > 80% for all new-format processors (Issue #1698)
@@ -43,7 +43,7 @@ pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 -BuildPreset m
 - [x] Security-audit tasks closed for upload/path/zip-bomb controls (Issue #1700)
 	- Status (2026-04-03): zip-bomb controls and office subprocess hardening documented as implemented; production install now excludes test-only `mock_clip_processor.h` (evidence: `include/content/AUDIT.md`, `cmake/CMakeLists.txt`)
 - [x] Evidence captured: benchmark logs + processor test reports
-	- Status (2026-04-03): focused processor/security tests passed (`LegacyOfficeExtractionFocusedTests`, `LibreOfficeSecurityFocusedTests`, `AsyncIngestionBackpressureFocusedTests`, `ContentEmbeddingPipelineFocusedTests`) via `ctest --preset msvc-ninja-release -R "LegacyOfficeExtractionFocusedTests|LibreOfficeSecurityFocusedTests|AsyncIngestionBackpressureFocusedTests|ContentEmbeddingPipelineFocusedTests" --output-on-failure` (evidence: `build-msvc-ninja-release/Testing/Temporary/LastTest.log`).
+	- Status (2026-04-03): focused processor/security tests passed (`LegacyOfficeExtractionFocusedTests`, `LibreOfficeSecurityFocusedTests`, `AsyncIngestionBackpressureFocusedTests`, `ContentEmbeddingPipelineFocusedTests`) via focused CTest run (evidence: `Testing/Temporary/LastTest.log` im damaligen Build-Ordner).
 	- Additional evidence (2026-04-03): local readiness gate `content-focused-local` passed (`tests=4`, `failed=0`) in `artifacts/production-readiness/20260403_194636/readiness-summary.json` and `artifacts/production-readiness/20260403_194636/content_focused_ctest.log`.
 	- Additional evidence (2026-04-03): local readiness gate `content-benchmark-local` passed with threshold checks for `bench_content_versioning`, `bench_text_extraction`, and `bench_content_processor_paths` in `artifacts/production-readiness/20260403_201611/readiness-summary.json`, `artifacts/production-readiness/20260403_201611/content_bench_content_versioning.json`, `artifacts/production-readiness/20260403_201611/content_bench_text_extraction.json`, and `artifacts/production-readiness/20260403_201611/content_bench_processor_paths.json`.
 

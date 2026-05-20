@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=3 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -29,6 +30,7 @@
  */
 
 #include "llm/aql_train_parser.h"
+#include "utils/string_utils.h"
 
 #include <algorithm>
 #include <cctype>
@@ -55,12 +57,7 @@ std::string toLower(const std::string& s) {
 }
 
 /// Trim leading and trailing whitespace.
-std::string trim(const std::string& s) {
-    const auto begin = s.find_first_not_of(" \t\r\n");
-    if (begin == std::string::npos) return {};
-    const auto end   = s.find_last_not_of(" \t\r\n");
-    return s.substr(begin, end - begin + 1);
-}
+// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 /// Strip surrounding single or double quotes from a token.
 std::string stripQuotes(const std::string& s) {
@@ -397,7 +394,7 @@ std::string AQLTrainParser::extractClause(
             end_pos = kp;
         }
     }
-    return trim(rest.substr(0, end_pos));
+    return themis::utils::trim(rest.substr(0, end_pos));
 }
 
 std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
@@ -461,7 +458,7 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
             while (pos < n && input[pos] != ',' && input[pos] != '}') {
                 ++pos;
             }
-            value = trim(input.substr(valueStart, pos - valueStart));
+            value = themis::utils::trim(input.substr(valueStart, pos - valueStart));
         }
 
         result[key] = value;
@@ -507,7 +504,7 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
     TrainStatementConfig cfg;
 
     // Strip outer braces { ... } if present
-    std::string content = trim(with_clause);
+    std::string content = themis::utils::trim(with_clause);
     if (!content.empty() && content.front() == '{') {
         // Try JSON parse first
         try {
@@ -516,7 +513,7 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
         } catch (...) {
             // Fall through to key-value parsing
             if (content.front() == '{' && content.back() == '}') {
-                content = trim(content.substr(1, content.size() - 2));
+                content = themis::utils::trim(content.substr(1, content.size() - 2));
             }
         }
     }
@@ -552,7 +549,7 @@ GraphContextConfig AQLTrainParser::parseGraphContext(const std::string& args) {
         std::istringstream iss(m[1].str());
         std::string rel;
         while (std::getline(iss, rel, ',')) {
-            cfg.relationships.push_back(stripQuotes(trim(rel)));
+            cfg.relationships.push_back(stripQuotes(themis::utils::trim(rel)));
         }
     }
     return cfg;
@@ -656,7 +653,7 @@ AQLDistributedTrainingConfig AQLTrainParser::parseDistributed(const std::string&
 AQLTrainParser::StatementType AQLTrainParser::detectStatementType(
     const std::string& aql
 ) const {
-    const std::string lower = toLower(trim(aql));
+    const std::string lower = toLower(themis::utils::trim(aql));
     if (lower.find("train adapter") != std::string::npos) return StatementType::TRAIN_ADAPTER;
     if (lower.find("deploy adapter") != std::string::npos) return StatementType::DEPLOY_ADAPTER;
     if (lower.find("verify adapter") != std::string::npos) return StatementType::VERIFY_ADAPTER;
@@ -824,7 +821,7 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
         auto pos_order = findKeyword(aql, "ORDER BY");
         if (pos_order != std::string::npos) {
             static const std::size_t kOrderByLen = std::string_view{"ORDER BY"}.size();
-            std::string rest = trim(aql.substr(pos_order + kOrderByLen));
+            std::string rest = themis::utils::trim(aql.substr(pos_order + kOrderByLen));
             auto tokens = tokenize(rest);
             if (!tokens.empty()) stmt->order_by = tokens[0];
             if (tokens.size() >= 2 && iequal(tokens[1], "ASC")) stmt->descending = false;
@@ -835,7 +832,7 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
     {
         auto pos_limit = findKeyword(aql, "LIMIT");
         if (pos_limit != std::string::npos) {
-            std::string rest = trim(aql.substr(pos_limit + 5));
+            std::string rest = themis::utils::trim(aql.substr(pos_limit + 5));
             auto tokens = tokenize(rest);
             if (!tokens.empty()) {
                 try { stmt->limit = std::stoi(tokens[0]); } catch (...) {}

@@ -339,6 +339,23 @@ TEST_F(BpmnApiHandlerTest, HandleStartProcessMissingKey) {
     EXPECT_EQ(response.result(), boost::beast::http::status::bad_request);
 }
 
+TEST_F(BpmnApiHandlerTest, HandleStartProcessInvalidProcessKey) {
+    json request_body = {
+        {"process_definition_key", "../testProcess"},
+        {"variables", json::object()}
+    };
+
+    auto req = createRequest(
+        boost::beast::http::verb::post,
+        "/api/v1/bpmn/process/start",
+        request_body.dump()
+    );
+
+    auto response = bpmn_handler_->handleStartProcess(req);
+
+    EXPECT_EQ(response.result(), boost::beast::http::status::bad_request);
+}
+
 TEST_F(BpmnApiHandlerTest, HandleQueryInstanceSuccess) {
     // First start a process
     json start_vars = {{"test", "data"}};
@@ -371,6 +388,17 @@ TEST_F(BpmnApiHandlerTest, HandleQueryInstanceNotFound) {
     auto response = bpmn_handler_->handleQueryInstance(req);
     
     EXPECT_EQ(response.result(), boost::beast::http::status::not_found);
+}
+
+TEST_F(BpmnApiHandlerTest, HandleQueryInstanceInvalidInstanceId) {
+    auto req = createRequest(
+        boost::beast::http::verb::get,
+        "/api/v1/bpmn/instance/../nonexistent-instance-id"
+    );
+
+    auto response = bpmn_handler_->handleQueryInstance(req);
+
+    EXPECT_EQ(response.result(), boost::beast::http::status::bad_request);
 }
 
 TEST_F(BpmnApiHandlerTest, HandleTaskCompleteSuccess) {
@@ -419,6 +447,22 @@ TEST_F(BpmnApiHandlerTest, HandleTaskCompleteInvalidFormat) {
     
     auto response = bpmn_handler_->handleTaskComplete(req);
     
+    EXPECT_EQ(response.result(), boost::beast::http::status::bad_request);
+}
+
+TEST_F(BpmnApiHandlerTest, HandleTaskCompleteInvalidTaskIdentifier) {
+    json request_body = {
+        {"variables", {{"test", "value"}}}
+    };
+
+    auto req = createRequest(
+        boost::beast::http::verb::post,
+        "/api/v1/bpmn/task/../bad:userTask1/complete",
+        request_body.dump()
+    );
+
+    auto response = bpmn_handler_->handleTaskComplete(req);
+
     EXPECT_EQ(response.result(), boost::beast::http::status::bad_request);
 }
 

@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=6 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -22,6 +23,7 @@
 
 #include "ingestion/legal_domain.h"
 
+#include "utils/string_utils.h"
 #include <algorithm>
 #include <array>
 #include <cctype>
@@ -42,12 +44,7 @@ namespace ingestion {
 namespace {
 
 /// Trim leading/trailing whitespace from a string.
-std::string trim(const std::string& s) {
-    const auto begin = s.find_first_not_of(" \t\r\n");
-    if (begin == std::string::npos) return {};
-    const auto end = s.find_last_not_of(" \t\r\n");
-    return s.substr(begin, end - begin + 1);
-}
+// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 /// Simple FNV-1a 32-bit hash for stable ID generation.
 uint32_t fnv1a32(const std::string& s) {
@@ -186,7 +183,7 @@ Result<GesetzHierarchy> GesetzParser::parse(
     // Extract full title from first matching line
     std::smatch tm;
     if (std::regex_search(text, tm, RE_TITLE)) {
-        hier.full_title = trim(tm[0].str());
+        hier.full_title = themis::utils::trim(tm[0].str());
         hier.root.heading = hier.full_title;
     }
 
@@ -200,8 +197,8 @@ Result<GesetzHierarchy> GesetzParser::parse(
     for (auto it = teil_begin; it != std::sregex_iterator(); ++it) {
         GesetzNode tn;
         tn.type    = GesetzNodeType::TEIL;
-        tn.number  = trim((*it)[1].str());
-        tn.heading = trim((*it)[2].str());
+        tn.number  = themis::utils::trim((*it)[1].str());
+        tn.heading = themis::utils::trim((*it)[2].str());
         teile.emplace_back(it->position(), std::move(tn));
     }
 
@@ -259,7 +256,7 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
     auto it = std::sregex_iterator(text.begin(), text.end(), para_split);
     for (auto e = std::sregex_iterator(); it != e; ++it) {
         match_starts.push_back(static_cast<std::size_t>((*it).position()));
-        headers.emplace_back(trim((*it)[1].str()),
+        headers.emplace_back(themis::utils::trim((*it)[1].str()),
                              static_cast<std::size_t>((*it).position() + (*it).length()));
     }
 
@@ -276,7 +273,7 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
         GesetzNode para;
         para.type   = GesetzNodeType::PARAGRAPH;
         para.number = headers[i].first;
-        para.text   = trim(body);
+        para.text   = themis::utils::trim(body);
 
         // Extract Absätze
         auto abs_it = std::sregex_iterator(body.begin(), body.end(), RE_ABSATZ);
@@ -284,7 +281,7 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
             GesetzNode abs;
             abs.type   = GesetzNodeType::ABSATZ;
             abs.number = "(" + (*abs_it)[1].str() + ")";
-            abs.text   = trim((*abs_it)[2].str());
+            abs.text   = themis::utils::trim((*abs_it)[2].str());
             para.children.push_back(std::move(abs));
         }
 
@@ -367,7 +364,7 @@ std::vector<BaseEntity> GesetzParser::toEntities(
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string TemporalExtractor::normaliseDate(const std::string& raw) {
-    const std::string s = trim(raw);
+    const std::string s = themis::utils::trim(raw);
 
     // Numeric: DD.MM.YYYY
     static const std::regex re_dmy(R"((\d{1,2})\.(\d{1,2})\.(\d{4}))");
@@ -560,11 +557,11 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
 
     std::smatch m;
 
-    if (std::regex_search(text, m, re_az))  be.aktenzeichen  = trim(m[1].str());
-    if (std::regex_search(text, m, re_ant)) be.antragsteller = trim(m[1].str());
+    if (std::regex_search(text, m, re_az))  be.aktenzeichen  = themis::utils::trim(m[1].str());
+    if (std::regex_search(text, m, re_ant)) be.antragsteller = themis::utils::trim(m[1].str());
     if (std::regex_search(text, m, re_dat))
         be.bescheid_datum = TemporalExtractor::normaliseDate(m[1].str());
-    if (std::regex_search(text, m, re_beh)) be.behoerde = trim(m[1].str());
+    if (std::regex_search(text, m, re_beh)) be.behoerde = themis::utils::trim(m[1].str());
 
     // Extract Auflagen section
     if (std::regex_search(text, m, re_aufl_header)) {
@@ -573,7 +570,7 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
         const std::string section = suffix.substr(0, std::min(suffix.size(), static_cast<std::size_t>(2000)));
         auto ai = std::sregex_iterator(section.begin(), section.end(), re_aufl_item);
         for (auto ae = std::sregex_iterator(); ai != ae; ++ai) {
-            const std::string item = trim((*ai)[1].str());
+            const std::string item = themis::utils::trim((*ai)[1].str());
             if (!item.empty()) be.auflagen.push_back(item);
         }
     }
@@ -581,7 +578,7 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
     // Nebenbestimmungen
     auto ni = std::sregex_iterator(text.begin(), text.end(), re_neben);
     for (auto ne = std::sregex_iterator(); ni != ne; ++ni) {
-        const std::string nb = trim((*ni)[1].str());
+        const std::string nb = themis::utils::trim((*ni)[1].str());
         if (!nb.empty()) be.nebenbestimmungen.push_back(nb);
     }
 
@@ -625,7 +622,7 @@ namespace {
 
 /// Normalise a canonical ID for comparison (lowercase, trim).
 std::string normId(const std::string& id) {
-    std::string s = toLower(trim(id));
+    std::string s = toLower(themis::utils::trim(id));
     // Remove trailing colon
     while (!s.empty() && s.back() == ':') s.pop_back();
     return s;

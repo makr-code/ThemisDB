@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=3 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -523,7 +524,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for file {}", attempt, rel);
-                file_backoff.wait();
+                if (!file_backoff.wait()) break;
             }
             rate_limited = false;
 
@@ -706,7 +707,7 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for shard {}", attempt, rel);
-                shard_backoff.wait();
+                if (!shard_backoff.wait()) break;
             }
             rate_limited = false;
 
@@ -800,4 +801,3 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
 }
 
 } // namespace themis::exporters
-

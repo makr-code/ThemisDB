@@ -139,4 +139,4 @@ Ensure-Vcpkg -Root $RepoRoot -Bootstrap:$BootstrapVcpkg -ForceReclone:$ForceRecl
 Ensure-VcpkgBaseline -Root $RepoRoot
 
 Write-Host "[DONE] Third-Party-Abhaengigkeiten sind vorbereitet."
-Write-Host "Naechster Schritt: cmake -S . -B build-msvc-ninja-release -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON"
+Write-Host "Naechster Schritt: cmake -S . -B build-msvc-windows-release -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON"

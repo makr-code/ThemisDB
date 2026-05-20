@@ -1,0 +1,735 @@
+{
+  "module": "base",
+  "stats": {
+    "total": 63,
+    "unimplemented": 28,
+    "incomplete": 3,
+    "stub_documented": 0,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 32,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 28,
+    "severity_high": 3,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 32
+  },
+  "gaps_by_file": {
+    "src\\base\\ab_test_manager.cpp": [
+      {
+        "file": "src\\base\\ab_test_manager.cpp",
+        "line": 103,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": reload_manager_(&reload_manager) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\base\\hot_reload_manager.cpp": [
+      {
+        "file": "src\\base\\hot_reload_manager.cpp",
+        "line": 361,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\hot_reload_manager.cpp",
+        "line": 366,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;  // Not yet loaded.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\hot_reload_manager.cpp",
+        "line": 398,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\hot_reload_manager.cpp",
+        "line": 470,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!cb) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\hot_reload_manager.cpp",
+        "line": 480,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\hot_reload_manager.cpp",
+        "line": 512,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\base\\module_loader.cpp": [
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 57,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 57,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 68,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 68,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 89,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef NDEBUG",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 202,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 202,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 212,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 212,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 220,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 220,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 292,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 292,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 554,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 554,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 644,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1004,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1153,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1164,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1283,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1283,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1410,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1410,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1544,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1552,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_loader.cpp",
+        "line": 1761,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\base\\module_sandbox.cpp": [
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 39,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 39,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 163,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 163,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 274,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 274,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 356,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 356,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 387,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 387,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 426,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"using RLIMIT_AS as memory-limit fallback\",",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 457,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 457,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\module_sandbox.cpp",
+        "line": 492,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"CPU rate ({}%) cannot be enforced; RLIMIT_CPU used as fallback\",",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\base\\plugin_dependency_graph.cpp": [
+      {
+        "file": "src\\base\\plugin_dependency_graph.cpp",
+        "line": 239,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\base\\remote_registry_client.cpp": [
+      {
+        "file": "src\\base\\remote_registry_client.cpp",
+        "line": 208,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\remote_registry_client.cpp",
+        "line": 212,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ctx) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\remote_registry_client.cpp",
+        "line": 216,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\remote_registry_client.cpp",
+        "line": 225,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\remote_registry_client.cpp",
+        "line": 233,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\remote_registry_client.cpp",
+        "line": 272,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\remote_registry_client.cpp",
+        "line": 280,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\remote_registry_client.cpp",
+        "line": 306,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\remote_registry_client.cpp",
+        "line": 319,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\remote_registry_client.cpp",
+        "line": 510,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\base\\wasm_plugin_sandbox.cpp": [
+      {
+        "file": "src\\base\\wasm_plugin_sandbox.cpp",
+        "line": 307,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\wasm_plugin_sandbox.cpp",
+        "line": 326,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!runtime_) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\base\\wasm_runtime_injector.cpp": [
+      {
+        "file": "src\\base\\wasm_runtime_injector.cpp",
+        "line": 80,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\wasm_runtime_injector.cpp",
+        "line": 95,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\base\\wasm_runtime_injector.cpp",
+        "line": 106,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

@@ -22,6 +22,7 @@
 
 #include "server/hot_reload_api_handler.h"
 #include "utils/logger.h"
+#include "utils/input_validator.h"
 #include <nlohmann/json.hpp>
 #include "utils/tracing.h"
 
@@ -32,6 +33,23 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxHotReloadIdentifierLength = 128;
+
+bool isValidHotReloadIdentifier(const std::string& value) {
+    if (value.empty()) {
+        return false;
+    }
+
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(value, kMaxHotReloadIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 HotReloadApiHandler::HotReloadApiHandler(
     std::shared_ptr<updates::ManifestDatabase> manifest_db,
@@ -51,15 +69,35 @@ http::response<http::string_body> HotReloadApiHandler::handleRequest(
     // Route to appropriate handler
     if (target.find("/api/updates/manifests/") == 0 && method == http::verb::get) {
         std::string version = extractPathParam(target, "/api/updates/manifests/");
+        if (!isValidHotReloadIdentifier(version)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid version",
+                                       req);
+        }
         return handleGetManifest(req, version);
     } else if (target.find("/api/updates/download/") == 0 && method == http::verb::post) {
         std::string version = extractPathParam(target, "/api/updates/download/");
+        if (!isValidHotReloadIdentifier(version)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid version",
+                                       req);
+        }
         return handleDownload(req, version);
     } else if (target.find("/api/updates/apply/") == 0 && method == http::verb::post) {
         std::string version = extractPathParam(target, "/api/updates/apply/");
+        if (!isValidHotReloadIdentifier(version)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid version",
+                                       req);
+        }
         return handleApply(req, version);
     } else if (target.find("/api/updates/rollback/") == 0 && method == http::verb::post) {
         std::string rollback_id = extractPathParam(target, "/api/updates/rollback/");
+        if (!isValidHotReloadIdentifier(rollback_id)) {
+            return createErrorResponse(http::status::bad_request,
+                                       "invalid rollback id",
+                                       req);
+        }
         return handleRollback(req, rollback_id);
     } else if (target == "/api/updates/rollback" && method == http::verb::get) {
         return handleListRollbacks(req);

@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=6 unimpl=6 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -30,6 +31,7 @@
 
 #include "process/dmn_evaluator.h"
 #include "utils/logger.h"
+#include "utils/string_utils.h"
 
 #include <algorithm>
 #include <cctype>
@@ -49,15 +51,11 @@ using json = nlohmann::json;
 namespace {
 
 /// Trim whitespace from both ends of a string view.
-std::string_view trim(std::string_view sv) {
-    while (!sv.empty() && std::isspace(static_cast<unsigned char>(sv.front()))) sv.remove_prefix(1);
-    while (!sv.empty() && std::isspace(static_cast<unsigned char>(sv.back())))  sv.remove_suffix(1);
-    return sv;
-}
+// Using themis::utils::trim_view() from string_utils.h (Phase 1 consolidation)
 
 /// Parse a numeric literal from a string view.
 std::optional<double> parseNumber(std::string_view sv) {
-    sv = trim(sv);
+    sv = themis::utils::trim_view(sv);
     if (sv.empty()) return std::nullopt;
     // Use stod for broadest compiler support (from_chars<double> is late C++17)
     try {
@@ -103,7 +101,7 @@ bool evaluateRange(std::string_view expr, const json& value) {
 /*static*/ bool DmnEvaluator::evaluateFeel(std::string_view feel_expr,
                                              const json&      value)
 {
-    const std::string_view expr = trim(feel_expr);
+    const std::string_view expr = themis::utils::trim_view(feel_expr);
 
     // Wildcard / any
     if (expr == "-") return true;
@@ -157,7 +155,7 @@ bool evaluateRange(std::string_view expr, const json& value) {
             }
             // String equality via "=" operator
             if (op == "=" && value.is_string()) {
-                const std::string rhs_str = std::string(trim(rhs_sv));
+                const std::string rhs_str = std::string(themis::utils::trim_view(rhs_sv));
                 return value.get<std::string>() == rhs_str;
             }
         }

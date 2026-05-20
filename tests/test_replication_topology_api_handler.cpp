@@ -161,6 +161,17 @@ TEST_F(ReplicationTopologyApiHandlerWithReplTest, UiPageInjectsApiBaseFromHostHe
     EXPECT_NE(resp.body().find("const API_BASE=\"/proxy\";"), std::string::npos);
 }
 
+TEST_F(ReplicationTopologyApiHandlerWithReplTest, UiRejectsInvalidApiBasePrefix) {
+    http::request<http::string_body> req{http::verb::get, "/proxy/../evil/ui/replication/topology", 11};
+    req.set(http::field::host, "db.example.com:8765");
+
+    auto resp = handler_->handleUiGet(req);
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+
+    auto body = json::parse(resp.body());
+    EXPECT_EQ(body["error"].get<std::string>(), "Invalid UI API base prefix");
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Tests: coordinator::getReplicaInfo / getShipperStats delegation
 // (tests the new methods added to ReplicationCoordinator)

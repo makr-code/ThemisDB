@@ -273,7 +273,6 @@ set(THEMIS_BASE_SOURCES
     # NCCL/RCCL vector backends (always compile for stub availability)
     ../src/acceleration/nccl_vector_backend.cpp
     ../src/acceleration/rccl_vector_backend.cpp
-    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/acceleration/vulkan_backend_full.cpp>
     ../src/gpu/device_discovery.cpp
     
     # Plugin manager (core plugin orchestration)
@@ -783,7 +782,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/jwt_key_rotation_manager.cpp
     ../src/auth/principal_validator.cpp
     ../src/server/auth_middleware.cpp
-    ../src/server/request_validation_middleware.cpp
     ../src/server/policy_engine.cpp
     
     # Governance
@@ -1051,6 +1049,7 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/protegi_optimizer.cpp
     ../src/prompt_engineering/dspy_module.cpp
     ../src/prompt_engineering/structured_output.cpp
+    ../src/prompt_engineering/markdown_utils.cpp
     ../src/prompt_engineering/prompt_compressor.cpp
     ../src/prompt_engineering/adversarial_prompt_tester.cpp
     ../src/prompt_engineering/prompt_template_validator.cpp
@@ -1503,7 +1502,6 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_txn_api_handler.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_security_audit.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/session_api_handler.cpp>
@@ -2273,6 +2271,7 @@ function(themis_build_modular)
             themis_base
             themis_storage
             themis_transaction
+            themis_timeseries
         )
         if(TARGET Boost::geometry)
             list(APPEND _themis_geo_deps Boost::geometry)

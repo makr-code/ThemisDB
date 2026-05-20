@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -33,12 +34,30 @@
 #include <future>
 #include <stdexcept>
 #include <spdlog/spdlog.h>
+#include "utils/input_validator.h"
 #include "utils/tracing.h"
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxServerlessIdentifierLength = 128;
+
+bool isValidServerlessIdentifier(const std::string& value, const bool allow_empty = false) {
+    if (value.empty()) {
+        return allow_empty;
+    }
+
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(value, kMaxServerlessIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ServerlessFunction helpers
@@ -271,9 +290,18 @@ ServerlessFunctionApiHandler::handleRegister(
         return makeErrorResponse(http::status::bad_request,
                                  "'name' field is required", req);
     }
+    if (!isValidServerlessIdentifier(body["name"].get<std::string>())) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function name", req);
+    }
     if (!body.contains("code")) {
         return makeErrorResponse(http::status::bad_request,
                                  "'code' field is required", req);
+    }
+    if (body.contains("tenant_id") && (!body["tenant_id"].is_string() ||
+        !isValidServerlessIdentifier(body["tenant_id"].get<std::string>(), true))) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid tenant_id", req);
     }
 
     std::string code_err = validateCode(body["code"]);
@@ -318,13 +346,31 @@ ServerlessFunctionApiHandler::handleList(
     const std::string target{req.target()};
     auto qpos = target.find('?');
     if (qpos != std::string::npos) {
-        const std::string qs = target.substr(qpos + 1);
-        const std::string key = "tenant_id=";
-        auto kpos = qs.find(key);
-        if (kpos != std::string::npos) {
-            tenant_filter = qs.substr(kpos + key.size());
-            auto amp = tenant_filter.find('&');
-            if (amp != std::string::npos) tenant_filter = tenant_filter.substr(0, amp);
+        std::string_view query{target};
+        query.remove_prefix(qpos + 1);
+        while (!query.empty()) {
+            const auto amp = query.find('&');
+            const auto token = query.substr(0, amp);
+            const auto eq = token.find('=');
+            const auto key = token.substr(0, eq);
+            if (key == "tenant_id") {
+                if (eq == std::string_view::npos) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "invalid tenant_id filter", req);
+                }
+
+                tenant_filter = std::string(token.substr(eq + 1));
+                if (!tenant_filter.empty() && !isValidServerlessIdentifier(tenant_filter, true)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "invalid tenant_id filter", req);
+                }
+                break;
+            }
+
+            if (amp == std::string_view::npos) {
+                break;
+            }
+            query.remove_prefix(amp + 1);
         }
     }
 
@@ -350,6 +396,10 @@ ServerlessFunctionApiHandler::handleGet(
     const std::string& id)
 {
     auto span = Tracer::startSpan("handleGet");
+    if (!isValidServerlessIdentifier(id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function id", req);
+    }
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(id);
     if (it == registry_.end()) {
@@ -369,6 +419,10 @@ ServerlessFunctionApiHandler::handleUpdate(
     const std::string& id)
 {
     auto span = Tracer::startSpan("handleUpdate");
+    if (!isValidServerlessIdentifier(id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function id", req);
+    }
     json body;
     try {
         body = json::parse(req.body());
@@ -388,12 +442,21 @@ ServerlessFunctionApiHandler::handleUpdate(
 
     if (body.contains("name") && body["name"].is_string() &&
         !body["name"].get<std::string>().empty()) {
+        if (!isValidServerlessIdentifier(body["name"].get<std::string>())) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "invalid function name", req);
+        }
         fn.name = body["name"].get<std::string>();
     }
     if (body.contains("description")) {
         fn.description = body.value("description", fn.description);
     }
     if (body.contains("tenant_id")) {
+        if (!body["tenant_id"].is_string() ||
+            !isValidServerlessIdentifier(body["tenant_id"].get<std::string>(), true)) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "invalid tenant_id", req);
+        }
         fn.tenant_id = body.value("tenant_id", fn.tenant_id);
     }
     if (body.contains("code")) {
@@ -442,6 +505,10 @@ ServerlessFunctionApiHandler::handleDelete(
     const std::string& id)
 {
     auto span = Tracer::startSpan("handleDelete");
+    if (!isValidServerlessIdentifier(id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function id", req);
+    }
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(id);
     if (it == registry_.end()) {
@@ -464,6 +531,10 @@ ServerlessFunctionApiHandler::handleInvoke(
     const std::string& id)
 {
     auto span = Tracer::startSpan("handleInvoke");
+    if (!isValidServerlessIdentifier(id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function id", req);
+    }
     // Fetch function under lock, then release before execution to avoid
     // holding the registry mutex during potentially long-running work.
     ServerlessFunction fn;
@@ -528,6 +599,10 @@ ServerlessFunctionApiHandler::handleVersions(
     const std::string& id)
 {
     auto span = Tracer::startSpan("handleVersions");
+    if (!isValidServerlessIdentifier(id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "invalid function id", req);
+    }
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = version_history_.find(id);
     if (it == version_history_.end()) {

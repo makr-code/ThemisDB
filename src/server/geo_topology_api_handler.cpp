@@ -29,6 +29,8 @@
 
 #include "server/geo_topology_api_handler.h"
 
+#include "utils/input_validator.h"
+
 #include <algorithm>
 #include <sstream>
 #include "utils/tracing.h"
@@ -37,6 +39,20 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxGeoTopologyIdentifierLength = 256;
+
+bool isValidGeoTopologyIdentifier(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxGeoTopologyIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction
@@ -250,6 +266,10 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost
             return makeErrorResponse(http::status::bad_request,
                                      "Field 'shard_id' must not be empty", req);
         }
+        if (!isValidGeoTopologyIdentifier(shard_id)) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Invalid shard_id", req);
+        }
 
         // Load existing shard info or create new entry
         sharding::ShardInfo info;
@@ -315,6 +335,10 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDele
         return makeErrorResponse(http::status::bad_request,
                                  "Missing shard_id in path", req);
     }
+    if (!isValidGeoTopologyIdentifier(shard_id)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid shard_id in path", req);
+    }
 
     const auto existing = shard_topology_->getShard(shard_id);
     if (!existing) {
@@ -350,6 +374,10 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
     if (collection.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing collection name in path", req);
+    }
+    if (!isValidGeoTopologyIdentifier(collection)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid collection name in path", req);
     }
 
     try {
@@ -429,6 +457,10 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigPut(
     if (collection.empty()) {
         return makeErrorResponse(http::status::bad_request,
                                  "Missing collection name in path", req);
+    }
+    if (!isValidGeoTopologyIdentifier(collection)) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid collection name in path", req);
     }
 
     try {

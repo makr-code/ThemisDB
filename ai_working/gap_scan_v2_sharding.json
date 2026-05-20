@@ -1,0 +1,3534 @@
+{
+  "module": "sharding",
+  "stats": {
+    "total": 308,
+    "unimplemented": 163,
+    "incomplete": 22,
+    "stub_documented": 12,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 109,
+    "todo_item": 2,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 163,
+    "severity_high": 22,
+    "severity_medium": 2,
+    "severity_low": 0,
+    "severity_intentional": 121
+  },
+  "gaps_by_file": {
+    "src\\sharding\\adaptive_shard_router.cpp": [
+      {
+        "file": "src\\sharding\\adaptive_shard_router.cpp",
+        "line": 184,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (match_results.empty() || match_results[0].score < adaptive_config_.fallback_threshold) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\adaptive_shard_router.cpp",
+        "line": 185,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (adaptive_config_.fallback_to_scatter_gather) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\adaptive_shard_router.cpp",
+        "line": 186,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "fallback_to_scatter_gather_++;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\adaptive_shard_router.cpp",
+        "line": 188,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "stats.stop_reason = \"no_capability_matches_fallback_to_scatter_gather\";",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\adaptive_shard_router.cpp",
+        "line": 213,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "adaptive_config_.fallback_threshold",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\adaptive_shard_router.cpp",
+        "line": 223,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "thresholds[iteration] : adaptive_config_.fallback_threshold;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\adaptive_shard_router.cpp",
+        "line": 314,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "{\"fallback_to_scatter_gather\", fallback_to_scatter_gather_.load()},",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\adaptive_shard_router.cpp",
+        "line": 322,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "{\"fallback_threshold\", adaptive_config_.fallback_threshold},",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\adaptive_shard_router.cpp",
+        "line": 347,
+        "category": "todo_item",
+        "severity": "medium",
+        "snippet": "// TODO (KNOWN LIMITATION): Production deployment requires more sophisticated query analysis:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\adaptive_shard_router.cpp",
+        "line": 354,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Current implementation uses simple pattern matching as a basic fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\admin_operations.cpp": [
+      {
+        "file": "src\\sharding\\admin_operations.cpp",
+        "line": 205,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\admin_operations.cpp",
+        "line": 205,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\auto_rebalancer.cpp": [
+      {
+        "file": "src\\sharding\\auto_rebalancer.cpp",
+        "line": 49,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": detector_(std::move(detector)), config_(Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\auto_rebalancer.cpp",
+        "line": 54,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ") : detector_(std::move(detector)), config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\auto_rebalancer.cpp",
+        "line": 66,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\auto_rebalancer.cpp",
+        "line": 159,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ") : AutoRebalancer(topology, load_detector, metrics, migrator, Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\cloud_agent.cpp": [
+      {
+        "file": "src\\sharding\\cloud_agent.cpp",
+        "line": 40,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ") : CloudAgent(topology, executor, metrics, Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\cloud_backup.cpp": [
+      {
+        "file": "src\\sharding\\cloud_backup.cpp",
+        "line": 79,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cloud_backup.cpp",
+        "line": 191,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (S3StorageProvider::download):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cloud_backup.cpp",
+        "line": 243,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cloud_backup.cpp",
+        "line": 272,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cloud_backup.cpp",
+        "line": 362,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cloud_backup.cpp",
+        "line": 379,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cloud_backup.cpp",
+        "line": 467,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (GCSStorageProvider::deleteObject):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cloud_backup.cpp",
+        "line": 493,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cloud_backup.cpp",
+        "line": 690,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\consensus_factory.cpp": [
+      {
+        "file": "src\\sharding\\consensus_factory.cpp",
+        "line": 47,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\consensus_factory.cpp",
+        "line": 94,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\consistent_hash.cpp": [
+      {
+        "file": "src\\sharding\\consistent_hash.cpp",
+        "line": 124,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\consistent_hash.cpp",
+        "line": 144,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\consistent_hash.cpp",
+        "line": 213,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\cross_shard_transaction.cpp": [
+      {
+        "file": "src\\sharding\\cross_shard_transaction.cpp",
+        "line": 68,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// path.  A /tmp fallback could silently lose transaction logs after a",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cross_shard_transaction.cpp",
+        "line": 804,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cross_shard_transaction.cpp",
+        "line": 817,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cross_shard_transaction.cpp",
+        "line": 973,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (CST-6):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\cross_shard_transaction.cpp",
+        "line": 1029,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// CST-6 fallback: treat Phase-1 PREPARED state as PreCommit ack.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\data_migrator.cpp": [
+      {
+        "file": "src\\sharding\\data_migrator.cpp",
+        "line": 607,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// configured target_endpoint as a fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\distributed_coordinator.cpp": [
+      {
+        "file": "src\\sharding\\distributed_coordinator.cpp",
+        "line": 566,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\distributed_coordinator.cpp",
+        "line": 576,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\distributed_transaction.cpp": [
+      {
+        "file": "src\\sharding\\distributed_transaction.cpp",
+        "line": 430,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\epoch_fencing.cpp": [
+      {
+        "file": "src\\sharding\\epoch_fencing.cpp",
+        "line": 347,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\epoch_fencing.cpp",
+        "line": 356,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\epoch_fencing.cpp",
+        "line": 363,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\epoch_fencing.cpp",
+        "line": 409,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\gossip_consensus_adapter.cpp": [
+      {
+        "file": "src\\sharding\\gossip_consensus_adapter.cpp",
+        "line": 131,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\gpu_erasure_coder.cpp": [
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 36,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 36,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 43,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENCL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 43,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENCL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 63,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Initialize CPU fallback coder",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 83,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 83,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 99,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 99,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 105,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENCL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 105,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENCL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 170,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "stats_.cpu_fallbacks++;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 174,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// CPU fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 223,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "stats_.cpu_fallbacks++;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 227,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// CPU fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 259,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "stats_.cpu_fallbacks++;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 263,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// CPU fallback: encode each block individually",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder.cpp",
+        "line": 288,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "spdlog::info(\"Forcing CPU fallback mode\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\gpu_erasure_coder_opencl.cpp": [
+      {
+        "file": "src\\sharding\\gpu_erasure_coder_opencl.cpp",
+        "line": 38,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENCL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder_opencl.cpp",
+        "line": 38,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENCL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder_opencl.cpp",
+        "line": 49,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __APPLE__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder_opencl.cpp",
+        "line": 49,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __APPLE__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder_opencl.cpp",
+        "line": 214,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "spdlog::warn(\"OpenCL: no platforms found, coder will use CPU fallback\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder_opencl.cpp",
+        "line": 244,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"coder will use CPU fallback\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder_opencl.cpp",
+        "line": 453,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// CPU fallback \u2014 process each block individually",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\gpu_erasure_coder_opencl.cpp",
+        "line": 725,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// \u2500\u2500 CPU encode fallback \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\hardware_migration_manager.cpp": [
+      {
+        "file": "src\\sharding\\hardware_migration_manager.cpp",
+        "line": 43,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\hardware_migration_manager.cpp",
+        "line": 43,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\hardware_migration_manager.cpp",
+        "line": 83,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\hardware_migration_manager.cpp",
+        "line": 88,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\hardware_migration_manager.cpp",
+        "line": 116,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt; // File does not exist yet \u2014 not an error.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\hardware_migration_manager.cpp",
+        "line": 123,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\hardware_migration_manager.cpp",
+        "line": 135,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ") : config_(config), topology_(topology), ring_(ring) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\hardware_migration_manager.cpp",
+        "line": 161,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\hardware_migration_manager.cpp",
+        "line": 173,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\health_check.cpp": [
+      {
+        "file": "src\\sharding\\health_check.cpp",
+        "line": 291,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Try fallback health endpoint",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\health_monitor.cpp": [
+      {
+        "file": "src\\sharding\\health_monitor.cpp",
+        "line": 154,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\health_monitor.cpp",
+        "line": 369,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\hot_spare_manager.cpp": [
+      {
+        "file": "src\\sharding\\hot_spare_manager.cpp",
+        "line": 470,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\hot_spare_manager.cpp",
+        "line": 893,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\metadata_shard.cpp": [
+      {
+        "file": "src\\sharding\\metadata_shard.cpp",
+        "line": 173,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\metadata_shard.cpp",
+        "line": 178,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\metadata_shard.cpp",
+        "line": 409,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\metadata_shard.cpp",
+        "line": 418,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\metadata_shard.cpp",
+        "line": 496,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\metadata_snapshot.cpp": [
+      {
+        "file": "src\\sharding\\metadata_snapshot.cpp",
+        "line": 107,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\metadata_snapshot.cpp",
+        "line": 126,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\metadata_snapshot.cpp",
+        "line": 136,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\metadata_snapshot.cpp",
+        "line": 150,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\metadata_snapshot.cpp",
+        "line": 157,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\metadata_snapshot.cpp",
+        "line": 171,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\metadata_snapshot.cpp",
+        "line": 183,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\mtls_connection_pool.cpp": [
+      {
+        "file": "src\\sharding\\mtls_connection_pool.cpp",
+        "line": 110,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\mtls_connection_pool.cpp",
+        "line": 125,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\mtls_connection_pool.cpp",
+        "line": 232,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\mtls_connection_pool.cpp",
+        "line": 249,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\mtls_connection_pool.cpp",
+        "line": 383,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\multi_primary_coordinator.cpp": [
+      {
+        "file": "src\\sharding\\multi_primary_coordinator.cpp",
+        "line": 148,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\multi_primary_coordinator.cpp",
+        "line": 197,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\operational_metrics.cpp": [
+      {
+        "file": "src\\sharding\\operational_metrics.cpp",
+        "line": 66,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\partition_detector.cpp": [
+      {
+        "file": "src\\sharding\\partition_detector.cpp",
+        "line": 33,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\paxos_consensus.cpp": [
+      {
+        "file": "src\\sharding\\paxos_consensus.cpp",
+        "line": 161,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\paxos_snapshot.cpp": [
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 128,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 133,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 141,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 146,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 247,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 277,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 287,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 301,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 328,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 342,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\paxos_snapshot.cpp",
+        "line": 354,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\paxos_state_persistence.cpp": [
+      {
+        "file": "src\\sharding\\paxos_state_persistence.cpp",
+        "line": 258,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == slot_cache_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\pki_shard_certificate.cpp": [
+      {
+        "file": "src\\sharding\\pki_shard_certificate.cpp",
+        "line": 48,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\pki_shard_certificate.cpp",
+        "line": 75,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\pki_shard_certificate.cpp",
+        "line": 80,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\pki_shard_certificate.cpp",
+        "line": 85,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\pki_shard_certificate.cpp",
+        "line": 147,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\pki_shard_certificate.cpp",
+        "line": 156,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\pki_shard_certificate.cpp",
+        "line": 162,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\pki_shard_certificate.cpp",
+        "line": 303,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\predictive_detector.cpp": [
+      {
+        "file": "src\\sharding\\predictive_detector.cpp",
+        "line": 42,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\predictive_detector.cpp",
+        "line": 310,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\quorum_manager.cpp": [
+      {
+        "file": "src\\sharding\\quorum_manager.cpp",
+        "line": 54,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\raft_configuration.cpp": [
+      {
+        "file": "src\\sharding\\raft_configuration.cpp",
+        "line": 29,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": is_joint_consensus_(false) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_configuration.cpp",
+        "line": 32,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": new_members_(members), is_joint_consensus_(false) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\raft_consensus_adapter.cpp": [
+      {
+        "file": "src\\sharding\\raft_consensus_adapter.cpp",
+        "line": 139,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_consensus_adapter.cpp",
+        "line": 163,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_consensus_adapter.cpp",
+        "line": 203,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_consensus_adapter.cpp",
+        "line": 235,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\raft_log.cpp": [
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 42,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "RaftLog::RaftLog() : commit_index_(0) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 56,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 378,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 391,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 397,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 406,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 415,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 422,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "auto idx = read64(\"snapshot_index\");  if (!idx) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 425,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "auto term = read64(\"snapshot_term\");  if (!term) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 428,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "auto usize = read64(\"uncompressed_size\"); if (!usize) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 431,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "auto ts = read64(\"timestamp\");  if (!ts) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 434,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "auto clen = read32(\"checksum_len\"); if (!clen) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 442,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 448,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 455,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 471,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 482,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 489,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 497,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 506,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 513,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 533,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 563,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 569,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 575,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 583,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 603,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_log.cpp",
+        "line": 621,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\raft_shard_manager.cpp": [
+      {
+        "file": "src\\sharding\\raft_shard_manager.cpp",
+        "line": 175,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\raft_shard_manager.cpp",
+        "line": 259,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\raft_wal_integration.cpp": [
+      {
+        "file": "src\\sharding\\raft_wal_integration.cpp",
+        "line": 98,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;  // Only leader serves reads for linearizability",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\redundancy_strategy.cpp": [
+      {
+        "file": "src\\sharding\\redundancy_strategy.cpp",
+        "line": 178,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\redundancy_strategy.cpp",
+        "line": 1294,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\redundancy_strategy.cpp",
+        "line": 2077,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Bounded-staleness / follower-read fallback: try remaining candidates",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\replication_coordinator.cpp": [
+      {
+        "file": "src\\sharding\\replication_coordinator.cpp",
+        "line": 160,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\replication_coordinator.cpp",
+        "line": 167,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\replica_consistency.cpp": [
+      {
+        "file": "src\\sharding\\replica_consistency.cpp",
+        "line": 35,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": timestamps_(timestamps) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\replica_consistency.cpp",
+        "line": 117,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\replica_consistency.cpp",
+        "line": 125,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;  // Invalid number format",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\replica_consistency.cpp",
+        "line": 127,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;  // Number out of range",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\replica_consistency.cpp",
+        "line": 145,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (pos1 == std::string::npos) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\replica_consistency.cpp",
+        "line": 148,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (pos2 == std::string::npos) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\replica_consistency.cpp",
+        "line": 151,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (pos3 == std::string::npos) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\replica_consistency.cpp",
+        "line": 157,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!clock_opt) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\replica_consistency.cpp",
+        "line": 172,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\replica_consistency.cpp",
+        "line": 338,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\secure_transport_client.cpp": [
+      {
+        "file": "src\\sharding\\secure_transport_client.cpp",
+        "line": 83,
+        "category": "todo_item",
+        "severity": "medium",
+        "snippet": "// TODO: Add LZ4 support in the future",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\sharding_manager_edition.cpp": [
+      {
+        "file": "src\\sharding\\sharding_manager_edition.cpp",
+        "line": 135,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\sharding_manager_edition.cpp",
+        "line": 143,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\sharding_manager_edition.cpp",
+        "line": 170,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\sharding_manager_edition.cpp",
+        "line": 181,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Defensive fallback \u2014 return both boundary shards.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\shard_durability.cpp": [
+      {
+        "file": "src\\sharding\\shard_durability.cpp",
+        "line": 123,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_durability.cpp",
+        "line": 137,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\shard_load_detector.cpp": [
+      {
+        "file": "src\\sharding\\shard_load_detector.cpp",
+        "line": 38,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ") : ShardLoadDetector(topology, metrics, Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_load_detector.cpp",
+        "line": 392,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_load_detector.cpp",
+        "line": 488,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\shard_repair_engine.cpp": [
+      {
+        "file": "src\\sharding\\shard_repair_engine.cpp",
+        "line": 657,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\shard_resource_manager.cpp": [
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 30,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 30,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 44,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 44,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 47,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HIP",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 47,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HIP",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 167,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 167,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 276,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 276,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 351,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 513,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 513,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 575,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 575,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 616,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 631,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 631,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 653,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_resource_manager.cpp",
+        "line": 653,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\shard_router.cpp": [
+      {
+        "file": "src\\sharding\\shard_router.cpp",
+        "line": 150,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_router.cpp",
+        "line": 598,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// A plain collection name is also accepted as a fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_router.cpp",
+        "line": 602,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "const std::string WITH_KW = \" with \";  // case-insensitive fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_router.cpp",
+        "line": 999,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_router.cpp",
+        "line": 1011,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\shard_rpc_client.cpp": [
+      {
+        "file": "src\\sharding\\shard_rpc_client.cpp",
+        "line": 42,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GRPC",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_client.cpp",
+        "line": 42,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GRPC",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_client.cpp",
+        "line": 132,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_client.cpp",
+        "line": 145,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "//   simulation path (sendRequestInProcess) is retained as a fallback for",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_client.cpp",
+        "line": 805,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_client.cpp",
+        "line": 806,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Purpose: Provide a local in-process fallback for sendRequest() that",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_client.cpp",
+        "line": 820,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "//   The sendRequestInProcess() method is retained as a single-node fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_client.cpp",
+        "line": 858,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// scenarios), delegate to it instead of the hardcoded fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_client.cpp",
+        "line": 863,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Built-in hardcoded fallback responses for single-node / test mode.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\shard_rpc_server.cpp": [
+      {
+        "file": "src\\sharding\\shard_rpc_server.cpp",
+        "line": 29,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GRPC",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_server.cpp",
+        "line": 29,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GRPC",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_server.cpp",
+        "line": 58,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": handler_(handler) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_server.cpp",
+        "line": 159,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_VERSION_STRING",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_rpc_server.cpp",
+        "line": 226,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "explicit Impl(const ShardRPCServer::Config& cfg) : listen_address(cfg.listen_address), config(cfg) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\shard_topology.cpp": [
+      {
+        "file": "src\\sharding\\shard_topology.cpp",
+        "line": 106,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": ShardTopology(Config{\"\", \"\", 0, false}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\shard_topology.cpp",
+        "line": 137,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\signed_request.cpp": [
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 116,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!bmem) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 118,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!b64) { BIO_free(bmem); return std::nullopt; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 126,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 187,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 275,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 289,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 295,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 300,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 305,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 311,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\signed_request.cpp",
+        "line": 317,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\slo_monitor.cpp": [
+      {
+        "file": "src\\sharding\\slo_monitor.cpp",
+        "line": 646,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\slo_monitor.cpp",
+        "line": 646,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\stream_protocol.cpp": [
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 40,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LZ4",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 40,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LZ4",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 45,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ZSTD",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 45,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ZSTD",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 167,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 261,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 375,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LZ4",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 375,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LZ4",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 394,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ZSTD",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 394,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ZSTD",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 427,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LZ4",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 427,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LZ4",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 445,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ZSTD",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 445,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ZSTD",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 471,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LZ4",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 471,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_LZ4",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 475,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ZSTD",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 475,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ZSTD",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 577,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 587,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "//               `setPrepareTransferCallback()` and remove this fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 1102,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 1110,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\stream_protocol.cpp",
+        "line": 1117,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\transaction_snapshot.cpp": [
+      {
+        "file": "src\\sharding\\transaction_snapshot.cpp",
+        "line": 212,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\transaction_snapshot.cpp",
+        "line": 278,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\transaction_snapshot.cpp",
+        "line": 281,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\transaction_snapshot.cpp",
+        "line": 316,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\transaction_snapshot.cpp",
+        "line": 325,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\transaction_snapshot.cpp",
+        "line": 331,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\transaction_snapshot.cpp",
+        "line": 338,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\transaction_snapshot.cpp",
+        "line": 346,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\transaction_wal.cpp": [
+      {
+        "file": "src\\sharding\\transaction_wal.cpp",
+        "line": 52,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config), current_lsn_(0, 0) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\transaction_wal.cpp",
+        "line": 376,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\truetime.cpp": [
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 35,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 35,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 233,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 233,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 245,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "explicit SocketGuard(SocketHandle fd) : fd_(fd) {}",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 248,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 248,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 289,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 289,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 342,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 342,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 360,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\truetime.cpp",
+        "line": 360,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\two_phase_commit_coordinator.cpp": [
+      {
+        "file": "src\\sharding\\two_phase_commit_coordinator.cpp",
+        "line": 385,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == transactions_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\two_phase_commit_participant.cpp": [
+      {
+        "file": "src\\sharding\\two_phase_commit_participant.cpp",
+        "line": 305,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == transactions_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\two_phase_commit_participant.cpp",
+        "line": 325,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\urn.cpp": [
+      {
+        "file": "src\\sharding\\urn.cpp",
+        "line": 27,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// If xxHash is not available, we'll use std::hash as fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\urn.cpp",
+        "line": 28,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __has_include",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\urn.cpp",
+        "line": 53,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\urn.cpp",
+        "line": 58,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\urn.cpp",
+        "line": 78,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\urn.cpp",
+        "line": 83,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\urn.cpp",
+        "line": 94,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\urn.cpp",
+        "line": 98,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\urn.cpp",
+        "line": 102,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\sharding\\urn.cpp",
+        "line": 115,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef HAS_XXHASH",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\urn_resolver.cpp": [
+      {
+        "file": "src\\sharding\\urn_resolver.cpp",
+        "line": 44,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\sharding\\wal_manager.cpp": [
+      {
+        "file": "src\\sharding\\wal_manager.cpp",
+        "line": 222,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

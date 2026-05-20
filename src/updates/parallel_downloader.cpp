@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=7 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -364,22 +365,22 @@ DownloadResult ParallelDownloader::executeTask(
         progress_cb_(task_index, resume_offset, 0, "downloading");
     }
 
-    // Retry loop — exponential backoff via themis::utils::ExponentialBackoff.
-    // Sequence: 1 s, 2 s, 4 s … (no jitter to keep behaviour deterministic
-    // and consistent with the previous hard-coded implementation).
-    utils::RetryConfig backoff_cfg;
-    backoff_cfg.max_attempts       = static_cast<uint32_t>(task.max_retries) + 1u;
-    backoff_cfg.initial_backoff_ms = 1000u;
-    backoff_cfg.max_backoff_ms     = 30'000u;
-    backoff_cfg.multiplier         = 2.0;
-    backoff_cfg.jitter_fraction    = 0.0;
-    utils::ExponentialBackoff backoff(backoff_cfg);
+    // Use centralized exponential backoff policy (Phase 2a consolidation)
+    const themis::utils::RetryConfig retry_cfg{
+        .max_attempts       = static_cast<uint32_t>(task.max_retries + 1),
+        .initial_backoff_ms = 1000,  // 1 second
+        .max_backoff_ms     = 30'000,
+        .multiplier         = 2.0,
+        .jitter_fraction    = 0.0,
+    };
+    themis::utils::ExponentialBackoff backoff(retry_cfg);
 
     bool fetch_ok = false;
+    
     for (int attempt = 0; attempt <= task.max_retries; ++attempt) {
         if (attempt > 0) {
             LOG_DEBUG("ParallelDownloader: retry {}/{} for {}", attempt, task.max_retries, task.url);
-            backoff.wait();
+            if (!backoff.wait()) break;
         }
 
         uint64_t    bytes_this_call = 0;
@@ -558,4 +559,3 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
 
 } // namespace updates
 } // namespace themis
-

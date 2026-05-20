@@ -35,11 +35,29 @@
 #include "prompt_engineering/prompt_version_control.h"
 #include "prompt_engineering/prompt_engineering_integration.h"
 #include "server/auth_middleware.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 
 namespace themis {
 namespace server {
+
+namespace {
+
+constexpr size_t kMaxPromptEngineeringIdentifierLength = 256;
+
+bool isValidPromptEngineeringIdentifier(const std::string& value) {
+    if (value.empty()) {
+        return false;
+    }
+
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(value, kMaxPromptEngineeringIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 PromptEngineeringApiHandler::PromptEngineeringApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -178,20 +196,27 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetABTest(
 ) {
     auto span = Tracer::startSpan("handleGetABTest");
     try {
-        if (!orchestrator_) {
-            return makeErrorResponse(
-                http::status::service_unavailable,
-                "SelfImprovementOrchestrator not available",
-                req);
-        }
-
         std::string path = std::string(req.target());
         auto test_id = extractPathParam(path, "/api/v1/prompt_engineering/ab_tests/");
-        
+
         if (test_id.empty()) {
             return makeErrorResponse(
                 http::status::bad_request,
                 "Missing test_id",
+                req);
+        }
+
+        if (!isValidPromptEngineeringIdentifier(test_id)) {
+            return makeErrorResponse(
+                http::status::bad_request,
+                "Invalid test_id",
+                req);
+        }
+
+        if (!orchestrator_) {
+            return makeErrorResponse(
+                http::status::service_unavailable,
+                "SelfImprovementOrchestrator not available",
                 req);
         }
 
@@ -331,20 +356,27 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetHistory(
 ) {
     auto span = Tracer::startSpan("handleGetHistory");
     try {
-        if (!orchestrator_) {
-            return makeErrorResponse(
-                http::status::service_unavailable,
-                "SelfImprovementOrchestrator not available",
-                req);
-        }
-
         std::string path = std::string(req.target());
         auto prompt_id = extractPathParam(path, "/api/v1/prompt_engineering/history/");
-        
+
         if (prompt_id.empty()) {
             return makeErrorResponse(
                 http::status::bad_request,
                 "Missing prompt_id",
+                req);
+        }
+
+        if (!isValidPromptEngineeringIdentifier(prompt_id)) {
+            return makeErrorResponse(
+                http::status::bad_request,
+                "Invalid prompt_id",
+                req);
+        }
+
+        if (!orchestrator_) {
+            return makeErrorResponse(
+                http::status::service_unavailable,
+                "SelfImprovementOrchestrator not available",
                 req);
         }
 
@@ -371,20 +403,27 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetVersions
 ) {
     auto span = Tracer::startSpan("handleGetVersions");
     try {
-        if (!version_control_) {
-            return makeErrorResponse(
-                http::status::service_unavailable,
-                "PromptVersionControl not available",
-                req);
-        }
-
         std::string path = std::string(req.target());
         auto prompt_id = extractPathParam(path, "/api/v1/prompt_engineering/versions/");
-        
+
         if (prompt_id.empty()) {
             return makeErrorResponse(
                 http::status::bad_request,
                 "Missing prompt_id",
+                req);
+        }
+
+        if (!isValidPromptEngineeringIdentifier(prompt_id)) {
+            return makeErrorResponse(
+                http::status::bad_request,
+                "Invalid prompt_id",
+                req);
+        }
+
+        if (!version_control_) {
+            return makeErrorResponse(
+                http::status::service_unavailable,
+                "PromptVersionControl not available",
                 req);
         }
 

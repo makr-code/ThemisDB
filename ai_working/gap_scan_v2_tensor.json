@@ -1,0 +1,877 @@
+{
+  "module": "tensor",
+  "stats": {
+    "total": 75,
+    "unimplemented": 27,
+    "incomplete": 9,
+    "stub_documented": 10,
+    "stub_undocumented": 8,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 21,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 27,
+    "severity_high": 17,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 31
+  },
+  "gaps_by_file": {
+    "src\\tensor\\adapter_repository.cpp": [
+      {
+        "file": "src\\tensor\\adapter_repository.cpp",
+        "line": 238,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"MmapLoadFn failed (%s); using heap-deserialize fallback.\\n\",",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\adapter_repository.cpp",
+        "line": 240,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Fail-closed to existing heap-deserialize fallback path below.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\adapter_repository.cpp",
+        "line": 245,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"fallback.\\n\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\adapter_repository.cpp",
+        "line": 246,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Fail-closed to existing heap-deserialize fallback path below.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\adapter_repository.cpp",
+        "line": 250,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (AR-01):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\adapter_repository.cpp",
+        "line": 347,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\adapter_repository.cpp",
+        "line": 365,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"fallback.\\n\",",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\adapter_repository.cpp",
+        "line": 372,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"fingerprint fallback.\\n\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\adapter_repository.cpp",
+        "line": 377,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (AR-02 / STUB #266):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\adapter_repository.cpp",
+        "line": 386,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\hiss_structural_search.cpp": [
+      {
+        "file": "src\\tensor\\hiss_structural_search.cpp",
+        "line": 210,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (idx_d >= grid_sizes[d]) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hiss_structural_search.cpp",
+        "line": 295,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hiss_structural_search.cpp",
+        "line": 464,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == templates_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\hnsw_tt_bridge.cpp": [
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 32,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "*           remains as compile-time fallback when hnswlib is absent.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 40,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HNSW_ENABLED",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 57,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "//             linear-scan fallback otherwise (HTB-01 resolved 2026-05-06).",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 74,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Linear-scan fallback (only populated when hnswlib is absent or errors)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 78,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_HNSW_ENABLED",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 114,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HNSW_ENABLED",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 121,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HNSW_ENABLED",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 135,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HNSW_ENABLED",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 159,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HNSW_ENABLED",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 165,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 184,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HNSW_ENABLED",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 206,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Linear-scan fallback \u2014 O(n) but always correct.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 229,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HNSW_ENABLED",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 365,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 379,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 388,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!a || !b) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 395,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!t) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 581,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!t) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hnsw_tt_bridge.cpp",
+        "line": 591,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (train.cores.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\ht_index.cpp": [
+      {
+        "file": "src\\tensor\\ht_index.cpp",
+        "line": 81,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\hyper_index_builder.cpp": [
+      {
+        "file": "src\\tensor\\hyper_index_builder.cpp",
+        "line": 278,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "*        conservative fallback to avoid invalid indexing.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hyper_index_builder.cpp",
+        "line": 304,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "* @param fk_cfg FK propagation config with fallback rules.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hyper_index_builder.cpp",
+        "line": 308,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "* @throws std::runtime_error when join statistics are missing and fallback is THROW.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hyper_index_builder.cpp",
+        "line": 333,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "switch (fk_cfg.missing_stats_fallback) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\hyper_index_builder.cpp",
+        "line": 371,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "* @param fk_cfg FK graph traversal/fallback settings.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\tensor_butterfly_operator.cpp": [
+      {
+        "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+        "line": 24,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "* - TBO-02  RADON and GREENS_FUNCTION operators not yet implemented (STUB #171).",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+        "line": 124,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #268 \u2014 RADON bridge storage",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+        "line": 131,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #268 \u2014 GREENS_FUNCTION bridge storage",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+        "line": 151,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #268 \u2014 RADON bridge",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+        "line": 164,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #268 \u2014 GREENS_FUNCTION bridge",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_butterfly_operator.cpp",
+        "line": 206,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (TBO-02):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\tensor_core_bridge.cpp": [
+      {
+        "file": "src\\tensor\\tensor_core_bridge.cpp",
+        "line": 14,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_core_bridge.cpp",
+        "line": 36,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #269 \u2014 default backend factory bridge",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_core_bridge.cpp",
+        "line": 68,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #269: try the process-wide factory first (injected by production",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_core_bridge.cpp",
+        "line": 166,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_core_bridge.cpp",
+        "line": 185,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\tensor_fingerprint_graph.cpp": [
+      {
+        "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+        "line": 57,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (data.empty() || n_rows == 0 || n_cols == 0) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+        "line": 158,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (fingerprint.empty() || k == 0) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+        "line": 223,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == entries_.end()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_fingerprint_graph.cpp",
+        "line": 250,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == entries_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\tensor_index.cpp": [
+      {
+        "file": "src\\tensor\\tensor_index.cpp",
+        "line": 125,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (q_norm < 1e-12f) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_index.cpp",
+        "line": 155,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!query || dim == 0) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_index.cpp",
+        "line": 169,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_index.cpp",
+        "line": 178,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it_a == store_.end() || it_b == store_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_index.cpp",
+        "line": 185,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == store_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\tensor_index_manager.cpp": [
+      {
+        "file": "src\\tensor\\tensor_index_manager.cpp",
+        "line": 307,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!idx) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_index_manager.cpp",
+        "line": 310,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!train) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_index_manager.cpp",
+        "line": 318,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_index_manager.cpp",
+        "line": 332,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!idx) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_index_manager.cpp",
+        "line": 335,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!train) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\tensor_mmap_bridge.cpp": [
+      {
+        "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+        "line": 30,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "* fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+        "line": 65,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #270 \u2014 SST page-map bridge storage",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+        "line": 102,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (ptr == MAP_FAILED) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+        "line": 155,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\tensor_mmap_bridge.cpp",
+        "line": 194,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #270: try the injected SST page-map fn first (zero-copy path).",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\tnsr_task.cpp": [
+      {
+        "file": "src\\tensor\\tnsr_task.cpp",
+        "line": 126,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (STUB #252):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\tensor\\utr_converter.cpp": [
+      {
+        "file": "src\\tensor\\utr_converter.cpp",
+        "line": 41,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "UTRConverter::EmbedFn g_embed_fn;          // null \u27f9 use lexical fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\utr_converter.cpp",
+        "line": 44,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "UTRConverter::ImageEmbedFn g_image_embed_fn; // null \u27f9 use raw-pixel fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\utr_converter.cpp",
+        "line": 211,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Lexical feature embedding for documents (built-in degraded-mode fallback)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\utr_converter.cpp",
+        "line": 213,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\utr_converter.cpp",
+        "line": 223,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "//                    EncoderQuality::SEMANTIC.  This fallback is retained as",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\tensor\\utr_converter.cpp",
+        "line": 480,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ]
+  }
+}

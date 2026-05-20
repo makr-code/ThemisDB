@@ -1,0 +1,617 @@
+{
+  "module": "observability",
+  "stats": {
+    "total": 51,
+    "unimplemented": 32,
+    "incomplete": 13,
+    "stub_documented": 0,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 6,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 32,
+    "severity_high": 13,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 6
+  },
+  "gaps_by_file": {
+    "src\\observability\\alerting_engine.cpp": [
+      {
+        "file": "src\\observability\\alerting_engine.cpp",
+        "line": 33,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef ERROR",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alerting_engine.cpp",
+        "line": 130,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alerting_engine.cpp",
+        "line": 183,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alerting_engine.cpp",
+        "line": 226,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "attachment[\"fallback\"] = sev_str + \": \" + alert.alert_name + \" \u2014 \" + alert.message;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alerting_engine.cpp",
+        "line": 273,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alerting_engine.cpp",
+        "line": 468,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alerting_engine.cpp",
+        "line": 494,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alerting_engine.cpp",
+        "line": 508,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alerting_engine.cpp",
+        "line": 516,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\alertmanager.cpp": [
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 38,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef ERROR",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 86,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 91,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 96,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 101,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 116,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 210,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 220,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 256,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 290,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 308,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!config_.enabled) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 317,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 340,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 357,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 385,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 415,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 535,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\alertmanager.cpp",
+        "line": 570,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\continuous_profiler.cpp": [
+      {
+        "file": "src\\observability\\continuous_profiler.cpp",
+        "line": 242,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": enabled_(config.enabled), config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\continuous_profiler.cpp",
+        "line": 270,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// after start(). Capture one synchronous sample as a safe fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\continuous_profiler.cpp",
+        "line": 463,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { cb(snap, msg); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\distributed_flame_graph.cpp": [
+      {
+        "file": "src\\observability\\distributed_flame_graph.cpp",
+        "line": 105,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "explicit Impl(const DistributedFlameGraphConfig& config) : config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\ebpf_tracer.cpp": [
+      {
+        "file": "src\\observability\\ebpf_tracer.cpp",
+        "line": 329,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\log_aggregator.cpp": [
+      {
+        "file": "src\\observability\\log_aggregator.cpp",
+        "line": 112,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\log_aggregator.cpp",
+        "line": 112,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\log_aggregator.cpp",
+        "line": 412,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\metric_aggregator.cpp": [
+      {
+        "file": "src\\observability\\metric_aggregator.cpp",
+        "line": 107,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// calculateRate() instead.  Return 0.0 as a safe fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\metric_anomaly_detector.cpp": [
+      {
+        "file": "src\\observability\\metric_anomaly_detector.cpp",
+        "line": 95,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == streams_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\metric_anomaly_detector.cpp",
+        "line": 110,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!raw) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\opentelemetry_tracer.cpp": [
+      {
+        "file": "src\\observability\\opentelemetry_tracer.cpp",
+        "line": 333,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr; // nothing to forward",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\performance_analyzer.cpp": [
+      {
+        "file": "src\\observability\\performance_analyzer.cpp",
+        "line": 140,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "explicit Impl(const PerformanceAnalyzerConfig& cfg) : config(cfg) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\query_profiler.cpp": [
+      {
+        "file": "src\\observability\\query_profiler.cpp",
+        "line": 158,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "explicit Impl(const QueryProfilerConfig& cfg) : config(cfg) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\query_profiler.cpp",
+        "line": 332,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\root_cause_analyzer.cpp": [
+      {
+        "file": "src\\observability\\root_cause_analyzer.cpp",
+        "line": 255,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "explicit Impl(const RootCauseAnalyzerConfig& cfg) : config(cfg) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\root_cause_analyzer.cpp",
+        "line": 312,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Generic fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\root_cause_analyzer.cpp",
+        "line": 437,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\slo_reporter.cpp": [
+      {
+        "file": "src\\observability\\slo_reporter.cpp",
+        "line": 70,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "SloReporter::SloReporter() : SloReporter(Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\slo_reporter.cpp",
+        "line": 71,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "SloReporter::SloReporter(const Config& config) : config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\storage_profiler.cpp": [
+      {
+        "file": "src\\observability\\storage_profiler.cpp",
+        "line": 129,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "explicit Impl(const StorageProfilerConfig& cfg) : config(cfg) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\storage_profiler.cpp",
+        "line": 240,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\observability\\tenant_metrics_namespace.cpp": [
+      {
+        "file": "src\\observability\\tenant_metrics_namespace.cpp",
+        "line": 37,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\observability\\tenant_metrics_namespace.cpp",
+        "line": 285,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == stores_.end()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

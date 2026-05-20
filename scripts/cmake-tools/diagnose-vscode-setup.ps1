@@ -19,7 +19,7 @@ Write-Host ""
 
 $WorkspaceRoot = 'C:\VCC\themis'
 $VsCodeDir = Join-Path $WorkspaceRoot '.vscode'
-$BuildDir = Join-Path $WorkspaceRoot 'build-msvc-ninja-release'
+$BuildDir = Join-Path $WorkspaceRoot 'build-msvc-windows-release'
 
 $ErrorCount = 0
 $WarningCount = 0

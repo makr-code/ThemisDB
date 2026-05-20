@@ -1,0 +1,912 @@
+{
+  "module": "temporal",
+  "stats": {
+    "total": 78,
+    "unimplemented": 55,
+    "incomplete": 19,
+    "stub_documented": 0,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 4,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 55,
+    "severity_high": 19,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 4
+  },
+  "gaps_by_file": {
+    "src\\temporal\\bi_temporal.cpp": [
+      {
+        "file": "src\\temporal\\bi_temporal.cpp",
+        "line": 182,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\bi_temporal.cpp",
+        "line": 201,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\bi_temporal.cpp",
+        "line": 219,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\bi_temporal.cpp",
+        "line": 247,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\bi_temporal.cpp",
+        "line": 337,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\interval_tree_index.cpp": [
+      {
+        "file": "src\\temporal\\interval_tree_index.cpp",
+        "line": 109,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!n) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\interval_tree_index.cpp",
+        "line": 194,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!root) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\interval_tree_index.cpp",
+        "line": 234,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!root) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\interval_tree_index.cpp",
+        "line": 410,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == key_index_.end()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\retention_manager.cpp": [
+      {
+        "file": "src\\temporal\\retention_manager.cpp",
+        "line": 70,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\snapshot_manager.cpp": [
+      {
+        "file": "src\\temporal\\snapshot_manager.cpp",
+        "line": 85,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\snapshot_manager.cpp",
+        "line": 90,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\system_versioned_table.cpp": [
+      {
+        "file": "src\\temporal\\system_versioned_table.cpp",
+        "line": 205,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\system_versioned_table.cpp",
+        "line": 212,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\system_versioned_table.cpp",
+        "line": 221,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\system_versioned_table.cpp",
+        "line": 228,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\system_versioned_table.cpp",
+        "line": 237,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\system_versioned_table.cpp",
+        "line": 248,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\temporal_aggregator.cpp": [
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 54,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 79,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 117,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 138,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 237,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 255,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 403,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 407,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 412,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 455,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 516,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_aggregator.cpp",
+        "line": 579,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\temporal_cdc.cpp": [
+      {
+        "file": "src\\temporal\\temporal_cdc.cpp",
+        "line": 582,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\temporal_cold_store.cpp": [
+      {
+        "file": "src\\temporal\\temporal_cold_store.cpp",
+        "line": 204,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ifs) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_cold_store.cpp",
+        "line": 209,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_cold_store.cpp",
+        "line": 262,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (const fs::filesystem_error&) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_cold_store.cpp",
+        "line": 272,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (const fs::filesystem_error&) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_cold_store.cpp",
+        "line": 325,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (json_str.empty()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_cold_store.cpp",
+        "line": 336,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_cold_store.cpp",
+        "line": 469,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\temporal_compressor.cpp": [
+      {
+        "file": "src\\temporal\\temporal_compressor.cpp",
+        "line": 118,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (input.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\temporal_conflict_resolver.cpp": [
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 69,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 78,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": default_policy_(default_policy) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 369,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 451,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 456,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 489,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 493,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 504,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 515,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 520,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 541,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 544,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 548,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;  // references agree",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 567,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;  // same origin \u2014 not a distributed uniqueness conflict",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 571,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;  // identical content \u2014 no violation",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_conflict_resolver.cpp",
+        "line": 596,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;  // no common keys diverge \u2014 no violation",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\temporal_query_engine.cpp": [
+      {
+        "file": "src\\temporal\\temporal_query_engine.cpp",
+        "line": 322,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_query_engine.cpp",
+        "line": 351,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": max_entries_(max_entries > 0 ? max_entries : 1) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_query_engine.cpp",
+        "line": 359,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_query_engine.cpp",
+        "line": 562,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (versions.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_query_engine.cpp",
+        "line": 673,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (history.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\temporal\\temporal_tier_manager.cpp": [
+      {
+        "file": "src\\temporal\\temporal_tier_manager.cpp",
+        "line": 602,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (const nlohmann::json::exception&) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_tier_manager.cpp",
+        "line": 672,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (const nlohmann::json::exception&) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_tier_manager.cpp",
+        "line": 692,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (const nlohmann::json::exception&) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\temporal\\temporal_tier_manager.cpp",
+        "line": 716,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (const nlohmann::json::exception&) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "tests\\temporal\\test_temporal_cdc.cpp": [
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 60,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "auto id = cdc.subscribeToChanges(\"orders\", [](const ChangeEvent&) {});",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 65,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "cdc.subscribeToChanges(\"orders\", [](const ChangeEvent&) {});",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 70,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "auto id = cdc.subscribeToChanges(\"orders\", [](const ChangeEvent&) {});",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 79,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "auto id = cdc.subscribeToChanges(\"orders\", [](const ChangeEvent&) {});",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 210,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "cdc.subscribeToChanges(\"tbl\", [](const ChangeEvent&) {});",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 211,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "cdc.subscribeToChanges(\"tbl\", [](const ChangeEvent&) {});",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 212,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "cdc.subscribeToChanges(\"tbl\", [](const ChangeEvent&) {});",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 217,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "auto id1 = cdc.subscribeToChanges(\"tbl\", [](const ChangeEvent&) {});",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 218,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "cdc.subscribeToChanges(\"tbl\", [](const ChangeEvent&) {});",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 219,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "cdc.subscribeToChanges(\"tbl\", [](const ChangeEvent&) {});",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 277,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "const fs::path fallback = base / \"themisdb_wal_test\";",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 279,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "fs::create_directories(fallback, ec);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\temporal\\test_temporal_cdc.cpp",
+        "line": 280,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return fallback.string();",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "tests\\temporal\\test_temporal_query_engine.cpp": [
+      {
+        "file": "tests\\temporal\\test_temporal_query_engine.cpp",
+        "line": 478,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// index is populated we should get an empty result (not a fallback scan).",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,3829 @@
+{
+  "module": "storage",
+  "stats": {
+    "total": 337,
+    "unimplemented": 170,
+    "incomplete": 25,
+    "stub_documented": 8,
+    "stub_undocumented": 3,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 131,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 170,
+    "severity_high": 28,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 139
+  },
+  "gaps_by_file": {
+    "src\\storage\\adaptive_compaction.cpp": [
+      {
+        "file": "src\\storage\\adaptive_compaction.cpp",
+        "line": 39,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": AdaptiveCompactionScheduler(Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\backup_manager.cpp": [
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 46,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENSSL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 46,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENSSL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 60,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 60,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 1236,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// NONE / GZIP / no library: raw copy fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 1355,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 1392,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENSSL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 1392,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENSSL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 1492,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENSSL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 1492,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_OPENSSL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 1623,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 1774,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "// Only consider full backups (incremental replay not yet implemented).",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 1826,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\backup_manager.cpp",
+        "line": 1903,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\base_entity.cpp": [
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 50,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "BaseEntity::BaseEntity(std::string_view pk) : primary_key_(pk) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 60,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": primary_key_(pk), blob_(std::move(blob)), format_(format) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 128,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 143,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!value) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 156,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 162,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!value) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 179,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 181,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 184,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 190,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!value) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 199,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 205,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!value) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 214,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 220,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!value) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 227,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\base_entity.cpp",
+        "line": 697,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\blob_backend_gcs.cpp": [
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 29,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 29,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 52,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 52,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 59,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 59,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 125,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 125,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 165,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 165,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 225,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 225,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 250,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_backend_gcs.cpp",
+        "line": 250,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GCS",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\blob_redundancy_manager.cpp": [
+      {
+        "file": "src\\storage\\blob_redundancy_manager.cpp",
+        "line": 271,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_redundancy_manager.cpp",
+        "line": 284,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!root || !root.IsMap()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\blob_redundancy_manager.cpp",
+        "line": 311,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\columnar_cache.cpp": [
+      {
+        "file": "src\\storage\\columnar_cache.cpp",
+        "line": 64,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": cache_(cache), key_(std::move(key)), segment_(seg) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\columnar_format.cpp": [
+      {
+        "file": "src\\storage\\columnar_format.cpp",
+        "line": 1150,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\columnar_format.cpp",
+        "line": 1215,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\columnar_format.cpp",
+        "line": 1237,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\columnar_format.cpp",
+        "line": 1242,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\columnar_format.cpp",
+        "line": 1248,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\compaction_manager.cpp": [
+      {
+        "file": "src\\storage\\compaction_manager.cpp",
+        "line": 231,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\compressed_storage.cpp": [
+      {
+        "file": "src\\storage\\compressed_storage.cpp",
+        "line": 52,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt; // Too small",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compressed_storage.cpp",
+        "line": 107,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!backend_) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compressed_storage.cpp",
+        "line": 111,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!serialized) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compressed_storage.cpp",
+        "line": 115,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!cv) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compressed_storage.cpp",
+        "line": 124,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt; // Decompression failed",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compressed_storage.cpp",
+        "line": 188,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!backend_) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compressed_storage.cpp",
+        "line": 192,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!serialized) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compressed_storage.cpp",
+        "line": 196,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!cv) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compressed_storage.cpp",
+        "line": 217,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt; // Decompression failed",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\compression_strategy.cpp": [
+      {
+        "file": "src\\storage\\compression_strategy.cpp",
+        "line": 508,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (size == 0) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compression_strategy.cpp",
+        "line": 534,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (data.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compression_strategy.cpp",
+        "line": 559,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (size == 0) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compression_strategy.cpp",
+        "line": 577,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (data.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compression_strategy.cpp",
+        "line": 600,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (size == 0) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compression_strategy.cpp",
+        "line": 623,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};  // Not beneficial",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compression_strategy.cpp",
+        "line": 638,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (data.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compression_strategy.cpp",
+        "line": 644,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};  // Invalid format",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\compression_strategy.cpp",
+        "line": 655,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};  // Invalid index",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\concurrent_write_controller.cpp": [
+      {
+        "file": "src\\storage\\concurrent_write_controller.cpp",
+        "line": 49,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": controller_(ctrl) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\concurrent_write_controller.cpp",
+        "line": 118,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\concurrent_write_controller.cpp",
+        "line": 209,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\concurrent_write_controller.cpp",
+        "line": 237,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { next.set_value(); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\database_connection_manager.cpp": [
+      {
+        "file": "src\\storage\\database_connection_manager.cpp",
+        "line": 66,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\database_connection_manager.cpp",
+        "line": 123,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\database_connection_manager.cpp",
+        "line": 132,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\database_connection_manager.cpp",
+        "line": 143,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\database_connection_manager.cpp",
+        "line": 361,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\disk_space_monitor.cpp": [
+      {
+        "file": "src\\storage\\disk_space_monitor.cpp",
+        "line": 33,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\disk_space_monitor.cpp",
+        "line": 33,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\disk_space_monitor.cpp",
+        "line": 567,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\disk_space_monitor.cpp",
+        "line": 567,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\disk_space_monitor.cpp",
+        "line": 621,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\disk_space_monitor.cpp",
+        "line": 621,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\erasure_coder_factory.cpp": [
+      {
+        "file": "src\\storage\\erasure_coder_factory.cpp",
+        "line": 558,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\erasure_coding_backend.cpp": [
+      {
+        "file": "src\\storage\\erasure_coding_backend.cpp",
+        "line": 218,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\erasure_coding_backend.cpp",
+        "line": 229,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\erasure_coding_backend.cpp",
+        "line": 248,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\ggml_tensor_bridge.cpp": [
+      {
+        "file": "src\\storage\\ggml_tensor_bridge.cpp",
+        "line": 50,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GGML_BRIDGE",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\ggml_tensor_bridge.cpp",
+        "line": 50,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_GGML_BRIDGE",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\ggml_tensor_bridge.cpp",
+        "line": 134,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\ggml_tensor_bridge.cpp",
+        "line": 151,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\ggml_tensor_bridge.cpp",
+        "line": 177,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (!impl_ || !impl_->valid) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\ggml_tensor_bridge.cpp",
+        "line": 180,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Stub fallback: GgmlAllocFn not set \u2014 returns nullptr (safe for unit tests,",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\ggml_tensor_bridge.cpp",
+        "line": 236,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB GTB-01: real GGML_TYPE_TT path skips decompression entirely.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\ggml_tensor_bridge.cpp",
+        "line": 331,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\ggml_tensor_bridge.cpp",
+        "line": 369,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\gguf_metadata.cpp": [
+      {
+        "file": "src\\storage\\gguf_metadata.cpp",
+        "line": 83,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gguf_metadata.cpp",
+        "line": 95,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gguf_metadata.cpp",
+        "line": 223,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == store_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\gpu_compression.cpp": [
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 57,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 57,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 67,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HIP",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 67,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HIP",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 239,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 239,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 356,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 750,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 779,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "free_all(); return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 786,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "free_all(); return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 815,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "free_all(); return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 826,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (e != cudaSuccess) { free_all(); return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 829,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (e != cudaSuccess) { free_all(); return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 832,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (e != cudaSuccess) { free_all(); return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 835,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (e != cudaSuccess) { free_all(); return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 869,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "free_all(); return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 874,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (e != cudaSuccess) { free_all(); return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 887,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "free_all(); return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 930,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 930,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 952,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 952,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 963,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HIP",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 963,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HIP",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 969,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"library is not yet available, using CPU fallback\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1022,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (!config_.fallback_cpu) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1024,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"fallback_cpu=false; returning error\",",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1031,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "++stats_.cpu_fallbacks;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1033,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (!config_.fallback_cpu) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1036,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"fallback_cpu=false\", e.what());",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1041,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "++stats_.cpu_fallbacks;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1046,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// CPU fallback path",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1083,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (compressed.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1119,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (!config_.fallback_cpu) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1121,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"and fallback_cpu=false\", algorithm_to_string(algorithm));",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1127,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "++stats_.cpu_fallbacks;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1129,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (!config_.fallback_cpu) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1131,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"fallback_cpu=false\", e.what());",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1132,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1136,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "++stats_.cpu_fallbacks;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1178,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (buffers.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1216,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "} else if (!config_.fallback_cpu) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1222,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "++stats_.cpu_fallbacks;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1228,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// CPU path for non-GPU and failed/fallback buffers",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1239,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// CPU-only fallback (sequential)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1264,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// CPU fallback implementations",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1339,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1409,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1420,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1432,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1462,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1478,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1495,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1517,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1527,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\gpu_compression.cpp",
+        "line": 1554,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "void GpuCompressionManager::force_cpu_fallback(bool enable)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\hierarchical_tucker_decomposer.cpp": [
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 45,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!src) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 137,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!root) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 149,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "// STUB #178: reconstruct dense tensor, re-decompose as TT.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 235,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU8(tag)) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 236,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (tag == 0xFF) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 240,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU64(rank_u)) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 246,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU64(mi)) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 247,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU64(nk)) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 250,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readFloats(node->U)) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 254,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU64(rl)) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 255,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU64(rr)) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 258,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readFloats(node->B)) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 283,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU64(magic) || magic != kHTMagic) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 285,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU8(ver) || ver != kHTVersion) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 288,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU64(d)) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 294,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU64(v)) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 298,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readU64(mr)) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 300,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readF64(ht.achieved_eps))  return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 301,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.readF64(ht.original_norm)) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 304,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!r.ok || !ht.root) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 333,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (A.is_leaf || B.is_leaf) return {};  // incompatible topology",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 427,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": cfg_(cfg) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\hierarchical_tucker_decomposer.cpp",
+        "line": 505,
+        "category": "stub_undocumented",
+        "severity": "high",
+        "snippet": "/// STUB #180: Jacobi EVD O(n\u00b3 \u00b7 iter); max_iter = 50 sweeps.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\history_manager.cpp": [
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 128,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 150,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 169,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 194,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!iter_result.has_value()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 196,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!it) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 206,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!it.Valid()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 211,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 216,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (found_ts > ts) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 298,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 323,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!raw) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 365,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\history_manager.cpp",
+        "line": 387,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!raw) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\index_analyzer.cpp": [
+      {
+        "file": "src\\storage\\index_analyzer.cpp",
+        "line": 433,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { l0_files = std::stoull(l0_str); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\index_maintenance.cpp": [
+      {
+        "file": "src\\storage\\index_maintenance.cpp",
+        "line": 508,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "try { metrics.file_count = std::stoull(file_count_str); } catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\mvcc_chain_pruner.cpp": [
+      {
+        "file": "src\\storage\\mvcc_chain_pruner.cpp",
+        "line": 159,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\mvcc_store.cpp": [
+      {
+        "file": "src\\storage\\mvcc_store.cpp",
+        "line": 153,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (val->empty()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\mvcc_store.cpp",
+        "line": 192,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\mvcc_store.cpp",
+        "line": 196,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\mvcc_store.cpp",
+        "line": 210,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\mvcc_store.cpp",
+        "line": 218,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\mvcc_store.cpp",
+        "line": 224,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\nvme_manager.cpp": [
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 42,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 42,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 53,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 53,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 83,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 83,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 105,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 105,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 106,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 106,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 213,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 213,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 301,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 301,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 322,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 322,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 350,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Synchronous fallback",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 354,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 354,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 363,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 363,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 393,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 393,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 404,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 404,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 449,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 449,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 478,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 478,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 506,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 506,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 560,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 560,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 577,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 577,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef __linux__",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 600,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 600,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 688,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\nvme_manager.cpp",
+        "line": 688,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_IO_URING",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\online_schema_migration.cpp": [
+      {
+        "file": "src\\storage\\online_schema_migration.cpp",
+        "line": 45,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": SchemaMigrator(schema_mgr, Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\pitr_manager.cpp": [
+      {
+        "file": "src\\storage\\pitr_manager.cpp",
+        "line": 203,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\pitr_manager.cpp",
+        "line": 220,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\pitr_manager.cpp",
+        "line": 245,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\rocksdb_wrapper.cpp": [
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 146,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_DEBUG_THREADING",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 168,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_DEBUG_THREADING",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 180,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_DEBUG_THREADING",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 199,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_DEBUG_THREADING",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 231,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_DEBUG_THREADING",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 285,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Prefer HyperClockCache if available; fallback to LRUCache for compatibility",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 797,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!db_) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 806,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1129,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!db_) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1147,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1161,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1181,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1342,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!db_) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1354,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1358,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!db_ || !db_->db_) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1371,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1464,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!txn_) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1467,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\rocksdb_wrapper.cpp",
+        "line": 1486,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\schema_dead_weight_detector.cpp": [
+      {
+        "file": "src\\storage\\schema_dead_weight_detector.cpp",
+        "line": 25,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": SchemaDeadWeightDetector(Config{}) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\security_signature.cpp": [
+      {
+        "file": "src\\storage\\security_signature.cpp",
+        "line": 61,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\security_signature.cpp",
+        "line": 74,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\security_signature_manager.cpp": [
+      {
+        "file": "src\\storage\\security_signature_manager.cpp",
+        "line": 38,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Allow in-memory fallback for test environments where RocksDB is not wired",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\security_signature_manager.cpp",
+        "line": 39,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "use_fallback_memory_store_ = true;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\security_signature_manager.cpp",
+        "line": 59,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (use_fallback_memory_store_) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\security_signature_manager.cpp",
+        "line": 75,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (use_fallback_memory_store_) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\security_signature_manager.cpp",
+        "line": 78,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\security_signature_manager.cpp",
+        "line": 83,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\security_signature_manager.cpp",
+        "line": 89,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\security_signature_manager.cpp",
+        "line": 96,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (use_fallback_memory_store_) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\security_signature_manager.cpp",
+        "line": 108,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (use_fallback_memory_store_) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\security_signature_manager.cpp",
+        "line": 216,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (use_fallback_memory_store_) {",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\storage_audit_logger.cpp": [
+      {
+        "file": "src\\storage\\storage_audit_logger.cpp",
+        "line": 110,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "StorageAuditLogger::StorageAuditLogger(const Config& cfg) : config_(cfg) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\storage_engine.cpp": [
+      {
+        "file": "src\\storage\\storage_engine.cpp",
+        "line": 216,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\storage_parquet_exporter.cpp": [
+      {
+        "file": "src\\storage\\storage_parquet_exporter.cpp",
+        "line": 36,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef ARROW_ENABLED",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\storage_parquet_exporter.cpp",
+        "line": 47,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Internal Thrift / Parquet v2 binary helpers (portable fallback)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\storage_parquet_exporter.cpp",
+        "line": 487,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef ARROW_ENABLED",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\storage_parquet_exporter.cpp",
+        "line": 544,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\streaming_ingest_manager.cpp": [
+      {
+        "file": "src\\storage\\streaming_ingest_manager.cpp",
+        "line": 98,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\streaming_ingest_manager.cpp",
+        "line": 103,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\streaming_ingest_manager.cpp",
+        "line": 117,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\streaming_ingest_manager.cpp",
+        "line": 132,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\streaming_ingest_manager.cpp",
+        "line": 156,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\streaming_ingest_manager.cpp",
+        "line": 205,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\streaming_ingest_manager.cpp",
+        "line": 240,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\streaming_ingest_manager.cpp",
+        "line": 284,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\tensor_compaction_filter.cpp": [
+      {
+        "file": "src\\storage\\tensor_compaction_filter.cpp",
+        "line": 15,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\tensor_network_storage_engine.cpp": [
+      {
+        "file": "src\\storage\\tensor_network_storage_engine.cpp",
+        "line": 63,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == store_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_network_storage_engine.cpp",
+        "line": 197,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!meta) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_network_storage_engine.cpp",
+        "line": 283,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (ver == 0) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_network_storage_engine.cpp",
+        "line": 286,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!oqt) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_network_storage_engine.cpp",
+        "line": 297,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!oqt) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_network_storage_engine.cpp",
+        "line": 307,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (ver == 0) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_network_storage_engine.cpp",
+        "line": 368,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (ver == 0) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_network_storage_engine.cpp",
+        "line": 371,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!oqt) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\tensor_router.cpp": [
+      {
+        "file": "src\\storage\\tensor_router.cpp",
+        "line": 24,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "*   access frequency, category) tuples. Heuristic remains as fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_router.cpp",
+        "line": 25,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "* Removal Plan: Heuristic path NOT removed; remains as reliable fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_router.cpp",
+        "line": 243,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;  // No override; use pilot-based decision",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_router.cpp",
+        "line": 260,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "//    - validateTemplate() must pass (validation failure \u2192 heuristic fallback,",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_router.cpp",
+        "line": 283,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Controlled fallback: skip apply_fn, continue to heuristic.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\tensor_train_decomposer.cpp": [
+      {
+        "file": "src\\storage\\tensor_train_decomposer.cpp",
+        "line": 75,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (cores.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_train_decomposer.cpp",
+        "line": 156,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (bytes.size() < 8) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tensor_train_decomposer.cpp",
+        "line": 196,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\tiered_storage.cpp": [
+      {
+        "file": "src\\storage\\tiered_storage.cpp",
+        "line": 185,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!fs::exists(path)) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tiered_storage.cpp",
+        "line": 192,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tiered_storage.cpp",
+        "line": 251,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\tt_quantizer.cpp": [
+      {
+        "file": "src\\storage\\tt_quantizer.cpp",
+        "line": 50,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (bytes.size() < 33) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tt_quantizer.cpp",
+        "line": 73,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (pos + dlen > bytes.size()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tt_quantizer.cpp",
+        "line": 77,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tt_quantizer.cpp",
+        "line": 124,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (bytes.size() < 9) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tt_quantizer.cpp",
+        "line": 150,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (pos + clen > bytes.size()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tt_quantizer.cpp",
+        "line": 153,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!oc) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\tt_quantizer.cpp",
+        "line": 159,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\vector_index_backend.cpp": [
+      {
+        "file": "src\\storage\\vector_index_backend.cpp",
+        "line": 66,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\wal_storage.cpp": [
+      {
+        "file": "src\\storage\\wal_storage.cpp",
+        "line": 183,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "WALStorage::WALStorage(const Config& cfg) : config_(cfg) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\wom_tree.cpp": [
+      {
+        "file": "src\\storage\\wom_tree.cpp",
+        "line": 123,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "explicit Node(bool leaf) : is_leaf(leaf) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\wom_tree.cpp",
+        "line": 574,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;  // Tombstone in buffer.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\wom_tree.cpp",
+        "line": 581,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\storage\\zero_copy_blob_transfer.cpp": [
+      {
+        "file": "src\\storage\\zero_copy_blob_transfer.cpp",
+        "line": 184,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "THEMIS_ERROR(\"MmapBlobView: fallback read failed for '{}': {}\", file_path, e.what());",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\zero_copy_blob_transfer.cpp",
+        "line": 345,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// \u2500\u2500 Non-Linux: portable fallback \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\zero_copy_blob_transfer.cpp",
+        "line": 346,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return fallbackTransfer(source_path, dest_fd, offset, length);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\zero_copy_blob_transfer.cpp",
+        "line": 351,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// fallbackTransfer  (portable read+write)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\zero_copy_blob_transfer.cpp",
+        "line": 354,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\zero_copy_blob_transfer.cpp",
+        "line": 366,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"fallbackTransfer: cannot open: \" + source_path);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\zero_copy_blob_transfer.cpp",
+        "line": 387,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "\"fallbackTransfer: write error writing to dest fd\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\storage\\zero_copy_blob_transfer.cpp",
+        "line": 396,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "THEMIS_DEBUG(\"ZeroCopyBlobTransfer: fallback wrote {} bytes from '{}' ({}\u00b5s)\",",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "include\\storage\\examples\\schema_layout_advisor_example.cpp": [
+      {
+        "file": "include\\storage\\examples\\schema_layout_advisor_example.cpp",
+        "line": 16,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "// NOTE: Both APIs (IMPL-B6, IMPL-B10) are not yet implemented.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "tests\\storage\\test_mvcc_chain_pruner.cpp": [
+      {
+        "file": "tests\\storage\\test_mvcc_chain_pruner.cpp",
+        "line": 10,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "*   MCP-05  pruneKey handles non-JSON binary values (hex fallback)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\storage\\test_mvcc_chain_pruner.cpp",
+        "line": 211,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// MCP-05: pruneKey handles non-JSON binary values (hex fallback)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "tests\\storage\\test_tensor_train_decomposer.cpp": [
+      {
+        "file": "tests\\storage\\test_tensor_train_decomposer.cpp",
+        "line": 30,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "*   TNS-08  min_compression_ratio fallback to raw when ratio too low",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

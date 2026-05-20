@@ -22,6 +22,7 @@
 
 #include "server/session_api_handler.h"
 #include "utils/logger.h"
+#include "utils/input_validator.h"
 
 #include <chrono>
 #include <ctime>
@@ -35,6 +36,27 @@ namespace server {
 // ---------------------------------------------------------------------------
 // Static helpers
 // ---------------------------------------------------------------------------
+
+namespace {
+
+constexpr size_t MAX_SESSION_IDENTIFIER_LEN = 256;
+constexpr size_t MAX_DEVICE_FINGERPRINT_LEN = 512;
+constexpr size_t MAX_USER_AGENT_LEN = 1024;
+
+bool isSafeSessionIdentifier(std::string_view value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(std::string(value), MAX_SESSION_IDENTIFIER_LEN) &&
+           validator.validatePathSegment(std::string(value));
+}
+
+bool isSafeHeaderLikeValue(std::string_view value, size_t max_len) {
+    themis::utils::InputValidator validator;
+    return validator.validateStringLength(std::string(value), max_len) &&
+           validator.validateHeaderValue(std::string(value));
+}
+
+} // namespace
 
 static std::string timePointToISO8601(std::chrono::system_clock::time_point tp) {
     // Guard against max() sentinel used for "no absolute timeout"
@@ -100,6 +122,13 @@ nlohmann::json SessionApiHandler::createSession(
     const std::string& client_ip
 ) {
     auto span = Tracer::startSpan("createSession");
+    if (!isSafeHeaderLikeValue(bearer_token, 8192)) {
+        return makeError(400, "Invalid bearer token format");
+    }
+    if (!client_ip.empty() && !isSafeHeaderLikeValue(client_ip, 128)) {
+        return makeError(400, "Invalid client_ip format");
+    }
+
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
     if (!auth_result.authorized) {
         THEMIS_WARN("SessionApiHandler::createSession – unauthorized: {}", auth_result.reason);
@@ -114,9 +143,15 @@ nlohmann::json SessionApiHandler::createSession(
     if (body.is_object()) {
         if (body.contains("device_fingerprint") && body["device_fingerprint"].is_string()) {
             device_fingerprint = body["device_fingerprint"].get<std::string>();
+            if (!isSafeHeaderLikeValue(device_fingerprint, MAX_DEVICE_FINGERPRINT_LEN)) {
+                return makeError(400, "Invalid device_fingerprint format");
+            }
         }
         if (body.contains("user_agent") && body["user_agent"].is_string()) {
             user_agent = body["user_agent"].get<std::string>();
+            if (!isSafeHeaderLikeValue(user_agent, MAX_USER_AGENT_LEN)) {
+                return makeError(400, "Invalid user_agent format");
+            }
         }
     }
 
@@ -149,6 +184,13 @@ nlohmann::json SessionApiHandler::listSessions(
     const std::string& current_session
 ) {
     auto span = Tracer::startSpan("listSessions");
+    if (!isSafeHeaderLikeValue(bearer_token, 8192)) {
+        return makeError(400, "Invalid bearer token format");
+    }
+    if (!current_session.empty() && !isSafeSessionIdentifier(current_session)) {
+        return makeError(400, "current_session contains invalid characters or length");
+    }
+
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
     if (!auth_result.authorized) {
         THEMIS_WARN("SessionApiHandler::listSessions – unauthorized: {}", auth_result.reason);
@@ -180,8 +222,14 @@ nlohmann::json SessionApiHandler::revokeSession(
     const std::string& session_id
 ) {
     auto span = Tracer::startSpan("revokeSession");
+    if (!isSafeHeaderLikeValue(bearer_token, 8192)) {
+        return makeError(400, "Invalid bearer token format");
+    }
     if (session_id.empty()) {
         return makeError(400, "session_id must not be empty");
+    }
+    if (!isSafeSessionIdentifier(session_id)) {
+        return makeError(400, "session_id contains invalid characters or length");
     }
 
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
@@ -228,6 +276,13 @@ nlohmann::json SessionApiHandler::revokeAllOtherSessions(
     const std::string& current_session
 ) {
     auto span = Tracer::startSpan("revokeAllOtherSessions");
+    if (!isSafeHeaderLikeValue(bearer_token, 8192)) {
+        return makeError(400, "Invalid bearer token format");
+    }
+    if (!current_session.empty() && !isSafeSessionIdentifier(current_session)) {
+        return makeError(400, "current_session contains invalid characters or length");
+    }
+
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
     if (!auth_result.authorized) {
         THEMIS_WARN("SessionApiHandler::revokeAllOtherSessions – unauthorized: {}",

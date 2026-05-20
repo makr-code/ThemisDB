@@ -142,6 +142,13 @@ TEST_F(DistributedTxnApiHandlerTest, BeginEmptyShardsReturnsBadRequest) {
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(DistributedTxnApiHandlerTest, BeginInvalidShardIdReturnsBadRequest) {
+    auto req = makeReq(http::verb::post, "/dtxn/begin",
+                       R"({"shards":["../shard1"]})");
+    auto res = handler_->handleBegin(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 TEST_F(DistributedTxnApiHandlerTest, BeginInvalidJsonReturnsBadRequest) {
     auto req = makeReq(http::verb::post, "/dtxn/begin", "{bad json");
     auto res = handler_->handleBegin(req);
@@ -183,6 +190,13 @@ TEST_F(DistributedTxnApiHandlerTest, OperationMissingTransactionIdReturnsBadRequ
 TEST_F(DistributedTxnApiHandlerTest, OperationMissingShardIdReturnsBadRequest) {
     auto req = makeReq(http::verb::post, "/dtxn/operation",
                        R"({"transaction_id":"txn-x","operation":{}})");
+    auto res = handler_->handleOperation(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(DistributedTxnApiHandlerTest, OperationInvalidTransactionIdReturnsBadRequest) {
+    auto req = makeReq(http::verb::post, "/dtxn/operation",
+                       R"({"transaction_id":"../txn-x","shard_id":"shard1","operation":{}})");
     auto res = handler_->handleOperation(req);
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
@@ -270,6 +284,12 @@ TEST_F(DistributedTxnApiHandlerTest, StatusMissingIdReturnsBadRequest) {
     // Empty txn_id means the coordinator returns not found
     EXPECT_TRUE(res.result() == http::status::not_found ||
                 res.result() == http::status::bad_request);
+}
+
+TEST_F(DistributedTxnApiHandlerTest, StatusInvalidIdReturnsBadRequest) {
+    auto req = makeReq(http::verb::get, "/dtxn/status/../txn-x");
+    auto res = handler_->handleStatus(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

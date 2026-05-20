@@ -268,6 +268,16 @@ TEST_F(AsyncJobApiHandlerTest, SubmitRejectsEmptyQuery) {
     EXPECT_NE(body["message"].get<std::string>().find("empty"), std::string::npos);
 }
 
+TEST_F(AsyncJobApiHandlerTest, SubmitRejectsUnsafeQuery) {
+    AsyncJobApiHandler handler{instant_ok_executor()};
+    auto req = make_submit_req({{"query", "FOR x IN col RETURN x; DROP TABLE users"}});
+    auto res = handler.handleSubmit(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+    auto body = json::parse(res.body());
+    EXPECT_TRUE(body["error"].get<bool>());
+}
+
 TEST_F(AsyncJobApiHandlerTest, SubmitReturnsBadJson) {
     AsyncJobApiHandler handler{instant_ok_executor()};
 
@@ -317,6 +327,13 @@ TEST_F(AsyncJobApiHandlerTest, GetStatusMissingId) {
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(AsyncJobApiHandlerTest, GetStatusInvalidId) {
+    AsyncJobApiHandler handler{instant_ok_executor()};
+    auto res = handler.handleGetStatus(make_status_req("../bad-id"));
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 TEST_F(AsyncJobApiHandlerTest, GetStatusEventuallyCompleted) {
     AsyncJobApiHandler handler{instant_ok_executor()};
 
@@ -338,6 +355,15 @@ TEST_F(AsyncJobApiHandlerTest, GetStatusEventuallyCompleted) {
     }
 
     EXPECT_EQ(status_str, "completed");
+}
+
+TEST_F(AsyncJobApiHandlerTest, CancelInvalidId) {
+    AsyncJobApiHandler handler{instant_ok_executor()};
+    auto res = handler.handleCancel(make_cancel_req("../bad-id"));
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+    auto body = json::parse(res.body());
+    EXPECT_TRUE(body["error"].get<bool>());
 }
 
 TEST_F(AsyncJobApiHandlerTest, GetStatusFailed) {

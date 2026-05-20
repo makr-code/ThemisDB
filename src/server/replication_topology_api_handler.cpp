@@ -38,12 +38,54 @@
 
 #include <algorithm>
 #include <sstream>
+#include "utils/input_validator.h"
 #include "utils/tracing.h"
 
 namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxReplicationUiPrefixLength = 256;
+
+bool isValidUiApiBasePrefix(const std::string& value) {
+    if (value.empty()) {
+        return true;
+    }
+
+    if (value.front() != '/') {
+        return false;
+    }
+
+    themis::utils::InputValidator validator;
+    if (!validator.validateStringLength(value, kMaxReplicationUiPrefixLength) ||
+        !validator.validateHeaderValue(value) ||
+        value.find("//") != std::string::npos) {
+        return false;
+    }
+
+    size_t start = 1;
+    while (start <= value.size()) {
+        const auto end = value.find('/', start);
+        const auto len = (end == std::string::npos) ? value.size() - start : end - start;
+        if (len > 0) {
+            const auto segment = value.substr(start, len);
+            if (!validator.validatePathSegment(segment)) {
+                return false;
+            }
+        }
+        if (end == std::string::npos) {
+            break;
+        }
+        start = end + 1;
+    }
+
+    return true;
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction
@@ -201,6 +243,10 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleUiGet(
     const auto pos = target.find(marker);
     if (pos != std::string::npos) {
         api_base = target.substr(0, pos);
+        if (!isValidUiApiBasePrefix(api_base)) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Invalid UI API base prefix", req);
+        }
     }
 
     return makeResponse(http::status::ok, buildUiHtml(api_base), "text/html; charset=utf-8", req);

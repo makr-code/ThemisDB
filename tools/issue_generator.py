@@ -1,0 +1,264 @@
+#!/usr/bin/env python3
+"""
+GitHub Issue Generator for Implementation Gaps
+
+Creates GitHub issues per module based on gap scan results.
+"""
+
+import json
+import os
+from pathlib import Path
+from typing import Dict, List
+from datetime import datetime
+
+class IssueGenerator:
+    def __init__(self, scan_dir: str = "ai_working"):
+        self.scan_dir = Path(scan_dir)
+        self.repo_owner = "makr-code"
+        self.repo_name = "ThemisDB"
+    
+    def load_module_gaps(self, module: str) -> Dict:
+        """Load scan results for a module"""
+        filepath = self.scan_dir / f"gap_scan_{module}.json"
+        if not filepath.exists():
+            return None
+        
+        with open(filepath) as f:
+            return json.load(f)
+    
+    def categorize_gaps(self, gaps: List) -> Dict[str, List]:
+        """Group gaps by category"""
+        categories = {
+            "stub": [],
+            "todo": [],
+            "unimplemented": [],
+            "empty": [],
+            "unused": [],
+        }
+        
+        for gap in gaps:
+            category = gap.get("category", "unknown")
+            if category in categories:
+                categories[category].append(gap)
+        
+        return categories
+    
+    def generate_issue_title(self, module: str, summary: Dict) -> str:
+        """Generate issue title"""
+        critical = summary.get("critical", 0)
+        high = summary.get("high", 0)
+        total = summary.get("total", 0)
+        
+        if critical > 5:
+            return f"[{module}] Critical implementation gaps ({total} total, {critical} unimplemented paths)"
+        elif critical > 0:
+            return f"[{module}] Address {critical} unimplemented code paths + {total} TODO items"
+        else:
+            return f"[{module}] Clean up {total} implementation gaps (TODOs, stubs, empty code)"
+    
+    def generate_issue_body(self, module: str, data: Dict) -> str:
+        """Generate detailed issue description"""
+        summary = data["summary"]
+        gaps = data["gaps"]
+        
+        categories = self.categorize_gaps(gaps)
+        
+        body = f"""# Implementation Gap Report: `{module}` Module
+
+**Scan Date:** {datetime.now().isoformat()}  
+**Total Gaps:** {summary['total']}  
+**Severity:** Critical={summary['critical']} | High={summary['high']} | Medium={summary['medium']} | Low={summary['low']}
+
+## Summary
+
+This module has {summary['total']} implementation gaps detected by automated scanning:
+- **Unimplemented Paths** ({len(categories['unimplemented'])}): Code that throws "not implemented" or returns empty
+- **Stub/Mock Code** ({len(categories['stub'])}): Placeholder or simulation code marked as STUB/MOCK
+- **TODO Items** ({len(categories['todo'])}): Incomplete work flagged with TODO/FIXME comments
+
+## Gaps by Severity
+
+### Unimplemented ({len(categories['unimplemented'])})
+"""
+        
+        # Add unimplemented examples
+        for gap in categories['unimplemented'][:5]:
+            body += f"- `{gap['file']}:{gap['line_num']}` — {gap['context']}\n"
+        if len(categories['unimplemented']) > 5:
+            body += f"- ... and {len(categories['unimplemented']) - 5} more unimplemented paths\n"
+        
+        body += f"\n### Stubs/Mocks ({len(categories['stub'])})\n"
+        for gap in categories['stub'][:5]:
+            body += f"- `{gap['file']}:{gap['line_num']}` — {gap['context']}\n"
+        if len(categories['stub']) > 5:
+            body += f"- ... and {len(categories['stub']) - 5} more stub markers\n"
+        
+        body += f"\n### TODO Items ({len(categories['todo'])})\n"
+        for gap in categories['todo'][:5]:
+            body += f"- `{gap['file']}:{gap['line_num']}` — {gap['context']}\n"
+        if len(categories['todo']) > 5:
+            body += f"- ... and {len(categories['todo']) - 5} more TODO items\n"
+        
+        body += f"""
+
+## Remediation Strategy
+
+1. **Prioritize unimplemented paths** — These are the highest-impact items; implement real logic or document the design choice.
+2. **Convert stubs to real implementations** — If still needed, implement; if obsolete, remove.
+3. **Resolve TODOs** — Either complete the work or close as "not needed".
+4. **Add tests** — Verify each implementation path with unit or integration tests.
+
+## Links
+
+- [Full Gap Report](../ai_working/gap_scan_{module}.json) — Detailed JSON report
+- [Module Roadmap](../src/{module}/ROADMAP.md) — Expected features and status
+- [Module FUTURE_ENHANCEMENTS](../src/{module}/FUTURE_ENHANCEMENTS.md) — Planned enhancements
+
+## Acceptance Criteria
+
+- [ ] All unimplemented critical paths have either real implementations or documented design choices
+- [ ] No remaining STUB/MOCK markers without clear expiration criteria
+- [ ] All TODOs have a date or linked issue
+- [ ] Gap count reduced by >50% or to <10 total gaps
+- [ ] New code additions include gap-free pattern validation
+
+---
+
+**Generated by:** ThemisDB Gap Scanner  
+**Module:** `{module}`  
+**Scan Method:** Pattern-based: STUB/MOCK markers, TODO/FIXME comments, empty returns, unimplemented exceptions
+"""
+        
+        return body
+    
+    def generate_gh_command(self, module: str, title: str, body: str) -> str:
+        """Generate gh CLI command to create issue"""
+        # Escape quotes and newlines
+        body_escaped = body.replace('"', '\\"').replace('\n', '\\n')
+        
+        cmd = f"""gh issue create \\
+  --repo {self.repo_owner}/{self.repo_name} \\
+  --title "{title}" \\
+  --body "{body_escaped}" \\
+  --label "gap-scan,implementation-gap,{module}" \\
+  --project "Implementation Gaps"
+"""
+        return cmd
+    
+    def generate_all_issues(self, min_gaps: int = 5):
+        """Generate issues for all modules with significant gaps"""
+        aggregate = json.load(open(self.scan_dir / "gap_scan_aggregate.json"))
+        
+        issues = []
+        
+        # Sort by gap count (descending)
+        sorted_modules = sorted(aggregate.items(), key=lambda x: x[1]['total'], reverse=True)
+        
+        for module, summary in sorted_modules:
+            total = summary.get("total", 0)
+            critical = summary.get("critical", 0)
+            
+            # Skip modules with too few gaps (unless critical)
+            if total < min_gaps and critical < 1:
+                continue
+            
+            data = self.load_module_gaps(module)
+            if not data:
+                continue
+            
+            title = self.generate_issue_title(module, summary)
+            body = self.generate_issue_body(module, data)
+            cmd = self.generate_gh_command(module, title, body)
+            
+            issues.append({
+                "module": module,
+                "title": title,
+                "summary": summary,
+                "body": body,
+                "gh_command": cmd,
+            })
+        
+        return issues
+    
+    def save_issue_batch(self, issues: List, output_file: str = "github_issues_batch.json"):
+        """Save issue batch to JSON"""
+        output_path = self.scan_dir / output_file
+        
+        batch = {
+            "generated": datetime.now().isoformat(),
+            "total_issues": len(issues),
+            "repo": f"{self.repo_owner}/{self.repo_name}",
+            "issues": issues,
+        }
+        
+        with open(output_path, 'w', encoding='utf-8') as f:
+            json.dump(batch, f, indent=2)
+        
+        return output_path
+    
+    def save_shell_script(self, issues: List, output_file: str = "create_github_issues.sh"):
+        """Save shell script to create all issues at once"""
+        output_path = self.scan_dir / output_file
+        
+        script = "#!/bin/bash\n"
+        script += f"# ThemisDB Gap Scan GitHub Issues\n"
+        script += f"# Generated: {datetime.now().isoformat()}\n"
+        script += f"# Total issues: {len(issues)}\n\n"
+        script += f"set -e\n\n"
+        
+        for i, issue in enumerate(issues, 1):
+            script += f"# Issue {i}/{len(issues)}: {issue['module']}\n"
+            script += f"echo \"Creating issue for {issue['module']}...\"\n"
+            script += issue["gh_command"] + "\n"
+            script += f"sleep 2  # Rate limit protection\n\n"
+        
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(script)
+        
+        os.chmod(output_path, 0o755)
+        return output_path
+
+def main():
+    generator = IssueGenerator("ai_working")
+    
+    print("Generating GitHub issues from gap scan results...")
+    print("=" * 60)
+    
+    issues = generator.generate_all_issues(min_gaps=5)
+    
+    print(f"\nGenerated {len(issues)} issues")
+    print("\nTop issues by gap count:")
+    for i, issue in enumerate(issues[:10], 1):
+        print(f"{i:2}. {issue['module']:25} {issue['summary']['total']:3} gaps — {issue['title']}")
+    
+    # Save results
+    json_path = generator.save_issue_batch(issues)
+    print(f"\n✓ Saved batch JSON: {json_path}")
+    
+    shell_path = generator.save_shell_script(issues)
+    print(f"✓ Saved shell script: {shell_path}")
+    
+    # Save individual issue files for review
+    issues_dir = Path("ai_working/issues")
+    issues_dir.mkdir(exist_ok=True)
+    
+    for issue in issues:
+        module = issue["module"]
+        issue_file = issues_dir / f"issue_{module}.md"
+        
+        with open(issue_file, 'w', encoding='utf-8') as f:
+            f.write(f"# {issue['title']}\n\n")
+            f.write(issue['body'])
+        
+        print(f"  • {module}: {issue_file}")
+    
+    print(f"\n✓ Saved {len(issues)} individual issue files in ai_working/issues/")
+    print("\nNext steps:")
+    print("  1. Review individual issues: ai_working/issues/issue_*.md")
+    print("  2. Create issues on GitHub:")
+    print(f"     bash ai_working/create_github_issues.sh")
+    print("     OR")
+    print(f"     python -c \"import json; [print(i['gh_command']) for i in json.load(open('ai_working/github_issues_batch.json'))['issues'][:5]]\"")
+
+if __name__ == "__main__":
+    main()

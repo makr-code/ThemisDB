@@ -14,12 +14,12 @@ This directory contains automation scripts for operational tasks addressing audi
 ```powershell
 # Local gate run (no CI)
 pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 \
-	-BuildPreset msvc-ninja-release \
+	-BuildPreset windows-release \
 	-RepeatCount 20
 
 # Optional pentest execution
 pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 \
-	-BuildPreset msvc-ninja-release \
+	-BuildPreset windows-release \
 	-RepeatCount 20 \
 	-RunPentest \
 	-PentestTarget "127.0.0.1:8080"

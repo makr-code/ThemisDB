@@ -1,0 +1,39 @@
+{
+  "module": "rpc_grpc",
+  "stats": {
+    "total": 1,
+    "unimplemented": 0,
+    "incomplete": 1,
+    "stub_documented": 0,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 0,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 0,
+    "severity_high": 1,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 0
+  },
+  "gaps_by_file": {
+    "src\\rpc_grpc\\grpc_plugin.cpp": [
+      {
+        "file": "src\\rpc_grpc\\grpc_plugin.cpp",
+        "line": 92,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "} catch (...) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

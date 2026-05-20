@@ -6,7 +6,7 @@ This checklist is executable locally and maps to the three open system-wide read
 
 ```powershell
 pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 \
-  -BuildPreset msvc-ninja-release \
+  -BuildPreset windows-release \
   -RepeatCount 20
 ```
 
@@ -14,7 +14,7 @@ Optional full security run (requires bash + reachable target):
 
 ```powershell
 pwsh -File scripts/operations/Invoke-LocalProductionReadiness.ps1 \
-  -BuildPreset msvc-ninja-release \
+  -BuildPreset windows-release \
   -RepeatCount 20 \
   -RunPentest \
   -PentestTarget "127.0.0.1:8080"

@@ -1,0 +1,82 @@
+{
+  "module": "onnx_clip",
+  "summary": {
+    "total": 7,
+    "critical": 5,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+      "line_num": 43,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB #94 \u2014 ModelHashFn static bridge (non-OpenSSL SHA-256 injection)",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+      "line_num": 78,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+      "line_num": 83,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+      "line_num": 88,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+      "line_num": 95,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+      "line_num": 103,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
+      "line_num": 347,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    }
+  ]
+}

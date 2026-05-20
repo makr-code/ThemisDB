@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright 2026 ThemisDB — Licensed under MIT License
+//
+// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 /**
  * @file federated_distillation_coordinator.cpp

@@ -116,9 +116,10 @@ private:
         http::status status,
         const std::string& message);
     
-    int get_query_param_int(const std::string& target, 
-                           const std::string& param_name, 
-                           int default_value = 0);
+    bool get_query_param_int(const std::string& target,
+                             const std::string& param_name,
+                             int default_value,
+                             int& value);
 };
 
 } // namespace server

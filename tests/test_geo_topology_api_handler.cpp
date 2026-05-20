@@ -323,6 +323,14 @@ TEST_F(GeoTopologyApiHandlerTest, TopologyShardPost_EmptyShardId_BadRequest) {
     EXPECT_NE(j["message"].get<std::string>().find("shard_id"), std::string::npos);
 }
 
+TEST_F(GeoTopologyApiHandlerTest, TopologyShardPost_InvalidShardId_BadRequest) {
+    const std::string body = R"({"shard_id": "../shard-new", "region": "us-east"})";
+    auto req  = makePost("/api/v1/geo/topology/shard", body);
+    auto resp = handler_->handleTopologyShardPost(req);
+
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // GET /api/v1/geo/config/{collection}
 // ─────────────────────────────────────────────────────────────────────────────
@@ -345,6 +353,12 @@ TEST_F(GeoTopologyApiHandlerTest, ConfigGet_DefaultConfig) {
 TEST_F(GeoTopologyApiHandlerTest, ConfigGet_MissingCollection_BadRequest) {
     // Path with no trailing segment
     auto req  = makeGet("/api/v1/geo/config/");
+    auto resp = handler_->handleConfigGet(req);
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+}
+
+TEST_F(GeoTopologyApiHandlerTest, ConfigGet_InvalidCollection_BadRequest) {
+    auto req  = makeGet("/api/v1/geo/config/../mycollection");
     auto resp = handler_->handleConfigGet(req);
     EXPECT_EQ(resp.result(), http::status::bad_request);
 }
@@ -465,6 +479,12 @@ TEST_F(GeoTopologyApiHandlerTest, TopologyShardDelete_NotFound_Returns404) {
 TEST_F(GeoTopologyApiHandlerTest, TopologyShardDelete_MissingShardIdInPath_BadRequest) {
     // Path ends at the shard/ prefix with no trailing segment
     auto req  = makeDelete("/api/v1/geo/topology/shard/");
+    auto resp = handler_->handleTopologyShardDelete(req);
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+}
+
+TEST_F(GeoTopologyApiHandlerTest, TopologyShardDelete_InvalidShardIdInPath_BadRequest) {
+    auto req  = makeDelete("/api/v1/geo/topology/shard/../shard-0");
     auto resp = handler_->handleTopologyShardDelete(req);
     EXPECT_EQ(resp.result(), http::status::bad_request);
 }

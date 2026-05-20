@@ -1,0 +1,142 @@
+{
+  "module": "ai",
+  "summary": {
+    "total": 13,
+    "critical": 7,
+    "high": 5,
+    "medium": 1,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\ai\\ai_plugin_generator.cpp",
+      "line_num": 46,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // success",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\ai\\ai_plugin_generator.cpp",
+      "line_num": 65,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO (Phase 2, v1.6.0): replace the error below with a real HTTP call to",
+      "severity": "medium",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "tests\\test_aql_explain.cpp",
+      "line_num": 78,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<std::string>  listIndexes()                      const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_distributed_training_coordinator.cpp",
+      "line_num": 66,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "shard_router_ = nullptr;  // Placeholder",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_distributed_training_coordinator.cpp",
+      "line_num": 67,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "shard_topology_ = nullptr;  // Placeholder",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_raid_redundancy.cpp",
+      "line_num": 46,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock Implementations",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_training_phase2.cpp",
+      "line_num": 49,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock ILLMRouter",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "benchmarks\\bench_docker_raid_comprehensive.cpp",
+      "line_num": 179,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_docker_raid_comprehensive.cpp",
+      "line_num": 263,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_docker_raid_comprehensive.cpp",
+      "line_num": 337,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {}; // Data lost",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_docker_raid_comprehensive.cpp",
+      "line_num": 360,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_docker_raid_comprehensive.cpp",
+      "line_num": 426,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_raid_lora.cpp",
+      "line_num": 46,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock Storage for Benchmarks",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    }
+  ]
+}

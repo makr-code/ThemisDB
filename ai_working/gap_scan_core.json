@@ -1,0 +1,82 @@
+{
+  "module": "core",
+  "summary": {
+    "total": 7,
+    "critical": 6,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\core\\security_initialization.cpp",
+      "line_num": 144,
+      "category": "unimplemented",
+      "pattern": "throw\\s+std::runtime_error\\s*\\(\\s*[\"\\'].*not\\s+implement",
+      "context": "throw std::runtime_error(\"Key provider does not implement KeyProvider interface\");",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\core\\concerns\\jaeger_tracer_adapter.h",
+      "line_num": 306,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\core\\concerns\\noop_implementations.h",
+      "line_num": 162,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<std::string> listSecretNames() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\core\\concerns\\noop_implementations.h",
+      "line_num": 199,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::unordered_map<std::string, bool> getAllFlags() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\core\\concerns\\w3c_trace_context_propagator.h",
+      "line_num": 190,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\core\\concerns\\zipkin_tracer_adapter.h",
+      "line_num": 326,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "benchmarks\\bench_themis_core.cpp",
+      "line_num": 241,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    }
+  ]
+}

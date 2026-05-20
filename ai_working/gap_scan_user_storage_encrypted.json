@@ -1,0 +1,22 @@
+{
+  "module": "user_storage_encrypted",
+  "summary": {
+    "total": 1,
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
+      "line_num": 109,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+#!/usr/bin/env python3
+"""
+Phase 9-2: Distributed Consistency & Consensus Scanner
+
+CWE-366 (Race Condition), CWE-696 (Incorrect Behavior Order)
+
+Detects:
+- Missing consensus on write
+- Replication lag not bounded
+- Read-after-write consistency gaps
+- Stale read not documented
+- Causal ordering violations
+- Split-brain scenarios
+- Leader election without majority
+- Version vector missing
+- Tombstone not handled
+- Lost update anomaly
+- Phantom read in distributed context
+"""
+
+import re
+from pathlib import Path
+from typing import List, Dict
+
+
+class DistributedConsistencyScan:
+    """Scan for distributed consistency and consensus issues"""
+    
+    def __init__(self, repo_root: str = '.'):
+        self.repo_root = Path(repo_root)
+        self.gaps = []
+    
+    def scan_files(self, file_list: List[Path]) -> List[Dict]:
+        """Scan files for distributed consistency issues"""
+        
+        for file_path in file_list:
+            if not file_path.suffix in ['.cpp', '.cc', '.h', '.hpp']:
+                continue
+            
+            # Check if file is distributed/replication-related
+            if not self._is_distributed_file(str(file_path)):
+                continue
+            
+            try:
+                with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    content = f.read()
+                    lines = content.split('\n')
+            except Exception:
+                continue
+            
+            # Scan patterns
+            self._check_consensus_on_write(file_path, lines)
+            self._check_replication_lag(file_path, lines)
+            self._check_consistency_levels(file_path, lines)
+            self._check_version_tracking(file_path, lines)
+            self._check_conflict_resolution(file_path, lines)
+        
+        return self.gaps
+    
+    def _is_distributed_file(self, file_path: str) -> bool:
+        """Check if file is distributed/replication-related"""
+        keywords = ['replication', 'distributed', 'consensus', 'raft', 'paxos', 'quorum',
+                   'replica', 'sync', 'shard', 'failover']
+        return any(kw in file_path.lower() for kw in keywords)
+    
+    def _check_consensus_on_write(self, file_path: Path, lines: List[str]):
+        """Find writes without consensus verification"""
+        
+        for idx, line in enumerate(lines, 1):
+            # Look for write operations
+            if re.search(r'(write|put|insert|update)\s*\(', line, re.IGNORECASE):
+                # Check for replication/consensus
+                next_lines = '\n'.join(lines[idx:min(idx+20, len(lines))])
+                
+                if not re.search(r'(replicate|consensus|quorum|ack|wait|sync)', next_lines, re.IGNORECASE):
+                    self.gaps.append({
+                        'file': str(file_path.relative_to(self.repo_root)),
+                        'line': idx,
+                        'category': 'distributed_consistency',
+                        'severity': 'CRITICAL',
+                        'pattern': 'missing_consensus',
+                        'description': 'Write without consensus/replication acknowledgment',
+                        'context': line.strip()
+                    })
+    
+    def _check_replication_lag(self, file_path: Path, lines: List[str]):
+        """Find replication lag not bounded"""
+        
+        for idx, line in enumerate(lines, 1):
+            # Look for read operations
+            if re.search(r'(read|get|execute.*query)\s*\(', line, re.IGNORECASE):
+                # Check if consistency level is specified
+                prev_lines = '\n'.join(lines[max(0, idx-5):idx])
+                
+                if not re.search(r'(strong|linearizable|serializable|eventual|stale)', prev_lines, re.IGNORECASE):
+                    self.gaps.append({
+                        'file': str(file_path.relative_to(self.repo_root)),
+                        'line': idx,
+                        'category': 'distributed_consistency',
+                        'severity': 'HIGH',
+                        'pattern': 'unspecified_consistency',
+                        'description': 'Read without explicit consistency level (replication lag unknown)',
+                        'context': line.strip()
+                    })
+    
+    def _check_consistency_levels(self, file_path: Path, lines: List[str]):
+        """Find incorrect consistency level usage"""
+        
+        for idx, line in enumerate(lines, 1):
+            # Look for stale read patterns
+            if re.search(r'eventual|stale|weak', line, re.IGNORECASE):
+                # Check if it's in a safe context
+                next_lines = '\n'.join(lines[idx:min(idx+10, len(lines))])
+                
+                # Stale reads should be documented
+                if not re.search(r'(comment|//.*stale|STALE_READ_OK)', next_lines):
+                    self.gaps.append({
+                        'file': str(file_path.relative_to(self.repo_root)),
+                        'line': idx,
+                        'category': 'distributed_consistency',
+                        'severity': 'MEDIUM',
+                        'pattern': 'stale_read_undocumented',
+                        'description': 'Eventual/stale read without documentation of correctness',
+                        'context': line.strip()
+                    })
+    
+    def _check_version_tracking(self, file_path: Path, lines: List[str]):
+        """Find missing version vectors/clocks"""
+        
+        for idx, line in enumerate(lines, 1):
+            # Look for concurrent update patterns
+            if re.search(r'(merge|conflict|concurrent|concurrent.*write)', line, re.IGNORECASE):
+                # Check for version tracking
+                next_lines = '\n'.join(lines[idx:min(idx+15, len(lines))])
+                
+                if not re.search(r'(version|timestamp|vector|clock|causality)', next_lines, re.IGNORECASE):
+                    self.gaps.append({
+                        'file': str(file_path.relative_to(self.repo_root)),
+                        'line': idx,
+                        'category': 'distributed_consistency',
+                        'severity': 'CRITICAL',
+                        'pattern': 'missing_version_tracking',
+                        'description': 'Concurrent update without version vector or causal ordering',
+                        'context': line.strip()
+                    })
+    
+    def _check_conflict_resolution(self, file_path: Path, lines: List[str]):
+        """Find missing conflict resolution"""
+        
+        for idx, line in enumerate(lines, 1):
+            # Look for merge operations
+            if re.search(r'(merge|reconcile|resolve.*conflict)', line, re.IGNORECASE):
+                # Check if strategy is defined
+                next_lines = '\n'.join(lines[idx:min(idx+10, len(lines))])
+                
+                if not re.search(r'(last.*write|custom.*resolve|application.*logic)',
+                                next_lines, re.IGNORECASE):
+                    self.gaps.append({
+                        'file': str(file_path.relative_to(self.repo_root)),
+                        'line': idx,
+                        'category': 'distributed_consistency',
+                        'severity': 'HIGH',
+                        'pattern': 'undefined_conflict_resolution',
+                        'description': 'Merge without explicit conflict resolution strategy',
+                        'context': line.strip()
+                    })

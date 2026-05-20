@@ -6,6 +6,8 @@
 // KGR-RAG-04  has_reasoning is true only when at least one chain is non-empty
 // KGR-RAG-05  Reasoning chain is stored in metadata["reasoning_chain"] when flag set
 // KGR-RAG-06  max_inference_hops = 0 disables inference even with a reasoner attached
+//
+// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include <gtest/gtest.h>
 

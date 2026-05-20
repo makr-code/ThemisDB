@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=8 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -30,6 +31,7 @@
 #include "server/sse_connection_manager.h"
 #endif
 #include "server/auth_middleware.h"
+#include "utils/input_validator.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <sstream>
@@ -42,6 +44,20 @@ namespace server {
 namespace beast = boost::beast;
 namespace http = beast::http;
 using json = nlohmann::json;
+
+namespace {
+
+constexpr size_t kMaxChangefeedIdentifierLength = 256;
+
+bool isValidChangefeedIdentifier(const std::string& value) {
+    themis::utils::InputValidator validator;
+    return !value.empty() &&
+           validator.validateStringLength(value, kMaxChangefeedIdentifierLength) &&
+           validator.validatePathSegment(value) &&
+           validator.validateHeaderValue(value);
+}
+
+} // namespace
 
 // Helper: parse a comma-separated list of event type names into a set
 // Accepted values: "PUT", "DELETE", "TRANSACTION_COMMIT", "TRANSACTION_ROLLBACK"
@@ -159,6 +175,10 @@ http::response<http::string_body> ChangefeedApiHandler::handleGet(
                 size_t key_end = query_str.find('&', key_pos);
                 std::string key_prefix = query_str.substr(key_pos + 11,
                     key_end == std::string::npos ? std::string::npos : key_end - key_pos - 11);
+                if (!key_prefix.empty() && !isValidChangefeedIdentifier(key_prefix)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "Invalid key_prefix", req);
+                }
                 options.key_prefix = key_prefix;
             }
             
@@ -249,6 +269,10 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 size_t key_end = query_str.find('&', key_pos);
                 key_prefix = query_str.substr(key_pos + 11,
                     key_end == std::string::npos ? std::string::npos : key_end - key_pos - 11);
+                if (!key_prefix.empty() && !isValidChangefeedIdentifier(key_prefix)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "Invalid key_prefix", req);
+                }
             }
             
             // Parse event_types (comma-separated: PUT,DELETE,TRANSACTION_COMMIT,TRANSACTION_ROLLBACK)
@@ -353,8 +377,12 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 size_t cid_end = query_str.find('&', cid_pos);
                 std::string cid_str = query_str.substr(cid_pos + 12,
                     cid_end == std::string::npos ? std::string::npos : cid_end - cid_pos - 12);
-                if (!cid_str.empty() && cid_str.size() <= CONSUMER_ID_MAX_LEN) {
+                if (!cid_str.empty() && cid_str.size() <= CONSUMER_ID_MAX_LEN &&
+                    isValidChangefeedIdentifier(cid_str)) {
                     consumer_id = std::move(cid_str);
+                } else if (!cid_str.empty() && !isValidChangefeedIdentifier(cid_str)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "Invalid consumer_id", req);
                 } else if (cid_str.size() > CONSUMER_ID_MAX_LEN) {
                     THEMIS_WARN("changefeed: consumer_id exceeds max length ({}), ignoring", CONSUMER_ID_MAX_LEN);
                 }
@@ -586,6 +614,9 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamAck(
         std::string consumer_id = body_json["consumer_id"].get<std::string>();
         if (consumer_id.empty()) {
             return makeErrorResponse(http::status::bad_request, "'consumer_id' must not be empty", req);
+        }
+        if (!isValidChangefeedIdentifier(consumer_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid 'consumer_id'", req);
         }
 
         uint64_t up_to_sequence = body_json["up_to_sequence"].get<uint64_t>();
@@ -871,6 +902,18 @@ http::response<http::string_body> ChangefeedApiHandler::handleGdprRedact(
         if (key_prefix.empty()) {
             return makeErrorResponse(http::status::bad_request,
                 "key_prefix is required and must not be empty", req);
+        }
+        if (!isValidChangefeedIdentifier(key_prefix)) {
+            return makeErrorResponse(http::status::bad_request,
+                "Invalid key_prefix", req);
+        }
+        if (!tenant_id.empty() && !isValidChangefeedIdentifier(tenant_id)) {
+            return makeErrorResponse(http::status::bad_request,
+                "Invalid tenant_id", req);
+        }
+        if (!operator_id.empty() && !isValidChangefeedIdentifier(operator_id)) {
+            return makeErrorResponse(http::status::bad_request,
+                "Invalid operator_id", req);
         }
 
         themis::cdc::CDCAdmin admin(changefeed_.get());

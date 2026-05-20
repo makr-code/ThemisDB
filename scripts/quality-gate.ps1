@@ -30,7 +30,7 @@ Usage:
   powershell -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 [options]
 
 Options:
-  -ConfigurePreset <name>   CMake configure preset (default: msvc-ninja-release)
+    -ConfigurePreset <name>   CMake configure preset (default: windows-release)
   -BuildPreset <name>       CMake build preset (default: same as ConfigurePreset)
   -TestPreset <name>        CTest preset (default: windows-release)
   -ReportsDir <path>        Report output directory (default: reports/local-quality)

@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=5 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /**
  * @file test_tensor_fingerprint_graph.cpp
  * @brief Unit tests for TensorFingerprintGraph and TensorDeduplicationManager.

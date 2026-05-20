@@ -1,0 +1,62 @@
+{
+  "module": "stable_diffusion",
+  "summary": {
+    "total": 5,
+    "critical": 2,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+      "line_num": 525,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (buf.size() < 8u) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+      "line_num": 541,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\stable_diffusion\\tests\\test_sd_plugin_registrar.cpp",
+      "line_num": 28,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub mode: no model_path in config \u2192 plugin not initialized",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\stable_diffusion\\sd_generator.h",
+      "line_num": 92,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub generator \u2013 used when stable-diffusion.cpp is not linked",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\stable_diffusion\\sd_generator.h",
+      "line_num": 124,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub pass-through: return the input image unchanged.",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    }
+  ]
+}

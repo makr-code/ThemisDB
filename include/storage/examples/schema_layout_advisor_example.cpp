@@ -14,6 +14,8 @@
 //   5. Both advisors writing DecisionRecords to AIDecisionAuditor.
 //
 // NOTE: Both APIs (IMPL-B6, IMPL-B10) are not yet implemented.
+//
+// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include <iostream>
 #include <vector>

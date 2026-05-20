@@ -20,4 +20,4 @@ cmake --build --preset linux-release
 
 echo ""
 echo "=== Build Complete ==="
-ls -lh build/linux-release/themis_server
+ls -lh build-gcc-linux-release/themis_server

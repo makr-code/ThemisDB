@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=8 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -80,23 +81,18 @@ static std::vector<std::string> splitLines(const std::string& text) {
 }
 
 // Trim leading/trailing ASCII whitespace
-static std::string trim(const std::string& s) {
-    size_t start = s.find_first_not_of(" \t\r\n");
-    if (start == std::string::npos) return {};
-    size_t end = s.find_last_not_of(" \t\r\n");
-    return s.substr(start, end - start + 1);
-}
+// Using themis::utils::themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 // Return true if the line looks like part of a pipe-delimited table row
 static bool isPipeTableRow(const std::string& line) {
-    std::string t = trim(line);
+    std::string t = themis::utils::trim(line);
     if (t.empty()) return false;
     return (t.front() == '|' || t.back() == '|') && countChar(t, '|') >= 2;
 }
 
 // Return true if the line consists primarily of dashes (table separator)
 static bool isTableSeparator(const std::string& line) {
-    std::string t = trim(line);
+    std::string t = themis::utils::trim(line);
     if (t.empty()) return false;
     for (char c : t) {
         if (c != '-' && c != '|' && c != ' ' && c != '+') return false;
@@ -184,7 +180,7 @@ static std::vector<std::string> splitSentences(const std::string& text) {
                  c == '!' || c == '?'))
             {
                 // Don't split on known abbreviations
-                std::string tail = trim(current);
+                std::string tail = themis::utils::trim(current);
                 if (!std::regex_search(tail, RE_ABBREV)) {
                     is_boundary = true;
                 }
@@ -195,12 +191,12 @@ static std::vector<std::string> splitSentences(const std::string& text) {
         }
 
         if (is_boundary) {
-            std::string s = trim(current);
+            std::string s = themis::utils::trim(current);
             if (!s.empty()) sentences.push_back(std::move(s));
             current.clear();
         }
     }
-    std::string tail = trim(current);
+    std::string tail = themis::utils::trim(current);
     if (!tail.empty()) sentences.push_back(std::move(tail));
     return sentences;
 }
@@ -320,7 +316,7 @@ TableExtractor::extract(const std::string& text,
         if (count >= config_.max_table_rows) break;
 
         // Build a column-count summary from the first row
-        std::string first_row = detail::trim(lines[blk.first_line]);
+        std::string first_row = detail::themis::utils::trim(lines[blk.first_line]);
         size_t col_count = detail::countChar(first_row, '|');
         if (col_count > 0) col_count = (col_count + 1) / 2; // pipe-delimited
 
@@ -359,7 +355,7 @@ CitationExtractor::extract(const std::string& text,
 
     auto addMatch = [&](const std::string& matched, const std::string& type) {
         if (samples.size() >= config_.max_citations_per_document) return;
-        std::string m = detail::trim(matched);
+        std::string m = detail::themis::utils::trim(matched);
         if (m.empty()) return;
 
         TrainingSample s;

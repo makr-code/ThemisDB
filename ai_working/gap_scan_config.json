@@ -1,0 +1,32 @@
+{
+  "module": "config",
+  "summary": {
+    "total": 2,
+    "critical": 0,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\config\\config_metrics_exporter.cpp",
+      "line_num": 309,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\config\\config_metrics_exporter.cpp",
+      "line_num": 327,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// stub keeps those test builds lightweight while production builds execute",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    }
+  ]
+}

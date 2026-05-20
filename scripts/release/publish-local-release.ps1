@@ -7,7 +7,7 @@ param(
     [string]$TestPreset = "windows-release",
     [string]$Edition = "COMMUNITY",
     [string]$Triplet = "x64-windows",
-    [string]$BinaryDir = "build/windows-release",
+    [string]$BinaryDir = "build-msvc-windows-release",
 
     [switch]$AllowPreRelease,
     [switch]$IncludeDevelopmentInZip,

@@ -125,6 +125,17 @@ TEST_F(ServerlessFunctionApiHandlerTest, RegisterWithTenantId_Stored) {
     EXPECT_EQ(resp["tenant_id"].get<std::string>(), "tenant-42");
 }
 
+TEST_F(ServerlessFunctionApiHandlerTest, RegisterInvalidTenantId_Returns400) {
+    json body = {
+        {"name", "tenant-fn"},
+        {"tenant_id", "../tenant-42"},
+        {"code", passthroughCode()}
+    };
+    auto req = makeRequest(http::verb::post, "/api/v1/functions", body.dump());
+    auto res = handler.handleRegister(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 TEST_F(ServerlessFunctionApiHandlerTest, RegisterInvalidDslOperationType_Returns400) {
     json bad_code = {{"operations", json::array({json{{"type", "unknown_op"}}})}};
     json body = {{"name", "bad-fn"}, {"code", bad_code}};
@@ -181,6 +192,27 @@ TEST_F(ServerlessFunctionApiHandlerTest, ListFilterByTenantId) {
     EXPECT_EQ(resp["functions"].size(), 2u);
 }
 
+TEST_F(ServerlessFunctionApiHandlerTest, ListFilterByInvalidTenantId_Returns400) {
+    auto res = handler.handleList(
+        makeRequest(http::verb::get, "/api/v1/functions?tenant_id=../tenant-1"));
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(ServerlessFunctionApiHandlerTest, ListIgnoresPartialTenantParameterName) {
+    auto reg = [&](const std::string& name, const std::string& tid) {
+        json b = {{"name", name}, {"tenant_id", tid}, {"code", passthroughCode()}};
+        handler.handleRegister(makeRequest(http::verb::post, "/api/v1/functions", b.dump()));
+    };
+    reg("fn-a", "tenant-1");
+    reg("fn-b", "tenant-2");
+
+    auto res = handler.handleList(
+        makeRequest(http::verb::get, "/api/v1/functions?xtenant_id=tenant-1"));
+    ASSERT_EQ(res.result(), http::status::ok);
+    auto resp = parseBody(res);
+    EXPECT_EQ(resp["functions"].size(), 2u);
+}
+
 // ---------------------------------------------------------------------------
 // Get tests
 // ---------------------------------------------------------------------------
@@ -203,6 +235,13 @@ TEST_F(ServerlessFunctionApiHandlerTest, GetNonExistingFunction_Returns404) {
         makeRequest(http::verb::get, "/api/v1/functions/does-not-exist"),
         "does-not-exist");
     EXPECT_EQ(res.result(), http::status::not_found);
+}
+
+TEST_F(ServerlessFunctionApiHandlerTest, GetInvalidFunctionId_Returns400) {
+    auto res = handler.handleGet(
+        makeRequest(http::verb::get, "/api/v1/functions/../bad"),
+        "../bad");
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 // ---------------------------------------------------------------------------
@@ -245,6 +284,13 @@ TEST_F(ServerlessFunctionApiHandlerTest, UpdateWithInvalidCode_Returns400) {
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(ServerlessFunctionApiHandlerTest, UpdateInvalidFunctionId_Returns400) {
+    json upd = {{"name", "renamed"}};
+    auto res = handler.handleUpdate(
+        makeRequest(http::verb::put, "/api/v1/functions/../bad", upd.dump()), "../bad");
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 // ---------------------------------------------------------------------------
 // Delete tests
 // ---------------------------------------------------------------------------
@@ -283,6 +329,12 @@ TEST_F(ServerlessFunctionApiHandlerTest, DeleteNonExisting_Returns404) {
     EXPECT_EQ(res.result(), http::status::not_found);
 }
 
+TEST_F(ServerlessFunctionApiHandlerTest, DeleteInvalidFunctionId_Returns400) {
+    auto res = handler.handleDelete(
+        makeRequest(http::verb::delete_, "/api/v1/functions/../bad"), "../bad");
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
 // ---------------------------------------------------------------------------
 // Invocation tests
 // ---------------------------------------------------------------------------
@@ -303,6 +355,13 @@ TEST_F(ServerlessFunctionApiHandlerTest, InvokePassthrough_ReturnsInputUnchanged
     EXPECT_EQ(resp["result"]["x"].get<int>(), 42);
     EXPECT_EQ(resp["result"]["y"].get<std::string>(), "hello");
     EXPECT_EQ(resp["function_id"].get<std::string>(), id);
+}
+
+TEST_F(ServerlessFunctionApiHandlerTest, InvokeInvalidFunctionId_Returns400) {
+    auto res = handler.handleInvoke(
+        makeRequest(http::verb::post, "/api/v1/functions/../bad/invoke", json::object().dump()),
+        "../bad");
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 TEST_F(ServerlessFunctionApiHandlerTest, InvokeTransform_RenamesFields) {
@@ -504,6 +563,13 @@ TEST_F(ServerlessFunctionApiHandlerTest, VersionsNonExisting_Returns404) {
         makeRequest(http::verb::get, "/api/v1/functions/ghost/versions"),
         "ghost");
     EXPECT_EQ(res.result(), http::status::not_found);
+}
+
+TEST_F(ServerlessFunctionApiHandlerTest, VersionsInvalidFunctionId_Returns400) {
+    auto res = handler.handleVersions(
+        makeRequest(http::verb::get, "/api/v1/functions/../bad/versions"),
+        "../bad");
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 // ---------------------------------------------------------------------------

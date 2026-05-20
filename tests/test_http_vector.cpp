@@ -555,6 +555,25 @@ TEST_F(HttpVectorApiTest, VectorBatchInsert_InsertsItems) {
     EXPECT_EQ(results[0]["pk"], "doc5");
 }
 
+TEST_F(HttpVectorApiTest, VectorBatchInsert_InvalidVectorField_ReturnsError) {
+    json request = {
+        {"vector_field", "../bad_field"},
+        {"items", json::array({
+            json{{"pk", "doc_bad"}, {"vector", {1.0f, 0.0f, 0.0f}}}
+        })}
+    };
+    auto response = httpPost("/vector/batch_insert", request);
+
+    ASSERT_TRUE(response.contains("error"));
+    EXPECT_EQ(response["error"], true);
+    ASSERT_TRUE(response.contains("message"));
+    if (response["message"].is_string()) {
+        EXPECT_NE(response["message"].get<std::string>().find("vector_field"), std::string::npos);
+    } else {
+        FAIL() << "Expected 'message' field to be a string";
+    }
+}
+
 TEST_F(HttpVectorApiTest, VectorDeleteByFilter_SupportsPksAndPrefix) {
     // Ensure an extra PK exists to delete
     json insertReq = {

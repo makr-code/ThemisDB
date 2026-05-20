@@ -93,6 +93,13 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_behavioral_anomaly_detector\\
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_chaos_framework\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_chaos_stress\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_columnar_cache\\.cpp$")
+
+# test_vulkan_glsl_compiler_fn.cpp requires setVulkanGlslCompilerFn symbol from vulkan_backend_full.cpp,
+# which is only compiled when THEMIS_ENABLE_VULKAN=ON. 
+# In modular builds, this file is excluded from themis_tests and compiled as a separate focused test
+# that properly links themis_base (which contains vulkan_backend_full.cpp).
+# In non-modular builds, exclude it from ALL_TEST_SOURCES and compile as a focused test too.
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_vulkan_glsl_compiler_fn\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_concurrent_write_controller\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_disaster_recovery_manager\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ethics_ai_.*\\.cpp$")
@@ -2088,6 +2095,57 @@ set_tests_properties(SessionManagerTests PROPERTIES
     LABELS "auth;session;revocation;unit"
     TIMEOUT 60
 )
+
+# ============================================================================
+# Vulkan GLSL Compiler Function Tests
+# Tests setVulkanGlslCompilerFn symbol from vulkan_backend_full.cpp
+# Only compiled when THEMIS_ENABLE_VULKAN=ON
+# ============================================================================
+
+if(THEMIS_ENABLE_VULKAN AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vulkan_glsl_compiler_fn.cpp")
+    message(STATUS "Adding Vulkan GLSL Compiler Function focused tests")
+
+    add_executable(test_vulkan_glsl_compiler_fn_focused
+        test_vulkan_glsl_compiler_fn.cpp
+    )
+
+    target_include_directories(test_vulkan_glsl_compiler_fn_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_vulkan_glsl_compiler_fn_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        themis_base
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vulkan_glsl_compiler_fn_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_VULKAN=1
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_vulkan_glsl_compiler_fn_focused)
+        add_dependencies(test_vulkan_glsl_compiler_fn_focused sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME VulkanGlslCompilerFunctionTests
+        COMMAND test_vulkan_glsl_compiler_fn_focused)
+
+    set_tests_properties(VulkanGlslCompilerFunctionTests PROPERTIES
+        LABELS "acceleration;vulkan;glsl;compiler;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Vulkan GLSL Compiler: setVulkanGlslCompilerFn callback, shader compilation, error handling")
+else()
+    if(NOT THEMIS_ENABLE_VULKAN)
+        message(STATUS "Vulkan GLSL Compiler Function tests skipped (THEMIS_ENABLE_VULKAN=OFF)")
+    else()
+        message(STATUS "Vulkan GLSL Compiler Function tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vulkan_glsl_compiler_fn.cpp")
+    endif()
+endif()
 
 # ============================================================================
 # DelegateEvaluatorFocusedTests
@@ -4266,6 +4324,89 @@ else()
 endif()
 
 # ============================================================================
+# Feedback API Handler Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_feedback_api_handler.cpp")
+    message(STATUS "Adding Feedback API Handler tests")
+
+    add_executable(test_feedback_api_handler
+        test_feedback_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/feedback_api_handler.cpp
+    )
+
+    target_include_directories(test_feedback_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_feedback_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_feedback_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME FeedbackApiHandlerTests
+             COMMAND test_feedback_api_handler)
+
+    set_tests_properties(FeedbackApiHandlerTests PROPERTIES
+        LABELS "server;feedback;llm;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Feedback API Handler: identifier validation, query parsing, error normalization")
+else()
+    message(STATUS "Feedback API Handler tests not found")
+endif()
+
+# ============================================================================
+# Prompt Engineering API Handler Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_api_handler.cpp")
+    message(STATUS "Adding Prompt Engineering API Handler tests")
+
+    add_executable(test_prompt_engineering_api_handler
+        test_prompt_engineering_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/prompt_engineering_api_handler.cpp
+    )
+
+    target_include_directories(test_prompt_engineering_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_prompt_engineering_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_prompt_engineering_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PromptEngineeringApiHandlerTests
+             COMMAND test_prompt_engineering_api_handler)
+
+    set_tests_properties(PromptEngineeringApiHandlerTests PROPERTIES
+        LABELS "server;prompt-engineering;llm;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Prompt Engineering API Handler: path-id validation, null dependency guards")
+else()
+    message(STATUS "Prompt Engineering API Handler tests not found")
+endif()
+
+# ============================================================================
 # WebAssembly Handler Registry Tests
 # ============================================================================
 
@@ -4432,6 +4573,80 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_service_mesh_api_handler.cpp")
     message(STATUS "  Service Mesh API Handler: status, config, annotations endpoints")
 else()
     message(STATUS "Service Mesh API Handler tests not found")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hot_reload_api_handler.cpp")
+    message(STATUS "Adding Hot Reload API Handler tests")
+
+    add_executable(test_hot_reload_api_handler
+        test_hot_reload_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/hot_reload_api_handler.cpp
+    )
+
+    target_include_directories(test_hot_reload_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_hot_reload_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_hot_reload_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HotReloadApiHandlerTests
+             COMMAND test_hot_reload_api_handler)
+
+    set_tests_properties(HotReloadApiHandlerTests PROPERTIES
+        LABELS "server;updates;hot-reload;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Hot Reload API Handler: rejects invalid version and rollback path parameters")
+else()
+    message(STATUS "Hot Reload API Handler tests not found")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_profiling_api_handler.cpp")
+    message(STATUS "Adding Profiling API Handler tests")
+
+    add_executable(test_profiling_api_handler
+        test_profiling_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/profiling_api_handler.cpp
+    )
+
+    target_include_directories(test_profiling_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_profiling_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        fmt::fmt
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_profiling_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProfilingApiHandlerTests
+             COMMAND test_profiling_api_handler)
+
+    set_tests_properties(ProfilingApiHandlerTests PROPERTIES
+        LABELS "server;profiling;observability;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Profiling API Handler: exact query matching and invalid numeric parameter rejection")
+else()
+    message(STATUS "Profiling API Handler tests not found")
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_udf_api_handler.cpp")
@@ -8589,7 +8804,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
     add_executable(test_knowledge_graph_reasoner_focused
         graph/test_knowledge_graph_reasoner.cpp
         ${THEMIS_ROOT_DIR}/src/graph/knowledge_graph_reasoner.cpp
-        ${THEMIS_ROOT_DIR}/src/llm/multi_lora_manager.cpp
     )
 
     target_include_directories(test_knowledge_graph_reasoner_focused PRIVATE
@@ -8599,6 +8813,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
 
     target_link_libraries(test_knowledge_graph_reasoner_focused PRIVATE
         ${TEST_LIBS}
+        themis_core
         Threads::Threads
     )
 
@@ -18289,7 +18504,10 @@ endif()
 #  VoiceSecurityManager, VoiceErrorHandler, VoiceTTSCustomizer, VoiceMeetingSupport,
 #  VoiceAudioStorage, VoiceAccessibility, VoiceModelCache, VoiceBatchProcessor,
 #  VoiceBiometricAuthenticator, EmotionAnalyzer)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
+# NOTE: In modular builds (THEMIS_BUILD_MODULAR=ON), voice sources are owned by themis_llm module.
+# These focused test targets are skipped to avoid linking voice files twice (once from themis_llm,
+# once from explicit sources), which causes LNK4006 duplicate symbol errors.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp" AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Production focused tests")
 
     add_executable(test_voice_production_focused
@@ -18416,7 +18634,7 @@ else()
 endif()
 
 # VoiceCoverage focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp" AND NOT TARGET test_voice_coverage_focused)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp" AND NOT TARGET test_voice_coverage_focused AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Coverage focused tests")
 
     add_executable(test_voice_coverage_focused
@@ -18448,6 +18666,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp" AND NOT TARGET t
     )
 
     add_test(NAME VoiceCoverageFocusedTests COMMAND test_voice_coverage_focused)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_api_handler.cpp")
+    message(STATUS "Adding Voice API Handler tests")
+
+    add_executable(test_voice_api_handler
+        test_voice_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/voice_api_handler.cpp
+    )
+
+    target_include_directories(test_voice_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_voice_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_voice_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VoiceApiHandlerTests COMMAND test_voice_api_handler)
+
+    set_tests_properties(VoiceApiHandlerTests PROPERTIES
+        LABELS "voice;server;api;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Voice API Handler: rejects invalid path IDs before assistant access")
+else()
+    message(STATUS "Voice API Handler tests not found")
 endif()
 
 # CanaryRollout - focused tests for canary rollout mode
@@ -18679,7 +18933,7 @@ endif()
 
 # Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
 if(THEMIS_ENABLE_LLM)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant.cpp")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant.cpp" AND NOT THEMIS_BUILD_MODULAR)
         message(STATUS "Adding Voice Assistant focused tests (requires THEMIS_ENABLE_LLM)")
 
         add_executable(test_voice_assistant_focused
@@ -18737,7 +18991,7 @@ endif()
 
 # VoiceBrowserStreaming focused tests - covers VoiceStreamingSession lifecycle,
 # frame processing, streaming stats, partial-result emission, and error handling.
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp" AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Browser Streaming focused tests")
 
     add_executable(test_voice_browser_streaming_focused
@@ -18774,7 +19028,7 @@ else()
 endif()
 
 # VoiceSecurityFeatures focused tests - SSML sanitization, path traversal, origin allowlist
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_security_features.cpp" AND NOT TARGET test_voice_security_features_focused)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_security_features.cpp" AND NOT TARGET test_voice_security_features_focused AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Security Features focused tests")
 
     add_executable(test_voice_security_features_focused
@@ -18812,7 +19066,7 @@ else()
     message(STATUS "Voice Security Features focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_security_features.cpp")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp" AND NOT TARGET test_voice_browser_streaming_focused)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp" AND NOT TARGET test_voice_browser_streaming_focused AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Browser Streaming focused tests")
 
     add_executable(test_voice_browser_streaming_focused
@@ -18911,7 +19165,7 @@ endif()
 
 # VoiceTelephony focused tests - covers SipCallSession, WebRtcCallSession,
 # IVREngine, and TelephonyBridge coordinator.
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_telephony.cpp" AND NOT TARGET test_voice_telephony_focused)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_telephony.cpp" AND NOT TARGET test_voice_telephony_focused AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Telephony focused tests")
 
     add_executable(test_voice_telephony_focused

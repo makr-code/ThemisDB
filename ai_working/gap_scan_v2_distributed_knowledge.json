@@ -1,0 +1,50 @@
+{
+  "module": "distributed_knowledge",
+  "stats": {
+    "total": 2,
+    "unimplemented": 0,
+    "incomplete": 0,
+    "stub_documented": 1,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 1,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 0,
+    "severity_high": 0,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 2
+  },
+  "gaps_by_file": {
+    "src\\distributed_knowledge\\federated_distillation_coordinator.cpp": [
+      {
+        "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+        "line": 343,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\distributed_knowledge\\federated_distillation_coordinator.cpp",
+        "line": 351,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Removal Plan: retain CPU path as fallback; inject GPU path when CUDA is available.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

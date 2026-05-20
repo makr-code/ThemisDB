@@ -1,5 +1,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
+//
+// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include "storage/mvcc_chain_pruner.h"
 #include "temporal/temporal_types.h"

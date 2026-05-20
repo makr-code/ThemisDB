@@ -1,5 +1,5 @@
 param(
-    [string]$BuildPreset = "msvc-ninja-release",
+    [string]$BuildPreset = "windows-release",
     [int]$RepeatCount = 20,
     [string]$OutputRoot = "artifacts/production-readiness",
     [switch]$SkipPhase4Tests,

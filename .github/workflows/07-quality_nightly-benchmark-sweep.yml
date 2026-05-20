@@ -95,7 +95,7 @@ jobs:
         if: steps.cmake_configure.outcome == 'success'
         continue-on-error: true
         run: |
-          cmake --build build/nightly --target all -j$(nproc) 2>&1 | tee "$ARTIFACT_DIR/cmake_build.log"
+          cmake --build build-gcc-linux-nightly --target all -j$(nproc) 2>&1 | tee "$ARTIFACT_DIR/cmake_build.log"
 
       # -------------------------------------------------------------------------
       # Run every bench_* binary that was produced and store JSON output.
@@ -106,7 +106,7 @@ jobs:
           shopt -s nullglob
           BENCH_COUNT=0
           BENCH_FAILED=0
-          for bench in build/nightly/bench_*; do
+          for bench in build-gcc-linux-nightly/bench_*; do
             [ -x "$bench" ] || continue
             name=$(basename "$bench")
             out="$ARTIFACT_DIR/${name}.json"
@@ -167,15 +167,15 @@ jobs:
         if: steps.cmake_configure_asan.outcome == 'success'
         continue-on-error: true
         run: |
-          cmake --build build/nightly-asan --target all -j$(nproc) 2>&1 | tee "$ARTIFACT_DIR/cmake_build_asan.log"
+          cmake --build build-gcc-linux-nightly-asan --target all -j$(nproc) 2>&1 | tee "$ARTIFACT_DIR/cmake_build_asan.log"
 
       - name: Run ASan smoke benchmark
         if: steps.cmake_build_asan.outcome == 'success'
         run: |
           shopt -s nullglob
-          benches=(build/nightly-asan/bench_*)
+          benches=(build-gcc-linux-nightly-asan/bench_*)
           if [ "${#benches[@]}" -eq 0 ]; then
-            echo "❌ No ASan benchmark binaries found in build/nightly-asan/"
+            echo "❌ No ASan benchmark binaries found in build-gcc-linux-nightly-asan/"
             exit 1
           fi
           export ASAN_OPTIONS=detect_leaks=1:halt_on_error=1:abort_on_error=1

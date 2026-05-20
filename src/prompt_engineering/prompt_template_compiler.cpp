@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -22,6 +23,7 @@
 
 #include "prompt_engineering/prompt_template_compiler.h"
 
+#include "utils/string_utils.h"
 #include <algorithm>
 #include <cassert>
 #include <sstream>
@@ -99,11 +101,10 @@ bool PromptContextValue::asBool() const {
 namespace {
 
 // Trim leading/trailing whitespace from a token.
-static std::string trim(std::string_view sv) {
-    std::size_t start = sv.find_first_not_of(" \t\r\n");
-    if (start == std::string_view::npos) return {};
-    std::size_t end = sv.find_last_not_of(" \t\r\n");
-    return std::string(sv.substr(start, end - start + 1));
+// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
+// This local wrapper converts string_view to string for convenience.
+static inline std::string trim(std::string_view sv) {
+    return themis::utils::trim(std::string(sv));
 }
 
 // ============================================================================

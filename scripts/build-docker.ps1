@@ -62,7 +62,7 @@ if ($BuildBinary) {
 
     # Copy binary to release directory
     if (-not (Test-Path $releaseDir)) { New-Item -ItemType Directory -Path $releaseDir | Out-Null }
-    $binaryPath = Join-Path $repoRoot "build/windows-release/themis_server.exe"
+    $binaryPath = Join-Path $repoRoot "build-msvc-windows-release/themis_server.exe"
     if (Test-Path $binaryPath) {
         Write-Host "Copying binary to $releaseDir..." -ForegroundColor Cyan
         Copy-Item -Path $binaryPath -Destination (Join-Path $releaseDir "themis_server.exe") -Force
@@ -89,9 +89,13 @@ $imageTagLatest = "themisdb/themis:latest"
 # For multi-arch builds, use buildx
 if ($Platforms -match ",") {
     Write-Host "Building multi-architecture image..." -ForegroundColor Cyan
-    if (-not (docker buildx ls 2>$null)) {
+    $buildxList = & docker "buildx" "ls"
+    if ($LASTEXITCODE -ne 0) {
+        $buildxList = $null
+    }
+    if (-not $buildxList) {
         Write-Host "Setting up buildx builder..." -ForegroundColor Cyan
-        & docker buildx create --name themis-builder --use
+        & docker "buildx" "create" "--name" "themis-builder" "--use"
     }
     
     $buildxArgs = @(

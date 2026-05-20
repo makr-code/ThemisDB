@@ -555,6 +555,27 @@ TEST_F(ApiIntegrationTest, TransactionRollback_MissingId_Returns400) {
     EXPECT_EQ(res.result(), http::status::bad_request) << res.body();
 }
 
+TEST_F(ApiIntegrationTest, TransactionExecute_InvalidTablePathTraversal_ReturnsConflict) {
+    json req = {
+        {"operations", json::array({
+            json{{"type", "put"}, {"table", "../bad_table"}, {"key", "k1"}, {"data", json::object()}}
+        })}
+    };
+    auto res = post("/transaction", req);
+    EXPECT_EQ(res.result(), http::status::conflict) << res.body();
+}
+
+TEST_F(ApiIntegrationTest, TransactionExecute_KeyTooLong_ReturnsConflict) {
+    std::string oversized_key(600, 'k');
+    json req = {
+        {"operations", json::array({
+            json{{"type", "put"}, {"table", "users"}, {"key", oversized_key}, {"data", json::object()}}
+        })}
+    };
+    auto res = post("/transaction", req);
+    EXPECT_EQ(res.result(), http::status::conflict) << res.body();
+}
+
 TEST_F(ApiIntegrationTest, TransactionStats_Returns200) {
     auto res = get("/transaction/stats");
     EXPECT_EQ(res.result(), http::status::ok) << res.body();

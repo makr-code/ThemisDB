@@ -480,6 +480,34 @@ TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_ZeroTimeoutMs_ReturnsError) {
     EXPECT_NE(result.value("error", "").find("timeout_ms"), std::string::npos);
 }
 
+TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_InvalidNamePathTraversal_ReturnsError) {
+    auto req = makeTaskJson("../bad_task");
+    auto result = handler_->registerTask(req);
+    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_NE(result.value("error", "").find("name"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_UnsafeAqlPattern_ReturnsError) {
+    auto req = makeTaskJson("unsafe_aql");
+    req["aql_query"] = "FOR d IN users FILTER 1==1 OR 1=1 RETURN d";
+    auto result = handler_->registerTask(req);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetTask_InvalidTaskId_ReturnsError) {
+    auto result = handler_->getTask("../invalid-id");
+    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_NE(result.value("error", "").find("task_id"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDag_InvalidTaskId_ReturnsError) {
+    nlohmann::json req{
+        {"task_ids", nlohmann::json::array({"../invalid"})}
+    };
+    auto result = handler_->executeDAG(req);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
 TEST_F(TaskSchedulerApiHandlerTest, ListTasks_TotalIsInt) {
     handler_->registerTask(makeTaskJson("t1"));
     auto result = handler_->listTasks();

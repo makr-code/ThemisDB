@@ -44,6 +44,7 @@
 #include "storage/tensor_network_storage_engine.h"
 
 #include <gtest/gtest.h>
+#include <algorithm>
 #include <atomic>
 #include <numeric>
 #include <stdexcept>

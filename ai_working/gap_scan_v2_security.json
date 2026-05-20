@@ -1,0 +1,2919 @@
+{
+  "module": "security",
+  "stats": {
+    "total": 257,
+    "unimplemented": 96,
+    "incomplete": 14,
+    "stub_documented": 15,
+    "stub_undocumented": 0,
+    "mock_framework": 0,
+    "test_only": 0,
+    "disabled_code": 0,
+    "conditional": 0,
+    "platform_fallback": 132,
+    "todo_item": 0,
+    "fixme_item": 0,
+    "xxx_item": 0,
+    "technical_debt": 0,
+    "severity_critical": 96,
+    "severity_high": 14,
+    "severity_medium": 0,
+    "severity_low": 0,
+    "severity_intentional": 147
+  },
+  "gaps_by_file": {
+    "src\\security\\access_control.cpp": [
+      {
+        "file": "src\\security\\access_control.cpp",
+        "line": 704,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\access_control.cpp",
+        "line": 712,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\access_control_manager.cpp": [
+      {
+        "file": "src\\security\\access_control_manager.cpp",
+        "line": 129,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\access_control_manager.cpp",
+        "line": 136,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\access_control_manager.cpp",
+        "line": 162,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\ai_operation_guard.cpp": [
+      {
+        "file": "src\\security\\ai_operation_guard.cpp",
+        "line": 392,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\ai_operation_guard.cpp",
+        "line": 432,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\ai_operation_guard.cpp",
+        "line": 463,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\ai_operation_guard.cpp",
+        "line": 465,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\arrow_user_registration_plugin.cpp": [
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 47,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 47,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 61,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 61,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 96,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 96,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 109,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 109,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 135,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 135,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 153,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\arrow_user_registration_plugin.cpp",
+        "line": 153,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\behavioral_anomaly_detector.cpp": [
+      {
+        "file": "src\\security\\behavioral_anomaly_detector.cpp",
+        "line": 29,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\behavioral_anomaly_detector.cpp",
+        "line": 91,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (config_.burst_rate_threshold <= 0.0) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\behavioral_anomaly_detector.cpp",
+        "line": 100,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (window_s <= 0.0) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\behavioral_anomaly_detector.cpp",
+        "line": 109,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\behavioral_anomaly_detector.cpp",
+        "line": 115,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (config_.work_hours_start_utc == config_.work_hours_end_utc) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\behavioral_anomaly_detector.cpp",
+        "line": 138,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\behavioral_anomaly_detector.cpp",
+        "line": 147,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!is_privileged) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\behavioral_anomaly_detector.cpp",
+        "line": 166,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\behavioral_anomaly_detector.cpp",
+        "line": 172,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (state.peak_level == ThreatLevel::LOW) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\behavioral_anomaly_detector.cpp",
+        "line": 190,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\confidential_computing.cpp": [
+      {
+        "file": "src\\security\\confidential_computing.cpp",
+        "line": 37,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "* 2. Kernel driver probe (Linux, optional \u2014 graceful fallback if absent):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\confidential_computing.cpp",
+        "line": 392,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "TdxConfidentialComputing() : ConfidentialComputingBase(TeeType::INTEL_TDX) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\confidential_computing.cpp",
+        "line": 478,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": ConfidentialComputingBase(type) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\confidential_computing.cpp",
+        "line": 575,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// \u2500\u2500 Software fallback (no TEE) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\confidential_computing.cpp",
+        "line": 579,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "SoftwareConfidentialComputing() : ConfidentialComputingBase(TeeType::NONE) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\confidential_computing.cpp",
+        "line": 583,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {TeeType::NONE, \"Software fallback (no TEE hardware detected)\", false};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\confidential_computing.cpp",
+        "line": 599,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "std::string name() const override { return \"Software fallback\"; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\confidential_computing.cpp",
+        "line": 631,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// 3. Software fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\confidential_computing.cpp",
+        "line": 632,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "THEMIS_INFO(\"ConfidentialComputing: no TEE hardware detected; using software fallback\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\embedded_user_registration_plugin.cpp": [
+      {
+        "file": "src\\security\\embedded_user_registration_plugin.cpp",
+        "line": 94,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Always available as fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\embedded_user_registration_plugin.cpp",
+        "line": 341,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (out_len < 0) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\embedded_user_registration_plugin.cpp",
+        "line": 418,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// --- PBKDF2-SHA256 fallback for OpenSSL < 3.2 ---",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\encrypted_field.cpp": [
+      {
+        "file": "src\\security\\encrypted_field.cpp",
+        "line": 35,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "EncryptedField<T>::EncryptedField() {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\encrypted_field.cpp",
+        "line": 44,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": blob_(blob) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\field_encryption.cpp": [
+      {
+        "file": "src\\security\\field_encryption.cpp",
+        "line": 345,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\security\\fips_crypto_mode.cpp": [
+      {
+        "file": "src\\security\\fips_crypto_mode.cpp",
+        "line": 196,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "OSSL_PROVIDER* prov = OSSL_PROVIDER_try_load(nullptr, \"fips\", 1 /*retain_fallbacks*/);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\hsm_key_provider_adapter.cpp": [
+      {
+        "file": "src\\security\\hsm_key_provider_adapter.cpp",
+        "line": 404,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (wrapDEK):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_key_provider_adapter.cpp",
+        "line": 426,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// For stub/fallback: uses AES-256-GCM with an in-memory stub KEK.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_key_provider_adapter.cpp",
+        "line": 479,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (unwrapDEK):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_key_provider_adapter.cpp",
+        "line": 487,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// For stub/fallback: uses AES-256-GCM with the same in-memory stub KEK used for wrapping.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "src\\security\\hsm_provider.cpp": [
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 21,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "Status: \ud83d\udfe1 Documented Stub (dev-fallback; see STUB/SIMULATION NOTE)                                  ",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 29,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HSM_REAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 29,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HSM_REAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 33,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 34,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Purpose: Software-only AES-256-GCM fallback for HSMProvider when no real HSM hardware",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 87,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (key.size() != 32) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 89,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (RAND_bytes(iv.data(), 12) != 1) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 91,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ctx) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 105,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ok) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 116,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (key.size() != 32 || encrypted.size() < 12 + 16) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 122,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ctx) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 135,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ok) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 335,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!initialized_) { last_error_ = \"HSM stub not initialized\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 346,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 349,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 359,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!initialized_) { last_error_ = \"HSM stub not initialized\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 370,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 373,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 382,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (generateKeyPair / importCertificate / getCertificate):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 454,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 458,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 472,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider.cpp",
+        "line": 484,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "std::ostringstream oss; oss << \"HSM stub/fallback label=\" << config_.key_label << \" ready=\" << (init",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\hsm_provider_pkcs11.cpp": [
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 21,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "Status: \ud83d\udfe1 Documented Stub (dev-fallback; see STUB/SIMULATION NOTE)                                  ",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 25,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HSM_REAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 25,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HSM_REAL",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 53,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Real PKCS#11 implementation with graceful developer fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 57,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (fallback path only):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 57,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (fallback path only):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 60,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "//          fallback so that developer and CI environments remain functional.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 66,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Removal Plan: No removal needed \u2013 fallback is a runtime safety net. Real HSM usage is",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 116,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(b64.empty()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 120,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(len < 0) return {}; // Decoding error",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 127,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// AES-256-GCM encrypt (fallback): returns iv(12) || ciphertext || tag(16)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 129,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (key.size() != 32) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 131,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (RAND_bytes(iv.data(), 12) != 1) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 133,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ctx) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 147,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ok) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 156,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// AES-256-GCM decrypt (fallback): expects iv(12) || ciphertext || tag(16)",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 158,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (key.size() != 32 || encrypted.size() < 12 + 16) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 164,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ctx) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 177,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ok) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 196,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "explicit Impl(HSMConfig cfg): config(cfg), next_session_idx(0) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 217,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "void fallbackLogOnce(const std::string& reason){",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 219,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "THEMIS_WARN(\"HSMProvider PKCS#11 fallback aktiv \u2013 {}\", reason);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 241,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": ": impl_(std::make_unique<Impl>(config)), config_(config) {}",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 252,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "//   3. fallback        \u2192 use the first slot (slots[0]).",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 254,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// When only a fallback is used, a diagnostic message is written to error_out.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 309,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "impl_->fallbackLogOnce(last_error_);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 325,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "impl_->fallbackLogOnce(slot_err);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 347,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "impl_->fallbackLogOnce(err);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 362,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "impl_->fallbackLogOnce(err);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 368,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "impl_->fallbackLogOnce(err);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 390,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "impl_->fallbackLogOnce(err);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 393,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "impl_->fallbackLogOnce(\"PIN not set \u2013 C_Login skipped for all sessions\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 397,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "impl_->fallbackLogOnce(last_error_);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 403,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "impl_->fallbackLogOnce(last_error_);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 410,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "impl_->fallbackLogOnce(last_error_);",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 415,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Generate fallback stub KEK for consistent wrap/unwrap when real HSM is unavailable",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 425,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Security warning if using fallback stub",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 570,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(poolSize == 0) return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 582,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 756,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!initialized_) { last_error_ = \"Not initialized\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 772,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (!api) { last_error_ = \"PKCS#11 API not available\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 776,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 788,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 798,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 806,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!initialized_) { last_error_ = \"Not initialized\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 822,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (!api) { last_error_ = \"PKCS#11 API not available\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 826,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 838,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 847,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 1058,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "auto api = impl_->loader.api(); if(!api || !api->C_GetAttributeValue) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 1062,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(!sess) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 1063,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK || valAttr.ulValueLe",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 1065,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) return std::nullopt",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 1066,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr, &p, der.size()); if(!x) return std:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 1079,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "if (!impl_->real_ready) return \"PKCS11 fallback stub\";",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 1115,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// False if real HSM is active, true if fallback stub",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 1124,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// If using stub fallback (no real HSM), log security warning",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\hsm_provider_pkcs11.cpp",
+        "line": 1126,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "THEMIS_ERROR(\"\u26a0\ufe0f  HSM SECURITY WARNING: PKCS#11 fallback stub active!\");",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\intent_classifier.cpp": [
+      {
+        "file": "src\\security\\intent_classifier.cpp",
+        "line": 15,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\intent_classifier.cpp",
+        "line": 258,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\intent_classifier.cpp",
+        "line": 261,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\malware_scanner.cpp": [
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 29,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 29,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 48,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 48,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 79,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 79,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 92,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "explicit SocketGuard(socket_handle sock) : sock_(sock) {}",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 96,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 96,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 722,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 722,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 765,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 765,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\malware_scanner.cpp",
+        "line": 893,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\manifest_signer.cpp": [
+      {
+        "file": "src\\security\\manifest_signer.cpp",
+        "line": 170,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\manifest_signer.cpp",
+        "line": 170,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\post_quantum_crypto.cpp": [
+      {
+        "file": "src\\security\\post_quantum_crypto.cpp",
+        "line": 926,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\post_quantum_crypto.cpp",
+        "line": 946,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\post_quantum_crypto.cpp",
+        "line": 1040,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\query_masking_policy.cpp": [
+      {
+        "file": "src\\security\\query_masking_policy.cpp",
+        "line": 224,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "type = utils::PIIType::PERSON_NAME;  // generic fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\rbac.cpp": [
+      {
+        "file": "src\\security\\rbac.cpp",
+        "line": 295,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\rbac.cpp",
+        "line": 402,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\rbac.cpp",
+        "line": 409,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\rbac.cpp",
+        "line": 561,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\rbac.cpp",
+        "line": 635,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\row_level_security.cpp": [
+      {
+        "file": "src\\security\\row_level_security.cpp",
+        "line": 46,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\row_level_security.cpp",
+        "line": 219,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\secret_manager.cpp": [
+      {
+        "file": "src\\security\\secret_manager.cpp",
+        "line": 54,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\secret_manager.cpp",
+        "line": 113,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == secrets_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\secret_manager.cpp",
+        "line": 121,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\secret_manager.cpp",
+        "line": 134,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == secrets_.end()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\secret_manager.cpp",
+        "line": 137,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!ver) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\secret_manager.cpp",
+        "line": 228,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (it == secrets_.end()) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\security_evidence_collector.cpp": [
+      {
+        "file": "src\\security\\security_evidence_collector.cpp",
+        "line": 161,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Log the error and generate using a deterministic fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\timestamp_authority.cpp": [
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 21,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "Status: \ud83d\udfe1 Documented Stub (dev-fallback; see STUB/SIMULATION NOTE)                                  ",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 29,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 30,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Purpose: Software-only deterministic TSA fallback for development and CI environments",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 100,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (TimestampAuthority::Impl \u2014 software-only stub):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 187,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 187,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 217,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// the original hex-token comparison fallback.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 253,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint8_t>&, const std::ve",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 255,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_t>&) { return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 262,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (eIDASTimestampValidator \u2014 all methods below):",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 393,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE (isQualifiedTSA \u2014 supplement to the eIDASTimestampValidator",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 420,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_USE_OPENSSL_TSA",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 436,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_CURL",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 452,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_CURL",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 490,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 503,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 516,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!req) { last_error_ = \"TS_REQ_new failed\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 522,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!imprint) { TS_REQ_free(req); last_error_ = \"TS_MSG_IMPRINT_new failed\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 533,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 578,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 593,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_HAS_CURL",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 597,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!curl) { last_error_ = \"curl_easy_init failed\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 629,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 633,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 639,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 974,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (cached_tsa_cert_.empty()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority.cpp",
+        "line": 979,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (!cert) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\timestamp_authority_openssl.cpp": [
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 21,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 39,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "#ifdef THEMIS_USE_OPENSSL_TSA",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 115,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 115,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 118,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// For POSIX systems, use timegm if available, otherwise use portable fallback",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 122,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Portable fallback: temporarily set TZ to UTC",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 178,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "for(size_t i=0;i<bytes;++i) n[i] = (uint8_t)i; // fallback deterministic",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 184,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "TS_REQ* req = TS_REQ_new(); if(!req){ last_error_=\"TS_REQ_new failed\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 223,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(!impl_->curl){ last_error_=\"CURL init failed\"; return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 263,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(res!=CURLE_OK){ last_error_ = std::string(\"curl error: \")+curl_easy_strerror(res); return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 265,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(code!=200){ last_error_ = \"HTTP status \"+std::to_string(code); return {}; }",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 403,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(cached_tsa_cert_.empty()) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 408,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if(!cert) return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\timestamp_authority_openssl.cpp",
+        "line": 413,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\usb_admin_authenticator.cpp": [
+      {
+        "file": "src\\security\\usb_admin_authenticator.cpp",
+        "line": 52,
+        "category": "stub_documented",
+        "severity": "intentional",
+        "snippet": "// STUB/SIMULATION NOTE:",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\usb_admin_authenticator.cpp",
+        "line": 55,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "//          license-key cryptography are not yet implemented.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\usb_admin_authenticator.cpp",
+        "line": 421,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\usb_admin_authenticator.cpp",
+        "line": 464,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return std::nullopt;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\usb_admin_authenticator.cpp",
+        "line": 480,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\usb_admin_authenticator.cpp",
+        "line": 625,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// Ultimate fallback: CRITICAL - This defeats hardware binding!",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\usb_admin_authenticator.cpp",
+        "line": 632,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// This is more secure than using a fallback that multiple systems might share",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\user_registration_plugin.cpp": [
+      {
+        "file": "src\\security\\user_registration_plugin.cpp",
+        "line": 52,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\user_registration_plugin.cpp",
+        "line": 74,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\vault_signing_provider.cpp": [
+      {
+        "file": "src\\security\\vault_signing_provider.cpp",
+        "line": 143,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "// This ensures production systems fail visibly rather than silently using insecure fallback",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\vcc_pki_client.cpp": [
+      {
+        "file": "src\\security\\vcc_pki_client.cpp",
+        "line": 54,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\vcc_pki_client.cpp",
+        "line": 54,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\vram_secure_clear.cpp": [
+      {
+        "file": "src\\security\\vram_secure_clear.cpp",
+        "line": 31,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\vram_secure_clear.cpp",
+        "line": 31,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\vram_secure_clear.cpp",
+        "line": 35,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HIP",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\vram_secure_clear.cpp",
+        "line": 35,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HIP",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\vram_secure_clear.cpp",
+        "line": 49,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\vram_secure_clear.cpp",
+        "line": 49,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_CUDA",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\vram_secure_clear.cpp",
+        "line": 121,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HIP",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\vram_secure_clear.cpp",
+        "line": 121,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_HIP",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\webdav_user_registration_plugin.cpp": [
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 32,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 32,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 71,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 71,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 77,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 77,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 87,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 87,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 101,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 101,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 156,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 156,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 176,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 176,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 331,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 331,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 422,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 422,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 507,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 507,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_WEBDAV",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\webdav_user_registration_plugin.cpp",
+        "line": 560,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "if (s == std::string::npos || e == std::string::npos) return {};",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "src\\security\\zero_trust_policy_enforcer.cpp": [
+      {
+        "file": "src\\security\\zero_trust_policy_enforcer.cpp",
+        "line": 25,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\zero_trust_policy_enforcer.cpp",
+        "line": 25,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef _WIN32",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "src\\security\\zero_trust_policy_enforcer.cpp",
+        "line": 290,
+        "category": "unimplemented",
+        "severity": "critical",
+        "snippet": "return nullptr;",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ],
+    "include\\security\\examples\\intent_classifier_example.cpp": [
+      {
+        "file": "include\\security\\examples\\intent_classifier_example.cpp",
+        "line": 14,
+        "category": "incomplete",
+        "severity": "high",
+        "snippet": "// NOTE: IntentClassifier (IMPL-B7) is not yet implemented.",
+        "is_test": false,
+        "is_platform_specific": false,
+        "has_documentation": true,
+        "notes": ""
+      }
+    ],
+    "tests\\security\\test_arrow_user_registration_plugin.cpp": [
+      {
+        "file": "tests\\security\\test_arrow_user_registration_plugin.cpp",
+        "line": 33,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      },
+      {
+        "file": "tests\\security\\test_arrow_user_registration_plugin.cpp",
+        "line": 33,
+        "category": "platform_fallback",
+        "severity": "intentional",
+        "snippet": "#ifdef THEMIS_ENABLE_ARROW",
+        "is_test": false,
+        "is_platform_specific": true,
+        "has_documentation": false,
+        "notes": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,1522 @@
+{
+  "module": "llm",
+  "summary": {
+    "total": 151,
+    "critical": 91,
+    "high": 49,
+    "medium": 11,
+    "low": 0
+  },
+  "gaps": [
+    {
+      "file": "src\\llm\\adapter_load_balancer.cpp",
+      "line_num": 193,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\aql_train_parser.cpp",
+      "line_num": 60,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (begin == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\aql_train_parser.cpp",
+      "line_num": 382,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (pos == std::string::npos) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\block_table.cpp",
+      "line_num": 56,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\byzantine_detector.cpp",
+      "line_num": 414,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\continuous_batch_scheduler.cpp",
+      "line_num": 89,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // Empty string signals rejection to caller",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\continuous_batch_scheduler.cpp",
+      "line_num": 105,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\distributed_training_coordinator.cpp",
+      "line_num": 529,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\distributed_training_coordinator.cpp",
+      "line_num": 590,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\distributed_training_coordinator.cpp",
+      "line_num": 961,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\docs_assistant.cpp",
+      "line_num": 384,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\embedded_llm_stub.cpp",
+      "line_num": 24,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\embedded_llm_stub.cpp",
+      "line_num": 129,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\explanation_generator.cpp",
+      "line_num": 377,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\federated_inference_coordinator.cpp",
+      "line_num": 51,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\feedback_store.cpp",
+      "line_num": 538,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: In production, load these from a configuration file or database",
+      "severity": "medium",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\fewshot_optimizer.cpp",
+      "line_num": 118,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\gguf_loader.cpp",
+      "line_num": 614,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\gguf_loader.cpp",
+      "line_num": 626,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\gpu_memory_manager.cpp",
+      "line_num": 295,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// Simulation mode when CUDA is not enabled at build time",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\gpu_memory_manager.cpp",
+      "line_num": 392,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// Simulation mode: use regular malloc when CUDA is not enabled at build time",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\gpu_memory_manager.cpp",
+      "line_num": 448,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// Simulation mode: always use regular malloc",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\gpu_memory_manager.cpp",
+      "line_num": 1116,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// Simulation mode: use regular malloc when CUDA is not enabled at build time",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\gpu_memory_manager.cpp",
+      "line_num": 1260,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// Simulation mode",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\gpu_memory_manager.cpp",
+      "line_num": 1287,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// Simulation mode",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\gpu_memory_manager.cpp",
+      "line_num": 1314,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// Simulation: assume all GPUs can access each other if peer access is enabled",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\gpu_memory_manager.cpp",
+      "line_num": 1696,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// Simulation mode - calculate based on allocations",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\inference_engine_enhanced.cpp",
+      "line_num": 1469,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\inference_engine_enhanced.cpp",
+      "line_num": 1476,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\inference_engine_enhanced.cpp",
+      "line_num": 1983,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\inference_engine_enhanced.cpp",
+      "line_num": 2024,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\inference_engine_enhanced.cpp",
+      "line_num": 2045,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\inline_training_engine.cpp",
+      "line_num": 748,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\inline_training_engine.cpp",
+      "line_num": 761,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "static constexpr size_t kLoRAParamCount = 256;  // placeholder LoRA rank dimension",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\llama_grammar_adapter.cpp",
+      "line_num": 51,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\llama_lora_adapter.cpp",
+      "line_num": 51,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\llm_ingestion_bridge.cpp",
+      "line_num": 57,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\llm_model_audit_logger.cpp",
+      "line_num": 327,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lookup_decoder.cpp",
+      "line_num": 106,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lookup_decoder.cpp",
+      "line_num": 130,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_certificate_store.cpp",
+      "line_num": 63,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!cert) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_certificate_store.cpp",
+      "line_num": 69,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\model_router.cpp",
+      "line_num": 203,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // no match",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\moral_analyzer.cpp",
+      "line_num": 721,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\moral_analyzer.cpp",
+      "line_num": 1025,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\multi_lora_manager.cpp",
+      "line_num": 497,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\multi_lora_manager.cpp",
+      "line_num": 1039,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\multi_lora_manager.cpp",
+      "line_num": 1525,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\multi_lora_manager.cpp",
+      "line_num": 1536,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\multi_lora_manager.cpp",
+      "line_num": 1603,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\multi_lora_manager.cpp",
+      "line_num": 2982,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\multi_lora_manager.cpp",
+      "line_num": 3006,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\openai_compat_adapter.cpp",
+      "line_num": 419,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // success",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\paged_block_manager.cpp",
+      "line_num": 67,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};  // Allocation failed",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\paged_kv_cache.cpp",
+      "line_num": 93,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\production_validator.cpp",
+      "line_num": 1704,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "// Simulation for testing purposes only",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\speculative_decoder.cpp",
+      "line_num": 236,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (logits.empty()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\applications\\themis_help_lora.cpp",
+      "line_num": 142,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Get model path from LLMModelStorage",
+      "severity": "medium",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\base_model_adapter.cpp",
+      "line_num": 425,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\base_model_adapter.cpp",
+      "line_num": 431,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\base_model_adapter.cpp",
+      "line_num": 438,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\base_model_adapter.cpp",
+      "line_num": 454,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\base_model_adapter.cpp",
+      "line_num": 472,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\base_model_adapter.cpp",
+      "line_num": 488,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\custom_allreduce.cpp",
+      "line_num": 151,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\custom_allreduce.cpp",
+      "line_num": 183,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB: peer-to-peer GPU copy not implemented; using rank_ data as proxy",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\distributed_trainer.cpp",
+      "line_num": 166,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\distributed_trainer.cpp",
+      "line_num": 233,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: When GPU support is added, replace with:",
+      "severity": "medium",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\distributed_trainer.cpp",
+      "line_num": 250,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\gpu_embedding_layer.cpp",
+      "line_num": 136,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Add integer tensor support to GPUTensor to avoid this conversion",
+      "severity": "medium",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\gpu_tensor.cpp",
+      "line_num": 369,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\gpu_tensor.cpp",
+      "line_num": 406,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\gpu_training_loop.cpp",
+      "line_num": 529,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Refactor to use references or unique_ptr",
+      "severity": "medium",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\gpu_utilization_monitor.cpp",
+      "line_num": 352,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\gpu_utilization_monitor.cpp",
+      "line_num": 397,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\lora_checkpoint_manager.cpp",
+      "line_num": 261,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!fs::exists(dir)) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\lora_orchestrator.cpp",
+      "line_num": 240,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\lora_orchestrator.cpp",
+      "line_num": 249,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\lora_provenance.cpp",
+      "line_num": 437,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (it == impl_->snapshots.end()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\lora_provenance.cpp",
+      "line_num": 487,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (it == impl_->audit_logs.end()) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\lora_training_service.cpp",
+      "line_num": 719,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: In future PRs, replace with real text data processing:",
+      "severity": "medium",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\quantization.cpp",
+      "line_num": 28,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\sequence_packer.cpp",
+      "line_num": 98,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\sequence_packer.cpp",
+      "line_num": 105,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\sequence_packer.cpp",
+      "line_num": 114,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\kernels\\hip_kernels.cpp",
+      "line_num": 431,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: For better performance, consider reusing a pre-allocated device buffer",
+      "severity": "medium",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\llm\\lora_framework\\kernels\\vulkan_embedding_lookup.cpp",
+      "line_num": 23,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB/SIMULATION NOTE:",
+      "severity": "high",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "include\\llm\\inference_engine_enhanced.h",
+      "line_num": 535,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB #262 bridge \u2014 target logit injection.",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\llm\\kv_prefix_transfer_manager.h",
+      "line_num": 121,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\llm\\kv_prefix_transfer_manager.h",
+      "line_num": 124,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\llm\\llm_plugin_interface.h",
+      "line_num": 372,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// STUB #261 bridge \u2014 callback injection for generateDraftTokens()",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\llm\\moral_analyzer.h",
+      "line_num": 162,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "static Status OK() { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\llm\\production_validator.h",
+      "line_num": 240,
+      "category": "stub",
+      "pattern": "//\\s*SIMULATION(?:\\s|:|NOTE)?",
+      "context": "bool simulateQualityTest(const QualityTest& test);  // Simulation helper for consistent pass rate",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\llm\\lora_framework\\lora_graph.h",
+      "line_num": 291,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Parse embeddings",
+      "severity": "medium",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\llm\\lora_framework\\vulkan_buffer.h",
+      "line_num": 147,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub implementation when Vulkan is not available",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\llm\\lora_framework\\vulkan_context.h",
+      "line_num": 232,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub implementation when Vulkan is not available",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "include\\llm\\lora_framework\\vulkan_pipeline.h",
+      "line_num": 192,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub implementation when Vulkan is not available",
+      "severity": "high",
+      "notes": "",
+      "location": "include"
+    },
+    {
+      "file": "tests\\test_embedded_llm.cpp",
+      "line_num": 48,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "config.model_path = \"models/test.gguf\";  // Placeholder path",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_ingestion_llm_adapter.cpp",
+      "line_num": 72,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_api_handler_feedback.cpp",
+      "line_num": 352,
+      "category": "stub",
+      "pattern": "//\\s*PLACEHOLDER",
+      "context": "// Placeholder test to keep test suite happy",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_aql_handler.cpp",
+      "line_num": 73,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<LoRAInfo> listLoRAs() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_aql_handler.cpp",
+      "line_num": 94,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "LLMCapabilities getCapabilities() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_aql_handler.cpp",
+      "line_num": 97,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<uint8_t> exportLoRA(const std::string& /*lora_id*/) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_aql_handler.cpp",
+      "line_num": 293,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock response would have markdown, but we can test the method exists",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_aql_handler.cpp",
+      "line_num": 1390,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock executor that always returns the fixed string it was constructed with.",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_judge_integration.cpp",
+      "line_num": 41,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock Mode Configuration Tests",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_judge_integration.cpp",
+      "line_num": 93,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "EXPECT_DOUBLE_EQ(*result.score, 4.0);  // Mock returns 4.0",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_judge_is_mock.cpp",
+      "line_num": 128,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "{   // mock path",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_multi_model_integration.cpp",
+      "line_num": 55,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock LLM plugin for multi-model tests",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_multi_model_integration.cpp",
+      "line_num": 97,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<float> embed(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_multi_model_integration.cpp",
+      "line_num": 98,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "LLMCapabilities    getCapabilities() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_multi_model_integration.cpp",
+      "line_num": 103,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<LoRAInfo> listLoRAs() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_multi_model_integration.cpp",
+      "line_num": 104,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<uint8_t>  exportLoRA(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_plugin.cpp",
+      "line_num": 43,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Implement actual CUDA/HIP detection",
+      "severity": "medium",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_security_audit.cpp",
+      "line_num": 60,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<float> embed(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_security_audit.cpp",
+      "line_num": 61,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "LLMCapabilities getCapabilities() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_security_audit.cpp",
+      "line_num": 66,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<LoRAInfo> listLoRAs() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_security_audit.cpp",
+      "line_num": 67,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_single_model_integration.cpp",
+      "line_num": 51,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock LLM plugin for single-model tests",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_single_model_integration.cpp",
+      "line_num": 93,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<float> embed(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_single_model_integration.cpp",
+      "line_num": 94,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "LLMCapabilities    getCapabilities() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_single_model_integration.cpp",
+      "line_num": 99,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<LoRAInfo> listLoRAs() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_single_model_integration.cpp",
+      "line_num": 100,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<uint8_t>  exportLoRA(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_single_model_integration.cpp",
+      "line_num": 157,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<float> embed(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_single_model_integration.cpp",
+      "line_num": 158,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "LLMCapabilities    getCapabilities() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_single_model_integration.cpp",
+      "line_num": 163,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<LoRAInfo> listLoRAs() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_single_model_integration.cpp",
+      "line_num": 164,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<uint8_t>  exportLoRA(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_timeout_cancellation.cpp",
+      "line_num": 34,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock plugins",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_timeout_cancellation.cpp",
+      "line_num": 64,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<float> embed(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_timeout_cancellation.cpp",
+      "line_num": 65,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "LLMCapabilities getCapabilities() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_timeout_cancellation.cpp",
+      "line_num": 70,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<LoRAInfo> listLoRAs() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_timeout_cancellation.cpp",
+      "line_num": 71,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_timeout_cancellation.cpp",
+      "line_num": 122,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<float> embed(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_timeout_cancellation.cpp",
+      "line_num": 123,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "LLMCapabilities getCapabilities() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_timeout_cancellation.cpp",
+      "line_num": 128,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<LoRAInfo> listLoRAs() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_timeout_cancellation.cpp",
+      "line_num": 129,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_vision_encoder.cpp",
+      "line_num": 147,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Fix ambiguous VisionEncoder constructor overload (C2668)",
+      "severity": "medium",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_llm_vision_encoder.cpp",
+      "line_num": 153,
+      "category": "todo",
+      "pattern": "//\\s*TODO[:\\s]",
+      "context": "// TODO: Fix ambiguous VisionEncoder constructor overload (C2668)",
+      "severity": "medium",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_meta_prompt_llm_provider.cpp",
+      "line_num": 31,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub LLM provider",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "tests\\test_vllm_resource_stats.cpp",
+      "line_num": 250,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock-NVML provider tests \u2014 verify canUseGPU() / queryGPUUtilization()",
+      "severity": "high",
+      "notes": "",
+      "location": "tests"
+    },
+    {
+      "file": "benchmarks\\bench_llm_inference_performance.cpp",
+      "line_num": 108,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock context address generation",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_llm_infrastructure.cpp",
+      "line_num": 118,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub benchmark - to be implemented with real model",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_llm_infrastructure.cpp",
+      "line_num": 128,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub benchmark - to be implemented with real model",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_llm_infrastructure.cpp",
+      "line_num": 143,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub: determineOptimalGPULayers() call",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_llm_infrastructure.cpp",
+      "line_num": 154,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub: VRAM tracking overhead",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_llm_judge_integration.cpp",
+      "line_num": 94,
+      "category": "stub",
+      "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
+      "context": "// Mock Mode Benchmarks",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\bench_llm_real_models.cpp",
+      "line_num": 268,
+      "category": "stub",
+      "pattern": "//\\s*STUB(?:\\s|:|NOTE)?",
+      "context": "// Stub benchmarks when LLM is not enabled",
+      "severity": "high",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\llm_bench.cpp",
+      "line_num": 152,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<float> embed(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\llm_bench.cpp",
+      "line_num": 153,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "LLMCapabilities getCapabilities() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\llm_bench.cpp",
+      "line_num": 160,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<LoRAInfo> listLoRAs() const override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    },
+    {
+      "file": "benchmarks\\llm_bench.cpp",
+      "line_num": 161,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }",
+      "severity": "critical",
+      "notes": "",
+      "location": "benchmarks"
+    }
+  ]
+}
