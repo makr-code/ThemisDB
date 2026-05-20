@@ -25,6 +25,7 @@
 #include <mutex>
 #include <vector>
 #include <memory>
+#include <functional>
 
 namespace themis {
 namespace llm {
@@ -44,6 +45,8 @@ namespace detail {
  */
 class GPUMemoryManager {
 public:
+    using GPUTemperatureProviderFn = std::function<float(int gpu_device_id)>;
+
     struct MemoryAllocation {
         std::string model_id;
         size_t vram_bytes = 0;
@@ -175,6 +178,17 @@ public:
     bool enablePeerAccess(int src_gpu, int dst_gpu);
     bool disablePeerAccess(int src_gpu, int dst_gpu);
     bool canAccessPeer(int src_gpu, int dst_gpu) const;
+
+    /**
+     * @brief Install runtime GPU temperature provider (e.g. NVML bridge).
+     * @param fn Provider callable returning temperature in °C for a GPU device ID.
+     */
+    void setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn);
+
+    /**
+     * @brief Remove runtime GPU temperature provider and use built-in fallback.
+     */
+    void clearGPUTemperatureProviderFn();
     
 private:
     Config config_;
@@ -199,6 +213,7 @@ private:
     std::unordered_map<int, float> gpu_temperatures_;     // Temperature tracking
     std::unordered_map<int, float> gpu_utilizations_;     // Utilization tracking
     std::unordered_map<int, size_t> gpu_error_counts_;    // Error count per GPU
+    GPUTemperatureProviderFn temperature_provider_fn_;
     
     // Adapter tracking for load balancing
     std::unordered_map<int, std::vector<std::string>> gpu_adapters_;  // Adapters per GPU
@@ -217,4 +232,3 @@ private:
 
 } // namespace llm
 } // namespace themis
-
