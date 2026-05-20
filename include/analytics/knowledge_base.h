@@ -1,10 +1,7 @@
 /*
- * ThemisDB | File: knowledge_base.h | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 232
- * Open Issues: TODOs=1, Stubs=5, Gaps=8, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=8 | external_v3=n/a | delta=n/a | status=no_external_data
- * External Severity (v3): C=n/a, H=n/a, M=n/a
- * PR: none
+ * ThemisDB | File: knowledge_base.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=6; TODO=0, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

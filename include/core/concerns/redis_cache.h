@@ -1,10 +1,7 @@
 /*
- * ThemisDB | File: redis_cache.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 360
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=n/a | delta=n/a | status=no_external_data
- * External Severity (v3): C=n/a, H=n/a, M=n/a
- * PR: #4172 feat(core): Distributed Cache Integration â€” RedisCache ICache ada... (2026-03-13T10:26:58Z)
+ * ThemisDB | File: redis_cache.h | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

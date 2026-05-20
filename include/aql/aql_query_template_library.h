@@ -1,10 +1,7 @@
 /*
- * ThemisDB | File: aql_query_template_library.h | Version: 0.0.39 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 157
- * Open Issues: TODOs=1, Stubs=6, Gaps=8, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=8 | external_v3=n/a | delta=n/a | status=no_external_data
- * External Severity (v3): C=n/a, H=n/a, M=n/a
- * PR: none
+ * ThemisDB | File: aql_query_template_library.h | Version: 0.0.39
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=6; TODO=0, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

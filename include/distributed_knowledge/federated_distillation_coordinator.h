@@ -1,10 +1,7 @@
 /*
- * ThemisDB | File: federated_distillation_coordinator.h | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 467
- * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=0, Mock=2, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=n/a | delta=n/a | status=no_external_data
- * External Severity (v3): C=n/a, H=n/a, M=n/a
- * PR: #4959 [Docs][distributed_knowledge] Refresh module and public API documen... (2026-05-11T12:13:48Z)
+ * ThemisDB | File: federated_distillation_coordinator.h | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=2; TODO=0, Stub=0, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

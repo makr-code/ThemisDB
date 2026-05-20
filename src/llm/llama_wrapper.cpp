@@ -1267,14 +1267,14 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
         throw std::runtime_error("Model/context not initialized for draft token generation");
     }
 
-    const auto prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
+    auto prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
 
     llama_memory_t mem = llama_get_memory(lctx);
     if (mem) {
         llama_memory_seq_rm(mem, 0, -1, -1);
     }
 
-    llama_batch prompt_batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+    llama_batch prompt_batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
     if (llama_decode(lctx, prompt_batch) != 0) {
         throw std::runtime_error("Failed to evaluate prompt for draft token generation");
     }
@@ -1314,7 +1314,8 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
         result.tokens.push_back(static_cast<int>(next_token));
         result.logits.push_back(std::move(logit_row));
 
-        llama_batch next_batch = llama_batch_get_one(&next_token, 1);
+        llama_token next_token_batch = next_token;
+        llama_batch next_batch = llama_batch_get_one(&next_token_batch, 1);
         if (llama_decode(lctx, next_batch) != 0) {
             throw std::runtime_error("Failed to decode draft token");
         }

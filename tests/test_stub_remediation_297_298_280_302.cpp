@@ -44,6 +44,14 @@ public:
     std::string new_comment;
     nlohmann::json new_metadata;
 
+    std::string getName() const override { return "ModifyPlugin"; }
+    std::string getVersion() const override { return "1.0"; }
+    std::string getDescription() const override {
+        return "Test plugin that returns deterministic MODIFY responses";
+    }
+    bool initialize([[maybe_unused]] const json& config) override { return true; }
+    void shutdown() override {}
+
     ValidationResponse validate([[maybe_unused]] const FeedbackData& fd) override {
         ValidationResponse resp;
         resp.result            = FeedbackValidationResult::MODIFY;
@@ -52,9 +60,6 @@ public:
         resp.confidence_score  = 0.9f;
         return resp;
     }
-
-    std::string getName()    const override { return "ModifyPlugin"; }
-    std::string getVersion() const override { return "1.0"; }
 };
 
 } // anonymous namespace

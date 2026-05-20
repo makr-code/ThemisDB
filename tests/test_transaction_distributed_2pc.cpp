@@ -1105,7 +1105,6 @@ TEST_F(DistributedTxnManagerTest, DTM_RPC01_RemoteDecisionFnCalledOnCommit) {
         makeParticipant("local-n1", p1.get()),
         makeRemoteParticipant("remote-rpc-1"),
     });
-    p1->prepareResult = true;
     ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
     ASSERT_TRUE(mgr->commitDistributed(tid).ok);
 
@@ -1149,7 +1148,6 @@ TEST_F(DistributedTxnManagerTest, DTM_RPC03_NoFnSkipsRemoteParticipantGracefully
         makeParticipant("local-only", p1.get()),
         makeRemoteParticipant("remote-no-fn"),
     });
-    p1->prepareResult = true;
     ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
     // Must not throw or crash when no RemoteDecisionFn is set.
     EXPECT_NO_THROW(mgr->commitDistributed(tid));

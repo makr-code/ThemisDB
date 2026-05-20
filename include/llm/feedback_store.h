@@ -272,6 +272,44 @@ public:
         const std::string& feedback_id,
         const std::string& adapter_id) const;
 
+    // Spam detection configuration (deprecated, use plugin instead)
+    /**
+     * @brief Function type for the spam-keywords provider.
+     *
+     * Inject a runtime-configurable keyword source via
+     * setSpamKeywordsProvider(). The function must return a non-empty
+     * vector of lowercase keyword strings. An empty return causes
+     * getSpamKeywords() to fall back to the built-in static list.
+     */
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+
+    /**
+     * @brief Inject a runtime spam-keywords source.
+     *
+     * When set, getSpamKeywords() calls the function and uses its result
+     * if non-empty. Useful for loading from a config file or database
+     * table without a binary rebuild. Pass an empty function to revert
+     * to the built-in static list.
+     *
+     * @param fn Callable returning a keyword vector.
+     */
+    static void setSpamKeywordsProvider(SpamKeywordsProviderFn fn);
+
+    /**
+     * @brief Clear the injected provider and revert to the built-in static list.
+     */
+    static void clearSpamKeywordsProvider();
+
+    /**
+     * @brief Get the active spam-keyword list.
+     *
+     * Returns the injected provider output when one is configured and
+     * produces a non-empty list; otherwise returns the built-in static list.
+     *
+     * @return Active spam-keyword list used by feedback validation.
+     */
+    static const std::vector<std::string>& getSpamKeywords();
+
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_; // nullptr = default CF
@@ -285,33 +323,6 @@ private:
                                   const std::string& adapter_id) const;
     std::string generateId() const;
     
-    // Spam detection configuration (deprecated, use plugin instead)
-    /**
-     * @brief Function type for the spam-keywords provider.
-     *
-     * Inject a runtime-configurable keyword source via
-     * setSpamKeywordsProvider().  The function must return a non-empty
-     * vector of lowercase keyword strings.  An empty return causes
-     * getSpamKeywords() to fall back to the built-in static list.
-     */
-    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
-
-    /**
-     * @brief Inject a runtime spam-keywords source.
-     *
-     * When set, getSpamKeywords() calls the function and uses its result
-     * if non-empty.  Useful for loading from a config file or database
-     * table without a binary rebuild.  Pass an empty function to revert
-     * to the built-in static list.
-     *
-     * @param fn Callable returning a keyword vector.
-     */
-    static void setSpamKeywordsProvider(SpamKeywordsProviderFn fn);
-
-    /// Clear the injected provider; reverts to the built-in static list.
-    static void clearSpamKeywordsProvider();
-
-    static const std::vector<std::string>& getSpamKeywords();
     static bool isLikelySpam(const std::string& text);
     
     /**

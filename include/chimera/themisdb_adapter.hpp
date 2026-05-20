@@ -1,10 +1,7 @@
 /*
- * ThemisDB | File: themisdb_adapter.hpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 460
- * Open Issues: TODOs=1, Stubs=1, Gaps=12, Unimpl=0, Mock=1, Sim=9, Debt=0
- * Gap Correlation: internal=12 | external_v3=15 | delta=3 | status=divergent
- * External Severity (v3): C=0, H=13, M=2
- * PR: #4701 docs(chimera): migrate module docs to Primaryâ†’Secondary model and... (2026-04-16T08:44:51Z)
+ * ThemisDB | File: themisdb_adapter.hpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=10; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=9, Debt=0, C=0, H=13, M=2, L=0
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

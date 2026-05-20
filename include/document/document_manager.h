@@ -1,10 +1,7 @@
 /*
- * ThemisDB | File: document_manager.h | Version: 0.0.3 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 429
- * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=5 | external_v3=n/a | delta=n/a | status=no_external_data
- * External Severity (v3): C=n/a, H=n/a, M=n/a
- * PR: #4960 [Docs][document] Refresh module docs in include/document and add sr... (2026-05-11T12:27:39Z)
+ * ThemisDB | File: document_manager.h | Version: 0.0.3
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=3; TODO=0, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

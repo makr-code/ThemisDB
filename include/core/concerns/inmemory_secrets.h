@@ -1,10 +1,7 @@
 /*
- * ThemisDB | File: inmemory_secrets.h | Version: 0.0.12 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 242
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=n/a | delta=n/a | status=no_external_data
- * External Severity (v3): C=n/a, H=n/a, M=n/a
- * PR: #4379 [WIP] Update module documentation and generate inventory list (2026-03-22T07:49:18Z)
+ * ThemisDB | File: inmemory_secrets.h | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

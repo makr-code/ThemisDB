@@ -1,10 +1,7 @@
 /*
- * ThemisDB | File: tracing_middleware.h | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 141
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=n/a | delta=n/a | status=no_external_data
- * External Severity (v3): C=n/a, H=n/a, M=n/a
- * PR: #4219 feat(api): wire TracingMiddleware tests into CMake and add CI workf... (2026-03-14T17:59:32Z)
+ * ThemisDB | File: tracing_middleware.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

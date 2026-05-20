@@ -9,7 +9,7 @@
 #include <vector>
 #include <numeric>
 
-using namespace themis::llm;
+using namespace themis::llm::lora;
 
 // ============================================================================
 // AllReduceCpuFn bridge tests (stub #290)
