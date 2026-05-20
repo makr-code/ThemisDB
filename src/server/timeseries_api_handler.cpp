@@ -398,26 +398,19 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
-        // STUB/SIMULATION NOTE (stub #301):
-        // Purpose: Keep the metadata endpoints for the time-series API alive even
-        //          before aggregation capability discovery and retention-policy
-        //          persistence are wired into TSStore.
-        // Activation: Always — no backend capability registry or retention-policy
-        //             catalog is queried by these handlers.
-        // Production Delta: `/timeseries/aggregates` always returns the fixed list
-        //                   `min,max,avg,sum,count` even if the underlying engine
-        //                   supports more/fewer functions; `/timeseries/retention`
-        //                   always returns an empty list even when retention policies
-        //                   are configured elsewhere. Clients cannot introspect actual
-        //                   server capabilities or policy state.
-        // Removal Plan: Query TSStore/TimeSeriesEngine for registered aggregate
-        //               functions and persisted retention policies; replace both
-        //               static JSON payloads below with real backend metadata.
-        //               See src/timeseries/ROADMAP.md §Metadata Endpoints.
-        //               Target: Q2 2027.
-        // Minimal placeholder: list supported aggregate functions
+        std::vector<std::string> names;
+        if (aggregates_fn_) {
+            // Delegate to the injected provider for live backend metadata.
+            names = aggregates_fn_();
+        } else {
+            // Built-in enumeration of all supported aggregate functions
+            // (mirrors TimeSeriesAggregates::AggregateFunction enum values).
+            names = {"min", "max", "avg", "sum", "count",
+                     "stddev", "variance", "first", "last",
+                     "percentile_50", "percentile_95", "percentile_99"};
+        }
         nlohmann::json response = {
-            {"aggregates", nlohmann::json::array({"min","max","avg","sum","count"})}
+            {"aggregates", nlohmann::json(names)}
         };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
@@ -432,13 +425,18 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
-        // STUB/SIMULATION NOTE (stub #301 — retention path, same metadata gap):
-        // See handleAggregatesGet() above. This endpoint currently reports no
-        // retention policies regardless of actual storage configuration.
-        // Minimal placeholder: empty list of retention policies
-        nlohmann::json response = {
-            {"policies", nlohmann::json::array()}
-        };
+        nlohmann::json policies = nlohmann::json::array();
+        if (retentions_fn_) {
+            // Delegate to the injected provider for live retention-policy metadata.
+            auto policy_map = retentions_fn_();
+            for (const auto& [metric, seconds] : policy_map) {
+                policies.push_back({
+                    {"metric", metric},
+                    {"retention_seconds", seconds}
+                });
+            }
+        }
+        nlohmann::json response = {{"policies", policies}};
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {

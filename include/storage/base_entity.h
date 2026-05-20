@@ -128,7 +128,19 @@ public:
     
     /// Get field as float vector (for embeddings)
     std::optional<std::vector<float>> getFieldAsVector(std::string_view field_name) const;
-    
+
+    /// Get field as a string array.
+    ///
+    /// Attempts to decode the named field as an ordered list of strings.
+    /// The following encodings are recognised, in priority order:
+    ///   1. A JSON array stored as a plain string value, e.g. `["a","b","c"]`.
+    ///   2. A comma-separated plain string (legacy format, backward-compatible read).
+    ///
+    /// Returns `std::nullopt` when the field is absent or cannot be decoded as
+    /// any string-like type.  Returns an empty vector for an empty array or an
+    /// empty string.
+    std::optional<std::vector<std::string>> getFieldAsStringArray(std::string_view field_name) const;
+
     /// Set field value (modifies blob)
     void setField(std::string_view field_name, const Value& value);
     

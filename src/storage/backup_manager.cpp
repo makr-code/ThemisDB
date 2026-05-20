@@ -40,9 +40,13 @@
 #include <sstream>
 #include <algorithm>
 #include <mutex>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 #include <cstdlib>
 #include <openssl/sha.h>
+#include <rocksdb/db.h>
+#include <rocksdb/options.h>
+#include <rocksdb/utilities/options_util.h>
 #ifdef THEMIS_ENABLE_OPENSSL
 #  include <openssl/evp.h>
 #  include <openssl/rand.h>
@@ -1900,30 +1904,149 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             THEMIS_INFO("restoreCollections: requested collections: [{}]", coll_list);
         }
 
-        // STUB/SIMULATION NOTE (stub #300):
-        // Purpose: Provide a validated, non-silent restore path while per-column-family
-        //          selective restore (via rocksdb::DB::IngestExternalFile) is not yet
-        //          implemented.  Restores the full checkpoint so that all requested
-        //          collections are available after the call.
-        // Activation: Always — per-CF SST ingest is not yet wired.
-        // Production Delta: All column families in the checkpoint are restored, not
-        //                   only the named collections.  Existing collections not in
-        //                   `collections` will be overwritten from the backup.
-        // Removal Plan: Map collection names to CF names from the backup MANIFEST;
-        //               for each match, call db_wrapper_->getRawDB()->IngestExternalFile()
-        //               with the SST files from checkpoint/ that belong to that CF.
-        //               See src/storage/FUTURE_ENHANCEMENTS.md §Partial Collection Restore.
-        //               Target: Q4 2027.
-        if (!db_wrapper_->restoreFromCheckpoint(checkpoint_dir.string())) {
-            THEMIS_ERROR("restoreCollections: checkpoint restore failed for '{}'",
-                         checkpoint_dir.string());
+        // ---------------------------------------------------------------------------
+        // Per-CF SST ingest (stub #300 resolved):
+        // Enumerate column families present in the checkpoint, match against the
+        // requested collection names, open the checkpoint read-only to obtain the
+        // SST file list per CF, then ingest those SST files into the live database
+        // via rocksdb::DB::IngestExternalFile().  Fall back to a full checkpoint
+        // restore when no matching CFs are found so that a complete backup remains
+        // usable even when collection→CF mapping is not 1:1.
+        // ---------------------------------------------------------------------------
+
+        rocksdb::TransactionDB* raw_db = db_wrapper_->getRawDB();
+        if (!raw_db) {
+            THEMIS_ERROR("restoreCollections: live database is not open");
             ec = std::make_error_code(std::errc::io_error);
             return false;
         }
 
-        THEMIS_INFO("restoreCollections: checkpoint restored from '{}' "
-                    "({} collection(s) requested; full checkpoint applied)",
-                    checkpoint_dir.string(), collections.size());
+        // Discover which column families the checkpoint contains.
+        rocksdb::Options opts;
+        std::vector<std::string> checkpoint_cfs;
+        rocksdb::Status list_s = rocksdb::DB::ListColumnFamilies(
+            opts, checkpoint_dir.string(), &checkpoint_cfs);
+        if (!list_s.ok()) {
+            THEMIS_WARN("restoreCollections: could not enumerate CFs in checkpoint ({}); "
+                        "falling back to full checkpoint restore", list_s.ToString());
+            if (!db_wrapper_->restoreFromCheckpoint(checkpoint_dir.string())) {
+                THEMIS_ERROR("restoreCollections: fallback checkpoint restore failed for '{}'",
+                             checkpoint_dir.string());
+                ec = std::make_error_code(std::errc::io_error);
+                return false;
+            }
+            THEMIS_INFO("restoreCollections: full checkpoint restore completed (fallback)");
+            return true;
+        }
+
+        // Build a set of requested collection names for O(1) lookup.
+        std::unordered_set<std::string> requested(collections.begin(), collections.end());
+
+        // Build CF descriptors for the checkpoint: default CF is always opened.
+        std::vector<rocksdb::ColumnFamilyDescriptor> cf_descs;
+        std::vector<std::string> matched_cfs;  // CFs that map to requested collections
+        for (const auto& cf_name : checkpoint_cfs) {
+            cf_descs.emplace_back(cf_name, rocksdb::ColumnFamilyOptions{});
+            if (requested.count(cf_name) || cf_name == rocksdb::kDefaultColumnFamilyName) {
+                if (requested.count(cf_name)) {
+                    matched_cfs.push_back(cf_name);
+                }
+            }
+        }
+
+        if (matched_cfs.empty()) {
+            THEMIS_WARN("restoreCollections: none of the requested collections maps to a "
+                        "column family in the checkpoint; falling back to full restore");
+            if (!db_wrapper_->restoreFromCheckpoint(checkpoint_dir.string())) {
+                THEMIS_ERROR("restoreCollections: fallback checkpoint restore failed");
+                ec = std::make_error_code(std::errc::io_error);
+                return false;
+            }
+            return true;
+        }
+
+        // Open the checkpoint read-only to read per-CF SST file lists.
+        std::vector<rocksdb::ColumnFamilyHandle*> cp_handles;
+        rocksdb::DB* cp_db = nullptr;
+        rocksdb::Status open_s = rocksdb::DB::OpenForReadOnly(
+            rocksdb::DBOptions{opts}, checkpoint_dir.string(), cf_descs, &cp_handles, &cp_db);
+        if (!open_s.ok()) {
+            THEMIS_ERROR("restoreCollections: cannot open checkpoint read-only: {}",
+                         open_s.ToString());
+            ec = std::make_error_code(std::errc::io_error);
+            return false;
+        }
+
+        // Collect per-CF SST file paths and ingest them into the live DB.
+        bool any_failed = false;
+        for (size_t hi = 0; hi < cp_handles.size(); ++hi) {
+            auto* cp_handle = cp_handles[hi];
+            const std::string& cf_name = cp_handle->GetName();
+            if (!requested.count(cf_name)) {
+                cp_db->DestroyColumnFamilyHandle(cp_handle);
+                continue;
+            }
+
+            // Collect all SST files for this CF from the checkpoint.
+            rocksdb::ColumnFamilyMetaData meta;
+            cp_db->GetColumnFamilyMetaData(cp_handle, &meta);
+            cp_db->DestroyColumnFamilyHandle(cp_handle);
+
+            std::vector<std::string> sst_files;
+            for (const auto& level : meta.levels) {
+                for (const auto& file : level.files) {
+                    // file.name is relative; prepend the checkpoint directory.
+                    fs::path sst_path = checkpoint_dir / file.name;
+                    if (fs::exists(sst_path)) {
+                        sst_files.push_back(sst_path.string());
+                    } else {
+                        THEMIS_WARN("restoreCollections: SST file not found: {}",
+                                    sst_path.string());
+                    }
+                }
+            }
+
+            if (sst_files.empty()) {
+                THEMIS_INFO("restoreCollections: collection '{}' has no SST files in checkpoint "
+                            "(collection may be empty)", cf_name);
+                continue;
+            }
+
+            // Resolve or create the CF handle in the live DB.
+            auto cf_result = db_wrapper_->getOrCreateColumnFamily(cf_name);
+            if (!cf_result) {
+                THEMIS_ERROR("restoreCollections: cannot get/create CF '{}' in live DB: {}",
+                             cf_name, cf_result.error().what());
+                any_failed = true;
+                continue;
+            }
+            rocksdb::ColumnFamilyHandle* live_handle = *cf_result;
+
+            rocksdb::IngestExternalFileOptions ingest_opts;
+            ingest_opts.move_files = false;         // preserve checkpoint files
+            ingest_opts.allow_global_seqno = true;  // needed for checkpoint SSTs
+            ingest_opts.write_global_seqno = false;
+
+            rocksdb::Status ingest_s =
+                raw_db->IngestExternalFile(live_handle, sst_files, ingest_opts);
+            if (!ingest_s.ok()) {
+                THEMIS_ERROR("restoreCollections: IngestExternalFile failed for CF '{}': {}",
+                             cf_name, ingest_s.ToString());
+                any_failed = true;
+            } else {
+                THEMIS_INFO("restoreCollections: ingested {} SST file(s) for CF '{}'",
+                            sst_files.size(), cf_name);
+            }
+        }
+        delete cp_db;
+
+        if (any_failed) {
+            ec = std::make_error_code(std::errc::io_error);
+            return false;
+        }
+
+        THEMIS_INFO("restoreCollections: per-CF SST ingest complete ({} collection(s))",
+                    matched_cfs.size());
         return true;
 
     } catch (const std::exception& e) {

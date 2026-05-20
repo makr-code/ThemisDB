@@ -20,8 +20,11 @@
 #pragma once
 #include "server/auth_middleware.h"
 
+#include <functional>
+#include <map>
 #include <memory>
 #include <string>
+#include <vector>
 #include <boost/beast/http.hpp>
 
 namespace beast = boost::beast;
@@ -152,11 +155,39 @@ public:
      */
     http::response<http::string_body> handlePrometheusRemoteWrite(const http::request<http::string_body>& req);
 
+    // -------------------------------------------------------------------------
+    // Metadata-provider injection (stub #301)
+    // -------------------------------------------------------------------------
+
+    /// Callback type that returns the list of supported aggregate-function names.
+    /// When set via setAggregatesProvider(), handleAggregatesGet() delegates to
+    /// this function instead of returning the built-in static list.
+    using AggregatesFn = std::function<std::vector<std::string>()>;
+
+    /// Callback type that returns retention-policy metadata as a map of
+    /// metric name → retention seconds (0 = no explicit policy).
+    /// When set via setRetentionPoliciesProvider(), handleRetentionGet()
+    /// delegates to this function instead of returning an empty policy list.
+    using RetentionsFn = std::function<std::map<std::string, int64_t>()>;
+
+    /// @brief Inject a provider that supplies real aggregate-function names.
+    /// @param fn Callable returning a vector of aggregate names; pass nullptr
+    ///           to revert to the built-in static list.
+    void setAggregatesProvider(AggregatesFn fn) { aggregates_fn_ = std::move(fn); }
+
+    /// @brief Inject a provider that supplies live retention-policy metadata.
+    /// @param fn Callable returning metric→retention-seconds map; pass nullptr
+    ///           to revert to the built-in empty-list response.
+    void setRetentionPoliciesProvider(RetentionsFn fn) { retentions_fn_ = std::move(fn); }
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
+
+    AggregatesFn aggregates_fn_;  ///< Optional live aggregates provider (stub #301)
+    RetentionsFn retentions_fn_;  ///< Optional live retention-policy provider (stub #301)
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(
