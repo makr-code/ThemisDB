@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: adaptive_rate_limiter.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=29, M=3, L=0
+ * ThemisDB | File: adaptive_rate_limiter.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 217
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=37 | delta=34 | status=divergent
+ * External Severity (v3): C=5, H=29, M=3
+ * PR: #4158 feat(server): Adaptive and Cost-Based Rate Limiters (v1.7.0) (2026-03-13T08:06:42Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
