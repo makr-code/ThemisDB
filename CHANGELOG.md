@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (Phase 29 Stub Remediation — 2 stubs resolved)
+- **Stub #289 RESOLVED — quantized base-model loading now fail-closed** (`src/llm/lora_framework/lora_training_service.cpp`)
+  - Removed the synthetic 3-layer fallback model creation path in `loadQuantizedBaseModel()`.
+  - Missing/invalid GGUF paths now return hard load failure (`nullptr`) instead of silently training on placeholder weights.
+- **Stub #299 RESOLVED — ThemisHelpLoRA model-path provider injection** (`include/llm/applications/themis_help_lora.h`, `src/llm/applications/themis_help_lora.cpp`)
+  - Added `ThemisHelpLoRA::Config::ModelPathProviderFn` for injected GGUF path resolution by `base_model_id`.
+  - Applied provider-based resolution in both training-service initialization and lazy runtime model loading, with exception-safe fallback to default local path.
+
 ### Added (Phase 28 Stub Remediation — 2 stubs resolved)
 - **Stub #293 RESOLVED — AQL fulltext function registry wiring activated** (`src/query/functions/function_registry.cpp`)
   - `registerBuiltinFunctions()` now calls `registerFulltextFunctions(registry)` during standard bootstrap.

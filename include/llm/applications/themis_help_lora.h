@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -73,9 +74,20 @@ public:
      * @brief Configuration for ThemisHelpLoRA
      */
     struct Config {
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
+
         std::string adapter_id = "themis_help_lora";
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
+        /**
+         * @brief Optional GGUF path resolver for @ref base_model_id.
+         *
+         * When set, this callback is queried first for both lazy inference-time
+         * model loading and training-service base-model initialization.
+         * Return an empty string to fall back to the default local path
+         * `models/<base_model_id>.gguf`.
+         */
+        ModelPathProviderFn model_path_provider;
         
         // Remote model loading (Ollama support)
         bool enable_remote_loading = false;
