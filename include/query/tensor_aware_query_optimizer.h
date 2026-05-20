@@ -50,7 +50,10 @@
 
 #include "query/query_plan_visualizer.h"
 
+#include <functional>
 #include <memory>
+#include <optional>
+#include <shared_mutex>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -108,6 +111,8 @@ struct TensorContractionPlanNode {
  */
 class TensorAwareQueryOptimizer {
 public:
+    using TensorNodeDetectorFn = std::function<std::optional<std::string>(const QueryPlanNode&)>;
+
     TensorAwareQueryOptimizer() = default;
 
     // ─── Plan rewriting ───────────────────────────────────────────────────
@@ -115,8 +120,8 @@ public:
     /**
      * @brief Rewrite a QueryPlanNode tree, replacing tensor function nodes.
      *
-     * Traverses the tree depth-first.  Any node whose `description` contains
-     * a recognized tensor function call is:
+ * Traverses the tree depth-first.  Any node resolved to a recognized tensor
+ * function call (via injected detector or description fallback) is:
      *  1. Classified as `PlanNodeType::TensorContraction`.
      *  2. Given an updated `estimated_cost` reflecting TT-domain complexity.
      *  3. Annotated in `description` with "[TT-domain]" prefix.
@@ -173,10 +178,25 @@ public:
      */
     [[nodiscard]] RewriteStats lastStats() const noexcept { return last_stats_; }
 
+    /**
+     * @brief Inject a detector callback for AST/IR-level tensor-function resolution.
+     *
+     * @param fn Callback returning a tensor function name for the given node.
+     *           Returning std::nullopt keeps fallback description scanning.
+     */
+    void setTensorNodeDetectorFn(TensorNodeDetectorFn fn);
+
+    /**
+     * @brief Clear a previously injected detector callback.
+     */
+    void clearTensorNodeDetectorFn();
+
 private:
     void rewriteNode(QueryPlanNode& node);
 
     RewriteStats last_stats_;
+    mutable std::shared_mutex detector_mutex_;
+    TensorNodeDetectorFn tensor_node_detector_fn_;
 
     // Set of function names routed to TensorContractionEngine.
     static const std::unordered_set<std::string> kTensorFunctions;

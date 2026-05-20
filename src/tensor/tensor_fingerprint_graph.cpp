@@ -13,23 +13,10 @@
  * @file tensor/tensor_fingerprint_graph.cpp
  * @brief TensorFingerprintGraph — adapter similarity via G_0 column means.
  *
- * ### Stub log
- * - TFG-01  findSimilar() / findSimilarByFingerprint() use column-mean
- *           fingerprint cosine similarity instead of the full TT inner-
- *           product sweep (Holtz 2012, O(d·r²)).  See STUB #276.
- *
- * STUB/SIMULATION NOTE (stub #276):
- * Purpose: Provide fast O(n·r₁) approximate similarity so adapter
- *          retrieval is usable before the full TT inner-product path
- *          is wired.
- * Activation: Always — no compile-time flag required.
- * Production Delta: findSimilar() ranks adapters by cosine similarity
- *                   on the fingerprint (first-core column means), NOT
- *                   by the full TT inner-product.  For adapters whose
- *                   first-core energy is < 60% of the total Frobenius
- *                   norm, ranking can deviate from the exact result.
- * Removal Plan: Q3 2027 — replace inner loop with TTTrain::innerProduct()
- *               and add optional HNSW indexing over fingerprints.
+ * Similarity ranking supports two paths:
+ * - injected `ExactSimilarityFn` for exact backend scoring
+ * - deterministic fingerprint-cosine fallback when callback is unset, throws,
+ *   or returns std::nullopt for a candidate
  */
 
 #include "tensor/tensor_fingerprint_graph.h"
@@ -39,6 +26,7 @@
 #include <cmath>
 #include <numeric>
 #include <shared_mutex>
+#include <utility>
 
 namespace themis {
 namespace tensor {
@@ -210,29 +198,90 @@ TensorFingerprintGraph::findSimilarByFingerprint(
 
 std::vector<SimilarityResult>
 TensorFingerprintGraph::findSimilar(const std::string& query_key,
-                                     std::size_t        k) const {
-    // Look up query fingerprint.
-    std::vector<float> query_fp;
-    std::string        query_tenant;
+                                    std::size_t        k) const {
+    if (k == 0) return {};
+
+    // Look up query entry and snapshot candidates.
+    FingerprintEntry query_entry;
+    std::vector<FingerprintEntry> candidates;
     {
         std::shared_lock lock(mutex_);
         auto it = entries_.find(query_key);
         if (it == entries_.end()) return {};
-        query_fp     = it->second.fingerprint;
-        query_tenant = it->second.tenant_id;
+        query_entry = it->second;
+
+        if (entries_.size() <= 1) {
+            return {};
+        }
+
+        candidates.reserve(entries_.size() - 1);
+        for (const auto& [key, entry] : entries_) {
+            if (key == query_key) {
+                continue;
+            }
+            candidates.push_back(entry);
+        }
     }
 
-    auto results = findSimilarByFingerprint(query_fp, k + 1, "");
+    ExactSimilarityFn exact_similarity_fn;
+    {
+        std::shared_lock lock(exact_similarity_fn_mutex_);
+        exact_similarity_fn = exact_similarity_fn_;
+    }
 
-    // Remove the query adapter itself from the results.
-    results.erase(
-        std::remove_if(results.begin(), results.end(),
-                       [&query_key](const SimilarityResult& r) {
-                           return r.adapter_key == query_key;
-                       }),
-        results.end());
+    std::vector<SimilarityResult> results;
+    results.reserve(candidates.size());
+    for (const auto& candidate : candidates) {
+        float score = 0.0f;
+        bool used_exact_similarity = false;
 
+        if (exact_similarity_fn) {
+            try {
+                const auto exact = exact_similarity_fn(query_entry.adapter_key, candidate.adapter_key);
+                if (exact.has_value()) {
+                    score = *exact;
+                    used_exact_similarity = true;
+                }
+            } catch (const std::exception&) {
+                // Fail closed to deterministic fingerprint cosine below.
+                used_exact_similarity = false;
+            }
+        }
+
+        if (!used_exact_similarity) {
+            if (candidate.fingerprint.size() == query_entry.fingerprint.size()) {
+                score = cosineSimilarity(query_entry.fingerprint, candidate.fingerprint);
+            } else {
+                const auto len = std::min(query_entry.fingerprint.size(), candidate.fingerprint.size());
+                std::vector<float> query_prefix(query_entry.fingerprint.begin(),
+                                                query_entry.fingerprint.begin() + len);
+                std::vector<float> candidate_prefix(candidate.fingerprint.begin(),
+                                                    candidate.fingerprint.begin() + len);
+                score = cosineSimilarity(query_prefix, candidate_prefix);
+            }
+        }
+
+        SimilarityResult sr;
+        sr.adapter_key    = candidate.adapter_key;
+        sr.domain         = candidate.domain;
+        sr.base_model_id  = candidate.base_model_id;
+        sr.score          = score;
+        results.push_back(std::move(sr));
+    }
+
+    // Sort descending by score.
+    std::sort(results.begin(), results.end(),
+              [](const SimilarityResult& a, const SimilarityResult& b) {
+                  return a.score > b.score;
+              });
     if (results.size() > k) results.resize(k);
+
+    {
+        std::unique_lock slock(stats_mutex_);
+        ++stats_.total_query_calls;
+        stats_.total_comparisons += candidates.size();
+    }
+
     return results;
 }
 
@@ -266,6 +315,16 @@ TensorFingerprintGraph::GraphStats
 TensorFingerprintGraph::stats() const noexcept {
     std::shared_lock lock(stats_mutex_);
     return stats_;
+}
+
+void TensorFingerprintGraph::setExactSimilarityFn(ExactSimilarityFn fn) {
+    std::unique_lock lock(exact_similarity_fn_mutex_);
+    exact_similarity_fn_ = std::move(fn);
+}
+
+void TensorFingerprintGraph::clearExactSimilarityFn() {
+    std::unique_lock lock(exact_similarity_fn_mutex_);
+    exact_similarity_fn_ = nullptr;
 }
 
 } // namespace tensor
