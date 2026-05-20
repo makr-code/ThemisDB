@@ -1,0 +1,213 @@
+/**
+ * @file test_dpr_vectorizer.cpp
+ * @brief Unit tests for DPRVectorizer (Wave A2: Dense Passage Retrieval)
+ *
+ * Test IDs: DPR-01 .. DPR-10
+ *
+ * Covers:
+ *  - Initialization and configuration
+ *  - Query encoding
+ *  - Passage encoding (single and batch)
+ *  - Embedding dimension reporting
+ *  - Error handling for uninitialized state
+ *  - Batch processing consistency
+ */
+
+#include <gtest/gtest.h>
+#include "rag/dpr_vectorizer.h"
+#include <filesystem>
+#include <fstream>
+
+using namespace themis::rag;
+
+namespace {
+std::string createTempModelFile(const std::string& name) {
+    const auto dir = std::filesystem::temp_directory_path() / "themis_dpr_tests";
+    std::filesystem::create_directories(dir);
+    const auto path = dir / name;
+    std::ofstream file(path, std::ios::binary);
+    file << "onnx";
+    file.close();
+    return path.string();
+}
+}  // namespace
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-01: DPRVectorizer constructs with config
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_01_ConstructsWithConfig) {
+    DPRVectorizerConfig config;
+    config.query_model_path = "/path/to/query_model";
+    config.passage_model_path = "/path/to/passage_model";
+    config.embedding_dimension = 384;
+
+    DPRVectorizer vectorizer(config);
+    EXPECT_FALSE(vectorizer.isInitialized());
+    EXPECT_EQ(vectorizer.getConfig().embedding_dimension, 384u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-02: Initialize returns OK with valid config
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_02_InitializeSucceeds) {
+    DPRVectorizerConfig config;
+    config.query_model_path = createTempModelFile("query_model.onnx");
+    config.passage_model_path = createTempModelFile("passage_model.onnx");
+
+    DPRVectorizer vectorizer(config);
+    EXPECT_NO_THROW(vectorizer.initialize());
+    EXPECT_TRUE(vectorizer.isInitialized());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-03: Initialize fails with empty query_model_path
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_03_InitializeFailsWithEmptyQueryModel) {
+    DPRVectorizerConfig config;
+    config.query_model_path = "";  // Empty
+    config.passage_model_path = "/path/to/passage_model";
+
+    DPRVectorizer vectorizer(config);
+    
+    EXPECT_THROW(vectorizer.initialize(), std::invalid_argument);
+    EXPECT_FALSE(vectorizer.isInitialized());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-04: Initialize fails with empty passage_model_path
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_04_InitializeFailsWithEmptyPassageModel) {
+    DPRVectorizerConfig config;
+    config.query_model_path = "/path/to/query_model";
+    config.passage_model_path = "";  // Empty
+
+    DPRVectorizer vectorizer(config);
+    
+    EXPECT_THROW(vectorizer.initialize(), std::invalid_argument);
+    EXPECT_FALSE(vectorizer.isInitialized());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-05: encodeQuery fails when not initialized
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_05_EncodeQueryFailsWhenNotInitialized) {
+    DPRVectorizerConfig config;
+    config.query_model_path = "/path/to/query_model";
+    config.passage_model_path = "/path/to/passage_model";
+
+    DPRVectorizer vectorizer(config);
+    
+    EXPECT_THROW(vectorizer.encodeQuery("test query"), std::runtime_error);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-06: encodeQuery fails with empty query
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_06_EncodeQueryFailsWithEmptyQuery) {
+    DPRVectorizerConfig config;
+    config.query_model_path = createTempModelFile("query_model_06.onnx");
+    config.passage_model_path = createTempModelFile("passage_model_06.onnx");
+
+    DPRVectorizer vectorizer(config);
+    vectorizer.initialize();
+    
+    EXPECT_THROW(vectorizer.encodeQuery(""), std::invalid_argument);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-07: encodeQuery returns vector of correct dimension
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_07_EncodeQueryReturnsCorrectDimension) {
+    DPRVectorizerConfig config;
+    config.query_model_path = createTempModelFile("query_model_07.onnx");
+    config.passage_model_path = createTempModelFile("passage_model_07.onnx");
+    config.embedding_dimension = 384;
+
+    DPRVectorizer vectorizer(config);
+    vectorizer.initialize();
+    
+    auto embedding = vectorizer.encodeQuery("test query");
+    EXPECT_EQ(embedding.size(), 384u);
+    EXPECT_EQ(vectorizer.getEmbeddingDimension(), 384u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-08: encodePassage works correctly
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_08_EncodePassageWorks) {
+    DPRVectorizerConfig config;
+    config.query_model_path = createTempModelFile("query_model_08.onnx");
+    config.passage_model_path = createTempModelFile("passage_model_08.onnx");
+    config.embedding_dimension = 768;
+
+    DPRVectorizer vectorizer(config);
+    vectorizer.initialize();
+    
+    auto embedding = vectorizer.encodePassage("test passage");
+    EXPECT_EQ(embedding.size(), 768u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-09: encodePassageBatch returns correct number of embeddings
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_09_EncodePassageBatchWorks) {
+    DPRVectorizerConfig config;
+    config.query_model_path = createTempModelFile("query_model_09.onnx");
+    config.passage_model_path = createTempModelFile("passage_model_09.onnx");
+    config.embedding_dimension = 384;
+
+    DPRVectorizer vectorizer(config);
+    vectorizer.initialize();
+    
+    std::vector<std::string> passages = {
+        "passage one",
+        "passage two",
+        "passage three"
+    };
+    
+    auto results = vectorizer.encodePassageBatch(passages);
+    EXPECT_EQ(results.size(), 3u);
+    for (const auto& embedding : results) {
+        EXPECT_EQ(embedding.size(), 384u);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-10: getConfig returns configured parameters
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_10_GetConfigReturnsParameters) {
+    DPRVectorizerConfig config;
+    config.query_model_path = "/custom/query/path";
+    config.passage_model_path = "/custom/passage/path";
+    config.device = "cuda";
+    config.batch_size = 64;
+    config.embedding_dimension = 512;
+
+    DPRVectorizer vectorizer(config);
+    
+    const auto& retrieved_config = vectorizer.getConfig();
+    EXPECT_EQ(retrieved_config.query_model_path, "/custom/query/path");
+    EXPECT_EQ(retrieved_config.passage_model_path, "/custom/passage/path");
+    EXPECT_EQ(retrieved_config.device, "cuda");
+    EXPECT_EQ(retrieved_config.batch_size, 64u);
+    EXPECT_EQ(retrieved_config.embedding_dimension, 512u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DPR-11: encodePassageBatch with empty input returns empty vector (no throw)
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(DPRVectorizer, DPR_11_EncodePassageBatchEmptyInputReturnsEmpty) {
+    DPRVectorizerConfig config;
+    config.query_model_path = createTempModelFile("query_model_11.onnx");
+    config.passage_model_path = createTempModelFile("passage_model_11.onnx");
+    config.embedding_dimension = 384;
+
+    DPRVectorizer vectorizer(config);
+    vectorizer.initialize();
+
+    // An empty passages list must return an empty result without any exception.
+    const std::vector<std::string> empty_passages;
+    std::vector<std::vector<float>> results;
+    ASSERT_NO_THROW(results = vectorizer.encodePassageBatch(empty_passages));
+    EXPECT_TRUE(results.empty());
+}
