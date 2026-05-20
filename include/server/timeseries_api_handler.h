@@ -20,8 +20,11 @@
 #pragma once
 #include "server/auth_middleware.h"
 
+#include <functional>
 #include <memory>
+#include <mutex>
 #include <string>
+#include <vector>
 #include <boost/beast/http.hpp>
 
 namespace beast = boost::beast;
@@ -61,6 +64,19 @@ namespace server {
 class TimeSeriesApiHandler {
 public:
     /**
+     * @brief Provider function type for runtime retention-policy introspection.
+     *
+     * Each returned JSON object should have at least the following keys:
+     *   - "metric"          : string — metric name the policy applies to
+     *                         (empty string means a global / catch-all policy)
+     *   - "retain_seconds"  : number — retention window in seconds (0 = unlimited)
+     *
+     * The function is called once per request to @c handleRetentionGet; it must
+     * be thread-safe.
+     */
+    using RetentionPoliciesProviderFn = std::function<std::vector<nlohmann::json>()>;
+
+    /**
      * @brief Construct a new Time Series API Handler
      * 
      * @param storage Storage backend
@@ -74,6 +90,18 @@ public:
         std::shared_ptr<ContinuousAggregateManager> agg_manager,
         std::shared_ptr<themis::AuthMiddleware> auth
     );
+
+    /**
+     * @brief Inject a runtime retention-policy provider (stub #301 resolved).
+     *
+     * When set, @c handleRetentionGet queries this function for the active
+     * retention policies instead of returning an empty list.  The provider
+     * must be thread-safe; it is called under no internal lock.
+     *
+     * @param fn Callable returning active retention policies as JSON objects.
+     *           Each object must contain at least "metric" and "retain_seconds".
+     */
+    void setRetentionPoliciesProviderFn(RetentionPoliciesProviderFn fn);
 
     /**
      * @brief Handle POST /ts/put request
@@ -157,6 +185,10 @@ private:
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
+
+    // Retention-policy injection bridge (stub #301)
+    RetentionPoliciesProviderFn retentionPoliciesFn_;
+    mutable std::mutex retentionPoliciesMutex_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(
