@@ -39,6 +39,8 @@
 #include "rag/hybrid_retriever.h"
 #include "rag/dpr_vectorizer.h"
 #include "rag/fairness_detector.h"
+#include "rag/vectorizer_interface.h"
+#include <exception>
 #include <random>
 #include <string>
 #include <vector>
@@ -64,6 +66,40 @@ makeCandidates(int n, double base_score, std::mt19937& rng) {
     }
     return list;
 }
+
+class DeterministicBenchmarkVectorizer final : public IVectorizer {
+public:
+    void initialize() override { initialized_ = true; }
+
+    bool isInitialized() const override { return initialized_; }
+
+    std::vector<float> encodeQuery(const std::string& query) override {
+        return encodeText(query);
+    }
+
+    std::vector<float> encodePassage(const std::string& passage) override {
+        return encodeText(passage);
+    }
+
+    size_t getEmbeddingDimension() const override { return kDim; }
+
+private:
+    static constexpr size_t kDim = 64;
+    bool initialized_ = false;
+
+    static std::vector<float> encodeText(const std::string& text) {
+        std::vector<float> embedding(kDim, 0.0f);
+        if (text.empty()) {
+            return embedding;
+        }
+
+        for (size_t i = 0; i < text.size(); ++i) {
+            const size_t idx = i % kDim;
+            embedding[idx] += static_cast<float>(static_cast<unsigned char>(text[i])) / 255.0f;
+        }
+        return embedding;
+    }
+};
 
 // ============================================================================
 // RRF benchmarks: varying candidate pool size
@@ -234,8 +270,8 @@ static void BM_DPRVectorizer_QueryEncoding(benchmark::State& state) {
     // Skip initialization if models not available
     try {
         vectorizer.initialize();
-    } catch (...) {
-        state.SkipWithMessage("DPR models not available");
+    } catch (const std::exception& e) {
+        state.SkipWithMessage(std::string("DPR models not available: ") + e.what());
         return;
     }
     
@@ -267,8 +303,8 @@ static void BM_DPRVectorizer_PassageBatch(benchmark::State& state) {
     
     try {
         vectorizer.initialize();
-    } catch (...) {
-        state.SkipWithMessage("DPR models not available");
+    } catch (const std::exception& e) {
+        state.SkipWithMessage(std::string("DPR models not available: ") + e.what());
         return;
     }
     
@@ -289,6 +325,54 @@ static void BM_DPRVectorizer_PassageBatch(benchmark::State& state) {
 }
 BENCHMARK(BM_DPRVectorizer_PassageBatch)->Arg(8)->Arg(16)->Arg(32)->Arg(64);
 
+static void BM_HybridRetriever_BM25Baseline(benchmark::State& state) {
+    const int n = static_cast<int>(state.range(0));
+    std::mt19937 rng(42);
+    auto bm25 = makeCandidates(n, 0.9, rng);
+
+    HybridRetrieverConfig cfg;
+    cfg.bm25_weight = 1.0;
+    cfg.vector_weight = 0.0;
+    cfg.use_rrf = true;
+    cfg.top_k = 10;
+    HybridRetriever retriever(cfg);
+
+    for (auto _ : state) {
+        auto result = retriever.fuse(bm25, {});
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations() * n);
+    state.SetLabel("BM25-only baseline");
+}
+BENCHMARK(BM_HybridRetriever_BM25Baseline)->Arg(10)->Arg(50)->Arg(100)->Arg(500);
+
+static void BM_HybridRetriever_VectorizerPath(benchmark::State& state) {
+    const int n = static_cast<int>(state.range(0));
+    std::mt19937 rng(42);
+    auto bm25 = makeCandidates(n, 0.9, rng);
+
+    auto vectorizer = std::make_shared<DeterministicBenchmarkVectorizer>();
+    vectorizer->initialize();
+
+    HybridRetrieverConfig cfg;
+    cfg.bm25_weight = 0.3;
+    cfg.vector_weight = 0.7;
+    cfg.use_rrf = true;
+    cfg.top_k = 10;
+    HybridRetriever retriever(cfg);
+    retriever.setVectorizer(vectorizer);
+
+    for (auto _ : state) {
+        auto result = retriever.retrieveWithVectorizer("hybrid benchmark query", bm25);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations() * n);
+    state.SetLabel("DPR-like vectorizer path vs BM25 baseline");
+}
+BENCHMARK(BM_HybridRetriever_VectorizerPath)->Arg(10)->Arg(50)->Arg(100)->Arg(500);
+
 // ============================================================================
 // Wave A3: Fairness Detector Benchmarks
 // ============================================================================
@@ -308,8 +392,8 @@ static void BM_FairnessDetector_BiasDetection(benchmark::State& state) {
     
     try {
         detector.initialize();
-    } catch (...) {
-        state.SkipWithMessage("Embedding models not available");
+    } catch (const std::exception& e) {
+        state.SkipWithMessage(std::string("Embedding models not available: ") + e.what());
         return;
     }
     
@@ -340,8 +424,8 @@ static void BM_FairnessDetector_BatchDetection(benchmark::State& state) {
     
     try {
         detector.initialize();
-    } catch (...) {
-        state.SkipWithMessage("Embedding models not available");
+    } catch (const std::exception& e) {
+        state.SkipWithMessage(std::string("Embedding models not available: ") + e.what());
         return;
     }
     

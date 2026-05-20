@@ -462,6 +462,37 @@ TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerThrowsWhenVecto
         std::runtime_error);
 }
 
+TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerThrowsOnEmptyQuery) {
+    HybridRetriever retriever;
+    auto vectorizer = std::make_shared<TestVectorizer>();
+    vectorizer->initialize();
+    retriever.setVectorizer(vectorizer);
+
+    const std::vector<RetrievedDocument> bm25 = {makeDoc("d1", "content", 0.5)};
+    EXPECT_THROW(
+        retriever.retrieveWithVectorizer("", bm25),
+        std::invalid_argument);
+}
+
+TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerWithEmptyCandidatesReturnsEmptyResult) {
+    HybridRetriever retriever;
+    auto vectorizer = std::make_shared<TestVectorizer>();
+    vectorizer->initialize();
+    retriever.setVectorizer(vectorizer);
+
+    const auto result = retriever.retrieveWithVectorizer("q", {});
+    EXPECT_TRUE(result.documents.empty());
+    EXPECT_TRUE(result.scores.empty());
+    EXPECT_EQ(result.total_candidates, 0u);
+}
+
+TEST(HybridRetrieverVectorizerIntegration, GetVectorizerReturnsInjectedInstance) {
+    HybridRetriever retriever;
+    auto vectorizer = std::make_shared<TestVectorizer>();
+    retriever.setVectorizer(vectorizer);
+    EXPECT_EQ(retriever.getVectorizer(), vectorizer);
+}
+
 // ---------------------------------------------------------------------------
 // RRF constant (rrf_k) affects scores but not relative ordering for equal lists
 // ---------------------------------------------------------------------------
