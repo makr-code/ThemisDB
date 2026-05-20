@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: tensor_compaction_filter.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=35, M=3, L=0
+ * ThemisDB | File: tensor_compaction_filter.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 212
+ * Open Issues: TODOs=1, Stubs=3, Gaps=6, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=6 | external_v3=42 | delta=36 | status=divergent
+ * External Severity (v3): C=4, H=35, M=3
+ * PR: none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

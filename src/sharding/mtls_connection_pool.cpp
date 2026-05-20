@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: mtls_connection_pool.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=16, H=91, M=18, L=0
+ * ThemisDB | File: mtls_connection_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 447
+ * Open Issues: TODOs=1, Stubs=3, Gaps=6, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=6 | external_v3=125 | delta=119 | status=divergent
+ * External Severity (v3): C=16, H=91, M=18
+ * PR: #4259 feat(sharding): Wire OrphanDetector to DistributedCoordinator + com... (2026-03-15T16:00:56Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

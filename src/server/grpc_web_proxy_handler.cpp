@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: grpc_web_proxy_handler.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=3, Mock=1, Sim=1, Debt=0, C=2, H=53, M=16, L=0
+ * ThemisDB | File: grpc_web_proxy_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 400
+ * Open Issues: TODOs=1, Stubs=4, Gaps=10, Unimpl=3, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=10 | external_v3=71 | delta=61 | status=divergent
+ * External Severity (v3): C=2, H=53, M=16
+ * PR: #3392 feat(server): gRPC-Web proxy for browser clients (2026-03-12T07:08:47Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

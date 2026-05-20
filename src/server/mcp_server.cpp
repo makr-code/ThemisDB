@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: mcp_server.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 86/100
- * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=0, C=20, H=573, M=148, L=0
+ * ThemisDB | File: mcp_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 3119
+ * Open Issues: TODOs=1, Stubs=2, Gaps=7, Unimpl=2, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=7 | external_v3=741 | delta=734 | status=divergent
+ * External Severity (v3): C=20, H=573, M=148
+ * PR: #5152 Research review rewrite: ERROR_AWARENESS_AND_INTROSPECTION (evidenc... (2026-05-14T07:52:37Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

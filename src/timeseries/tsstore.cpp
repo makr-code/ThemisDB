@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: tsstore.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=312, M=67, L=0
+ * ThemisDB | File: tsstore.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1319
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=379 | delta=376 | status=divergent
+ * External Severity (v3): C=0, H=312, M=67
+ * PR: #4500 feat(timeseries): integrate AdaptiveFlushController into TSStore wr... (2026-04-09T06:14:09Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

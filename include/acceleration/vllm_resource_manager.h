@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: vllm_resource_manager.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: vllm_resource_manager.h | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 217
+ * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=5 | external_v3=n/a | delta=n/a | status=no_external_data
+ * External Severity (v3): C=n/a, H=n/a, M=n/a
+ * PR: #4318 feat(acceleration): VLLMResourceManager OS-level CPU & RAM monitori... (2026-03-19T20:03:13Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

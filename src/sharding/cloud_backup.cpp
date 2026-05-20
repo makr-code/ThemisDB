@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: cloud_backup.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=130; TODO=1, Stub=72, Unimpl=0, Mock=22, Sim=35, Debt=0, C=6, H=98, M=32, L=0
+ * ThemisDB | File: cloud_backup.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 916
+ * Open Issues: TODOs=1, Stubs=72, Gaps=130, Unimpl=0, Mock=22, Sim=35, Debt=0
+ * Gap Correlation: internal=130 | external_v3=136 | delta=6 | status=near
+ * External Severity (v3): C=6, H=98, M=32
+ * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

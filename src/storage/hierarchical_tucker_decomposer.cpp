@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: hierarchical_tucker_decomposer.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=33, H=204, M=8, L=0
+ * ThemisDB | File: hierarchical_tucker_decomposer.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 958
+ * Open Issues: TODOs=1, Stubs=5, Gaps=7, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=7 | external_v3=245 | delta=238 | status=divergent
+ * External Severity (v3): C=33, H=204, M=8
+ * PR: none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

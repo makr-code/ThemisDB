@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: task_scheduler_api_handler.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=165, M=189, L=5
+ * ThemisDB | File: task_scheduler_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 1082
+ * Open Issues: TODOs=1, Stubs=6, Gaps=8, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=8 | external_v3=364 | delta=356 | status=divergent
+ * External Severity (v3): C=5, H=165, M=189
+ * PR: #3178 [WIP] Add web UI for task management in scheduler (2026-03-12T06:26:01Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

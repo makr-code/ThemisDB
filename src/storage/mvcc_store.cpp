@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: mvcc_store.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=55, M=10, L=0
+ * ThemisDB | File: mvcc_store.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 345
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=69 | delta=66 | status=divergent
+ * External Severity (v3): C=4, H=55, M=10
+ * PR: #3483 docs: consolidate MVCC documentation (architecture â†” compendium â... (2026-03-12T07:20:13Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

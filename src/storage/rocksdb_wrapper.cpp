@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: rocksdb_wrapper.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=63, H=721, M=138, L=0
+ * ThemisDB | File: rocksdb_wrapper.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 2755
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=922 | delta=919 | status=divergent
+ * External Severity (v3): C=63, H=721, M=138
+ * PR: #4596 perf(storage): fix ~79x sustained write throughput regression â€” d... (2026-04-13T07:29:25Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

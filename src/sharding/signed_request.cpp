@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: signed_request.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=123, M=28, L=0
+ * ThemisDB | File: signed_request.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 591
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=161 | delta=158 | status=divergent
+ * External Severity (v3): C=10, H=123, M=28
+ * PR: #4833 Continue Phase-6 tensorgraph integration and resolve develop-branch... (2026-05-07T06:32:12Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

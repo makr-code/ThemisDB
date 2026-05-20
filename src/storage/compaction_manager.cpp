@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: compaction_manager.cpp | Version: 0.0.46
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=35, M=7, L=0
+ * ThemisDB | File: compaction_manager.cpp | Version: 0.0.46 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 230
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=50 | delta=47 | status=divergent
+ * External Severity (v3): C=8, H=35, M=7
+ * PR: #4234 feat(storage): AdaptiveCompactionScheduler â€” EMA-driven I/O monit... (2026-03-15T07:39:33Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

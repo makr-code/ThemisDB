@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: wire_protocol_server.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=25, H=109, M=63, L=0
+ * ThemisDB | File: wire_protocol_server.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 1217
+ * Open Issues: TODOs=1, Stubs=3, Gaps=6, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=6 | external_v3=197 | delta=191 | status=divergent
+ * External Severity (v3): C=25, H=109, M=63
+ * PR: #4696 themis docs migration: align primary reality and add DE/EN secondar... (2026-04-16T05:53:49Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

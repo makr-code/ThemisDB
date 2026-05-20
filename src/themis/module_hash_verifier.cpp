@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: module_hash_verifier.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=48, M=10, L=0
+ * ThemisDB | File: module_hash_verifier.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 236
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=60 | delta=57 | status=divergent
+ * External Severity (v3): C=2, H=48, M=10
+ * PR: #3646 fix(themis): complete build system audit â€“ register all sources, ... (2026-03-12T07:44:43Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

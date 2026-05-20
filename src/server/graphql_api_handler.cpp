@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: graphql_api_handler.cpp | Version: 0.0.18
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=53, M=17, L=0
+ * ThemisDB | File: graphql_api_handler.cpp | Version: 0.0.18 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 246
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=70 | delta=67 | status=divergent
+ * External Severity (v3): C=0, H=53, M=17
+ * PR: #2515 feat(server): GraphQL endpoint for schema-driven API access (2026-03-11T21:40:12Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

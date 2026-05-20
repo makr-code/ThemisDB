@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: transaction_snapshot.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=62, M=16, L=0
+ * ThemisDB | File: transaction_snapshot.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 431
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=80 | delta=77 | status=divergent
+ * External Severity (v3): C=2, H=62, M=16
+ * PR: none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

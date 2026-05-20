@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: voice_telephony.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=12; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=3, Debt=0, C=17, H=253, M=62, L=0
+ * ThemisDB | File: voice_telephony.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 842
+ * Open Issues: TODOs=1, Stubs=7, Gaps=12, Unimpl=0, Mock=1, Sim=3, Debt=0
+ * Gap Correlation: internal=12 | external_v3=332 | delta=320 | status=divergent
+ * External Severity (v3): C=17, H=253, M=62
+ * PR: #3663 feat(voice): register focused test targets and fix standalone sources (2026-03-12T07:45:29Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

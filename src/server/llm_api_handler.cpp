@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: llm_api_handler.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=2, C=9, H=261, M=79, L=0
+ * ThemisDB | File: llm_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1719
+ * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=2
+ * Gap Correlation: internal=5 | external_v3=349 | delta=344 | status=divergent
+ * External Severity (v3): C=9, H=261, M=79
+ * PR: #231 Implement JWT validation for LLM API handler (2026-03-11T16:58:24Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

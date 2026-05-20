@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: gpu_compression.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=15, H=261, M=51, L=0
+ * ThemisDB | File: gpu_compression.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1596
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=327 | delta=324 | status=divergent
+ * External Severity (v3): C=15, H=261, M=51
+ * PR: #4148 feat(storage): GPU-Accelerated Compression â€” Zstd/Snappy/LZ4 via ... (2026-03-13T05:53:31Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: build_info.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 86/100
- * Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=29, M=88, L=0
+ * ThemisDB | File: build_info.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 1022
+ * Open Issues: TODOs=1, Stubs=7, Gaps=10, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=10 | external_v3=118 | delta=108 | status=divergent
+ * External Severity (v3): C=1, H=29, M=88
+ * PR: #3830 feat(themis): Modular Build System v1.7.0 â€“ migrate license_info,... (2026-03-12T11:08:09Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: whisper_plugin.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=7; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=0, C=5, H=42, M=5, L=0
+ * ThemisDB | File: whisper_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 272
+ * Open Issues: TODOs=1, Stubs=3, Gaps=7, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=7 | external_v3=52 | delta=45 | status=divergent
+ * External Severity (v3): C=5, H=42, M=5
+ * PR: none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

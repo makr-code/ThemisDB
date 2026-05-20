@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: themis_core_grpc_service.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=2, Mock=1, Sim=1, Debt=0, C=2, H=21, M=8, L=0
+ * ThemisDB | File: themis_core_grpc_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 165
+ * Open Issues: TODOs=1, Stubs=3, Gaps=8, Unimpl=2, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=8 | external_v3=31 | delta=23 | status=divergent
+ * External Severity (v3): C=2, H=21, M=8
+ * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

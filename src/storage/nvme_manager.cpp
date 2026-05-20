@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: nvme_manager.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=52, H=164, M=18, L=0
+ * ThemisDB | File: nvme_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 695
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=234 | delta=231 | status=divergent
+ * External Severity (v3): C=52, H=164, M=18
+ * PR: #4149 feat(storage): NVMe optimizations â€“ io_uring, multi-queue, ZNS, D... (2026-03-13T06:07:46Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

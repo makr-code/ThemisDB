@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: dependency_resolver.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=64, M=40, L=0
+ * ThemisDB | File: dependency_resolver.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 523
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=107 | delta=104 | status=divergent
+ * External Severity (v3): C=3, H=64, M=40
+ * PR: #4180 feat(updates): Dependency Resolution Engine v1.6.0 + audit bug fixes (2026-03-13T16:37:24Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

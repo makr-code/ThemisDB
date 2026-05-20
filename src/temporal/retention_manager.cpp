@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: retention_manager.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=15, H=81, M=51, L=0
+ * ThemisDB | File: retention_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 564
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=147 | delta=144 | status=divergent
+ * External Severity (v3): C=15, H=81, M=51
+ * PR: #4128 feat(temporal): Automated Retention Policies â€” STORAGE_BASED, com... (2026-03-12T18:23:13Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

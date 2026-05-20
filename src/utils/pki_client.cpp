@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: pki_client.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 82/100
- * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=1, C=5, H=113, M=118, L=0
+ * ThemisDB | File: pki_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 82/100 | Lines: 863
+ * Open Issues: TODOs=1, Stubs=3, Gaps=8, Unimpl=0, Mock=1, Sim=2, Debt=1
+ * Gap Correlation: internal=8 | external_v3=236 | delta=228 | status=divergent
+ * External Severity (v3): C=5, H=113, M=118
+ * PR: #4263 PKIClient v1.8.0 + PII Streaming v0.9.0: Replace fallback stub veri... (2026-03-15T15:56:11Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

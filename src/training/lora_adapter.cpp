@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: lora_adapter.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=0, C=10, H=104, M=19, L=0
+ * ThemisDB | File: lora_adapter.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 458
+ * Open Issues: TODOs=1, Stubs=2, Gaps=6, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=6 | external_v3=133 | delta=127 | status=divergent
+ * External Severity (v3): C=10, H=104, M=19
+ * PR: #5082 [Docs][training] Update module docs across src/include with API, ru... (2026-05-13T11:01:23Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

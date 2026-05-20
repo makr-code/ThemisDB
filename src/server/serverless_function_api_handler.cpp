@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: serverless_function_api_handler.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=71, M=9, L=0
+ * ThemisDB | File: serverless_function_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 606
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=89 | delta=86 | status=divergent
+ * External Severity (v3): C=9, H=71, M=9
+ * PR: #2636 feat(server): Serverless function hosting â€“ in-process user funct... (2026-03-12T05:53:31Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

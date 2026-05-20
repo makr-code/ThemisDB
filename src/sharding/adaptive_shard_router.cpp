@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: adaptive_shard_router.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 85/100
- * Gap Summary: total=7; TODO=2, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=7, H=88, M=32, L=0
+ * ThemisDB | File: adaptive_shard_router.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 85/100 | Lines: 531
+ * Open Issues: TODOs=2, Stubs=3, Gaps=7, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=7 | external_v3=127 | delta=120 | status=divergent
+ * External Severity (v3): C=7, H=88, M=32
+ * PR: #1171 Implement adaptive capability-based shard routing with auto-generat... (2026-03-11T17:50:05Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

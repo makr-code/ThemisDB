@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: gpu_erasure_coder_opencl.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=119, M=35, L=1
+ * ThemisDB | File: gpu_erasure_coder_opencl.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 747
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=162 | delta=159 | status=divergent
+ * External Severity (v3): C=7, H=119, M=35
+ * PR: #4265 feat(sharding): implement GpuErasureCoderOpenCL encode/decode/batch... (2026-03-15T17:55:12Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: query_api_handler.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=1, C=98, H=1673, M=285, L=0
+ * ThemisDB | File: query_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 3592
+ * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=1
+ * Gap Correlation: internal=5 | external_v3=2056 | delta=2051 | status=divergent
+ * External Severity (v3): C=98, H=1673, M=285
+ * PR: #3565 docs(api): sync src/api/ROADMAP.md to source code reality + restore... (2026-03-11T16:10:11Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: import_wizard_builder.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=11, M=219, L=0
+ * ThemisDB | File: import_wizard_builder.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 457
+ * Open Issues: TODOs=1, Stubs=6, Gaps=8, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=8 | external_v3=231 | delta=223 | status=divergent
+ * External Severity (v3): C=1, H=11, M=219
+ * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

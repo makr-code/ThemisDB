@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: pki_shard_certificate.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=81, M=17, L=0
+ * ThemisDB | File: pki_shard_certificate.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 394
+ * Open Issues: TODOs=2, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=4 | external_v3=104 | delta=100 | status=divergent
+ * External Severity (v3): C=6, H=81, M=17
+ * PR: #4833 Continue Phase-6 tensorgraph integration and resolve develop-branch... (2026-05-07T06:32:12Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

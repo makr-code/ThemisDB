@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: hnsw_tt_bridge.cpp | Version: 1.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=39, H=107, M=15, L=0
+ * ThemisDB | File: hnsw_tt_bridge.cpp | Version: 1.1.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 655
+ * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=4 | external_v3=161 | delta=157 | status=divergent
+ * External Severity (v3): C=39, H=107, M=15
+ * PR: none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
