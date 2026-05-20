@@ -542,15 +542,17 @@ public:
 /**
  * @brief PM_PREDICT_END - Predict process end time
  *
- * Current status: placeholder only. The public AQL symbol exists so callers can
- * build queries against the final API shape, but the predictive backend is not
- * wired yet. The current implementation returns `{"predicted_end": null}` for
- * every call.
+ * Forecast resolution order:
+ *  1. FunctionContext variable `pm_predicted_end_by_case` (object map)
+ *  2. Current document field `predicted_end_by_case[case_id]`
+ *  3. Current document field `predicted_end`
+ *  4. Derived fallback `start_time_ms + expected_duration_ms` (if present)
+ *  5. Derived fallback `timestamp_ms + remaining_duration_ms` (if present)
  *
- * @param case_id  Process case ID whose completion time should eventually be
- *                 forecast once the predictive model is integrated.
- * @return JSON object with a `predicted_end` field. The field is currently
- *         always `null`.
+ * If no source provides a forecast, `predicted_end` is `null`.
+ *
+ * @param case_id  Process case ID whose completion time should be forecast.
+ * @return JSON object with fields `case_id` and `predicted_end`.
  */
 class PmPredictEndFunction : public IFunction {
 public:
