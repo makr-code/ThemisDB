@@ -566,40 +566,27 @@ public:
             return model_ids;
         }
         
-        // STUB/SIMULATION NOTE (stub #303):
-        // Purpose: Preserve the `listModels()` API surface until RocksDB prefix
-        //          iteration is exposed through the repository's DB wrapper.
-        // Activation: Always when `config_.db` is set — the current RocksDB wrapper
-        //             lacks `listKeysWithPrefix()` / iterator access here.
-        // Production Delta: `keys` stays empty, so `listModels()` returns an empty
-        //                   vector even when models are stored under
-        //                   `config_.key_prefix`. UI model pickers, admin CLIs, and
-        //                   cleanup routines cannot enumerate persisted models.
-        // Removal Plan: Add prefix-iterator support to RocksDBWrapper (or inject a
-        //               `ListKeysWithPrefixFn` callback) and populate `keys` from the
-        //               actual keyspace before filtering.
-        //               See src/llm/FUTURE_ENHANCEMENTS.md §LLMModelStorage Enumeration.
-        //               Target: v2.0.0.
-        // List all keys with collection prefix
-        // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
-        // This is a placeholder that would need DB iteration support
-        std::string prefix = config_.key_prefix;
-        std::vector<std::string> keys;  // Empty - requires DB scan implementation
-        
-        for (const auto& key : keys) {
-            // Extract model ID from key
-            std::string model_id = key.substr(prefix.length());
-            
-            // Apply filter if provided
-            if (filter) {
-                // Simple substring filter
-                if (model_id.find(*filter) != std::string::npos) {
-                    model_ids.push_back(model_id);
+        // Enumerate all model keys stored under the collection prefix using the
+        // RocksDB wrapper's scanPrefix iterator.  Edge and stats keys share the
+        // same prefix but contain a colon-delimited secondary segment; exclude
+        // them so only plain model-id keys are returned.
+        const std::string prefix = config_.key_prefix;
+        config_.db->scanPrefix(prefix,
+            [&](std::string_view key, std::string_view /*value*/) -> bool {
+                if (key.size() <= prefix.size()) {
+                    return true; // skip malformed/empty suffix
                 }
-            } else {
-                model_ids.push_back(model_id);
-            }
-        }
+                std::string model_id(key.substr(prefix.size()));
+                // Skip auxiliary key types: "edge:…", "stats:", etc.
+                if (model_id.rfind("edge:", 0) == 0 ||
+                    model_id.rfind("stats:", 0) == 0) {
+                    return true;
+                }
+                if (!filter || model_id.find(*filter) != std::string::npos) {
+                    model_ids.push_back(std::move(model_id));
+                }
+                return true; // continue iteration
+            });
         
         return model_ids;
     }

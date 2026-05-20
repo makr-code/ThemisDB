@@ -552,26 +552,31 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
 nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
 {
     if (!refresh_token.empty()) {
-        // STUB/SIMULATION NOTE (stub #306):
-        // Purpose: Preserve logout endpoint behavior without breaking callers while
-        //          RFC 7009 token revocation wiring is still incomplete in the
-        //          server-layer OAuth2 provider bridge.
-        // Activation: Always when refresh_token is provided to handleLogout().
-        // Production Delta: Refresh-token revocation is not sent to the upstream
-        //                   IdP revocation endpoint; this path only logs intent and
-        //                   returns success, leaving actual token invalidation to
-        //                   local/session-layer mechanisms.
-        // Removal Plan: Extend OIDCDiscoveryDocument with revocation_endpoint and
-        //               execute authenticated POST revocation calls from logout.
-        //               See src/server/FUTURE_ENHANCEMENTS.md §OAuth2/OIDC Native Support.
-        //               Target: v2.1.0.
-        // RFC 7009 – attempt best-effort token revocation.
-        // Many OIDC providers advertise a "revocation_endpoint" in discovery.
-        // OIDCDiscoveryDocument does not yet carry that field, so we note the
-        // intent here and log it.  A future enhancement can add
-        // revocation_endpoint to OIDCDiscoveryDocument and POST there.
-        THEMIS_INFO("OAuth2Provider::handleLogout – refresh token revocation "
-                    "requested (revocation_endpoint support planned)");
+        // RFC 7009 – POST refresh token to the upstream revocation endpoint when
+        // the OIDC discovery document advertises one.
+        try {
+            const auto& doc = oidc_provider_->discoveryDocument();
+            if (!doc.revocation_endpoint.empty()) {
+                auto enc = [](const std::string& v) { return urlEncode(v); };
+                std::string body =
+                    "token="              + enc(refresh_token)       +
+                    "&token_type_hint=refresh_token"                 +
+                    "&client_id="         + enc(config_.oidc.client_id);
+                if (!config_.oidc.client_secret.empty()) {
+                    body += "&client_secret=" + enc(config_.oidc.client_secret);
+                }
+                const std::string response = httpPost(doc.revocation_endpoint, body);
+                THEMIS_INFO("OAuth2Provider::handleLogout – revocation POST sent "
+                            "(endpoint={})", doc.revocation_endpoint);
+                (void)response; // RFC 7009 §2.2: 200 OK means success; we do best-effort
+            } else {
+                THEMIS_INFO("OAuth2Provider::handleLogout – no revocation_endpoint "
+                            "in discovery document; skipping upstream revocation");
+            }
+        } catch (const std::exception& e) {
+            // Best-effort: log but do not block logout on revocation failure.
+            THEMIS_WARN("OAuth2Provider::handleLogout – revocation POST failed: {}", e.what());
+        }
     }
     THEMIS_INFO("OAuth2Provider::handleLogout – session ended");
     return {{"success", true}};

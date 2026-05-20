@@ -40,6 +40,7 @@
 #include <string_view>
 #include <optional>
 #include <nlohmann/json.hpp>
+#include "auth/jwt_validator.h"
 
 // Forward declarations
 namespace themis {
@@ -102,6 +103,17 @@ public:
      * @param voice_assistant Voice assistant instance
      */
     explicit VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant);
+    
+    /**
+     * @brief Configure JWT Bearer Token validation.
+     *
+     * When set, @ref validateBearerToken verifies each request's token via the
+     * provided @ref auth::JWTValidator (signature, expiry, issuer, audience).
+     * If not configured the handler rejects all requests with a 401 response.
+     *
+     * @param config JWTValidator configuration (JWKS URL, expected issuer, …).
+     */
+    void configureJWT(const auth::JWTValidatorConfig& config);
     
     /**
      * @brief Handle Voice API request
@@ -259,6 +271,7 @@ private:
 
     std::shared_ptr<voice::VoiceAssistant> voice_assistant_;
     std::shared_ptr<utils::HTTPClientPool> http_client_pool_;
+    std::unique_ptr<auth::JWTValidator> jwt_validator_; ///< JWT validator; null → deny all
 };
 
 } // namespace themis::server

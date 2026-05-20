@@ -573,6 +573,11 @@ void VoiceAssistant::updateSession(const std::string& session_id, const json& co
     }
 }
 
+void VoiceAssistant::deleteSession(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    sessions_.erase(session_id);
+}
+
 json VoiceAssistant::getStatistics() const {
     json stats;
     
