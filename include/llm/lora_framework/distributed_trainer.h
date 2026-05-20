@@ -136,6 +136,20 @@ public:
      * are expected to overwrite their copy with rank-0's values.
      */
     using BroadcastFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Function type for CPU gradient all-reduce.
+     *
+     * Callers inject a real MPI_Allreduce / Gloo allreduce via
+     * setAllReduceCpuFn().  The injected function receives the local gradient
+     * vector and must perform an in-place SUM-then-divide-by-world_size across
+     * all ranks.  When not injected, allreduce_cpu() falls back to local
+     * scaling, which is only correct for single-process (world_size == 1)
+     * builds.
+     *
+     * @param data Gradient vector to reduce in-place.
+     */
+    using AllReduceCpuFn = std::function<void(std::vector<float>& data)>;
     explicit DistributedTrainer(const DistributedConfig& config);
     ~DistributedTrainer();
     
@@ -198,6 +212,17 @@ public:
      * @param fn Callable that broadcasts data in-place from rank 0.
      */
     void setBroadcastFn(BroadcastFn fn);
+
+    /**
+     * @brief Inject a real CPU all-reduce implementation (MPI/Gloo).
+     *
+     * When set, allreduce_cpu() delegates to this function so that gradients
+     * are summed across all ranks and divided by world_size before the
+     * optimizer step.  Must be called before the first training step when
+     * world_size > 1.
+     * @param fn Callable that performs the collective sum-reduce in-place.
+     */
+    void setAllReduceCpuFn(AllReduceCpuFn fn);
     
     /**
      * @brief Get distributed configuration
@@ -256,8 +281,9 @@ private:
     void allreduce_cpu(std::vector<float>& data);
     void broadcast_cpu(std::vector<float>& data);
 
-    std::optional<BarrierFn>   barrier_fn_;
-    std::optional<BroadcastFn> broadcast_fn_;
+    std::optional<BarrierFn>        barrier_fn_;
+    std::optional<BroadcastFn>      broadcast_fn_;
+    std::optional<AllReduceCpuFn>   allreduce_cpu_fn_;
 };
 
 /**

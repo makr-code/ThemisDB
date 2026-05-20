@@ -97,8 +97,26 @@ public:
         float min_accuracy_threshold = 0.80f;
         bool enable_ab_testing = true;
         bool enable_auto_rollback = true;
+
+        /**
+         * @brief Optional model-path resolver injected at startup.
+         *
+         * When set, the resolver is called with @p base_model_id and must
+         * return the absolute filesystem path to the GGUF model file.
+         * Implement via `LLMModelStorage::resolveGGUFPath(model_id)` and wire
+         * at server startup.
+         *
+         * When not set, the component falls back to the relative path
+         * `"models/" + base_model_id + ".gguf"`, which is only correct when
+         * the server working directory contains a `models/` sub-directory.
+         *
+         * @param model_id The base_model_id string from this Config.
+         * @return Absolute path to the GGUF file, or empty on resolution failure.
+         */
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
+        std::optional<ModelPathProviderFn> model_path_provider;
     };
-    
+
     explicit ThemisHelpLoRA(const Config& config);
     ThemisHelpLoRA();
     ~ThemisHelpLoRA();

@@ -253,6 +253,32 @@ struct DistributedTxnManagerConfig {
     /// 0 = fall back to std::async per call (legacy behaviour).
     /// Default: 4 (good for typical 2-8 shard deployments).
     size_t worker_thread_count = 4;
+
+    /**
+     * @brief Remote Phase-2 RPC bridge for callback-less participants.
+     *
+     * When set, runPhase2Unlocked() calls this function for every participant
+     * whose `callback` pointer is null and whose `endpoint` is non-empty,
+     * delivering the COMMIT or ABORT decision over the provided transport.
+     *
+     * Signature: `void(endpoint, txn_id, do_commit)`
+     *   - @p endpoint  Network address of the remote participant ("host:port").
+     *   - @p txn_id    Transaction identifier.
+     *   - @p do_commit `true` → send COMMIT; `false` → send ABORT.
+     *
+     * The function is responsible for retry logic and transport-level error
+     * handling.  Any exception thrown by the function is caught and logged by
+     * the coordinator; it does not abort the Phase-2 loop.
+     *
+     * When not set, remote participants receive no Phase-2 message and can
+     * remain prepared until manual recovery.
+     */
+    using Phase2RpcFn = std::function<void(
+        const std::string& endpoint,
+        const std::string& txn_id,
+        bool               do_commit
+    )>;
+    std::optional<Phase2RpcFn> phase2_rpc_fn;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

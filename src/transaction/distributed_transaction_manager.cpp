@@ -757,19 +757,31 @@ void DistributedTransactionManager::runPhase2Unlocked(
 
     for (const auto& part : parts) {
         if (!part.callback) {
-            // STUB/SIMULATION NOTE (stub #279):
-            // Purpose: Preserve in-process phase-2 fan-out while the remote
-            //          commit/abort RPC path is still missing.
-            // Activation: Reached when a participant is registered only by
-            //             node/endpoint and provides no local callback.
-            // Production Delta: The coordinator durably records COMMIT/ABORT in
-            //                   its own WAL, but the final decision is never
-            //                   delivered to the remote participant. Remote
-            //                   nodes can remain prepared/orphaned until a real
-            //                   transport replays the decision.
-            // Removal Plan: Route phase-2 decisions through shard RPC / mTLS
-            //               transport instead of skipping callback-less
-            //               participants (tracked in STUB_INVENTORY #279).
+            // Remote participant: deliver Phase-2 decision via the injected RPC
+            // bridge when an endpoint is known.  Without the bridge the
+            // coordinator's WAL already records the decision, so
+            // recoverInDoubtTransactions() can re-drive delivery after restart.
+            if (!part.endpoint.empty() && config_.phase2_rpc_fn) {
+                const std::string ep  = part.endpoint;
+                const std::string nid = part.node_id;
+                const std::string tid = txn_id;
+                const std::string cid = coordinator_id_;
+                const bool        dc  = do_commit;
+                auto& rpc_fn = *config_.phase2_rpc_fn;
+                futures.push_back(submitTask([rpc_fn, ep, nid, tid, cid, dc]() {
+                    try {
+                        rpc_fn(ep, tid, dc);
+                    } catch (const std::exception& ex) {
+                        THEMIS_ERROR("2PC Phase-2 RPC {} threw for node={} txn={} coordinator={}: {}",
+                                     dc ? "COMMIT" : "ABORT", nid, tid, cid, ex.what());
+                    }
+                }));
+            } else {
+                THEMIS_WARN("DistributedTransactionManager [{}] skipping Phase-2 {} for remote "
+                            "participant node={} endpoint='{}' — no Phase2RpcFn injected",
+                            coordinator_id_, do_commit ? "COMMIT" : "ABORT",
+                            part.node_id, part.endpoint);
+            }
             continue;
         }
 

@@ -9,7 +9,66 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-- **whisper module: data race on VAD removed** 🔐
+- **rope_api_handler: scope-based RBAC enforced for all ROPE endpoints (stub #280)** 🔐
+  - `RopeApiHandler::requireAccess()` now extracts the Bearer token and calls
+    `auth_->authorize(token, permission)`, returning HTTP 403 when the requested
+    scope (`vector:read`, `vector:write`, `data:read`, `data:write`) is not granted.
+    Previously all authenticated callers had implicit full access. Pattern mirrors
+    `VectorApiHandler`.
+    (`src/server/rope_api_handler.cpp`)
+
+### Fixed
+
+- **Stub batch 26: #279, #280, #290, #293, #299, #300 resolved**
+
+  - **#279 — distributed_transaction_manager: Phase-2 RPC bridge for remote participants**
+    - `DistributedTxnManagerConfig::Phase2RpcFn` injection type and
+      `phase2_rpc_fn` optional field added.
+    - `runPhase2Unlocked()` now dispatches COMMIT/ABORT to remote (callback-less)
+      participants via the injected RPC bridge; emits a structured warning when no
+      bridge is configured so operators know the WAL-only recovery path is active.
+    - (`include/transaction/distributed_transaction_manager.h`,
+      `src/transaction/distributed_transaction_manager.cpp`)
+
+  - **#280 — rope_api_handler: scope-based RBAC** *(see Security section above)*
+
+  - **#290 — distributed_trainer: AllReduceCpuFn injection API**
+    - `AllReduceCpuFn` type and `setAllReduceCpuFn()` method added to
+      `DistributedTrainer`.
+    - `allreduce_cpu()` delegates to the injected function (MPI_Allreduce / Gloo)
+      when present; falls back to local scale with a diagnostic warning for
+      `world_size > 1` builds without injection.
+    - (`include/llm/lora_framework/distributed_trainer.h`,
+      `src/llm/lora_framework/distributed_trainer.cpp`)
+
+  - **#293 — function_registry: fulltext AQL functions now registered**
+    - `registerFulltextFunctions(registry)` uncommented in
+      `registerBuiltinFunctions()`.  The implementation already existed in
+      `fulltext_functions.cpp`; the only missing step was the call.
+    - FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE, and
+      DOUBLE_METAPHONE are now available in AQL queries.
+    - (`src/query/functions/function_registry.cpp`)
+
+  - **#299 — themis_help_lora: ModelPathProviderFn injection API**
+    - `ModelPathProviderFn` type and `model_path_provider` optional field added to
+      `ThemisHelpLoRA::Config`.
+    - Model loading and LoRATrainingService initialisation both use the injected
+      provider when available; fall back to the relative `"models/"` path for
+      backward compatibility.
+    - (`include/llm/applications/themis_help_lora.h`,
+      `src/llm/applications/themis_help_lora.cpp`)
+
+  - **#300 — backup_manager: per-column-family selective restore**
+    - `restoreCollections()` now uses `rocksdb::DB::ListColumnFamilies` to
+      enumerate CFs present in the checkpoint, opens only the requested CFs
+      via `DB::OpenForReadOnly`, iterates all key-value pairs, and batch-writes
+      them to the live DB's corresponding CFs via `getOrCreateColumnFamily` +
+      `WriteBatch::Put`.  Out-of-scope column families are never touched.
+    - (`src/storage/backup_manager.cpp`)
+
+  - Updated `STUB_INVENTORY.md`: 297 resolved, 19 active.
+
+
   - `WhisperPlugin::setVoiceActivityDetector()` and `applyVad()` now hold `vad_mutex_`
     when reading or writing `vad_` / `vad_cfg_`, eliminating the CRITICAL data race that
     could corrupt the VAD state when a caller replaced the detector concurrently with an
