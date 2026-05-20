@@ -41,6 +41,23 @@ json makeNotImplemented(const std::string& name) {
     throw std::runtime_error(name + ": function not implemented");
 }
 
+json normalizeAdminModels(const json& value) {
+    if (!value.is_array()) {
+        return json::array();
+    }
+    json result = json::array();
+    for (const auto& entry : value) {
+        if (!entry.is_object()) {
+            continue;
+        }
+        if (!entry.contains("id") || !entry["id"].is_string()) {
+            continue;
+        }
+        result.push_back(entry);
+    }
+    return result;
+}
+
 // ---------------------------------------------------------------------------
 // JSON → EventLog
 //
@@ -376,15 +393,26 @@ json PmVariantsFunction::execute(
 //   STUB_INVENTORY #283).
 
 json PmLoadAdminModelFunction::execute(
-    const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-    return makeNotImplemented("PM_LOAD_ADMIN_MODEL");
+    const std::vector<json>& args,
+    const FunctionContext& ctx) const {
+    if (args.empty() || !args[0].is_string()) {
+        return makeError("PM_LOAD_ADMIN_MODEL: model_id must be a string");
+    }
+
+    const std::string model_id = args[0].get<std::string>();
+    const json models = normalizeAdminModels(ctx.getVariable("pm_admin_models"));
+    for (const auto& model : models) {
+        if (model.value("id", std::string{}) == model_id) {
+            return model;
+        }
+    }
+    return makeError("PM_LOAD_ADMIN_MODEL: model not found: " + model_id);
 }
 
 json PmListAdminModelsFunction::execute(
     const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-    return json::array();
+    const FunctionContext& ctx) const {
+    return normalizeAdminModels(ctx.getVariable("pm_admin_models"));
 }
 
 // ============================================================================
@@ -517,10 +545,22 @@ json PmBottlenecksFunction::execute(
 //               forecast (tracked in STUB_INVENTORY #278).
 
 json PmPredictEndFunction::execute(
-    const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
+    const std::vector<json>& args,
+    const FunctionContext& ctx) const {
     json result;
     result["predicted_end"] = nullptr;
+    if (args.empty() || !args[0].is_string()) {
+        return result;
+    }
+
+    const std::string case_id = args[0].get<std::string>();
+    const json prediction_map = ctx.getVariable("pm_predicted_end_by_case");
+    if (prediction_map.is_object()) {
+        auto it = prediction_map.find(case_id);
+        if (it != prediction_map.end()) {
+            result["predicted_end"] = *it;
+        }
+    }
     return result;
 }
 
@@ -554,4 +594,3 @@ json PmExportBpmnFunction::execute(
 } // namespace functions
 } // namespace query
 } // namespace themis
-
