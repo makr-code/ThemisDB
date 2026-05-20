@@ -37,11 +37,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `NvmlTemperatureFn = std::function<float(int)>`; static `setNvmlTemperatureFn(fn)` method
   - CUDA path in `updateGPUHealth()` calls injected fn for real temperature; falls back to 0.0 °C when unset
 
+### Added (Phase 26 Stub Remediation — 4 stubs resolved)
+- **Stub #303 RESOLVED — LLMModelStorage model enumeration via RocksDB prefix scan** (`src/llm/llm_model_storage.cpp`, `tests/llm/test_llm_deployment_plugin.cpp`)
+  - `listModels()` now uses `scanPrefix(key_prefix, ...)`, applies optional filter, and returns sorted/unique model IDs
+  - Added focused test coverage for list + filtered list behavior after persistence
+- **Stub #304 RESOLVED — FeedbackStorageService graph-link persistence wired to GraphIndexManager** (`src/llm/lora_framework/lora_feedback_storage.cpp`)
+  - `createGraphLink()` now persists edges via `GraphIndexManager::addEdge`
+  - `removeGraphLink()` now deletes persisted edges via `GraphIndexManager::deleteEdge`
+- **Stub #306 RESOLVED — OAuth2 logout RFC7009 revocation support** (`include/auth/oidc_provider.h`, `src/auth/oidc_provider.cpp`, `src/server/oauth2_provider.cpp`, `tests/test_oauth2_provider.cpp`)
+  - OIDC discovery now parses optional `revocation_endpoint`
+  - `handleLogout()` performs best-effort revocation POST when endpoint is advertised
+  - Added tests for revocation call execution and fail-open local logout behavior on revocation transport error
+
 ### Fixed (Phase 25 Stub Remediation)
 - **Stub #310 RESOLVED — AutoRebalancer signOperation() fail-closed** (`src/sharding/auto_rebalancer.cpp`)
   - All `UNSIGNED:*` fallback return paths removed; `signOperation()` now throws `std::runtime_error` on empty key path, file open failure, key parse failure, or any OpenSSL error; monitor loop catches and logs the error
 - **Stub #311 RESOLVED — PaxosStatePersistence structured ConsensusLogEntry payload** (`src/sharding/paxos_state_persistence.cpp`)
   - `persistAccept()` now populates `ConsensusLogEntry` with `index=slot`, `term=ballot_round`, `operation=value`, and `data` JSON containing `{slot, ballot_round, proposer_node, value}` for full replay fidelity
+
+### Fixed (Phase 26 Stub Remediation)
+- **Stub #280 RESOLVED — RopeApiHandler scope authorization enforcement** (`src/server/rope_api_handler.cpp`)
+  - `requireAccess()` now enforces Bearer-token extraction and scope checks through `auth_->authorize(token, permission)`
+  - Unauthorized and insufficient-scope requests now return explicit HTTP 401/403 instead of permissive allow-all behavior
 
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)

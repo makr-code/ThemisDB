@@ -871,34 +871,36 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 }
 
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
-    [[maybe_unused]] const http::request<http::string_body>& req,
-    [[maybe_unused]] const std::string& permission,
+    const http::request<http::string_body>& req,
+    const std::string& permission,
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)
 {
-    // Suppress unused parameter warnings for parameters reserved for future use
-    
-    // Basic authentication check - if auth middleware is not configured or not enabled,
-    // allow access (open mode)
+    // Basic authentication check - if auth middleware is not configured or not
+    // enabled, allow access (open mode).
     if (!auth_ || !auth_->isEnabled()) {
-        return std::nullopt;  // null = access allowed
+        return std::nullopt;
     }
-    
-    // STUB/SIMULATION NOTE (stub #280):
-    // Purpose: Keep ROPE endpoints reachable behind authentication while the
-    //          handler is still missing the same scope-based RBAC enforcement
-    //          already implemented in VectorApiHandler.
-    // Activation: Always active whenever auth middleware is enabled for ROPE.
-    // Production Delta: After authentication succeeds, all ROPE operations are
-    //                   allowed regardless of the requested `permission`
-    //                   (`vector:read`, `vector:write`, `data:read`,
-    //                   `data:write`). The handler therefore does not enforce
-    //                   per-operation authorization boundaries.
-    // Removal Plan: Reuse token extraction + auth_->authorize(token,
-    //               permission) from VectorApiHandler and fail with HTTP 403 on
-    //               denied scopes (tracked in STUB_INVENTORY #280).
-    
-    return std::nullopt;  // null = access allowed
+
+    auto auth_header = req.find(http::field::authorization);
+    if (auth_header == req.end()) {
+        return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
+    }
+
+    auto token = themis::AuthMiddleware::extractBearerToken(
+        std::string_view(auth_header->value().data(), auth_header->value().size())
+    );
+    if (!token) {
+        return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
+    }
+
+    auto ar = auth_->authorize(*token, permission);
+    if (!ar.authorized) {
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + permission, req);
+    }
+
+    return std::nullopt;
 }
 
 std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& path) {
