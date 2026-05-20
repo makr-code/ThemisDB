@@ -431,7 +431,7 @@ See: <Detail link>
 These themes affect multiple modules and should be tracked as **Epic-level GitHub Issues**:
 
 ### 🔧 Code Consolidation Epic
-**Status:** In Progress (2026-04-27) · **Epic Label:** `epic:consolidation` · **Target:** v1.5.0
+**Status:** ✅ **COMPLETE (2026-05-19)** · **Epic Label:** `epic:consolidation` · **Target:** v1.5.0
 
 Tracks deduplication of scattered implementations across the codebase.
 See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
@@ -495,35 +495,42 @@ See `src/UNUSED_FUNCTIONS_REPORT.md` for per-symbol triage decisions.
   > Alle anderen network-Subsysteme: single-shot sleeps (drain-timeout, QoS-throttle).
   > Kein Migrationsbedarf. `retry_policy.h`-Kommentar aktualisiert.
 - [x] Unit-Tests für `retry_policy.h` ergänzen + Assertions für `bo.attempts()` nach ok2/ok3 (v1.9.0)
+- [x] **Tier 1 (Phase 2a):** `src/exporters/huggingface_hub_client.cpp` — beide exponential-backoff Retry-Loops (file-upload + shard-upload) auf `ExponentialBackoff` umgestellt; `src/updates/parallel_downloader.cpp` — Retry-Loop auf `ExponentialBackoff` umgestellt. Delay-Sequenz identisch zur vorherigen Impl. (v2.0+)
+  > Regression-Tests `HubClientDelaySequenceMatchesOldImpl` + `ParallelDownloaderDelaySequenceMatchesOldImpl` in `tests/test_retry_policy.cpp`.
+- [x] **Tier 2 (Phase 2b):** `src/sharding/wal_applier.cpp` linearer Backoff 100×(attempt+1) ms → `ExponentialBackoff` (initial=100 ms, multiplier=2.0, jitter=0). `WALApplierConfig` um `retry_initial_delay_ms` erweitert; Regression-Test `WALApplierDelaySequenceIsExponential` in `tests/test_retry_policy.cpp`. (v2.0+)
 
 ---
 
 ### 🔒 Security Hardening Epic
-Affects: `auth`, `security`, `server`, `llm`, `utils`, `sharding`, `storage`
+**Status:** ✅ **COMPLETE (2026-05-19)** · **Epic Label:** `epic:security-hardening` · **Target:** v1.8.0
 
-- Auth: JWT JWKS mutex, LDAP injection, constant-time compare, issuer validation (items #1–6)
-- LLM: LoRA cert store never verifies certificates (#75)
-- Server: JWT scope extraction not enforced (#100)
-- Utils: PKI client fallback to base64-hash comparison (#218)
-- Security: Arrow plugin is a complete stub (#99); AQL injection AST-level validation implemented (#27 ✅)
-- Storage: SecuritySignatureManager cannot iterate without `RocksDBWrapper::iterateRange()` (#206)
-
-**Suggested Epic Label:** `epic:security-hardening` · **Target:** v1.8.0
+- Auth: JWT JWKS `shared_mutex`, LDAP DN/filter injection prevention, constant-time TOTP compare, mandatory issuer+audience validation (items #1–6 ✅)
+- LLM: LoRA cert store TLS verification via injectable `VerifyCertFn` (#75 ✅)
+- Server: JWT scope-based RBAC in VectorApiHandler (#100 ✅); ROPE `requireAccess()` scope enforcement (#280 ✅); Voice API JWT middleware injection (#302 ✅)
+- Utils: PKI client HKDF-hash comparison (#218 ✅)
+- Security: Arrow plugin bridge (#99 ✅); AQL injection AST-level validation (#27 ✅)
+- Storage: SecuritySignatureManager `iterateRange()` via RocksDBWrapper (#206 ✅)
 
 ---
 
 ### 🔀 Concurrency / Thread-Safety Epic
+**Status:** ✅ **COMPLETE (2026-05-19)** · **Epic Label:** `epic:thread-safety` · **Target:** v1.8.0
+
 Affects: `analytics`, `acceleration`, `cache`, `config`, `graph`, `maintenance`, `observability`, `plugins`
 
-All modules still using exclusive mutexes on read paths (should upgrade to `std::shared_mutex`):
-- `analytics` items #41–45 (6 lock-under-callback / lock-under-inference issues)
+All modules upgraded from exclusive mutexes on read paths to `std::shared_mutex`:
+- [x] `analytics` items #41–45 — all lock-under-callback / lock-under-inference issues resolved:
+  - **#41 `CEPEngine::timerLoop()`**: snapshot window events + timestamps under `windows_mutex_`, release, then dispatch user callbacks; same pattern in `closeWindow()` and `expiryLoop()`.
+  - **#42 `StreamingAnomalyDetector::process()`**: separate `window_mu_` and `detector_mu_` (`std::shared_mutex`); training runs fully off-lock via `std::async`; `predict()` under `shared_lock`; stress test `StreamingConcurrencyStress.EightProducersP99Latency` validates P99 ≤ 1 ms.
+  - **#43 `ModelServingEngine::predict()`**: `shared_mutex` registry; `lookupEntryOrThrow_()` captures a `shared_ptr<Entry>` under a brief `shared_lock`, releases lock, runs inference outside any registry lock; `health_mu` per-entry for metrics. Concurrent-readers test + concurrent-unregister test + throughput benchmark added.
+  - **#44 `MLServingEngine::infer()`**: `shared_mutex sessions_mutex`; per-model `std::mutex` serialises concurrent loads of the same model without blocking unrelated models; `OrtSession::Run()` executes outside `sessions_mutex`. Two-thread concurrent inference test validates no inter-model blocking.
+  - **#45 `IncrementalView::applyChanges()`**: micro-batch loop (≤ 256 rows/batch); exclusive lock acquired + released per micro-batch; `std::this_thread::yield()` between batches; `passesBaseFilters()` pre-computed outside the lock. Read-latency regression test `IncrementalViewPerfTest.ReaderP99DuringBatchApply` validates P99 ≤ 10 ms.
+  - **`ExpertSystemEngine`** (v1.8.0, 2026-05-19): `std::mutex` → `std::shared_mutex`; read-only methods use `shared_lock`; `forwardChain()` snapshots scorer state under lock, releases lock before external scorer callback, re-acquires before writing; tests ES-21 (concurrent readers) + ES-22 (scorer-callback no-deadlock).
 - ~~`observability` MetricsCollector #191~~ ✅ Done (v1.8.0)
-- `plugins` PluginRegistry #193
-- `maintenance` schedules_mutex_ #185
-- `graph` DistributedGraphManager #174
-- `config` ConfigEncryptedStore #164
-
-**Suggested Epic Label:** `epic:thread-safety` · **Target:** v1.8.0
+- ~~`plugins` PluginRegistry #193~~ ✅ Done (already `std::shared_mutex`)
+- ~~`maintenance` schedules_mutex_ #185~~ ✅ Done (already `std::shared_mutex`)
+- ~~`graph` DistributedGraphManager #174~~ ✅ Done (already `std::shared_mutex`)
+- ~~`config` ConfigEncryptedStore #164~~ ✅ Done (already `std::shared_mutex`)
 
 ---
 

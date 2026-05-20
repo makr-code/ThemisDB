@@ -182,20 +182,25 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
     s.accepted_round = ballot_round;
     s.accepted_value = value;
 
-    // STUB/SIMULATION NOTE (stub #311):
-    // Purpose: Persist ACCEPT records without blocking current WAL schema usage
-    //          while richer ConsensusLogEntry payload mapping is still pending.
-    // Activation: Always in persistAccept().
-    // Production Delta: ACCEPT WAL records store only `operation=value` and omit
-    //                   structured command metadata (e.g., typed payload fields),
-    //                   limiting fidelity for downstream replay/inspection tooling.
-    // Removal Plan: Serialize full consensus command structure into ConsensusLogEntry
-    //               and recover it symmetrically during WAL replay.
-    //               See src/sharding/ROADMAP.md §Persistent Paxos acceptor state.
-    //               Target: Q1 2027.
-    // Build a ConsensusLogEntry placeholder with the value as command
+    // Populate ConsensusLogEntry with structured payload from the accepted value.
+    // If `value` is a JSON object, its `type` key becomes entry.operation and the
+    // full object is stored in entry.data for downstream replay tooling.
+    // Plain-string values fall back to the previous operation=value mapping.
     ConsensusLogEntry entry;
-    entry.operation = value;
+    entry.term      = ballot_round;
+    entry.timestamp = std::chrono::system_clock::now();
+    try {
+        auto parsed = nlohmann::json::parse(value);
+        if (parsed.is_object()) {
+            entry.operation = parsed.value("type", value);
+            entry.data      = std::move(parsed);
+        } else {
+            entry.operation = value;
+        }
+    } catch (const nlohmann::json::exception&) {
+        // Not JSON — treat entire value as the operation identifier.
+        entry.operation = value;
+    }
 
     LSN lsn = wal_->logAccept(slot, ballot_round, node_state_.node_id, entry);
     if (config_.sync_on_write) wal_->flush();

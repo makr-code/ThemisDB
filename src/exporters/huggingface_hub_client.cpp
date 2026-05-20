@@ -495,21 +495,20 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
 
         bool file_ok = false;
         bool rate_limited = false;
-        
-        // Use centralized exponential backoff policy (Phase 2a consolidation)
-        const themis::utils::RetryConfig retry_cfg{
-            .max_attempts       = static_cast<uint32_t>(config_.max_retries + 1),
-            .initial_backoff_ms = static_cast<uint32_t>(config_.retry_delay_ms),
-            .max_backoff_ms     = 30'000,
-            .multiplier         = 2.0,
-            .jitter_fraction    = 0.0,
-        };
-        themis::utils::ExponentialBackoff backoff(retry_cfg);
-        
+        // Exponential backoff for transient errors (HTTP 429 uses its own
+        // Retry-After sleep and does NOT advance the backoff state).
+        themis::utils::RetryConfig hub_backoff_cfg;
+        hub_backoff_cfg.max_attempts       = static_cast<uint32_t>(config_.max_retries) + 1u;
+        hub_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(
+            std::max(0, config_.retry_delay_ms));
+        hub_backoff_cfg.max_backoff_ms     = 30'000u;
+        hub_backoff_cfg.multiplier         = 2.0;
+        hub_backoff_cfg.jitter_fraction    = 0.0;
+        themis::utils::ExponentialBackoff file_backoff(hub_backoff_cfg);
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for file {}", attempt, rel);
-                if (!backoff.wait()) break;
+                if (!file_backoff.wait()) break;
             }
             rate_limited = false;
 
@@ -679,21 +678,20 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
 
         bool shard_ok = false;
         bool rate_limited = false;
-        
-        // Use centralized exponential backoff policy (Phase 2a consolidation)
-        const themis::utils::RetryConfig retry_cfg{
-            .max_attempts       = static_cast<uint32_t>(config_.max_retries + 1),
-            .initial_backoff_ms = static_cast<uint32_t>(config_.retry_delay_ms),
-            .max_backoff_ms     = 30'000,
-            .multiplier         = 2.0,
-            .jitter_fraction    = 0.0,
-        };
-        themis::utils::ExponentialBackoff backoff(retry_cfg);
-        
+        // Exponential backoff for transient errors (HTTP 429 uses its own
+        // Retry-After sleep and does NOT advance the backoff state).
+        themis::utils::RetryConfig shard_backoff_cfg;
+        shard_backoff_cfg.max_attempts       = static_cast<uint32_t>(config_.max_retries) + 1u;
+        shard_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(
+            std::max(0, config_.retry_delay_ms));
+        shard_backoff_cfg.max_backoff_ms     = 30'000u;
+        shard_backoff_cfg.multiplier         = 2.0;
+        shard_backoff_cfg.jitter_fraction    = 0.0;
+        themis::utils::ExponentialBackoff shard_backoff(shard_backoff_cfg);
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for shard {}", attempt, rel);
-                if (!backoff.wait()) break;
+                if (!shard_backoff.wait()) break;
             }
             rate_limited = false;
 
@@ -787,4 +785,3 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
 }
 
 } // namespace themis::exporters
-

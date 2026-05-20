@@ -14,6 +14,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <functional>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 /**
@@ -96,6 +98,26 @@ public:
         std::string sandbox_dir = "/tmp/themis_plugin_sandbox";
         std::string output_dir = "./generated_plugins";
     };
+
+    /**
+     * @brief Injectable bridge for LLM-based plugin code generation.
+     *
+     * @param prompt  The validated generation prompt.
+     * @return Expected<GeneratedPlugin, Error> produced by the LLM back-end.
+     *
+     * Set via setLLMGenerateFn() to wire a real HTTP POST to `config_.llm_endpoint`
+     * (or any other generation strategy) without recompiling the generator.
+     * When not set, generatePlugin() returns ERR_PLUGIN_LOAD_FAILED to signal
+     * that no LLM back-end is available (stub #282 resolution).
+     */
+    using LLMGenerateFn = std::function<Result<GeneratedPlugin>(const PluginGenerationPrompt&)>;
+
+    /**
+     * @brief Install the LLM generation bridge (thread-safe).
+     * @param fn  Callable invoked by generatePlugin() after input validation.
+     *            Pass nullptr to revert to the not-wired error response.
+     */
+    void setLLMGenerateFn(LLMGenerateFn fn);
     
     explicit AIPluginGenerator(const Config& config);
     ~AIPluginGenerator();
@@ -105,6 +127,8 @@ public:
     
 private:
     Config config_;
+    LLMGenerateFn llm_generate_fn_;
+    mutable std::mutex llm_fn_mutex_;
 };
 
 } // namespace ai

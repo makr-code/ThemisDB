@@ -9,6 +9,9 @@ All notable changes to the Content module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+- Reliability hardening block: removed remaining broad `catch (...)` handlers in `content_manager.cpp` metadata decrypt/re-encryption, chunk retrieval, search expansion, VFS scan/list, and `ingestStream()` config parsing paths; these paths now use typed `const std::exception&` handling with existing fail-safe fallbacks preserved.
+- Reliability hardening block: `content_manager.cpp` filter/config paths (`buildChunkWhitelist`, hash duplicate lookup, blob compression/encryption config parsing, compression metrics updates) now use typed exception handlers (`const std::exception&`) instead of broad `catch (...)` in these paths.
+- Reliability hardening batch 3: all remaining `catch (...)` handlers removed from `geo_processor.cpp` (3), `html_processor.cpp` (1), `video_processor.cpp` (4), `archive_processor.cpp` (4), `embedding_pipeline.cpp` (1), and `content_fs.cpp` (5); replaced with typed `catch (const std::exception&)` handlers. Zero catch-all handlers now remain in `src/content/`.
 - Configurable processing pipeline: plugin-based processor chain via `ProcessorChainConfig` and `IIngestionPlugin` (Issue #1686, Target Q3 2026)
 - Video frame extraction and scene detection via FFmpeg (Issue #1688, Target Q4 2026)
 

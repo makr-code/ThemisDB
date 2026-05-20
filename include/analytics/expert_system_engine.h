@@ -14,8 +14,11 @@
  * (ModelServingEngine* or injection function) gates rule firing on
  * confidence thresholds.
  *
- * Thread-safety: all public methods are guarded by a single std::mutex.
- * read-only methods (explain, factCount, ruleCount) also hold the lock.
+ * Thread-safety: read-only methods (explain, factCount, ruleCount, queryGoal)
+ * acquire a std::shared_lock so multiple readers may run concurrently.
+ * Write methods (assertFact, retractFact, setMLScorer, forwardChain, …) acquire
+ * a std::unique_lock.  forwardChain() releases the lock before invoking the
+ * optional ML scorer callback to prevent re-entrancy deadlocks (items #41–45).
  *
  * Copyright (c) 2025 VCC-URN Project
  * SPDX-License-Identifier: Apache-2.0
@@ -26,6 +29,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -210,9 +214,16 @@ private:
                                    const std::string& p,
                                    const std::string& o) const;
 
-    /** Return ML confidence for a rule + matched facts (1.0 if no scorer set). */
-    [[nodiscard]] double mlConfidence(const HornClause&        rule,
-                                      const std::vector<Fact>& matched) const;
+    /** Return ML confidence for a rule + matched facts (1.0 if no scorer set).
+     *  Must NOT be called while mutex_ is held (scorer may call back into the
+     *  engine; see lock-under-callback fix in forwardChain). */
+    [[nodiscard]] static double mlConfidenceNoLock(
+        ModelServingEngine*       scorer,
+        const ScorerFn&           scorer_fn,
+        const std::string&        model_name,
+        const std::string&        model_ver,
+        const HornClause&         rule,
+        const std::vector<Fact>&  matched);
 
     /** Backward chaining DLS. Appends steps to trace. */
     [[nodiscard]] bool backwardChainDLS(
@@ -228,7 +239,7 @@ private:
 
     Config                         cfg_;
     std::shared_ptr<KnowledgeBase> kb_;
-    mutable std::mutex             mutex_;
+    mutable std::shared_mutex      mutex_;  ///< shared for reads, unique for writes
 
     // fact_id → proof steps that derived it (for explain())
     std::unordered_map<std::string, std::vector<ProofStep>> decision_log_;

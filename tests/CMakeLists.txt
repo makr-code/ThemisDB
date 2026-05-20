@@ -6691,6 +6691,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_judge_is_mock.cpp")
     message(STATUS "  LLMJudgeIsMock: JGI_MOCK_01..05 is_mock flag in ParsedResponse")
 endif()
 
+# Stub Remediation – #297, #298, #280, #302
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_stub_remediation_297_298_280_302.cpp")
+    message(STATUS "Adding stub remediation regression tests (#297 #298 #280 #302)")
+    add_executable(test_stub_remediation_297_298_280_302
+        test_stub_remediation_297_298_280_302.cpp
+    )
+    target_link_libraries(test_stub_remediation_297_298_280_302 PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_include_directories(test_stub_remediation_297_298_280_302 PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_compile_definitions(test_stub_remediation_297_298_280_302 PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME StubRemediation297298280302Tests
+             COMMAND test_stub_remediation_297_298_280_302)
+    set_tests_properties(StubRemediation297298280302Tests PROPERTIES
+        LABELS "stub-remediation;security;llm;server;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  StubRemediation: #297 MODIFY apply, #298 RAII buffer, #280 RBAC, #302 JWT auth")
+endif()
+
 # AQL §8 ─ LLMAQLEmbeddingBridge: wire executeEmbed() to IEmbeddingProvider
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_aql_embedding_bridge.cpp")
     message(STATUS "Adding LLMAQLEmbeddingBridge focused tests (AQL §8 / B-07)")

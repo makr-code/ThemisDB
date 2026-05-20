@@ -11,6 +11,7 @@
 #include "index/property_graph.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
+#include <nlohmann/json.hpp>
 #include <sstream>
 #include <algorithm>
 #include <unordered_set>
@@ -34,28 +35,42 @@ std::vector<std::string> PropertyGraphManager::extractLabels_(const BaseEntity& 
     }
 
     // Value can be variant, check if it's a vector
-    // For now, we'll use getFieldAsString and parse comma-separated (simplified)
-    // STUB/SIMULATION NOTE (stub #292):
+    // STUB/SIMULATION NOTE (stub #292 — partial resolution):
     // Purpose: Allow label extraction to work without a native string-array type
-    //          in BaseEntity.  Parses the '_labels' field as a comma-separated
-    //          string so that property graph operations compile and run on the
-    //          current storage layer.
+    //          in BaseEntity.
     // Activation: Always — BaseEntity does not yet support std::vector<std::string>
     //             typed fields; all multi-value fields are stored as scalars.
-    // Production Delta: Labels containing commas are parsed incorrectly; leading/
-    //                   trailing whitespace trimming can silently drop characters if
-    //                   a label is all-whitespace.  Labels stored as JSON arrays or
-    //                   binary-encoded in the future will not be readable via the
-    //                   comma-split path.
+    // Production Delta: Labels containing commas stored in plain comma-split format
+    //                   are still mis-parsed.  JSON-array encoded labels (stub #292
+    //                   improvement) are now handled correctly.
     // Removal Plan: Extend BaseEntity::PropertyValue to include
     //               std::vector<std::string>; add getFieldAsStringArray(); update
     //               PropertyGraphManager to call getFieldAsStringArray("_labels").
     //               See src/index/FUTURE_ENHANCEMENTS.md §PropertyGraph StringArray.
     //               Target: Q2 2027.
-    // TODO: Extend BaseEntity to support string arrays
     auto labelsStr = node.getFieldAsString("_labels");
     if (labelsStr.has_value()) {
-        std::string labels_str = *labelsStr;
+        // First try JSON-array encoding (e.g. ["label1","label2"]) which avoids
+        // the comma-ambiguity issue of the flat comma-split path (stub #292 improvement).
+        const std::string& raw = *labelsStr;
+        if (!raw.empty() && raw.front() == '[') {
+            try {
+                auto arr = nlohmann::json::parse(raw);
+                if (arr.is_array()) {
+                    for (const auto& elem : arr) {
+                        if (elem.is_string()) {
+                            labels.push_back(elem.get<std::string>());
+                        }
+                    }
+                    return labels;
+                }
+            } catch (const nlohmann::json::exception&) {
+                // Not valid JSON array — fall through to comma-split.
+            }
+        }
+
+        // Fallback: comma-separated string (legacy storage format).
+        std::string labels_str = raw;
         std::stringstream ss(labels_str);
         std::string label;
         while (std::getline(ss, label, ',')) {

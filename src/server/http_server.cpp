@@ -643,7 +643,9 @@ HttpServer::HttpServer(
             // GAP-011 fixed: log only token length, never prefix/suffix bytes.
             THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
                        cfg.token.size(), v.authorized, v.user_id, v.reason);
-        } catch(...) {}
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("Auth: validateToken after addToken failed: {}", ex.what());
+        }
     }
     // Read-only token
     if (auto t = themis_get_env("THEMIS_TOKEN_READONLY")) {
@@ -8870,13 +8872,19 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 try {
                     std::cerr << "[AUTH-DBG] validateToken -> authorized=" << (vres.authorized?"true":"false")
                               << " user_id='" << vres.user_id << "' reason='" << vres.reason << "'\n";
-                } catch(...) {}
-            } catch (...) {}
+                } catch (const std::exception& dbgEx) {
+                    THEMIS_WARN("AUTH-DBG write failed: {}", dbgEx.what());
+                }
+            } catch (const std::exception& exVal) {
+                THEMIS_WARN("requireAccess: validateToken threw: {}", exVal.what());
+            }
             auto ar = auth_->authorize(*token, required_scope);
             try {
                 std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
                           << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
-            } catch(...) {}
+            } catch (const std::exception& dbgEx2) {
+                THEMIS_WARN("AUTH-DBG authorize write failed: {}", dbgEx2.what());
+            }
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -8905,7 +8913,9 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         // Diagnostic: show user_id before policy check
         try {
             std::cerr << "[AUTH-DBG] before_policy_check -> user_id='" << user_id << "' action='" << action << "' resource='" << resource << "'\n";
-        } catch(...) {}
+        } catch (const std::exception& dbgEx3) {
+            THEMIS_WARN("AUTH-DBG policy write failed: {}", dbgEx3.what());
+        }
 
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
         std::optional<std::string> client_ip;

@@ -174,6 +174,21 @@ public:
         // Phase 2: Base model integration settings
         std::vector<std::string> target_modules = {"attention.wq", "attention.wv"};  // Layers to adapt
         bool use_base_model = false;         // Enable base model integration (Phase 2b)
+
+        /**
+         * @brief Optional model-path resolver.
+         *
+         * When set, this function is called with a model identifier (e.g. the
+         * base_model_path stem) to return the actual filesystem path of the GGUF
+         * file.  Implement with LLMModelStorage::resolveGGUFPath() or any other
+         * model registry.  When nullptr the raw @p base_model_path string is used
+         * directly, preserving backward-compatible behaviour.
+         *
+         * @param model_id  Model identifier string.
+         * @return Absolute or relative path to the GGUF file.
+         */
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
+        ModelPathProviderFn model_path_provider;
         
         // QLoRA configuration
         QLoRAConfig qlora;
