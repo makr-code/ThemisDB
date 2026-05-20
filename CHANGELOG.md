@@ -66,7 +66,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       `WriteBatch::Put`.  Out-of-scope column families are never touched.
     - (`src/storage/backup_manager.cpp`)
 
-  - Updated `STUB_INVENTORY.md`: 297 resolved, 19 active.
+  - **Stub batch 27: #291, #295 resolved**
+    - **#291 — adaptive_shard_router: NLP enrichment injection**
+      - Added `AdaptiveShardRouter::NlpContextFn` and `setNlpContextFn()`.
+      - `prepareQueryContext()` now delegates to injected NLP/ML enrichment when
+        configured and keeps heuristic keyword fallback for deployments without
+        an NLP provider.
+      - (`include/sharding/adaptive_shard_router.h`,
+        `src/sharding/adaptive_shard_router.cpp`)
+    - **#295 — secure_transport_client: LZ4 compression path implemented**
+      - `SecureTransportClient::compressData()` now supports
+        `CompressionType::LZ4` via `utils::lz4_compress_safe`.
+      - Transfer metadata now emits `compression: "lz4"` when LZ4 is selected.
+      - (`include/sharding/secure_transport_client.h`,
+        `src/sharding/secure_transport_client.cpp`)
+
+  - Updated `STUB_INVENTORY.md`: 299 resolved, 17 active.
 
 
   - `WhisperPlugin::setVoiceActivityDetector()` and `applyVad()` now hold `vad_mutex_`

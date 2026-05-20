@@ -21,6 +21,7 @@
 
 #include "sharding/mtls_client.h"
 #include "utils/zstd_codec.h"
+#include "utils/lz4_codec.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>

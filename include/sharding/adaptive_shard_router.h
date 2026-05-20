@@ -28,6 +28,8 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <functional>
+#include <optional>
 #include <chrono>
 #include <nlohmann/json.hpp>
 
@@ -245,6 +247,21 @@ public:
      * @param config New configuration
      */
     void updateAdaptiveConfig(const AdaptiveConfig& config);
+
+    /**
+     * @brief Inject NLP/ML query-context enrichment callback.
+     *
+     * The callback receives the raw query text and the current query context
+     * (already populated with extracted keywords), and can enrich domains,
+     * regions, organizations, data types, or embeddings in-place.
+     *
+     * @param fn NLP/ML enrichment function.
+     */
+    using NlpContextFn = std::function<void(
+        const std::string& query,
+        CapabilityMatcher::QueryContext& context
+    )>;
+    void setNlpContextFn(NlpContextFn fn);
     
     /**
      * Get current adaptive configuration
@@ -280,6 +297,7 @@ private:
     mutable std::atomic<uint64_t> iterations_saved_{0};
     mutable std::atomic<uint64_t> early_stops_{0};
     mutable std::atomic<uint64_t> fallback_to_scatter_gather_{0};
+    std::optional<NlpContextFn> nlp_context_fn_;
     
     /**
      * Prepare query context for capability matching
