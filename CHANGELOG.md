@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (Phase 27 Stub Remediation — 2 stubs resolved)
+- **Stub #283 RESOLVED — PM_LOAD_ADMIN_MODEL / PM_LIST_ADMIN_MODELS registry wiring** (`src/query/functions/process_mining_functions.cpp`, `tests/test_new_aql_functions.cpp`)
+  - Added FunctionContext-driven registry lookup via `pm_admin_models_registry` with support for direct array or `{ "models": [...] }` envelope.
+  - Added built-in fallback administrative model catalog so list/load behavior is usable without external YAML wiring.
+  - Added tests for default catalog enumeration and injected-registry model loading.
+- **Stub #278 RESOLVED — PM_PREDICT_END now consumes `case_id` and resolves forecast sources** (`include/query/functions/process_mining_functions.h`, `src/query/functions/process_mining_functions.cpp`, `tests/test_new_aql_functions.cpp`)
+  - Added forecast resolution order: `pm_predicted_end_by_case` map, `currentDocument().predicted_end_by_case`, explicit `predicted_end`, and derived timestamp fallbacks.
+  - Added tests for injected per-case prediction map and deterministic duration-based fallback derivation.
+
 ### Released
 - **v1.9.0-alpha (2026-04-26) veröffentlicht**
   - GitHub Pre-Release: https://github.com/makr-code/ThemisDB/releases/tag/v1.9.0-alpha
