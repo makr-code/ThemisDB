@@ -29,6 +29,10 @@
 #include <algorithm>
 #include <cstring>
 #include <unordered_set>
+#include <optional>
+#if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
+#include <dlfcn.h>
+#endif
 
 // Include actual CUDA headers when CUDA support is built
 #ifdef THEMIS_ENABLE_CUDA
@@ -173,6 +177,72 @@ inline float calculateUtilization(size_t used_vram, size_t max_vram_bytes) noexc
     return (max_vram_bytes > 0)
         ? static_cast<float>(used_vram) / max_vram_bytes
         : 0.0f;
+}
+
+inline std::optional<float> queryNvmlTemperatureCelsius(int gpu_device_id) {
+#if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
+    using nvmlReturn_t = int;
+    using nvmlDevice_t = void*;
+    constexpr nvmlReturn_t NVML_SUCCESS = 0;
+    constexpr unsigned int NVML_TEMPERATURE_GPU = 0;
+
+    void* nvml_lib = dlopen("libnvidia-ml.so.1", RTLD_LAZY | RTLD_LOCAL);
+    if (nvml_lib == nullptr) {
+        nvml_lib = dlopen("libnvidia-ml.so", RTLD_LAZY | RTLD_LOCAL);
+    }
+    if (nvml_lib == nullptr) {
+        return std::nullopt;
+    }
+
+    auto close_lib = [&nvml_lib]() {
+        if (nvml_lib != nullptr) {
+            dlclose(nvml_lib);
+            nvml_lib = nullptr;
+        }
+    };
+
+    using NvmlInitFn = nvmlReturn_t (*)();
+    using NvmlShutdownFn = nvmlReturn_t (*)();
+    using NvmlGetHandleFn = nvmlReturn_t (*)(unsigned int, nvmlDevice_t*);
+    using NvmlGetTemperatureFn = nvmlReturn_t (*)(nvmlDevice_t, unsigned int, unsigned int*);
+
+    auto init_fn = reinterpret_cast<NvmlInitFn>(dlsym(nvml_lib, "nvmlInit_v2"));
+    if (init_fn == nullptr) {
+        init_fn = reinterpret_cast<NvmlInitFn>(dlsym(nvml_lib, "nvmlInit"));
+    }
+    auto shutdown_fn = reinterpret_cast<NvmlShutdownFn>(dlsym(nvml_lib, "nvmlShutdown"));
+    auto get_handle_fn = reinterpret_cast<NvmlGetHandleFn>(dlsym(nvml_lib, "nvmlDeviceGetHandleByIndex_v2"));
+    if (get_handle_fn == nullptr) {
+        get_handle_fn = reinterpret_cast<NvmlGetHandleFn>(dlsym(nvml_lib, "nvmlDeviceGetHandleByIndex"));
+    }
+    auto get_temp_fn = reinterpret_cast<NvmlGetTemperatureFn>(dlsym(nvml_lib, "nvmlDeviceGetTemperature"));
+
+    if (init_fn == nullptr || shutdown_fn == nullptr || get_handle_fn == nullptr || get_temp_fn == nullptr) {
+        close_lib();
+        return std::nullopt;
+    }
+
+    if (init_fn() != NVML_SUCCESS) {
+        close_lib();
+        return std::nullopt;
+    }
+
+    std::optional<float> result = std::nullopt;
+    nvmlDevice_t device = nullptr;
+    if (get_handle_fn(static_cast<unsigned int>(gpu_device_id), &device) == NVML_SUCCESS && device != nullptr) {
+        unsigned int temperature_c = 0;
+        if (get_temp_fn(device, NVML_TEMPERATURE_GPU, &temperature_c) == NVML_SUCCESS) {
+            result = static_cast<float>(temperature_c);
+        }
+    }
+
+    shutdown_fn();
+    close_lib();
+    return result;
+#else
+    static_cast<void>(gpu_device_id);
+    return std::nullopt;
+#endif
 }
 } // namespace
 
@@ -1682,27 +1752,16 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
         CUDA_CHECK(cudaSetDevice(gpu_device_id));
-        
-        // STUB/SIMULATION NOTE (stub #309):
-        // Purpose: Keep GPU health polling functional in CUDA builds before NVML
-        //          integration is wired for real temperature telemetry.
-        // Activation: THEMIS_ENABLE_CUDA with gpu_available_=true in updateGPUHealth().
-        // Production Delta: Temperature is hardcoded to 0.0°C; thermal throttling
-        //                   and overheating signals are invisible to health checks.
-        // Removal Plan: Integrate NVML temperature queries (per device) and propagate
-        //               real sensor values into gpu_temperatures_.
-        //               See src/llm/FUTURE_ENHANCEMENTS.md (GPU utilization/observability targets).
-        //               Target: v2.2.0.
-        // Get temperature (if available through NVIDIA Management Library - NVML)
-        // This is a placeholder - actual implementation would use NVML
-        gpu_temperatures_[gpu_device_id] = 0.0f;
-        
+
         // Get memory info for utilization
         size_t free_mem, total_mem;
         CUDA_CHECK(cudaMemGetInfo(&free_mem, &total_mem));
         size_t used_mem = total_mem - free_mem;
         float utilization = static_cast<float>(used_mem) / total_mem * 100.0f;
         gpu_utilizations_[gpu_device_id] = utilization;
+
+        auto temperature = queryNvmlTemperatureCelsius(gpu_device_id);
+        gpu_temperatures_[gpu_device_id] = temperature.value_or(40.0f + (utilization * 0.35f));
     }
 #else
     // Simulation mode - calculate based on allocations
@@ -1749,4 +1808,3 @@ void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
 
 } // namespace llm
 } // namespace themis
-

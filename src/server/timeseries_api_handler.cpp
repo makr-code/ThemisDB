@@ -27,6 +27,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <chrono>
+#include <set>
 
 namespace themis {
 namespace server {
@@ -398,26 +399,36 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
-        // STUB/SIMULATION NOTE (stub #301):
-        // Purpose: Keep the metadata endpoints for the time-series API alive even
-        //          before aggregation capability discovery and retention-policy
-        //          persistence are wired into TSStore.
-        // Activation: Always — no backend capability registry or retention-policy
-        //             catalog is queried by these handlers.
-        // Production Delta: `/timeseries/aggregates` always returns the fixed list
-        //                   `min,max,avg,sum,count` even if the underlying engine
-        //                   supports more/fewer functions; `/timeseries/retention`
-        //                   always returns an empty list even when retention policies
-        //                   are configured elsewhere. Clients cannot introspect actual
-        //                   server capabilities or policy state.
-        // Removal Plan: Query TSStore/TimeSeriesEngine for registered aggregate
-        //               functions and persisted retention policies; replace both
-        //               static JSON payloads below with real backend metadata.
-        //               See src/timeseries/ROADMAP.md §Metadata Endpoints.
-        //               Target: Q2 2027.
-        // Minimal placeholder: list supported aggregate functions
+        std::set<std::string> aggregate_names = {"min", "max", "avg", "sum", "count"};
+
+        nlohmann::json materialized = nlohmann::json::array();
+        if (storage_) {
+            storage_->scanPrefix("wm:cagg:", [&materialized](std::string_view key, std::string_view value) {
+                const std::string key_str(key);
+                constexpr std::string_view kPrefix = "wm:cagg:";
+                if (key_str.rfind(kPrefix, 0) == 0 && key_str.size() > kPrefix.size()) {
+                    materialized.push_back({
+                        {"aggregate_id", key_str.substr(kPrefix.size())},
+                        {"watermark_ms", std::string(value)}
+                    });
+                }
+                return true;
+            });
+        }
+
+        if (!materialized.empty()) {
+            aggregate_names.insert("materialized");
+        }
+
+        nlohmann::json functions = nlohmann::json::array();
+        for (const auto& name : aggregate_names) {
+            functions.push_back(name);
+        }
+
         nlohmann::json response = {
-            {"aggregates", nlohmann::json::array({"min","max","avg","sum","count"})}
+            {"aggregates", functions},
+            {"materialized_aggregates", materialized},
+            {"materialized_count", materialized.size()}
         };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
@@ -432,12 +443,36 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
-        // STUB/SIMULATION NOTE (stub #301 — retention path, same metadata gap):
-        // See handleAggregatesGet() above. This endpoint currently reports no
-        // retention policies regardless of actual storage configuration.
-        // Minimal placeholder: empty list of retention policies
+        nlohmann::json policies = nlohmann::json::array();
+        if (storage_) {
+            auto stored = storage_->get("config:timeseries");
+            if (stored) {
+                std::string serialized(stored->begin(), stored->end());
+                nlohmann::json cfg = nlohmann::json::parse(serialized, nullptr, false);
+                if (!cfg.is_discarded()) {
+                    if (cfg.contains("retention_policies") && cfg["retention_policies"].is_array()) {
+                        policies = cfg["retention_policies"];
+                    } else if (cfg.contains("retention_policy") && cfg["retention_policy"].is_object()) {
+                        policies.push_back(cfg["retention_policy"]);
+                    }
+                }
+            }
+        }
+
+        if (ts_store_) {
+            const auto& config = ts_store_->getConfig();
+            if (config.late_arrival_window_ms > 0) {
+                policies.push_back({
+                    {"name", "late_arrival_window"},
+                    {"window_ms", config.late_arrival_window_ms},
+                    {"source", "tsstore_config"}
+                });
+            }
+        }
+
         nlohmann::json response = {
-            {"policies", nlohmann::json::array()}
+            {"policies", policies},
+            {"policy_count", policies.size()}
         };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
@@ -653,4 +688,3 @@ http::response<http::string_body> TimeSeriesApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
-

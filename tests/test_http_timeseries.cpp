@@ -396,6 +396,10 @@ TEST_F(HttpTimeSeriesTest, GetAggregates_ReturnsList) {
     auto response = json::parse(res.body());
     ASSERT_TRUE(response.contains("aggregates"));
     EXPECT_TRUE(response["aggregates"].is_array());
+    EXPECT_FALSE(response["aggregates"].empty());
+    ASSERT_TRUE(response.contains("materialized_aggregates"));
+    EXPECT_TRUE(response["materialized_aggregates"].is_array());
+    ASSERT_TRUE(response.contains("materialized_count"));
 }
 
 // Test: Get retention policies
@@ -406,6 +410,8 @@ TEST_F(HttpTimeSeriesTest, GetRetention_ReturnsPolicies) {
     auto response = json::parse(res.body());
     ASSERT_TRUE(response.contains("policies"));
     EXPECT_TRUE(response["policies"].is_array());
+    ASSERT_TRUE(response.contains("policy_count"));
+    EXPECT_EQ(response["policy_count"].get<size_t>(), response["policies"].size());
 }
 
 // Test: Multiple metrics with label filtering

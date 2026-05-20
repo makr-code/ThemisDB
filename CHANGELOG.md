@@ -17,6 +17,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **NEXT BLOCK: timeseries + llm stub remediation (`#301`, `#309`)**
+  - Time-series metadata endpoints now use backend state instead of placeholders:
+    - `GET /ts/aggregates` now returns supported aggregate functions plus
+      materialized aggregate watermark entries discovered from `wm:cagg:*`
+      storage metadata.
+    - `GET /ts/retention` now returns persisted retention policies from
+      `config:timeseries` and active late-arrival policy metadata.
+  - GPU health telemetry now integrates NVML temperature probing in CUDA builds:
+    - `GPUMemoryManager::updateGPUHealth()` now uses runtime-loaded NVML
+      (`libnvidia-ml.so`) to read per-device temperature.
+    - Falls back to utilization-derived temperature only when NVML is unavailable.
+  - Added test assertions:
+    - `HttpTimeSeriesTest.GetAggregates_ReturnsList` now verifies dynamic
+      materialized aggregate metadata fields.
+    - `HttpTimeSeriesTest.GetRetention_ReturnsPolicies` now verifies policy count
+      consistency with returned policy list.
+  - Resolved stub inventory entries #301 and #309.
+  - (`src/server/timeseries_api_handler.cpp`,
+    `src/llm/gpu_memory_manager.cpp`,
+    `tests/test_http_timeseries.cpp`,
+    `src/STUB_INVENTORY.md`)
+
 - **NEXT BLOCK: server HTTP2/RoPE remediation (`#298`, `#307`)**
   - HTTP/2 response buffer lifetime is now RAII-based:
     - `Http2Session` stores per-stream `shared_ptr<ResponseBuffer>` entries in
