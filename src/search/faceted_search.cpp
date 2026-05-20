@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: faceted_search.cpp | Version: 0.0.43
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=43, M=23, L=0
+ * ThemisDB | File: faceted_search.cpp | Version: 0.0.43 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 218
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=67 | delta=64 | status=divergent
+ * External Severity (v3): C=1, H=43, M=23
+ * PR: #2562 [search] Add dynamic facet counting to FacetedSearch (2026-03-12T05:51:33Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
