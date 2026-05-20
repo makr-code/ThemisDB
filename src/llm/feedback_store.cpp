@@ -534,29 +534,40 @@ void FeedbackStore::clear() {
 
 // ===== Validation Logic =====
 
+// ===== Spam-keywords provider (stub #296 resolution) =====
+
+namespace {
+std::mutex spam_keywords_fn_mutex;
+FeedbackStore::SpamKeywordsProviderFn spam_keywords_fn;
+} // anonymous namespace
+
+void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn fn) {
+    std::lock_guard<std::mutex> lock(spam_keywords_fn_mutex);
+    spam_keywords_fn = std::move(fn);
+}
+
 const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
-    // STUB/SIMULATION NOTE (stub #296):
-    // Purpose: Provide a minimal spam-detection keyword list so that the feedback
-    //          validation pipeline works out of the box without an external config
-    //          source.
-    // Activation: Always — no runtime config loader or database table is wired;
-    //             the static list is always returned.
-    // Production Delta: The keyword set is fixed at compile time.  New spam patterns
-    //                   require a binary rebuild and redeployment.  Regional or
-    //                   language-specific keywords cannot be added at runtime.
-    //                   Operators cannot tune spam detection without source changes.
-    // Removal Plan: Add a `setSpamKeywordsProvider(fn)` injection API that receives
-    //               keywords from `config/spam_keywords.txt` or the
-    //               `themisdb.spam_detection.keywords` table; fall back to the static
-    //               list when no provider is injected.
-    //               See src/llm/FUTURE_ENHANCEMENTS.md §FeedbackStore SpamKeywords.
-    //               Target: v2.0.0.
-    // Configurable spam keywords list
-    // TODO: In production, load these from a configuration file or database
-    // for runtime updates without recompilation
-    // Example: config/spam_keywords.txt or themisdb.spam_detection.keywords table
+    {
+        std::lock_guard<std::mutex> lock(spam_keywords_fn_mutex);
+        if (spam_keywords_fn) {
+            // Thread-local cache updated on each call so the provider can
+            // return different lists without requiring a restart.
+            thread_local std::vector<std::string> dynamic_keywords;
+            try {
+                dynamic_keywords = spam_keywords_fn();
+            } catch (const std::exception& e) {
+                spdlog::warn("FeedbackStore: spam keywords provider failed: {}; "
+                             "using built-in static list", e.what());
+            }
+            if (!dynamic_keywords.empty()) {
+                return dynamic_keywords;
+            }
+        }
+    }
+    // Built-in fallback: static compile-time keyword list.
+    // Inject a provider via setSpamKeywordsProvider() for runtime configurability.
     static const std::vector<std::string> spam_keywords = {
-        "buy now", "click here", "viagra", "casino", "lottery", 
+        "buy now", "click here", "viagra", "casino", "lottery",
         "free money", "million dollars", "nigerian prince",
         "weight loss", "work from home", "make money fast"
     };
@@ -631,7 +642,7 @@ ValidationStatus FeedbackStore::validateFeedback(const FeedbackEntry& feedback) 
 
 // ===== Plugin Integration =====
 
-ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedback) {
+ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
     if (!validation_plugin_) {
         // No plugin, use basic validation
         return validateFeedback(feedback);
@@ -661,28 +672,15 @@ ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedb
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // STUB/SIMULATION NOTE (stub #297):
-                // Purpose: Allow the feedback plugin protocol to compile and route
-                //          MODIFY decisions without a concrete modification-apply
-                //          mechanism, so plugins that return MODIFY are not silently
-                //          discarded.
-                // Activation: Always — `FeedbackValidationResult.modified_comment` and
-                //              `.modified_metadata` are populated by the plugin but no
-                //              code reads them here yet.
-                // Production Delta: The plugin's suggested comment rewrite and metadata
-                //                   adjustments are silently ignored.  Feedback is stored
-                //                   verbatim and counted as APPROVED, potentially allowing
-                //                   policy-violating content that the plugin intended to
-                //                   sanitize.
-                // Removal Plan: Add `modified_comment` / `modified_metadata` fields to
-                //               `FeedbackValidationResult`; read them here and update
-                //               `data.comment` / `data.metadata` before returning
-                //               APPROVED.  Requires aligned plugin ABI changes.
-                //               See src/llm/FUTURE_ENHANCEMENTS.md §FeedbackPlugin Modify.
-                //               Target: v2.0.0.
-                // TODO(feedback-plugin): Apply modifications if provided
-                // For now, accept modified feedback as approved
-                // Future: Apply modified_comment and modified_metadata from result
+                // Apply plugin-suggested modifications before accepting (stub #297 RESOLVED).
+                // The plugin populates modified_comment / modified_metadata when it
+                // wants to sanitize the content rather than outright reject it.
+                if (result.modified_comment.has_value()) {
+                    feedback.comment = *result.modified_comment;
+                }
+                if (result.modified_metadata.has_value()) {
+                    feedback.metadata = *result.modified_metadata;
+                }
                 return ValidationStatus::APPROVED;
             default:
                 return ValidationStatus::PENDING;

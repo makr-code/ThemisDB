@@ -73,6 +73,25 @@ public:
     
     explicit GPUMemoryManager(const Config& config);
     ~GPUMemoryManager();
+
+    /**
+     * @brief Function type for per-device GPU temperature query (stub #309).
+     *
+     * When injected via setNvmlTemperatureFn(), updateGPUHealth() calls this
+     * function instead of returning a hardcoded 0.0 °C placeholder.  The
+     * function receives the device ID and must return the current temperature
+     * in degrees Celsius, or throw on error.
+     */
+    using NvmlTemperatureFn = std::function<float(int /*device_id*/)>;
+
+    /**
+     * @brief Inject an NVML-based (or mock) GPU temperature provider.
+     *
+     * Thread-safe.  Passing nullptr reverts to the 0.0 °C placeholder.
+     *
+     * @param fn Temperature query callback.
+     */
+    static void setNvmlTemperatureFn(NvmlTemperatureFn fn);
     
     // Memory allocation
     void* allocateGPU(const std::string& model_id, size_t bytes);

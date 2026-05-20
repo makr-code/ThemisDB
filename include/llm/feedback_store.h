@@ -167,6 +167,24 @@ public:
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
 
     /**
+     * @brief Function type for runtime spam-keyword provider (stub #296).
+     *
+     * When injected via setSpamKeywordsProvider(), getSpamKeywords() returns
+     * the provider's list instead of the compile-time hardcoded set, enabling
+     * runtime updates without a binary rebuild.
+     */
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+
+    /**
+     * @brief Inject a runtime spam-keyword provider.
+     *
+     * Thread-safe.  Passing nullptr reverts to the built-in static keyword list.
+     *
+     * @param fn Provider callback; must return a list of lower-case keyword phrases.
+     */
+    static void setSpamKeywordsProvider(SpamKeywordsProviderFn fn);
+
+    /**
      * @brief Store a new feedback entry
      * @param feedback Feedback to store (id will be generated if empty)
      * @return Stored feedback with generated ID
@@ -303,9 +321,10 @@ private:
     // Spam detection configuration (deprecated, use plugin instead)
     static const std::vector<std::string>& getSpamKeywords();
     static bool isLikelySpam(const std::string& text);
-    
-    // Helper: Apply plugin validation if available
-    ValidationStatus applyPluginValidation(const FeedbackEntry& feedback);
+
+    // Helper: Apply plugin validation if available.
+    // Non-const ref: MODIFY path may update feedback.comment / feedback.metadata.
+    ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 
 } // namespace llm

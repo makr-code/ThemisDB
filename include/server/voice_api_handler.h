@@ -98,22 +98,44 @@ class VoiceApiHandler {
 public:
     /**
      * @brief Construct Voice API handler
-     * 
+     *
      * @param voice_assistant Voice assistant instance
      */
     explicit VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant);
-    
+
     /**
      * @brief Handle Voice API request
-     * 
+     *
      * Routes request to appropriate handler based on path and method.
      * Validates JWT Bearer Token authentication.
-     * 
+     *
      * @param req HTTP request
      * @return HTTP response (JSON or audio data)
      */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req);
+
+    /**
+     * @brief Function type for bearer-token validation (stub #302).
+     *
+     * When injected via setTokenValidatorFn(), validateBearerToken() delegates
+     * to this function, enabling JWT signature, expiry, audience, and issuer
+     * verification without changing callers.
+     *
+     * @param token The bearer token string (after the "Bearer " prefix).
+     * @return true if the token is valid and the caller is authorized.
+     */
+    using TokenValidatorFn = std::function<bool(std::string_view)>;
+
+    /**
+     * @brief Inject a real JWT/OIDC token validator.
+     *
+     * Thread-safe.  Passing nullptr reverts to the built-in non-empty-check
+     * fallback (retained for dev/CI builds only).
+     *
+     * @param fn Token validation callback.
+     */
+    static void setTokenValidatorFn(TokenValidatorFn fn);
 
 private:
     // Core endpoints

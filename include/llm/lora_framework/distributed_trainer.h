@@ -136,6 +136,29 @@ public:
      * are expected to overwrite their copy with rank-0's values.
      */
     using BroadcastFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Function type for CPU AllReduce (stub #290 resolution).
+     *
+     * When injected via setAllReduceCpuFn(), replaces the built-in
+     * local-scaling fallback in allreduce_cpu().  The function receives the
+     * complete gradient vector and must exchange data with all world_size
+     * peers before returning (e.g. via MPI_Allreduce or Gloo allreduce).
+     *
+     * Without injection the local-scaling path is retained, which is correct
+     * only for world_size == 1 (single-process builds).
+     */
+    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Inject a real CPU AllReduce implementation (MPI, Gloo, etc.).
+     *
+     * Thread-safe; passing nullptr reverts to the built-in local-scaling
+     * fallback.
+     *
+     * @param fn AllReduce callback; receives the gradient vector in-place.
+     */
+    void setAllReduceCpuFn(AllReduceCpuFn fn);
     explicit DistributedTrainer(const DistributedConfig& config);
     ~DistributedTrainer();
     
@@ -256,8 +279,9 @@ private:
     void allreduce_cpu(std::vector<float>& data);
     void broadcast_cpu(std::vector<float>& data);
 
-    std::optional<BarrierFn>   barrier_fn_;
-    std::optional<BroadcastFn> broadcast_fn_;
+    std::optional<BarrierFn>       barrier_fn_;
+    std::optional<BroadcastFn>     broadcast_fn_;
+    std::optional<AllReduceCpuFn>  allreduce_cpu_fn_;
 };
 
 /**

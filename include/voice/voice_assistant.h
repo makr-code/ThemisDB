@@ -387,6 +387,17 @@ public:
     void updateSession(const std::string& session_id, const json& context);
 
     /**
+     * @brief Hard-delete a voice session (stub #308 resolution).
+     *
+     * Removes the session from storage.  Throws std::out_of_range if no session
+     * with the given ID exists, allowing the caller to return HTTP 404.
+     *
+     * @param session_id Session to delete.
+     * @throws std::out_of_range if session_id is not found.
+     */
+    void deleteSession(const std::string& session_id);
+
+    /**
      * @brief Synthesize text to speech using the embedded TTS processor.
      *
      * @param text       Text to synthesize.

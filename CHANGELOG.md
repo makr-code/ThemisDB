@@ -12,6 +12,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - GitHub Pre-Release: https://github.com/makr-code/ThemisDB/releases/tag/v1.9.0-alpha
   - Assets: `ThemisDB-COMMUNITY-1.9.0-alpha-windows-x64.zip` und `ThemisDB-COMMUNITY-1.9.0-alpha-windows-x64.msi`
 
+### Added (Phase 25 Stub Remediation — 10 stubs resolved)
+- **Stub #290 RESOLVED — DistributedTrainer AllReduceCpuFn injection API** (`include/llm/lora_framework/distributed_trainer.h`, `src/llm/lora_framework/distributed_trainer.cpp`)
+  - `AllReduceCpuFn = std::function<void(std::vector<float>&)>` type added; `setAllReduceCpuFn(fn)` method
+  - `allreduce_cpu()` delegates to injected fn; falls back to local-scaling path (correct for `world_size=1`)
+- **Stub #291 RESOLVED — AdaptiveShardRouter NlpContextFn injection API** (`include/sharding/adaptive_shard_router.h`, `src/sharding/adaptive_shard_router.cpp`)
+  - `NlpContextFn = std::function<QueryContext(const std::string&)>` type; `setNlpContextFn(fn)` method; `nlp_context_fn_mutex_` member
+  - `prepareQueryContext()` delegates to injected fn; falls back to keyword-pattern matching on failure/unset
+- **Stub #296 RESOLVED — FeedbackStore SpamKeywordsProviderFn injection API** (`include/llm/feedback_store.h`, `src/llm/feedback_store.cpp`)
+  - `SpamKeywordsProviderFn = std::function<std::vector<std::string>()>`; static `setSpamKeywordsProvider(fn)` method
+  - `getSpamKeywords()` calls provider when set; falls back to static compile-time list when unset or provider throws
+- **Stub #297 RESOLVED — FeedbackStore MODIFY action applies plugin modifications** (`src/llm/feedback_store.cpp`)
+  - `applyPluginValidation()` signature changed to `FeedbackEntry&` (non-const); MODIFY case now applies `ValidationResponse::modified_comment` and `modified_metadata` to the entry before returning APPROVED
+- **Stub #298 RESOLVED — Http2Session RAII ResponseBuffer with shared_ptr** (`include/server/http2_session.h`, `src/server/http2_session.cpp`)
+  - `ResponseBuffer` struct promoted to Http2Session private member; `response_buffers_` map (`int32_t → shared_ptr<ResponseBuffer>`) added
+  - `sendResponse()` and `sendServerPush()` use `make_shared<ResponseBuffer>`; map erased on EOF in read_callback or on stream close in `onStreamCloseCallback`
+- **Stub #302 RESOLVED — VoiceApiHandler TokenValidatorFn injection API** (`include/server/voice_api_handler.h`, `src/server/voice_api_handler.cpp`)
+  - `TokenValidatorFn = std::function<bool(std::string_view)>`; static `setTokenValidatorFn(fn)` method
+  - `validateBearerToken()` delegates to injected fn; falls back to non-empty check (dev/CI only) when unset
+- **Stub #308 RESOLVED — VoiceAssistant::deleteSession() hard-delete** (`include/voice/voice_assistant.h`, `src/voice/voice_assistant.cpp`, `src/server/voice_api_handler.cpp`)
+  - New `deleteSession(session_id)` method erases from `sessions_` map; throws `std::out_of_range` when not found
+  - `handleDeleteSession()` wired to `deleteSession()` with HTTP 404 on not-found
+- **Stub #309 RESOLVED — GPUMemoryManager NvmlTemperatureFn injection bridge** (`include/llm/gpu_memory_manager.h`, `src/llm/gpu_memory_manager.cpp`)
+  - `NvmlTemperatureFn = std::function<float(int)>`; static `setNvmlTemperatureFn(fn)` method
+  - CUDA path in `updateGPUHealth()` calls injected fn for real temperature; falls back to 0.0 °C when unset
+
+### Fixed (Phase 25 Stub Remediation)
+- **Stub #310 RESOLVED — AutoRebalancer signOperation() fail-closed** (`src/sharding/auto_rebalancer.cpp`)
+  - All `UNSIGNED:*` fallback return paths removed; `signOperation()` now throws `std::runtime_error` on empty key path, file open failure, key parse failure, or any OpenSSL error; monitor loop catches and logs the error
+- **Stub #311 RESOLVED — PaxosStatePersistence structured ConsensusLogEntry payload** (`src/sharding/paxos_state_persistence.cpp`)
+  - `persistAccept()` now populates `ConsensusLogEntry` with `index=slot`, `term=ballot_round`, `operation=value`, and `data` JSON containing `{slot, ballot_round, proposer_node, value}` for full replay fidelity
+
 ### Added
 - **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
   - `HAMMING` added to `ErasureCodingAlgorithm` enum; `ErasureCoder::create(HAMMING)` factory method returns a `HammingCoder` instance

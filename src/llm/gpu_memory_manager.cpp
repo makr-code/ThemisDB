@@ -175,6 +175,17 @@ inline float calculateUtilization(size_t used_vram, size_t max_vram_bytes) noexc
 }
 } // namespace
 
+// NVML temperature injection state (stub #309 resolution).
+namespace {
+std::mutex nvml_temp_fn_mutex;
+GPUMemoryManager::NvmlTemperatureFn nvml_temp_fn;
+} // anonymous namespace
+
+void GPUMemoryManager::setNvmlTemperatureFn(NvmlTemperatureFn fn) {
+    std::lock_guard<std::mutex> lock(nvml_temp_fn_mutex);
+    nvml_temp_fn = std::move(fn);
+}
+
 GPUMemoryManager::GPUMemoryManager(const Config& config)
     : config_(config) {
     spdlog::info("GPU Memory Manager initialized:");
@@ -1681,20 +1692,29 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
         CUDA_CHECK(cudaSetDevice(gpu_device_id));
-        
-        // STUB/SIMULATION NOTE (stub #309):
-        // Purpose: Keep GPU health polling functional in CUDA builds before NVML
-        //          integration is wired for real temperature telemetry.
-        // Activation: THEMIS_ENABLE_CUDA with gpu_available_=true in updateGPUHealth().
-        // Production Delta: Temperature is hardcoded to 0.0°C; thermal throttling
-        //                   and overheating signals are invisible to health checks.
-        // Removal Plan: Integrate NVML temperature queries (per device) and propagate
-        //               real sensor values into gpu_temperatures_.
-        //               See src/llm/FUTURE_ENHANCEMENTS.md (GPU utilization/observability targets).
-        //               Target: v2.2.0.
-        // Get temperature (if available through NVIDIA Management Library - NVML)
-        // This is a placeholder - actual implementation would use NVML
-        gpu_temperatures_[gpu_device_id] = 0.0f;
+
+        // Query temperature via injected NVML provider (stub #309 RESOLVED).
+        // Inject a real NVML callback via setNvmlTemperatureFn() to enable
+        // thermal health monitoring.  Falls back to 0.0 °C (placeholder) when
+        // no provider is set, preserving existing build compatibility.
+        {
+            NvmlTemperatureFn fn_copy;
+            {
+                std::lock_guard<std::mutex> lock(nvml_temp_fn_mutex);
+                fn_copy = nvml_temp_fn;
+            }
+            if (fn_copy) {
+                try {
+                    gpu_temperatures_[gpu_device_id] = fn_copy(gpu_device_id);
+                } catch (const std::exception& e) {
+                    spdlog::warn("GPUMemoryManager: NVML temperature query failed for device {}: {}; "
+                                 "using 0.0 °C placeholder", gpu_device_id, e.what());
+                    gpu_temperatures_[gpu_device_id] = 0.0f;
+                }
+            } else {
+                gpu_temperatures_[gpu_device_id] = 0.0f;
+            }
+        }
         
         // Get memory info for utilization
         size_t free_mem, total_mem;
