@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: prior_round_compressor.h | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: prior_round_compressor.h | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 179
+ * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=5 | external_v3=n/a | delta=n/a | status=no_external_data
+ * External Severity (v3): C=n/a, H=n/a, M=n/a
+ * PR: none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

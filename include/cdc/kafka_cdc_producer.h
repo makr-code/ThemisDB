@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: kafka_cdc_producer.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: kafka_cdc_producer.h | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 332
+ * Open Issues: TODOs=1, Stubs=5, Gaps=8, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=8 | external_v3=n/a | delta=n/a | status=no_external_data
+ * External Severity (v3): C=n/a, H=n/a, M=n/a
+ * PR: #4607 feat(cdc): register CDCKafkaProducerFocusedTests in tests/CMakeList... (2026-04-13T08:48:48Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: icdc_event_schema.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: icdc_event_schema.h | Version: 0.0.12 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 311
+ * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=4 | external_v3=n/a | delta=n/a | status=no_external_data
+ * External Severity (v3): C=n/a, H=n/a, M=n/a
+ * PR: #4383 [WIP] Update developer documentation for cdc module (2026-03-22T17:13:13Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
