@@ -1,12 +1,20 @@
 /*
- * ThemisDB | File: gpu_training_loop.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1069
- * Open Issues: TODOs=2, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=4 | external_v3=319 | delta=315 | status=divergent
- * External Severity (v3): C=12, H=290, M=17
- * PR: #606 Implement GPU-native mixed precision gradient unscaling (2026-03-11T18:12:49Z)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gpu_training_loop.cpp                              ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   86.0/100                                       ║
+    • Total Lines:     1082                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "llm/lora_framework/gpu_training_loop.h"
@@ -517,13 +525,16 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     
     // Forward pass
     GPUTensor predictions;
-    // NOTE: Multi-GPU path disabled due to GPUTensor deleted copy constructor
-    // TODO: Refactor to use references or unique_ptr
-    if (false && multi_gpu_layer_) {
-        // Multi-GPU forward (data parallel) - DISABLED
-        // Split batch across GPUs
-        // auto outputs = multi_gpu_layer_->forward(...);
-        // predictions = std::move(outputs[0]);
+    // STUB/SIMULATION NOTE:
+    // Purpose: Multi-GPU data-parallel forward pass is disabled because GPUTensor has
+    //          a deleted copy constructor; the split-and-merge pattern requires either
+    //          reference semantics or move-only dispatch through unique_ptr wrappers.
+    // Activation: `if (false && ...)` hard-disables the branch; single-GPU path always runs.
+    // Production Delta: All training runs on a single GPU regardless of multi_gpu_layer_ state.
+    // Removal Plan: Refactor GPUTensor to support shared_ptr/move-only dispatch
+    //               and wire multi_gpu_layer_->forward() correctly (Target: Q4 2026).
+    if (false && multi_gpu_layer_) {  // NOLINT(readability-simplify-boolean-expr)
+        // Multi-GPU forward (data parallel) - DISABLED (see STUB/SIMULATION NOTE above)
         predictions = std::move(layers_[0]->forward(input_embeddings));
     } else {
         // Single-GPU forward

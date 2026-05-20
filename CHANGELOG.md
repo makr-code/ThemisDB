@@ -8,7 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- **Stub batch 29 — 4 stubs resolved (#252/#281/#284/#305):**
+- **Batch 30 — AQL scheduling injection bridge + LoRA graph embedding parser + GPU training loop documentation:**
+  - `include/query/functions/function_registry.h` (FunctionContext):
+    - Added `RegisterTaskFn`, `ListTasksFn`, `CancelTaskFn` type aliases for task-scheduler injection.
+    - Added `setRegisterTaskFn()` / `setListTasksFn()` / `setCancelTaskFn()` setters and matching const getters.
+    - Private members `register_task_fn_`, `list_tasks_fn_`, `cancel_task_fn_` added.
+  - `include/query/functions/retention_functions.h`:
+    - `SCHEDULE_TASK`: wired to `ctx.registerTaskFn()` injection bridge; builds task-config JSON, returns `task_id` on success; graceful fallback with `"pending"` status when bridge not injected. `std::chrono` dependency removed; interval computed as `int64_t` milliseconds. `TODO` comments and unused security check stubs removed.
+    - `LIST_SCHEDULED_TASKS`: wired to `ctx.listTasksFn()` injection bridge; returns empty array when bridge not injected.
+    - `CANCEL_TASK`: wired to `ctx.cancelTaskFn()` injection bridge; returns `false` when bridge not injected. `TODO` comment removed.
+  - `include/llm/lora_framework/lora_graph.h`:
+    - Added `LoRAVectorEmbedding::fromJSON()` static factory method deserialising all fields (`adapter_id`, `embedding_model`, `source_text`, `embedding`, `source`).
+    - `AdapterMetadataEnhanced::fromJSON()`: replaced `TODO: Parse embeddings` comment with real parsing of `description_embedding`, `task_embedding`, and `performance_embedding` using the new `LoRAVectorEmbedding::fromJSON()`.
+  - `src/llm/lora_framework/gpu_training_loop.cpp`:
+    - Replaced bare `TODO` comment on disabled multi-GPU forward path with full `STUB/SIMULATION NOTE` block (Purpose / Activation / Production Delta / Removal Plan). Hard-`false` guard retained with `NOLINT` suppression.
+
+
   - `src/STUB_INVENTORY.md` updated: 312 resolved, 4 active (`285`, `286`, `287`, `288`).
   - `src/network/wire_protocol_server.cpp` (#284):
     - Added `#include "index/spatial_index.h"`.

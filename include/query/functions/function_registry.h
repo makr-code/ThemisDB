@@ -253,6 +253,65 @@ public:
     /// @brief Access the injected admin-model list function (may be empty).
     const AdminModelListFn& adminModelListFn() const { return admin_model_list_fn_; }
 
+    // ── Task scheduler injection bridge ───────────────────────────────────────
+
+    /**
+     * @brief Function type for registering a scheduled AQL task.
+     *
+     * Receives a JSON task configuration object with fields:
+     *   - "name"  (string)  — human-readable task name
+     *   - "type"  (string)  — "aql" or "function"
+     *   - "query" (string)  — AQL query or function name
+     *   - "interval_ms" (number) — scheduling interval in milliseconds
+     *
+     * Returns the opaque task ID on success, or throws on error.
+     */
+    using RegisterTaskFn = std::function<std::string(const nlohmann::json& task_config)>;
+
+    /**
+     * @brief Function type for listing all registered scheduled tasks.
+     *
+     * Returns a JSON array of task descriptor objects, or throws on error.
+     */
+    using ListTasksFn = std::function<nlohmann::json()>;
+
+    /**
+     * @brief Function type for cancelling a scheduled task by ID.
+     *
+     * Returns true when the task was found and cancelled, false otherwise.
+     */
+    using CancelTaskFn = std::function<bool(const std::string& task_id)>;
+
+    /**
+     * @brief Inject a task-registration function for SCHEDULE_TASK.
+     *
+     * @param fn  Callable that registers a task and returns its ID.
+     */
+    void setRegisterTaskFn(RegisterTaskFn fn) { register_task_fn_ = std::move(fn); }
+
+    /**
+     * @brief Inject a task-list function for LIST_SCHEDULED_TASKS.
+     *
+     * @param fn  Callable that returns a JSON array of task descriptors.
+     */
+    void setListTasksFn(ListTasksFn fn) { list_tasks_fn_ = std::move(fn); }
+
+    /**
+     * @brief Inject a task-cancellation function for CANCEL_TASK.
+     *
+     * @param fn  Callable that cancels a task by ID.
+     */
+    void setCancelTaskFn(CancelTaskFn fn) { cancel_task_fn_ = std::move(fn); }
+
+    /// @brief Access the injected task-registration function (may be empty).
+    const RegisterTaskFn& registerTaskFn() const { return register_task_fn_; }
+
+    /// @brief Access the injected task-list function (may be empty).
+    const ListTasksFn& listTasksFn() const { return list_tasks_fn_; }
+
+    /// @brief Access the injected task-cancellation function (may be empty).
+    const CancelTaskFn& cancelTaskFn() const { return cancel_task_fn_; }
+
 private:
     nlohmann::json current_doc_;
     std::unordered_map<std::string, nlohmann::json> variables_;
@@ -264,6 +323,9 @@ private:
     themis::ProcessMining* process_mining_ = nullptr;
     AdminModelLoadFn admin_model_load_fn_;
     AdminModelListFn admin_model_list_fn_;
+    RegisterTaskFn register_task_fn_;
+    ListTasksFn    list_tasks_fn_;
+    CancelTaskFn   cancel_task_fn_;
 };
 
 // ============================================================================
