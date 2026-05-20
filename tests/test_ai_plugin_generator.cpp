@@ -26,6 +26,13 @@ AIPluginGenerator makeGenerator() {
     return AIPluginGenerator(cfg);
 }
 
+AIPluginGenerator makeGeneratorWithEndpointFn(AIPluginGenerator::EndpointInvokeFn fn) {
+    AIPluginGenerator::Config cfg;
+    cfg.llm_endpoint = "http://mock-endpoint.invalid/generate";
+    cfg.endpoint_invoke_fn = std::move(fn);
+    return AIPluginGenerator(cfg);
+}
+
 PluginGenerationPrompt validPrompt() {
     PluginGenerationPrompt p;
     p.description   = "Generate a simple logging storage plugin for ThemisDB.";
@@ -85,8 +92,52 @@ TEST(AIPluginGeneratorTest, APG05_GeneratePluginPropagatesValidationError) {
 TEST(AIPluginGeneratorTest, APG06_GeneratePluginReturnsPhase1Error) {
     auto gen = makeGenerator();
     auto result = gen.generatePlugin(validPrompt());
-    // Phase 1: LLM endpoint not yet wired – expect a structured error, not a throw.
+    // Unreachable endpoint without a test callback should fail with a structured error.
     EXPECT_FALSE(result.has_value())
-        << "Phase-1 generatePlugin should return error (LLM not wired)";
+        << "generatePlugin should return error when endpoint cannot be reached";
     EXPECT_FALSE(result.error().message().empty());
+}
+
+// APG-07: generatePlugin returns a parsed GeneratedPlugin when endpoint callback succeeds.
+TEST(AIPluginGeneratorTest, APG07_GeneratePluginParsesEndpointResponse) {
+    auto gen = makeGeneratorWithEndpointFn(
+        [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+            json payload = {
+                {"name", "generated_demo_plugin"},
+                {"version", "1.2.3"},
+                {"description", "Generated from test callback"},
+                {"header_code", "// header"},
+                {"implementation_code", "int generated() { return 42; }"},
+                {"test_code", "// tests"},
+                {"cmake_code", "# cmake"},
+                {"build_dependencies", json::array({"fmt", "spdlog"})},
+                {"passed_security_checks", true},
+                {"security_report", "ok"}
+            };
+            return payload.dump();
+        });
+
+    auto result = gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_EQ(result->manifest.name, "generated_demo_plugin");
+    EXPECT_EQ(result->manifest.version, "1.2.3");
+    EXPECT_EQ(result->implementation_code, "int generated() { return 42; }");
+    EXPECT_EQ(result->build_dependencies.size(), 2u);
+    EXPECT_TRUE(result->passed_security_checks);
+}
+
+// APG-08: endpoint responses missing implementation_code are rejected.
+TEST(AIPluginGeneratorTest, APG08_GeneratePluginRejectsMissingImplementationCode) {
+    auto gen = makeGeneratorWithEndpointFn(
+        [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+            json payload = {
+                {"name", "incomplete_plugin"},
+                {"header_code", "// header only"}
+            };
+            return payload.dump();
+        });
+
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_NE(result.error().message().find("implementation_code"), std::string::npos);
 }

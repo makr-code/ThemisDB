@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 /**
@@ -102,10 +103,17 @@ struct GeneratedPlugin {
  */
 class AIPluginGenerator {
 public:
+    using EndpointInvokeFn = std::function<Result<std::string>(
+        const std::string& endpoint,
+        const std::string& request_body,
+        long timeout_ms)>;
+
     struct Config {
         std::string llm_endpoint = "http://localhost:8080";
         std::string sandbox_dir = "/tmp/themis_plugin_sandbox";
         std::string output_dir = "./generated_plugins";
+        long timeout_ms = 10000;
+        EndpointInvokeFn endpoint_invoke_fn;
     };
     
     explicit AIPluginGenerator(const Config& config);
