@@ -16,23 +16,8 @@
  * @file tensor/tensor_fingerprint_graph.cpp
  * @brief TensorFingerprintGraph — adapter similarity via G_0 column means.
  *
- * ### Stub log
- * - TFG-01  findSimilar() / findSimilarByFingerprint() use column-mean
- *           fingerprint cosine similarity instead of the full TT inner-
- *           product sweep (Holtz 2012, O(d·r²)).  See STUB #276.
- *
- * STUB/SIMULATION NOTE (stub #276):
- * Purpose: Provide fast O(n·r₁) approximate similarity so adapter
- *          retrieval is usable before the full TT inner-product path
- *          is wired.
- * Activation: Always — no compile-time flag required.
- * Production Delta: findSimilar() ranks adapters by cosine similarity
- *                   on the fingerprint (first-core column means), NOT
- *                   by the full TT inner-product.  For adapters whose
- *                   first-core energy is < 60% of the total Frobenius
- *                   norm, ranking can deviate from the exact result.
- * Removal Plan: Q3 2027 — replace inner loop with TTTrain::innerProduct()
- *               and add optional HNSW indexing over fingerprints.
+ * `findSimilar()` uses exact compressed-domain TT cosine similarity while
+ * `findSimilarByFingerprint()` remains a fast sketch-based lookup path.
  */
 
 #include "tensor/tensor_fingerprint_graph.h"
@@ -40,6 +25,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <mutex>
 #include <numeric>
 #include <shared_mutex>
 
@@ -119,6 +105,7 @@ bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
     entry.tenant_id      = tenant_id;
     entry.fingerprint    = std::move(fp);
     entry.first_core_norm = norm;
+    entry.exact_train    = train;
 
     {
         std::unique_lock lock(mutex_);
@@ -214,28 +201,56 @@ TensorFingerprintGraph::findSimilarByFingerprint(
 std::vector<SimilarityResult>
 TensorFingerprintGraph::findSimilar(const std::string& query_key,
                                      std::size_t        k) const {
-    // Look up query fingerprint.
+    // Look up query entry and compute exact TT cosine against all candidates.
+    storage::TTTrain query_tt;
     std::vector<float> query_fp;
-    std::string        query_tenant;
     {
         std::shared_lock lock(mutex_);
         auto it = entries_.find(query_key);
         if (it == entries_.end()) return {};
-        query_fp     = it->second.fingerprint;
-        query_tenant = it->second.tenant_id;
+        query_tt = it->second.exact_train;
+        query_fp = it->second.fingerprint;
+    }
+    if (query_tt.cores.empty() || k == 0) return {};
+
+    std::vector<SimilarityResult> results;
+    {
+        std::shared_lock lock(mutex_);
+        results.reserve(entries_.size());
+        for (const auto& [key, ent] : entries_) {
+            if (key == query_key) continue; // exclude query adapter itself
+
+            float sim = 0.0f;
+            if (!ent.exact_train.cores.empty()) {
+                sim = static_cast<float>(
+                    storage::TensorTrainDecomposer::cosineSimilarity(query_tt, ent.exact_train));
+            } else if (ent.fingerprint.size() == query_fp.size()) {
+                // Compatibility fallback for legacy entries without cached TT payload.
+                sim = cosineSimilarity(query_fp, ent.fingerprint);
+            }
+
+            SimilarityResult sr;
+            sr.adapter_key   = ent.adapter_key;
+            sr.domain        = ent.domain;
+            sr.base_model_id = ent.base_model_id;
+            sr.score         = sim;
+            results.push_back(std::move(sr));
+        }
     }
 
-    auto results = findSimilarByFingerprint(query_fp, k + 1, "");
-
-    // Remove the query adapter itself from the results.
-    results.erase(
-        std::remove_if(results.begin(), results.end(),
-                       [&query_key](const SimilarityResult& r) {
-                           return r.adapter_key == query_key;
-                       }),
-        results.end());
-
+    std::sort(results.begin(), results.end(),
+              [](const SimilarityResult& a, const SimilarityResult& b) {
+                  return a.score > b.score;
+              });
     if (results.size() > k) results.resize(k);
+
+    {
+        std::unique_lock slock(stats_mutex_);
+        ++stats_.total_query_calls;
+        if (!entries_.empty()) {
+            stats_.total_comparisons += (entries_.size() - 1);
+        }
+    }
     return results;
 }
 

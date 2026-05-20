@@ -1162,6 +1162,26 @@ TEST(TensorFingerprintGraph, TFG06_findSimilarByFingerprint_tenant_filter) {
     EXPECT_TRUE(results.size() <= 1u);
 }
 
+// TFG-07: findSimilar() uses exact TT cosine similarity for ranking score.
+TEST(TensorFingerprintGraph, TFG07_findSimilar_uses_exact_tt_cosine_score) {
+    TensorFingerprintGraph graph;
+    auto train_q = makeTFGTrain(1.0f);
+    auto train_b = makeTFGTrain(1.001f);
+    auto train_c = makeTFGTrain(3.0f);
+
+    graph.addAdapter("key_q", train_q, "legal", "llama3", "t1");
+    graph.addAdapter("key_b", train_b, "legal", "llama3", "t1");
+    graph.addAdapter("key_c", train_c, "legal", "llama3", "t1");
+
+    auto results = graph.findSimilar("key_q", 2);
+    ASSERT_EQ(results.size(), 2u);
+    ASSERT_EQ(results[0].adapter_key, "key_b");
+
+    const float expected =
+        static_cast<float>(TensorTrainDecomposer::cosineSimilarity(train_q, train_b));
+    EXPECT_NEAR(results[0].score, expected, 1e-5f);
+}
+
 // =============================================================================
 // TensorRAGPipeline tests — TRPL-01..TRPL-08
 // =============================================================================

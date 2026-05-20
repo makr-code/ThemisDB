@@ -33,25 +33,9 @@
  * a rank-1 sketch of the adapter.  This is O(n₁ · r₁) to compute
  * and O(r₁) to store — negligible compared to the full adapter.
  *
- * ### STUB #276 — Full TT Inner-Product Similarity
- *
- * The production `findSimilar()` should use the TT inner-product sweep
- * (Holtz 2012, O(d·r²)) for provably correct cosine similarity on the
- * full adapter.  The fingerprint approximation deviates up to ~15% on
- * adversarial adapters (high-rank, low first-core energy).
- *
- * @note
- * // STUB/SIMULATION NOTE (stub #276):
- * // Purpose: Fast fingerprint similarity while full TT inner-product
- * //          sweep is pending.
- * // Activation: Always (no compile flag required).
- * // Production Delta: findSimilar() uses column-mean fingerprint cosine
- * //                   similarity, NOT the full TT inner-product.  For
- * //                   adapters where G_0 energy < 60% of total Frobenius
- * //                   norm the ranking may differ from the exact result.
- * // Removal Plan: Q3 2027 — wire TTTrain::innerProduct() per-pair and
- * //               add HNSW indexing over fingerprints for sub-linear
- * //               search (findSimilarAdapters Phase 4).
+ * `findSimilar()` uses exact compressed-domain TT cosine similarity via
+ * `TensorTrainDecomposer::cosineSimilarity()`.  `findSimilarByFingerprint()`
+ * remains as a fast approximate path for callers that only have a sketch.
  *
  * ## Thread Safety
  * All public methods are thread-safe via shared_mutex.
@@ -95,6 +79,9 @@ struct FingerprintEntry {
 
     /// Frobenius norm of the first TT-core (used for normalisation).
     float first_core_norm = 0.0f;
+
+    /// Full TT train used for exact compressed-domain similarity in findSimilar().
+    storage::TTTrain exact_train;
 };
 
 // ============================================================================
@@ -165,13 +152,10 @@ public:
     /**
      * @brief Find the top-k adapters most similar to the query adapter.
      *
-     * Similarity is computed as cosine similarity on the column-mean
-     * fingerprint of G_0.  The query adapter itself is excluded from the
+     * Similarity is computed as exact compressed-domain TT cosine similarity
+     * (`TensorTrainDecomposer::cosineSimilarity`) when both query and candidate
+     * TT payloads are present. The query adapter itself is excluded from the
      * result list.
-     *
-     * @note
-      * // STUB/SIMULATION NOTE (stub #276):
-     * // Uses fingerprint cosine similarity, not full TT inner-product.
      *
      * @param query_key  Storage key of the query adapter (must be registered).
      * @param k          Maximum number of results to return.
