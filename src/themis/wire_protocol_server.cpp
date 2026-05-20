@@ -1,4 +1,4 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+// THEMIS_GAP_STATS: gaps=4 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -37,6 +37,8 @@
 #include "themis/network/wire_protocol_server.hpp"
 
 #include <chrono>
+#include <algorithm>
+#include <cstdio>
 #include <cstring>
 #include <iostream>
 #include <sstream>
@@ -222,6 +224,34 @@ static std::string sanitizeForMessage(const std::string& s) {
 }
 
 } // anonymous namespace
+
+// ============================================================================
+// Static engine-bridge storage and setter implementations (stub #281)
+// ============================================================================
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+namespace {
+std::mutex        s_bridge_mutex;
+WireProtocolSession::QueryAqlFn      s_query_aql_fn;
+WireProtocolSession::GeoQueryFn      s_geo_query_fn;
+WireProtocolSession::TimeseriesQueryFn s_timeseries_query_fn;
+} // anonymous namespace
+
+void WireProtocolSession::setQueryAqlFn(QueryAqlFn fn) {
+    std::lock_guard<std::mutex> lock(s_bridge_mutex);
+    s_query_aql_fn = std::move(fn);
+}
+
+void WireProtocolSession::setGeoQueryFn(GeoQueryFn fn) {
+    std::lock_guard<std::mutex> lock(s_bridge_mutex);
+    s_geo_query_fn = std::move(fn);
+}
+
+void WireProtocolSession::setTimeseriesQueryFn(TimeseriesQueryFn fn) {
+    std::lock_guard<std::mutex> lock(s_bridge_mutex);
+    s_timeseries_query_fn = std::move(fn);
+}
+#endif  // THEMIS_WIRE_V1_PB_HEADER_FOUND
 
 // ============================================================================
 // WireProtocolSession
@@ -799,34 +829,24 @@ void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
         "/" + sanitizeForMessage(req.uuid()));
 }
 
-// STUB/SIMULATION NOTE (stub #281):
-// Purpose: Keep protobuf wire protocol handler stubs (AQL, cursor, geospatial,
-//          time-series, graph traversal) registerable while integration of the
-//          query/subsystem engines into the protobuf session is pending.
-// Activation: Always active for all message types listed below.
-// Production Delta: Clients connecting via the Protobuf/TCP wire port receive
-//          HTTP 501 for QUERY_AQL, CURSOR_NEXT, CURSOR_CLOSE, GEO_QUERY,
-//          TIMESERIES_QUERY, and GRAPH_TRAVERSE. Only JSON wire protocol port
-//          8766 (network/wire_protocol_server.cpp) and HTTP REST API have these
-//          features wired. See below for all affected handlers.
-// Removal Plan: Inject QueryEngine, TSStore, and ProcessGraphManager references
-//          into WireProtocolServer::Config and wire each handler to the
-//          corresponding engine method (tracked in STUB_INVENTORY #281).
+// STUB/SIMULATION NOTE (stub #281 — partial residual):
+// Purpose: GRAPH_TRAVERSE handler returns 501 because the raw binary payload
+//          is not forwarded to handle_graph_traverse() in the dispatch lambda
+//          (payload is consumed before the handler is called, and there is no
+//          typed proto message for GRAPH_TRAVERSE in the current proto schema).
+// Activation: Always active for OP_GRAPH_TRAVERSE only.
+// Production Delta: Only GRAPH_TRAVERSE is affected; QUERY_AQL, CURSOR_NEXT,
+//          CURSOR_CLOSE, GEO_QUERY, and TIMESERIES_QUERY are fully wired via
+//          injectable callbacks (see setQueryAqlFn / setGeoQueryFn /
+//          setTimeseriesQueryFn).
+// Removal Plan: Define a GraphTraverseRequest proto message, add the typed
+//          handler to the dispatch switch, and wire a GraphTraverseFn callback.
 //          Target: v2.0.0.
-//
-// Affected handlers with 501/503 stubs:
-//   - handle_query_aql()          → AQL engine not injected into WireProtocolServer
-//   - handle_cursor_next()        → cursor pagination requires wired AQL engine
-//   - handle_cursor_close()       → cursor lifecycle requires wired AQL engine
-//   - handle_geo_query()          → GeoIndexManager not injected
-//   - handle_timeseries_query()   → TSStore reference not injected
-//   - handle_graph_traverse()     → ProcessGraphManager not injected
 
 void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     // QUERY_AQL: execute an AQL query string.
-    // Requires authentication; validates that the AQL string is non-empty.
-    // Full AQL engine integration over the protobuf wire protocol is planned for
-    // a future release.  Clients should use HTTP POST /api/v1/query in the meantime.
+    // Uses the injectable QueryAqlFn when available; falls back to 501
+    // when no callback has been installed via setQueryAqlFn().
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -835,15 +855,67 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
         send_error(400, "Missing 'aql' field in QUERY_AQL request");
         return;
     }
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+    QueryAqlFn fn;
+    {
+        std::lock_guard<std::mutex> lock(s_bridge_mutex);
+        fn = s_query_aql_fn;
+    }
+    if (!fn) {
+        send_error(501,
+            "AQL engine not wired to protobuf wire protocol session. "
+            "Use the HTTP REST API endpoint POST /api/v1/query instead.");
+        return;
+    }
+    try {
+        auto results = fn(req.aql());
+
+        const auto batch_sz = req.batch_size() > 0 ? req.batch_size() : 100u;
+        v1::QueryResult qr;
+
+        if (results.size() > batch_sz) {
+            // Large result-set: store remainder in per-session cursor map.
+            for (uint32_t i = 0; i < batch_sz; ++i)
+                qr.add_results(results[i]);
+            qr.set_has_more(true);
+
+            auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+            char buf[64];
+            std::snprintf(buf, sizeof(buf), "c-%s-%lld",
+                session_id_.c_str(),
+                static_cast<long long>(now_ms));
+            std::string cid(buf);
+            qr.set_cursor_id(cid);
+            qr.set_total_count(static_cast<uint64_t>(results.size()));
+
+            CursorEntry entry;
+            entry.results   = std::move(results);
+            entry.offset    = batch_sz;
+            entry.expires_ms = now_ms + 300'000; // 5 min TTL
+            {
+                std::lock_guard<std::mutex> lk(cursors_mutex_);
+                cursors_[cid] = std::move(entry);
+            }
+        } else {
+            for (const auto& r : results) qr.add_results(r);
+            qr.set_has_more(false);
+            qr.set_total_count(static_cast<uint64_t>(results.size()));
+        }
+        async_write_response(OpCode::OP_QUERY_RESULT, qr);
+    } catch (const std::exception& e) {
+        send_error(0x0007, std::string("AQL query failed: ") + e.what());
+    }
+#else
     send_error(501,
         "AQL query execution is not yet integrated in the protobuf wire protocol. "
         "Use the HTTP REST API endpoint POST /api/v1/query instead.");
+#endif
 }
 
 void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
     // CURSOR_NEXT: fetch the next batch of results from an open AQL query cursor.
-    // Requires authentication; validates cursor_id field.
-    // Cursor-based streaming is not yet integrated in the protobuf wire protocol.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -852,15 +924,58 @@ void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
         send_error(400, "Missing 'cursor_id' in CURSOR_NEXT request");
         return;
     }
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+    CursorEntry entry;
+    bool found = false;
+    {
+        std::lock_guard<std::mutex> lk(cursors_mutex_);
+        auto it = cursors_.find(req.cursor_id());
+        if (it != cursors_.end()) {
+            entry = it->second; // copy
+            found = true;
+        }
+    }
+    if (!found) {
+        send_error(404,
+            "Cursor not found or expired: " +
+            sanitizeForMessage(req.cursor_id()));
+        return;
+    }
+    const auto batch_sz =
+        req.batch_size() > 0 ? static_cast<size_t>(req.batch_size()) : 100u;
+    v1::QueryResult qr;
+    size_t end = std::min(entry.offset + batch_sz, entry.results.size());
+    for (size_t i = entry.offset; i < end; ++i)
+        qr.add_results(entry.results[i]);
+
+    const bool has_more = (end < entry.results.size());
+    qr.set_has_more(has_more);
+    qr.set_total_count(static_cast<uint64_t>(entry.results.size()));
+    if (has_more)
+        qr.set_cursor_id(req.cursor_id());
+
+    {
+        std::lock_guard<std::mutex> lk(cursors_mutex_);
+        auto it = cursors_.find(req.cursor_id());
+        if (it != cursors_.end()) {
+            if (has_more)
+                it->second.offset = end;
+            else
+                cursors_.erase(it);
+        }
+    }
+    async_write_response(OpCode::OP_QUERY_RESULT, qr);
+#else
     send_error(501,
         "Cursor pagination is not yet integrated in the protobuf wire protocol. "
         "Use the HTTP REST API endpoint GET /api/v1/cursor/" +
         sanitizeForMessage(req.cursor_id()) + " instead.");
+#endif
 }
 
 void WireProtocolSession::handle_cursor_close(const v1::CursorCloseRequest& req) {
     // CURSOR_CLOSE: close an open AQL query cursor and release server-side resources.
-    // Requires authentication; validates cursor_id field.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -869,10 +984,19 @@ void WireProtocolSession::handle_cursor_close(const v1::CursorCloseRequest& req)
         send_error(400, "Missing 'cursor_id' in CURSOR_CLOSE request");
         return;
     }
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+    {
+        std::lock_guard<std::mutex> lk(cursors_mutex_);
+        cursors_.erase(req.cursor_id());
+    }
+    send_ok("Cursor " + sanitizeForMessage(req.cursor_id()) + " closed");
+#else
     send_error(501,
         "Cursor management is not yet integrated in the protobuf wire protocol. "
         "Use the HTTP REST API endpoint DELETE /api/v1/cursor/" +
         sanitizeForMessage(req.cursor_id()) + " instead.");
+#endif
 }
 
 void WireProtocolSession::handle_vector_search(
@@ -902,9 +1026,8 @@ void WireProtocolSession::handle_vector_search(
 void WireProtocolSession::handle_geo_query(
     const v1::GeoQueryRequest& req) {
     // GEO_QUERY: geospatial proximity / containment query.
-    // Requires authentication; validates collection field.
-    // Full geo-index integration over the protobuf wire protocol is planned for
-    // a future release.  Clients should use HTTP GET /api/v1/geo/query.
+    // Uses the injectable GeoQueryFn when available; falls back to 501
+    // when no callback has been installed via setGeoQueryFn().
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -913,15 +1036,37 @@ void WireProtocolSession::handle_geo_query(
         send_error(400, "Missing 'collection' in GEO_QUERY request");
         return;
     }
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+    GeoQueryFn fn;
+    {
+        std::lock_guard<std::mutex> lock(s_bridge_mutex);
+        fn = s_geo_query_fn;
+    }
+    if (!fn) {
+        send_error(501,
+            "Geospatial engine not wired to protobuf wire protocol session. "
+            "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.");
+        return;
+    }
+    try {
+        auto response = fn(req);
+        async_write_response(OpCode::OP_GEO_QUERY, response);
+    } catch (const std::exception& e) {
+        send_error(0x0007, std::string("GEO_QUERY failed: ") + e.what());
+    }
+#else
     send_error(501,
         "Geospatial query execution is not yet integrated in the protobuf wire protocol. "
         "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.");
+#endif
 }
 
 void WireProtocolSession::handle_timeseries_query(
     const v1::TimeSeriesQueryRequest& req) {
     // TIMESERIES_QUERY: time-range aggregation query against TSStore.
-    // Requires authentication; validates collection and time-range fields.
+    // Uses the injectable TimeseriesQueryFn when available; falls back to 503
+    // when no callback has been installed via setTimeseriesQueryFn().
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -936,12 +1081,32 @@ void WireProtocolSession::handle_timeseries_query(
             "start time must be less than end time");
         return;
     }
-    // TSStore dispatch requires a TSStore reference that is not yet injected
-    // into this protobuf wire session.
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+    TimeseriesQueryFn fn;
+    {
+        std::lock_guard<std::mutex> lock(s_bridge_mutex);
+        fn = s_timeseries_query_fn;
+    }
+    if (!fn) {
+        send_error(503,
+            "Time-series storage not wired to protobuf wire protocol session. "
+            "Use the JSON wire protocol port (8766) or HTTP REST API "
+            "GET /api/v1/timeseries/" + sanitizeForMessage(req.collection()));
+        return;
+    }
+    try {
+        auto response = fn(req);
+        async_write_response(OpCode::OP_TIMESERIES_QUERY, response);
+    } catch (const std::exception& e) {
+        send_error(0x0007, std::string("TIMESERIES_QUERY failed: ") + e.what());
+    }
+#else
     send_error(503,
         "Time-series storage not connected to protobuf wire session. "
         "Use the JSON wire protocol port (8766) or HTTP REST API "
         "GET /api/v1/timeseries/" + sanitizeForMessage(req.collection()));
+#endif
 }
 
 void WireProtocolSession::handle_bpmn_start(

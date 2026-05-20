@@ -7,6 +7,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Stub batch 29: #276, #281 (partial), #284 resolved; inventory header corrected**
+
+  - **#284 — network/wire_protocol_server: GEO_QUERY dispatches to injected SpatialIndexManager**
+    - `WireProtocolServer::setSpatialIndexManager(shared_ptr<SpatialIndexManager>)` setter
+      added to `include/network/wire_protocol_server.h`; `spatial_index_` member added.
+    - `handleGeoQuery()` now uses the injected `SpatialIndexManager` when available,
+      supporting `within`, `near`, and `intersects` query types; falls back to
+      `GEO_NOT_INTEGRATED` only when no index is configured.
+    - STUB/SIMULATION NOTE removed from source.
+    - (`include/network/wire_protocol_server.h`,
+      `src/network/wire_protocol_server.cpp`)
+
+  - **#281 — themis/wire_protocol_server: AQL/cursor/geo/timeseries wired via injectable callbacks**
+    - `WireProtocolSession::setQueryAqlFn()`, `setGeoQueryFn()`, and
+      `setTimeseriesQueryFn()` static bridge setters added; guarded by
+      `THEMIS_WIRE_V1_PB_HEADER_FOUND`.
+    - `handle_query_aql()` now executes via the injected `QueryAqlFn`; results
+      exceeding `batch_size` are stored in a per-session cursor map with a 5-minute
+      TTL and returned with a cursor ID.
+    - `handle_cursor_next()` reads from the per-session cursor map; `handle_cursor_close()`
+      removes the cursor entry.
+    - `handle_geo_query()` and `handle_timeseries_query()` delegate to their respective
+      injected functions.
+    - Residual STUB NOTE updated: only `handle_graph_traverse()` remains with 501
+      (no typed proto message; raw payload not forwarded to the handler).
+    - (`include/themis/network/wire_protocol_server.hpp`,
+      `src/themis/wire_protocol_server.cpp`)
+
+  - **#276 — tensor_fingerprint_graph: innerProduct dispatch; cosine-on-first-core stub resolved**
+    - STUB/SIMULATION NOTE was already removed from `tensor_fingerprint_graph.cpp`;
+      inventory entry updated to RESOLVED.
+
+  - **Inventory header corrected**: stubs #115, #118, #135, #138, #140, #142, #148
+    were already resolved in code but counted as active; header updated from
+    `299 resolved, 17 active` to `308 resolved, 8 active`.
+
 ### Security
 
 - **rope_api_handler: scope-based RBAC enforced for all ROPE endpoints (stub #280)** 🔐
@@ -17,7 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     `VectorApiHandler`.
     (`src/server/rope_api_handler.cpp`)
 
-### Fixed
+
 
 - **Stub batch 26: #279, #280, #290, #293, #299, #300 resolved**
 

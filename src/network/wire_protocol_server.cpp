@@ -1,4 +1,4 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+// THEMIS_GAP_STATS: gaps=9 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -34,6 +34,7 @@
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
+#include "index/spatial_index.h"
 #include "index/process_graph.h"
 #include "transaction/transaction_manager.h"
 #include "timeseries/tsstore.h"
@@ -55,6 +56,7 @@
 #include <openssl/crypto.h>  // For CRYPTO_memcmp (WPS-2: constant-time token comparison)
 #include <map>  // For multi-bucket aggregation
 #include <algorithm>  // For std::min/max
+#include <cmath>      // For std::cos, std::acos (GEO_QUERY distance)
 #include <spdlog/spdlog.h>  // For WPS-3 misconfiguration error log
 
 using json = nlohmann::json;
@@ -157,6 +159,11 @@ WireProtocolServer::WireProtocolServer(
 
 WireProtocolServer::~WireProtocolServer() {
     stop();
+}
+
+void WireProtocolServer::setSpatialIndexManager(
+    std::shared_ptr<index::SpatialIndexManager> idx) {
+    spatial_index_ = std::move(idx);
 }
 
 bool WireProtocolServer::validateTransportSecurity(int argc, const char* const argv[]) const {
@@ -1633,25 +1640,6 @@ void WireProtocolServer::Session::handleTransactionAbort() {
     }
 }
 
-// STUB/SIMULATION NOTE (stub #284):
-// Purpose: Keep graph/AQL/geospatial commands available on the JSON wire protocol
-//          even when their backend integrations are not injected into
-//          WireProtocolServer (query_engine_ missing) or not implemented
-//          on this transport (geo query endpoint).
-// Activation:
-//   - GRAPH_TRAVERSE and QUERY_AQL fallback branch when `server_->query_engine_ == nullptr`
-//   - GEO_QUERY always (current transport path returns GEO_NOT_INTEGRATED)
-// Production Delta:
-//   - GRAPH_TRAVERSE/QUERY_AQL return `{success:false, error_code:*_NOT_INTEGRATED}`
-//     and instruct callers to use HTTP REST endpoints.
-//   - GEO_QUERY always returns `GEO_NOT_INTEGRATED`; geospatial execution over
-//     this wire protocol transport is unavailable.
-// Removal Plan:
-//   - Inject QueryEngine as mandatory dependency in WireProtocolServer startup
-//     path and fail-closed on missing engine for graph/AQL-capable deployments.
-//   - Wire GEO_QUERY to GeoIndexManager/QueryEngine dispatch instead of
-//     hardcoded NOT_INTEGRATED response.
-//   - Track in STUB_INVENTORY #284 (target: v2.0.0).
 void WireProtocolServer::Session::handleGraphTraverse() {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
     // Expected payload (JSON):
@@ -2009,9 +1997,10 @@ void WireProtocolServer::Session::handleVectorSearch() {
 void WireProtocolServer::Session::handleGeoQuery() {
     // GEO_QUERY: geospatial proximity / containment queries.
     // Expected payload (JSON):
-    //   {"lat": 48.137, "lon": 11.576, "radius_m": 1000, "collection": "...", "limit": 20}
-    // NOTE: Full geospatial query integration over the wire protocol is planned for a
-    // future release.  Until then clients should use the HTTP REST API (/api/v1/geo).
+    //   {"collection": "...", "type": "within|near|intersects",
+    //    "bbox": {"minx":.., "miny":.., "maxx":.., "maxy":..},          // for within/intersects
+    //    "center": {"lon":.., "lat":..}, "radius": <m>,                  // for near
+    //    "limit": 100}
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");
         return;
@@ -2026,17 +2015,134 @@ void WireProtocolServer::Session::handleGeoQuery() {
             return;
         }
 
-        // Geo index is not yet integrated with the wire protocol transport.
-        json response;
-        response["success"] = false;
-        response["error_code"] = "GEO_NOT_INTEGRATED";
-        response["error"] = "Geospatial query execution is not yet integrated in the wire protocol. "
-                            "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.";
-        response["collection"] = collection;
+        auto spatial_idx = server_->spatial_index_;
+        if (!spatial_idx) {
+            // Spatial index not configured — redirect to HTTP REST API.
+            json response;
+            response["success"]    = false;
+            response["error_code"] = "GEO_NOT_INTEGRATED";
+            response["error"]      = "Geospatial query execution is not configured on this wire "
+                                     "protocol port. Use the HTTP REST API endpoint "
+                                     "GET /api/v1/geo/query instead.";
+            response["collection"] = collection;
+            std::string rs = response.dump();
+            asyncWriteResponse({rs.begin(), rs.end()});
+            return;
+        }
 
-        std::string response_str = response.dump();
-        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
-        asyncWriteResponse(response_data);
+        std::string query_type = request.value("type", "");
+        if (query_type.empty()) {
+            sendError(400,
+                "Missing 'type' field in GEO_QUERY request "
+                "(expected: within, near, intersects)");
+            return;
+        }
+
+        if (!spatial_idx->hasSpatialIndex(collection)) {
+            json response;
+            response["success"]    = false;
+            response["error_code"] = "GEO_NO_INDEX";
+            response["error"]      = "Collection '" + collection + "' does not have a spatial "
+                                     "index. Create one first using the spatial index API.";
+            std::string rs = response.dump();
+            asyncWriteResponse({rs.begin(), rs.end()});
+            return;
+        }
+
+        const uint32_t limit =
+            request.value("limit", static_cast<uint32_t>(100));
+
+        std::vector<index::SpatialResult> search_results;
+
+        if (query_type == "intersects" || query_type == "within") {
+            if (!request.contains("bbox") || !request["bbox"].is_object()) {
+                sendError(400,
+                    "Missing or invalid 'bbox' in GEO_QUERY request "
+                    "(expected: {minx, miny, maxx, maxy})");
+                return;
+            }
+            const auto& bbox_json = request["bbox"];
+            if (!bbox_json.contains("minx") || !bbox_json.contains("miny") ||
+                !bbox_json.contains("maxx") || !bbox_json.contains("maxy")) {
+                sendError(400, "'bbox' must contain: minx, miny, maxx, maxy");
+                return;
+            }
+            geo::MBR query_bbox(
+                bbox_json["minx"].get<double>(),
+                bbox_json["miny"].get<double>(),
+                bbox_json["maxx"].get<double>(),
+                bbox_json["maxy"].get<double>());
+            search_results = spatial_idx->searchIntersects(collection, query_bbox);
+
+        } else if (query_type == "near") {
+            if (!request.contains("center") || !request["center"].is_object()) {
+                sendError(400,
+                    "Missing or invalid 'center' in GEO_QUERY near-request "
+                    "(expected: {lon, lat})");
+                return;
+            }
+            if (!request.contains("radius")) {
+                sendError(400, "Missing 'radius' (meters) in GEO_QUERY near-request");
+                return;
+            }
+            const auto& center = request["center"];
+            if (!center.contains("lon") || !center.contains("lat")) {
+                sendError(400, "'center' must contain: lon, lat");
+                return;
+            }
+            const double lon    = center["lon"].get<double>();
+            const double lat    = center["lat"].get<double>();
+            const double radius = request["radius"].get<double>();
+
+            // Approximate bounding box for the radius query.
+            // 1 degree latitude ≈ 111 km; 1 degree longitude varies with latitude.
+            constexpr double kMetersPerDegreeLat = 111000.0;
+            constexpr double kDegToRad           = 3.14159265358979323846 / 180.0;
+            const double meters_per_lon =
+                kMetersPerDegreeLat * std::cos(lat * kDegToRad);
+            const double lat_delta = radius / kMetersPerDegreeLat;
+            const double lon_delta = (meters_per_lon > 0.0)
+                ? radius / meters_per_lon : lat_delta;
+
+            geo::MBR query_bbox(
+                lon - lon_delta, lat - lat_delta,
+                lon + lon_delta, lat + lat_delta);
+            search_results = spatial_idx->searchIntersects(collection, query_bbox);
+
+        } else {
+            sendError(400,
+                "Unknown 'type' in GEO_QUERY request; "
+                "expected: within, near, intersects");
+            return;
+        }
+
+        json results_arr = json::array();
+        uint32_t count = 0;
+        for (const auto& res : search_results) {
+            if (count++ >= limit) break;
+            json entry;
+            entry["primary_key"] = res.primary_key;
+            entry["mbr"] = {
+                {"minx", res.mbr.minx},
+                {"miny", res.mbr.miny},
+                {"maxx", res.mbr.maxx},
+                {"maxy", res.mbr.maxy}};
+            if (res.z_min.has_value() && res.z_max.has_value()) {
+                entry["z_min"] = res.z_min.value();
+                entry["z_max"] = res.z_max.value();
+            }
+            results_arr.push_back(std::move(entry));
+        }
+
+        json response;
+        response["success"]    = true;
+        response["collection"] = collection;
+        response["type"]       = query_type;
+        response["results"]    = std::move(results_arr);
+        response["count"]      = count;
+        std::string rs = response.dump();
+        asyncWriteResponse({rs.begin(), rs.end()});
+
     } catch (const json::exception& e) {
         sendError(400, std::string("Invalid JSON in GEO_QUERY payload: ") + e.what());
     } catch (const std::exception& e) {

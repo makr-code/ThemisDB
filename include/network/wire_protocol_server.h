@@ -55,6 +55,7 @@ class ProcessGraphManager;
 class TSStore;
 class ContinuousAggregateManager;
 class QueryEngine;
+namespace index { class SpatialIndexManager; }
 
 namespace network {
 
@@ -279,6 +280,18 @@ public:
      */
     std::vector<QoSManager::TenantQuotaStats> getAllTenantBandwidthStats() const;
 
+    /**
+     * @brief Inject a SpatialIndexManager for GEO_QUERY dispatch.
+     *
+     * When set, GEO_QUERY commands on this wire-protocol port are dispatched to
+     * the provided spatial index instead of returning GEO_NOT_INTEGRATED.  The
+     * manager is accessed from multiple session threads and must be thread-safe.
+     *
+     * @param idx  Shared spatial index manager; nullptr disables geo dispatch
+     *             and restores the NOT_INTEGRATED fallback.
+     */
+    void setSpatialIndexManager(std::shared_ptr<index::SpatialIndexManager> idx);
+
     // Cursor entry used by paginated query responses.
     struct CursorEntry {
         nlohmann::json results;    // Full result set (JSON array)
@@ -316,6 +329,7 @@ private:
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
     std::shared_ptr<QueryEngine> query_engine_;
+    std::shared_ptr<index::SpatialIndexManager> spatial_index_; ///< Optional geo-query back-end (stub #284).
 
     // Cursor registry: stores live AQL query results for batch pagination.
     // cursor_id -> {results as JSON array, current offset, TTL timestamp}
