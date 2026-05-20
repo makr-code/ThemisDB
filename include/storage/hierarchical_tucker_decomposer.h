@@ -41,8 +41,10 @@
  *
  * ## Stubs
  * - STUB #287: HOSVD initialization (not HOOI alternating optimization).
- * - STUB #288: Symmetric Jacobi EVD for truncated SVD
- *   (O(r³ · iter) Jacobi sweeps for the small Gram matrix; r ≤ max_rank).
+ *
+ * ## Resolved
+ * - STUB #288 resolved: `truncatedSVD()` now reuses
+ *   `TensorTrainDecomposer::truncatedSVD()` as the shared backend.
  */
 
 #pragma once
@@ -132,19 +134,7 @@ private:
      * Returns U (m × r), S (r), Vt (r × n) where r is chosen such that
      * sigma[r] < delta (or r = max_rank if the threshold is never reached).
      *
-     * Uses symmetric Jacobi EVD on the smaller Gram matrix (A·A^T or A^T·A)
-     * for accuracy on dense float32 inputs.
-     *
-     * @note
-     * // STUB/SIMULATION NOTE (STUB #288):
-     * // Purpose: Provide a self-contained truncated SVD without linking LAPACK.
-     * // Activation: Always — no build flag required.
-     * // Production Delta: O(r³ · iter) Jacobi sweeps vs. O(m·n·r) LAPACK dgesdd.
-     * //   For max_rank ≤ 64 and small Gram matrices the cost is negligible.
-     * //   For large r or ill-conditioned matrices (high dynamic range), Golub-
-     * //   Reinsch bidiagonalization (as in TensorTrainDecomposer) is preferred.
-     * // Removal Plan: Q2 2028 — expose TensorTrainDecomposer::truncatedSVD() as a
-     * //   protected/friend static; reuse across all decomposers.
+     * Uses the shared `TensorTrainDecomposer::truncatedSVD()` backend.
      */
     static void truncatedSVD(
         const std::vector<float>&  mat,
