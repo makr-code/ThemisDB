@@ -240,6 +240,26 @@ struct DistributedTxnManagerConfig {
     /// Maximum number of concurrent transactions tracked in memory.
     size_t max_active_transactions = 10000;
 
+    /**
+     * @brief Optional remote phase-2 dispatcher for callback-less participants.
+     *
+     * When a participant has no in-process callback (`Participant::callback == nullptr`),
+     * the coordinator invokes this function to deliver the final COMMIT/ABORT
+     * decision to the remote node.
+     *
+     * @param txn_id      Distributed transaction identifier.
+     * @param node_id     Participant node/shard identifier.
+     * @param endpoint    Participant endpoint (e.g. host:port).
+     * @param do_commit   true for COMMIT, false for ABORT.
+     * @return true if the decision was delivered successfully; false otherwise.
+     */
+    std::function<bool(
+        const std::string& txn_id,
+        const std::string& node_id,
+        const std::string& endpoint,
+        bool do_commit
+    )> remote_phase2_dispatch;
+
     // ── Performance / PERF-D4 ────────────────────────────────────────────────
 
     /// Batched-prepare window.  When > 0ms the coordinator accumulates
