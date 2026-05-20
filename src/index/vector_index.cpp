@@ -2926,6 +2926,7 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 		// Log audit event if logger is set
 		if (status.ok) {
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_rotation", position);
+			rotary_entities_added_.fetch_add(1, std::memory_order_relaxed);
 		}
 		
 		return status;
@@ -2964,6 +2965,7 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 		// Log audit event if logger is set
 		if (status.ok) {
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_relational_rotation", 0);
+			relational_rotations_.fetch_add(1, std::memory_order_relaxed);
 		}
 		
 		return status;
