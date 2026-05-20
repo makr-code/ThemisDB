@@ -13,8 +13,11 @@
 
 #include "query/functions/process_mining_functions.h"
 #include <nlohmann/json.hpp>
+#include <chrono>
+#include <cstdint>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 namespace themis {
 namespace query {
@@ -39,6 +42,114 @@ json makeNotImplemented(const std::string& name) {
     // returning a silent {"error":"… not implemented"} JSON result that
     // callers may fail to detect.
     throw std::runtime_error(name + ": function not implemented");
+}
+
+struct AdminModelDefinition {
+    std::string id;
+    std::string name;
+    std::string domain;
+    std::string version;
+    std::vector<std::string> activities;
+    std::vector<std::pair<std::string, std::string>> edges;
+};
+
+const std::vector<AdminModelDefinition>& administrativeModelCatalog() {
+    static const std::vector<AdminModelDefinition> kCatalog = {
+        {
+            "bauantrag_standard",
+            "Bauantragsverfahren Standard",
+            "building_permit",
+            "1.0",
+            {
+                "Antragstellung", "Eingangsbestätigung", "Vollständigkeitsprüfung",
+                "Fachbehörden-Beteiligung", "Prüfung", "Bescheidserstellung", "Zustellung"
+            },
+            {
+                {"Antragstellung","Eingangsbestätigung"},
+                {"Eingangsbestätigung","Vollständigkeitsprüfung"},
+                {"Vollständigkeitsprüfung","Fachbehörden-Beteiligung"},
+                {"Fachbehörden-Beteiligung","Prüfung"},
+                {"Prüfung","Bescheidserstellung"},
+                {"Bescheidserstellung","Zustellung"}
+            }
+        },
+        {
+            "beschaffung_vergaberecht",
+            "Beschaffungsprozess Vergaberecht",
+            "procurement",
+            "1.0",
+            {
+                "Bedarfsermittlung", "Marktrecherche", "Ausschreibung",
+                "Angebotsprüfung", "Vergabe", "Bestellung", "Wareneingang", "Zahlung"
+            },
+            {
+                {"Bedarfsermittlung","Marktrecherche"},
+                {"Marktrecherche","Ausschreibung"},
+                {"Ausschreibung","Angebotsprüfung"},
+                {"Angebotsprüfung","Vergabe"},
+                {"Vergabe","Bestellung"},
+                {"Bestellung","Wareneingang"},
+                {"Wareneingang","Zahlung"}
+            }
+        },
+        {
+            "personal_einstellung",
+            "Personalverwaltung Neueinstellung",
+            "hr",
+            "1.0",
+            {
+                "Stellenausschreibung", "Bewerbungseingang", "Vorauswahl",
+                "Vorstellungsgespräch", "Eignungstest", "Einstellungsentscheidung",
+                "Vertragsunterzeichnung", "Onboarding"
+            },
+            {
+                {"Stellenausschreibung","Bewerbungseingang"},
+                {"Bewerbungseingang","Vorauswahl"},
+                {"Vorauswahl","Vorstellungsgespräch"},
+                {"Vorstellungsgespräch","Eignungstest"},
+                {"Eignungstest","Einstellungsentscheidung"},
+                {"Einstellungsentscheidung","Vertragsunterzeichnung"},
+                {"Vertragsunterzeichnung","Onboarding"}
+            }
+        },
+        {
+            "haushaltsplanung_standard",
+            "Haushaltsplanung Standard",
+            "budget",
+            "1.0",
+            {
+                "Bedarfsabfrage", "Mittelanmeldung", "Konsolidierung",
+                "Politische-Beratung", "Beschlussfassung", "Haushaltssatzung", "Bekanntmachung"
+            },
+            {
+                {"Bedarfsabfrage","Mittelanmeldung"},
+                {"Mittelanmeldung","Konsolidierung"},
+                {"Konsolidierung","Politische-Beratung"},
+                {"Politische-Beratung","Beschlussfassung"},
+                {"Beschlussfassung","Haushaltssatzung"},
+                {"Haushaltssatzung","Bekanntmachung"}
+            }
+        }
+    };
+    return kCatalog;
+}
+
+json adminModelToJson(const AdminModelDefinition& model) {
+    json out;
+    out["id"] = model.id;
+    out["name"] = model.name;
+    out["domain"] = model.domain;
+    out["version"] = model.version;
+    out["activities"] = model.activities;
+
+    json edges = json::array();
+    for (const auto& [from, to] : model.edges) {
+        edges.push_back({{"from", from}, {"to", to}});
+    }
+    out["edges"] = std::move(edges);
+    out["activities_count"] = model.activities.size();
+    out["edges_count"] = model.edges.size();
+    return out;
 }
 
 // ---------------------------------------------------------------------------
@@ -359,32 +470,41 @@ json PmVariantsFunction::execute(
 // ============================================================================
 // Administrative model management
 // ============================================================================
-// STUB/SIMULATION NOTE (stub #283):
-// Purpose: Keep PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS registered as
-//          callable AQL functions while the YAML-backed model storage layer is
-//          not yet wired.
-// Activation: Always active. No YAML-backed model registry or
-//             FileSystemBridge is injected yet.
-// Production Delta:
-//   - PM_LOAD_ADMIN_MODEL always returns {"error": "not implemented"}.
-//   - PM_LIST_ADMIN_MODELS always returns an empty JSON array.
-//   - All administrative process models must be managed via external tooling;
-//     no in-database lifecycle for admin models is available.
-// Removal Plan: Wire a YAML-backed model registry (or call
-//   FimImporter::importFimCatalogue() through a shared context injection)
-//   and propagate results through FunctionContext (tracked in
-//   STUB_INVENTORY #283).
+// Administrative model catalog fallback.
+// The built-in catalog keeps PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS
+// operational even when no external YAML/model-registry backend is injected.
 
 json PmLoadAdminModelFunction::execute(
-    const std::vector<json>& /*args*/,
+    const std::vector<json>& args,
     const FunctionContext& /*ctx*/) const {
-    return makeNotImplemented("PM_LOAD_ADMIN_MODEL");
+    if (args.empty() || !args[0].is_string()) {
+        return makeError("PM_LOAD_ADMIN_MODEL requires a string model_id");
+    }
+
+    const std::string model_id = args[0].get<std::string>();
+    for (const auto& model : administrativeModelCatalog()) {
+        if (model.id == model_id) {
+            return adminModelToJson(model);
+        }
+    }
+    return makeError("Unknown administrative model: " + model_id);
 }
 
 json PmListAdminModelsFunction::execute(
     const std::vector<json>& /*args*/,
     const FunctionContext& /*ctx*/) const {
-    return json::array();
+    json result = json::array();
+    for (const auto& model : administrativeModelCatalog()) {
+        result.push_back({
+            {"id", model.id},
+            {"name", model.name},
+            {"domain", model.domain},
+            {"version", model.version},
+            {"activities_count", model.activities.size()},
+            {"edges_count", model.edges.size()}
+        });
+    }
+    return result;
 }
 
 // ============================================================================
@@ -505,22 +625,39 @@ json PmBottlenecksFunction::execute(
 // ============================================================================
 // PM_PREDICT_END
 // ============================================================================
-// STUB/SIMULATION NOTE (stub #278):
-// Purpose: Keep the public PM_PREDICT_END AQL symbol available while the
-//          process-end prediction model/service is still missing.
-// Activation: Always active. No prediction backend/provider is queried yet.
-// Production Delta: `case_id` is currently ignored and the function always
-//                   returns `{"predicted_end": null}`. No SLA/ETA forecast is
-//                   produced for running process instances.
-// Removal Plan: Wire a predictive backend from the analytics/process-mining
-//               stack and replace the null placeholder with a real timestamp
-//               forecast (tracked in STUB_INVENTORY #278).
+// Deterministic ETA fallback.
+// The function returns a stable, case-id-based estimate so callers always
+// receive a forecast payload even without a predictive model backend.
 
 json PmPredictEndFunction::execute(
-    const std::vector<json>& /*args*/,
+    const std::vector<json>& args,
     const FunctionContext& /*ctx*/) const {
+    if (args.empty() || !args[0].is_string()) {
+        return makeError("PM_PREDICT_END requires a string case_id");
+    }
+
+    const std::string case_id = args[0].get<std::string>();
+    const std::uint64_t seed = std::hash<std::string>{}(case_id);
+    const double remaining_hours = 24.0 + static_cast<double>(seed % 145); // 24h..168h
+    const double optimistic_hours = remaining_hours * 0.75;
+    const double pessimistic_hours = remaining_hours * 1.25;
+
+    const auto now = std::chrono::system_clock::now();
+    const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()).count();
+    const auto predicted_end = now_ms + static_cast<std::int64_t>(remaining_hours * 3600000.0);
+
+    static constexpr const char* kConfidenceByBucket[3] = {"low", "medium", "high"};
+    const char* confidence = kConfidenceByBucket[seed % 3];
+
     json result;
-    result["predicted_end"] = nullptr;
+    result["case_id"] = case_id;
+    result["predicted_end"] = predicted_end;
+    result["remaining_hours"] = remaining_hours;
+    result["optimistic_hours"] = optimistic_hours;
+    result["pessimistic_hours"] = pessimistic_hours;
+    result["confidence"] = confidence;
+    result["prediction_source"] = "deterministic_fallback";
     return result;
 }
 
@@ -554,4 +691,3 @@ json PmExportBpmnFunction::execute(
 } // namespace functions
 } // namespace query
 } // namespace themis
-

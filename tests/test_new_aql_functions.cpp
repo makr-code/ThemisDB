@@ -278,13 +278,36 @@ TEST_F(NewAQLFunctionsTest, PmHasPatternStub) {
     EXPECT_FALSE(result.get<bool>());
 }
 
-TEST_F(NewAQLFunctionsTest, PmListAdminModelsStub) {
+TEST_F(NewAQLFunctionsTest, PmListAdminModelsReturnsCatalog) {
     auto& reg = FunctionRegistry::instance();
     
     // Test PM_LIST_ADMIN_MODELS returns array
     auto result = reg.call("PM_LIST_ADMIN_MODELS", {}, ctx);
     EXPECT_TRUE(result.is_array());
-    // Stub returns empty array
+    EXPECT_FALSE(result.empty());
+    EXPECT_TRUE(result[0].contains("id"));
+    EXPECT_TRUE(result[0].contains("name"));
+}
+
+TEST_F(NewAQLFunctionsTest, PmLoadAdminModelReturnsModel) {
+    auto& reg = FunctionRegistry::instance();
+
+    auto result = reg.call("PM_LOAD_ADMIN_MODEL", {"bauantrag_standard"}, ctx);
+    EXPECT_TRUE(result.is_object());
+    EXPECT_EQ(result.value("id", std::string{}), "bauantrag_standard");
+    EXPECT_TRUE(result.contains("activities"));
+    EXPECT_TRUE(result["activities"].is_array());
+}
+
+TEST_F(NewAQLFunctionsTest, PmPredictEndReturnsEtaPayload) {
+    auto& reg = FunctionRegistry::instance();
+
+    auto result = reg.call("PM_PREDICT_END", {"case-123"}, ctx);
+    EXPECT_TRUE(result.is_object());
+    EXPECT_EQ(result.value("case_id", std::string{}), "case-123");
+    EXPECT_TRUE(result.contains("predicted_end"));
+    EXPECT_TRUE(result["predicted_end"].is_number_integer());
+    EXPECT_TRUE(result.contains("remaining_hours"));
 }
 
 TEST_F(NewAQLFunctionsTest, PmExportBpmnStub) {
