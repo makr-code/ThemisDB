@@ -24,6 +24,8 @@
 #include <memory>
 #include <cmath>
 #include <chrono>
+#include <filesystem>
+#include <fstream>
 
 using namespace themis::llm::lora;
 
@@ -49,7 +51,12 @@ protected:
         service_config_.qlora.use_double_quantization = false;
         service_config_.qlora.layer_by_layer = true;
         
-        service_config_.base_model_path = "models/test_model.gguf";
+        const auto tmp_dir = std::filesystem::temp_directory_path() / "themisdb_qlora_tests";
+        std::error_code ec;
+        std::filesystem::create_directories(tmp_dir, ec);
+        base_model_path_ = (tmp_dir / "test_model.gguf").string();
+        createMinimalGGUF(base_model_path_);
+        service_config_.base_model_path = base_model_path_;
         service_config_.enable_checkpointing = false;  // Disable for tests
         
         // Create training data
@@ -61,9 +68,34 @@ protected:
             training_data_.samples.push_back(sample);
         }
     }
+
+    void TearDown() override {
+        if (!base_model_path_.empty()) {
+            std::error_code ec;
+            std::filesystem::remove(base_model_path_, ec);
+        }
+    }
+
+    static void createMinimalGGUF(const std::string& path) {
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        ASSERT_TRUE(out.is_open()) << "Failed to create temporary GGUF file: " << path;
+
+        constexpr char kMagic[4] = {'G', 'G', 'U', 'F'};
+        const uint32_t version = 3;
+        const uint64_t tensor_count = 0;
+        const uint64_t kv_count = 0;
+
+        out.write(kMagic, sizeof(kMagic));
+        out.write(reinterpret_cast<const char*>(&version), sizeof(version));
+        out.write(reinterpret_cast<const char*>(&tensor_count), sizeof(tensor_count));
+        out.write(reinterpret_cast<const char*>(&kv_count), sizeof(kv_count));
+        out.flush();
+        ASSERT_TRUE(out.good()) << "Failed to write GGUF header to: " << path;
+    }
     
     LoRATrainingService::Config service_config_;
     TrainingData training_data_;
+    std::string base_model_path_;
 };
 
 // ===== Configuration Tests =====
