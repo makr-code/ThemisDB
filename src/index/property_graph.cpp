@@ -23,6 +23,7 @@
 #include "index/property_graph.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
+#include <nlohmann/json.hpp>
 #include <sstream>
 #include <algorithm>
 #include <unordered_set>
@@ -31,6 +32,53 @@
 #include <stack>
 
 namespace themis {
+
+namespace {
+
+[[nodiscard]] std::vector<std::string> parseLabelsField(const std::string& raw_labels) {
+    std::vector<std::string> labels;
+    if (raw_labels.empty()) {
+        return labels;
+    }
+
+    // Preferred format: JSON string array, e.g. ["Person","Employee"].
+    try {
+        auto parsed = nlohmann::json::parse(raw_labels);
+        if (parsed.is_array()) {
+            labels.reserve(parsed.size());
+            for (const auto& entry : parsed) {
+                if (!entry.is_string()) {
+                    continue;
+                }
+                auto label = entry.get<std::string>();
+                if (!label.empty()) {
+                    labels.push_back(std::move(label));
+                }
+            }
+            return labels;
+        }
+    } catch (const std::exception&) {
+        // Backward-compatible fallback below (legacy comma-separated encoding).
+    }
+
+    // Legacy format fallback: comma-separated string.
+    std::stringstream ss(raw_labels);
+    std::string label;
+    while (std::getline(ss, label, ',')) {
+        label.erase(0, label.find_first_not_of(" \t"));
+        label.erase(label.find_last_not_of(" \t") + 1);
+        if (!label.empty()) {
+            labels.push_back(std::move(label));
+        }
+    }
+    return labels;
+}
+
+[[nodiscard]] std::string encodeLabelsField(const std::vector<std::string>& labels) {
+    return nlohmann::json(labels).dump();
+}
+
+} // namespace
 
 PropertyGraphManager::PropertyGraphManager(RocksDBWrapper& db) : db_(db) {}
 
@@ -45,39 +93,12 @@ std::vector<std::string> PropertyGraphManager::extractLabels_(const BaseEntity& 
         return labels;  // No labels
     }
 
-    // Value can be variant, check if it's a vector
-    // For now, we'll use getFieldAsString and parse comma-separated (simplified)
-    // STUB/SIMULATION NOTE (stub #292):
-    // Purpose: Allow label extraction to work without a native string-array type
-    //          in BaseEntity.  Parses the '_labels' field as a comma-separated
-    //          string so that property graph operations compile and run on the
-    //          current storage layer.
-    // Activation: Always — BaseEntity does not yet support std::vector<std::string>
-    //             typed fields; all multi-value fields are stored as scalars.
-    // Production Delta: Labels containing commas are parsed incorrectly; leading/
-    //                   trailing whitespace trimming can silently drop characters if
-    //                   a label is all-whitespace.  Labels stored as JSON arrays or
-    //                   binary-encoded in the future will not be readable via the
-    //                   comma-split path.
-    // Removal Plan: Extend BaseEntity::PropertyValue to include
-    //               std::vector<std::string>; add getFieldAsStringArray(); update
-    //               PropertyGraphManager to call getFieldAsStringArray("_labels").
-    //               See src/index/FUTURE_ENHANCEMENTS.md §PropertyGraph StringArray.
-    //               Target: Q2 2027.
-    // TODO: Extend BaseEntity to support string arrays
+    // `_labels` is persisted as a JSON string-array payload for compatibility
+    // with BaseEntity scalar values. Legacy comma-separated payloads are still
+    // accepted to keep existing data readable.
     auto labelsStr = node.getFieldAsString("_labels");
     if (labelsStr.has_value()) {
-        std::string labels_str = *labelsStr;
-        std::stringstream ss(labels_str);
-        std::string label;
-        while (std::getline(ss, label, ',')) {
-            // Trim whitespace
-            label.erase(0, label.find_first_not_of(" \t"));
-            label.erase(label.find_last_not_of(" \t") + 1);
-            if (!label.empty()) {
-                labels.push_back(label);
-            }
-        }
+        labels = parseLabelsField(*labelsStr);
     }
     
     return labels;
@@ -295,12 +316,7 @@ PropertyGraphManager::Status PropertyGraphManager::addNodeLabel(std::string_view
 
     // Add label to node
     labels.push_back(std::string(label));
-    std::string labelsStr;
-    for (size_t i = 0; i < labels.size(); ++i) {
-        if (i > 0) labelsStr += ",";
-        labelsStr += labels[i];
-    }
-    node.setField("_labels", labelsStr);
+    node.setField("_labels", encodeLabelsField(labels));
 
     auto batch = db_.createWriteBatch();
     if (!batch) {
@@ -344,12 +360,7 @@ PropertyGraphManager::Status PropertyGraphManager::removeNodeLabel(std::string_v
     labels.erase(it);
 
     // Update labels string
-    std::string labelsStr;
-    for (size_t i = 0; i < labels.size(); ++i) {
-        if (i > 0) labelsStr += ",";
-        labelsStr += labels[i];
-    }
-    node.setField("_labels", labelsStr);
+    node.setField("_labels", encodeLabelsField(labels));
 
     auto batch = db_.createWriteBatch();
     if (!batch) {
@@ -1286,4 +1297,3 @@ PropertyGraphManager::computePageRank(
 }
 
 } // namespace themis
-

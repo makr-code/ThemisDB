@@ -212,18 +212,15 @@ public:
     /**
      * @brief Raw-pointer variant (kept for backward compatibility).
      *
-     * Prefer `mapCores()` for new code.  This method returns raw
-     * `const float*` pointers that are valid only while the index is
-     * alive; no mmap or mlock is performed.
+     * Prefer `mapCores()` for new code. This legacy helper now builds on
+     * `mapCores()` internally and caches a pinned bridge per vector ID so
+     * returned pointers remain valid independently of index mutation.
      *
      * @deprecated Use mapCores() instead.
      *
-     * @note
-     * // STUB/SIMULATION NOTE:
-     * // Purpose: backward-compatible raw-pointer bridge (Phase 3-A)
-     * // Activation: always (no compile flag)
-     * // Production Delta: no mmap / mlock; pointers invalidated on mutation
-     * // Removal Plan: remove after all callers migrate to mapCores()
+     * @note Legacy compatibility path:
+     * returns raw pointers but keeps the underlying mmap bridge cached so
+     * pointer data remains stable across index mutations.
      */
     std::vector<std::pair<const float*, size_t>>
         ggmlCorePtrs(const std::string& tenant_id,
@@ -265,8 +262,10 @@ private:
     mutable std::shared_mutex registry_mutex_;
     std::unordered_map<std::string, std::unique_ptr<ITensorIndex>> indexes_;
     std::unordered_map<std::string, IndexHandle>                    handles_;
+
+    mutable std::mutex legacy_bridge_mutex_;
+    mutable std::unordered_map<std::string, std::shared_ptr<TensorMmapBridge>> legacy_bridge_cache_;
 };
 
 } // namespace tensor
 } // namespace themis
-

@@ -54,6 +54,15 @@ class FlatTensorIndex;
 namespace themis {
 namespace tensor {
 
+namespace {
+[[nodiscard]] std::string makeLegacyBridgeKey(const std::string& tenant_id,
+                                              const std::string& collection,
+                                              const std::string& field,
+                                              int64_t id) {
+    return tenant_id + ":" + collection + ":" + field + ":" + std::to_string(id);
+}
+}
+
 // ============================================================================
 // TensorIndexManager — implementation
 // ============================================================================
@@ -173,6 +182,19 @@ bool TensorIndexManager::dropIndex(const std::string& tenant_id,
                         path, ec.message());
         }
     }
+
+    {
+        std::lock_guard<std::mutex> lock(legacy_bridge_mutex_);
+        const std::string prefix = tenant_id + ":" + collection + ":" + field + ":";
+        for (auto it = legacy_bridge_cache_.begin(); it != legacy_bridge_cache_.end();) {
+            if (it->first.rfind(prefix, 0) == 0) {
+                it = legacy_bridge_cache_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
     return true;
 }
 
@@ -207,6 +229,18 @@ void TensorIndexManager::dropTenantIndexes(const std::string& tenant_id) {
         }
         for (const auto& key : to_del) {
             db_->del(key);
+        }
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(legacy_bridge_mutex_);
+        const std::string prefix = tenant_id + ":";
+        for (auto it = legacy_bridge_cache_.begin(); it != legacy_bridge_cache_.end();) {
+            if (it->first.rfind(prefix, 0) == 0) {
+                it = legacy_bridge_cache_.erase(it);
+            } else {
+                ++it;
+            }
         }
     }
 }
@@ -315,12 +349,9 @@ TensorIndexManager::mapCores(const std::string& tenant_id,
 // -----------------------------------------------------------------------
 // ggmlCorePtrs() — raw-pointer legacy bridge (kept for backward compat)
 //
-// STUB/SIMULATION NOTE (stub #277):
-// Purpose: expose raw TT-core pointers for zero-copy GGML injection
-// Activation: always (deprecated; prefer mapCores() for new code)
-// Production Delta: returns raw pointers with no mmap / mlock protection;
-//   pointers are valid only while the index is alive and no mutation occurs
-// Removal Plan: remove after all callers migrate to mapCores()
+// Legacy compatibility path:
+// preserve raw-pointer API while internally pinning cores through a cached
+// TensorMmapBridge per vector ID.
 // -----------------------------------------------------------------------
 
 std::vector<std::pair<const float*, size_t>>
@@ -328,18 +359,24 @@ TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,
                                   const std::string& collection,
                                   const std::string& field,
                                   int64_t id) const {
-    auto* idx = getIndex(tenant_id, collection, field);
-    if (!idx) return {};
-
-    const storage::TTTrain* train = idx->get(id);
-    if (!train) return {};
+    auto bridge = mapCores(tenant_id, collection, field, id);
+    if (!bridge) return {};
 
     std::vector<std::pair<const float*, size_t>> ptrs;
-    ptrs.reserve(train->cores.size());
-    for (const auto& core : train->cores) {
-        ptrs.emplace_back(core.data.data(),
-                          core.data.size() * sizeof(float));
+    ptrs.reserve(bridge->slices().size());
+    for (const auto& slice : bridge->slices()) {
+        if (!slice.data || slice.bytes == 0) {
+            continue;
+        }
+        ptrs.emplace_back(slice.data, slice.bytes);
     }
+
+    if (!ptrs.empty()) {
+        std::lock_guard<std::mutex> lock(legacy_bridge_mutex_);
+        legacy_bridge_cache_[makeLegacyBridgeKey(tenant_id, collection, field, id)] =
+            std::shared_ptr<TensorMmapBridge>(std::move(bridge));
+    }
+
     return ptrs;
 }
 
