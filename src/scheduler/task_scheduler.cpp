@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: task_scheduler.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=56, H=663, M=168, L=0
+ * ThemisDB | File: task_scheduler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 2975
+ * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=1
+ * Gap Correlation: internal=4 | external_v3=887 | delta=883 | status=divergent
+ * External Severity (v3): C=56, H=663, M=168
+ * PR: #4278 TaskScheduler: Propagate Authenticated User Context to Audit Events... (2026-03-16T08:01:36Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

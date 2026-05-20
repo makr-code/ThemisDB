@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: bidi_stream_adapter.h | Version: 0.0.4
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=0, H=0, M=1, L=0
+ * ThemisDB | File: bidi_stream_adapter.h | Version: 0.0.4 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 245
+ * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=0, Mock=2, Sim=0, Debt=0
+ * Gap Correlation: internal=4 | external_v3=1 | delta=3 | status=divergent
+ * External Severity (v3): C=0, H=0, M=1
+ * PR: #5069 docs(rpc_grpc): refresh module + include API documentation surface (2026-05-13T06:40:21Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
