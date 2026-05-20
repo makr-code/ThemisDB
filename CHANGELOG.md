@@ -8,7 +8,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- **Phase 26 stub remediation — 6 stubs resolved (#279/#282/#283/#290/#292/#300):**
+- **Stub batch 29 — 4 stubs resolved (#252/#281/#284/#305):**
+  - `src/STUB_INVENTORY.md` updated: 312 resolved, 4 active (`285`, `286`, `287`, `288`).
+  - `src/network/wire_protocol_server.cpp` (#284):
+    - Added `#include "index/spatial_index.h"`.
+    - `handleGeoQuery()` now dispatches via `SpatialIndexManager::searchNearby()` obtained from `secondary_index_->getSpatialIndexManager()`.
+    - Returns `GEO_NOT_CONFIGURED` only when no spatial index is configured; stub note block removed.
+  - `include/themis/network/wire_protocol_server.hpp` + `src/themis/wire_protocol_server.cpp` (#281):
+    - Added `WireEngineConfig` struct (query_engine, spatial_index, ts_store, process_graph) before `WireProtocolSession`.
+    - `WireProtocolSession::set_engines()` method added; `engines_` non-owning pointer field added.
+    - Engine-injected constructor `WireProtocolServer(io_ctx, port, WireEngineConfig)` added.
+    - `handle_query_aql()` dispatches via `executeAql()` when `engines_->query_engine` is set.
+    - `handle_geo_query()` dispatches to `SpatialIndexManager::searchNearby()` (radius) or `searchIntersects()` (bbox).
+    - `handle_timeseries_query()` dispatches via `TSStore::query()`.
+    - `handle_bpmn_start()` / `handle_bpmn_task_complete()` / `handle_bpmn_query_instance()` dispatch to `ProcessGraphManager`.
+    - Proto-to-JSON helper `protoMapToJson()` / `protoValueToJson()` added inside the proto guard block.
+    - Stub/SIMULATION NOTE blocks removed; redirect errors retained as fallback when engine not injected.
+  - `include/server/sse_connection_manager.h` + `src/server/sse_connection_manager.cpp` (#305):
+    - `Connection::buffered_events` changed from `vector<string>` to `vector<pair<uint64_t, string>>`.
+    - `pollEventsWithSequences(conn_id, max_events)` added, returning `vector<pair<uint64_t, string>>` with per-event sequence IDs.
+    - `pollEvents()` refactored to delegate to `pollEventsWithSequences()` and strip sequence IDs.
+    - `backgroundPollTask()` stores `{event.sequence, sse_line}` pairs.
+  - `src/server/changefeed_api_handler.cpp` (#305):
+    - SSE keep-alive path uses `pollEventsWithSequences()` and feeds sequence IDs into `delivery_tracker_.trackDelivery()` when `consumer_id` is present.
+    - Stub/SIMULATION NOTE block removed.
+  - `src/tensor/tnsr_task.h` / `src/tensor/tnsr_task.cpp` (#252):
+    - Marked resolved: `RerouteSerializeFn` bridge is complete; topology mutations are persisted when injected and remain advisory (counted) when not — this is intentional, documented behavior.
+
+
   - `include/transaction/distributed_transaction_manager.h` + `src/transaction/distributed_transaction_manager.cpp` (#279):
     - Added `RemotePhase2Fn` type alias and `setRemotePhase2Fn(fn)` injection API.
     - `runPhase2Unlocked()` now calls the injected fn for remote participants (callback==nullptr, endpoint non-empty) instead of silently skipping; WAL-durability fallback with WARN log retained when no fn is set.

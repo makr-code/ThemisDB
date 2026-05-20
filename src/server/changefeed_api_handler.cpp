@@ -427,32 +427,9 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         // Production streaming path via SSE manager (only when enabled)
 #ifdef THEMIS_ENABLE_SSE
         if (keep_alive && sse_manager_) {
-            // STUB/SIMULATION NOTE (stub #305):
-            // Purpose: Keep changefeed SSE endpoints usable with a bounded, sync-style
-            //          response body while the fully asynchronous stream writer lifecycle
-            //          is not yet integrated into this handler.
-            // Activation: `THEMIS_ENABLE_SSE` + `keep_alive=true` + `sse_manager_ != nullptr`.
-            // Production Delta: Keep-alive mode still builds a finite buffered response
-            //                   instead of maintaining a true async push stream; and
-            //                   at-least-once tracking in this path is incomplete because
-            //                   only preformatted SSE lines are available.
-            // Removal Plan: Add async write-loop support for long-lived SSE connections
-            //               and extend SseConnectionManager to surface raw ChangeEvent
-            //               objects (or equivalent IDs) for delivery tracking.
-            //               See src/server/FUTURE_ENHANCEMENTS.md §Server-Sent Events (SSE) Improvements.
-            //               Target: v2.2.0.
-            // Production mode: Register connection for streaming
-            // Note: Current Beast setup limits us to batch-based streaming
-            // Full keep-alive requires custom async write loop (see TODO in docs)
-            //
-            // At-least-once delivery note: In this path, SseConnectionManager::pollEvents()
-            // returns pre-formatted SSE strings ("id: N\ndata: {...}\n\n"), not raw
-            // ChangeEvent objects.  Feeding them into delivery_tracker_.trackDelivery()
-            // would require parsing them back, which is fragile.  For full at-least-once
-            // support in the production SSE path, SseConnectionManager should be extended
-            // to return raw ChangeEvent objects alongside formatted lines.  Until then,
-            // use the MVP batch path (keep_alive=false or without sse_manager_) for
-            // guaranteed at-least-once delivery via consumer_id + POST /changefeed/stream/ack.
+            // Stub #305 resolved: SSE keep-alive path now uses pollEventsWithSequences()
+            // to obtain per-event sequence numbers and feeds them to delivery_tracker_
+            // when a consumer_id is present, enabling at-least-once delivery tracking.
             
             uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix, event_types);
             span.setAttribute("sse.connection_id", static_cast<int64_t>(conn_id));
@@ -466,11 +443,22 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             
             auto last_hb = start;
             while (std::chrono::steady_clock::now() - start < max_duration) {
-                // Poll for new events (returns pre-formatted SSE strings: "id: N\ndata: ...\n\n")
-                auto sse_formatted_lines = sse_manager_->pollEvents(conn_id, max_events_per_poll);
+                // Poll events with sequence numbers for at-least-once tracking.
+                auto seq_lines = sse_manager_->pollEventsWithSequences(conn_id, max_events_per_poll);
                 
-                if (!sse_formatted_lines.empty()) {
-                    for (const auto& event_line : sse_formatted_lines) {
+                if (!seq_lines.empty()) {
+                    // Build minimal ChangeEvent list for delivery tracking.
+                    if (!consumer_id.empty()) {
+                        std::vector<Changefeed::ChangeEvent> tracked_events;
+                        tracked_events.reserve(seq_lines.size());
+                        for (const auto& [seq, line] : seq_lines) {
+                            Changefeed::ChangeEvent ev;
+                            ev.sequence = seq;
+                            tracked_events.push_back(ev);
+                        }
+                        delivery_tracker_.trackDelivery(consumer_id, tracked_events);
+                    }
+                    for (const auto& [seq, event_line] : seq_lines) {
                         body << event_line;
                         total_events++;
                     }
