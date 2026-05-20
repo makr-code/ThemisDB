@@ -215,6 +215,44 @@ public:
     void setProcessMining(themis::ProcessMining* pm) { process_mining_ = pm; }
     themis::ProcessMining* getProcessMining() const { return process_mining_; }
 
+    // ── Administrative process-model registry (stub #283) ─────────────────────
+
+    /**
+     * @brief Function type for loading a named administrative process model.
+     *
+     * The callable receives a model_id string and returns the model as a JSON
+     * object, or throws on error.  Callers inject a YAML-backed or database-backed
+     * registry at startup.
+     */
+    using AdminModelLoadFn = std::function<nlohmann::json(const std::string& model_id)>;
+
+    /**
+     * @brief Function type for listing all registered administrative process models.
+     *
+     * Returns a JSON array of model descriptor objects.  Throws on error.
+     */
+    using AdminModelListFn = std::function<nlohmann::json()>;
+
+    /**
+     * @brief Inject a load function for PM_LOAD_ADMIN_MODEL (resolves stub #283).
+     *
+     * @param fn  Callable that loads and returns a process model by ID.
+     */
+    void setAdminModelLoadFn(AdminModelLoadFn fn) { admin_model_load_fn_ = std::move(fn); }
+
+    /**
+     * @brief Inject a list function for PM_LIST_ADMIN_MODELS (resolves stub #283).
+     *
+     * @param fn  Callable that returns a JSON array of model descriptors.
+     */
+    void setAdminModelListFn(AdminModelListFn fn) { admin_model_list_fn_ = std::move(fn); }
+
+    /// @brief Access the injected admin-model load function (may be empty).
+    const AdminModelLoadFn& adminModelLoadFn() const { return admin_model_load_fn_; }
+
+    /// @brief Access the injected admin-model list function (may be empty).
+    const AdminModelListFn& adminModelListFn() const { return admin_model_list_fn_; }
+
 private:
     nlohmann::json current_doc_;
     std::unordered_map<std::string, nlohmann::json> variables_;
@@ -224,6 +262,8 @@ private:
     themis::GraphAnalytics* graph_analytics_ = nullptr;
     themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
     themis::ProcessMining* process_mining_ = nullptr;
+    AdminModelLoadFn admin_model_load_fn_;
+    AdminModelListFn admin_model_list_fn_;
 };
 
 // ============================================================================

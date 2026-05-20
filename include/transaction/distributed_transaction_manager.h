@@ -451,6 +451,46 @@ public:
      */
     size_t checkTimeouts();
 
+    // ── Remote phase-2 transport bridge ──────────────────────────────────────
+
+    /**
+     * @brief Function type for delivering a phase-2 decision to a remote participant.
+     *
+     * Parameters:
+     *   - endpoint  : The network address of the participant (from Participant::endpoint).
+     *   - txn_id    : The transaction identifier.
+     *   - do_commit : true → send COMMIT; false → send ABORT.
+     *
+     * The function must be non-throwing; internal transport errors should be
+     * logged or signalled via out-of-band mechanisms.
+     */
+    using RemotePhase2Fn = std::function<void(
+        const std::string& endpoint,
+        const TransactionId& txn_id,
+        bool do_commit
+    )>;
+
+    /**
+     * @brief Inject a real transport for delivering phase-2 decisions to remote
+     *        participants (resolves stub #279).
+     *
+     * When set, `runPhase2Unlocked()` calls this function for every participant
+     * whose `callback` is null but whose `endpoint` is non-empty, instead of
+     * silently skipping it.  Call before the first distributed transaction.
+     *
+     * @param fn  Callable that sends COMMIT or ABORT to the given endpoint.
+     */
+    void setRemotePhase2Fn(RemotePhase2Fn fn);
+
+    // ── Remote phase-2 transport bridge ──────────────────────────────────────
+
+    /// Inject a transport function for delivering phase-2 decisions to remote
+    /// participants (resolves stub #279).
+    void setRemotePhase2Fn(RemotePhase2Fn fn) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        remote_phase2_fn_ = std::move(fn);
+    }
+
     // ── Failure detection ─────────────────────────────────────────────────────
 
     /**
@@ -586,9 +626,8 @@ private:
     std::thread                           batch_flush_thread_;
     std::atomic<bool>                     batch_stop_{false};
 
-    // ── Remote phase-2 transport bridge (stub #279) ───────────────────────────
-    mutable std::mutex    remote_decision_fn_mutex_;
-    RemoteDecisionFn      remote_decision_fn_;
+    // ── Remote phase-2 bridge (stub #279) ─────────────────────────────────────
+    std::optional<RemotePhase2Fn>         remote_phase2_fn_;
 };
 
 } // namespace themis::transaction

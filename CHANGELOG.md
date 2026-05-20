@@ -8,7 +8,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- **Phase 25 stub remediation — 9 stubs resolved (#278/#280/#293/#296/#297/#298/#301/#302/#303):**
+- **Phase 26 stub remediation — 6 stubs resolved (#279/#282/#283/#290/#292/#300):**
+  - `include/transaction/distributed_transaction_manager.h` + `src/transaction/distributed_transaction_manager.cpp` (#279):
+    - Added `RemotePhase2Fn` type alias and `setRemotePhase2Fn(fn)` injection API.
+    - `runPhase2Unlocked()` now calls the injected fn for remote participants (callback==nullptr, endpoint non-empty) instead of silently skipping; WAL-durability fallback with WARN log retained when no fn is set.
+  - `include/ai/ai_plugin_generator.h` + `src/ai/ai_plugin_generator.cpp` (#282):
+    - Added `LlmHttpPostFn` type alias and `setLlmHttpPostFn(fn)` injection API.
+    - `generatePlugin()` performs HTTP POST via injected fn, builds JSON request from `PluginGenerationPrompt`, parses response into `GeneratedPlugin`; returns structured `ERR_PLUGIN_LOAD_FAILED` when no fn injected.
+    - Stub/Phase-1 note block removed from source file.
+  - `include/query/functions/function_registry.h` + `src/query/functions/process_mining_functions.cpp` (#283):
+    - Added `AdminModelLoadFn` / `AdminModelListFn` type aliases and `setAdminModelLoadFn(fn)` / `setAdminModelListFn(fn)` injection APIs to `FunctionContext`.
+    - `PM_LOAD_ADMIN_MODEL` delegates to `adminModelLoadFn()` when set (returns structured error on missing model_id arg or fn throw); `PM_LIST_ADMIN_MODELS` delegates to `adminModelListFn()` when set.
+    - Stub/SIMULATION NOTE block removed from source file.
+  - `include/llm/lora_framework/distributed_trainer.h` + `src/llm/lora_framework/distributed_trainer.cpp` (#290):
+    - Added `AllReduceCpuFn` type alias and `setAllReduceCpuFn(fn)` injection API.
+    - `allreduce_cpu()` delegates to injected fn when set; emits WARN for world_size>1 without injection; scale-only fallback retained for single-process builds.
+    - Stub/SIMULATION NOTE block removed from source file.
+  - `include/storage/base_entity.h` + `src/storage/base_entity.cpp` + `src/index/property_graph.cpp` (#292):
+    - Added `getFieldAsStringArray(field_name)` — reads field as `vector<string>`: JSON-array format parsed first, comma-split used as backward-compatible fallback; empty/whitespace elements discarded.
+    - Added `setFieldAsStringArray(field_name, values)` — stores as a JSON-array string (`["a","b","c"]`) to avoid ambiguity with commas inside label names.
+    - `PropertyGraphManager::extractLabels_()` updated to call `getFieldAsStringArray("_labels")`.
+    - `addNodeLabel()` / `removeNodeLabel()` updated to call `setFieldAsStringArray("_labels", ...)`.
+    - Stub/SIMULATION NOTE block + TODO removed from property_graph.cpp.
+  - `include/storage/backup_manager.h` + `src/storage/backup_manager.cpp` (#300):
+    - Added `CfSstIngestFn` type alias and `setCfSstIngestFn(fn)` injection API.
+    - `restoreCollections()` calls the injected fn for selective per-CF restore when set; full-checkpoint fallback with operator WARN retained when no fn is injected.
+    - Stub/SIMULATION NOTE block removed from source file.
+  - `src/STUB_INVENTORY.md`: 6 stubs marked resolved; inventory updated to 300 resolved, 16 active.
+
+
   - `src/query/functions/function_registry.cpp` (#293):
     - Re-enabled `registerFulltextFunctions()` call; FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE, DOUBLE_METAPHONE are now registered at startup.
   - `src/server/rope_api_handler.cpp` (#280):
