@@ -1,12 +1,9 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=2 stub=3 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            analytics/knowledge_base.cpp                       ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: knowledge_base.cpp | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
+ * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=5, H=61, M=10, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "analytics/knowledge_base.h"

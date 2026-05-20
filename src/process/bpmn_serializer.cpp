@@ -1,26 +1,12 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bpmn_serializer.cpp                                ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     756                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
-    • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
-    • b18a0735c6  2026-04-12  fix(process): replace regex BPMN parser with state-machin... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bpmn_serializer.cpp | Version: 0.0.13 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 811
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=198 | delta=195 | status=divergent
+ * External Severity (v3): C=2, H=124, M=72
+ * PR: #4581 fix(process): replace regex BPMN parser with state-machine tokenize... (2026-04-12T20:06:00Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -814,15 +800,4 @@ std::string BpmnSerializer::exportFromJson(const json& g) {
             e.from_node = je.value("from", "");
             e.to_node   = je.value("to",   "");
             std::string cond = je.value("condition", "");
-            if (!cond.empty()) e.condition_expression = cond;
-            e.edge_type = ProcessEdgeType::SEQUENCE_FLOW;
-            edges.push_back(std::move(e));
-        }
-    }
-
-    return exportXml(pid, name, nodes, edges);
-}
-
-} // namespace process
-} // namespace themis
-
+      

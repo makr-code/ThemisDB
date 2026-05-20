@@ -34,7 +34,7 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
 - `.github/workflows/08-maintenance_docs-orphan-check.yml`
   — Orphan/Broken-Reference-Pruefung fuer `docs/de` und `docs/en`
 - `.github/workflows/08-maintenance_code-maturity.yml`
-  — Code-Maturity-Analyse via `analyze_code_maturity.py`; check-only per Default (kein Header-Rewrite), Rewrite-Modus nur via `workflow_dispatch` mit `update_headers=true`; enger PR-Trigger auf Script und Workflow-Datei- `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
+  — Code-Maturity-Analyse via `code_maturity_header_writer.py` (delegiert intern auf `analyze_code_maturity.py`); check-only per Default (kein Header-Rewrite), Rewrite-Modus nur via `workflow_dispatch` mit `update_headers=true`; enger PR-Trigger auf Script und Workflow-Datei- `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
   — Enger PR-Gate fuer Workflow-Governance; blockiert Reaktivierungen ohne Quarantaene-Regeln, Doku-Update und harte Triggergrenzen
 - `.github/workflows/08-quality_doxygen-coverage-gate.yml`
   — Doxygen XML Coverage Gate fuer PRs (Threshold zentral in `.github/ci-scope-config.yaml` unter `quality_gates.docs_coverage_threshold`, Default 90%)

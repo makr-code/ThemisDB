@@ -1,4 +1,11 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=1 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
+/*
+ * ThemisDB | File: ai_plugin_generator.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 85/100
+ * Gap Summary: total=7; TODO=2, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=15, M=0, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file ai_plugin_generator.cpp
  * @brief Minimal production implementation of AIPluginGenerator.

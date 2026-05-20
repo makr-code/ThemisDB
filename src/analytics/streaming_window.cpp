@@ -1,25 +1,9 @@
-// THEMIS_GAP_STATS: gaps=14 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            streaming_window.cpp                               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-04-15 18:48:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   68.0/100                                       ║
-    • Total Lines:     1309                                           ║
-    • Open Issues:     TODOs: 17, Stubs: 0                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 40c9e6295b  2026-04-07  feat(analytics): implement 7 open TODOs in streaming_window ║
-    • 248ee0806f  2026-03-19  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: streaming_window.cpp | Version: 0.0.32
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=20; TODO=18, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=173, M=67, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

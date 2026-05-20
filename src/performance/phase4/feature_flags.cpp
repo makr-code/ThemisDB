@@ -1,20 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feature_flags.cpp                                  ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     61                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feature_flags.cpp | Version: 0.0.15 | Last Modified: 2026-04-15 18:58:58
+ * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 47
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=4 | delta=1 | status=near
+ * External Severity (v3): C=1, H=1, M=2
+ * PR: #3339 feat(performance): io_uring zero-copy I/O path for network performa... (2026-03-12T07:06:19Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/phase4/feature_flags.h"
@@ -45,14 +37,4 @@ void Phase4FeatureFlags::load_from_config(const std::string& config_path) {
                 set_pmu_enabled(phase4["pmu_enabled"].get<bool>());
             }
             if (phase4.contains("io_uring_enabled")) {
-                set_io_uring_enabled(phase4["io_uring_enabled"].get<bool>());
-            }
-        }
-    } catch (const std::exception&) {
-        // Ignore JSON parsing errors, keep defaults
-    }
-}
-
-} // namespace phase4
-} // namespace performance
-} // namespace themis
+ 

@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: prior_round_compressor.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=77, M=38, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #include "ethics_ai/prior_round_compressor.h"
 
 #include <algorithm>

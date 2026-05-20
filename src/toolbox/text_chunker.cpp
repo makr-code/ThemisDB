@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: text_chunker.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=2, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #include "toolbox/text_chunker.h"
 #include "rag/document_splitter.h"
 

@@ -1,13 +1,13 @@
 name: Code Maturity Maintenance
 
-# Runs .github/scripts/analyze_code_maturity.py in one of two modes:
+# Runs .github/scripts/code_maturity_header_writer.py in one of two modes:
 #
 #   check-only (default)
 #     Executes the script with --no-headers so no source files are modified.
 #     Generates docs/code_maturity_report.md to /tmp and compares it against
 #     the committed version to surface drift.  Badge and version-tracking
 #     updates are written to the workspace but never committed.
-#     Triggered by: pull_request on the script / workflow file, schedule, and
+#     Triggered by: pull_request on the script / workflow file, daily schedule, and
 #     workflow_dispatch with update_headers=false (the default).
 #
 #   rewrite  (manual only, opt-in)
@@ -38,12 +38,13 @@ on:
       - develop
       - main
     paths:
+      - '.github/scripts/code_maturity_header_writer.py'
       - '.github/scripts/analyze_code_maturity.py'
       - '.github/workflows/08-maintenance_code-maturity.yml'
       - '.github/version_tracking.json'
       - '.github/badges/**'
   schedule:
-    - cron: '0 3 * * 1'   # Weekly on Monday at 03:00 UTC (check-only)
+    - cron: '0 3 * * *'   # Daily at 03:00 UTC (check-only)
   workflow_dispatch:
     inputs:
       update_headers:
@@ -110,7 +111,7 @@ jobs:
       - name: Run code maturity analysis (${{ steps.mode.outputs.mode }})
         id: analyze
         run: |
-          python .github/scripts/analyze_code_maturity.py \
+          python .github/scripts/code_maturity_header_writer.py \
             --root . \
             ${{ steps.mode.outputs.no_headers_flag }} \
             ${{ steps.mode.outputs.report_path_flag }} \
@@ -180,7 +181,7 @@ jobs:
             echo ""
             echo "| Parameter | Value |"
             echo "|-----------|-------|"
-            echo "| **Script** | \`.github/scripts/analyze_code_maturity.py\` |"
+            echo "| **Script** | \`.github/scripts/code_maturity_header_writer.py\` |"
             echo "| **Mode** | \`${{ steps.mode.outputs.mode }}\` |"
             echo "| **Event** | \`${{ github.event_name }}\` |"
             echo "| **Branch** | \`${{ github.ref_name }}\` |"

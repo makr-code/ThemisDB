@@ -1,21 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_continuous_query.cpp                         ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-27                                         ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Benchmark IDs:   CQ-PERF-01  BM_ContinuousQuery_Throughput         ║
-                   CQ-PERF-02  BM_ContinuousQuery_WindowTick          ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Performance Targets (Phase 8.5):                                    ║
-    CQ-PERF-01: throughput ≥ 500 k tuples/s                          ║
-                p99 per-tuple latency ≤ 5 ms                          ║
-    CQ-PERF-02: empty-window tick overhead ≤ 1 µs                    ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_continuous_query.cpp | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Benchmark: Continuous Query Engine Performance

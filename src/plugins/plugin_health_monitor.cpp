@@ -1,23 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_health_monitor.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     667                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 5f8cff3c2f  2026-03-09  feat(plugins): implement PluginMetricsCollector, health s... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_health_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-11 17:38:42
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 654
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=151 | delta=148 | status=divergent
+ * External Severity (v3): C=16, H=102, M=33
+ * PR: #3010 [base] Plugin health monitoring and auto-restart on failure (2026-03-12T06:08:36Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "plugins/plugin_health_monitor.h"
@@ -656,13 +645,4 @@ void PluginHealthMonitor::publishHealthScore(const MonitoredPlugin& plugin) noex
     // mutex_ must be held by caller; metrics_sink_ may be null
     if (!metrics_sink_) return;
     try {
-        const double score = computeHealthScore(plugin.last_diagnostics);
-        metrics_sink_->setGauge("plugin_health_score", score, {{"plugin", plugin.name}});
-    } catch (...) {
-        // noexcept: swallow any exception from the metrics backend
-    }
-}
-
-} // namespace plugins
-} // namespace themis
-
+        const double score = computeHealthScor

@@ -1,13 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_adalora_tt_bridge.cpp                         ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-11                                         ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Phase 1 bridge APIs (STUB #271)                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_adalora_tt_bridge.cpp | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

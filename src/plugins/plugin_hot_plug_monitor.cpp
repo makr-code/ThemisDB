@@ -1,26 +1,12 @@
-// THEMIS_GAP_STATS: gaps=14 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_hot_plug_monitor.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     596                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
-    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_hot_plug_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 580
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=81 | delta=78 | status=divergent
+ * External Severity (v3): C=6, H=59, M=16
+ * PR: #1292 Plugin system production-readiness: close all audit gaps (2026-03-11T21:59:45Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "plugins/plugin_hot_plug_monitor.h"
@@ -581,17 +567,4 @@ void PluginHotPlugMonitor::stop() {
     // Cleanup handled in thread
 #else
     if (watch_descriptor_ >= 0) {
-        inotify_rm_watch(inotify_fd_, watch_descriptor_);
-        watch_descriptor_ = -1;
-    }
-    if (inotify_fd_ >= 0) {
-        close(inotify_fd_);
-        inotify_fd_ = -1;
-    }
-#endif
-    
-    THEMIS_INFO("Hot-plug monitoring stopped");
-}
-
-} // namespace plugins
-} // namespace themis
+        inotify_rm_watch(inotify_fd_, wa

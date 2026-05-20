@@ -1,23 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_metrics.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     195                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 5f8cff3c2f  2026-03-09  feat(plugins): implement PluginMetricsCollector, health s... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-04-15 18:58:58
+ * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 181
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=34 | delta=31 | status=divergent
+ * External Severity (v3): C=7, H=24, M=3
+ * PR: #3580 feat(plugins): PluginMetricsCollector + health score gauge + Grafan... (2026-03-12T07:36:02Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "plugins/plugin_metrics.h"
@@ -182,14 +171,4 @@ void PluginMetricsCollector::collect(themis::core::concerns::IMetrics& sink) con
                       stats.avg_call_latency_ms, labels);
         sink.setGauge("plugin_call_latency_p95_ms",
                       stats.p95_call_latency_ms, labels);
-        sink.setGauge("plugin_call_latency_p99_ms",
-                      stats.p99_call_latency_ms, labels);
-
-        // Resource gauge
-        sink.setGauge("plugin_memory_bytes",
-                      static_cast<double>(stats.memory_bytes), labels);
-    }
-}
-
-} // namespace plugins
-} // namespace themis
+        sink.setGauge("plugi

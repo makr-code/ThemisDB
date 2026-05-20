@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: test_whisper_plugin_registrar.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=16, M=0, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file test_whisper_plugin_registrar.cpp
  * @brief Unit tests for WhisperPluginAdapter and WhisperPluginRegistrar

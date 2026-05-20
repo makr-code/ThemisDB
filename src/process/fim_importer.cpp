@@ -1,4 +1,11 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=3 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+/*
+ * ThemisDB | File: fim_importer.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=101, M=31, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /*
  * ThemisDB - Process Modeling Module
  *

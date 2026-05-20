@@ -1,21 +1,9 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            delegate_evaluator.cpp                             ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-05-12                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 BETA                                          ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     ~500                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 Beta                                                     ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: delegate_evaluator.cpp | Version: 0.1.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=80, M=14, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

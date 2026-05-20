@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=22 unimpl=14 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wasm_plugin_loader.cpp                             ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     357                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wasm_plugin_loader.cpp | Version: 0.0.13 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 526
+ * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=5 | external_v3=64 | delta=59 | status=divergent
+ * External Severity (v3): C=4, H=53, M=7
+ * PR: #4678 feat: replace production stubs across 7 modules â€” TSA, Paxos RPC,... (2026-04-15T19:06:49Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -528,15 +515,4 @@ uint32_t themis_plugin_get_version(char* buf, uint32_t buf_len) {
 int32_t themis_plugin_initialize(const char* /*config_json*/) { return 0; }
 void    themis_plugin_shutdown(void) {}
 void*   themis_plugin_get_instance(int32_t /*capability_id*/) { return nullptr; }
-int32_t themis_plugin_save_state(char* buf, uint32_t buf_len) {
-    if (buf && buf_len > 0) buf[0] = '\0';
-    return 0;
-}
-int32_t themis_plugin_restore_state(const char* /*state_json*/) { return 0; }
-} // extern "C"
-
-#endif // THEMIS_WASM_SUPPORT
-
-} // namespace plugins
-} // namespace themis
-
+int32_t themis_plugin_

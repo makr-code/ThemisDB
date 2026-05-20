@@ -23,3 +23,8 @@ Keine Installation erforderlich; dieses Verzeichnis ist Teil des Repository-Inha
 ## Usage
 
 Dateien hier als Referenz lesen und bei inhaltlichen Änderungen im selben PR mit den betroffenen Code-/Dokumentationsänderungen synchron halten.
+
+## Aktueller Fokus (Code-Maturity/GAP Framework)
+
+- Konsolidierungsplan: `ai_working/CODE_MATURITY_FRAMEWORK_REALIGNMENT_PLAN_2026-05-20.md`
+- Priorisierte TODO: `ai_working/CODE_MATURITY_FRAMEWORK_TODO_2026-05-20.md`

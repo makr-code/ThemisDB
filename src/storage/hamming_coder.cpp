@@ -1,4 +1,12 @@
 /*
+ * ThemisDB | File: hamming_coder.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=48, M=10, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+/*
  * ThemisDB - Hamming erasure coder implementation for storage module.
  *
  * This translation unit provides HammingCoder::encode/decode so storage-local

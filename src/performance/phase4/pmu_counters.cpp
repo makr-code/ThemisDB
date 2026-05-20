@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=26 unimpl=2 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pmu_counters.cpp                                   ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     733                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • ce084b6c31  2026-04-13  fix(performance/phase4): complete PMU non-Linux stub cove... ║
-    • c24f94c9c6  2026-03-22  feat(cmake): add join_exporter to THEMIS_CORE_SOURCES and... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pmu_counters.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 822
+ * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=5 | external_v3=201 | delta=196 | status=divergent
+ * External Severity (v3): C=31, H=114, M=56
+ * PR: #4623 fix(performance/phase4): complete PMU non-Linux stub coverage â€” m... (2026-04-13T13:37:29Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/phase4/pmu_counters.h"
@@ -818,21 +805,4 @@ bool CacheMissAnalyzer::pmu_accessible() noexcept {
     ProbeFn fn;
     {
         std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
-        fn = s_cache_miss_probe_fn;
-    }
-    if (fn) {
-        try {
-            return fn();
-        } catch (...) {
-            return false;
-        }
-    }
-    return false;
-}
-
-} // namespace phase4
-} // namespace performance
-} // namespace themis
-
-#endif // THEMIS_ENABLE_PMU_COUNTERS
-
+        fn = s_cache_mi

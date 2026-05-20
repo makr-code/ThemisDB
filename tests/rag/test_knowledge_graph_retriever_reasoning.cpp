@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: test_knowledge_graph_retriever_reasoning.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // Test suite: KGRetrieverReasoningTests
 //
 // KGR-RAG-01  setReasoner(nullptr) is safe and disables reasoning
@@ -7,7 +15,6 @@
 // KGR-RAG-05  Reasoning chain is stored in metadata["reasoning_chain"] when flag set
 // KGR-RAG-06  max_inference_hops = 0 disables inference even with a reasoner attached
 //
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include <gtest/gtest.h>
 

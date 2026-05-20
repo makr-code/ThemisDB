@@ -1,23 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            epk_serializer.cpp                                 ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     354                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: epk_serializer.cpp | Version: 0.0.13 | Last Modified: 2026-04-15 18:58:58
+ * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 339
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=71 | delta=68 | status=divergent
+ * External Severity (v3): C=0, H=46, M=25
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -340,14 +329,4 @@ json EpkSerializer::exportJson(
         json je;
         je["id"]   = e.edge_id;
         je["from"] = e.from_node;
-        je["to"]   = e.to_node;
-        je["type"] = "CONTROL_FLOW";
-        jedges.push_back(std::move(je));
-    }
-    g["edges"] = std::move(jedges);
-
-    return g;
-}
-
-} // namespace process
-} // namespace themis
+        je["to"]   = e.to_node

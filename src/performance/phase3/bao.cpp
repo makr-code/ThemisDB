@@ -1,20 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bao.cpp                                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     175                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bao.cpp | Version: 0.0.47 | Last Modified: 2026-04-17 18:08:58
+ * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 169
+ * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=4 | external_v3=35 | delta=31 | status=divergent
+ * External Severity (v3): C=1, H=29, M=5
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Bao: Making Learned Query Optimization Practical
