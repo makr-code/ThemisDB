@@ -452,24 +452,6 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
 void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
-#ifndef THEMIS_ENABLE_POSTGRES_WIRE
-    // STUB/SIMULATION NOTE (stub #294):
-    // Purpose: Expose the schema-preview and schema-validate REST endpoints so that
-    //          clients can discover them, while the PostgreSQL wire protocol parser
-    //          required for source introspection is not linked into this build.
-    // Activation: `THEMIS_ENABLE_POSTGRES_WIRE` is not defined at compile time
-    //             (default build without the 'pg-wire' vcpkg feature).
-    // Production Delta: GET /import/{id}/schema and POST /import/validate-schema
-    //                   always return HTTP 501.  Callers cannot preview table structures
-    //                   or validate relationship overrides before starting an import.
-    // Removal Plan: Enable the 'pg-wire' vcpkg feature and set
-    //               `-DTHEMIS_ENABLE_POSTGRES_WIRE=ON` in CMake; the `#else` branch
-    //               contains the real implementation.
-    //               See src/server/ROADMAP.md §Import Schema Preview.  Target: Q1 2027.
-    jsonError(res, 501,
-              "Schema preview requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
-    return;
-#else
     const std::string job_id = req.matches[1];
     auto handle = registry_->get(job_id);
     if (!handle) {
@@ -484,10 +466,26 @@ void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& 
         return;
     }
 
-    // Use a fresh importer to avoid mutating the running importer's state
-    auto schema_importer = std::make_shared<importers::PostgreSQLImporter>();
-    schema_importer->initialize("{}");
-    json schema = schema_importer->getSourceSchema(source_path);
+    std::shared_ptr<importers::IImporter> schema_importer = importer_;
+    if (source_path.rfind("s3://", 0) == 0 && s3_importer_) {
+        schema_importer = s3_importer_;
+    }
+    if (!schema_importer) {
+        jsonError(res, 503, "No importer is configured for schema preview");
+        return;
+    }
+
+    json schema;
+    try {
+        schema = schema_importer->getSourceSchema(source_path);
+    } catch (const std::exception& e) {
+        jsonError(res, 422, std::string("Schema preview failed: ") + e.what());
+        return;
+    }
+    if (!schema.is_object() || !schema.contains("tables") || !schema["tables"].is_array()) {
+        jsonError(res, 422, "Could not parse schema from: " + source_path);
+        return;
+    }
 
     // Merge any custom relationship overrides
     {
@@ -502,20 +500,11 @@ void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& 
     }
 
     jsonOk(res, json{{"job_id", job_id}, {"schema", schema}});
-#endif
 }
 
 void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Request& req,
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
-#ifndef THEMIS_ENABLE_POSTGRES_WIRE
-    // STUB/SIMULATION NOTE (stub #294 — validateSchema path, same gate):
-    // See handleGetSchema() above for full details.  Both schema-inspection endpoints
-    // share the THEMIS_ENABLE_POSTGRES_WIRE compile-time gate.
-    jsonError(res, 501,
-              "Schema validation requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
-    return;
-#else
     json body;
     try {
         body = parseRequestBody(req.body);
@@ -530,39 +519,59 @@ void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Requ
     }
     const std::string source_path = body["source_path"].get<std::string>();
 
-    importers::ImportOptions opts;
-    opts.preserve_relationships = true;
-    opts.validate_references    = true;
-    if (body.contains("options") && body["options"].is_object()) {
-        opts = optionsFromJson(body["options"]);
-        opts.preserve_relationships = true;
-        opts.validate_references    = true;
+    std::shared_ptr<importers::IImporter> schema_importer = importer_;
+    if (source_path.rfind("s3://", 0) == 0 && s3_importer_) {
+        schema_importer = s3_importer_;
+    }
+    if (!schema_importer) {
+        jsonError(res, 503, "No importer is configured for schema validation");
+        return;
     }
 
-    // Parse schema and validate
-    auto schema_importer = std::make_shared<importers::PostgreSQLImporter>();
-    schema_importer->initialize("{}");
-    json schema = schema_importer->getSourceSchema(source_path);
+    json schema;
+    try {
+        schema = schema_importer->getSourceSchema(source_path);
+    } catch (const std::exception& e) {
+        jsonError(res, 422, std::string("Schema validation failed: ") + e.what());
+        return;
+    }
 
-    if (!schema.is_object()) {
+    if (!schema.is_object() || !schema.contains("tables") || !schema["tables"].is_array()) {
         jsonError(res, 422, "Could not parse schema from: " + source_path);
         return;
     }
 
-    size_t table_count = schema.value("tables", json::array()).size();
+    size_t table_count = schema["tables"].size();
     size_t rel_count   = schema.value("relationships", json::array()).size();
     auto   cycles      = schema.value("circular_references", json::array());
 
-    // Validate using a temporary ImportStats
-    importers::ImportStats vstats;
-    // Collect validation errors from the structured_errors already added by getSourceSchema()
     json warn_arr = json::array();
     json err_arr  = json::array();
-    for (const auto& e : vstats.structured_errors) {
-        if (e.severity == importers::ImportErrorSeverity::WARNING) {
-            warn_arr.push_back(e.message);
-        } else {
-            err_arr.push_back(e.message);
+
+    const auto append_strings = [](const json& src, const char* key, json& dst) {
+        if (!src.contains(key) || !src[key].is_array()) {
+            return;
+        }
+        for (const auto& entry : src[key]) {
+            if (entry.is_string()) {
+                dst.push_back(entry.get<std::string>());
+            }
+        }
+    };
+    append_strings(schema, "warnings", warn_arr);
+    append_strings(schema, "errors", err_arr);
+
+    if (schema.contains("structured_errors") && schema["structured_errors"].is_array()) {
+        for (const auto& entry : schema["structured_errors"]) {
+            if (!entry.is_object()) continue;
+            const std::string message = entry.value("message", std::string{});
+            if (message.empty()) continue;
+            const int severity = entry.value("severity", static_cast<int>(importers::ImportErrorSeverity::ERROR));
+            if (severity == static_cast<int>(importers::ImportErrorSeverity::WARNING)) {
+                warn_arr.push_back(message);
+            } else {
+                err_arr.push_back(message);
+            }
         }
     }
 
@@ -580,7 +589,6 @@ void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Requ
         {"errors", err_arr},
         {"circular_references", cycles}
     });
-#endif
 }
 
 void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,
