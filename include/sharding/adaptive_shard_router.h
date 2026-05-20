@@ -18,6 +18,9 @@
 #include <memory>
 #include <mutex>
 #include <chrono>
+#include <functional>
+#include <optional>
+#include <string_view>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
@@ -38,6 +41,8 @@ namespace themis::sharding {
  */
 class AdaptiveShardRouter : public ShardRouter {
 public:
+    using NlpContextFn = std::function<std::optional<CapabilityMatcher::QueryContext>(std::string_view)>;
+
     /**
      * Configuration for adaptive routing
      */
@@ -243,10 +248,25 @@ public:
         return adaptive_config_;
     }
 
+    /**
+     * Inject an NLP context builder that can provide domain/organization/region hints
+     * for adaptive shard routing.
+     *
+     * @param fn Callback that returns enriched query context metadata. Returning
+     *           std::nullopt falls back to keyword-based heuristics.
+     */
+    void setNlpContextFn(NlpContextFn fn);
+
+    /**
+     * Clear a previously injected NLP context builder.
+     */
+    void clearNlpContextFn();
+
 private:
     std::shared_ptr<ShardTopology> topology_;
     std::shared_ptr<CapabilityMatcher> matcher_;
     AdaptiveConfig adaptive_config_;
+    NlpContextFn nlp_context_fn_;
 
     // Domain-score map: shard_id → { domain_type → accuracy_delta }
     // Updated via updateAdapterCapability(); consulted by routeByDomain().

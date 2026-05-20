@@ -326,6 +326,16 @@ void AdaptiveShardRouter::updateAdaptiveConfig(const AdaptiveConfig& config) {
     matcher_ = std::make_shared<CapabilityMatcher>(config.matcher_config);
 }
 
+void AdaptiveShardRouter::setNlpContextFn(NlpContextFn fn) {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+    nlp_context_fn_ = std::move(fn);
+}
+
+void AdaptiveShardRouter::clearNlpContextFn() {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+    nlp_context_fn_ = nullptr;
+}
+
 CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     const std::string& query
 ) {
@@ -334,36 +344,31 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     
     // Extract keywords
     context.keywords = matcher_->extractKeywords(query);
-    
-    // STUB/SIMULATION NOTE (stub #291):
-    // Purpose: Provide a functional domain/geo context builder that works without
-    //          an NLP stack or embedding model so that shard routing is available
-    //          immediately.  Regex + substring patterns let CI and early deployment
-    //          exercise the routing pipeline end-to-end.
-    // Activation: Always — no compile-time flag; NLP/embedding integration is not
-    //             yet wired.
-    // Production Delta: Routing accuracy is bounded by the quality of the hard-coded
-    //                   keyword set.  Queries that do not match a pattern produce an
-    //                   empty domain/region context, causing the router to fall back
-    //                   to a global shard scan.  NER-identified entities (e.g. proper
-    //                   nouns, organization names) and embedding-based domain signals
-    //                   are unavailable, reducing routing precision.
-    // Removal Plan: Integrate a sentence-transformer embedding service or a LoRA-based
-    //               domain classifier via an injectable NlpContextFn callback; add the
-    //               injection API analogue to AdaptiveShardRouter::setNlpContextFn().
-    //               See docs/ADAPTIVE_SHARD_ROUTING.md §NLP Integration.
-    //               Target: Q3 2027.
-    // TODO (KNOWN LIMITATION): Production deployment requires more sophisticated query analysis:
-    // - Domain detection using NLP/ML models (e.g., "law", "medicine", "construction")
-    // - Named entity recognition for organization extraction (e.g., "hamburg bauamt")
-    // - Geographic entity recognition for region extraction (e.g., "hamburg", "berlin")
-    // - Data type detection from query structure and content
-    // - Embedding generation using sentence transformers or similar models
-    // 
-    // Current implementation uses simple pattern matching as a basic fallback.
-    // For production use, integrate with NLP/embedding services or pre-computed metadata.
-    // See docs/ADAPTIVE_SHARD_ROUTING.md for integration recommendations.
-    
+
+    NlpContextFn nlp_context_fn;
+    {
+        std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+        nlp_context_fn = nlp_context_fn_;
+    }
+
+    if (nlp_context_fn) {
+        try {
+            auto enriched = nlp_context_fn(query);
+            if (enriched.has_value()) {
+                CapabilityMatcher::QueryContext merged = std::move(*enriched);
+                if (merged.query_text.empty()) {
+                    merged.query_text = query;
+                }
+                if (merged.keywords.empty()) {
+                    merged.keywords = context.keywords;
+                }
+                return merged;
+            }
+        } catch (const std::exception&) {
+            // Fail closed to deterministic heuristic fallback below.
+        }
+    }
+
     // For now, do simple pattern matching for common terms
     std::string query_lower = query;
     std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), 
