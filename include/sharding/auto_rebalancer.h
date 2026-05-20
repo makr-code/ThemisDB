@@ -34,6 +34,7 @@
 #include <vector>
 #include <chrono>
 #include <map>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 // Forward declare AuditLogger so sharding headers don't drag in heavy auth headers
@@ -194,6 +195,19 @@ private:
  *   
  *   rebalancer->stop();
  */
+/**
+ * @brief Injectable bridge function for signing rebalance operations.
+ *
+ * @param operation_id  The operation ID string to sign.
+ * @return Signature string (e.g. base64-encoded) to annotate the rebalance intent.
+ *
+ * When set via AutoRebalancer::setSignOperationFn(), this function is called instead
+ * of the built-in RSA-SHA256 path.  Setting it allows production deployments to use a
+ * hardware security module, remote signing service, or custom key-store without
+ * recompiling the rebalancer.
+ */
+using SignOperationFn = std::function<std::string(const std::string& operation_id)>;
+
 class AutoRebalancer {
 public:
     struct Config {
@@ -207,6 +221,12 @@ public:
         std::string operator_cert_path;
         std::string operator_key_path;
         std::string ca_cert_path;
+
+        /// When true, signOperation() throws std::runtime_error instead of returning
+        /// an UNSIGNED:* fallback token when key provisioning fails and no
+        /// SignOperationFn override is registered.  Set to true in production
+        /// environments that require cryptographic authenticity of rebalance intents.
+        bool fail_closed_signing = false;
         
         // Automatic triggering
         bool auto_trigger_enabled = true;
@@ -308,6 +328,17 @@ public:
      */
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> audit_logger);
 
+    /**
+     * @brief Inject a custom signing function for rebalance operations.
+     *
+     * When set, this function is called instead of the built-in RSA-SHA256 path.
+     * Allows production deployments to use HSM, remote KMS, or custom key-stores.
+     * Thread-safe: can be called before or after start().
+     *
+     * @param fn  Signing callback.  Passing nullptr removes the override.
+     */
+    void setSignOperationFn(SignOperationFn fn);
+
 private:
     std::shared_ptr<ShardTopology> topology_;
     std::shared_ptr<ShardLoadDetector> load_detector_;
@@ -320,6 +351,10 @@ private:
 
     // Optional audit logger for compliance events
     std::shared_ptr<themis::utils::AuditLogger> audit_logger_;
+
+    // Optional signing override (stub #310 bridge)
+    SignOperationFn sign_fn_;
+    mutable std::mutex sign_fn_mutex_;
     
     // Threading
     std::atomic<bool> running_{false};

@@ -41,6 +41,11 @@ AIPluginGenerator::AIPluginGenerator(const Config& config)
 
 AIPluginGenerator::~AIPluginGenerator() = default;
 
+void AIPluginGenerator::setLLMGenerateFn(LLMGenerateFn fn) {
+    std::lock_guard<std::mutex> lock(llm_fn_mutex_);
+    llm_generate_fn_ = std::move(fn);
+}
+
 Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& prompt)
 {
     if (prompt.description.empty()) {
@@ -68,17 +73,20 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     spdlog::debug("[AIPluginGenerator] generatePlugin: description='{}' endpoint='{}'",
                   prompt.description.substr(0, 80), config_.llm_endpoint);
 
-    // 2. Phase-1 implementation: LLM endpoint invocation is not yet wired.
-    //    Return a structured error so callers can distinguish "validation failed"
-    //    from "LLM unavailable".
-    //
-    // TODO (Phase 2, v1.6.0): replace the error below with a real HTTP call to
-    //   config_.llm_endpoint, parse the JSON response, populate GeneratedPlugin,
-    //   and run the security sandbox pipeline.
+    // Delegate to injected LLM bridge when available (stub #282 resolution).
+    {
+        std::lock_guard<std::mutex> lock(llm_fn_mutex_);
+        if (llm_generate_fn_) {
+            return llm_generate_fn_(prompt);
+        }
+    }
+
+    // No LLM backend registered yet — return structured error so callers can
+    // distinguish "validation failed" from "LLM unavailable".
     return tl::unexpected(
         Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
               "AIPluginGenerator::generatePlugin: LLM endpoint not yet wired "
-              "(Phase 2, Target v1.6.0). Endpoint: " + config_.llm_endpoint));
+              "(inject via setLLMGenerateFn()). Endpoint: " + config_.llm_endpoint));
 }
 
 } // namespace ai

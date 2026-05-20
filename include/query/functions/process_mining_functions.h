@@ -23,6 +23,8 @@
 #include "analytics/process_pattern_matcher.h"
 #include "analytics/process_mining.h"
 #include <nlohmann/json.hpp>
+#include <functional>
+#include <mutex>
 
 namespace themis {
 namespace query {
@@ -389,6 +391,24 @@ public:
  */
 class PmLoadAdminModelFunction : public IFunction {
 public:
+    /**
+     * @brief Injectable bridge for loading a YAML-backed administrative process model.
+     *
+     * @param model_id  The model identifier passed to PM_LOAD_ADMIN_MODEL.
+     * @return JSON object representing the loaded model, or an error descriptor.
+     *
+     * Wire the YAML-backed model registry through setAdminModelLoadFn() to enable
+     * in-database administrative model lifecycle.
+     */
+    using AdminModelLoadFn = std::function<nlohmann::json(const std::string& model_id)>;
+
+    /**
+     * @brief Install a model-load bridge function (thread-safe, process-wide).
+     * @param fn  Callable invoked for each PM_LOAD_ADMIN_MODEL call.  Pass nullptr
+     *            to revert to the not-implemented error response.
+     */
+    static void setAdminModelLoadFn(AdminModelLoadFn fn);
+
     FunctionSignature signature() const override {
         return {
             "PM_LOAD_ADMIN_MODEL",
@@ -412,6 +432,10 @@ public:
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx
     ) const override;
+
+private:
+    static AdminModelLoadFn admin_model_load_fn_;
+    static std::mutex       admin_model_load_fn_mutex_;
 };
 
 /**
@@ -425,6 +449,23 @@ public:
  */
 class PmListAdminModelsFunction : public IFunction {
 public:
+    /**
+     * @brief Injectable bridge for enumerating available administrative process models.
+     *
+     * @return JSON array of model descriptors (id, name, domain, …).
+     *
+     * Wire the YAML-backed model registry through setAdminModelListFn() to expose
+     * all available models to AQL callers.
+     */
+    using AdminModelListFn = std::function<nlohmann::json()>;
+
+    /**
+     * @brief Install a model-list bridge function (thread-safe, process-wide).
+     * @param fn  Callable invoked for each PM_LIST_ADMIN_MODELS call.  Pass nullptr
+     *            to revert to the empty-array response.
+     */
+    static void setAdminModelListFn(AdminModelListFn fn);
+
     FunctionSignature signature() const override {
         return {
             "PM_LIST_ADMIN_MODELS",
@@ -442,6 +483,10 @@ public:
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx
     ) const override;
+
+private:
+    static AdminModelListFn admin_model_list_fn_;
+    static std::mutex       admin_model_list_fn_mutex_;
 };
 
 // ============================================================================
@@ -549,11 +594,30 @@ public:
  *
  * @param case_id  Process case ID whose completion time should eventually be
  *                 forecast once the predictive model is integrated.
- * @return JSON object with a `predicted_end` field. The field is currently
- *         always `null`.
+ * @return JSON object with a `predicted_end` field. When a PredictEndFn has
+ *         been registered via setPredictEndFn(), the field carries the function's
+ *         result; otherwise it is `null`.
  */
 class PmPredictEndFunction : public IFunction {
 public:
+    /**
+     * @brief Injectable bridge for process-end prediction.
+     *
+     * @param case_id  The AQL-supplied process case identifier.
+     * @return JSON object; callers should include a `predicted_end` key.
+     *
+     * Register a real prediction backend via setPredictEndFn() so that
+     * PM_PREDICT_END AQL calls delegate to it instead of returning null.
+     */
+    using PredictEndFn = std::function<nlohmann::json(const std::string& case_id)>;
+
+    /**
+     * @brief Install a prediction bridge function (thread-safe, process-wide).
+     * @param fn  Callable to invoke for each PM_PREDICT_END call; pass nullptr
+     *            to revert to the null-placeholder behaviour.
+     */
+    static void setPredictEndFn(PredictEndFn fn);
+
     FunctionSignature signature() const override {
         return {
             "PM_PREDICT_END",
@@ -573,6 +637,10 @@ public:
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx
     ) const override;
+
+private:
+    static PredictEndFn predict_end_fn_;
+    static std::mutex   predict_end_fn_mutex_;
 };
 
 // ============================================================================
