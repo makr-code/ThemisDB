@@ -126,9 +126,12 @@ private:
      * @brief Compress data if configured
      * @param data Input data
      * @param compressed Output compressed data (if compression applied)
+     * @param compression_codec Optional output codec string ("zstd" or "lz4")
      * @return true if compression was applied
      */
-    bool compressData(const std::string& data, std::string& compressed);
+    bool compressData(const std::string& data,
+                      std::string& compressed,
+                      std::string* compression_codec = nullptr);
     
     /**
      * @brief Perform transfer with retry logic
