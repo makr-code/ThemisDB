@@ -590,4 +590,15 @@ EpkArisXmlImporter::importAllAml(std::string_view aml_xml)
 
     for (const auto& m : parsed.models) {
         if (m.model_type == "EPK" ||
-            m.model_type.find("EPK") != std::strin
+            m.model_type.find("EPK") != std::string::npos)
+        {
+            results.push_back(buildImportResult(m, parsed.obj_defs));
+        }
+    }
+
+    return results;
+}
+
+} // namespace process
+} // namespace themis
+

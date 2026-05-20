@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: prompt_injection_detector.cpp | Version: 0.0.18
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=0, H=48, M=20, L=0
+ * ThemisDB | File: prompt_injection_detector.cpp | Version: 0.0.18 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 268
+ * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=1, Sim=3, Debt=0
+ * Gap Correlation: internal=6 | external_v3=68 | delta=62 | status=divergent
+ * External Severity (v3): C=0, H=48, M=20
+ * PR: #2534 Add prompt injection attack detection layer to prompt_engineering m... (2026-03-11T21:42:56Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

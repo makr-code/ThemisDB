@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: citation_highlighter.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=54, M=9, L=0
+ * ThemisDB | File: citation_highlighter.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 317
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=67 | delta=64 | status=divergent
+ * External Severity (v3): C=4, H=54, M=9
+ * PR: #2611 [WIP] Map answer sentences to source chunks in RAG module (2026-03-12T05:53:09Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

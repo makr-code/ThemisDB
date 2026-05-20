@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: gremlin_parser.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=271, M=106, L=0
+ * ThemisDB | File: gremlin_parser.cpp | Version: 0.0.12 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 916
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=379 | delta=376 | status=divergent
+ * External Severity (v3): C=2, H=271, M=106
+ * PR: #4400 [WIP] Add GNN-based node embeddings implementation (2026-03-24T20:33:54Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

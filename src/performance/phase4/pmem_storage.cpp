@@ -405,4 +405,17 @@ PMemStorageLayout::WriteStats PMemStorageLayout::get_write_stats() const noexcep
         ws.write_amplification_x1000 =
             (ws.bytes_persisted * 1000) / ws.bytes_written;
     }
-    r
+    return ws;
+}
+
+PMemPool::Stats PMemStorageLayout::get_pool_stats() const noexcept {
+    return pool_.get_stats();
+}
+
+bool PMemStorageLayout::is_dax() const noexcept {
+    return pool_.is_dax();
+}
+
+} // namespace phase4
+} // namespace performance
+} // namespace themis

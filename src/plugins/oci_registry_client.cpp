@@ -700,4 +700,12 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
     if (ec) {
         fs::remove(tmp_path);
         return Err<std::string>(ErrorCode::ERR_PLUGIN_OCI_PULL_FAILED,
-      
+                                "Failed to rename temp file to: " + dest_path + ": " + ec.message());
+    }
+
+    THEMIS_INFO("OciRegistryClient: plugin binary pulled to {}", dest_path);
+    return Ok(dest_path);
+}
+
+} // namespace plugins
+} // namespace themis

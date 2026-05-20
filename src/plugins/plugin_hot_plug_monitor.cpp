@@ -567,4 +567,17 @@ void PluginHotPlugMonitor::stop() {
     // Cleanup handled in thread
 #else
     if (watch_descriptor_ >= 0) {
-        inotify_rm_watch(inotify_fd_, wa
+        inotify_rm_watch(inotify_fd_, watch_descriptor_);
+        watch_descriptor_ = -1;
+    }
+    if (inotify_fd_ >= 0) {
+        close(inotify_fd_);
+        inotify_fd_ = -1;
+    }
+#endif
+    
+    THEMIS_INFO("Hot-plug monitoring stopped");
+}
+
+} // namespace plugins
+} // namespace themis

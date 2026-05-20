@@ -645,4 +645,13 @@ void PluginHealthMonitor::publishHealthScore(const MonitoredPlugin& plugin) noex
     // mutex_ must be held by caller; metrics_sink_ may be null
     if (!metrics_sink_) return;
     try {
-        const double score = computeHealthScor
+        const double score = computeHealthScore(plugin.last_diagnostics);
+        metrics_sink_->setGauge("plugin_health_score", score, {{"plugin", plugin.name}});
+    } catch (...) {
+        // noexcept: swallow any exception from the metrics backend
+    }
+}
+
+} // namespace plugins
+} // namespace themis
+

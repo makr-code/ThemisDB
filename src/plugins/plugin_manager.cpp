@@ -1575,4 +1575,13 @@ std::string PluginManager::installationInstructions() {
                " Edition. Please upgrade to Enterprise or Hyperscaler.";
     }
     return "To install a plugin:\n"
-           "1. Downlo
+           "1. Download from https://marketplace.themisdb.io/\n"
+           "2. Verify SHA256 checksum\n"
+           "3. Place in $THEMIS_HOME/plugins/\n"
+           "4. Restart themis_server\n"
+           "5. Use CREATE PLUGIN command";
+}
+
+} // namespace plugins
+} // namespace themis
+

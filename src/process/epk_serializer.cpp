@@ -329,4 +329,14 @@ json EpkSerializer::exportJson(
         json je;
         je["id"]   = e.edge_id;
         je["from"] = e.from_node;
-        je["to"]   = e.to_node
+        je["to"]   = e.to_node;
+        je["type"] = "CONTROL_FLOW";
+        jedges.push_back(std::move(je));
+    }
+    g["edges"] = std::move(jedges);
+
+    return g;
+}
+
+} // namespace process
+} // namespace themis

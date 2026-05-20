@@ -515,4 +515,15 @@ uint32_t themis_plugin_get_version(char* buf, uint32_t buf_len) {
 int32_t themis_plugin_initialize(const char* /*config_json*/) { return 0; }
 void    themis_plugin_shutdown(void) {}
 void*   themis_plugin_get_instance(int32_t /*capability_id*/) { return nullptr; }
-int32_t themis_plugin_
+int32_t themis_plugin_save_state(char* buf, uint32_t buf_len) {
+    if (buf && buf_len > 0) buf[0] = '\0';
+    return 0;
+}
+int32_t themis_plugin_restore_state(const char* /*state_json*/) { return 0; }
+} // extern "C"
+
+#endif // THEMIS_WASM_SUPPORT
+
+} // namespace plugins
+} // namespace themis
+

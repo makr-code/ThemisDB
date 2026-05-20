@@ -800,4 +800,15 @@ std::string BpmnSerializer::exportFromJson(const json& g) {
             e.from_node = je.value("from", "");
             e.to_node   = je.value("to",   "");
             std::string cond = je.value("condition", "");
-      
+            if (!cond.empty()) e.condition_expression = cond;
+            e.edge_type = ProcessEdgeType::SEQUENCE_FLOW;
+            edges.push_back(std::move(e));
+        }
+    }
+
+    return exportXml(pid, name, nodes, edges);
+}
+
+} // namespace process
+} // namespace themis
+

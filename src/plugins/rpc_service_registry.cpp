@@ -57,4 +57,15 @@ void* RPCServiceRegistry::getService(const std::string& name) {
     return RPCServiceRegistryImpl::instance().getService(name);
 }
 
-void RPCServiceRegistry::un
+void RPCServiceRegistry::unregisterService(const std::string& name) {
+    RPCServiceRegistryImpl::instance().unregisterService(name);
+}
+
+RPCServiceRegistry& RPCServiceRegistry::instance() {
+    static RPCServiceRegistry inst;
+    return inst;
+}
+
+} // namespace rpc
+} // namespace plugins
+} // namespace themis

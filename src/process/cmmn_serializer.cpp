@@ -504,3 +504,15 @@ std::string CmmnSerializer::exportXml(
         xml << "      <" << tag
             << " id=\"" << escapeXml_(n.node_id) << "\""
             << " name=\"" << escapeXml_(n.name) << "\"/>\n";
+    }
+
+    xml << "    </casePlanModel>\n";
+    xml << "  </case>\n";
+    xml << "</definitions>\n";
+
+    return xml.str();
+}
+
+} // namespace process
+} // namespace themis
+

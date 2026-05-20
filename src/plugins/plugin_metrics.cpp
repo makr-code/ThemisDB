@@ -171,4 +171,14 @@ void PluginMetricsCollector::collect(themis::core::concerns::IMetrics& sink) con
                       stats.avg_call_latency_ms, labels);
         sink.setGauge("plugin_call_latency_p95_ms",
                       stats.p95_call_latency_ms, labels);
-        sink.setGauge("plugi
+        sink.setGauge("plugin_call_latency_p99_ms",
+                      stats.p99_call_latency_ms, labels);
+
+        // Resource gauge
+        sink.setGauge("plugin_memory_bytes",
+                      static_cast<double>(stats.memory_bytes), labels);
+    }
+}
+
+} // namespace plugins
+} // namespace themis

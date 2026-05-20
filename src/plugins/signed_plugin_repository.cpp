@@ -311,4 +311,15 @@ bool SignedPluginRepository::verifyEd25519Signature(
     if (EVP_DigestVerifyInit(ctx, nullptr, nullptr, nullptr, pkey) == 1) {
         int rc = EVP_DigestVerify(
             ctx,
-    
+            signature.data(), signature.size(),
+            reinterpret_cast<const uint8_t*>(message.data()), message.size());
+        ok = (rc == 1);
+    }
+    EVP_MD_CTX_free(ctx);
+    EVP_PKEY_free(pkey);
+    return ok;
+}
+
+} // namespace plugins
+} // namespace themis
+

@@ -18,4 +18,9 @@
  *   PluginManager::isEditionSupported()           -- compile-time edition gate
  *   PluginManager::isLicensed()                   -- runtime license gate
  *   PluginManager::communityUnavailableMessage()  -- user-facing error text
- *   PluginManager::mark
+ *   PluginManager::marketplaceInfo()              -- marketplace availability
+ *   PluginManager::installationInstructions()     -- install guide
+ *
+ * The edition gate is now automatically applied inside loadPlugin().
+ * This file is intentionally excluded from cmake/CMakeLists.txt.
+ */

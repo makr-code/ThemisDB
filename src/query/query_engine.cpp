@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: query_engine.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=92, H=2284, M=419, L=0
+ * ThemisDB | File: query_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 4587
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=2795 | delta=2792 | status=divergent
+ * External Severity (v3): C=92, H=2284, M=419
+ * PR: #4507 feat(query): v2.0.0 â€“ edge-type filtering, rewrite pipeline, prof... (2026-04-11T12:06:28Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

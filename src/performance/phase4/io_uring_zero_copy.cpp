@@ -550,4 +550,15 @@ ScopedIoUringTimer::~ScopedIoUringTimer() noexcept {
 #ifdef __linux__
     struct timespec ts{};
     ::clock_gettime(CLOCK_MONOTONIC, &ts);
-    uint64_t end_ns = static_cast<uint64
+    uint64_t end_ns = static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000ULL +
+                      static_cast<uint64_t>(ts.tv_nsec);
+    *output_ns_ = (end_ns >= start_ns_) ? (end_ns - start_ns_) : 0;
+#else
+    *output_ns_ = 0;
+#endif
+}
+
+} // namespace phase4
+} // namespace performance
+} // namespace themis
+

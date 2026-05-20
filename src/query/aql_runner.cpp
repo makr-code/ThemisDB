@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: aql_runner.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=34, H=346, M=56, L=0
+ * ThemisDB | File: aql_runner.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 893
+ * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=4 | external_v3=436 | delta=432 | status=divergent
+ * External Severity (v3): C=34, H=346, M=56
+ * PR: #633 Configure general graph traversal tests in CMake build system (2026-03-11T18:11:38Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

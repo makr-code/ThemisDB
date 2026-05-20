@@ -478,4 +478,11 @@ std::vector<std::string> DmnEvaluator::listDecisions() const {
 }
 
 std::optional<DecisionTable> DmnEvaluator::getDecision(std::string_view decision_id) const {
-    const
+    const auto it = tables_.find(std::string(decision_id));
+    if (it == tables_.end()) return std::nullopt;
+    return it->second;
+}
+
+} // namespace process
+} // namespace themis
+

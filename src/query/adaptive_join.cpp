@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: adaptive_join.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=105, H=191, M=37, L=0
+ * ThemisDB | File: adaptive_join.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 527
+ * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=1, Sim=3, Debt=0
+ * Gap Correlation: internal=6 | external_v3=333 | delta=327 | status=divergent
+ * External Severity (v3): C=105, H=191, M=37
+ * PR: #4210 fix(query): Address review comments on AdaptiveJoinExecutor (Issue ... (2026-03-14T18:12:35Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

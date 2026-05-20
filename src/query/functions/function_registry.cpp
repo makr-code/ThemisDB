@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: function_registry.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 86/100
- * Gap Summary: total=7; TODO=2, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=11, M=3, L=0
+ * ThemisDB | File: function_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 158
+ * Open Issues: TODOs=2, Stubs=3, Gaps=7, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=7 | external_v3=16 | delta=9 | status=divergent
+ * External Severity (v3): C=2, H=11, M=3
+ * PR: #1141 Complete AQL function registration: fulltext, ethics, and process m... (2026-03-11T17:51:06Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

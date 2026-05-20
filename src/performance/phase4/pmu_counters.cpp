@@ -805,4 +805,21 @@ bool CacheMissAnalyzer::pmu_accessible() noexcept {
     ProbeFn fn;
     {
         std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
-        fn = s_cache_mi
+        fn = s_cache_miss_probe_fn;
+    }
+    if (fn) {
+        try {
+            return fn();
+        } catch (...) {
+            return false;
+        }
+    }
+    return false;
+}
+
+} // namespace phase4
+} // namespace performance
+} // namespace themis
+
+#endif // THEMIS_ENABLE_PMU_COUNTERS
+
