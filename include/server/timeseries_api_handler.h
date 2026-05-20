@@ -23,6 +23,8 @@ namespace themis {
 class RocksDBWrapper;
 class TSStore;
 class ContinuousAggregateManager;
+class ContinuousAggMaterializationEngine;
+class RetentionManager;
 
 namespace server {
 
@@ -141,11 +143,37 @@ public:
      */
     http::response<http::string_body> handlePrometheusRemoteWrite(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Inject an optional continuous aggregate materialization engine.
+     *
+     * When set, handleAggregatesGet() returns the union of built-in aggregate
+     * function names and the named continuous aggregates registered with this
+     * engine.
+     *
+     * @param engine Shared pointer to the materialization engine (may be nullptr).
+     */
+    void setAggregateEngine(std::shared_ptr<ContinuousAggMaterializationEngine> engine);
+
+    /**
+     * @brief Inject an optional retention-policy manager.
+     *
+     * When set, handleRetentionGet() queries the manager for the current policy
+     * instead of returning an empty list.
+     *
+     * @param mgr Shared pointer to the RetentionManager (may be nullptr).
+     */
+    void setRetentionManager(std::shared_ptr<RetentionManager> mgr);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
+
+    /// Optional: exposes listAggregates() for the /aggregates endpoint.
+    std::shared_ptr<ContinuousAggMaterializationEngine> agg_engine_;
+    /// Optional: exposes getPolicy() for the /retention endpoint.
+    std::shared_ptr<RetentionManager> retention_manager_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

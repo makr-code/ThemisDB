@@ -634,3 +634,51 @@ TEST(FeedbackStoreDisabled, DISABLED_AllTestsSkipped) {
     GTEST_SKIP() << "Feedback store tests are currently disabled";
 }
 
+
+// ============================================================================
+// SpamKeywordsProvider bridge tests (stub #296)
+// ============================================================================
+#include "llm/feedback_store.h"
+
+TEST(FeedbackStoreSpamBridge, SKWS01_DefaultStaticListDetectsKnownSpam) {
+    themis::llm::FeedbackStore::clearSpamKeywordsProvider();
+    const auto& kws = themis::llm::FeedbackStore::getSpamKeywords();
+    EXPECT_FALSE(kws.empty());
+    bool found = false;
+    for (const auto& kw : kws) {
+        if (kw == "buy now") { found = true; break; }
+    }
+    EXPECT_TRUE(found) << "Default list must contain 'buy now'";
+}
+
+TEST(FeedbackStoreSpamBridge, SKWS02_InjectedProviderOverridesDefaultList) {
+    themis::llm::FeedbackStore::setSpamKeywordsProvider([]() -> std::vector<std::string> {
+        return {"custom_spam_token"};
+    });
+    const auto& kws = themis::llm::FeedbackStore::getSpamKeywords();
+    ASSERT_EQ(kws.size(), 1u);
+    EXPECT_EQ(kws[0], "custom_spam_token");
+    themis::llm::FeedbackStore::clearSpamKeywordsProvider();
+}
+
+TEST(FeedbackStoreSpamBridge, SKWS03_ClearedProviderRevertsToStaticList) {
+    themis::llm::FeedbackStore::setSpamKeywordsProvider([]() -> std::vector<std::string> {
+        return {"ephemeral"};
+    });
+    themis::llm::FeedbackStore::clearSpamKeywordsProvider();
+    const auto& kws = themis::llm::FeedbackStore::getSpamKeywords();
+    bool has_static = false;
+    for (const auto& kw : kws) {
+        if (kw == "buy now") { has_static = true; break; }
+    }
+    EXPECT_TRUE(has_static) << "After clear, static list must be active again";
+}
+
+TEST(FeedbackStoreSpamBridge, SKWS04_EmptyReturnFromProviderFallsBackToStaticList) {
+    themis::llm::FeedbackStore::setSpamKeywordsProvider([]() -> std::vector<std::string> {
+        return {}; // empty — triggers fallback
+    });
+    const auto& kws = themis::llm::FeedbackStore::getSpamKeywords();
+    EXPECT_FALSE(kws.empty()) << "Empty provider return must fall back to static list";
+    themis::llm::FeedbackStore::clearSpamKeywordsProvider();
+}

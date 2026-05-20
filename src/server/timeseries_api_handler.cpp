@@ -13,6 +13,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
+#include "timeseries/retention.h"
 #include "timeseries/timeseries_metrics.h"
 #include "timeseries/prometheus_remote_write.h"
 #include "server/auth_middleware.h"
@@ -34,6 +35,18 @@ TimeSeriesApiHandler::TimeSeriesApiHandler(
     , agg_manager_(std::move(agg_manager))
     , auth_(std::move(auth))
 {
+}
+
+void TimeSeriesApiHandler::setAggregateEngine(
+    std::shared_ptr<ContinuousAggMaterializationEngine> engine
+) {
+    agg_engine_ = std::move(engine);
+}
+
+void TimeSeriesApiHandler::setRetentionManager(
+    std::shared_ptr<RetentionManager> mgr
+) {
+    retention_manager_ = std::move(mgr);
 }
 
 http::response<http::string_body> TimeSeriesApiHandler::handlePut(
@@ -390,26 +403,32 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
-        // STUB/SIMULATION NOTE (stub #301):
-        // Purpose: Keep the metadata endpoints for the time-series API alive even
-        //          before aggregation capability discovery and retention-policy
-        //          persistence are wired into TSStore.
-        // Activation: Always — no backend capability registry or retention-policy
-        //             catalog is queried by these handlers.
-        // Production Delta: `/timeseries/aggregates` always returns the fixed list
-        //                   `min,max,avg,sum,count` even if the underlying engine
-        //                   supports more/fewer functions; `/timeseries/retention`
-        //                   always returns an empty list even when retention policies
-        //                   are configured elsewhere. Clients cannot introspect actual
-        //                   server capabilities or policy state.
-        // Removal Plan: Query TSStore/TimeSeriesEngine for registered aggregate
-        //               functions and persisted retention policies; replace both
-        //               static JSON payloads below with real backend metadata.
-        //               See src/timeseries/ROADMAP.md §Metadata Endpoints.
-        //               Target: Q2 2027.
-        // Minimal placeholder: list supported aggregate functions
+        // Built-in aggregate function types supported by TSStore windows.
+        nlohmann::json agg_functions = nlohmann::json::array({"min","max","avg","sum","count"});
+
+        // Named continuous aggregates registered with the materialization engine.
+        nlohmann::json named_aggregates = nlohmann::json::array();
+        if (agg_engine_) {
+            for (const auto& name : agg_engine_->listAggregates()) {
+                auto def_opt = agg_engine_->getAggregate(name);
+                if (!def_opt) continue;
+                const auto& def = *def_opt;
+                named_aggregates.push_back({
+                    {"name",    def.name},
+                    {"metric",  def.config.metric},
+                    {"entity",  def.config.entity},
+                    {"window_ms", std::chrono::duration_cast<std::chrono::milliseconds>(
+                                      def.config.window.size).count()},
+                    {"status",  def.status == ContinuousAggStatus::ACTIVE   ? "active"
+                              : def.status == ContinuousAggStatus::STALE    ? "stale"
+                                                                             : "inactive"}
+                });
+            }
+        }
+
         nlohmann::json response = {
-            {"aggregates", nlohmann::json::array({"min","max","avg","sum","count"})}
+            {"aggregate_functions", agg_functions},
+            {"named_aggregates",    named_aggregates}
         };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
@@ -424,13 +443,21 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
-        // STUB/SIMULATION NOTE (stub #301 — retention path, same metadata gap):
-        // See handleAggregatesGet() above. This endpoint currently reports no
-        // retention policies regardless of actual storage configuration.
-        // Minimal placeholder: empty list of retention policies
-        nlohmann::json response = {
-            {"policies", nlohmann::json::array()}
-        };
+        nlohmann::json policies = nlohmann::json::array();
+
+        if (retention_manager_) {
+            const auto& policy = retention_manager_->getPolicy();
+
+            // Per-metric retention overrides.
+            for (const auto& [metric, duration] : policy.per_metric) {
+                policies.push_back({
+                    {"metric",        metric},
+                    {"retention_sec", duration.count()}
+                });
+            }
+        }
+
+        nlohmann::json response = {{"policies", policies}};
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {

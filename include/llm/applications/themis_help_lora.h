@@ -16,6 +16,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -65,23 +66,41 @@ public:
         std::string adapter_id = "themis_help_lora";
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
-        
+
         // Remote model loading (Ollama support)
         bool enable_remote_loading = false;
         std::string ollama_url = "http://localhost:11434";
         std::string ollama_model_name = "llama2:7b";
         std::string model_config_yaml = "config/llm_remote_models.yaml";
         bool auto_download_model = true;
-        
+
         // Dependencies (to be injected)
         rocksdb::TransactionDB* db = nullptr;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
-        
+
+        /**
+         * @brief Optional model-path resolver.
+         *
+         * When set, this function is called with @p base_model_id to obtain
+         * the filesystem path of the GGUF model file.  Implement this to
+         * integrate with LLMModelStorage::resolveGGUFPath() or any other
+         * model-registry backend.
+         *
+         * If nullptr, the handler falls back to the local path convention
+         * @c "models/" + base_model_id + ".gguf" relative to the working
+         * directory.
+         *
+         * @param model_id  The model identifier string.
+         * @return Absolute or relative path to the GGUF file.
+         */
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
+        ModelPathProviderFn model_path_provider;
+
         // Training settings
         lora::LoRAHyperparameters hyperparameters;
         int feedback_batch_size = 100;  // Train after N feedback items
         std::chrono::hours training_interval{24}; // Or train daily
-        
+
         // Quality settings
         float min_accuracy_threshold = 0.80f;
         bool enable_ab_testing = true;

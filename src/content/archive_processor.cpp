@@ -94,7 +94,7 @@ bool writeBlobToFile(const std::string& path, const std::string& blob) {
         }
         file.write(blob.data(), blob.size());
         return file.good();
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -310,7 +310,7 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(
             uint64_t file_size = 0;
             try {
                 file_size = std::stoull(size_str, nullptr, 8);
-            } catch (...) {
+            } catch (const std::exception&) {
                 file_size = 0;
             }
 
@@ -721,10 +721,10 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
 
         if (typeflag == '5' || (entry_name.size() > 1 && entry_name.back() == '/')) {
             // Directory entry
-            try { fs::create_directories(out_path); } catch (...) {}
+            try { fs::create_directories(out_path); } catch (const std::exception&) {}
         } else {
             // Regular file (or hardlink '1', symlink '2' treated as file copy)
-            try { fs::create_directories(out_path.parent_path()); } catch (...) {}
+            try { fs::create_directories(out_path.parent_path()); } catch (const std::exception&) {}
             if (entry_size > 0 && offset + entry_size <= raw_tar.size()) {
                 std::ofstream ofs(out_path, std::ios::binary);
                 if (!ofs.is_open()) {

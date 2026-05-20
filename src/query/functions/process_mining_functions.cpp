@@ -13,12 +13,45 @@
 #include <nlohmann/json.hpp>
 #include <stdexcept>
 #include <string>
+#include <mutex>
 
 namespace themis {
 namespace query {
 namespace functions {
 
 using json = nlohmann::json;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Static bridge storage — stubs #278, #283
+// ─────────────────────────────────────────────────────────────────────────────
+
+PmPredictEndFunction::PredictEndFn     PmPredictEndFunction::predict_end_fn_;
+std::mutex                             PmPredictEndFunction::predict_end_fn_mutex_;
+
+PmLoadAdminModelFunction::AdminModelLoadFn PmLoadAdminModelFunction::admin_model_load_fn_;
+std::mutex                                 PmLoadAdminModelFunction::admin_model_load_fn_mutex_;
+
+PmListAdminModelsFunction::AdminModelListFn PmListAdminModelsFunction::admin_model_list_fn_;
+std::mutex                                  PmListAdminModelsFunction::admin_model_list_fn_mutex_;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Bridge setters
+// ─────────────────────────────────────────────────────────────────────────────
+
+void PmPredictEndFunction::setPredictEndFn(PredictEndFn fn) {
+    std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
+    predict_end_fn_ = std::move(fn);
+}
+
+void PmLoadAdminModelFunction::setAdminModelLoadFn(AdminModelLoadFn fn) {
+    std::lock_guard<std::mutex> lock(admin_model_load_fn_mutex_);
+    admin_model_load_fn_ = std::move(fn);
+}
+
+void PmListAdminModelsFunction::setAdminModelListFn(AdminModelListFn fn) {
+    std::lock_guard<std::mutex> lock(admin_model_list_fn_mutex_);
+    admin_model_list_fn_ = std::move(fn);
+}
 
 // ============================================================================
 // Internal helpers
@@ -355,33 +388,46 @@ json PmVariantsFunction::execute(
 }
 
 // ============================================================================
-// Administrative model management
+// Administrative model management (stub #283 resolution)
 // ============================================================================
-// STUB/SIMULATION NOTE (stub #283):
-// Purpose: Keep PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS registered as
-//          callable AQL functions while the YAML-backed model storage layer is
-//          not yet wired.
-// Activation: Always active. No YAML-backed model registry or
-//             FileSystemBridge is injected yet.
-// Production Delta:
-//   - PM_LOAD_ADMIN_MODEL always returns {"error": "not implemented"}.
-//   - PM_LIST_ADMIN_MODELS always returns an empty JSON array.
-//   - All administrative process models must be managed via external tooling;
-//     no in-database lifecycle for admin models is available.
-// Removal Plan: Wire a YAML-backed model registry (or call
-//   FimImporter::importFimCatalogue() through a shared context injection)
-//   and propagate results through FunctionContext (tracked in
-//   STUB_INVENTORY #283).
 
 json PmLoadAdminModelFunction::execute(
-    const std::vector<json>& /*args*/,
+    const std::vector<json>& args,
     const FunctionContext& /*ctx*/) const {
+
+    const std::string model_id = (!args.empty() && args[0].is_string())
+                                     ? args[0].get<std::string>()
+                                     : std::string{};
+
+    // Delegate to injected YAML-backed registry when available.
+    AdminModelLoadFn fn;
+    {
+        std::lock_guard<std::mutex> lock(admin_model_load_fn_mutex_);
+        fn = admin_model_load_fn_;
+    }
+    if (fn) {
+        return fn(model_id);
+    }
+
+    // Fallback: registry not yet wired.
     return makeNotImplemented("PM_LOAD_ADMIN_MODEL");
 }
 
 json PmListAdminModelsFunction::execute(
     const std::vector<json>& /*args*/,
     const FunctionContext& /*ctx*/) const {
+
+    // Delegate to injected registry when available.
+    AdminModelListFn fn;
+    {
+        std::lock_guard<std::mutex> lock(admin_model_list_fn_mutex_);
+        fn = admin_model_list_fn_;
+    }
+    if (fn) {
+        return fn();
+    }
+
+    // Fallback: registry not yet wired — return empty array.
     return json::array();
 }
 
@@ -501,22 +547,29 @@ json PmBottlenecksFunction::execute(
 }
 
 // ============================================================================
+// ============================================================================
 // PM_PREDICT_END
 // ============================================================================
-// STUB/SIMULATION NOTE (stub #278):
-// Purpose: Keep the public PM_PREDICT_END AQL symbol available while the
-//          process-end prediction model/service is still missing.
-// Activation: Always active. No prediction backend/provider is queried yet.
-// Production Delta: `case_id` is currently ignored and the function always
-//                   returns `{"predicted_end": null}`. No SLA/ETA forecast is
-//                   produced for running process instances.
-// Removal Plan: Wire a predictive backend from the analytics/process-mining
-//               stack and replace the null placeholder with a real timestamp
-//               forecast (tracked in STUB_INVENTORY #278).
 
 json PmPredictEndFunction::execute(
-    const std::vector<json>& /*args*/,
+    const std::vector<json>& args,
     const FunctionContext& /*ctx*/) const {
+
+    const std::string case_id = (!args.empty() && args[0].is_string())
+                                    ? args[0].get<std::string>()
+                                    : std::string{};
+
+    // Delegate to injected prediction bridge when available (stub #278 resolution).
+    PredictEndFn fn;
+    {
+        std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
+        fn = predict_end_fn_;
+    }
+    if (fn) {
+        return fn(case_id);
+    }
+
+    // Fallback: no backend wired yet — return null placeholder.
     json result;
     result["predicted_end"] = nullptr;
     return result;

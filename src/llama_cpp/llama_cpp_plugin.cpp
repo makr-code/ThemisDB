@@ -28,6 +28,11 @@ inline void warn(const char*, Args&&...) {}
 namespace themis {
 namespace llamacpp {
 
+namespace {
+constexpr size_t kDefaultDraftFallbackVocabSize = 32000u;
+constexpr size_t kMaxDraftFallbackVocabSize = 65536u;
+}
+
 LlamaCppPlugin::LlamaCppPlugin() = default;
 LlamaCppPlugin::~LlamaCppPlugin() { unloadModel(); }
 
@@ -501,6 +506,102 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
     return false;
 }
 
+// ── generateDraftTokens ────────────────────────────────────────────────────────
+
+llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
+        const llm::InferenceRequest& request,
+        size_t                       k,
+        size_t                       vocab_size_hint) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Fast-path: k=0 is a valid (no-op) call; return empty result immediately.
+    if (k == 0) {
+        llm::ILLMPlugin::DraftTokensResult empty;
+        empty.vocab_size = (vocab_size_hint > 0)
+                               ? std::min(vocab_size_hint, kMaxDraftFallbackVocabSize)
+                               : kDefaultDraftFallbackVocabSize;
+        return empty;
+    }
+
+    llm::ILLMPlugin::DraftTokensResult result;
+    const size_t requested_vocab_size =
+        (vocab_size_hint > 0) ? vocab_size_hint : kDefaultDraftFallbackVocabSize;
+    result.vocab_size = std::min(requested_vocab_size, kMaxDraftFallbackVocabSize);
+    if (result.vocab_size != requested_vocab_size) {
+        spdlog::warn(
+            "LlamaCppPlugin::generateDraftTokens capped vocab_size_hint={} to {} for fallback safety",
+            requested_vocab_size, result.vocab_size);
+    }
+    
+#ifdef THEMIS_LLM_ENABLED
+    if (!wrapper_) {
+        // Stub mode: return k tokens with peaked logits
+        constexpr float kPeak      =  5.0f;
+        constexpr float kBaseline  = -5.0f;
+        
+        for (size_t i = 0; i < k; ++i) {
+            // Deterministic token based on prompt hash
+            int token_id = (i + 1) % static_cast<int>(result.vocab_size);
+            result.tokens.push_back(token_id);
+            
+            std::vector<float> logits(result.vocab_size, kBaseline);
+            logits[token_id] = kPeak;
+            result.logits.push_back(std::move(logits));
+        }
+        return result;
+    }
+
+    // Phase 2: Real draft-logit pipeline using llama.cpp
+    try {
+        llm::InferenceRequest draft_req = request;
+        draft_req.max_tokens = static_cast<int>(k);
+        draft_req.stream_callback = nullptr;
+
+        const auto real_result = wrapper_->generateDraftTokens(
+            draft_req,
+            k,
+            vocab_size_hint > 0 ? vocab_size_hint : result.vocab_size);
+
+        if (!real_result.tokens.empty() &&
+            real_result.tokens.size() == real_result.logits.size() &&
+            real_result.vocab_size > 0) {
+            return real_result;
+        }
+
+        spdlog::warn("LlamaCppPlugin::generateDraftTokens got invalid real result, using fallback");
+    } catch (const std::exception& e) {
+        spdlog::warn("LlamaCppPlugin::generateDraftTokens failed: {}", e.what());
+    }
+
+    // Fallback to deterministic peaked logits if real path failed
+    constexpr float kPeak      =  5.0f;
+    constexpr float kBaseline  = -5.0f;
+    for (size_t i = 0; i < k; ++i) {
+        int token_id = (i + 1) % static_cast<int>(result.vocab_size);
+        result.tokens.push_back(token_id);
+
+        std::vector<float> logits(result.vocab_size, kBaseline);
+        logits[token_id] = kPeak;
+        result.logits.push_back(std::move(logits));
+    }
+#else
+    // Stub mode when THEMIS_LLM_ENABLED is not defined
+    constexpr float kPeak      =  5.0f;
+    constexpr float kBaseline  = -5.0f;
+    
+    for (size_t i = 0; i < k; ++i) {
+        int token_id = (i + 1) % static_cast<int>(result.vocab_size);
+        result.tokens.push_back(token_id);
+        
+        std::vector<float> logits(result.vocab_size, kBaseline);
+        logits[token_id] = kPeak;
+        result.logits.push_back(std::move(logits));
+    }
+#endif
+    
+    return result;
+}
+
 // ── generateStream ────────────────────────────────────────────────────────────
 
 llm::InferenceResponse LlamaCppPlugin::generateStream(
@@ -540,4 +641,3 @@ void themis_llm_destroy(themis::llm::ILLMPlugin* p) {
     delete p;
 }
 #endif
-

@@ -38,9 +38,21 @@ namespace sharding {
 
 namespace {
 std::mutex g_cloud_backup_fn_mutex;
-S3DownloadFn g_s3_download_fn;
-S3UploadFn g_s3_upload_fn;
-GCSDeleteFn g_gcs_delete_fn;
+S3DownloadFn   g_s3_download_fn;
+S3UploadFn     g_s3_upload_fn;
+S3DeleteFn     g_s3_delete_fn;
+S3ListFn       g_s3_list_fn;
+S3ExistsFn     g_s3_exists_fn;
+AzureUploadFn  g_azure_upload_fn;
+AzureDownloadFn g_azure_download_fn;
+AzureDeleteFn  g_azure_delete_fn;
+AzureListFn    g_azure_list_fn;
+AzureExistsFn  g_azure_exists_fn;
+GCSUploadFn    g_gcs_upload_fn;
+GCSDownloadFn  g_gcs_download_fn;
+GCSDeleteFn    g_gcs_delete_fn;
+GCSListFn      g_gcs_list_fn;
+GCSExistsFn    g_gcs_exists_fn;
 } // namespace
 
 // Cloud storage provider interface
@@ -222,11 +234,22 @@ public:
         //               for production deletion behavior.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
+        S3DeleteFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_s3_delete_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, remote_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("S3 delete callback failed: {}", e.what());
+                return false;
+            }
+        }
         THEMIS_INFO("S3 delete (placeholder): s3://{}/{}", bucket_, remote_path);
         THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
-        // In mock mode, simulate successful deletion
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful delete");
@@ -248,6 +271,19 @@ public:
         //               callback) and return object keys.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
+        S3ListFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_s3_list_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, prefix);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("S3 list callback failed: {}", e.what());
+                return {};
+            }
+        }
         THEMIS_INFO("S3 list: s3://{}/{}", bucket_, prefix);
         return {};
     }
@@ -264,18 +300,21 @@ public:
         //               injected existence callback.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        THEMIS_INFO("S3 exists check (placeholder): s3://{}/{}", bucket_, remote_path);
-        
-        // Placeholder behavior: return false to indicate SDK not integrated
-        // In mock mode, check if we have a record of this upload
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            // In mock mode, assume existence based on previous uploads
-            // Real implementation would query S3
-            return false;  // Conservative: assume not exists
+        S3ExistsFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_s3_exists_fn;
         }
-        
-        return false;  // SDK not integrated, cannot check existence
+        if (fn) {
+            try {
+                return fn(bucket_, remote_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("S3 exists callback failed: {}", e.what());
+                return false;
+            }
+        }
+        THEMIS_INFO("S3 exists check (placeholder): s3://{}/{}", bucket_, remote_path);
+        return false;
     }
     
     std::string name() const override {
@@ -323,22 +362,29 @@ public:
         //               (or injected upload callback) and propagate real status.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        
+        AzureUploadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_azure_upload_fn;
+        }
+        if (fn) {
+            try {
+                return fn(account_name_, container_, local_path, remote_path, metadata);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Azure upload callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
             return false;
         }
         
-        // Activate by building with THEMIS_ENABLE_AZURE (azure-storage-blobs-cpp):
-        // In production, use Azure SDK:
-        // Azure::Storage::Blobs::BlockBlobClient blob_client(...);
-        // blob_client.UploadFrom(local_path);
-        
         THEMIS_INFO("Azure upload (placeholder): {} -> {}/{}/{}", 
                    local_path, account_name_, container_, remote_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful upload");
@@ -351,16 +397,27 @@ public:
     
     bool download(const std::string& remote_path,
                  const std::string& local_path) override {
-        
+        AzureDownloadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_azure_download_fn;
+        }
+        if (fn) {
+            try {
+                return fn(account_name_, container_, remote_path, local_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Azure download callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         THEMIS_INFO("Azure download (placeholder): {}/{}/{} -> {}", 
                    account_name_, container_, remote_path, local_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful download");
-            // Create empty file to simulate download
             std::ofstream file(local_path);
             file << "Mock backup file - replace with real Azure SDK integration\n";
             file.close();
@@ -372,11 +429,22 @@ public:
     }
     
     bool deleteObject(const std::string& remote_path) override {
+        AzureDeleteFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_azure_delete_fn;
+        }
+        if (fn) {
+            try {
+                return fn(account_name_, container_, remote_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Azure delete callback failed: {}", e.what());
+                return false;
+            }
+        }
         THEMIS_INFO("Azure delete (placeholder): {}/{}/{}", account_name_, container_, remote_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
-        // In mock mode, simulate successful deletion
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful delete");
@@ -398,6 +466,19 @@ public:
         //               and map listed blob names into provider output.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
+        AzureListFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_azure_list_fn;
+        }
+        if (fn) {
+            try {
+                return fn(account_name_, container_, prefix);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Azure list callback failed: {}", e.what());
+                return {};
+            }
+        }
         THEMIS_INFO("Azure list: {}/{}/{}", account_name_, container_, prefix);
         return {};
     }
@@ -413,6 +494,19 @@ public:
         //               callback) and return actual presence state.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
+        AzureExistsFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_azure_exists_fn;
+        }
+        if (fn) {
+            try {
+                return fn(account_name_, container_, remote_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Azure exists callback failed: {}", e.what());
+                return false;
+            }
+        }
         THEMIS_INFO("Azure exists check: {}/{}/{}", account_name_, container_, remote_path);
         return false;
     }
@@ -460,21 +554,28 @@ public:
         //               (or injected upload callback) and propagate real status.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        
+        GCSUploadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_gcs_upload_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, local_path, remote_path, metadata);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("GCS upload callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
             return false;
         }
         
-        // Activate by building with THEMIS_ENABLE_GCS (google-cloud-cpp[storage]):
-        // In production, use GCS SDK:
-        // google::cloud::storage::Client client(...);
-        // client.UploadFile(local_path, bucket_, remote_path);
-        
         THEMIS_INFO("GCS upload (placeholder): {} -> gs://{}/{}", local_path, bucket_, remote_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful upload");
@@ -497,15 +598,26 @@ public:
         //               (or injected download callback) with error propagation.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        
+        GCSDownloadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_gcs_download_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, remote_path, local_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("GCS download callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         THEMIS_INFO("GCS download (placeholder): gs://{}/{} -> {}", bucket_, remote_path, local_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful download");
-            // Create empty file to simulate download
             std::ofstream file(local_path);
             file << "Mock backup file - replace with real GCS SDK integration\n";
             file.close();
@@ -569,6 +681,19 @@ public:
         //               (or injected listing callback) and map results to keys.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
+        GCSListFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_gcs_list_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, prefix);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("GCS list callback failed: {}", e.what());
+                return {};
+            }
+        }
         THEMIS_INFO("GCS list: gs://{}/{}", bucket_, prefix);
         return {};
     }
@@ -584,6 +709,19 @@ public:
         //               existence callback) and return real presence state.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
+        GCSExistsFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_gcs_exists_fn;
+        }
+        if (fn) {
+            try {
+                return fn(bucket_, remote_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("GCS exists callback failed: {}", e.what());
+                return false;
+            }
+        }
         THEMIS_INFO("GCS exists check: gs://{}/{}", bucket_, remote_path);
         return false;
     }
@@ -910,9 +1048,69 @@ void setS3UploadFn(S3UploadFn fn) {
     g_s3_upload_fn = std::move(fn);
 }
 
+void setS3DeleteFn(S3DeleteFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_s3_delete_fn = std::move(fn);
+}
+
+void setS3ListFn(S3ListFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_s3_list_fn = std::move(fn);
+}
+
+void setS3ExistsFn(S3ExistsFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_s3_exists_fn = std::move(fn);
+}
+
+void setAzureUploadFn(AzureUploadFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_azure_upload_fn = std::move(fn);
+}
+
+void setAzureDownloadFn(AzureDownloadFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_azure_download_fn = std::move(fn);
+}
+
+void setAzureDeleteFn(AzureDeleteFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_azure_delete_fn = std::move(fn);
+}
+
+void setAzureListFn(AzureListFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_azure_list_fn = std::move(fn);
+}
+
+void setAzureExistsFn(AzureExistsFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_azure_exists_fn = std::move(fn);
+}
+
+void setGCSUploadFn(GCSUploadFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_gcs_upload_fn = std::move(fn);
+}
+
+void setGCSDownloadFn(GCSDownloadFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_gcs_download_fn = std::move(fn);
+}
+
 void setGCSDeleteFn(GCSDeleteFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_gcs_delete_fn = std::move(fn);
+}
+
+void setGCSListFn(GCSListFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_gcs_list_fn = std::move(fn);
+}
+
+void setGCSExistsFn(GCSExistsFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_gcs_exists_fn = std::move(fn);
 }
 
 } // namespace sharding

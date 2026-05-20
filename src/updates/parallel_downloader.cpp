@@ -352,9 +352,6 @@ DownloadResult ParallelDownloader::executeTask(
         progress_cb_(task_index, resume_offset, 0, "downloading");
     }
 
-    // Retry loop
-    bool fetch_ok = false;
-    
     // Use centralized exponential backoff policy (Phase 2a consolidation)
     const themis::utils::RetryConfig retry_cfg{
         .max_attempts       = static_cast<uint32_t>(task.max_retries + 1),
@@ -364,6 +361,8 @@ DownloadResult ParallelDownloader::executeTask(
         .jitter_fraction    = 0.0,
     };
     themis::utils::ExponentialBackoff backoff(retry_cfg);
+
+    bool fetch_ok = false;
     
     for (int attempt = 0; attempt <= task.max_retries; ++attempt) {
         if (attempt > 0) {
@@ -547,4 +546,3 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
 
 } // namespace updates
 } // namespace themis
-

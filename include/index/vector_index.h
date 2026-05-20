@@ -17,6 +17,7 @@
 #include <optional>
 #include <utility>
 #include <memory>
+#include <atomic>
 
 namespace themis {
 
@@ -409,6 +410,23 @@ public:
         std::string_view vectorField,
         const std::string& relation_type
     );
+
+    /**
+     * @brief Runtime counters for rotary embedding operations.
+     *
+     * Incremented atomically by addEntityWithRotation (total_rotated_entities)
+     * and addEntityWithRelationalRotation (relational_rotations).
+     */
+    struct RotaryStats {
+        uint64_t total_rotated_entities{0};  ///< Cumulative positional-rotation adds
+        uint64_t relational_rotations{0};    ///< Cumulative relational-rotation adds
+    };
+
+    /// Return a snapshot of the rotary embedding counters.
+    RotaryStats getRotaryStats() const {
+        return { rotary_entities_added_.load(std::memory_order_relaxed),
+                 relational_rotations_.load(std::memory_order_relaxed) };
+    }
     
     /// KNN search with rotation-aware query
     /// Rotates the query vector before search
@@ -489,6 +507,10 @@ private:
     // Rotary Embeddings support
     std::unique_ptr<RotaryEmbedding> rotary_embedding_;
     bool rotary_enabled_ = false;
+
+    /// Counters incremented by addEntityWithRotation / addEntityWithRelationalRotation.
+    mutable std::atomic<uint64_t> rotary_entities_added_{0};
+    mutable std::atomic<uint64_t> relational_rotations_{0};
     
     // Advanced Vector Index Integration (v1.5.0+)
     AdvancedIndexConfig advanced_config_;

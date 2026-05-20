@@ -23,6 +23,7 @@
 #include <functional>
 #include <chrono>
 #include <cmath>
+#include <optional>
 
 namespace themis::rag::judge {
 
@@ -58,6 +59,39 @@ enum class EvaluationMode {
 };
 
 /**
+ * @brief Bias score for a document (Wave A3: Fairness & Bias Detection).
+ *
+ * Quantifies detected biases across multiple dimensions (gender, occupational,
+ * ethnicity, intersectional). Added in v1.20.0 for ethical RAG evaluation.
+ *
+ * @reference Bolukbasi et al. (2016) "Man is to Computer Programmer
+ *            as Woman is to Homemaker: Debiasing Word Embeddings"
+ *            NeurIPS 2016, arXiv:1607.06520
+ */
+struct BiasScore {
+    /// Overall bias magnitude (0.0 = no bias, 1.0 = extreme bias)
+    double overall_score = 0.0;
+
+    /// Gender bias component (0.0–1.0)
+    double gender_bias = 0.0;
+
+    /// Occupational stereotype bias (0.0–1.0)
+    double occupational_bias = 0.0;
+
+    /// Ethnicity/cultural bias (0.0–1.0)
+    double ethnicity_bias = 0.0;
+
+    /// Stereotype density: freq(biased_terms) / total_terms in passage
+    double stereotype_density = 0.0;
+
+    /// True if this document likely contains problematic bias
+    bool flagged = false;
+
+    /// Confidence in the bias score (0.0–1.0)
+    double confidence = 0.0;
+};
+
+/**
  * @brief Retrieved document for evaluation context
  */
 struct RetrievedDocument {
@@ -65,6 +99,9 @@ struct RetrievedDocument {
     std::string content;
     double similarity_score;
     std::unordered_map<std::string, std::string> metadata;
+
+    /// Optional bias score (Wave A3: populated by FairnessDetector if enabled)
+    std::optional<BiasScore> bias_score;
 };
 
 /**

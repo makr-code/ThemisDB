@@ -799,26 +799,12 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                 };
             }
             
-            // STUB/SIMULATION NOTE (stub #307):
-            // Purpose: Keep the RoPE stats endpoint contract stable before
-            //          VectorIndexManager/RotaryEmbedding expose runtime counters.
-            // Activation: Always when RoPE is enabled and stats are requested.
-            // Production Delta: Statistics fields are synthetic `N/A` placeholders;
-            //                   operators cannot observe real rotation volume/latency
-            //                   from this endpoint.
-            // Removal Plan: Add counter/timer instrumentation in RotaryEmbedding and
-            //               surface it through VectorIndexManager to this handler.
-            //               See src/index/ROADMAP.md §GNN embeddings, temporal graphs, rotary embeddings.
-            //               Target: v2.2.0.
-            // Note: Detailed rotation statistics are not currently tracked by VectorIndexManager.
-            // Future enhancement: Add statistics tracking to RotaryEmbedding class
-            // - Track rotation count, average time, relational vs positional rotations
-            // - Integrate with performance monitoring infrastructure
+            // Surface real rotation counters collected since the index was opened.
+            auto rope_stats = vector_index_->getRotaryStats();
             response["statistics"] = {
-                {"note", "Detailed statistics not yet available"},
-                {"total_rotated_entities", "N/A"},
-                {"avg_rotation_time_us", "N/A"},
-                {"relational_rotations", "N/A"}
+                {"total_rotated_entities", rope_stats.total_rotated_entities},
+                {"relational_rotations",   rope_stats.relational_rotations},
+                {"note", "Counters are process-lifetime totals; reset on server restart"}
             };
         }
         
@@ -859,33 +845,35 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     [[maybe_unused]] const http::request<http::string_body>& req,
-    [[maybe_unused]] const std::string& permission,
+    const std::string& permission,
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)
 {
-    // Suppress unused parameter warnings for parameters reserved for future use
-    
-    // Basic authentication check - if auth middleware is not configured or not enabled,
-    // allow access (open mode)
     if (!auth_ || !auth_->isEnabled()) {
-        return std::nullopt;  // null = access allowed
+        return std::nullopt; // Open mode — allow all
     }
-    
-    // STUB/SIMULATION NOTE (stub #280):
-    // Purpose: Keep ROPE endpoints reachable behind authentication while the
-    //          handler is still missing the same scope-based RBAC enforcement
-    //          already implemented in VectorApiHandler.
-    // Activation: Always active whenever auth middleware is enabled for ROPE.
-    // Production Delta: After authentication succeeds, all ROPE operations are
-    //                   allowed regardless of the requested `permission`
-    //                   (`vector:read`, `vector:write`, `data:read`,
-    //                   `data:write`). The handler therefore does not enforce
-    //                   per-operation authorization boundaries.
-    // Removal Plan: Reuse token extraction + auth_->authorize(token,
-    //               permission) from VectorApiHandler and fail with HTTP 403 on
-    //               denied scopes (tracked in STUB_INVENTORY #280).
-    
-    return std::nullopt;  // null = access allowed
+
+    auto auth_hdr = req.find(http::field::authorization);
+    if (auth_hdr == req.end()) {
+        return makeErrorResponse(http::status::unauthorized,
+                                 "Authentication required", req);
+    }
+
+    auto token = themis::AuthMiddleware::extractBearerToken(
+        std::string_view(auth_hdr->value().data(), auth_hdr->value().size()));
+    if (!token) {
+        return makeErrorResponse(http::status::unauthorized,
+                                 "Invalid authorization header", req);
+    }
+
+    auto ar = auth_->authorize(*token, permission);
+    if (!ar.authorized) {
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + permission,
+                                 req);
+    }
+
+    return std::nullopt; // Access granted
 }
 
 std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& path) {

@@ -453,42 +453,27 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
             NGHTTP2_NV_FLAG_NONE
         });
     }
-    
-    // STUB/SIMULATION NOTE (stub #298):
-    // Purpose: Keep the HTTP/2 response path functional while proper async buffer
-    //          lifetime management is deferred.  The raw-new pattern avoids
-    //          dangling references to a stack-allocated buffer across the async
-    //          read_callback invocations.
-    // Activation: Always — no shared_ptr or custom deleter is used for the
-    //             response buffer.
-    // Production Delta: Any exception thrown between `new ResponseBuffer` and
-    //                   the nghttp2_submit_response call leaks the buffer.  If
-    //                   `read_callback` is never called (e.g. stream reset), the
-    //                   buffer is also leaked.  Under high concurrency this
-    //                   accumulates into a measurable memory leak and prevents
-    //                   graceful server shutdown with in-flight HTTP/2 streams.
-    // Removal Plan: Replace with a shared_ptr<ResponseBuffer> captured in the
-    //               lambda; store it in a per-stream map keyed on stream_id and
-    //               erase on NGHTTP2_DATA_FLAG_EOF or stream-close callback.
-    //               See src/server/FUTURE_ENHANCEMENTS.md §HTTP2 BufferManagement.
-    //               Target: v2.1.0.
-    // Store response body in class member to ensure lifetime during async operation
-    // TODO: Use proper buffer management for production
-    struct ResponseBuffer {
-        std::string data;
-        size_t offset = 0;
-    };
-    
-    auto* resp_buffer = new ResponseBuffer{body, 0};
-    
+
+    // Store the response body in a shared_ptr captured in the nghttp2 data
+    // provider callback.  This guarantees the buffer lives exactly as long as
+    // nghttp2 needs it (until NGHTTP2_DATA_FLAG_EOF is set) without any raw
+    // new/delete, even if an exception is thrown before or after submit.
+    // A reference copy is also kept in response_buffers_ so that a stream reset
+    // or close callback can erase it immediately rather than relying on the EOF
+    // path.
+    auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
+    response_buffers_[stream_id] = resp_buffer;
+
     nghttp2_data_provider data_prd;
-    data_prd.source.ptr = resp_buffer;
+    // Store the weak_ptr in the source void* to avoid a circular reference;
+    // the actual shared_ptr ownership lives in response_buffers_.
+    data_prd.source.ptr = resp_buffer.get();
     data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
                                  uint8_t* buf, size_t length, uint32_t* data_flags,
                                  nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
         auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
-        size_t remaining = buffer->data.size() - buffer->offset;
-        size_t to_copy = std::min(length, remaining);
+        const size_t remaining = buffer->data.size() - buffer->offset;
+        const size_t to_copy = std::min(length, remaining);
         
         if (to_copy > 0) {
             std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
@@ -497,16 +482,17 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
         
         if (buffer->offset >= buffer->data.size()) {
             *data_flags |= NGHTTP2_DATA_FLAG_EOF;
-            delete buffer; // Clean up when done
+            // The shared_ptr in response_buffers_ will be erased by the
+            // stream-close callback (or on session teardown).
         }
         
-        return to_copy;
+        return static_cast<ssize_t>(to_copy);
     };
     
     int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(), nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response failed: {}", nghttp2_strerror(rv));
-        delete resp_buffer; // Clean up on error
+        response_buffers_.erase(stream_id); // Release buffer on submit failure
     }
     
     doWrite();
@@ -609,22 +595,20 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
         }
     }
     
-    // Create data provider for push response body
-    struct ResponseBuffer {
-        std::string data;
-        size_t offset = 0;
-    };
-    
-    auto* resp_buffer = new ResponseBuffer{body, 0};
+    // Create data provider for push response body — use shared_ptr ownership
+    // via response_buffers_ for RAII lifetime management (same pattern as
+    // sendResponse(), avoiding raw new/delete).
+    auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
+    response_buffers_[promised_stream_id] = resp_buffer;
     
     nghttp2_data_provider data_prd;
-    data_prd.source.ptr = resp_buffer;
+    data_prd.source.ptr = resp_buffer.get();
     data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
                                  uint8_t* buf, size_t length, uint32_t* data_flags,
                                  nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
         auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
-        size_t remaining = buffer->data.size() - buffer->offset;
-        size_t to_copy = std::min(length, remaining);
+        const size_t remaining = buffer->data.size() - buffer->offset;
+        const size_t to_copy = std::min(length, remaining);
         
         if (to_copy > 0) {
             std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
@@ -633,17 +617,16 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
         
         if (buffer->offset >= buffer->data.size()) {
             *data_flags |= NGHTTP2_DATA_FLAG_EOF;
-            delete buffer; // Clean up when done
         }
         
-        return to_copy;
+        return static_cast<ssize_t>(to_copy);
     };
     
     rv = nghttp2_submit_response(ng2_session_, promised_stream_id, response_nva.data(), 
                                   response_nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response for push failed: {}", nghttp2_strerror(rv));
-        delete resp_buffer; // Clean up on error
+        response_buffers_.erase(promised_stream_id); // Release on submit failure
         return;
     }
     

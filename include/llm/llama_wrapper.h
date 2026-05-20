@@ -337,6 +337,29 @@ public:
     // ═══════════════════════════════════════════════════════════
     
     InferenceResponse generate(const InferenceRequest& request) override;
+
+    /**
+     * @brief Generate draft token IDs and raw logits for speculative decoding.
+     *
+     * Evaluates the request prompt, then iteratively samples @p k draft tokens
+     * from the current model while capturing the raw pre-sampling logits row for
+     * each step. The returned rows are compatible with
+     * SpeculativeDecoder::verify().
+     *
+     * @param request Inference request; only prompt and sampling parameters are used.
+     * @param k Number of draft tokens to generate.
+     * @param vocab_size_hint Optional expected vocabulary size; if it differs from
+     *        the loaded model vocabulary, the model vocabulary is used.
+     * @return Draft token IDs and aligned raw logits.
+     *
+     * @throws std::runtime_error if no model/context is loaded or llama_decode fails.
+     * @throws std::invalid_argument if @p k is zero.
+     */
+    [[nodiscard]] DraftTokensResult generateDraftTokens(
+        const InferenceRequest& request,
+        size_t k,
+        size_t vocab_size_hint
+    ) override;
     
     InferenceResponse generateRAG(
         const RAGContext& rag_context,

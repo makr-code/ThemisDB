@@ -578,7 +578,7 @@ GeoExtractionData GeoProcessor::parseShapefile([[maybe_unused]] const std::vecto
             }
         }
         
-    } catch (...) {
+    } catch (const std::exception&) {
         GDALClose(dataset);
         VSIUnlink(vsi_path.c_str());
         throw;
@@ -672,7 +672,7 @@ GeoExtractionData GeoProcessor::parseGeoPackage([[maybe_unused]] const std::vect
             data.properties["feature_count"] = std::to_string(feature_count);
             data.properties["layer_name"] = layer->GetName();
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         GDALClose(dataset);
         VSIUnlink(vsi_path.c_str());
         throw;
@@ -823,7 +823,7 @@ GeoExtractionData GeoProcessor::parseGeoTIFF([[maybe_unused]] const std::vector<
             data.coordinates.emplace_back(center_y, center_x);
         }
         
-    } catch (...) {
+    } catch (const std::exception&) {
         GDALClose(dataset);
         VSIUnlink(vsi_path.c_str());
         throw;

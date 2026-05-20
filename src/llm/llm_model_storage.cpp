@@ -553,40 +553,18 @@ public:
             return model_ids;
         }
         
-        // STUB/SIMULATION NOTE (stub #303):
-        // Purpose: Preserve the `listModels()` API surface until RocksDB prefix
-        //          iteration is exposed through the repository's DB wrapper.
-        // Activation: Always when `config_.db` is set — the current RocksDB wrapper
-        //             lacks `listKeysWithPrefix()` / iterator access here.
-        // Production Delta: `keys` stays empty, so `listModels()` returns an empty
-        //                   vector even when models are stored under
-        //                   `config_.key_prefix`. UI model pickers, admin CLIs, and
-        //                   cleanup routines cannot enumerate persisted models.
-        // Removal Plan: Add prefix-iterator support to RocksDBWrapper (or inject a
-        //               `ListKeysWithPrefixFn` callback) and populate `keys` from the
-        //               actual keyspace before filtering.
-        //               See src/llm/FUTURE_ENHANCEMENTS.md §LLMModelStorage Enumeration.
-        //               Target: v2.0.0.
-        // List all keys with collection prefix
-        // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
-        // This is a placeholder that would need DB iteration support
-        std::string prefix = config_.key_prefix;
-        std::vector<std::string> keys;  // Empty - requires DB scan implementation
-        
-        for (const auto& key : keys) {
-            // Extract model ID from key
-            std::string model_id = key.substr(prefix.length());
-            
-            // Apply filter if provided
+        // Scan all keys with the model prefix using RocksDBWrapper::scanPrefix.
+        const std::string prefix = config_.key_prefix;
+        config_.db->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {
+            std::string mid(key.substr(prefix.size()));
             if (filter) {
-                // Simple substring filter
-                if (model_id.find(*filter) != std::string::npos) {
-                    model_ids.push_back(model_id);
-                }
+                if (mid.find(*filter) != std::string::npos)
+                    model_ids.push_back(std::move(mid));
             } else {
-                model_ids.push_back(model_id);
+                model_ids.push_back(std::move(mid));
             }
-        }
+            return true;
+        });
         
         return model_ids;
     }
@@ -764,58 +742,35 @@ std::vector<json> LLMModelStorage::getEdges(
     }
     
     try {
-        // List all edge keys and filter by direction
-        std::string edge_prefix = config_.key_prefix + "edge:";
-        // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
-        std::vector<std::string> keys;  // Empty - requires DB scan implementation
-        
-        for (const auto& key : keys) {
-            // Parse key to check if it involves this model
-            // Key format: collection:edge:from:to:type
-            size_t parts_start = key.find(edge_prefix) + edge_prefix.length();
-            std::string key_suffix = key.substr(parts_start);
-            
-            // Parse the key components
+        // Scan all edge keys for this model using RocksDBWrapper::scanPrefix.
+        const std::string edge_prefix = config_.key_prefix + "edge:";
+        config_.db->scanPrefix(edge_prefix, [&](std::string_view key, std::string_view value) -> bool {
+            // Key format after edge_prefix: from:to:type
+            std::string key_suffix(key.substr(edge_prefix.size()));
             auto first_colon = key_suffix.find(':');
-            if (first_colon == std::string::npos) continue;
-            
+            if (first_colon == std::string::npos) return true;
             std::string from_id = key_suffix.substr(0, first_colon);
             auto remaining = key_suffix.substr(first_colon + 1);
-            
             auto second_colon = remaining.find(':');
-            if (second_colon == std::string::npos) continue;
-            
+            if (second_colon == std::string::npos) return true;
             std::string to_id = remaining.substr(0, second_colon);
-            
-            // Check if this edge involves the requested model
-            if (from_id != model_id && to_id != model_id) {
-                continue;
-            }
-            
-            auto edge_data = config_.db->get(key);
-            if (edge_data) {
-                try {
-                    std::string edge_str(edge_data->begin(), edge_data->end());
-                    json edge_json = json::parse(edge_str);
-                    
-                    // Filter by direction
-                    bool include = false;
-                    if (direction == "both") {
-                        include = true;
-                    } else if (direction == "outgoing" && edge_json["from"] == model_id) {
-                        include = true;
-                    } else if (direction == "incoming" && edge_json["to"] == model_id) {
-                        include = true;
-                    }
-                    
-                    if (include) {
-                        edges.push_back(edge_json);
-                    }
-                } catch (...) {
-                    // Skip invalid edge data
+            if (from_id != model_id && to_id != model_id) return true;
+            try {
+                json edge_json = json::parse(std::string(value));
+                bool include = false;
+                if (direction == "both") {
+                    include = true;
+                } else if (direction == "outgoing" && edge_json["from"] == model_id) {
+                    include = true;
+                } else if (direction == "incoming" && edge_json["to"] == model_id) {
+                    include = true;
                 }
+                if (include) edges.push_back(std::move(edge_json));
+            } catch (const std::exception&) {
+                // Skip invalid edge data
             }
-        }
+            return true;
+        });
         
         spdlog::info("Found {} edges for model {}", edges.size(), model_id);
     } catch (const std::exception& e) {
@@ -908,63 +863,32 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
             return similar_models;
         }
         
-        // List all embeddings and compute cosine similarity
-        std::string embedding_prefix = config_.key_prefix + "embedding:";
-        // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
-        std::vector<std::string> keys;  // Empty - requires DB scan implementation
-        
-        for (const auto& key : keys) {
-            // Extract model ID from key
-            std::string other_model_id = key.substr(embedding_prefix.length());
-            
-            if (other_model_id == model_id) {
-                continue;  // Skip self
-            }
-            
-            auto other_data = config_.db->get(key);
-            if (!other_data || other_data->empty()) {
-                continue;
-            }
-            
-            // Parse other embedding
-            std::string other_json_str(other_data->begin(), other_data->end());
-            std::vector<float> other_embedding;
-            
+        // Scan all embedding keys using RocksDBWrapper::scanPrefix.
+        const std::string embedding_prefix = config_.key_prefix + "embedding:";
+        config_.db->scanPrefix(embedding_prefix, [&](std::string_view key, std::string_view value) -> bool {
+            std::string other_model_id(key.substr(embedding_prefix.size()));
+            if (other_model_id == model_id) return true; // Skip self
             try {
-                json other_json = json::parse(other_json_str);
-                if (!other_json.contains("values")) {
-                    continue;
+                json other_json = json::parse(std::string(value));
+                if (!other_json.contains("values")) return true;
+                std::vector<float> other_embedding = other_json["values"].get<std::vector<float>>();
+                if (other_embedding.size() != query_embedding.size()) return true;
+                float dot_product = 0.0f, norm_query = 0.0f, norm_other = 0.0f;
+                for (size_t i = 0; i < query_embedding.size(); ++i) {
+                    dot_product += query_embedding[i] * other_embedding[i];
+                    norm_query  += query_embedding[i] * query_embedding[i];
+                    norm_other  += other_embedding[i] * other_embedding[i];
                 }
-                other_embedding = other_json["values"].get<std::vector<float>>();
-                
-                // Skip if dimension mismatch
-                if (other_embedding.size() != query_embedding.size()) {
-                    continue;
-                }
-            } catch (...) {
-                continue;  // Skip invalid embeddings
+                float similarity = 0.0f;
+                if (norm_query > 0 && norm_other > 0)
+                    similarity = dot_product / (std::sqrt(norm_query) * std::sqrt(norm_other));
+                if (similarity >= threshold)
+                    similar_models.push_back({std::move(other_model_id), similarity});
+            } catch (const std::exception&) {
+                // Skip invalid embedding data
             }
-            
-            // Compute cosine similarity
-            float dot_product = 0.0f;
-            float norm_query = 0.0f;
-            float norm_other = 0.0f;
-            
-            for (size_t i = 0; i < query_embedding.size(); i++) {
-                dot_product += query_embedding[i] * other_embedding[i];
-                norm_query += query_embedding[i] * query_embedding[i];
-                norm_other += other_embedding[i] * other_embedding[i];
-            }
-            
-            float similarity = 0.0f;
-            if (norm_query > 0 && norm_other > 0) {
-                similarity = dot_product / (std::sqrt(norm_query) * std::sqrt(norm_other));
-            }
-            
-            if (similarity >= threshold) {
-                similar_models.push_back({other_model_id, similarity});
-            }
-        }
+            return true;
+        });
         
         // Sort by similarity (descending) and limit to k
         std::sort(similar_models.begin(), similar_models.end(),

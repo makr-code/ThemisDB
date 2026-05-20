@@ -443,3 +443,72 @@ TEST(KnowledgeBaseTest, KB_YP_04_clear_reverts_to_builtin_parser) {
     // Built-in parser tries to open the file and returns -1 for missing files.
     EXPECT_EQ(result, -1);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Concurrency / Thread-Safety items #41–45: shared_mutex + lock-under-callback
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ES-21: Concurrent readers (explain/factCount/ruleCount) must not block each
+//        other under the shared_lock upgrade.
+TEST(ExpertSystemEngineTest, ES21_ConcurrentReadersDoNotBlockEachOther) {
+    ExpertSystemEngine ese;
+    for (int i = 0; i < 10; ++i)
+        (void)ese.assertFact("s" + std::to_string(i), "p", "o");
+
+    constexpr int kThreads = 8;
+    std::atomic<int> successes{0};
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+
+    // Mix of read-only operations that must all complete without deadlock.
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&ese, &successes, t]() {
+            if (t % 3 == 0)      { (void)ese.factCount(); }
+            else if (t % 3 == 1) { (void)ese.ruleCount(); }
+            else                 { (void)ese.explain("non_existent_id"); }
+            ++successes;
+        });
+    }
+    for (auto& th : threads) th.join();
+    EXPECT_EQ(successes.load(), kThreads);
+}
+
+// ES-22: forwardChain() with a ScorerFn that calls assertFact on the same
+//        engine must NOT deadlock (lock-under-callback fix, items #41–45).
+TEST(ExpertSystemEngineTest, ES22_ForwardChainScorerCallbackNoDeadlock) {
+    ExpertSystemEngine ese;
+
+    // Rule: anything with predicate "trigger" → "result"
+    HornClause rule;
+    rule.id = "r_callback";
+    rule.priority = 1;
+    rule.ml_confidence_threshold = 0.5;
+    TriplePattern cond;
+    cond.subject   = "?x";
+    cond.predicate = "trigger";
+    cond.object    = "yes";
+    rule.conditions.push_back(cond);
+    TriplePattern cons;
+    cons.subject   = "?x";
+    cons.predicate = "result";
+    cons.object    = "done";
+    rule.consequents.push_back(cons);
+    ese.knowledgeBase().addRule(rule);
+
+    // Inject a scorer function that tries to re-enter the engine via assertFact.
+    // With the lock-under-callback fix the scorer is called without holding
+    // mutex_, so this assert should not deadlock.
+    ese.setMLScorerFn([&ese](const HornClause&, const std::vector<Fact>&) -> double {
+        // This would deadlock if forwardChain() still held the mutex here.
+        (void)ese.assertFact("side_effect", "scorer_ran", "true");
+        return 1.0;  // Always confident → allow rule to fire.
+    });
+
+    (void)ese.assertFact("A", "trigger", "yes");
+
+    // Must complete without hanging.
+    const int fired = ese.forwardChain(5);
+    EXPECT_GE(fired, 1);
+    // Side-effect fact added by scorer callback must be visible.
+    EXPECT_GE(ese.factCount(), 2u);
+}

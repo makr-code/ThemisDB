@@ -179,7 +179,7 @@ static std::vector<std::string> buildChunkWhitelist(
             hasAnyFilter = true;
             for (const auto& t : filters["tags"]) if (t.is_string()) wantedTags.insert(t.get<std::string>());
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     if (!hasAnyFilter) return {};
 
@@ -197,12 +197,16 @@ static std::vector<std::string> buildChunkWhitelist(
                 }
             }
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     auto jsonPathEq = [](const json& j, const std::string& path, const json& expected) -> bool {
         auto cur = jsonPathRef(j, path);
         if (!cur) return false;
-        try { return cur->dump() == expected.dump(); } catch (...) { return false; }
+        try {
+            return cur->dump() == expected.dump();
+        } catch (const std::exception&) {
+            return false;
+        }
     };
 
     std::vector<std::string> whitelist;
@@ -231,7 +235,7 @@ static std::vector<std::string> buildChunkWhitelist(
                         // allow string/numeric loose comparison fallback
                         try {
                             if (v.dump() != kv.second.dump()) { allMatch = false; break; }
-                        } catch (...) { allMatch = false; break; }
+                        } catch (const std::exception&) { allMatch = false; break; }
                     } else {
                         if (v.dump() != kv.second.dump()) { allMatch = false; break; }
                     }
@@ -266,17 +270,32 @@ static std::vector<std::string> buildChunkWhitelist(
                         // RANGE semantics (numeric). Convert vptr to number if possible.
                         double numeric_val = 0.0; bool ok = false;
                         if (vptr->is_number()) { numeric_val = vptr->get<double>(); ok = true; }
-                        else if (vptr->is_string()) { try { numeric_val = std::stod(vptr->get<std::string>()); ok = true; } catch (...) { ok = false; } }
+                        else if (vptr->is_string()) {
+                            try {
+                                numeric_val = std::stod(vptr->get<std::string>());
+                                ok = true;
+                            } catch (const std::exception&) {
+                                ok = false;
+                            }
+                        }
                         if (ok) {
                             double vmin = -std::numeric_limits<double>::infinity();
                             double vmax =  std::numeric_limits<double>::infinity();
                             if (cond.contains("min")) {
                                 if (cond["min"].is_number()) vmin = cond["min"].get<double>();
-                                else if (cond["min"].is_string()) { try { vmin = std::stod(cond["min"].get<std::string>()); } catch (...) {} }
+                                else if (cond["min"].is_string()) {
+                                    try {
+                                        vmin = std::stod(cond["min"].get<std::string>());
+                                    } catch (const std::exception&) {}
+                                }
                             }
                             if (cond.contains("max")) {
                                 if (cond["max"].is_number()) vmax = cond["max"].get<double>();
-                                else if (cond["max"].is_string()) { try { vmax = std::stod(cond["max"].get<std::string>()); } catch (...) {} }
+                                else if (cond["max"].is_string()) {
+                                    try {
+                                        vmax = std::stod(cond["max"].get<std::string>());
+                                    } catch (const std::exception&) {}
+                                }
                             }
                             match = (numeric_val >= vmin && numeric_val <= vmax);
                         } else {
@@ -286,7 +305,7 @@ static std::vector<std::string> buildChunkWhitelist(
                         // default: equality
                         match = (vptr->dump() == cond.dump());
                     }
-                } catch (...) { match = false; }
+                } catch (const std::exception&) { match = false; }
                 if (!match) return true; // mismatch → reject
             }
             // This content matches → add all its chunks to whitelist
@@ -302,9 +321,9 @@ static std::vector<std::string> buildChunkWhitelist(
                             if (cid.is_string()) whitelist.push_back(std::string("chunks:") + cid.get<std::string>());
                         }
                     }
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // ignore parsing errors
         }
         return true;
@@ -511,7 +530,7 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
         if (j.contains("ids") && j["ids"].is_array() && !j["ids"].empty()) {
             return j["ids"][0].get<std::string>();
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
     return std::nullopt;
 }
 
@@ -596,7 +615,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         for (const auto& mv : cj["skip_compressed_mimes"]) if (mv.is_string()) skip_mimes.push_back(mv.get<std::string>());
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
 
             std::string matched_skip_prefix;
             auto should_compress = [&](const std::string& mime, size_t size) -> bool {
@@ -652,7 +671,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         else if (compression_ratio <= 10.0f) metrics_.comp_ratio_le_10.fetch_add(1);
                         else if (compression_ratio <= 100.0f) metrics_.comp_ratio_le_100.fetch_add(1);
                         else metrics_.comp_ratio_le_inf.fetch_add(1);
-                    } catch (...) {}
+                    } catch (const std::exception&) {}
                 } else {
                     // Fallback to raw (compression failed or increased size)
                     to_store.assign(bb.begin(), bb.end());
@@ -681,7 +700,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         else if (matched_skip_prefix == "video/" || matched_skip_prefix.rfind("video/",0)==0) metrics_.compression_skipped_video_total.fetch_add(1);
                         else if (matched_skip_prefix == "application/zip" || matched_skip_prefix == "application/gzip") metrics_.compression_skipped_zip_total.fetch_add(1);
                     }
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
 
             // Optional encryption of blob based on config:content_encryption_schema and user_context
@@ -695,7 +714,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     encrypt_blob = ej.value("enabled", false);
                     encryption_key_id = ej.value("key_id", "content_blob");
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
             if (encrypt_blob && field_encryption_) {
                 // Kontextuelle Ableitung via HKDF (salt = user_context) – nutzt aktuelle Key-Version.
                 // Falls user_context leer, verwende "anonymous" als Fallback
@@ -727,7 +746,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     // Only add uncompressed total if we didn't already add it for compressed path
                     if (!meta.compressed) metrics_.uncompressed_bytes_total.fetch_add(static_cast<uint64_t>(original_size));
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
         // Chunks verarbeiten
         std::vector<std::string> chunk_ids;
@@ -757,11 +776,11 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     }
                 }
             }
-        } catch (const std::exception& e) {
+        } catch (const nlohmann::json::exception& e) {
             // Config parsing failed - continue with defaults (auto_fulltext_index = false)
             // This is acceptable as the feature is opt-in
             THEMIS_DEBUG("Failed to parse content config for fulltext index: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             // Unknown error during config parsing - continue with defaults
             THEMIS_DEBUG("Unknown error parsing content config for fulltext index");
         }
@@ -919,12 +938,12 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         if (f == "tags" && target) { delete target; }
                         // Hänge verschlüsselte Strings in eine Zusatzliste (wird später gemerged)
                         if (!meta.extracted_metadata.contains("__enc_meta")) {
-                            try { meta.extracted_metadata["__enc_meta"] = json::object(); } catch (...) {}
+                            try { meta.extracted_metadata["__enc_meta"] = json::object(); } catch (const std::exception&) {}
                         }
                         try {
                             meta.extracted_metadata["__enc_meta"][f + "_encrypted"] = enc_b64;
                             meta.extracted_metadata["__enc_meta"][f + "_enc"] = true;
-                        } catch (...) {}
+                        } catch (const std::exception&) {}
                     } catch (const std::exception& ex) {
                         THEMIS_WARN("vector metadata encryption field {} failed: {}", f, ex.what());
                         if (f == "tags" && target) { delete target; }
@@ -982,8 +1001,6 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         return Status::OK();
     } catch (const std::exception& e) {
         return Status::Error(std::string("import error: ") + e.what());
-    } catch (...) {
-        return Status::Error("import error");
     }
 }
 
@@ -1008,7 +1025,7 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
                         for (const auto& f : mcfg["fields"]) if (f.is_string()) meta_fields.push_back(f.get<std::string>());
                     }
                 }
-            } catch (...) { meta_encrypt_enabled = false; }
+            } catch (const std::exception&) { meta_encrypt_enabled = false; }
             if (meta_encrypt_enabled) {
                 auto enc_section = j["_encrypted_meta"];
                 std::string ctx = user_context.empty() ? std::string("anonymous") : user_context;
@@ -1034,7 +1051,7 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
             }
         }
         return ContentMeta::fromJson(j);
-    } catch (...) { return std::nullopt; }
+    } catch (const std::exception&) { return std::nullopt; }
 }
 std::optional<std::string> ContentManager::getContentBlob(const std::string& content_id, const std::string& user_context) {
     std::string id = normalizeId(content_id, "content:");
@@ -1069,7 +1086,7 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
                     THEMIS_INFO("Content blob {} uses outdated key version {} (latest: {}), triggering re-encryption", 
                                 id, blob.key_version, latest_version);
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // If metadata check fails, skip re-encryption
             }
             
@@ -1132,7 +1149,7 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
         std::string s(lv->begin(), lv->end());
         json j = json::parse(s);
         if (j.contains("ids")) ids = j["ids"].get<std::vector<std::string>>();
-    } catch (...) { return out; }
+    } catch (const std::exception&) { return out; }
     for (const auto& cid : ids) {
         auto v = storage_->get(std::string("chunk:") + cid);
         if (!v) continue;
@@ -1140,7 +1157,7 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
             std::string s(v->begin(), v->end());
             json j = json::parse(s);
             out.push_back(ChunkMeta::fromJson(j));
-        } catch (...) { continue; }
+        } catch (const std::exception&) { continue; }
     }
     std::sort(out.begin(), out.end(), [](const ChunkMeta& a, const ChunkMeta& b){ return a.seq_num < b.seq_num; });
     return out;
@@ -1154,7 +1171,7 @@ std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
         std::string s(v->begin(), v->end());
         json j = json::parse(s);
         return ChunkMeta::fromJson(j);
-    } catch (...) { return std::nullopt; }
+    } catch (const std::exception&) { return std::nullopt; }
 }
 
 // ===================== Content Assembly & Navigation =====================
@@ -1451,7 +1468,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             if (sc.contains("beta")) beta = sc["beta"].get<double>();
             if (sc.contains("gamma")) gamma = sc["gamma"].get<double>();
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     // Erzeuge Map pk->score und Queue für Expansion
     std::unordered_map<std::string, double> bestScore; bestScore.reserve(base.size()*2);
@@ -1514,7 +1531,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
             std::unordered_set<std::string> allowed(allow.begin(), allow.end());
             out.erase(std::remove_if(out.begin(), out.end(), [&](const auto& p){ return allowed.find(p.first) == allowed.end(); }), out.end());
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     std::sort(out.begin(), out.end(), [](const auto& a, const auto& b){ return a.second > b.second; });
     if (out.size() > static_cast<size_t>(k)) out.resize(static_cast<size_t>(k));
@@ -1577,7 +1594,7 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
                 }
                 return false; // Stop scanning
             }
-        } catch (...) {}
+        } catch (const std::exception&) {}
         return true; // Continue scanning
     });
     
@@ -1608,7 +1625,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                 if (j.contains("parent_id") && j["parent_id"].get<std::string>() == *dir_id) {
                     results.push_back(ContentMeta::fromJson(j));
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
             return true;
         });
     } else {
@@ -1630,7 +1647,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                         }
                     }
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
             return true;
         });
     }
@@ -2585,7 +2602,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
                 }
             }
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     if (auto_fulltext_index && secondary_index_) {
         if (!secondary_index_->hasFulltextIndex("chunk", "text"))
@@ -2779,4 +2796,3 @@ ContentManager::Stats ContentManager::getStats() {
 
 } // namespace content
 } // namespace themis
-

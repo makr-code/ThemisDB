@@ -1231,7 +1231,13 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         // Step 4: Load Quantized Base Model
         // ===================================================================
-        auto quantized_model = loadQuantizedBaseModel(impl_->config_.base_model_path, qlora_config);
+        // Resolve the model path: use the injected provider if available, otherwise
+        // use the configured path directly.
+        std::string resolved_model_path = impl_->config_.base_model_path;
+        if (impl_->config_.model_path_provider) {
+            resolved_model_path = impl_->config_.model_path_provider(impl_->config_.base_model_path);
+        }
+        auto quantized_model = loadQuantizedBaseModel(resolved_model_path, qlora_config);
         if (!quantized_model) {
             throw std::runtime_error("Failed to load quantized base model");
         }
@@ -1540,44 +1546,24 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
     
     // Create quantized model
     auto quantized_model = std::make_unique<QuantizedModel>(model_config);
-    
-    // STUB/SIMULATION NOTE (stub #289):
-    // Purpose: Allow the quantization pipeline to produce a QuantizedModel object
-    //          without parsing a real GGUF file, so that unit tests and CI runs
-    //          without model assets can still exercise the training loop.
-    // Activation: Always active when GGUF model file is absent or path lookup fails
-    //             before the real GGUF parser block below.
-    // Production Delta: Only 3 fixed-dimension (768×768) random-weight layers are
-    //                   created; real models may have 12–96 layers of varying shapes.
-    //                   Training on this synthetic model produces meaningless weights
-    //                   and must not be used in production.
-    // Removal Plan: Integrate LLMModelStorage path lookup (see themis_help_lora.cpp
-    //               TODO) so that a correct GGUF path is always available; remove
-    //               synthetic layer loop once path lookup is guaranteed.
-    //               Target: same milestone as LLMModelStorage integration (Q2 2027).
-    // For now, create some synthetic layers
-    // In production, we'd actually load from the model file
-    // This is a placeholder for the actual model loading logic
-    
-    // Add a few test layers
-    for (int i = 0; i < 3; ++i) {
-        std::string layer_name = "layer_" + std::to_string(i);
-        Tensor weights = tensor_utils::randn({768, 768});  // Standard transformer dimension
-        quantized_model->add_layer(layer_name, weights);
-    }
-    
-    spdlog::info("Created quantized model with {} layers (placeholder)", quantized_model->num_layers());
-    
-    // Load actual model from GGUF file
+
+    // Attempt to load layers from the real GGUF file first.
+    // Synthetic layers are only created as a fallback when the file is absent, so
+    // that CI runs without model assets can still exercise the training pipeline.
     try {
-        // Try to open and parse GGUF file
         if (!std::filesystem::exists(model_path)) {
-            spdlog::error("GGUF model file not found: {}", model_path);
-            // Fallback to synthetic model with warnings
-            spdlog::warn("Falling back to synthetic model - production training NOT RECOMMENDED");
+            spdlog::warn("GGUF model file not found at '{}' — "
+                         "falling back to synthetic 3-layer model. "
+                         "Production training on synthetic weights is NOT supported.",
+                         model_path);
+            // Synthetic fallback: 3 fixed-dimension layers.
+            for (int i = 0; i < 3; ++i) {
+                quantized_model->add_layer("layer_" + std::to_string(i),
+                                           tensor_utils::randn({768, 768}));
+            }
             return quantized_model;
         }
-        
+
         std::ifstream gguf_file(model_path, std::ios::binary);
         if (!gguf_file.is_open()) {
             spdlog::error("Failed to open GGUF file: {}", model_path);
@@ -1697,10 +1683,17 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
                     quantized_model->num_layers());
         
     } catch (const std::exception& e) {
-        spdlog::error("Exception while loading GGUF model: {}", e.what());
-        spdlog::warn("Continuing with fallback synthetic model");
+        spdlog::error("Exception while loading GGUF model '{}': {}", model_path, e.what());
+        spdlog::warn("Falling back to synthetic 3-layer model — production training NOT supported");
+        // Ensure at least the synthetic fallback is populated.
+        if (quantized_model->num_layers() == 0) {
+            for (int i = 0; i < 3; ++i) {
+                quantized_model->add_layer("layer_" + std::to_string(i),
+                                           tensor_utils::randn({768, 768}));
+            }
+        }
     }
-    
+
     return quantized_model;
 }
 

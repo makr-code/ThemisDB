@@ -20,6 +20,9 @@
 #include <thread>
 #include <chrono>
 #include <stdexcept>
+#include <functional>
+#include <iomanip>
+#include <sstream>
 
 namespace themis::rag::judge {
 
@@ -220,28 +223,34 @@ std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
     // Activation: Called only when config.use_mock_mode == true or allow_mock == true
     //             AND engine == nullptr.  Production deployments always inject a real
     //             engine; the mock path is never reached.
-    // Production Delta: Returns a hardcoded score=4.0 / confidence=0.85 regardless
-    //                   of the prompt content.  Real scores are model-generated and
-    //                   prompt-dependent.  As of 2026-04-21 the caller (evaluateWithLLM)
-    //                   sets ParsedResponse::is_mock=true on the parsed result so
-    //                   callers can filter mock data from production dashboards
-    //                   (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7 — implemented).
+    // Production Delta: Uses deterministic prompt-hash heuristics to produce
+    //                   prompt-dependent synthetic scores/confidence. Results are
+    //                   still non-model mock outputs. As of 2026-04-21 the caller
+    //                   (evaluateWithLLM) sets ParsedResponse::is_mock=true on the
+    //                   parsed result so callers can filter mock data from
+    //                   production dashboards (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7
+    //                   — implemented).
     // Roadmap ref: src/rag/ROADMAP.md § "Phase 9: AI Reliability & Safety Evaluation Program"
     // Removal Plan: Full removal when LLMTokenBudgetManager (Gap 6) and a real engine
     //               DI path are the only supported entry points.  Track in
     //               rag/FUTURE_ENHANCEMENTS.md §Gap 7.
     // Roadmap ref: src/rag/FUTURE_ENHANCEMENTS.md § "LLMIntegration and LLMJudgeIntegration: Replace Stub/Mock Mode"
-    (void)prompt; // unused in mock path — intentional
     THEMIS_DEBUG("Using mock inference function (for testing only)");
-    
-    // Return a mock JSON response
-    return R"({
-  "score": 4.0,
-  "confidence": 0.85,
-  "reasoning": "This is a mock evaluation response. The actual LLM inference engine is not connected.",
-  "supporting_claims": ["Mock claim 1", "Mock claim 2"],
-  "unsupported_claims": []
-})";
+
+    const auto prompt_hash = std::hash<std::string>{}(prompt);
+    const double score = 2.5 + static_cast<double>(prompt_hash % 251) / 100.0;  // [2.50, 5.00]
+    const double confidence = 0.60 + static_cast<double>((prompt_hash >> 8U) % 351U) / 1000.0;  // [0.600, 0.951]
+
+    std::ostringstream mock_response;
+    mock_response << std::fixed << std::setprecision(3)
+                  << "{\n"
+                  << "  \"score\": " << score << ",\n"
+                  << "  \"confidence\": " << confidence << ",\n"
+                  << "  \"reasoning\": \"Mock evaluation generated from prompt hash. Replace with a real LLM engine for production scoring.\",\n"
+                  << "  \"supporting_claims\": [\"Mock claim " << (1U + (prompt_hash % 3U)) << "\"],\n"
+                  << "  \"unsupported_claims\": []\n"
+                  << "}";
+    return mock_response.str();
 }
 
 bool LLMJudgeIntegration::isMockMode() const {
@@ -249,4 +258,3 @@ bool LLMJudgeIntegration::isMockMode() const {
 }
 
 } // namespace themis::rag::judge
-

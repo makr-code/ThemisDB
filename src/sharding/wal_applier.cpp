@@ -110,7 +110,15 @@ void WALApplier::resetStatistics() {
 }
 
 bool WALApplier::applyEntry(const WALEntry& entry) {
-    // Retry logic
+    // Exponential backoff for transient apply failures.
+    themis::utils::RetryConfig backoff_cfg;
+    backoff_cfg.max_attempts       = static_cast<uint32_t>(config_.max_apply_retries);
+    backoff_cfg.initial_backoff_ms = config_.retry_initial_delay_ms;
+    backoff_cfg.max_backoff_ms     = 30'000u;
+    backoff_cfg.multiplier         = 2.0;
+    backoff_cfg.jitter_fraction    = 0.0;
+    themis::utils::ExponentialBackoff backoff(backoff_cfg);
+
     for (size_t attempt = 0; attempt < config_.max_apply_retries; ++attempt) {
         try {
             // Call apply handler
@@ -118,16 +126,16 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
                 return true;
             }
         } catch (const std::exception& e) {
-            std::cerr << "WALApplier: Exception applying entry at LSN " 
+            std::cerr << "WALApplier: Exception applying entry at LSN "
                       << entry.lsn.toString() << ": " << e.what() << std::endl;
         }
-        
-        // Retry delay
+
+        // Wait before the next attempt (no-op on the last iteration).
         if (attempt < config_.max_apply_retries - 1) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100 * (attempt + 1)));
+            backoff.wait();
         }
     }
-    
+
     return false;
 }
 

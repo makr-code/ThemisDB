@@ -111,6 +111,20 @@ DistributedTransactionManager::~DistributedTransactionManager() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Remote-decision transport bridge (stub #279)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void DistributedTransactionManager::setRemoteDecisionFn(RemoteDecisionFn fn) {
+    std::lock_guard<std::mutex> lk(remote_decision_fn_mutex_);
+    remote_decision_fn_ = std::move(fn);
+}
+
+void DistributedTransactionManager::clearRemoteDecisionFn() {
+    std::lock_guard<std::mutex> lk(remote_decision_fn_mutex_);
+    remote_decision_fn_ = RemoteDecisionFn{};
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Coordinator API
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -744,19 +758,34 @@ void DistributedTransactionManager::runPhase2Unlocked(
 
     for (const auto& part : parts) {
         if (!part.callback) {
-            // STUB/SIMULATION NOTE (stub #279):
-            // Purpose: Preserve in-process phase-2 fan-out while the remote
-            //          commit/abort RPC path is still missing.
-            // Activation: Reached when a participant is registered only by
-            //             node/endpoint and provides no local callback.
-            // Production Delta: The coordinator durably records COMMIT/ABORT in
-            //                   its own WAL, but the final decision is never
-            //                   delivered to the remote participant. Remote
-            //                   nodes can remain prepared/orphaned until a real
-            //                   transport replays the decision.
-            // Removal Plan: Route phase-2 decisions through shard RPC / mTLS
-            //               transport instead of skipping callback-less
-            //               participants (tracked in STUB_INVENTORY #279).
+            // Resolve remote-decision transport (stub #279 → bridged).
+            RemoteDecisionFn remote_fn;
+            {
+                std::lock_guard<std::mutex> lk(remote_decision_fn_mutex_);
+                remote_fn = remote_decision_fn_;
+            }
+            if (remote_fn && !part.endpoint.empty()) {
+                const std::string nid = part.node_id;
+                const std::string ep  = part.endpoint;
+                const std::string tid = txn_id;
+                const std::string cid = coordinator_id_;
+                const bool        dc  = do_commit;
+                futures.push_back(submitTask([remote_fn, nid, ep, tid, cid, dc]() {
+                    try {
+                        if (!remote_fn(nid, ep, tid, dc)) {
+                            THEMIS_WARN("DistributedTransactionManager [{}] remote {} {} NACK for txn={}",
+                                        cid, (dc ? "COMMIT" : "ABORT"), nid, tid);
+                        }
+                    } catch (const std::exception& ex) {
+                        THEMIS_ERROR("DistributedTransactionManager [{}] remote {} {} threw for node={} txn={}: {}",
+                                     cid, (dc ? "COMMIT" : "ABORT"), nid, tid, ex.what());
+                    }
+                }));
+            } else {
+                THEMIS_WARN("DistributedTransactionManager [{}] txn={} participant {} has no callback "
+                            "and no RemoteDecisionFn injected — phase-2 decision not delivered",
+                            coordinator_id_, txn_id, part.node_id);
+            }
             continue;
         }
 
