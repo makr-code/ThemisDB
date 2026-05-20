@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: replication_manager.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=4, Debt=0, C=271, H=1107, M=570, L=0
+ * ThemisDB | File: replication_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 6310
+ * Open Issues: TODOs=1, Stubs=4, Gaps=10, Unimpl=0, Mock=1, Sim=4, Debt=0
+ * Gap Correlation: internal=10 | external_v3=1948 | delta=1938 | status=divergent
+ * External Severity (v3): C=271, H=1107, M=570
+ * PR: #4182 feat(replication): Compressed Replication v1.6.0 â€” CI, adaptive f... (2026-03-13T16:42:57Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
