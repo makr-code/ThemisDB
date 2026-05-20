@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (Phase 31 Stub Remediation — 2 stubs resolved)
+- **Stub #279 RESOLVED — remote phase-2 decision fan-out bridge for callback-less participants** (`include/transaction/distributed_transaction_manager.h`, `src/transaction/distributed_transaction_manager.cpp`, `tests/test_transaction_distributed_2pc.cpp`)
+  - Added `DistributedTxnManagerConfig::remote_phase2_dispatch` callback to deliver COMMIT/ABORT to remote participants (`callback == nullptr`).
+  - `runPhase2Unlocked()` now dispatches remote phase-2 decisions through the injected bridge instead of skipping remote participants.
+  - Added focused tests for remote ABORT and remote COMMIT dispatch behavior.
+- **Stub #294 RESOLVED — import schema preview/validate now runtime-driven (no pg-wire compile gate)** (`src/server/import_api_handler.cpp`)
+  - Removed compile-time `THEMIS_ENABLE_POSTGRES_WIRE` 501-gating from schema preview/validation handlers.
+  - Added runtime importer selection (`importer_`/`s3_importer_`) plus schema payload validation and explicit 422/503 error responses.
+
 ### Added (Phase 30 Stub Remediation — 2 stubs resolved)
 - **Stub #282 RESOLVED — AI plugin generation now endpoint-backed** (`include/ai/ai_plugin_generator.h`, `src/ai/ai_plugin_generator.cpp`, `tests/test_ai_plugin_generator.cpp`)
   - `AIPluginGenerator::Config` now supports injectable `EndpointInvokerFn` transport callbacks.

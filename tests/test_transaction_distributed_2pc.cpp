@@ -1094,3 +1094,78 @@ TEST_F(DistributedTxnManagerTest, CC1_SuccessfulWALWriteDoesNotSuppressPhase2) {
     EXPECT_GE(p1->commitCount(), 1);
     EXPECT_GE(p2->commitCount(), 1);
 }
+
+// #279: Callback-less remote participants must receive Phase-2 ABORT through
+// the configured remote dispatcher.
+TEST_F(DistributedTxnManagerTest, Stub279_RemoteAbortUsesConfiguredPhase2Dispatcher) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> dispatch_calls{0};
+    std::atomic<int> abort_calls{0};
+    std::atomic<int> commit_calls{0};
+    cfg.remote_phase2_dispatch =
+        [&dispatch_calls, &abort_calls, &commit_calls](
+            const std::string& /*txn_id*/,
+            const std::string& node_id,
+            const std::string& endpoint,
+            bool do_commit) {
+            ++dispatch_calls;
+            EXPECT_EQ(node_id, "remote-node");
+            EXPECT_EQ(endpoint, "remote-node:9090");
+            if (do_commit) {
+                ++commit_calls;
+            } else {
+                ++abort_calls;
+            }
+            return true;
+        };
+
+    DistributedTransactionManager mgr_with_dispatch("coord-279-abort", cfg);
+    const auto tid = mgr_with_dispatch.beginDistributed({makeRemoteParticipant("remote-node")});
+    const auto prepare = mgr_with_dispatch.prepareDistributed(tid);
+
+    EXPECT_FALSE(prepare.ok);
+    EXPECT_EQ(dispatch_calls.load(), 1);
+    EXPECT_EQ(abort_calls.load(), 1);
+    EXPECT_EQ(commit_calls.load(), 0);
+}
+
+// #279: Callback-less remote participants must receive Phase-2 COMMIT through
+// the configured remote dispatcher when all votes are COMMIT.
+TEST_F(DistributedTxnManagerTest, Stub279_RemoteCommitUsesConfiguredPhase2Dispatcher) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    std::atomic<int> dispatch_calls{0};
+    std::atomic<int> commit_calls{0};
+    cfg.remote_phase2_dispatch =
+        [&dispatch_calls, &commit_calls](
+            const std::string& /*txn_id*/,
+            const std::string& node_id,
+            const std::string& endpoint,
+            bool do_commit) {
+            ++dispatch_calls;
+            EXPECT_EQ(node_id, "remote-node");
+            EXPECT_EQ(endpoint, "remote-node:9090");
+            EXPECT_TRUE(do_commit);
+            if (do_commit) ++commit_calls;
+            return true;
+        };
+
+    DistributedTransactionManager mgr_with_dispatch("coord-279-commit", cfg);
+    const auto tid = mgr_with_dispatch.beginDistributed({
+        makeParticipant("local-node", p1.get()),
+        makeRemoteParticipant("remote-node")
+    });
+
+    ASSERT_TRUE(mgr_with_dispatch.prepareDistributed(tid).ok);
+    ASSERT_TRUE(mgr_with_dispatch.commitDistributed(tid).ok);
+
+    EXPECT_EQ(dispatch_calls.load(), 1);
+    EXPECT_EQ(commit_calls.load(), 1);
+}
