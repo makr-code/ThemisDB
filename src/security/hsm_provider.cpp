@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: hsm_provider.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 83/100
- * Gap Summary: total=58; TODO=1, Stub=47, Unimpl=0, Mock=1, Sim=7, Debt=2, C=0, H=112, M=23, L=0
+ * ThemisDB | File: hsm_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 83/100 | Lines: 522
+ * Open Issues: TODOs=1, Stubs=47, Gaps=58, Unimpl=0, Mock=1, Sim=7, Debt=2
+ * Gap Correlation: internal=58 | external_v3=135 | delta=77 | status=divergent
+ * External Severity (v3): C=0, H=112, M=23
+ * PR: #3454 fix: Wire PKCS#11 HSM production path â€” fix duplicate source, har... (2026-03-12T07:17:45Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
