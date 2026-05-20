@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (Phase 28 Stub Remediation — 2 stubs resolved)
+- **Stub #293 RESOLVED — AQL fulltext function registry wiring activated** (`src/query/functions/function_registry.cpp`)
+  - `registerBuiltinFunctions()` now calls `registerFulltextFunctions(registry)` during standard bootstrap.
+  - FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE, and DOUBLE_METAPHONE are now available without separate manual registration.
+- **Stub #295 RESOLVED — SecureTransportClient LZ4 compression + codec metadata** (`src/sharding/secure_transport_client.cpp`)
+  - Added `CompressionType::LZ4` compression path using `utils::lz4_compress(...)`.
+  - Transfer payload metadata now emits the actual active codec (`lz4` or `zstd`) instead of always reporting `zstd` for compressed payloads.
+
 ### Added (Phase 27 Stub Remediation — 2 stubs resolved)
 - **Stub #283 RESOLVED — PM_LOAD_ADMIN_MODEL / PM_LIST_ADMIN_MODELS registry wiring** (`src/query/functions/process_mining_functions.cpp`, `tests/test_new_aql_functions.cpp`)
   - Added FunctionContext-driven registry lookup via `pm_admin_models_registry` with support for direct array or `{ "models": [...] }` envelope.

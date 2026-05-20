@@ -23,6 +23,7 @@
 
 #include "sharding/secure_transport_client.h"
 #include "utils/cursor.h"
+#include "utils/lz4_codec.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <chrono>
@@ -80,22 +81,16 @@ bool SecureTransportClient::compressData(const std::string& data, std::string& c
                 return true;
             }
         }
-        // STUB/SIMULATION NOTE (stub #295):
-        // Purpose: Reserve the LZ4 compression slot in the negotiation chain so
-        //          that future LZ4 support can be added without changing callers.
-        //          Currently the zstd branch above handles all compression when
-        //          THEMIS_HAS_ZSTD is defined; LZ4 is faster but not yet linked.
-        // Activation: Always — no THEMIS_HAS_LZ4 gate is present; the LZ4
-        //             compression path is not implemented.
-        // Production Delta: Sharding payloads that prefer LZ4 (e.g. low-latency
-        //                   streaming paths) fall through to the uncompressed
-        //                   transfer path, increasing inter-shard bandwidth.
-        // Removal Plan: Link the lz4 vcpkg package; add a `#ifdef THEMIS_HAS_LZ4`
-        //               branch that calls LZ4_compress_default() / LZ4_decompress_safe();
-        //               add the matching decompressor in decompressPayload().
-        //               See src/sharding/FUTURE_ENHANCEMENTS.md §LZ4 Transport.
-        //               Target: v2.1.0.
-        // TODO: Add LZ4 support in the future
+        if (config_.compression == Config::CompressionType::LZ4) {
+            auto compressed_bytes = utils::lz4_compress(data, config_.compression_level);
+            if (!compressed_bytes.empty() && compressed_bytes.size() < data.size()) {
+                compressed = std::string(compressed_bytes.begin(), compressed_bytes.end());
+                spdlog::debug("SecureTransportClient: LZ4 compressed {} -> {} bytes (ratio: {:.2f}x)",
+                             data.size(), compressed.size(),
+                             static_cast<double>(data.size()) / compressed.size());
+                return true;
+            }
+        }
     } catch (const std::exception& e) {
         spdlog::warn("SecureTransportClient: Compression failed: {}", e.what());
     }
@@ -130,12 +125,14 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         size_t original_size = payload.data.size();
         std::string transfer_data;
         bool compressed = false;
+        std::string compression_codec = "none";
         
         // Try compression
         std::string compressed_data;
         if (compressData(payload.data, compressed_data)) {
             transfer_data = compressed_data;
             compressed = true;
+            compression_codec = (config_.compression == Config::CompressionType::LZ4) ? "lz4" : "zstd";
             result.bytes_compressed = compressed_data.size();
             result.compression_ratio = static_cast<double>(original_size) / compressed_data.size();
         } else {
@@ -162,7 +159,7 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         
         // Add compression info
         if (compressed) {
-            request["compression"] = "zstd";
+            request["compression"] = compression_codec;
             request["original_size"] = original_size;
         } else {
             request["compression"] = "none";
@@ -240,4 +237,3 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
 }
 
 } // namespace themis::sharding
-
