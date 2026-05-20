@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: multi_step_rag.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=58, M=35, L=0
+ * ThemisDB | File: multi_step_rag.cpp | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 403
+ * Open Issues: TODOs=1, Stubs=4, Gaps=6, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=6 | external_v3=95 | delta=89 | status=divergent
+ * External Severity (v3): C=2, H=58, M=35
+ * PR: none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

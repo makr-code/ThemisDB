@@ -1,7 +1,10 @@
 /*
- * ThemisDB | File: llm_judge_client.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=113, M=35, L=0
+ * ThemisDB | File: llm_judge_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 493
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=149 | delta=146 | status=divergent
+ * External Severity (v3): C=1, H=113, M=35
+ * PR: #1272 Implement post-generation quality control with LLM-as-Judge, G-Eval... (2026-03-11T17:46:10Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
