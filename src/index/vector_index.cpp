@@ -2896,6 +2896,18 @@ std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() con
 	return rotary_embedding_->getConfig();
 }
 
+std::optional<VectorIndexManager::RotaryEmbeddingStats> VectorIndexManager::getRotaryEmbeddingStats() const {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return std::nullopt;
+	}
+	const auto rope_stats = rotary_embedding_->getStats();
+	RotaryEmbeddingStats stats;
+	stats.total_rotated_entities = rope_stats.total_rotated_entities;
+	stats.total_relational_rotations = rope_stats.total_relational_rotations;
+	stats.avg_rotation_time_us = rope_stats.avg_rotation_time_us;
+	return stats;
+}
+
 VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	const BaseEntity& e,
 	std::string_view vectorField,
@@ -3033,4 +3045,3 @@ std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_
 }
 
 } // namespace themis
-

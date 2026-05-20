@@ -184,6 +184,19 @@ TEST_F(RotaryEmbeddingTest, DifferentPositionsProduceDifferentEmbeddings) {
     EXPECT_NE(rot_0, rot_100);
 }
 
+TEST_F(RotaryEmbeddingTest, RotationStatsAreTracked) {
+    std::vector<float> embedding(128, 1.0f);
+
+    (void)rope_->rotate(embedding, 1);
+    (void)rope_->rotate(embedding, 2);
+    (void)rope_->rotateRelational(embedding, "depends_on");
+
+    const auto stats = rope_->getStats();
+    EXPECT_EQ(stats.total_rotated_entities, 3u);
+    EXPECT_EQ(stats.total_relational_rotations, 1u);
+    EXPECT_GT(stats.avg_rotation_time_us, 0.0);
+}
+
 TEST_F(RotaryEmbeddingTest, WrongDimensionThrows) {
     std::vector<float> wrong_size(64, 1.0f);  // Wrong dimension
     

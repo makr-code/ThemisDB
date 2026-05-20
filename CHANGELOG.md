@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (Phase 30 Stub Remediation — 2 stubs resolved)
+- **Stub #282 RESOLVED — AI plugin generation now endpoint-backed** (`include/ai/ai_plugin_generator.h`, `src/ai/ai_plugin_generator.cpp`, `tests/test_ai_plugin_generator.cpp`)
+  - `AIPluginGenerator::Config` now supports injectable `EndpointInvokerFn` transport callbacks.
+  - `generatePlugin()` now sends a generation request (injected invoker or built-in HTTP POST), parses structured JSON payloads, and returns populated `GeneratedPlugin` objects.
+- **Stub #307 RESOLVED — RoPE stats endpoint now returns runtime counters** (`include/index/rotary_embeddings.h`, `src/index/rotary_embeddings.cpp`, `include/index/vector_index.h`, `src/index/vector_index.cpp`, `src/server/rope_api_handler.cpp`, `tests/test_rotary_embeddings.cpp`)
+  - `RotaryEmbedding` now tracks `total_rotated_entities`, `total_relational_rotations`, and average rotation latency.
+  - `VectorIndexManager` exposes RoPE runtime stats and `RopeApiHandler` now returns real statistics instead of `N/A` placeholders.
+
 ### Added (Phase 29 Stub Remediation — 2 stubs resolved)
 - **Stub #289 RESOLVED — quantized base-model loading now fail-closed** (`src/llm/lora_framework/lora_training_service.cpp`)
   - Removed the synthetic 3-layer fallback model creation path in `loadQuantizedBaseModel()`.

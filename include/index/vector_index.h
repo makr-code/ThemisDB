@@ -31,6 +31,7 @@
 #include <optional>
 #include <utility>
 #include <memory>
+#include <cstdint>
 
 namespace themis {
 
@@ -407,6 +408,15 @@ public:
     /// Get current rotary embedding configuration
     /// Returns nullopt if rotary embeddings are not enabled
     std::optional<struct RotationConfig> getRotaryEmbeddingConfig() const;
+
+    struct RotaryEmbeddingStats {
+        uint64_t total_rotated_entities = 0;
+        uint64_t total_relational_rotations = 0;
+        double avg_rotation_time_us = 0.0;
+    };
+
+    /// Get runtime RoPE stats. Returns nullopt when RoPE is disabled.
+    std::optional<RotaryEmbeddingStats> getRotaryEmbeddingStats() const;
     
     /// Add entity with automatic positional rotation
     /// The embedding is rotated based on the position parameter before storage
