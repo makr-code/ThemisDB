@@ -259,6 +259,28 @@ private:
     std::shared_ptr<CapabilityMatcher> matcher_;
     AdaptiveConfig adaptive_config_;
 
+    // ─── NlpContextFn bridge (stub #291) ─────────────────────────────────────
+
+    /// @brief Type alias for NLP query context injection.
+    using NlpContextFn = std::function<std::string(const std::string& query)>;
+
+    /**
+     * @brief Install an NLP-based context enrichment callback.
+     *
+     * When set, prepareQueryContext() enriches the routing context with the
+     * returned semantic string (e.g. domain/region tags from an NLP model)
+     * instead of relying solely on the regex/keyword fallback.
+     * @param fn Callable receiving the raw query → semantic context string.
+     */
+    void setNlpContextFn(NlpContextFn fn);
+
+    /**
+     * @brief Remove the NLP context bridge (reverts to pattern-match only).
+     */
+    void clearNlpContextFn();
+
+    NlpContextFn nlpContextFn_;
+
     // Domain-score map: shard_id → { domain_type → accuracy_delta }
     // Updated via updateAdapterCapability(); consulted by routeByDomain().
     std::map<std::string,

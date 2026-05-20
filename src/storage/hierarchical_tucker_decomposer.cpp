@@ -146,6 +146,13 @@ std::vector<float> HTTrain::reconstruct() const {
 // ============================================================================
 
 storage::TTTrain HTTrain::toTTTrain() const {
+    // Use injected HT-to-TT conversion bridge if available (stub #286).
+    {
+        std::lock_guard<std::mutex> lock(s_ht_to_tt_fn_mutex_);
+        if (s_ht_to_tt_fn_) {
+            return s_ht_to_tt_fn_(*this);
+        }
+    }
     // STUB #178: reconstruct dense tensor, re-decompose as TT.
     auto dense = reconstruct();
     storage::TensorTrainConfig cfg;

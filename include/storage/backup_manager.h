@@ -590,6 +590,27 @@ private:
     std::string findLastFullBackup(const std::string& backup_dir);
 
     WalReplayFn wal_replay_fn_;  ///< Optional WAL-replay hook (Stub #249)
+
+    // ─── SST ingest bridge (stub #300) ───────────────────────────────────────
+
+    /// @brief Type alias for per-CF SST file ingest injection.
+    using IngestExternalFileFn =
+        std::function<bool(const std::string& cf_name,
+                           const std::vector<std::string>& sst_files)>;
+
+    /**
+     * @brief Install a CF-level SST ingest callback for restoreCollections().
+     *
+     * When set, restoreCollections() attempts per-collection SST ingest via this
+     * function before falling back to full-checkpoint restore.
+     * @param fn Callable receiving (cf_name, sst_files) → success.
+     */
+    static void setIngestExternalFileFn(IngestExternalFileFn fn);
+
+    /**
+     * @brief Remove the SST ingest bridge (falls back to full-checkpoint restore).
+     */
+    static void clearIngestExternalFileFn();
 };
 
 } // namespace themis

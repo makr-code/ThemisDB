@@ -133,6 +133,46 @@ private:
     std::shared_ptr<VectorIndexManager> vector_index_;
     std::shared_ptr<::themis::AuthMiddleware> auth_;
 
+    // ─── Bridges (stubs #280, #307) ───────────────────────────────────────────
+
+    /// @brief Type alias for RBAC authorization injection (stub #280).
+    using AuthorizeFn = std::function<bool(const std::string& token,
+                                           const std::string& action)>;
+
+    /**
+     * @brief Install a per-action authorization check for ROPE endpoints.
+     *
+     * When set, requireAccess() calls this function after authentication and
+     * returns HTTP 403 if it returns false, implementing scope-based RBAC.
+     * @param fn Callable receiving (bearer_token, action) → allowed.
+     */
+    void setAuthorizeFn(AuthorizeFn fn);
+
+    /**
+     * @brief Remove the RBAC authorization bridge (reverts to auth-only check).
+     */
+    void clearAuthorizeFn();
+
+    /// @brief Type alias for stats query injection (stub #307).
+    using StatsQueryFn = std::function<nlohmann::json()>;
+
+    /**
+     * @brief Install a stats query function for handleStatsGet().
+     *
+     * When set, handleStatsGet() returns the result of this function instead of
+     * the synthetic N/A placeholder statistics.
+     * @param fn Callable returning a JSON object with real counters.
+     */
+    void setStatsQueryFn(StatsQueryFn fn);
+
+    /**
+     * @brief Remove the stats query bridge (reverts to placeholder statistics).
+     */
+    void clearStatsQueryFn();
+
+    AuthorizeFn authorizeFn_;
+    StatsQueryFn statsQueryFn_;
+
     // Helper methods
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);

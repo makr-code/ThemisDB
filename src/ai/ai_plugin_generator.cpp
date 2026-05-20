@@ -28,6 +28,7 @@
 #include "utils/error_registry.h"
 #include "utils/expected.h"
 
+#include <mutex>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <string>
@@ -35,6 +36,30 @@
 namespace themis {
 namespace plugins {
 namespace ai {
+
+// ============================================================================
+// HttpPost bridge (stub #282)
+// ============================================================================
+
+namespace {
+    static std::mutex s_http_post_fn_mutex;
+    static AIPluginGenerator::HttpPostFn s_http_post_fn;
+} // namespace
+
+void AIPluginGenerator::setHttpPostFn(HttpPostFn fn) {
+    std::lock_guard<std::mutex> lock(s_http_post_fn_mutex);
+    s_http_post_fn = std::move(fn);
+}
+
+void AIPluginGenerator::clearHttpPostFn() {
+    std::lock_guard<std::mutex> lock(s_http_post_fn_mutex);
+    s_http_post_fn = nullptr;
+}
+
+static AIPluginGenerator::HttpPostFn getHttpPostFn() {
+    std::lock_guard<std::mutex> lock(s_http_post_fn_mutex);
+    return s_http_post_fn;
+}
 
 AIPluginGenerator::AIPluginGenerator(const Config& config)
     : config_(config)
@@ -68,6 +93,11 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
 
     spdlog::debug("[AIPluginGenerator] generatePlugin: description='{}' endpoint='{}'",
                   prompt.description.substr(0, 80), config_.llm_endpoint);
+
+    // Use injected HTTP POST bridge if available (stub #282 resolved).
+    if (auto http_fn = getHttpPostFn()) {
+        return http_fn(config_.llm_endpoint, prompt);
+    }
 
     // 2. Phase-1 implementation: LLM endpoint invocation is not yet wired.
     //    Return a structured error so callers can distinguish "validation failed"

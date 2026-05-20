@@ -219,6 +219,26 @@ public:
 
     [[nodiscard]] GraphStats stats() const noexcept;
 
+    // ─── ExactSimilarity bridge (stub #276) ───────────────────────────────
+
+    /// @brief Type alias for exact-similarity injection.
+    using ExactSimilarityFn = std::function<float(const std::string& key_a,
+                                                   const std::string& key_b)>;
+
+    /**
+     * @brief Install an exact-similarity function replacing cosine fingerprint.
+     *
+     * When set, findSimilarByFingerprint() delegates per-pair scoring to this
+     * function instead of computing cosine similarity on stored fingerprints.
+     * @param fn Callable receiving two adapter keys and returning a score in [0, 1].
+     */
+    static void setExactSimilarityFn(ExactSimilarityFn fn);
+
+    /**
+     * @brief Remove the exact-similarity override (reverts to cosine fingerprint).
+     */
+    static void clearExactSimilarityFn();
+
 private:
     /// Compute column means of a TT-core data block.
     /// data layout: [n_rows × n_cols] row-major.

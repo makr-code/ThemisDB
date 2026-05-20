@@ -27,6 +27,18 @@
 
 namespace themis::sharding {
 
+// ============================================================================
+// NlpContextFn bridge (stub #291)
+// ============================================================================
+
+void AdaptiveShardRouter::setNlpContextFn(NlpContextFn fn) {
+    nlpContextFn_ = std::move(fn);
+}
+
+void AdaptiveShardRouter::clearNlpContextFn() {
+    nlpContextFn_ = nullptr;
+}
+
 AdaptiveShardRouter::AdaptiveShardRouter(
     std::shared_ptr<URNResolver> resolver,
     std::shared_ptr<RemoteExecutor> executor,
@@ -344,24 +356,25 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     // Extract keywords
     context.keywords = matcher_->extractKeywords(query);
     
+    // Use injected NLP context bridge if available (stub #291).
+    if (nlpContextFn_) {
+        std::string nlp_result = nlpContextFn_(query);
+        context.query_text = nlp_result.empty() ? query : nlp_result;
+        return context;
+    }
+
     // STUB/SIMULATION NOTE (stub #291):
     // Purpose: Provide a functional domain/geo context builder that works without
     //          an NLP stack or embedding model so that shard routing is available
     //          immediately.  Regex + substring patterns let CI and early deployment
     //          exercise the routing pipeline end-to-end.
-    // Activation: Always — no compile-time flag; NLP/embedding integration is not
-    //             yet wired.
+    // Activation: Active when no NlpContextFn is injected via setNlpContextFn().
     // Production Delta: Routing accuracy is bounded by the quality of the hard-coded
     //                   keyword set.  Queries that do not match a pattern produce an
     //                   empty domain/region context, causing the router to fall back
-    //                   to a global shard scan.  NER-identified entities (e.g. proper
-    //                   nouns, organization names) and embedding-based domain signals
-    //                   are unavailable, reducing routing precision.
+    //                   to a global shard scan.
     // Removal Plan: Integrate a sentence-transformer embedding service or a LoRA-based
-    //               domain classifier via an injectable NlpContextFn callback; add the
-    //               injection API analogue to AdaptiveShardRouter::setNlpContextFn().
-    //               See docs/ADAPTIVE_SHARD_ROUTING.md §NLP Integration.
-    //               Target: Q3 2027.
+    //               domain classifier via setNlpContextFn(); target Q3 2027.
     // TODO (KNOWN LIMITATION): Production deployment requires more sophisticated query analysis:
     // - Domain detection using NLP/ML models (e.g., "law", "medicine", "construction")
     // - Named entity recognition for organization extraction (e.g., "hamburg bauamt")

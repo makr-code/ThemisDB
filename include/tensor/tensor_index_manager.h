@@ -225,6 +225,7 @@ public:
      * // Production Delta: no mmap / mlock; pointers invalidated on mutation
      * // Removal Plan: remove after all callers migrate to mapCores()
      */
+    [[deprecated("Use mapCores() instead")]]
     std::vector<std::pair<const float*, size_t>>
         ggmlCorePtrs(const std::string& tenant_id,
                      const std::string& collection,

@@ -55,6 +55,30 @@ namespace themis {
 namespace llm {
 namespace lora {
 
+// ============================================================================
+// ModelPathProvider bridge (stub #289)
+// ============================================================================
+
+namespace {
+    static std::mutex s_model_path_fn_mutex;
+    static LoRATrainingService::ModelPathProviderFn s_model_path_fn;
+} // namespace
+
+void LoRATrainingService::setModelPathProviderFn(ModelPathProviderFn fn) {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    s_model_path_fn = std::move(fn);
+}
+
+void LoRATrainingService::clearModelPathProviderFn() {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    s_model_path_fn = nullptr;
+}
+
+static LoRATrainingService::ModelPathProviderFn getModelPathProviderFn() {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    return s_model_path_fn;
+}
+
 // Simple MSE loss function
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
     if (predictions.size() != targets.size()) {
@@ -1564,6 +1588,15 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
     //               TODO) so that a correct GGUF path is always available; remove
     //               synthetic layer loop once path lookup is guaranteed.
     //               Target: same milestone as LLMModelStorage integration (Q2 2027).
+    // If a model path provider bridge is set, try to resolve a better path.
+    if (auto path_fn = getModelPathProviderFn()) {
+        std::string resolved = path_fn(model_path);
+        if (!resolved.empty()) {
+            // Overwrite the synthetic path with the resolved path from the bridge.
+            return loadQuantizedBaseModel(resolved, config);
+        }
+    }
+
     // For now, create some synthetic layers
     // In production, we'd actually load from the model file
     // This is a placeholder for the actual model loading logic

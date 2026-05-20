@@ -30,6 +30,26 @@
 
 namespace themis::sharding {
 
+// ============================================================================
+// LZ4 bridges (stub #295)
+// ============================================================================
+
+void SecureTransportClient::setLz4CompressFn(Lz4CompressFn fn) {
+    lz4CompressFn_ = std::move(fn);
+}
+
+void SecureTransportClient::clearLz4CompressFn() {
+    lz4CompressFn_ = nullptr;
+}
+
+void SecureTransportClient::setLz4DecompressFn(Lz4DecompressFn fn) {
+    lz4DecompressFn_ = std::move(fn);
+}
+
+void SecureTransportClient::clearLz4DecompressFn() {
+    lz4DecompressFn_ = nullptr;
+}
+
 SecureTransportClient::SecureTransportClient(const Config& config)
     : config_(config) {
     
@@ -80,22 +100,19 @@ bool SecureTransportClient::compressData(const std::string& data, std::string& c
                 return true;
             }
         }
+        // Use injected LZ4 compress bridge if available (stub #295 resolved).
+        if (lz4CompressFn_ && lz4CompressFn_(data, compressed)) {
+            return true;
+        }
         // STUB/SIMULATION NOTE (stub #295):
         // Purpose: Reserve the LZ4 compression slot in the negotiation chain so
         //          that future LZ4 support can be added without changing callers.
-        //          Currently the zstd branch above handles all compression when
-        //          THEMIS_HAS_ZSTD is defined; LZ4 is faster but not yet linked.
-        // Activation: Always — no THEMIS_HAS_LZ4 gate is present; the LZ4
-        //             compression path is not implemented.
-        // Production Delta: Sharding payloads that prefer LZ4 (e.g. low-latency
-        //                   streaming paths) fall through to the uncompressed
-        //                   transfer path, increasing inter-shard bandwidth.
-        // Removal Plan: Link the lz4 vcpkg package; add a `#ifdef THEMIS_HAS_LZ4`
-        //               branch that calls LZ4_compress_default() / LZ4_decompress_safe();
-        //               add the matching decompressor in decompressPayload().
-        //               See src/sharding/FUTURE_ENHANCEMENTS.md §LZ4 Transport.
-        //               Target: v2.1.0.
-        // TODO: Add LZ4 support in the future
+        // Activation: Active when no Lz4CompressFn is injected via setLz4CompressFn()
+        //             and THEMIS_HAS_LZ4 is not defined.
+        // Production Delta: Sharding payloads that prefer LZ4 fall through to the
+        //                   uncompressed transfer path, increasing inter-shard bandwidth.
+        // Removal Plan: Link the lz4 vcpkg package and add a #ifdef THEMIS_HAS_LZ4
+        //               branch; or inject via setLz4CompressFn(). Target: v2.1.0.
     } catch (const std::exception& e) {
         spdlog::warn("SecureTransportClient: Compression failed: {}", e.what());
     }

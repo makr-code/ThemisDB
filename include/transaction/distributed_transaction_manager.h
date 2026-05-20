@@ -462,6 +462,27 @@ public:
      */
     size_t activeTransactionCount() const;
 
+    // ─── RPC phase-2 bridge (stub #279) ──────────────────────────────────────
+
+    /// @brief Type alias for remote phase-2 RPC injection.
+    using RpcPhase2Fn = std::function<void(const std::string& node_id,
+                                           const std::string& txn_id,
+                                           bool               do_commit)>;
+
+    /**
+     * @brief Install a remote phase-2 RPC callback for participants without a
+     *        local callback.  When set, callback-less participants receive their
+     *        commit/abort decision via this function instead of being silently
+     *        skipped.
+     * @param fn Callable receiving (node_id, txn_id, do_commit).
+     */
+    static void setRpcPhase2Fn(RpcPhase2Fn fn);
+
+    /**
+     * @brief Remove the RPC phase-2 bridge (reverts to skip-if-no-callback).
+     */
+    static void clearRpcPhase2Fn();
+
 private:
     // ── Internal helpers ──────────────────────────────────────────────────────
 

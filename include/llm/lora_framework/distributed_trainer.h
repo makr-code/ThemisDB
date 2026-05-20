@@ -198,6 +198,21 @@ public:
      * @param fn Callable that broadcasts data in-place from rank 0.
      */
     void setBroadcastFn(BroadcastFn fn);
+
+    // ─── AllReduceCpu bridge (stub #290) ─────────────────────────────────────
+
+    /// @brief Type alias for all-reduce collective injection.
+    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Inject a real all-reduce implementation (MPI/Gloo/custom).
+     *
+     * When set, allreduce_cpu() delegates gradient summation to this function
+     * instead of the local-only scale fallback.  Enables true multi-node
+     * gradient averaging without an NCCL/MPI build dependency.
+     * @param fn Callable that all-reduces data in-place across all ranks.
+     */
+    void setAllReduceCpuFn(AllReduceCpuFn fn);
     
     /**
      * @brief Get distributed configuration
@@ -256,8 +271,9 @@ private:
     void allreduce_cpu(std::vector<float>& data);
     void broadcast_cpu(std::vector<float>& data);
 
-    std::optional<BarrierFn>   barrier_fn_;
-    std::optional<BroadcastFn> broadcast_fn_;
+    std::optional<BarrierFn>      barrier_fn_;
+    std::optional<BroadcastFn>    broadcast_fn_;
+    std::optional<AllReduceCpuFn> allreduce_fn_;
 };
 
 /**

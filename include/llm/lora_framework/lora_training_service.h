@@ -346,6 +346,26 @@ private:
         const std::string& model_path,
         const QLoRAConfig& config
     );
+
+    // ─── ModelPathProvider bridge (stub #289) ────────────────────────────────
+
+    /// @brief Type alias for model path lookup injection.
+    using ModelPathProviderFn = std::function<std::string(const std::string& model_name)>;
+
+    /**
+     * @brief Install a model path lookup callback for loadQuantizedBaseModel().
+     *
+     * When set, loadQuantizedBaseModel() calls this function to resolve the GGUF
+     * file path for a given model name instead of relying on the caller-provided
+     * path.  Replaces the synthetic 3-layer fallback when the path is not found.
+     * @param fn Callable receiving a model name → resolved absolute file path.
+     */
+    static void setModelPathProviderFn(ModelPathProviderFn fn);
+
+    /**
+     * @brief Remove the model path lookup bridge (reverts to caller-supplied path).
+     */
+    static void clearModelPathProviderFn();
     
     /**
      * @brief Estimate memory usage for QLoRA training

@@ -76,27 +76,37 @@ public:
         std::string adapter_id = "themis_help_lora";
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
-        
+
         // Remote model loading (Ollama support)
         bool enable_remote_loading = false;
         std::string ollama_url = "http://localhost:11434";
         std::string ollama_model_name = "llama2:7b";
         std::string model_config_yaml = "config/llm_remote_models.yaml";
         bool auto_download_model = true;
-        
+
         // Dependencies (to be injected)
         rocksdb::TransactionDB* db = nullptr;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
-        
+
         // Training settings
         lora::LoRAHyperparameters hyperparameters;
         int feedback_batch_size = 100;  // Train after N feedback items
         std::chrono::hours training_interval{24}; // Or train daily
-        
+
         // Quality settings
         float min_accuracy_threshold = 0.80f;
         bool enable_ab_testing = true;
         bool enable_auto_rollback = true;
+
+        /**
+         * @brief Optional model path resolver (stub #299).
+         *
+         * When set, the Impl uses this callable to resolve the GGUF path for
+         * a given model_id instead of the hardcoded `"models/<id>.gguf"` fallback.
+         * @param model_id The base model identifier string.
+         * @return Resolved filesystem or URL path for the GGUF file.
+         */
+        std::function<std::string(const std::string& model_id)> model_path_provider;
     };
     
     explicit ThemisHelpLoRA(const Config& config);

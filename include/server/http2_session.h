@@ -124,14 +124,18 @@ private:
     std::array<uint8_t, 16384> read_buffer_;
     std::vector<uint8_t> write_buffer_;
     std::unordered_map<int32_t, StreamData> streams_;
-    
+
     uint32_t max_concurrent_streams_;
     uint32_t initial_window_size_;
-    
+
     // Server Push state
     int32_t next_push_stream_id_;
     std::set<int32_t> cdc_subscribed_streams_;
     mutable std::mutex push_mutex_;
+
+    /// Per-stream response buffers kept alive until stream completion (stub #298 resolved).
+    struct ResponseBuffer { std::string data; std::size_t offset = 0; };
+    std::unordered_map<int32_t, std::shared_ptr<ResponseBuffer>> response_buffers_;
 };
 
 /**

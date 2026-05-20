@@ -40,6 +40,26 @@ using json = nlohmann::json;
 using namespace importers;
 
 // ============================================================================
+// Schema bridge setters (stub #294)
+// ============================================================================
+
+void ImportApiHandler::setSchemaInspectorFn(SchemaInspectorFn fn) {
+    schemaInspectorFn_ = std::move(fn);
+}
+
+void ImportApiHandler::clearSchemaInspectorFn() {
+    schemaInspectorFn_ = nullptr;
+}
+
+void ImportApiHandler::setSchemaValidatorFn(SchemaValidatorFn fn) {
+    schemaValidatorFn_ = std::move(fn);
+}
+
+void ImportApiHandler::clearSchemaValidatorFn() {
+    schemaValidatorFn_ = nullptr;
+}
+
+// ============================================================================
 // Construction
 // ============================================================================
 
@@ -451,6 +471,15 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
 void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
+    // Allow injected schema inspector to bypass the compile-time PG-wire gate (stub #294).
+    if (schemaInspectorFn_) {
+        const std::string job_id = req.matches[1];
+        auto handle = registry_->get(job_id);
+        if (!handle) { jsonError(res, 404, "Job not found: " + job_id); return; }
+        json schema = schemaInspectorFn_(handle->source_path);
+        jsonOk(res, json{{"job_id", job_id}, {"schema", schema}});
+        return;
+    }
 #ifndef THEMIS_ENABLE_POSTGRES_WIRE
     // STUB/SIMULATION NOTE (stub #294):
     // Purpose: Expose the schema-preview and schema-validate REST endpoints so that
@@ -507,6 +536,17 @@ void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& 
 void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Request& req,
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
+    // Allow injected schema validator to bypass the compile-time PG-wire gate (stub #294).
+    if (schemaValidatorFn_) {
+        json body;
+        try { body = parseRequestBody(req.body); }
+        catch (const std::exception& e) { jsonError(res, 400, std::string("Invalid JSON: ") + e.what()); return; }
+        const std::string source_path = body.value("source_path", "");
+        const json overrides = body.value("overrides", json::object());
+        json result = schemaValidatorFn_(source_path, overrides);
+        jsonOk(res, result);
+        return;
+    }
 #ifndef THEMIS_ENABLE_POSTGRES_WIRE
     // STUB/SIMULATION NOTE (stub #294 — validateSchema path, same gate):
     // See handleGetSchema() above for full details.  Both schema-inspection endpoints

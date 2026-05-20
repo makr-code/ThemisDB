@@ -102,7 +102,9 @@ public:
 
         // Initialize LoRA training service
         LoRATrainingService::Config training_cfg;
-        training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+        training_cfg.base_model_path = cfg.model_path_provider
+            ? cfg.model_path_provider(cfg.base_model_id)
+            : "models/" + cfg.base_model_id + ".gguf";
         training_cfg.default_hyperparameters = cfg.hyperparameters;
         training_service = std::make_unique<LoRATrainingService>(training_cfg);
         
@@ -159,9 +161,13 @@ public:
                     //               LLMModelStorage::resolveGGUFPath(model_id); wire it at
                     //               server startup.  See src/llm/FUTURE_ENHANCEMENTS.md
                     //               §ThemisHelpLoRA ModelPath.  Target: Q2 2027.
-                    // TODO: Get model path from LLMModelStorage
-                    // For now, use a default path that can be configured
-                    std::string model_path = "models/" + config.base_model_id + ".gguf";
+                    // Resolve model path via injected provider or fallback (stub #299 resolved).
+                    std::string model_path;
+                    if (config.model_path_provider) {
+                        model_path = config.model_path_provider(config.base_model_id);
+                    } else {
+                        model_path = "models/" + config.base_model_id + ".gguf";
+                    }
                     bool loaded = llama_wrapper->loadModel(model_path);
                     
                     if (loaded) {

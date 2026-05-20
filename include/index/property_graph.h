@@ -284,6 +284,25 @@ public:
 private:
     RocksDBWrapper& db_;
 
+    // ─── StringArrayFn bridge (stub #292) ────────────────────────────────────
+
+    /// @brief Type alias for label extraction injection.
+    using StringArrayFn = std::function<std::vector<std::string>(const std::string& node_id)>;
+
+    /**
+     * @brief Install a label extraction callback for extractLabels_().
+     *
+     * When set, extractLabels_() returns the result of this function instead of
+     * the comma-split fallback on the `_labels` string field.
+     * @param fn Callable receiving a node ID → vector of labels.
+     */
+    static void setStringArrayFn(StringArrayFn fn);
+
+    /**
+     * @brief Remove the label extraction bridge (reverts to comma-split).
+     */
+    static void clearStringArrayFn();
+
     // Helper: Extract labels from node entity
     std::vector<std::string> extractLabels_(const BaseEntity& node) const;
 

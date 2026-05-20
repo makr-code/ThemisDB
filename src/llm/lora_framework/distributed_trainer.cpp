@@ -187,6 +187,10 @@ void DistributedTrainer::setBroadcastFn(BroadcastFn fn) {
     broadcast_fn_ = std::move(fn);
 }
 
+void DistributedTrainer::setAllReduceCpuFn(AllReduceCpuFn fn) {
+    allreduce_fn_ = std::move(fn);
+}
+
 DistributedStats DistributedTrainer::stats() const {
     return stats_;
 }
@@ -236,24 +240,27 @@ float DistributedTrainer::scale_learning_rate(
 //               Gloo allreduce callback at startup; replace the scale-only path.
 //               See src/llm/FUTURE_ENHANCEMENTS.md §DistributedTrainer AllReduceCPU.
 //               Target: v2.2.0.
-// CPU-based AllReduce (simplified for single-node)
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
-    // NOTE: This is a simplified CPU implementation for Phase 1
-    // Real distributed implementation would:
-    // 1. Use shared memory for multi-process on same node (via MPI/shmem)
-    // 2. Use NCCL AllReduce for multi-GPU (native GPU communication)
-    // 3. Use MPI for multi-node clusters
-    // 
-    // For Phase 1, we simulate by averaging (assumes gradients already aggregated)
-    // In production, this would:
-    //   - Collect gradients from all ranks via MPI_Allreduce or NCCL
-    //   - Sum them element-wise
-    //   - Divide by world_size
-    //
-    // TODO: When GPU support is added, replace with:
-    //   ncclAllReduce(data, data, count, ncclFloat, ncclSum, comm, stream)
-    //   then divide by world_size
-    
+    // Use injected all-reduce bridge if available (stub #290).
+    if (allreduce_fn_) {
+        (*allreduce_fn_)(data);
+        return;
+    }
+
+    // STUB/SIMULATION NOTE (stub #290):
+    // Purpose: Allow distributed training code paths to compile and run without
+    //          NCCL, RCCL, or MPI installed.  Gradient vectors are scaled locally
+    //          (divide by world_size) under the assumption that they were already
+    //          summed externally, which is only true for single-process builds.
+    // Activation: Active when no AllReduceCpuFn is injected via setAllReduceCpuFn().
+    // Production Delta: In a genuine multi-GPU or multi-node setting each rank
+    //                   independently scales its *own* gradient vector without
+    //                   exchanging data with peers.  This is mathematically incorrect
+    //                   and causes divergent model weights after the first step.
+    //                   Single-process builds (world_size == 1) are unaffected.
+    // Removal Plan: Inject an MPI_Allreduce / Gloo allreduce callback via
+    //               setAllReduceCpuFn() at startup; replace the scale-only path.
+    //               Target: v2.2.0.
     float scale = 1.0f / static_cast<float>(config_.world_size);
     for (float& val : data) {
         val *= scale;

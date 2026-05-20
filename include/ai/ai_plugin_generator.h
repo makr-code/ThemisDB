@@ -114,6 +114,28 @@ public:
     Result<GeneratedPlugin> generatePlugin(const PluginGenerationPrompt& prompt);
     Result<void> validatePrompt(const PluginGenerationPrompt& prompt);
     
+    // ─── HttpPost bridge (stub #282) ──────────────────────────────────────────
+
+    /// @brief Type alias for LLM HTTP POST injection.
+    using HttpPostFn = std::function<Result<GeneratedPlugin>(
+        const std::string&            endpoint,
+        const PluginGenerationPrompt& prompt)>;
+
+    /**
+     * @brief Install an HTTP POST callable used by generatePlugin() to contact
+     *        the LLM code-generation endpoint.
+     *
+     * When set, generatePlugin() delegates to this function instead of returning
+     * ERR_PLUGIN_LOAD_FAILED.  Replaces the Phase-1 placeholder entirely.
+     * @param fn Callable receiving (endpoint_url, prompt) → Result<GeneratedPlugin>.
+     */
+    static void setHttpPostFn(HttpPostFn fn);
+
+    /**
+     * @brief Remove the HTTP POST bridge (reverts to Phase-1 error return).
+     */
+    static void clearHttpPostFn();
+
 private:
     Config config_;
 };

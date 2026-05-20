@@ -178,6 +178,25 @@ public:
      */
     [[nodiscard]] RewriteStats lastStats() const noexcept { return last_stats_; }
 
+    // ─── AST visitor bridge (stub #275) ──────────────────────────────────────
+
+    /// @brief Type alias for AST visitor injection.
+    using AstVisitorFn = std::function<void(QueryPlanNode&)>;
+
+    /**
+     * @brief Install an AST visitor called after the description-scan on each node.
+     *
+     * When set, the visitor is invoked depth-first after each node is processed
+     * by the description-scan rewrite pass.  Useful for Phase-3 AQL IR coupling.
+     * @param fn Callable receiving a mutable reference to each visited node.
+     */
+    static void setAstVisitorFn(AstVisitorFn fn);
+
+    /**
+     * @brief Remove the AST visitor (reverts to description-scan only).
+     */
+    static void clearAstVisitorFn();
+
 private:
     void rewriteNode(QueryPlanNode& node);
 
