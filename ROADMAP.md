@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.3  
-**Last Updated:** 2026-05-19  
+**Last Updated:** 2026-05-21  
 **Scope:** Aggregated roadmap across all 65 modules in `src/` (Phase 1-5 Gap Analysis Complete)
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -94,10 +94,21 @@ Audit method:
 - Timeline: 8 weeks implementation + 1 week integration
 - Detailed design & sprint breakdown: [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md)
 
-**GitHub Aggregated Issues (2026-05-19):**
-- [Master Issue #5207](https://github.com/makr-code/ThemisDB/issues/5207): Phase 1-5 Summary (v1.5.0)
-- [13 Category Issues](https://github.com/makr-code/ThemisDB/issues?q=label%3Atype%3Abug+is%3Aopen+author%3Acopilot-gap-scanner): Scanner Categories (Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance, Type Conversion, Input Validation, Exception Safety, Uninitialized, OOP Design)
-- [10 Top Module Issues](https://github.com/makr-code/ThemisDB/issues?q=P0-CRITICAL+is%3Aopen+Module): Critical modules (LLM #5221, SERVER #5222, SHARDING #5223, INDEX #5224, QUERY #5225, STORAGE #5226, ANALYTICS #5227, RAG #5228, SECURITY #5229, CONTENT #5230)
+**GitHub Aggregated Issues (reviewed 2026-05-21):**
+- [x] [Master Issue #5207](https://github.com/makr-code/ThemisDB/issues/5207) verlinkt und geprüft (**OPEN**)
+- [x] [13 Category Issues](https://github.com/makr-code/ThemisDB/issues?q=label%3Atype%3Abug+is%3Aopen+author%3Acopilot-gap-scanner) verlinkt und geprüft (Query-Link aktiv)
+- [x] [10 Top Module Issues](https://github.com/makr-code/ThemisDB/issues?q=P0-CRITICAL+is%3Aopen+Module) verlinkt und geprüft
+- [I] [#5221 LLM](https://github.com/makr-code/ThemisDB/issues/5221) — OPEN
+- [I] [#5222 SERVER](https://github.com/makr-code/ThemisDB/issues/5222) — OPEN
+- [I] [#5223 SHARDING](https://github.com/makr-code/ThemisDB/issues/5223) — OPEN
+- [I] [#5224 INDEX](https://github.com/makr-code/ThemisDB/issues/5224) — OPEN
+- [I] [#5225 QUERY](https://github.com/makr-code/ThemisDB/issues/5225) — OPEN
+- [I] [#5226 STORAGE](https://github.com/makr-code/ThemisDB/issues/5226) — OPEN
+- [I] [#5227 ANALYTICS](https://github.com/makr-code/ThemisDB/issues/5227) — OPEN
+- [I] [#5228 RAG](https://github.com/makr-code/ThemisDB/issues/5228) — OPEN
+- [I] [#5229 SECURITY](https://github.com/makr-code/ThemisDB/issues/5229) — OPEN
+- [I] [#5230 CONTENT](https://github.com/makr-code/ThemisDB/issues/5230) — OPEN
+- [x] Review-Status dokumentiert (Issue-Status/Checkboxen/Verlinkung synchronisiert)
 
 ---
 | **base** | 🟢 PRODUCTION | 12 | 0 | Stable, safe for production |
