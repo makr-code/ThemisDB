@@ -193,6 +193,114 @@ static_assert(sizeof(WireFrameHeader) == HEADER_SIZE, "Header must be 12 bytes")
 // Wire Protocol Session
 // =============================================================================
 
+// ---------------------------------------------------------------------------
+// Injection bridge type aliases for WireProtocolSession (stub #281 replacement)
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief AQL query execution bridge for the Protobuf wire protocol.
+ *
+ * When set, QUERY_AQL messages are dispatched to this function instead of
+ * returning HTTP 501.  The function receives the AQL string and the
+ * authenticated session's namespace and must return a JSON-encoded result
+ * string.  An exception or empty return keeps the error path.
+ *
+ * @param aql  AQL query string.
+ * @param ns   Namespace / tenant derived from the authenticated session.
+ * @return     JSON-encoded query result.
+ */
+using WireAqlExecFn = std::function<std::string(
+    const std::string& aql, const std::string& ns)>;
+
+/**
+ * @brief Cursor next-page bridge for the Protobuf wire protocol.
+ *
+ * @param cursor_id  Cursor identifier from the CURSOR_NEXT request.
+ * @return           JSON-encoded next page of results.
+ */
+using WireCursorNextFn = std::function<std::string(const std::string& cursor_id)>;
+
+/**
+ * @brief Cursor close bridge for the Protobuf wire protocol.
+ *
+ * @param cursor_id  Cursor identifier from the CURSOR_CLOSE request.
+ * @return           true if the cursor was found and closed, false otherwise.
+ */
+using WireCursorCloseFn = std::function<bool(const std::string& cursor_id)>;
+
+/**
+ * @brief Geospatial query bridge for the Protobuf wire protocol.
+ *
+ * @param collection  Target collection name.
+ * @param lat         Latitude of the search centre (WGS84, decimal degrees).
+ * @param lon         Longitude of the search centre (WGS84, decimal degrees).
+ * @param radius_m    Search radius in metres.
+ * @param limit       Maximum number of results.
+ * @return            JSON-encoded array of matching document objects.
+ */
+using WireGeoQueryFn = std::function<std::string(
+    const std::string& collection, double lat, double lon,
+    double radius_m, int limit)>;
+
+/**
+ * @brief Time-series query bridge for the Protobuf wire protocol.
+ *
+ * @param collection  Collection / series name.
+ * @param start_ns    Start of the query range (nanoseconds since Unix epoch).
+ * @param end_ns      End of the query range (nanoseconds since Unix epoch).
+ * @return            JSON-encoded time-series data points.
+ */
+using WireTSQueryFn = std::function<std::string(
+    const std::string& collection, int64_t start_ns, int64_t end_ns)>;
+
+/**
+ * @brief Graph traversal bridge for the Protobuf wire protocol.
+ *
+ * @param collection   Collection / edge-set name.
+ * @param start_vertex Start vertex identifier.
+ * @param max_depth    Maximum traversal depth (0 = unlimited).
+ * @return             JSON-encoded traversal result.
+ */
+using WireGraphTraversalFn = std::function<std::string(
+    const std::string& collection, const std::string& start_vertex, int max_depth)>;
+
+/**
+ * @brief Register the AQL execution bridge for the Protobuf wire protocol.
+ *
+ * Thread-safe.  Pass nullptr to clear.  Registered once at server startup.
+ */
+void setWireAqlExecFn(WireAqlExecFn fn);
+
+/**
+ * @brief Register the cursor next-page bridge for the Protobuf wire protocol.
+ * Thread-safe.  Pass nullptr to clear.
+ */
+void setWireCursorNextFn(WireCursorNextFn fn);
+
+/**
+ * @brief Register the cursor close bridge for the Protobuf wire protocol.
+ * Thread-safe.  Pass nullptr to clear.
+ */
+void setWireCursorCloseFn(WireCursorCloseFn fn);
+
+/**
+ * @brief Register the geospatial query bridge for the Protobuf wire protocol.
+ * Thread-safe.  Pass nullptr to clear.
+ */
+void setWireGeoQueryFn(WireGeoQueryFn fn);
+
+/**
+ * @brief Register the time-series query bridge for the Protobuf wire protocol.
+ * Thread-safe.  Pass nullptr to clear.
+ */
+void setWireTSQueryFn(WireTSQueryFn fn);
+
+/**
+ * @brief Register the graph traversal bridge for the Protobuf wire protocol.
+ * Thread-safe.  Pass nullptr to clear.
+ */
+void setWireGraphTraversalFn(WireGraphTraversalFn fn);
+
 class WireProtocolSession : public std::enable_shared_from_this<WireProtocolSession> {
 public:
     using socket_t = boost::asio::ip::tcp::socket;

@@ -866,3 +866,72 @@ TEST(WireProtocolV1ThemisSanitize, AllControlCharsReplaced) {
             << "Expected '?' for control char 0x" << std::hex << i;
     }
 }
+
+// =============================================================================
+// WireProtocolSession injection bridge tests (stub #281)
+// =============================================================================
+
+TEST(WireSessionBridgeTest, SetAndClearAqlBridge) {
+    bool called = false;
+    setWireAqlExecFn([&called](const std::string& /*aql*/,
+                               const std::string& /*ns*/) -> std::string {
+        called = true;
+        return R"({"results":[]})";
+    });
+    setWireAqlExecFn(nullptr);
+    EXPECT_FALSE(called); // setter itself must not invoke the fn
+}
+
+TEST(WireSessionBridgeTest, SetAndClearCursorNextBridge) {
+    setWireCursorNextFn([](const std::string& /*id*/) -> std::string {
+        return R"({"batch":[]})";
+    });
+    setWireCursorNextFn(nullptr);
+    SUCCEED();
+}
+
+TEST(WireSessionBridgeTest, SetAndClearCursorCloseBridge) {
+    setWireCursorCloseFn([](const std::string& /*id*/) -> bool { return true; });
+    setWireCursorCloseFn(nullptr);
+    SUCCEED();
+}
+
+TEST(WireSessionBridgeTest, SetAndClearGeoQueryBridge) {
+    setWireGeoQueryFn([](const std::string& /*collection*/, double /*lat*/,
+                          double /*lon*/, double /*radius_m*/, int /*limit*/) -> std::string {
+        return R"([])";
+    });
+    setWireGeoQueryFn(nullptr);
+    SUCCEED();
+}
+
+TEST(WireSessionBridgeTest, SetAndClearTSQueryBridge) {
+    setWireTSQueryFn([](const std::string& /*collection*/,
+                        int64_t /*start_ns*/, int64_t /*end_ns*/) -> std::string {
+        return R"({"points":[]})";
+    });
+    setWireTSQueryFn(nullptr);
+    SUCCEED();
+}
+
+TEST(WireSessionBridgeTest, SetAndClearGraphTraversalBridge) {
+    setWireGraphTraversalFn([](const std::string& /*collection*/,
+                               const std::string& /*start_vertex*/,
+                               int /*max_depth*/) -> std::string {
+        return R"({"vertices":[],"edges":[]})";
+    });
+    setWireGraphTraversalFn(nullptr);
+    SUCCEED();
+}
+
+TEST(WireSessionBridgeTest, NullptrClearIsIdempotent) {
+    // Clearing a not-yet-set bridge must not crash.
+    setWireAqlExecFn(nullptr);
+    setWireCursorNextFn(nullptr);
+    setWireCursorCloseFn(nullptr);
+    setWireGeoQueryFn(nullptr);
+    setWireTSQueryFn(nullptr);
+    setWireGraphTraversalFn(nullptr);
+    SUCCEED();
+}
+
