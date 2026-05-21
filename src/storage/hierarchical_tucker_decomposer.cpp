@@ -520,8 +520,8 @@ namespace {
 /// A is overwritten.
 ///
 /// STUB #180: Jacobi EVD O(n³ · iter); max_iter = 50 sweeps.
-static void jacobiEVD(std::vector<double>& A, std::size_t n,
-                      std::vector<double>& V, std::vector<double>& lambda)
+[[maybe_unused]] static void jacobiEVD(std::vector<double>& A, std::size_t n,
+                                       std::vector<double>& V, std::vector<double>& lambda)
 {
     // Initialise V = I
     V.assign(n * n, 0.0);
@@ -607,98 +607,17 @@ void HierarchicalTuckerDecomposer::truncatedSVD(
     std::vector<float>&       Vt_out,
     std::size_t&              rank_out)
 {
-    if (m == 0 || n == 0) { rank_out = 0; return; }
-    std::size_t small_dim = std::min(m, n);
-    if (max_rank_cap == 0) max_rank_cap = small_dim;
-    max_rank_cap = std::min(max_rank_cap, small_dim);
-
-    // Choose whether to form A·A^T (if m ≤ n) or A^T·A (if n < m)
-    bool use_AAt = (m <= n);
-
-    std::vector<double> lambda;
-    std::vector<double> V_evd;
-
-    if (use_AAt) {
-        // Gram = A · A^T  (m × m)
-        std::vector<double> AAt(m * m, 0.0);
-        for (std::size_t i = 0; i < m; ++i)
-            for (std::size_t j = i; j < m; ++j) {
-                double v = 0.0;
-                for (std::size_t k = 0; k < n; ++k)
-                    v += static_cast<double>(mat[i * n + k])
-                       * static_cast<double>(mat[j * n + k]);
-                AAt[i * m + j] = AAt[j * m + i] = v;
-            }
-        jacobiEVD(AAt, m, V_evd, lambda);
-    } else {
-        // Gram = A^T · A  (n × n)
-        std::vector<double> AtA(n * n, 0.0);
-        for (std::size_t i = 0; i < n; ++i)
-            for (std::size_t j = i; j < n; ++j) {
-                double v = 0.0;
-                for (std::size_t k = 0; k < m; ++k)
-                    v += static_cast<double>(mat[k * n + i])
-                       * static_cast<double>(mat[k * n + j]);
-                AtA[i * n + j] = AtA[j * n + i] = v;
-            }
-        jacobiEVD(AtA, n, V_evd, lambda);
+    if (m == 0 || n == 0) {
+        rank_out = 0;
+        U_out.clear();
+        S_out.clear();
+        Vt_out.clear();
+        return;
     }
 
-    // Determine rank
-    double tol_sq = delta * delta;
-    rank_out = 0;
-    for (std::size_t k = 0; k < max_rank_cap; ++k) {
-        if (k < lambda.size() && lambda[k] > tol_sq) {
-            rank_out = k + 1;
-        } else {
-            break;
-        }
-    }
-    if (rank_out == 0) rank_out = 1;
-
-    S_out.resize(rank_out);
-    for (std::size_t k = 0; k < rank_out; ++k)
-        S_out[k] = static_cast<float>(std::sqrt(std::max(0.0, lambda[k])));
-
-    if (use_AAt) {
-        // V_evd columns → left singular vectors U
-        // U = V_evd[:, 0..r-1]   (m × rank_out)
-        U_out.resize(m * rank_out);
-        for (std::size_t i = 0; i < m; ++i)
-            for (std::size_t k = 0; k < rank_out; ++k)
-                U_out[i * rank_out + k] = static_cast<float>(V_evd[i * m + k]);
-
-        // Vt = diag(1/S) · U^T · A  (rank_out × n)
-        Vt_out.resize(rank_out * n, 0.0f);
-        for (std::size_t k = 0; k < rank_out; ++k) {
-            float inv_s = (S_out[k] > 1e-10f) ? 1.0f / S_out[k] : 0.0f;
-            for (std::size_t j = 0; j < n; ++j) {
-                float v = 0.0f;
-                for (std::size_t i = 0; i < m; ++i)
-                    v += U_out[i * rank_out + k] * mat[i * n + j];
-                Vt_out[k * n + j] = v * inv_s;
-            }
-        }
-    } else {
-        // V_evd columns → right singular vectors V  (n × rank_out)
-        // Vt[k, j] = V_evd[j, k]
-        Vt_out.resize(rank_out * n);
-        for (std::size_t k = 0; k < rank_out; ++k)
-            for (std::size_t j = 0; j < n; ++j)
-                Vt_out[k * n + j] = static_cast<float>(V_evd[j * n + k]);
-
-        // U = A · V · diag(1/S)   (m × rank_out)
-        U_out.resize(m * rank_out, 0.0f);
-        for (std::size_t i = 0; i < m; ++i) {
-            for (std::size_t k = 0; k < rank_out; ++k) {
-                float v = 0.0f;
-                for (std::size_t j = 0; j < n; ++j)
-                    v += mat[i * n + j] * Vt_out[k * n + j];
-                float inv_s = (S_out[k] > 1e-10f) ? 1.0f / S_out[k] : 0.0f;
-                U_out[i * rank_out + k] = v * inv_s;
-            }
-        }
-    }
+    TensorTrainDecomposer::truncatedSVDShared(
+        mat, m, n, delta, max_rank_cap,
+        U_out, S_out, Vt_out, rank_out);
 }
 
 // ── buildHTNode — top-down HT construction ────────────────────────────────────
