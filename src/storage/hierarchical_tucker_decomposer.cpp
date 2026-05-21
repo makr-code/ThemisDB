@@ -501,89 +501,6 @@ std::vector<float> HierarchicalTuckerDecomposer::modeKProduct(
     return result;
 }
 
-// ── Symmetric Jacobi EVD (STUB #180) ─────────────────────────────────────────
-
-namespace {
-
-/// Symmetric Jacobi eigendecomposition of an n×n matrix A (passed as flat row-major).
-/// Returns eigenvectors in `V` (columns) and eigenvalues in `lambda`, DESCENDING order.
-/// A is overwritten.
-///
-/// STUB #180: Jacobi EVD O(n³ · iter); max_iter = 50 sweeps.
-static void jacobiEVD(std::vector<double>& A, std::size_t n,
-                      std::vector<double>& V, std::vector<double>& lambda)
-{
-    // Initialise V = I
-    V.assign(n * n, 0.0);
-    for (std::size_t i = 0; i < n; ++i) V[i * n + i] = 1.0;
-
-    constexpr int    MAX_SWEEPS = 50;
-    constexpr double TOL        = 1e-13;
-
-    for (int sweep = 0; sweep < MAX_SWEEPS; ++sweep) {
-        double off = 0.0;
-        for (std::size_t i = 0; i < n; ++i)
-            for (std::size_t j = i + 1; j < n; ++j)
-                off += A[i * n + j] * A[i * n + j];
-        if (off < TOL * TOL) break;
-
-        // One full sweep: all off-diagonal (p, q) pairs
-        for (std::size_t p = 0; p < n - 1; ++p) {
-            for (std::size_t q = p + 1; q < n; ++q) {
-                double Apq = A[p * n + q];
-                if (std::abs(Apq) < 1e-15) continue;
-
-                double App = A[p * n + p];
-                double Aqq = A[q * n + q];
-                double tau = (Aqq - App) / (2.0 * Apq);
-                double t   = (tau >= 0.0 ? 1.0 : -1.0)
-                             / (std::abs(tau) + std::sqrt(1.0 + tau * tau));
-                double c   = 1.0 / std::sqrt(1.0 + t * t);
-                double s   = t * c;
-
-                // Update A
-                A[p * n + p] = App - t * Apq;
-                A[q * n + q] = Aqq + t * Apq;
-                A[p * n + q] = A[q * n + p] = 0.0;
-                for (std::size_t i = 0; i < n; ++i) {
-                    if (i == p || i == q) continue;
-                    double Aip = A[i * n + p];
-                    double Aiq = A[i * n + q];
-                    A[i * n + p] = A[p * n + i] = c * Aip - s * Aiq;
-                    A[i * n + q] = A[q * n + i] = s * Aip + c * Aiq;
-                }
-                // Update V
-                for (std::size_t i = 0; i < n; ++i) {
-                    double Vip = V[i * n + p];
-                    double Viq = V[i * n + q];
-                    V[i * n + p] = c * Vip - s * Viq;
-                    V[i * n + q] = s * Vip + c * Viq;
-                }
-            }
-        }
-    }
-
-    // Extract and sort eigenvalues (descending)
-    lambda.resize(n);
-    for (std::size_t i = 0; i < n; ++i) lambda[i] = A[i * n + i];
-
-    std::vector<std::size_t> idx(n);
-    std::iota(idx.begin(), idx.end(), 0);
-    std::sort(idx.begin(), idx.end(),
-              [&](std::size_t a, std::size_t b) { return lambda[a] > lambda[b]; });
-
-    std::vector<double> lam2(n), V2(n * n);
-    for (std::size_t k = 0; k < n; ++k) {
-        lam2[k] = lambda[idx[k]];
-        for (std::size_t i = 0; i < n; ++i)
-            V2[i * n + k] = V[i * n + idx[k]];
-    }
-    lambda = lam2;
-    V      = V2;
-}
-
-} // anonymous namespace
-
 // ── Truncated SVD ─────────────────────────────────────────────────────────────
 
 void HierarchicalTuckerDecomposer::truncatedSVD(
@@ -597,98 +514,13 @@ void HierarchicalTuckerDecomposer::truncatedSVD(
     std::vector<float>&       Vt_out,
     std::size_t&              rank_out)
 {
-    if (m == 0 || n == 0) { rank_out = 0; return; }
-    std::size_t small_dim = std::min(m, n);
-    if (max_rank_cap == 0) max_rank_cap = small_dim;
-    max_rank_cap = std::min(max_rank_cap, small_dim);
-
-    // Choose whether to form A·A^T (if m ≤ n) or A^T·A (if n < m)
-    bool use_AAt = (m <= n);
-
-    std::vector<double> lambda;
-    std::vector<double> V_evd;
-
-    if (use_AAt) {
-        // Gram = A · A^T  (m × m)
-        std::vector<double> AAt(m * m, 0.0);
-        for (std::size_t i = 0; i < m; ++i)
-            for (std::size_t j = i; j < m; ++j) {
-                double v = 0.0;
-                for (std::size_t k = 0; k < n; ++k)
-                    v += static_cast<double>(mat[i * n + k])
-                       * static_cast<double>(mat[j * n + k]);
-                AAt[i * m + j] = AAt[j * m + i] = v;
-            }
-        jacobiEVD(AAt, m, V_evd, lambda);
-    } else {
-        // Gram = A^T · A  (n × n)
-        std::vector<double> AtA(n * n, 0.0);
-        for (std::size_t i = 0; i < n; ++i)
-            for (std::size_t j = i; j < n; ++j) {
-                double v = 0.0;
-                for (std::size_t k = 0; k < m; ++k)
-                    v += static_cast<double>(mat[k * n + i])
-                       * static_cast<double>(mat[k * n + j]);
-                AtA[i * n + j] = AtA[j * n + i] = v;
-            }
-        jacobiEVD(AtA, n, V_evd, lambda);
-    }
-
-    // Determine rank
-    double tol_sq = delta * delta;
-    rank_out = 0;
-    for (std::size_t k = 0; k < max_rank_cap; ++k) {
-        if (k < lambda.size() && lambda[k] > tol_sq) {
-            rank_out = k + 1;
-        } else {
-            break;
-        }
-    }
-    if (rank_out == 0) rank_out = 1;
-
-    S_out.resize(rank_out);
-    for (std::size_t k = 0; k < rank_out; ++k)
-        S_out[k] = static_cast<float>(std::sqrt(std::max(0.0, lambda[k])));
-
-    if (use_AAt) {
-        // V_evd columns → left singular vectors U
-        // U = V_evd[:, 0..r-1]   (m × rank_out)
-        U_out.resize(m * rank_out);
-        for (std::size_t i = 0; i < m; ++i)
-            for (std::size_t k = 0; k < rank_out; ++k)
-                U_out[i * rank_out + k] = static_cast<float>(V_evd[i * m + k]);
-
-        // Vt = diag(1/S) · U^T · A  (rank_out × n)
-        Vt_out.resize(rank_out * n, 0.0f);
-        for (std::size_t k = 0; k < rank_out; ++k) {
-            float inv_s = (S_out[k] > 1e-10f) ? 1.0f / S_out[k] : 0.0f;
-            for (std::size_t j = 0; j < n; ++j) {
-                float v = 0.0f;
-                for (std::size_t i = 0; i < m; ++i)
-                    v += U_out[i * rank_out + k] * mat[i * n + j];
-                Vt_out[k * n + j] = v * inv_s;
-            }
-        }
-    } else {
-        // V_evd columns → right singular vectors V  (n × rank_out)
-        // Vt[k, j] = V_evd[j, k]
-        Vt_out.resize(rank_out * n);
-        for (std::size_t k = 0; k < rank_out; ++k)
-            for (std::size_t j = 0; j < n; ++j)
-                Vt_out[k * n + j] = static_cast<float>(V_evd[j * n + k]);
-
-        // U = A · V · diag(1/S)   (m × rank_out)
-        U_out.resize(m * rank_out, 0.0f);
-        for (std::size_t i = 0; i < m; ++i) {
-            for (std::size_t k = 0; k < rank_out; ++k) {
-                float v = 0.0f;
-                for (std::size_t j = 0; j < n; ++j)
-                    v += mat[i * n + j] * Vt_out[k * n + j];
-                float inv_s = (S_out[k] > 1e-10f) ? 1.0f / S_out[k] : 0.0f;
-                U_out[i * rank_out + k] = v * inv_s;
-            }
-        }
-    }
+    // Delegate to the shared Golub-Reinsch (Householder bidiagonalisation) SVD
+    // backend from TensorTrainDecomposer.  This replaces the previous Gram-matrix
+    // Jacobi EVD path, which was O(r³·iter) and numerically inferior for large
+    // rank or ill-conditioned matrices (stub #288 resolved).
+    TensorTrainDecomposer::sharedTruncatedSVD(
+        mat, m, n, delta, max_rank_cap,
+        U_out, S_out, Vt_out, rank_out);
 }
 
 // ── buildHTNode — top-down HT construction ────────────────────────────────────
@@ -914,14 +746,63 @@ HierarchicalTuckerDecomposer::decompose(
         ranks[k]   = r;
     }
 
-    // ── Step 2: Tucker core G = T ×_0 U_0^T … ×_{d-1} U_{d-1}^T ─────────────
-    std::vector<float>        G      = data;
-    std::vector<std::size_t>  G_shape = shape;
+    // ── Step 1b: HOOI refinement — alternating mode-k updates ────────────────
+    // After the one-shot HOSVD initialisation above, iterate over all modes and
+    // recompute each leaf basis U_k from the Tucker-projected tensor Y^(k):
+    //   Y^(k) = T ×_{l≠k} U_l^T   (contract all modes except k)
+    //   mode-k unfolding Y^(k)_(k) ∈ ℝ^{n_k × ∏_{l≠k} r_l}
+    //   U_k = leading r_k left singular vectors of Y^(k)_(k)
+    // Tucker reconstruction error: ‖T - T̃‖_F² = ‖T‖_F² - ‖G‖_F² (U_k orthonormal)
+    // so convergence is checked cheaply without a full tensor reconstruction.
+    // (stub #287 resolved)
+    constexpr int HOOI_MAX_ITER = 20;
+    std::vector<float>       G;
+    std::vector<std::size_t> G_shape;
 
-    for (std::size_t k = 0; k < d; ++k) {
-        G       = modeKProduct(G, G_shape, k, U_cache[k], G_shape[k], ranks[k]);
-        G_shape[k] = ranks[k];
+    for (int hooi_iter = 0; hooi_iter < HOOI_MAX_ITER; ++hooi_iter) {
+        for (std::size_t k = 0; k < d; ++k) {
+            // Compute Y^(k) = T ×_{l≠k} U_l^T
+            std::vector<float>       Y   = data;
+            std::vector<std::size_t> Ysh = shape;
+            for (std::size_t l = 0; l < d; ++l) {
+                if (l == k) continue;
+                Y      = modeKProduct(Y, Ysh, l, U_cache[l], Ysh[l], ranks[l]);
+                Ysh[l] = ranks[l];
+            }
+            // Mode-k unfolding: Y^(k)_(k) ∈ ℝ^{n_k × ∏_{l≠k} r_l}
+            std::size_t nk      = shape[k];   // Ysh[k] = shape[k] (untouched)
+            std::size_t n_other = 1;
+            for (std::size_t l = 0; l < d; ++l)
+                if (l != k) n_other *= Ysh[l];
+            auto Yk = modeKUnfolding(Y, Ysh, k);   // [nk × n_other]
+
+            std::vector<float> U_new, S_new, Vt_new;
+            std::size_t r_new = 0;
+            truncatedSVD(Yk, nk, n_other, leaf_delta, cfg_.max_rank,
+                         U_new, S_new, Vt_new, r_new);
+            U_cache[k] = std::move(U_new);
+            ranks[k]   = r_new;
+        }
+
+        // Recompute Tucker core for convergence check:
+        // ‖T - T̃‖_F² = ‖T‖_F² - ‖G‖_F²  (exact for orthonormal U_k)
+        G      = data;
+        G_shape = shape;
+        for (std::size_t k = 0; k < d; ++k) {
+            G         = modeKProduct(G, G_shape, k, U_cache[k], G_shape[k], ranks[k]);
+            G_shape[k] = ranks[k];
+        }
+
+        if (orig_norm > 0.0) {
+            double G_sq = 0.0;
+            for (float v : G) G_sq += static_cast<double>(v) * v;
+            double achieved = std::sqrt(std::max(0.0, total_sq - G_sq)) / orig_norm;
+            if (achieved <= cfg_.eps) break;
+        } else {
+            break;  // Zero tensor: trivially converged
+        }
     }
+    // G and G_shape now hold the final Tucker core from the last HOOI iteration.
     // G now has shape [r_0, ..., r_{d-1}]
 
     // ── Step 3: Build HT tree top-down from G ─────────────────────────────────

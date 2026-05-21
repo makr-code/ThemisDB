@@ -103,6 +103,22 @@ public:
     void unregisterConnection(uint64_t conn_id);
 
     /**
+     * @brief Get pending raw ChangeEvent objects for a connection.
+     *
+     * Returns the raw ChangeEvent objects corresponding to the events buffered
+     * for this connection, enabling callers to perform at-least-once delivery
+     * tracking via DeliveryTracker::trackDelivery().  The raw-event buffer for
+     * this connection is drained of the returned events (in lock-step with the
+     * formatted-string buffer drained by pollEvents()).
+     *
+     * @param conn_id    Connection ID returned by registerConnection().
+     * @param max_events Maximum number of events to retrieve.
+     * @return Vector of raw ChangeEvent objects (may be empty).
+     */
+    std::vector<Changefeed::ChangeEvent> pollRawEvents(
+        uint64_t conn_id, size_t max_events = 100);
+
+    /**
      * @brief Get pending events for a connection
      * @param conn_id Connection ID
      * @param max_events Max events to retrieve
@@ -142,6 +158,7 @@ private:
         std::chrono::steady_clock::time_point last_activity;
         std::chrono::steady_clock::time_point last_heartbeat;
         std::vector<std::string> buffered_events;
+        std::vector<Changefeed::ChangeEvent> buffered_raw_events;  ///< Parallel raw-event buffer for at-least-once delivery tracking
         std::atomic<bool> active{true};
         // Backpressure accounting
         uint64_t dropped_events{0};

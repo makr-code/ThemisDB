@@ -99,8 +99,10 @@ public:
      * @throws std::invalid_argument if data.size() != ∏ shape[k], d < 2, or any
      *         shape[k] == 0.
      *
-      * @note Decomposition performs HOSVD initialization followed by iterative HOOI
-      *       refinement until `eps` is reached or the internal iteration cap is hit.
+      * @note Decomposition performs HOSVD initialization (step 1) followed by
+      *       iterative HOOI alternating-optimization refinement (up to 20 sweeps)
+      *       until `eps` is reached or the iteration cap is hit, then constructs
+      *       the HT tree top-down (step 3).
      */
     std::pair<tensor::HTTrain, Stats>
     decompose(const std::vector<float>&        data,
@@ -125,6 +127,9 @@ private:
      *
       * Uses the shared Golub-Reinsch-based TensorTrainDecomposer truncated SVD
       * backend to keep truncation behavior consistent across decomposers.
+      * Delegating to the shared backend eliminates the internal Gram-matrix
+      * Jacobi EVD path for numerically superior results on large/ill-conditioned
+      * matrices while keeping the public HT decomposer interface unchanged.
       */
     static void truncatedSVD(
         const std::vector<float>&  mat,
