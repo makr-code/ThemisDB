@@ -16,6 +16,20 @@ Documentation is part of the definition of done.
 - Comments must capture intent (**why/constraints/trade-offs**), not only restate implementation details.
 - When refactoring behavior, update existing documentation in the same change.
 - Document error/edge-case behavior explicitly (invalid input, empty state, cancellation, timeout).
+- Simulation/Stub/Mockup paths are forbidden without explicit human approval and explicit human marking.
+
+## Mandatory Human Marking For Approved Non-Production Paths
+
+If a human explicitly approves a Simulation/Stub/Mockup path, documentation and code comments must include:
+
+```cpp
+// NON-PRODUCTION PATH (Simulation/Stub/Mockup)
+// Reason: <why needed>
+// Activation: <when active>
+// Production Delta: <difference to primary path>
+// Approved By: <human name/role + ticket/PR reference>
+// Removal Target: <date or milestone>
+```
 
 ## Review Expectations
 

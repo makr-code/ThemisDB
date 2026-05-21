@@ -1041,7 +1041,6 @@ void WireProtocolSession::handle_bpmn_start(
     }
     send_ok("{\"process_instance_id\":\"" + instance_id + "\"}");
 }
-}
 
 void WireProtocolSession::handle_batch_get(const v1::BatchGetRequest& req) {
     // BATCH_GET: retrieve multiple documents by collection and UUID list.

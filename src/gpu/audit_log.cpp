@@ -19,8 +19,7 @@ namespace gpu {
 // Construction
 // ============================================================================
 
-GPUAuditLog::GPUAuditLog(size_t capacity)
-    : capacity_(capacity > 0 ? capacity : 1) {
+GPUAuditLog::GPUAuditLog(size_t capacity) : capacity_(capacity > 0 ? capacity : 1) {
     ring_.resize(capacity_);
 }
 
@@ -28,22 +27,21 @@ GPUAuditLog::GPUAuditLog(size_t capacity)
 // Core record
 // ============================================================================
 
-void GPUAuditLog::record(EventType          type,
-                          uint64_t           size_bytes,
-                          const std::string& tag,
-                          const std::string& tenant_id,
-                          const std::string& message) {
+void GPUAuditLog::record(EventType type, uint64_t size_bytes, const std::string &tag, const std::string &tenant_id,
+                         const std::string &message) {
     std::lock_guard<std::mutex> lock(mutex_);
-    Event& e    = ring_[head_];
-    e.type      = type;
+    Event &e     = ring_[head_];
+    e.type       = type;
     e.size_bytes = size_bytes;
-    e.tag       = tag;
-    e.tenant_id = tenant_id;
-    e.message   = message;
-    e.timestamp = std::chrono::system_clock::now();
+    e.tag        = tag;
+    e.tenant_id  = tenant_id;
+    e.message    = message;
+    e.timestamp  = std::chrono::system_clock::now();
 
     head_ = (head_ + 1) % capacity_;
-    if (count_ < capacity_) ++count_;
+    if (count_ < capacity_) {
+        ++count_;
+    }
     ++total_;
 }
 
@@ -51,42 +49,31 @@ void GPUAuditLog::record(EventType          type,
 // Convenience overloads
 // ============================================================================
 
-void GPUAuditLog::recordAllocSuccess(uint64_t bytes,
-                                      const std::string& tag,
-                                      const std::string& tenant_id) {
+void GPUAuditLog::recordAllocSuccess(uint64_t bytes, const std::string &tag, const std::string &tenant_id) {
     record(EventType::ALLOC_SUCCESS, bytes, tag, tenant_id);
 }
 
-void GPUAuditLog::recordAllocFailGlobalLimit(uint64_t bytes,
-                                              const std::string& tag,
-                                              const std::string& tenant_id) {
-    record(EventType::ALLOC_FAIL_GLOBAL_LIMIT, bytes, tag, tenant_id,
-           "Rejected: edition VRAM limit exceeded");
+void GPUAuditLog::recordAllocFailGlobalLimit(uint64_t bytes, const std::string &tag, const std::string &tenant_id) {
+    record(EventType::ALLOC_FAIL_GLOBAL_LIMIT, bytes, tag, tenant_id, "Rejected: edition VRAM limit exceeded");
 }
 
-void GPUAuditLog::recordAllocFailTenantQuota(uint64_t bytes,
-                                              const std::string& tag,
-                                              const std::string& tenant_id) {
-    record(EventType::ALLOC_FAIL_TENANT_QUOTA, bytes, tag, tenant_id,
-           "Rejected: per-tenant quota exceeded");
+void GPUAuditLog::recordAllocFailTenantQuota(uint64_t bytes, const std::string &tag, const std::string &tenant_id) {
+    record(EventType::ALLOC_FAIL_TENANT_QUOTA, bytes, tag, tenant_id, "Rejected: per-tenant quota exceeded");
 }
 
-void GPUAuditLog::recordDealloc(uint64_t bytes,
-                                 const std::string& tag,
-                                 const std::string& tenant_id) {
+void GPUAuditLog::recordDealloc(uint64_t bytes, const std::string &tag, const std::string &tenant_id) {
     record(EventType::DEALLOC, bytes, tag, tenant_id);
 }
 
-void GPUAuditLog::recordFallbackToCPU(const std::string& reason,
-                                       const std::string& tenant_id) {
+void GPUAuditLog::recordFallbackToCPU(const std::string &reason, const std::string &tenant_id) {
     record(EventType::FALLBACK_TO_CPU, 0, "cpu_fallback", tenant_id, reason);
 }
 
-void GPUAuditLog::recordDeviceUnavailable(const std::string& detail) {
+void GPUAuditLog::recordDeviceUnavailable(const std::string &detail) {
     record(EventType::DEVICE_UNAVAILABLE, 0, "", "", detail);
 }
 
-void GPUAuditLog::recordCircuitOpened(const std::string& detail) {
+void GPUAuditLog::recordCircuitOpened(const std::string &detail) {
     record(EventType::CIRCUIT_OPENED, 0, "", "", detail);
 }
 
@@ -100,7 +87,9 @@ void GPUAuditLog::recordCircuitReset() {
 
 std::vector<GPUAuditLog::Event> GPUAuditLog::snapshot() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (count_ == 0) return {};
+    if (count_ == 0) {
+        return {};
+    }
 
     std::vector<Event> result;
     result.reserve(count_);

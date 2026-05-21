@@ -111,20 +111,6 @@ DistributedTransactionManager::~DistributedTransactionManager() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Remote-decision transport bridge (stub #279)
-// ─────────────────────────────────────────────────────────────────────────────
-
-void DistributedTransactionManager::setRemoteDecisionFn(RemoteDecisionFn fn) {
-    std::lock_guard<std::mutex> lk(remote_decision_fn_mutex_);
-    remote_decision_fn_ = std::move(fn);
-}
-
-void DistributedTransactionManager::clearRemoteDecisionFn() {
-    std::lock_guard<std::mutex> lk(remote_decision_fn_mutex_);
-    remote_decision_fn_ = RemoteDecisionFn{};
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // Coordinator API
 // ─────────────────────────────────────────────────────────────────────────────
 

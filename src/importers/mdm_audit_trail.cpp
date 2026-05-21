@@ -7,12 +7,14 @@
  */
 
 #include "importers/mdm_audit_trail.h"
-#include "utils/hash_util.h"
+
 #include <algorithm>
 #include <chrono>
 #include <iomanip>
 #include <random>
 #include <sstream>
+
+#include "utils/hash_util.h"
 // SHA-256 via OpenSSL or a lightweight fallback.
 // We use a simple FNV-based hash here to avoid adding an OpenSSL dependency.
 // Production deployments should replace fnvHash with OpenSSL's SHA-256.
@@ -29,15 +31,12 @@ std::string MDMAuditTrail::generateUUID() {
     static std::uniform_int_distribution<uint64_t> dist;
     uint64_t hi = dist(rng);
     uint64_t lo = dist(rng);
-    hi = (hi & 0xFFFFFFFFFFFF0FFFull) | 0x0000000000004000ull;
-    lo = (lo & 0x3FFFFFFFFFFFFFFFull) | 0x8000000000000000ull;
+    hi          = (hi & 0xFFFFFFFFFFFF0FFFull) | 0x0000000000004000ull;
+    lo          = (lo & 0x3FFFFFFFFFFFFFFFull) | 0x8000000000000000ull;
     std::ostringstream ss;
-    ss << std::hex << std::setfill('0')
-       << std::setw(8)  << ((hi >> 32) & 0xFFFFFFFF) << '-'
-       << std::setw(4)  << ((hi >> 16) & 0xFFFF)     << '-'
-       << std::setw(4)  << (hi & 0xFFFF)              << '-'
-       << std::setw(4)  << ((lo >> 48) & 0xFFFF)     << '-'
-       << std::setw(12) << (lo & 0xFFFFFFFFFFFFull);
+    ss << std::hex << std::setfill('0') << std::setw(8) << ((hi >> 32) & 0xFFFFFFFF) << '-' << std::setw(4)
+       << ((hi >> 16) & 0xFFFF) << '-' << std::setw(4) << (hi & 0xFFFF) << '-' << std::setw(4) << ((lo >> 48) & 0xFFFF)
+       << '-' << std::setw(12) << (lo & 0xFFFFFFFFFFFFull);
     return ss.str();
 }
 
@@ -56,15 +55,9 @@ std::string MDMAuditTrail::nowRfc3339() {
     return ss.str();
 }
 
-std::string MDMAuditTrail::computeChainHash(
-    const std::string& previous_hash,
-    const AuditEvent&  event
-) {
-    const std::string payload = previous_hash
-                                + event.event_id
-                                + event.timestamp
-                                + event.source_entity_id
-                                + event.target_entity_id;
+std::string MDMAuditTrail::computeChainHash(const std::string &previous_hash, const AuditEvent &event) {
+    const std::string payload
+        = previous_hash + event.event_id + event.timestamp + event.source_entity_id + event.target_entity_id;
     const uint64_t h = themis::hash::fnv1a64(payload);
     std::ostringstream ss;
     ss << std::hex << std::setfill('0') << std::setw(16) << h;
@@ -76,31 +69,37 @@ std::string MDMAuditTrail::computeChainHash(
 // ---------------------------------------------------------------------------
 
 json MDMAuditTrail::AuditEvent::toJson() const {
-    return json{
-        {"event_id",          event_id},
-        {"operation",         MDMAuditTrail::operationName(operation)},
-        {"collection_name",   collection_name},
-        {"source_entity_id",  source_entity_id},
-        {"target_entity_id",  target_entity_id},
-        {"confidence_score",  confidence_score},
-        {"event_details",     event_details},
-        {"timestamp",         timestamp},
-        {"initiated_by",      initiated_by},
-        {"status",            status},
-        {"chain_hash",        chain_hash}
-    };
+    return json{{"event_id", event_id},
+                {"operation", MDMAuditTrail::operationName(operation)},
+                {"collection_name", collection_name},
+                {"source_entity_id", source_entity_id},
+                {"target_entity_id", target_entity_id},
+                {"confidence_score", confidence_score},
+                {"event_details", event_details},
+                {"timestamp", timestamp},
+                {"initiated_by", initiated_by},
+                {"status", status},
+                {"chain_hash", chain_hash}};
 }
 
 std::string MDMAuditTrail::operationName(Operation op) {
     switch (op) {
-        case Operation::MATCH_FOUND:            return "MATCH_FOUND";
-        case Operation::LINK_CREATED:           return "LINK_CREATED";
-        case Operation::CONFLICT_DETECTED:      return "CONFLICT_DETECTED";
-        case Operation::CONFLICT_RESOLVED:      return "CONFLICT_RESOLVED";
-        case Operation::GOLDEN_RECORD_CREATED:  return "GOLDEN_RECORD_CREATED";
-        case Operation::ENTITY_MERGED:          return "ENTITY_MERGED";
-        case Operation::REVIEW_REQUESTED:       return "REVIEW_REQUESTED";
-        case Operation::REVIEW_COMPLETED:       return "REVIEW_COMPLETED";
+        case Operation::MATCH_FOUND:
+            return "MATCH_FOUND";
+        case Operation::LINK_CREATED:
+            return "LINK_CREATED";
+        case Operation::CONFLICT_DETECTED:
+            return "CONFLICT_DETECTED";
+        case Operation::CONFLICT_RESOLVED:
+            return "CONFLICT_RESOLVED";
+        case Operation::GOLDEN_RECORD_CREATED:
+            return "GOLDEN_RECORD_CREATED";
+        case Operation::ENTITY_MERGED:
+            return "ENTITY_MERGED";
+        case Operation::REVIEW_REQUESTED:
+            return "REVIEW_REQUESTED";
+        case Operation::REVIEW_COMPLETED:
+            return "REVIEW_COMPLETED";
     }
     return "UNKNOWN";
 }
@@ -112,11 +111,15 @@ std::string MDMAuditTrail::operationName(Operation op) {
 void MDMAuditTrail::recordEvent(AuditEvent event) {
     std::lock_guard<std::mutex> lk(mutex_);
 
-    if (event.event_id.empty())  event.event_id  = generateUUID();
-    if (event.timestamp.empty()) event.timestamp = nowRfc3339();
+    if (event.event_id.empty()) {
+        event.event_id = generateUUID();
+    }
+    if (event.timestamp.empty()) {
+        event.timestamp = nowRfc3339();
+    }
 
     const std::string prev_hash = events_.empty() ? "" : events_.back().chain_hash;
-    event.chain_hash = computeChainHash(prev_hash, event);
+    event.chain_hash            = computeChainHash(prev_hash, event);
 
     events_.push_back(std::move(event));
 }
@@ -126,18 +129,21 @@ void MDMAuditTrail::recordEvent(AuditEvent event) {
 // ---------------------------------------------------------------------------
 
 std::vector<MDMAuditTrail::AuditEvent>
-MDMAuditTrail::getAuditFor(
-    const std::string&              entity_id,
-    const std::string&              collection_name,
-    const std::optional<Operation>& operation_filter
-) const {
+MDMAuditTrail::getAuditFor(const std::string &entity_id, const std::string &collection_name,
+                           const std::optional<Operation> &operation_filter) const {
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<AuditEvent> result;
 
-    for (const auto& e : events_) {
-        if (e.source_entity_id != entity_id && e.target_entity_id != entity_id) continue;
-        if (!collection_name.empty() && e.collection_name != collection_name) continue;
-        if (operation_filter.has_value() && e.operation != *operation_filter) continue;
+    for (const auto &e : events_) {
+        if (e.source_entity_id != entity_id && e.target_entity_id != entity_id) {
+            continue;
+        }
+        if (!collection_name.empty() && e.collection_name != collection_name) {
+            continue;
+        }
+        if (operation_filter.has_value() && e.operation != *operation_filter) {
+            continue;
+        }
         result.push_back(e);
     }
     return result;
@@ -150,9 +156,11 @@ MDMAuditTrail::getAuditFor(
 bool MDMAuditTrail::verifyAuditChain() const {
     std::lock_guard<std::mutex> lk(mutex_);
     std::string prev_hash;
-    for (const auto& e : events_) {
+    for (const auto &e : events_) {
         const std::string expected = computeChainHash(prev_hash, e);
-        if (expected != e.chain_hash) return false;
+        if (expected != e.chain_hash) {
+            return false;
+        }
         prev_hash = e.chain_hash;
     }
     return true;
@@ -162,32 +170,33 @@ bool MDMAuditTrail::verifyAuditChain() const {
 // exportAuditReport
 // ---------------------------------------------------------------------------
 
-json MDMAuditTrail::exportAuditReport(
-    const std::string& collection_name,
-    const std::string& start_date,
-    const std::string& end_date
-) const {
+json MDMAuditTrail::exportAuditReport(const std::string &collection_name, const std::string &start_date,
+                                      const std::string &end_date) const {
     std::lock_guard<std::mutex> lk(mutex_);
 
     json events_arr = json::array();
-    size_t count = 0;
+    size_t count    = 0;
 
-    for (const auto& e : events_) {
-        if (!collection_name.empty() && e.collection_name != collection_name) continue;
-        if (!start_date.empty() && e.timestamp < start_date) continue;
-        if (!end_date.empty()   && e.timestamp > end_date)   continue;
+    for (const auto &e : events_) {
+        if (!collection_name.empty() && e.collection_name != collection_name) {
+            continue;
+        }
+        if (!start_date.empty() && e.timestamp < start_date) {
+            continue;
+        }
+        if (!end_date.empty() && e.timestamp > end_date) {
+            continue;
+        }
         events_arr.push_back(e.toJson());
         ++count;
     }
 
-    return json{
-        {"collection_name", collection_name},
-        {"start_date",      start_date},
-        {"end_date",        end_date},
-        {"total_events",    count},
-        {"chain_valid",     true},  // Caller should call verifyAuditChain() separately.
-        {"events",          events_arr}
-    };
+    return json{{"collection_name", collection_name},
+                {"start_date", start_date},
+                {"end_date", end_date},
+                {"total_events", count},
+                {"chain_valid", true}, // Caller should call verifyAuditChain() separately.
+                {"events", events_arr}};
 }
 
 size_t MDMAuditTrail::eventCount() const {

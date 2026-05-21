@@ -12,27 +12,28 @@
 // ModuleSandbox: resource-limited OS jail for plugin code
 
 #include "themis/base/module_sandbox.h"
-#include "themis/base/module_loader.h"
-#include "themis/base/wasm_plugin_sandbox.h"
-#include "themis/base/wasm_runtime_injector.h"
 
 #include <cctype>
 #include <cerrno>
 #include <cstring>
 #include <sstream>
 
+#include "themis/base/module_loader.h"
+#include "themis/base/wasm_plugin_sandbox.h"
+#include "themis/base/wasm_runtime_injector.h"
+
 #ifdef _WIN32
-#  include <windows.h>
+#include <windows.h>
 #else
-#  include <dlfcn.h>
-#  include <fstream>
-#  include <sys/resource.h>
-#  include <sys/stat.h>
-#  include <unistd.h>
-#  if __has_include(<sys/prctl.h>)
-#    include <sys/prctl.h>
-#    define THEMIS_HAVE_PRCTL 1
-#  endif
+#include <dlfcn.h>
+#include <fstream>
+#include <sys/resource.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#if __has_include(<sys/prctl.h>)
+#include <sys/prctl.h>
+#define THEMIS_HAVE_PRCTL 1
+#endif
 #endif
 
 #include <spdlog/spdlog.h>
@@ -52,32 +53,29 @@ namespace {
 // =============================================================================
 
 class WasmRuntimeAdapter final : public WasmRuntime {
-public:
-    explicit WasmRuntimeAdapter(std::unique_ptr<IWasmRuntime> impl)
-        : impl_(std::move(impl)) {}
+  public:
+    explicit WasmRuntimeAdapter(std::unique_ptr<IWasmRuntime> impl) : impl_(std::move(impl)) {}
 
-    bool instantiate(const std::vector<uint8_t>&         wasm_bytes,
-                     const std::vector<WasmHostFunction>& host_fns,
-                     uint8_t*                             /*linear_memory*/,
-                     size_t                               memory_size) override {
+    bool instantiate(const std::vector<uint8_t> &wasm_bytes, const std::vector<WasmHostFunction> &host_fns,
+                     uint8_t * /*linear_memory*/, size_t memory_size) override {
         // IWasmRuntime::instantiate() takes a memory limit in bytes and manages
         // its own linear memory allocation.
         return impl_->instantiate(wasm_bytes, host_fns, memory_size);
     }
 
-    bool call(const std::string&          export_name,
-              const std::vector<uint8_t>& args,
-              std::vector<uint8_t>&       out) override {
+    bool call(const std::string &export_name, const std::vector<uint8_t> &args, std::vector<uint8_t> &out) override {
         return impl_->call(export_name, args, out);
     }
 
-    void destroy() override { impl_.reset(); }
+    void destroy() override {
+        impl_.reset();
+    }
 
     std::string engineName() const override {
         return impl_ ? impl_->name() : std::string{};
     }
 
-private:
+  private:
     std::unique_ptr<IWasmRuntime> impl_;
 };
 
@@ -106,7 +104,7 @@ static bool isCgroupV2Available() {
 
 /// Replace characters that are invalid inside a cgroup directory name
 /// (anything that is not alphanumeric, '_', or '-') with '_'.
-static std::string sanitizeCgroupName(const std::string& name) {
+static std::string sanitizeCgroupName(const std::string &name) {
     std::string out;
     out.reserve(name.size());
     for (unsigned char c : name) {
@@ -122,55 +120,47 @@ static std::string sanitizeCgroupName(const std::string& name) {
 // AbiChecker
 // =============================================================================
 
-AbiChecker::AbiChecker() = default;
+AbiChecker::AbiChecker()  = default;
 AbiChecker::~AbiChecker() = default;
 
-void AbiChecker::addRequiredSymbol(const std::string& sym) {
+void AbiChecker::addRequiredSymbol(const std::string &sym) {
     required_symbols_.push_back(sym);
 }
 
-void AbiChecker::addDeprecatedSymbol(const std::string& sym) {
+void AbiChecker::addDeprecatedSymbol(const std::string &sym) {
     deprecated_symbols_.push_back(sym);
 }
 
 void AbiChecker::useDefaultLists() {
     required_symbols_ = {
-        "themis_module_init",
-        "themis_module_shutdown",
-        "themis_module_version",
-        "themis_api_version_major",
-        "themis_api_version_minor",
+        "themis_module_init",       "themis_module_shutdown",   "themis_module_version",
+        "themis_api_version_major", "themis_api_version_minor",
     };
     // No deprecated symbols in v1.x
 }
 
-/*static*/ void* AbiChecker::resolveSymbol(void* handle, const std::string& name) noexcept {
+/*static*/ void *AbiChecker::resolveSymbol(void *handle, const std::string &name) noexcept {
 #ifdef _WIN32
-    return reinterpret_cast<void*>(
-        GetProcAddress(static_cast<HMODULE>(handle), name.c_str()));
+    return reinterpret_cast<void *>(GetProcAddress(static_cast<HMODULE>(handle), name.c_str()));
 #else
     return dlsym(handle, name.c_str());
 #endif
 }
 
-AbiCheckResult AbiChecker::checkVersions(const ModuleMetadata& meta,
-                                           uint32_t host_major,
-                                           uint32_t host_minor) const {
+AbiCheckResult AbiChecker::checkVersions(const ModuleMetadata &meta, uint32_t host_major, uint32_t host_minor) const {
     AbiCheckResult result;
     result.compatible = true;
 
     if (meta.themisMajor != host_major) {
         result.compatible = false;
-        result.issues.push_back(
-            "Major version mismatch: module=" + std::to_string(meta.themisMajor) +
-            " host=" + std::to_string(host_major));
+        result.issues.push_back("Major version mismatch: module=" + std::to_string(meta.themisMajor)
+                                + " host=" + std::to_string(host_major));
     }
 
     if (meta.themisMinor > host_minor) {
         result.compatible = false;
-        result.issues.push_back(
-            "Module minor version too new: module=" + std::to_string(meta.themisMinor) +
-            " host=" + std::to_string(host_minor));
+        result.issues.push_back("Module minor version too new: module=" + std::to_string(meta.themisMinor)
+                                + " host=" + std::to_string(host_minor));
     }
 
     if (meta.version.empty()) {
@@ -178,69 +168,70 @@ AbiCheckResult AbiChecker::checkVersions(const ModuleMetadata& meta,
         // Treat as non-fatal: allow it but note the issue
     }
 
-    result.summary = result.compatible
-        ? "Version compatibility OK (" + meta.version + ")"
-        : "Version incompatible";
+    result.summary = result.compatible ? "Version compatibility OK (" + meta.version + ")" : "Version incompatible";
     return result;
 }
 
-AbiCheckResult AbiChecker::checkRequiredSymbols(void* handle) const {
+AbiCheckResult AbiChecker::checkRequiredSymbols(void *handle) const {
     AbiCheckResult result;
     result.compatible = true;
 
-    for (const auto& sym : required_symbols_) {
+    for (const auto &sym : required_symbols_) {
         if (!resolveSymbol(handle, sym)) {
             result.compatible = false;
             result.issues.push_back("Required symbol missing: " + sym);
         }
     }
 
-    result.summary = result.compatible
-        ? "All required symbols present"
-        : "Missing required symbols (" + std::to_string(result.issues.size()) + ")";
+    result.summary = result.compatible ? "All required symbols present"
+                                       : "Missing required symbols (" + std::to_string(result.issues.size()) + ")";
     return result;
 }
 
-AbiCheckResult AbiChecker::checkDeprecatedSymbols(void* handle) const {
+AbiCheckResult AbiChecker::checkDeprecatedSymbols(void *handle) const {
     AbiCheckResult result;
     result.compatible = true; // Deprecated symbols are warnings, not failures
 
-    for (const auto& sym : deprecated_symbols_) {
+    for (const auto &sym : deprecated_symbols_) {
         if (resolveSymbol(handle, sym)) {
-            result.issues.push_back("Deprecated symbol still present: " + sym +
-                                    " (rebuild module against current headers)");
+            result.issues.push_back("Deprecated symbol still present: " + sym
+                                    + " (rebuild module against current headers)");
         }
     }
 
     result.summary = result.issues.empty()
-        ? "No deprecated symbols"
-        : "Deprecated symbol(s) detected (" + std::to_string(result.issues.size()) + ")";
+                         ? "No deprecated symbols"
+                         : "Deprecated symbol(s) detected (" + std::to_string(result.issues.size()) + ")";
     return result;
 }
 
-AbiCheckResult AbiChecker::check(void*                 module_handle,
-                                   const ModuleMetadata& module_meta,
-                                   uint32_t              host_major,
-                                   uint32_t              host_minor) const {
+AbiCheckResult AbiChecker::check(void *module_handle, const ModuleMetadata &module_meta, uint32_t host_major,
+                                 uint32_t host_minor) const {
     AbiCheckResult combined;
     combined.compatible = true;
 
     auto versions = checkVersions(module_meta, host_major, host_minor);
     if (!versions.compatible) {
         combined.compatible = false;
-        for (auto& i : versions.issues) combined.issues.push_back(i);
+        for (auto &i : versions.issues) {
+            combined.issues.push_back(i);
+        }
     }
 
     if (module_handle) {
         auto symbols = checkRequiredSymbols(module_handle);
         if (!symbols.compatible) {
             combined.compatible = false;
-            for (auto& i : symbols.issues) combined.issues.push_back(i);
+            for (auto &i : symbols.issues) {
+                combined.issues.push_back(i);
+            }
         }
 
         auto deprecated = checkDeprecatedSymbols(module_handle);
         // Deprecated symbols are warnings only
-        for (auto& i : deprecated.issues) combined.issues.push_back("[WARN] " + i);
+        for (auto &i : deprecated.issues) {
+            combined.issues.push_back("[WARN] " + i);
+        }
     }
 
     std::ostringstream oss;
@@ -277,14 +268,15 @@ struct ModuleSandbox::PlatformHandle {
 // ModuleSandbox
 // =============================================================================
 
-ModuleSandbox::ModuleSandbox(const Config& config)
-    : config_(config), platform_(std::make_unique<PlatformHandle>()) {}
+ModuleSandbox::ModuleSandbox(const Config &config) : config_(config), platform_(std::make_unique<PlatformHandle>()) {}
 
 ModuleSandbox::~ModuleSandbox() {
-    if (active_) shutdown();
+    if (active_) {
+        shutdown();
+    }
 }
 
-bool ModuleSandbox::launch(const std::string& module_name) {
+bool ModuleSandbox::launch(const std::string &module_name) {
     module_name_ = module_name;
     last_error_.clear();
     launch_warnings_.clear();
@@ -294,38 +286,38 @@ bool ModuleSandbox::launch(const std::string& module_name) {
     ok &= applyMemoryLimit();
     ok &= applyCpuLimit();
 
-    if (config_.allow_network == false)
+    if (config_.allow_network == false) {
         applyNetworkIsolation(); // Best-effort; failures are warnings
+    }
 
     applyFilesystemRestrictions(); // Best-effort
     applySyscallFilter();          // Best-effort
 
-    if (!ok) return false;
+    if (!ok) {
+        return false;
+    }
 
     // ── WASM isolation (v1.8.0) ──────────────────────────────────────────
     if (config_.enable_wasm_isolation) {
         if (!WasmRuntimeInjector::available()) {
-            launch_warnings_.push_back(
-                "WASM isolation requested but no WasmRuntime backend is registered; "
-                "falling back to OS-only sandbox. Register a backend via "
-                "WasmRuntimeInjector::registerRuntime() before calling launch().");
+            launch_warnings_.push_back("WASM isolation requested but no WasmRuntime backend is registered; "
+                                       "falling back to OS-only sandbox. Register a backend via "
+                                       "WasmRuntimeInjector::registerRuntime() before calling launch().");
         } else {
             auto rt = WasmRuntimeInjector::create(config_.wasm_runtime_name);
             if (!rt) {
-                launch_warnings_.push_back(
-                    "WASM isolation: WasmRuntimeInjector::create() returned nullptr; "
-                    "OS-only sandbox active.");
+                launch_warnings_.push_back("WASM isolation: WasmRuntimeInjector::create() returned nullptr; "
+                                           "OS-only sandbox active.");
             } else {
                 WasmPluginSandbox::Config wasm_cfg;
-                wasm_cfg.linear_memory_pages          = config_.wasm_linear_memory_pages;
-                wasm_cfg.max_memory_mb                = config_.max_memory_mb;
-                wasm_cfg.max_cpu_time_seconds         = config_.max_cpu_time_seconds;
-                wasm_cfg.allow_unregistered_imports   = config_.wasm_allow_unregistered_imports;
+                wasm_cfg.linear_memory_pages        = config_.wasm_linear_memory_pages;
+                wasm_cfg.max_memory_mb              = config_.max_memory_mb;
+                wasm_cfg.max_cpu_time_seconds       = config_.max_cpu_time_seconds;
+                wasm_cfg.allow_unregistered_imports = config_.wasm_allow_unregistered_imports;
 
                 wasm_sandbox_ = std::make_unique<WasmPluginSandbox>(wasm_cfg);
                 // Wrap the IWasmRuntime (injector API) to WasmRuntime (sandbox API)
-                wasm_sandbox_->setRuntime(
-                    std::make_unique<WasmRuntimeAdapter>(std::move(rt)));
+                wasm_sandbox_->setRuntime(std::make_unique<WasmRuntimeAdapter>(std::move(rt)));
                 wasm_isolation_active_ = true;
             }
         }
@@ -336,7 +328,9 @@ bool ModuleSandbox::launch(const std::string& module_name) {
 }
 
 void ModuleSandbox::shutdown() {
-    if (!active_) return;
+    if (!active_) {
+        return;
+    }
 
 #ifdef _WIN32
     if (platform_->job_object) {
@@ -367,7 +361,9 @@ void ModuleSandbox::shutdown() {
 }
 
 bool ModuleSandbox::applyMemoryLimit() {
-    if (config_.max_memory_mb == 0) return true;
+    if (config_.max_memory_mb == 0) {
+        return true;
+    }
 
 #ifdef _WIN32
     // Create a new Job Object for this sandbox
@@ -383,12 +379,9 @@ bool ModuleSandbox::applyMemoryLimit() {
 
     JOBOBJECT_EXTENDED_LIMIT_INFORMATION ji{};
     ji.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_PROCESS_MEMORY;
-    ji.ProcessMemoryLimit = config_.max_memory_mb * 1024 * 1024;
-    if (!SetInformationJobObject(platform_->job_object,
-                                  JobObjectExtendedLimitInformation,
-                                  &ji, sizeof(ji))) {
-        last_error_ = "SetInformationJobObject (memory) failed: " +
-                       std::to_string(GetLastError());
+    ji.ProcessMemoryLimit               = config_.max_memory_mb * 1024 * 1024;
+    if (!SetInformationJobObject(platform_->job_object, JobObjectExtendedLimitInformation, &ji, sizeof(ji))) {
+        last_error_ = "SetInformationJobObject (memory) failed: " + std::to_string(GetLastError());
         return false;
     }
     return true;
@@ -424,8 +417,7 @@ bool ModuleSandbox::applyMemoryLimit() {
         if (setrlimit(RLIMIT_AS, &new_limit) == 0) {
             platform_->mem_limit_applied = true;
         } else {
-            launch_warnings_.push_back(
-                "RLIMIT_AS not supported on this kernel – memory limit not enforced");
+            launch_warnings_.push_back("RLIMIT_AS not supported on this kernel – memory limit not enforced");
         }
     }
     return true;
@@ -437,24 +429,24 @@ bool ModuleSandbox::applyMemoryLimit() {
 }
 
 bool ModuleSandbox::applyCpuLimit() {
-    if (config_.max_cpu_percent == 0 && config_.max_cpu_time_seconds == 0) return true;
+    if (config_.max_cpu_percent == 0 && config_.max_cpu_time_seconds == 0) {
+        return true;
+    }
 
 #ifdef _WIN32
     if (!platform_->job_object) {
         // Try to create job object if not already done
         platform_->job_object = CreateJobObjectA(nullptr, nullptr);
-        if (platform_->job_object)
+        if (platform_->job_object) {
             AssignProcessToJobObject(platform_->job_object, GetCurrentProcess());
+        }
     }
     if (platform_->job_object) {
         JOBOBJECT_CPU_RATE_CONTROL_INFORMATION cr{};
-        cr.ControlFlags = JOB_OBJECT_CPU_RATE_CONTROL_ENABLE |
-                           JOB_OBJECT_CPU_RATE_CONTROL_HARD_CAP;
+        cr.ControlFlags = JOB_OBJECT_CPU_RATE_CONTROL_ENABLE | JOB_OBJECT_CPU_RATE_CONTROL_HARD_CAP;
         // CpuRate is in units of 1/100 of a percent
         cr.CpuRate = static_cast<DWORD>(config_.max_cpu_percent) * 100;
-        SetInformationJobObject(platform_->job_object,
-                                 JobObjectCpuRateControlInformation,
-                                 &cr, sizeof(cr));
+        SetInformationJobObject(platform_->job_object, JobObjectCpuRateControlInformation, &cr, sizeof(cr));
     }
     return true;
 
@@ -489,8 +481,7 @@ bool ModuleSandbox::applyCpuLimit() {
         if (setrlimit(RLIMIT_CPU, &new_limit) == 0) {
             platform_->cpu_limit_applied = true;
         } else {
-            launch_warnings_.push_back(
-                "RLIMIT_CPU not applied on this kernel – CPU time limit not enforced");
+            launch_warnings_.push_back("RLIMIT_CPU not applied on this kernel – CPU time limit not enforced");
         }
     }
     return true;
@@ -511,8 +502,7 @@ bool ModuleSandbox::setupCgroupV2() {
     // Derive a unique, filesystem-safe cgroup directory name from the module
     // name and the current PID.  Using the PID prevents collisions when the
     // same module name is launched concurrently by different processes.
-    const std::string safe_name =
-        sanitizeCgroupName(module_name_) + "_" + std::to_string(::getpid());
+    const std::string safe_name = sanitizeCgroupName(module_name_) + "_" + std::to_string(::getpid());
     const std::string base_dir  = "/sys/fs/cgroup/themis";
     const std::string cg_path   = base_dir + "/" + safe_name;
 
@@ -567,8 +557,7 @@ bool ModuleSandbox::setupCgroupV2() {
             platform_->cgroup_path.clear();
             return false;
         }
-        mem_max << (static_cast<uint64_t>(config_.max_memory_mb) * 1024ULL * 1024ULL)
-                << "\n";
+        mem_max << (static_cast<uint64_t>(config_.max_memory_mb) * 1024ULL * 1024ULL) << "\n";
         if (!mem_max) {
             spdlog::warn("ModuleSandbox({}): write to memory.max failed – "
                          "falling back to RLIMIT_AS",
@@ -602,13 +591,13 @@ bool ModuleSandbox::setupCgroupV2() {
     }
 
     platform_->cgroup_v2_active = true;
-    spdlog::debug("ModuleSandbox({}): cgroup v2 active at {}",
-                  module_name_, cg_path);
+    spdlog::debug("ModuleSandbox({}): cgroup v2 active at {}", module_name_, cg_path);
     return true;
 }
 
 void ModuleSandbox::teardownCgroupV2() {
-    if (!platform_->cgroup_v2_active || platform_->cgroup_path.empty()) return;
+    if (!platform_->cgroup_v2_active || platform_->cgroup_path.empty())
+        return;
 
     bool migrated = false;
 
@@ -636,8 +625,8 @@ void ModuleSandbox::teardownCgroupV2() {
     // rmdir(2) succeeds only when the cgroup has no tasks and no children.
     bool removed = false;
     if (::rmdir(platform_->cgroup_path.c_str()) != 0) {
-        spdlog::warn("ModuleSandbox({}): rmdir({}) failed: {}",
-                     module_name_, platform_->cgroup_path, ::strerror(errno));
+        spdlog::warn("ModuleSandbox({}): rmdir({}) failed: {}", module_name_, platform_->cgroup_path,
+                     ::strerror(errno));
     } else {
         removed = true;
     }
@@ -649,10 +638,9 @@ void ModuleSandbox::teardownCgroupV2() {
         platform_->cgroup_path.clear();
         platform_->cgroup_v2_active = false;
     } else {
-        spdlog::warn(
-            "ModuleSandbox({}): cgroup v2 teardown incomplete; keeping cgroup path '{}' "
-            "for potential later cleanup",
-            module_name_, platform_->cgroup_path);
+        spdlog::warn("ModuleSandbox({}): cgroup v2 teardown incomplete; keeping cgroup path '{}' "
+                     "for potential later cleanup",
+                     module_name_, platform_->cgroup_path);
     }
 }
 
@@ -663,8 +651,7 @@ bool ModuleSandbox::applyNetworkIsolation() {
     // Network namespace creation requires CAP_SYS_ADMIN.
     // We record a warning if we lack privileges; the module will still run
     // but without network isolation.
-    launch_warnings_.push_back(
-        "Network isolation requires CAP_SYS_ADMIN (network namespace) – skipped");
+    launch_warnings_.push_back("Network isolation requires CAP_SYS_ADMIN (network namespace) – skipped");
 #else
     launch_warnings_.push_back("Network isolation not supported on this platform");
 #endif
@@ -672,14 +659,14 @@ bool ModuleSandbox::applyNetworkIsolation() {
 }
 
 bool ModuleSandbox::applyFilesystemRestrictions() {
-    if (config_.fs_access == FilesystemAccess::FULL) return true;
+    if (config_.fs_access == FilesystemAccess::FULL) {
+        return true;
+    }
 
 #if defined(__linux__)
     // Full chroot / bind-mount sandboxing requires CAP_SYS_CHROOT.
-    if (config_.fs_access == FilesystemAccess::NONE ||
-        config_.fs_access == FilesystemAccess::READ_ONLY) {
-        launch_warnings_.push_back(
-            "Filesystem restrictions (chroot/bind-mount) require CAP_SYS_CHROOT – skipped");
+    if (config_.fs_access == FilesystemAccess::NONE || config_.fs_access == FilesystemAccess::READ_ONLY) {
+        launch_warnings_.push_back("Filesystem restrictions (chroot/bind-mount) require CAP_SYS_CHROOT – skipped");
     }
 #else
     launch_warnings_.push_back("Filesystem restrictions not supported on this platform");
@@ -691,12 +678,12 @@ bool ModuleSandbox::applySyscallFilter() {
 #if defined(__linux__) && defined(THEMIS_HAVE_PRCTL)
     // seccomp-bpf requires CAP_SYS_ADMIN or PR_SET_SECCOMP privilege.
     // We note the attempt in warnings and proceed.
-    launch_warnings_.push_back(
-        "Syscall filter (seccomp-bpf) requires additional privileges – skipped. "
-        "Deploy with systemd's SystemCallFilter= for production syscall filtering.");
+    launch_warnings_.push_back("Syscall filter (seccomp-bpf) requires additional privileges – skipped. "
+                               "Deploy with systemd's SystemCallFilter= for production syscall filtering.");
 #else
-    if (!config_.allowed_syscalls.empty())
+    if (!config_.allowed_syscalls.empty()) {
         launch_warnings_.push_back("Syscall filtering not supported on this platform");
+    }
 #endif
     return true;
 }
@@ -720,15 +707,14 @@ SandboxStats ModuleSandbox::stats() const {
 #elif defined(_WIN32)
     if (platform_->job_object) {
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION ji{};
-        if (QueryInformationJobObject(platform_->job_object,
-                                      JobObjectExtendedLimitInformation,
-                                      &ji, sizeof(ji), nullptr)) {
+        if (QueryInformationJobObject(platform_->job_object, JobObjectExtendedLimitInformation, &ji, sizeof(ji),
+                                      nullptr)) {
             s.peak_memory_bytes = ji.PeakJobMemoryUsed;
         }
     }
 #endif
 
-    s.killed     = false;
+    s.killed = false;
     return s;
 }
 
@@ -740,14 +726,13 @@ bool ModuleSandbox::isWasmIsolationActive() const noexcept {
     return wasm_isolation_active_;
 }
 
-WasmPluginSandbox* ModuleSandbox::wasmSandbox() noexcept {
+WasmPluginSandbox *ModuleSandbox::wasmSandbox() noexcept {
     return wasm_sandbox_.get();
 }
 
-const WasmPluginSandbox* ModuleSandbox::wasmSandbox() const noexcept {
+const WasmPluginSandbox *ModuleSandbox::wasmSandbox() const noexcept {
     return wasm_sandbox_.get();
 }
 
 } // namespace modules
 } // namespace themis
-

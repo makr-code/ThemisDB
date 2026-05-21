@@ -4101,31 +4101,29 @@ http::response<http::string_body> HttpServer::routeRequest(
                         const std::string msg = e.what();
                         if (msg.find("No default LLM plugin available") != std::string::npos) {
                             if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
-                                try {
-                                    themis::llm::RAGContext rag_context;
-                                    rag_context.query = query;
-                                    rag_context.collection_name = collection;
-                                    rag_context.top_k = top_k;
+                                themis::llm::RAGContext rag_context;
+                                rag_context.query = query;
+                                rag_context.collection_name = collection;
+                                rag_context.top_k = top_k;
 
-                                    themis::llm::InferenceRequest llm_request;
-                                    llm_request.prompt = query;
-                                    llm_request.model_id = payload.value("model", std::string{"default"});
-                                    llm_request.max_tokens = payload.value("max_tokens", 512);
-                                    llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
+                                themis::llm::InferenceRequest llm_request;
+                                llm_request.prompt = query;
+                                llm_request.model_id = payload.value("model", std::string{"default"});
+                                llm_request.max_tokens = payload.value("max_tokens", 512);
+                                llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
 
-                                    auto llm_response = plugin_mgr.generate(llm_request);
-                                    const int documents_retrieved = !rag_context.documents.empty()
-                                        ? static_cast<int>(rag_context.documents.size())
-                                        : (top_k > 0 ? top_k : 1);
-                                    json body = {
-                                        {"text", llm_response.text},
-                                        {"documents_retrieved", documents_retrieved},
-                                        {"tokens_generated", llm_response.tokens_generated}
-                                    };
-                                    auto response = makeResponse(http::status::ok, body.dump(), req);
-                                    applyGovernanceHeaders(req, response);
-                                    return response;
-
+                                auto llm_response = plugin_mgr.generate(llm_request);
+                                const int documents_retrieved = !rag_context.documents.empty()
+                                    ? static_cast<int>(rag_context.documents.size())
+                                    : (top_k > 0 ? top_k : 1);
+                                json body = {
+                                    {"text", llm_response.text},
+                                    {"documents_retrieved", documents_retrieved},
+                                    {"tokens_generated", llm_response.tokens_generated}
+                                };
+                                auto response = makeResponse(http::status::ok, body.dump(), req);
+                                applyGovernanceHeaders(req, response);
+                                return response;
                             }
                         }
                         throw;

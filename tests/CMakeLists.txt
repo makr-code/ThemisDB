@@ -16618,6 +16618,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_snapshot.cpp")
     add_executable(test_metadata_snapshot_focused test_metadata_snapshot.cpp)
     target_include_directories(test_metadata_snapshot_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_metadata_snapshot_focused PRIVATE
+        themis_storage
         ${TEST_LIBS}
         Threads::Threads
     )
@@ -21108,7 +21109,7 @@ endif()
 # Distributed Knowledge Federation - Session 1 unit tests (2026-04-19)
 # Tests: DK-A-01..06, DK-B-01..13, DK-C-01..10, DK-D-01..08 (37 tests)
 # ─────────────────────────────────────────────────────────────────────────────
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp" AND TARGET themis_query AND TARGET themis_llm)
     message(STATUS "Adding Distributed Knowledge Federation unit tests (DK-A..D, 37 tests)")
 
     add_executable(test_distributed_knowledge_focused
@@ -21122,7 +21123,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
 
     target_link_libraries(test_distributed_knowledge_focused PRIVATE
         ${TEST_LIBS}
-        themis_distributed_knowledge
+        themis_query
+        themis_llm
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
@@ -21146,6 +21148,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
     message(STATUS "  DK-B-01..13: LoRAFederationCoordinator (FedAvg, median, DP noise, round mgmt)")
     message(STATUS "  DK-C-01..10: FederatedRAGMerger (RRF, score-weighted, round-robin, dedup)")
     message(STATUS "  DK-D-01..08: CrossShardFeedbackSync (publish, inbound, dedup, stats)")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
+    message(STATUS "Skipping Distributed Knowledge Federation focused tests: required targets themis_query/themis_llm not available")
 endif()
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -21707,7 +21711,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_mvcc_chain_pruner.cpp")
     target_link_libraries(test_mvcc_chain_pruner_focused PRIVATE
         GTest::gtest
         GTest::gtest_main
-        themis_rocksdb_lib
+        themis_storage
         nlohmann_json::nlohmann_json
     )
 
@@ -25358,7 +25362,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp
 
     target_link_libraries(test_project_collaboration_concurrent PRIVATE
         GTest::gtest_main
-        themis_rocksdb_lib
+        themis_storage
         Threads::Threads
     )
 

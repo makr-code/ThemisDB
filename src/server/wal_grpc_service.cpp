@@ -256,7 +256,7 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
         } catch (const std::exception& e) {
             THEMIS_ERROR("WalGrpcService: service callback failed: {}", e.what());
             service_ptr_ = nullptr;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("WalGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         }

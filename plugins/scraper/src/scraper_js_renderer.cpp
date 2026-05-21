@@ -22,23 +22,24 @@
  */
 
 #include "scraper_js_renderer.h"
-#include <sstream>
-#include <stdexcept>
-#include <cstdio>
-#include <cstring>
+
 #include <array>
 #include <chrono>
+#include <cstdio>
+#include <cstring>
 #include <iomanip>
-#include <vector>
+#include <sstream>
+#include <stdexcept>
 #include <string>
+#include <vector>
 
 #if defined(__unix__) || defined(__APPLE__)
-#  include <sys/stat.h>
-#  include <sys/types.h>
-#  include <sys/wait.h>
-#  include <unistd.h>
-#  include <fcntl.h>
-#  include <cerrno>
+#include <cerrno>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #endif
 
 namespace themis {
@@ -48,18 +49,18 @@ namespace scraper {
 // SubprocessJSRenderer
 // ============================================================================
 
-SubprocessJSRenderer::SubprocessJSRenderer(std::string renderer_cmd)
-    : renderer_cmd_(std::move(renderer_cmd)) {}
+SubprocessJSRenderer::SubprocessJSRenderer(std::string renderer_cmd) : renderer_cmd_(std::move(renderer_cmd)) {}
 
 bool SubprocessJSRenderer::isAvailable() const {
-    if (renderer_cmd_.empty()) return false;
+    if (renderer_cmd_.empty()) {
+        return false;
+    }
 #if defined(__unix__) || defined(__APPLE__)
     // Extract the executable token (first whitespace-delimited word)
-    const std::size_t sp = renderer_cmd_.find(' ');
-    const std::string exe = (sp != std::string::npos)
-                          ? renderer_cmd_.substr(0, sp)
-                          : renderer_cmd_;
-    if (exe.empty()) return false;
+    const std::size_t sp  = renderer_cmd_.find(' ');
+    const std::string exe = (sp != std::string::npos) ? renderer_cmd_.substr(0, sp) : renderer_cmd_;
+    if (exe.empty())
+        return false;
 
     if (exe.front() == '/') {
         // Absolute path: use stat + executable bit directly (no shell)
@@ -68,20 +69,21 @@ bool SubprocessJSRenderer::isAvailable() const {
     }
 
     // Relative / bare name: search PATH manually using access(2) without shell
-    const char* path_env = ::getenv("PATH");
-    if (!path_env) return false;
+    const char *path_env = ::getenv("PATH");
+    if (!path_env)
+        return false;
     std::string path_str = path_env;
-    std::size_t pos = 0;
+    std::size_t pos      = 0;
     while (true) {
         const std::size_t colon = path_str.find(':', pos);
-        const std::string dir = (colon == std::string::npos)
-                              ? path_str.substr(pos)
-                              : path_str.substr(pos, colon - pos);
+        const std::string dir = (colon == std::string::npos) ? path_str.substr(pos) : path_str.substr(pos, colon - pos);
         if (!dir.empty()) {
             const std::string candidate = dir + "/" + exe;
-            if (::access(candidate.c_str(), X_OK) == 0) return true;
+            if (::access(candidate.c_str(), X_OK) == 0)
+                return true;
         }
-        if (colon == std::string::npos) break;
+        if (colon == std::string::npos)
+            break;
         pos = colon + 1;
     }
     return false;
@@ -90,19 +92,21 @@ bool SubprocessJSRenderer::isAvailable() const {
 #endif
 }
 
-std::string SubprocessJSRenderer::buildCommand(const JsRenderRequest& req) const {
+std::string SubprocessJSRenderer::buildCommand(const JsRenderRequest &req) const {
     // Returns the argument vector – used by the fork/exec path.
     // Not used directly for shell execution; kept for reference.
     std::ostringstream cmd;
     cmd << renderer_cmd_ << " " << req.url;
-    if (req.timeout_ms > 0)
+    if (req.timeout_ms > 0) {
         cmd << " --timeout " << req.timeout_ms;
-    if (!req.wait_selector.empty())
+    }
+    if (!req.wait_selector.empty()) {
         cmd << " --wait-for " << req.wait_selector;
+    }
     return cmd.str();
 }
 
-JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
+JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest &req) {
     JsRenderResult result;
 
     if (!isAvailable()) {
@@ -120,7 +124,8 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     {
         std::istringstream ss(renderer_cmd_);
         std::string tok;
-        while (ss >> tok) tokens.push_back(tok);
+        while (ss >> tok)
+            tokens.push_back(tok);
     }
     // Append request-specific arguments
     tokens.push_back(req.url);
@@ -132,16 +137,18 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
         tokens.push_back("--wait-for");
         tokens.push_back(req.wait_selector);
     }
-    for (const auto& kv : req.headers) {
+    for (const auto &kv : req.headers) {
         tokens.push_back("--header");
         tokens.push_back(kv.first + ": " + kv.second);
     }
-    for (const auto& arg : req.extra_args) tokens.push_back(arg);
+    for (const auto &arg : req.extra_args)
+        tokens.push_back(arg);
 
     // Build null-terminated argv for execv
-    std::vector<char*> argv;
+    std::vector<char *> argv;
     argv.reserve(tokens.size() + 1);
-    for (auto& t : tokens) argv.push_back(const_cast<char*>(t.c_str()));
+    for (auto &t : tokens)
+        argv.push_back(const_cast<char *>(t.c_str()));
     argv.push_back(nullptr);
 
     // Create a pipe to capture stdout
@@ -168,7 +175,10 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
         ::close(pipefd[1]);
         // Redirect stderr to /dev/null
         const int dev_null = ::open("/dev/null", O_WRONLY);
-        if (dev_null >= 0) { ::dup2(dev_null, STDERR_FILENO); ::close(dev_null); }
+        if (dev_null >= 0) {
+            ::dup2(dev_null, STDERR_FILENO);
+            ::close(dev_null);
+        }
         ::execvp(argv[0], argv.data());
         ::_exit(127); // execvp failed
     }
@@ -188,9 +198,8 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     ::waitpid(pid, &status, 0);
     const int exit_code = WIFEXITED(status) ? WEXITSTATUS(status) : -1;
 
-    const auto t1  = std::chrono::steady_clock::now();
-    result.elapsed_ms = static_cast<long>(
-        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
+    const auto t1     = std::chrono::steady_clock::now();
+    result.elapsed_ms = static_cast<long>(std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
 
     if (exit_code == 0 && !html.empty()) {
         result.success     = true;
@@ -204,7 +213,7 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     // Windows: build command string from pre-validated tokens (no shell injection
     // possible as user_agent and URL are not shell-expanded on Windows _popen).
     const std::string cmd = buildCommand(req);
-    FILE* pipe = _popen(cmd.c_str(), "r");
+    FILE *pipe            = _popen(cmd.c_str(), "r");
     if (!pipe) {
         result.success = false;
         result.error   = "Failed to launch renderer process";
@@ -212,12 +221,12 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     }
     std::string html;
     std::array<char, 4096> buf{};
-    while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe))
+    while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe)) {
         html += buf.data();
+    }
     _pclose(pipe);
-    const auto t1  = std::chrono::steady_clock::now();
-    result.elapsed_ms = static_cast<long>(
-        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
+    const auto t1      = std::chrono::steady_clock::now();
+    result.elapsed_ms  = static_cast<long>(std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
     result.success     = !html.empty();
     result.html        = std::move(html);
     result.status_code = result.success ? 200 : 0;

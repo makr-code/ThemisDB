@@ -49,15 +49,9 @@
 #include <memory>
 #include <mutex>
 #include <optional>
+#include "storage/tensor_train_decomposer.h"
 #include <string>
 #include <vector>
-
-// Forward declaration of TTTrain for the compatibility bridge
-namespace themis {
-namespace storage {
-struct TTTrain;
-} // namespace storage
-} // namespace themis
 
 namespace themis {
 namespace tensor {

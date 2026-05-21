@@ -7,18 +7,19 @@
  */
 
 #include "exporters/huggingface_hub_client.h"
+
+#include <nlohmann/json.hpp>
+
 #include "exporters/exporter_metrics.h"
-#include "governance/policy_engine.h"
 #include "governance/model_governance.h"
+#include "governance/policy_engine.h"
 #include "security/key_provider.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
 #include "utils/retry_policy.h"
 
-#include <nlohmann/json.hpp>
-
 #ifdef CURL_ENABLED
-#  include <curl/curl.h>
+#include <curl/curl.h>
 #endif
 
 #include <algorithm>
@@ -33,7 +34,7 @@
 #include <thread>
 #include <vector>
 
-using json = nlohmann::json;
+using json   = nlohmann::json;
 namespace fs = std::filesystem;
 
 namespace themis::exporters {
@@ -45,14 +46,18 @@ namespace themis::exporters {
 /// RAII guard for curl_global_init/cleanup (call once per process).
 namespace {
 struct CurlGlobal {
-    CurlGlobal()  { curl_global_init(CURL_GLOBAL_DEFAULT); }
-    ~CurlGlobal() { curl_global_cleanup(); }
+    CurlGlobal() {
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+    }
+    ~CurlGlobal() {
+        curl_global_cleanup();
+    }
 };
 
-static CurlGlobal g_curl_global;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+static CurlGlobal g_curl_global; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-static size_t writeStringCb(const char* data, size_t sz, size_t nmemb, void* userp) {
-    auto* s = static_cast<std::string*>(userp);
+static size_t writeStringCb(const char *data, size_t sz, size_t nmemb, void *userp) {
+    auto *s = static_cast<std::string *>(userp);
     s->append(data, sz * nmemb);
     return sz * nmemb;
 }
@@ -63,37 +68,37 @@ struct ProgressData {
     double file_fraction_range = 1.0;
 };
 
-static int progressCb(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
-                      curl_off_t ultotal, curl_off_t ulnow) {
-    auto* pd = static_cast<ProgressData*>(clientp);
+static int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow) {
+    auto *pd = static_cast<ProgressData *>(clientp);
     if (pd && pd->cb && ultotal > 0) {
         const double frac = static_cast<double>(ulnow) / static_cast<double>(ultotal);
         pd->cb(pd->file_fraction_start + frac * pd->file_fraction_range);
     }
-    return 0;  // non-zero cancels
+    return 0; // non-zero cancels
 }
 
 /// State for the libcurl read callback used by httpPutBytes().
 struct CurlMemoryReadState {
-    const char* data   = nullptr;
+    const char *data   = nullptr;
     std::size_t size   = 0;
     std::size_t offset = 0;
 };
 
 /// libcurl CURLOPT_READFUNCTION callback that reads from a CurlMemoryReadState.
-static size_t memoryReadCb(char* dest, size_t sz, size_t nmemb, void* userp) {
-    auto* state = static_cast<CurlMemoryReadState*>(userp);
+static size_t memoryReadCb(char *dest, size_t sz, size_t nmemb, void *userp) {
+    auto *state                 = static_cast<CurlMemoryReadState *>(userp);
     const std::size_t available = state->size - state->offset;
     const std::size_t to_copy   = std::min(sz * nmemb, available);
-    if (to_copy == 0) return 0;
+    if (to_copy == 0)
+        return 0;
     std::memcpy(dest, state->data + state->offset, to_copy);
     state->offset += to_copy;
     return to_copy;
 }
 
 /// libcurl CURLOPT_HEADERFUNCTION callback; accumulates raw response headers.
-static size_t headerCaptureCb(char* buffer, size_t size, size_t nitems, void* userp) {
-    auto* hdrs = static_cast<std::string*>(userp);
+static size_t headerCaptureCb(char *buffer, size_t size, size_t nitems, void *userp) {
+    auto *hdrs = static_cast<std::string *>(userp);
     hdrs->append(buffer, size * nitems);
     return size * nitems;
 }
@@ -107,13 +112,15 @@ namespace {
 /// Extract the value of the `Retry-After` response header from a raw
 /// header block captured by headerCaptureCb().  Returns an empty string
 /// when the header is absent.
-[[maybe_unused]] static std::string extractRetryAfterHeader(const std::string& raw_headers) {
+[[maybe_unused]] static std::string extractRetryAfterHeader(const std::string &raw_headers) {
     // Walk line by line (headers end with \r\n or \n).
     std::istringstream stream(raw_headers);
     std::string line;
     while (std::getline(stream, line)) {
         // Trim trailing \r
-        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (!line.empty() && line.back() == '\r') {
+            line.pop_back();
+        }
         // Case-insensitive prefix match for "retry-after:"
         const std::string key = "retry-after:";
         if (line.size() >= key.size()) {
@@ -124,7 +131,9 @@ namespace {
                 std::string value = line.substr(key.size());
                 // Trim leading whitespace
                 const auto first = value.find_first_not_of(" \t");
-                if (first != std::string::npos) value = value.substr(first);
+                if (first != std::string::npos) {
+                    value = value.substr(first);
+                }
                 return value;
             }
         }
@@ -137,8 +146,10 @@ namespace {
 ///   - Plain integer seconds (e.g., "120")
 ///   - HTTP-date (e.g., "Fri, 31 Dec 1999 23:59:59 GMT")
 /// Returns 0 when the value cannot be parsed.
-static long parseRetryAfterSeconds(const std::string& value) {
-    if (value.empty()) return 0;
+static long parseRetryAfterSeconds(const std::string &value) {
+    if (value.empty()) {
+        return 0;
+    }
 
     // Try integer first.
     try {
@@ -149,7 +160,7 @@ static long parseRetryAfterSeconds(const std::string& value) {
         if (tail == std::string::npos && secs >= 0) {
             return secs;
         }
-    } catch (const std::exception&) {
+    } catch (const std::exception &) {
         // Not an integer; fall through to date parsing.
     }
 
@@ -157,26 +168,25 @@ static long parseRetryAfterSeconds(const std::string& value) {
     // Supported format: "Day, DD Mon YYYY HH:MM:SS GMT"
 #ifndef _WIN32
     struct tm tm_val{};
-    const char* parsed = strptime(value.c_str(), "%a, %d %b %Y %H:%M:%S %Z", &tm_val);
+    const char *parsed = strptime(value.c_str(), "%a, %d %b %Y %H:%M:%S %Z", &tm_val);
     if (parsed != nullptr) {
         const time_t retry_time = timegm(&tm_val);
         const time_t now        = std::time(nullptr);
         if (retry_time > now) {
             return static_cast<long>(retry_time - now);
         }
-        return 0;  // Date is in the past; retry immediately.
+        return 0; // Date is in the past; retry immediately.
     }
 #endif
 
-    return 0;  // Unrecognised format; caller uses default.
+    return 0; // Unrecognised format; caller uses default.
 }
 
 } // anonymous namespace
 
 // ── HuggingFaceHubClient ────────────────────────────────────────────────────
 
-HuggingFaceHubClient::HuggingFaceHubClient(HubUploadConfig config)
-    : config_(std::move(config)) {}
+HuggingFaceHubClient::HuggingFaceHubClient(HubUploadConfig config) : config_(std::move(config)) {}
 
 HuggingFaceHubClient::~HuggingFaceHubClient() = default;
 
@@ -189,54 +199,51 @@ std::string HuggingFaceHubClient::resolveToken() const {
     // Priority 2: KEK/KMS-protected token lookup via key_provider.
     if (!config_.hf_token_kek_id.empty()) {
         if (!config_.key_provider) {
-            throw std::invalid_argument(
-                "HubUploadConfig::hf_token_kek_id is set but key_provider is null");
+            throw std::invalid_argument("HubUploadConfig::hf_token_kek_id is set but key_provider is null");
         }
         // getKey() may throw KeyNotFoundException or KeyOperationException.
         // Raw token bytes are intentionally never logged.
         auto token_bytes = config_.key_provider->getKey(config_.hf_token_kek_id);
         if (token_bytes.empty()) {
-            throw std::runtime_error(
-                "HubUploadConfig::hf_token_kek_id '" + config_.hf_token_kek_id +
-                "' resolved to empty token bytes");
+            throw std::runtime_error("HubUploadConfig::hf_token_kek_id '" + config_.hf_token_kek_id
+                                     + "' resolved to empty token bytes");
         }
         return std::string(token_bytes.begin(), token_bytes.end());
     }
 
     // Priority 3: HF_TOKEN environment variable.
-    const char* env = std::getenv("HF_TOKEN");
+    const char *env = std::getenv("HF_TOKEN");
     return env ? std::string(env) : std::string{};
 }
 
 // ── HTTP helpers (libcurl path) ──────────────────────────────────────────────
 
-std::pair<int, std::string> HuggingFaceHubClient::httpPost(
-    [[maybe_unused]] const std::string& url,
-    [[maybe_unused]] const std::string& json_body,
-    [[maybe_unused]] const std::string& bearer_token) const
-{
+std::pair<int, std::string> HuggingFaceHubClient::httpPost([[maybe_unused]] const std::string &url,
+                                                           [[maybe_unused]] const std::string &json_body,
+                                                           [[maybe_unused]] const std::string &bearer_token) const {
 #ifndef CURL_ENABLED
     return {0, "CURL_ENABLED is not defined; Hub upload requires libcurl"};
 #else
-    CURL* curl = curl_easy_init();
-    if (!curl) return {0, "curl_easy_init() failed"};
+    CURL *curl = curl_easy_init();
+    if (!curl)
+        return {0, "curl_easy_init() failed"};
 
     std::string response;
-    struct curl_slist* headers = nullptr;
+    struct curl_slist *headers = nullptr;
     const std::string auth_hdr = "Authorization: Bearer " + bearer_token;
-    headers = curl_slist_append(headers, auth_hdr.c_str());
-    headers = curl_slist_append(headers, "Content-Type: application/json");
+    headers                    = curl_slist_append(headers, auth_hdr.c_str());
+    headers                    = curl_slist_append(headers, "Content-Type: application/json");
 
-    curl_easy_setopt(curl, CURLOPT_URL,           url.c_str());
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER,    headers);
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS,    json_body.c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json_body.c_str());
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(json_body.size()));
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeStringCb);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA,     &response);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT,       config_.timeout_seconds);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, config_.timeout_seconds);
 
-    CURLcode res  = curl_easy_perform(curl);
+    CURLcode res   = curl_easy_perform(curl);
     long http_code = 0;
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
     curl_slist_free_all(headers);
@@ -249,50 +256,48 @@ std::pair<int, std::string> HuggingFaceHubClient::httpPost(
 #endif
 }
 
-int HuggingFaceHubClient::httpPutBytes(
-    [[maybe_unused]] const std::string& url,
-    [[maybe_unused]] const char* data,
-    [[maybe_unused]] std::size_t size,
-    [[maybe_unused]] const std::string& bearer_token,
-    [[maybe_unused]] std::function<void(double)> progress_cb,
-    [[maybe_unused]] std::string* retry_after_out) const
-{
+int HuggingFaceHubClient::httpPutBytes([[maybe_unused]] const std::string &url, [[maybe_unused]] const char *data,
+                                       [[maybe_unused]] std::size_t size,
+                                       [[maybe_unused]] const std::string &bearer_token,
+                                       [[maybe_unused]] std::function<void(double)> progress_cb,
+                                       [[maybe_unused]] std::string *retry_after_out) const {
 #ifndef CURL_ENABLED
     return 0;
 #else
-    CURL* curl = curl_easy_init();
-    if (!curl) return 0;
+    CURL *curl = curl_easy_init();
+    if (!curl)
+        return 0;
 
     CurlMemoryReadState read_state{data, size, 0};
     std::string response;
     std::string raw_headers;
-    struct curl_slist* headers = nullptr;
+    struct curl_slist *headers = nullptr;
     const std::string auth_hdr = "Authorization: Bearer " + bearer_token;
-    headers = curl_slist_append(headers, auth_hdr.c_str());
+    headers                    = curl_slist_append(headers, auth_hdr.c_str());
 
     ProgressData pd;
     pd.cb = progress_cb;
 
-    curl_easy_setopt(curl, CURLOPT_URL,              url.c_str());
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER,       headers);
-    curl_easy_setopt(curl, CURLOPT_UPLOAD,           1L);
-    curl_easy_setopt(curl, CURLOPT_READFUNCTION,     memoryReadCb);
-    curl_easy_setopt(curl, CURLOPT_READDATA,         &read_state);
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
+    curl_easy_setopt(curl, CURLOPT_READFUNCTION, memoryReadCb);
+    curl_easy_setopt(curl, CURLOPT_READDATA, &read_state);
     curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE, static_cast<curl_off_t>(size));
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,    writeStringCb);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA,        &response);
-    curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION,   headerCaptureCb);
-    curl_easy_setopt(curl, CURLOPT_HEADERDATA,       &raw_headers);
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION,   1L);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT,          config_.timeout_seconds);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeStringCb);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, headerCaptureCb);
+    curl_easy_setopt(curl, CURLOPT_HEADERDATA, &raw_headers);
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, config_.timeout_seconds);
 
     if (progress_cb) {
         curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progressCb);
-        curl_easy_setopt(curl, CURLOPT_XFERINFODATA,     &pd);
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS,       0L);
+        curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &pd);
+        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
     }
 
-    CURLcode res = curl_easy_perform(curl);
+    CURLcode res   = curl_easy_perform(curl);
     long http_code = 0;
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
     curl_slist_free_all(headers);
@@ -309,18 +314,17 @@ int HuggingFaceHubClient::httpPutBytes(
 #endif
 }
 
-int HuggingFaceHubClient::httpPutFile(
-    [[maybe_unused]] const std::string& url,
-    [[maybe_unused]] const std::string& file_path,
-    [[maybe_unused]] const std::string& bearer_token,
-    [[maybe_unused]] std::function<void(double)> progress_cb,
-    [[maybe_unused]] std::string* retry_after_out) const
-{
+int HuggingFaceHubClient::httpPutFile([[maybe_unused]] const std::string &url,
+                                      [[maybe_unused]] const std::string &file_path,
+                                      [[maybe_unused]] const std::string &bearer_token,
+                                      [[maybe_unused]] std::function<void(double)> progress_cb,
+                                      [[maybe_unused]] std::string *retry_after_out) const {
 #ifndef CURL_ENABLED
     return 0;
 #else
     std::ifstream f(file_path, std::ios::binary | std::ios::ate);
-    if (!f) return 0;
+    if (!f)
+        return 0;
     const auto file_size = f.tellg();
     f.seekg(0);
 
@@ -328,17 +332,16 @@ int HuggingFaceHubClient::httpPutFile(
     f.read(buf.data(), file_size);
     f.close();
 
-    return httpPutBytes(url, buf.data(), buf.size(), bearer_token, progress_cb,
-                        retry_after_out);
+    return httpPutBytes(url, buf.data(), buf.size(), bearer_token, progress_cb, retry_after_out);
 #endif
 }
 
 // ── Repository management ────────────────────────────────────────────────────
 
-HubUploadResult HuggingFaceHubClient::ensureRepo(const std::string& bearer_token) const {
+HubUploadResult HuggingFaceHubClient::ensureRepo(const std::string &bearer_token) const {
     // Check if repo exists via the Hub API
     const std::string api_url = config_.hub_base_url + "/api/datasets/" + config_.repo_id;
-    auto [status, body] = httpPost(api_url, "{}", bearer_token);
+    auto [status, body]       = httpPost(api_url, "{}", bearer_token);
 
     if (status == 0) {
         return {false, {}, "Cannot reach Hub API: " + body, 0};
@@ -351,7 +354,7 @@ HubUploadResult HuggingFaceHubClient::ensureRepo(const std::string& bearer_token
             create_req["type"]    = "dataset";
             create_req["name"]    = config_.repo_id;
             create_req["private"] = config_.private_repo;
-            auto [cs, cb] = httpPost(create_url, create_req.dump(), bearer_token);
+            auto [cs, cb]         = httpPost(create_url, create_req.dump(), bearer_token);
             if (cs != 200 && cs != 201) {
                 return {false, {}, "Failed to create Hub repo (HTTP " + std::to_string(cs) + "): " + cb, cs};
             }
@@ -371,34 +374,28 @@ HubUploadResult HuggingFaceHubClient::ensureRepo(const std::string& bearer_token
 /// Write a structured audit entry for a Hub upload attempt.
 /// @note Internal helper; intentionally not exposed in the header since callers
 ///       access audit logging exclusively via HubUploadConfig::audit_log.
-static void writeHubUploadAuditEntry(
-    themis::utils::AuditLogger& audit_log,
-    const HubUploadConfig& config,
-    const std::string& dataset_dir,
-    const HubUploadResult& result,
-    const std::string& outcome)
-{
+static void writeHubUploadAuditEntry(themis::utils::AuditLogger &audit_log, const HubUploadConfig &config,
+                                     const std::string &dataset_dir, const HubUploadResult &result,
+                                     const std::string &outcome) {
     using nlohmann::json;
-    json entry = {
-        {"event_type",       "hub_upload"},
-        {"repo_id",          config.repo_id},
-        {"requesting_user",  config.requesting_user},
-        {"dataset_dir",      dataset_dir},
-        {"outcome",          outcome},
-        {"success",          result.success},
-        {"http_status",      result.http_status},
-        {"dataset_url",      result.dataset_url},
-        {"error_message",    result.error_message},
-        {"timestamp",        std::chrono::duration_cast<std::chrono::milliseconds>(
-                                 std::chrono::system_clock::now().time_since_epoch()).count()}
-    };
+    json entry
+        = {{"event_type", "hub_upload"},
+           {"repo_id", config.repo_id},
+           {"requesting_user", config.requesting_user},
+           {"dataset_dir", dataset_dir},
+           {"outcome", outcome},
+           {"success", result.success},
+           {"http_status", result.http_status},
+           {"dataset_url", result.dataset_url},
+           {"error_message", result.error_message},
+           {"timestamp",
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
+                .count()}};
     audit_log.logEvent(entry);
 }
 
-HubUploadResult HuggingFaceHubClient::uploadDataset(
-    const std::string& dataset_dir,
-    std::function<void(double)> progress_cb) const
-{
+HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_dir,
+                                                    std::function<void(double)> progress_cb) const {
     // ── 0. PolicyEngine authorization check ─────────────────────────────────
     if (config_.policy_engine) {
         themis::governance::ModelTrainingExportRequest req;
@@ -409,14 +406,11 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
 
         const auto decision = config_.policy_engine->checkExportPermission(req);
         if (!decision.is_permitted) {
-            const HubUploadResult denied{
-                false, {}, "Hub upload denied by PolicyEngine: " + decision.denial_reason, 0};
+            const HubUploadResult denied{false, {}, "Hub upload denied by PolicyEngine: " + decision.denial_reason, 0};
             if (config_.audit_log) {
-                writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
-                                         denied, "denied");
+                writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, denied, "denied");
             }
-            THEMIS_WARN("HuggingFaceHubClient: upload to '{}' denied: {}",
-                        config_.repo_id, decision.denial_reason);
+            THEMIS_WARN("HuggingFaceHubClient: upload to '{}' denied: {}", config_.repo_id, decision.denial_reason);
             return denied;
         }
     }
@@ -424,30 +418,24 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
     std::string token;
     try {
         token = resolveToken();
-    } catch (const std::exception& e) {
-        const HubUploadResult kek_err{
-            false, {}, std::string("hf_token_kek_id resolution failed: ") + e.what(), 0};
+    } catch (const std::exception &e) {
+        const HubUploadResult kek_err{false, {}, std::string("hf_token_kek_id resolution failed: ") + e.what(), 0};
         if (config_.audit_log) {
-            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
-                                     kek_err, "error");
+            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, kek_err, "error");
         }
         return kek_err;
     }
     if (token.empty()) {
-        const HubUploadResult no_token{
-            false, {}, "No HF_TOKEN set and HubUploadConfig::hf_token is empty", 0};
+        const HubUploadResult no_token{false, {}, "No HF_TOKEN set and HubUploadConfig::hf_token is empty", 0};
         if (config_.audit_log) {
-            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
-                                     no_token, "error");
+            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, no_token, "error");
         }
         return no_token;
     }
     if (config_.repo_id.empty()) {
-        const HubUploadResult no_repo{
-            false, {}, "HubUploadConfig::repo_id must not be empty", 0};
+        const HubUploadResult no_repo{false, {}, "HubUploadConfig::repo_id must not be empty", 0};
         if (config_.audit_log) {
-            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
-                                     no_repo, "error");
+            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, no_repo, "error");
         }
         return no_repo;
     }
@@ -456,25 +444,22 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
     auto repo_res = ensureRepo(token);
     if (!repo_res.success) {
         if (config_.audit_log) {
-            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
-                                     repo_res, "error");
+            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, repo_res, "error");
         }
         return repo_res;
     }
 
     // 2. Collect all files to upload
     std::vector<std::string> files;
-    for (const auto& entry : fs::recursive_directory_iterator(dataset_dir)) {
+    for (const auto &entry : fs::recursive_directory_iterator(dataset_dir)) {
         if (entry.is_regular_file()) {
             files.push_back(entry.path().string());
         }
     }
     if (files.empty()) {
-        const HubUploadResult empty_dir{
-            false, {}, "Dataset directory '" + dataset_dir + "' contains no files", 0};
+        const HubUploadResult empty_dir{false, {}, "Dataset directory '" + dataset_dir + "' contains no files", 0};
         if (config_.audit_log) {
-            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
-                                     empty_dir, "error");
+            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, empty_dir, "error");
         }
         return empty_dir;
     }
@@ -484,23 +469,20 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
 
     // 3. Upload each file with retry logic
     const size_t total_files = files.size();
-    size_t uploaded = 0;
+    size_t uploaded          = 0;
 
-    for (const auto& file_path : files) {
+    for (const auto &file_path : files) {
         const std::string rel = fs::relative(file_path, dataset_dir).string();
-        const std::string upload_url = config_.hub_base_url
-            + "/api/datasets/" + config_.repo_id
-            + "/upload/main"
-            + "/" + rel;
+        const std::string upload_url
+            = config_.hub_base_url + "/api/datasets/" + config_.repo_id + "/upload/main" + "/" + rel;
 
-        bool file_ok = false;
+        bool file_ok      = false;
         bool rate_limited = false;
         // Exponential backoff for transient errors (HTTP 429 uses its own
         // Retry-After sleep and does NOT advance the backoff state).
         themis::utils::RetryConfig hub_backoff_cfg;
         hub_backoff_cfg.max_attempts       = static_cast<uint32_t>(config_.max_retries) + 1u;
-        hub_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(
-            std::max(0, config_.retry_delay_ms));
+        hub_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(std::max(0, config_.retry_delay_ms));
         hub_backoff_cfg.max_backoff_ms     = 30'000u;
         hub_backoff_cfg.multiplier         = 2.0;
         hub_backoff_cfg.jitter_fraction    = 0.0;
@@ -508,7 +490,9 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for file {}", attempt, rel);
-                if (!file_backoff.wait()) break;
+                if (!file_backoff.wait()) {
+                    break;
+                }
             }
             rate_limited = false;
 
@@ -517,37 +501,30 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
 
             std::function<void(double)> file_progress;
             if (progress_cb) {
-                file_progress = [&progress_cb, frac_start, frac_range](double f) {
-                    progress_cb(frac_start + f * frac_range);
-                };
+                file_progress
+                    = [&progress_cb, frac_start, frac_range](double f) { progress_cb(frac_start + f * frac_range); };
             }
 
             std::string retry_after_hdr;
-            const int http_status = httpPutFile(upload_url, file_path, token, file_progress,
-                                                &retry_after_hdr);
+            const int http_status = httpPutFile(upload_url, file_path, token, file_progress, &retry_after_hdr);
 
             if (http_status == 200 || http_status == 201) {
                 file_ok = true;
                 break;
             }
             if (http_status == 401) {
-                const HubUploadResult auth_fail{
-                    false, {}, "Hub upload authentication failed (HTTP 401)", 401};
+                const HubUploadResult auth_fail{false, {}, "Hub upload authentication failed (HTTP 401)", 401};
                 if (config_.audit_log) {
-                    writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
-                                             auth_fail, "error");
+                    writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, auth_fail, "error");
                 }
                 return auth_fail;
             }
             if (http_status == 413) {
                 THEMIS_WARN("HuggingFaceHubClient: HTTP 413 for {}; file too large for a single PUT", rel);
                 const HubUploadResult too_large{
-                    false, {},
-                    "File '" + rel + "' too large for Hub API (HTTP 413); split shard and retry",
-                    413};
+                    false, {}, "File '" + rel + "' too large for Hub API (HTTP 413); split shard and retry", 413};
                 if (config_.audit_log) {
-                    writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
-                                             too_large, "error");
+                    writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, too_large, "error");
                 }
                 return too_large;
             }
@@ -557,12 +534,12 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
                 }
                 long sleep_secs = parseRetryAfterSeconds(retry_after_hdr);
                 if (sleep_secs <= 0) {
-                    sleep_secs = (config_.retry_delay_ms > 0)
-                                     ? (config_.retry_delay_ms / 1000 + 1) : 1;
+                    sleep_secs = (config_.retry_delay_ms > 0) ? (config_.retry_delay_ms / 1000 + 1) : 1;
                 }
                 sleep_secs = std::min(sleep_secs, config_.timeout_seconds);
                 THEMIS_WARN("HuggingFaceHubClient: HTTP 429 for {}; Retry-After='{}';"
-                            " sleeping {}s", rel, retry_after_hdr, sleep_secs);
+                            " sleeping {}s",
+                            rel, retry_after_hdr, sleep_secs);
                 std::this_thread::sleep_for(std::chrono::seconds(sleep_secs));
                 rate_limited = true;
                 continue;
@@ -571,13 +548,13 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
         }
 
         if (!file_ok) {
-            const HubUploadResult retry_fail{
-                false, {},
-                "Failed to upload file '" + rel + "' after " + std::to_string(config_.max_retries) + " retries",
-                0};
+            const HubUploadResult retry_fail{false,
+                                             {},
+                                             "Failed to upload file '" + rel + "' after "
+                                                 + std::to_string(config_.max_retries) + " retries",
+                                             0};
             if (config_.audit_log) {
-                writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
-                                         retry_fail, "error");
+                writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, retry_fail, "error");
             }
             return retry_fail;
         }
@@ -588,8 +565,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
         }
     }
 
-    THEMIS_INFO("HuggingFaceHubClient: all {} files uploaded successfully to {}",
-                total_files, repo_res.dataset_url);
+    THEMIS_INFO("HuggingFaceHubClient: all {} files uploaded successfully to {}", total_files, repo_res.dataset_url);
     const HubUploadResult success{true, repo_res.dataset_url, {}, 200};
     if (config_.audit_log) {
         writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, success, "success");
@@ -599,12 +575,9 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
 
 // ── Memory-streaming upload ──────────────────────────────────────────────────
 
-HubUploadResult HuggingFaceHubClient::uploadShards(
-    const std::vector<MemoryShardSpec>& shards,
-    std::function<void(double)> progress_cb) const
-{
-    const std::string context =
-        "<memory:" + std::to_string(shards.size()) + " shards>";
+HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShardSpec> &shards,
+                                                   std::function<void(double)> progress_cb) const {
+    const std::string context = "<memory:" + std::to_string(shards.size()) + " shards>";
 
     // ── 0. PolicyEngine authorization check ─────────────────────────────────
     if (config_.policy_engine) {
@@ -616,37 +589,32 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
 
         const auto decision = config_.policy_engine->checkExportPermission(req);
         if (!decision.is_permitted) {
-            const HubUploadResult denied{
-                false, {}, "Hub upload denied by PolicyEngine: " + decision.denial_reason, 0};
+            const HubUploadResult denied{false, {}, "Hub upload denied by PolicyEngine: " + decision.denial_reason, 0};
             if (config_.audit_log) {
                 writeHubUploadAuditEntry(*config_.audit_log, config_, context, denied, "denied");
             }
-            THEMIS_WARN("HuggingFaceHubClient: upload to '{}' denied: {}",
-                        config_.repo_id, decision.denial_reason);
+            THEMIS_WARN("HuggingFaceHubClient: upload to '{}' denied: {}", config_.repo_id, decision.denial_reason);
             return denied;
         }
     }
 
     const std::string token = resolveToken();
     if (token.empty()) {
-        const HubUploadResult no_token{
-            false, {}, "No HF_TOKEN set and HubUploadConfig::hf_token is empty", 0};
+        const HubUploadResult no_token{false, {}, "No HF_TOKEN set and HubUploadConfig::hf_token is empty", 0};
         if (config_.audit_log) {
             writeHubUploadAuditEntry(*config_.audit_log, config_, context, no_token, "error");
         }
         return no_token;
     }
     if (config_.repo_id.empty()) {
-        const HubUploadResult no_repo{
-            false, {}, "HubUploadConfig::repo_id must not be empty", 0};
+        const HubUploadResult no_repo{false, {}, "HubUploadConfig::repo_id must not be empty", 0};
         if (config_.audit_log) {
             writeHubUploadAuditEntry(*config_.audit_log, config_, context, no_repo, "error");
         }
         return no_repo;
     }
     if (shards.empty()) {
-        const HubUploadResult empty_shards{
-            false, {}, "No shards provided for memory upload", 0};
+        const HubUploadResult empty_shards{false, {}, "No shards provided for memory upload", 0};
         if (config_.audit_log) {
             writeHubUploadAuditEntry(*config_.audit_log, config_, context, empty_shards, "error");
         }
@@ -662,28 +630,24 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
         return repo_res;
     }
 
-    THEMIS_INFO("HuggingFaceHubClient: uploading {} memory shards to {}",
-                shards.size(), config_.repo_id);
+    THEMIS_INFO("HuggingFaceHubClient: uploading {} memory shards to {}", shards.size(), config_.repo_id);
 
     // 2. Upload each shard with retry logic
     const size_t total_shards = shards.size();
-    size_t uploaded = 0;
+    size_t uploaded           = 0;
 
-    for (const auto& shard : shards) {
-        const std::string& rel = shard.relative_path;
-        const std::string upload_url = config_.hub_base_url
-            + "/api/datasets/" + config_.repo_id
-            + "/upload/main"
-            + "/" + rel;
+    for (const auto &shard : shards) {
+        const std::string &rel = shard.relative_path;
+        const std::string upload_url
+            = config_.hub_base_url + "/api/datasets/" + config_.repo_id + "/upload/main" + "/" + rel;
 
-        bool shard_ok = false;
+        bool shard_ok     = false;
         bool rate_limited = false;
         // Exponential backoff for transient errors (HTTP 429 uses its own
         // Retry-After sleep and does NOT advance the backoff state).
         themis::utils::RetryConfig shard_backoff_cfg;
         shard_backoff_cfg.max_attempts       = static_cast<uint32_t>(config_.max_retries) + 1u;
-        shard_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(
-            std::max(0, config_.retry_delay_ms));
+        shard_backoff_cfg.initial_backoff_ms = static_cast<uint32_t>(std::max(0, config_.retry_delay_ms));
         shard_backoff_cfg.max_backoff_ms     = 30'000u;
         shard_backoff_cfg.multiplier         = 2.0;
         shard_backoff_cfg.jitter_fraction    = 0.0;
@@ -691,49 +655,46 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for shard {}", attempt, rel);
-                if (!shard_backoff.wait()) break;
+                if (!shard_backoff.wait()) {
+                    break;
+                }
             }
             rate_limited = false;
 
-            const double frac_start =
-                static_cast<double>(uploaded) / static_cast<double>(total_shards);
+            const double frac_start = static_cast<double>(uploaded) / static_cast<double>(total_shards);
             const double frac_range = 1.0 / static_cast<double>(total_shards);
 
             std::function<void(double)> shard_progress;
             if (progress_cb) {
-                shard_progress = [&progress_cb, frac_start, frac_range](double f) {
-                    progress_cb(frac_start + f * frac_range);
-                };
+                shard_progress
+                    = [&progress_cb, frac_start, frac_range](double f) { progress_cb(frac_start + f * frac_range); };
             }
 
             std::string retry_after_hdr;
-            const int http_status = httpPutBytes(
-                upload_url, shard.content.data(), shard.content.size(),
-                token, shard_progress, &retry_after_hdr);
+            const int http_status = httpPutBytes(upload_url, shard.content.data(), shard.content.size(), token,
+                                                 shard_progress, &retry_after_hdr);
 
             if (http_status == 200 || http_status == 201) {
                 shard_ok = true;
                 break;
             }
             if (http_status == 401) {
-                const HubUploadResult auth_fail{
-                    false, {}, "Hub upload authentication failed (HTTP 401)", 401};
+                const HubUploadResult auth_fail{false, {}, "Hub upload authentication failed (HTTP 401)", 401};
                 if (config_.audit_log) {
-                    writeHubUploadAuditEntry(*config_.audit_log, config_, context,
-                                             auth_fail, "error");
+                    writeHubUploadAuditEntry(*config_.audit_log, config_, context, auth_fail, "error");
                 }
                 return auth_fail;
             }
             if (http_status == 413) {
                 THEMIS_WARN("HuggingFaceHubClient: HTTP 413 for memory shard {}; too large", rel);
-                const HubUploadResult too_large{
-                    false, {},
-                    "Shard '" + rel + "' too large for Hub API (HTTP 413); "
-                    "reduce shard size and retry",
-                    413};
+                const HubUploadResult too_large{false,
+                                                {},
+                                                "Shard '" + rel
+                                                    + "' too large for Hub API (HTTP 413); "
+                                                      "reduce shard size and retry",
+                                                413};
                 if (config_.audit_log) {
-                    writeHubUploadAuditEntry(*config_.audit_log, config_, context,
-                                             too_large, "error");
+                    writeHubUploadAuditEntry(*config_.audit_log, config_, context, too_large, "error");
                 }
                 return too_large;
             }
@@ -743,12 +704,12 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
                 }
                 long sleep_secs = parseRetryAfterSeconds(retry_after_hdr);
                 if (sleep_secs <= 0) {
-                    sleep_secs = (config_.retry_delay_ms > 0)
-                                     ? (config_.retry_delay_ms / 1000 + 1) : 1;
+                    sleep_secs = (config_.retry_delay_ms > 0) ? (config_.retry_delay_ms / 1000 + 1) : 1;
                 }
                 sleep_secs = std::min(sleep_secs, config_.timeout_seconds);
                 THEMIS_WARN("HuggingFaceHubClient: HTTP 429 for shard {}; Retry-After='{}';"
-                            " sleeping {}s", rel, retry_after_hdr, sleep_secs);
+                            " sleeping {}s",
+                            rel, retry_after_hdr, sleep_secs);
                 std::this_thread::sleep_for(std::chrono::seconds(sleep_secs));
                 rate_limited = true;
                 continue;
@@ -757,14 +718,13 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
         }
 
         if (!shard_ok) {
-            const HubUploadResult retry_fail{
-                false, {},
-                "Failed to upload shard '" + rel + "' after "
-                    + std::to_string(config_.max_retries) + " retries",
-                0};
+            const HubUploadResult retry_fail{false,
+                                             {},
+                                             "Failed to upload shard '" + rel + "' after "
+                                                 + std::to_string(config_.max_retries) + " retries",
+                                             0};
             if (config_.audit_log) {
-                writeHubUploadAuditEntry(*config_.audit_log, config_, context,
-                                         retry_fail, "error");
+                writeHubUploadAuditEntry(*config_.audit_log, config_, context, retry_fail, "error");
             }
             return retry_fail;
         }
@@ -775,8 +735,8 @@ HubUploadResult HuggingFaceHubClient::uploadShards(
         }
     }
 
-    THEMIS_INFO("HuggingFaceHubClient: all {} memory shards uploaded successfully to {}",
-                total_shards, repo_res.dataset_url);
+    THEMIS_INFO("HuggingFaceHubClient: all {} memory shards uploaded successfully to {}", total_shards,
+                repo_res.dataset_url);
     const HubUploadResult success{true, repo_res.dataset_url, {}, 200};
     if (config_.audit_log) {
         writeHubUploadAuditEntry(*config_.audit_log, config_, context, success, "success");

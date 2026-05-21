@@ -12,21 +12,19 @@
 
 #include "themis/base/remote_registry_client.h"
 
-#include <curl/curl.h>
-#include <openssl/evp.h>
-#include <spdlog/spdlog.h>
-
 #include <array>
 #include <chrono>
 #include <condition_variable>
+#include <curl/curl.h>
 #include <filesystem>
 #include <fstream>
 #include <future>
 #include <iomanip>
-#include <future>
 #include <memory>
 #include <mutex>
+#include <openssl/evp.h>
 #include <queue>
+#include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
 #include <thread>
@@ -49,15 +47,14 @@ struct BackoffDispatcherState {
     std::mutex mutex;
 };
 
-BackoffDispatcherState& dispatcherState() {
+BackoffDispatcherState &dispatcherState() {
     static BackoffDispatcherState state;
     return state;
 }
 
-void waitOrThrow(std::future<void>&& future, const char* source) {
+void waitOrThrow(std::future<void> &&future, const char *source) {
     if (!future.valid()) {
-        throw std::runtime_error(std::string("RemoteRegistryClient: ")
-                                 + source
+        throw std::runtime_error(std::string("RemoteRegistryClient: ") + source
                                  + " returned invalid future; ensure the dispatcher returns "
                                    "a valid future object");
     }
@@ -71,10 +68,10 @@ void waitOrThrow(std::future<void>&& future, const char* source) {
 // thread per backoff. A single worker thread sleeps until the earliest task
 // is due and then fulfils the associated promise.
 class BackoffScheduler {
-public:
+  public:
     using Clock = std::chrono::steady_clock;
 
-    static BackoffScheduler& instance() {
+    static BackoffScheduler &instance() {
         static BackoffScheduler scheduler;
         return scheduler;
     }
@@ -92,20 +89,19 @@ public:
         return future;
     }
 
-private:
+  private:
     struct Task {
         Clock::time_point when;
         std::shared_ptr<std::promise<void>> promise;
     };
 
     struct TaskCompare {
-        bool operator()(const Task& lhs, const Task& rhs) const {
+        bool operator()(const Task &lhs, const Task &rhs) const {
             return lhs.when > rhs.when;
         }
     };
 
-    BackoffScheduler()
-        : worker_([this](std::stop_token st) { run(st); }) {}
+    BackoffScheduler() : worker_([this](std::stop_token st) { run(st); }) {}
 
     ~BackoffScheduler() {
         worker_.request_stop();
@@ -116,9 +112,7 @@ private:
         std::unique_lock<std::mutex> lock(mutex_);
         while (!stop_token.stop_requested()) {
             if (tasks_.empty()) {
-                cv_.wait(lock, [&] {
-                    return stop_token.stop_requested() || !tasks_.empty();
-                });
+                cv_.wait(lock, [&] { return stop_token.stop_requested() || !tasks_.empty(); });
                 if (stop_token.stop_requested()) {
                     break;
                 }
@@ -127,14 +121,12 @@ private:
 
             auto next_when = tasks_.top().when;
             if (cv_.wait_until(lock, next_when, [&] {
-                    return stop_token.stop_requested() ||
-                           tasks_.empty() ||
-                           tasks_.top().when != next_when;
+                    return stop_token.stop_requested() || tasks_.empty() || tasks_.top().when != next_when;
                 })) {
                 if (stop_token.stop_requested()) {
                     break;
                 }
-                continue;  // woken up due to new task; re-evaluate
+                continue; // woken up due to new task; re-evaluate
             }
 
             if (tasks_.empty()) {
@@ -172,29 +164,30 @@ long clampedCurlTimeout(int config_timeout, int remaining_ms) {
 }
 
 // CURL write callback: accumulates response body into a std::string.
-size_t writeStringCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+size_t writeStringCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     const size_t total = size * nmemb;
-    static_cast<std::string*>(userp)->append(static_cast<char*>(contents), total);
+    static_cast<std::string *>(userp)->append(static_cast<char *>(contents), total);
     return total;
 }
 
 // CURL write callback: writes to an open std::ofstream.
-size_t writeFileCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+size_t writeFileCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     const size_t total = size * nmemb;
-    static_cast<std::ofstream*>(userp)->write(static_cast<char*>(contents),
-                                              static_cast<std::streamsize>(total));
+    static_cast<std::ofstream *>(userp)->write(static_cast<char *>(contents), static_cast<std::streamsize>(total));
     return total;
 }
 
 // Compute the SHA-256 hex digest of a file using OpenSSL EVP.
-std::string sha256File(const std::string& path) {
+std::string sha256File(const std::string &path) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
         return {};
     }
 
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) return {};
+    EVP_MD_CTX *ctx = EVP_MD_CTX_new();
+    if (!ctx) {
+        return {};
+    }
 
     if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
         EVP_MD_CTX_free(ctx);
@@ -202,17 +195,15 @@ std::string sha256File(const std::string& path) {
     }
 
     std::array<char, 8192> buf{};
-    while (file.read(buf.data(), static_cast<std::streamsize>(buf.size())) ||
-           file.gcount() > 0) {
-        if (EVP_DigestUpdate(ctx, buf.data(),
-                             static_cast<size_t>(file.gcount())) != 1) {
+    while (file.read(buf.data(), static_cast<std::streamsize>(buf.size())) || file.gcount() > 0) {
+        if (EVP_DigestUpdate(ctx, buf.data(), static_cast<size_t>(file.gcount())) != 1) {
             EVP_MD_CTX_free(ctx);
             return {};
         }
     }
 
     unsigned char digest[EVP_MAX_MD_SIZE];
-    unsigned int  digest_len = 0;
+    unsigned int digest_len = 0;
     if (EVP_DigestFinal_ex(ctx, digest, &digest_len) != 1) {
         EVP_MD_CTX_free(ctx);
         return {};
@@ -221,8 +212,7 @@ std::string sha256File(const std::string& path) {
 
     std::ostringstream oss;
     for (unsigned int i = 0; i < digest_len; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast<int>(digest[i]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
     }
     return oss.str();
 }
@@ -233,10 +223,8 @@ std::string sha256File(const std::string& path) {
 // Constructor / Destructor
 // =============================================================================
 
-RemoteRegistryClient::RemoteRegistryClient(const RegistryConfig& config)
-    : config_(config) {
-    spdlog::info("RemoteRegistryClient: registry_url='{}' verify_ssl={}",
-                 config_.registry_url, config_.verify_ssl);
+RemoteRegistryClient::RemoteRegistryClient(const RegistryConfig &config) : config_(config) {
+    spdlog::info("RemoteRegistryClient: registry_url='{}' verify_ssl={}", config_.registry_url, config_.verify_ssl);
 }
 
 RemoteRegistryClient::~RemoteRegistryClient() = default;
@@ -252,7 +240,7 @@ std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
     std::string body;
     try {
         body = httpGet(url);
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         spdlog::error("RemoteRegistryClient::listPlugins: HTTP error: {}", ex.what());
         return {};
     }
@@ -264,30 +252,28 @@ std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
             spdlog::error("RemoteRegistryClient::listPlugins: expected JSON array");
             return {};
         }
-        for (const auto& item : j) {
+        for (const auto &item : j) {
             RegistryPluginEntry entry;
             if (parseEntry(item, entry)) {
                 entries.push_back(std::move(entry));
             }
         }
-    } catch (const nlohmann::json::exception& ex) {
+    } catch (const nlohmann::json::exception &ex) {
         spdlog::error("RemoteRegistryClient::listPlugins: JSON parse error: {}", ex.what());
     }
     spdlog::info("RemoteRegistryClient::listPlugins: found {} plugin(s)", entries.size());
     return entries;
 }
 
-std::optional<RegistryPluginEntry> RemoteRegistryClient::fetchPlugin(
-    const std::string& name) {
+std::optional<RegistryPluginEntry> RemoteRegistryClient::fetchPlugin(const std::string &name) {
     const std::string url = config_.registry_url + "/plugins/" + name;
     spdlog::debug("RemoteRegistryClient::fetchPlugin GET {}", url);
 
     std::string body;
     try {
         body = httpGet(url);
-    } catch (const std::exception& ex) {
-        spdlog::error("RemoteRegistryClient::fetchPlugin '{}': HTTP error: {}",
-                      name, ex.what());
+    } catch (const std::exception &ex) {
+        spdlog::error("RemoteRegistryClient::fetchPlugin '{}': HTTP error: {}", name, ex.what());
         return std::nullopt;
     }
 
@@ -297,9 +283,8 @@ std::optional<RegistryPluginEntry> RemoteRegistryClient::fetchPlugin(
         if (parseEntry(j, entry)) {
             return entry;
         }
-    } catch (const nlohmann::json::exception& ex) {
-        spdlog::error("RemoteRegistryClient::fetchPlugin '{}': JSON parse error: {}",
-                      name, ex.what());
+    } catch (const nlohmann::json::exception &ex) {
+        spdlog::error("RemoteRegistryClient::fetchPlugin '{}': JSON parse error: {}", name, ex.what());
     }
     return std::nullopt;
 }
@@ -308,8 +293,7 @@ std::optional<RegistryPluginEntry> RemoteRegistryClient::fetchPlugin(
 // Download
 // =============================================================================
 
-PluginDownloadResult RemoteRegistryClient::downloadPlugin(
-    const RegistryPluginEntry& entry) {
+PluginDownloadResult RemoteRegistryClient::downloadPlugin(const RegistryPluginEntry &entry) {
     PluginDownloadResult result;
     result.plugin_name = entry.name;
     result.version     = entry.version;
@@ -335,16 +319,15 @@ PluginDownloadResult RemoteRegistryClient::downloadPlugin(
     std::error_code ec;
     std::filesystem::create_directories(dest_dir, ec);
     if (ec) {
-        result.error_message = "Cannot create download directory '" +
-                               config_.download_dir + "': " + ec.message();
+        result.error_message = "Cannot create download directory '" + config_.download_dir + "': " + ec.message();
         spdlog::error("RemoteRegistryClient::downloadPlugin: {}", result.error_message);
         return result;
     }
 
     const std::string local_path = (dest_dir / filename).string();
 
-    spdlog::info("RemoteRegistryClient::downloadPlugin: downloading '{}' v{} -> {}",
-                 entry.name, entry.version, local_path);
+    spdlog::info("RemoteRegistryClient::downloadPlugin: downloading '{}' v{} -> {}", entry.name, entry.version,
+                 local_path);
 
     if (!httpGetBinary(entry.download_url, local_path)) {
         result.error_message = "Failed to download '" + entry.download_url + "'";
@@ -355,17 +338,16 @@ PluginDownloadResult RemoteRegistryClient::downloadPlugin(
     // Verify integrity only when a hash was provided.
     if (!entry.sha256.empty()) {
         if (!verifyIntegrity(local_path, entry.sha256)) {
-            result.error_message = "SHA-256 mismatch for '" + entry.name +
-                                   "': download may be corrupted or tampered";
+            result.error_message = "SHA-256 mismatch for '" + entry.name + "': download may be corrupted or tampered";
             spdlog::error("RemoteRegistryClient::downloadPlugin: {}", result.error_message);
             std::filesystem::remove(local_path, ec);
             return result;
         }
-        spdlog::info("RemoteRegistryClient::downloadPlugin: integrity OK for '{}'",
-                     entry.name);
+        spdlog::info("RemoteRegistryClient::downloadPlugin: integrity OK for '{}'", entry.name);
     } else {
         spdlog::warn("RemoteRegistryClient::downloadPlugin: no SHA-256 provided for "
-                     "'{}', skipping integrity check", entry.name);
+                     "'{}', skipping integrity check",
+                     entry.name);
     }
 
     result.success    = true;
@@ -377,17 +359,16 @@ PluginDownloadResult RemoteRegistryClient::downloadPlugin(
 // Combined download + load
 // =============================================================================
 
-ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
-    const RegistryPluginEntry& entry, ModuleLoader& loader) {
+ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(const RegistryPluginEntry &entry, ModuleLoader &loader) {
     auto dl = downloadPlugin(entry);
 
     if (!dl.success) {
         ModuleVerificationResult mvr;
-        mvr.success      = false;
-        mvr.errorCode    = ModuleErrorCode::MODULE_NOT_FOUND;
+        mvr.success       = false;
+        mvr.errorCode     = ModuleErrorCode::MODULE_NOT_FOUND;
         mvr.errorCategory = ErrorCategory::TRANSIENT;
-        mvr.errorMessage = dl.error_message;
-        mvr.modulePath   = entry.download_url;
+        mvr.errorMessage  = dl.error_message;
+        mvr.modulePath    = entry.download_url;
         return mvr;
     }
 
@@ -399,26 +380,15 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
 // =============================================================================
 
 std::future<std::vector<RegistryPluginEntry>> RemoteRegistryClient::listPluginsAsync() {
-    return std::async(std::launch::async,
-                      [self = shared_from_this()]() {
-                          return self->listPlugins();
-                      });
+    return std::async(std::launch::async, [self = shared_from_this()]() { return self->listPlugins(); });
 }
 
-std::future<std::optional<RegistryPluginEntry>> RemoteRegistryClient::fetchPluginAsync(
-    const std::string& name) {
-    return std::async(std::launch::async,
-                      [self = shared_from_this(), name]() {
-                          return self->fetchPlugin(name);
-                      });
+std::future<std::optional<RegistryPluginEntry>> RemoteRegistryClient::fetchPluginAsync(const std::string &name) {
+    return std::async(std::launch::async, [self = shared_from_this(), name]() { return self->fetchPlugin(name); });
 }
 
-std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(
-    const RegistryPluginEntry& entry) {
-    return std::async(std::launch::async,
-                      [self = shared_from_this(), entry]() {
-                          return self->downloadPlugin(entry);
-                      });
+std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(const RegistryPluginEntry &entry) {
+    return std::async(std::launch::async, [self = shared_from_this(), entry]() { return self->downloadPlugin(entry); });
 }
 
 // =============================================================================
@@ -438,11 +408,7 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(
     // pool) to yield the caller during the wait without changing call sites.
     // Thread-creation overhead (< 1 ms) is negligible relative to the minimum
     // back-off of 500 ms.
-    auto f = std::async(std::launch::async,
-                        [ms] {
-                            std::this_thread::sleep_for(
-                                std::chrono::milliseconds(ms));
-                        });
+    auto f = std::async(std::launch::async, [ms] { std::this_thread::sleep_for(std::chrono::milliseconds(ms)); });
     f.wait();
     if (ms <= 0) {
         return;
@@ -451,7 +417,7 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(
     const auto delay = std::chrono::milliseconds(ms);
     std::function<std::future<void>(std::chrono::milliseconds)> dispatcher;
     {
-        auto& state = dispatcherState();
+        auto &state = dispatcherState();
         std::lock_guard<std::mutex> lock(state.mutex);
         dispatcher = state.dispatcher;
     }
@@ -461,9 +427,8 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(
         try {
             auto future = dispatcher(delay);
             waitOrThrow(std::move(future), "backoff dispatcher for retry delay");
-        } catch (const std::exception& ex) {
-            spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher error: {}",
-                          ex.what());
+        } catch (const std::exception &ex) {
+            spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher error: {}", ex.what());
             throw;
         } catch (...) {
             spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher threw "
@@ -495,7 +460,7 @@ std::string RemoteRegistryClient::buildAuthorizationHeader() const {
     return {};
 }
 
-std::string RemoteRegistryClient::httpGet(const std::string& url) {
+std::string RemoteRegistryClient::httpGet(const std::string &url) {
     const std::string auth_header = buildAuthorizationHeader();
 
     // Clamp max_retries to [0, kMaxAllowedRetries] to prevent overflow in the backoff shift.
@@ -509,7 +474,7 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
     const auto request_start = std::chrono::steady_clock::now();
 
     // Lambda to persist stats on every return/throw path.
-    auto update_stats = [&](const std::string& error) {
+    auto update_stats = [&](const std::string &error) {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         last_stats_.attempts   = attempts_made;
         last_stats_.last_error = error;
@@ -518,14 +483,13 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
     for (int attempt = 0; attempt < attempts; ++attempt) {
         // Enforce total retry time budget before starting this attempt.
         const auto elapsed_ms = static_cast<int>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::steady_clock::now() - request_start)
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - request_start)
                 .count());
         const int remaining_ms = config_.max_total_retry_time_ms - elapsed_ms;
         if (remaining_ms <= 0) {
-            spdlog::warn(
-                "RemoteRegistryClient::httpGet: total retry budget "
-                "exhausted after {}ms for {}", elapsed_ms, url);
+            spdlog::warn("RemoteRegistryClient::httpGet: total retry budget "
+                         "exhausted after {}ms for {}",
+                         elapsed_ms, url);
             break;
         }
 
@@ -534,21 +498,21 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
             const int shift_amount = std::min(attempt - 1, kMaxBackoffShift);
             const int backoff_ms   = 500 * (1 << shift_amount);
             const int sleep_ms     = std::min(backoff_ms, remaining_ms);
-            spdlog::warn("RemoteRegistryClient::httpGet: retry {}/{} after {}ms for {}",
-                         attempt, max_retries, sleep_ms, url);
+            spdlog::warn("RemoteRegistryClient::httpGet: retry {}/{} after {}ms for {}", attempt, max_retries, sleep_ms,
+                         url);
             asyncBackoffSleep(sleep_ms);
         }
 
         ++attempts_made;
 
-        CURL* curl = curl_easy_init();
+        CURL *curl = curl_easy_init();
         if (!curl) {
             update_stats("curl_easy_init() failed");
             throw std::runtime_error("curl_easy_init() failed");
         }
 
         std::string body;
-        struct curl_slist* headers = nullptr;
+        struct curl_slist *headers = nullptr;
 
         if (!auth_header.empty()) {
             headers = curl_slist_append(headers, auth_header.c_str());
@@ -558,11 +522,10 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
         // Cap per-attempt timeout to the remaining total budget so the overall
         // call cannot overrun max_total_retry_time_ms by more than one timeout.
         const auto elapsed_now = static_cast<int>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::steady_clock::now() - request_start)
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - request_start)
                 .count());
-        const long attempt_timeout = clampedCurlTimeout(
-            config_.timeout_ms, config_.max_total_retry_time_ms - elapsed_now);
+        const long attempt_timeout
+            = clampedCurlTimeout(config_.timeout_ms, config_.max_total_retry_time_ms - elapsed_now);
 
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -576,12 +539,11 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
             curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
         }
         if (!config_.pinned_public_key.empty()) {
-            curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY,
-                             config_.pinned_public_key.c_str());
+            curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, config_.pinned_public_key.c_str());
         }
 
         const CURLcode res = curl_easy_perform(curl);
-        long http_code = 0;
+        long http_code     = 0;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
 
         curl_slist_free_all(headers);
@@ -595,8 +557,7 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
 
         // Authentication / authorisation failures are permanent; do not retry.
         if (http_code == 401 || http_code == 403) {
-            const std::string err = "Registry authentication failed (HTTP " +
-                                    std::to_string(http_code) + ")";
+            const std::string err = "Registry authentication failed (HTTP " + std::to_string(http_code) + ")";
             update_stats(err);
             throw std::runtime_error(err);
         }
@@ -607,13 +568,11 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
         }
         if (http_code >= 500) {
             // Server error – transient, retry
-            last_error = "Unexpected HTTP status " + std::to_string(http_code) +
-                         " for " + url;
+            last_error = "Unexpected HTTP status " + std::to_string(http_code) + " for " + url;
             continue;
         }
         if (http_code < 200 || http_code >= 300) {
-            const std::string err = "Unexpected HTTP status " +
-                                    std::to_string(http_code) + " for " + url;
+            const std::string err = "Unexpected HTTP status " + std::to_string(http_code) + " for " + url;
             update_stats(err);
             throw std::runtime_error(err);
         }
@@ -622,15 +581,12 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
         return body;
     }
 
-    const std::string final_error = last_error.empty()
-                                        ? "httpGet failed after retries"
-                                        : last_error;
+    const std::string final_error = last_error.empty() ? "httpGet failed after retries" : last_error;
     update_stats(final_error);
     throw std::runtime_error(final_error);
 }
 
-bool RemoteRegistryClient::httpGetBinary(const std::string& url,
-                                         const std::string& out_path) {
+bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::string &out_path) {
     const std::string auth_header = buildAuthorizationHeader();
 
     // Clamp max_retries to [0, kMaxAllowedRetries] to prevent overflow in the backoff shift.
@@ -643,7 +599,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
     // Track wall-clock time to enforce max_total_retry_time_ms.
     const auto request_start = std::chrono::steady_clock::now();
 
-    auto update_stats = [&](const std::string& error) {
+    auto update_stats = [&](const std::string &error) {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         last_stats_.attempts   = attempts_made;
         last_stats_.last_error = error;
@@ -652,14 +608,13 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
     for (int attempt = 0; attempt < attempts; ++attempt) {
         // Enforce total retry time budget before starting this attempt.
         const auto elapsed_ms = static_cast<int>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::steady_clock::now() - request_start)
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - request_start)
                 .count());
         const int remaining_ms = config_.max_total_retry_time_ms - elapsed_ms;
         if (remaining_ms <= 0) {
-            spdlog::warn(
-                "RemoteRegistryClient::httpGetBinary: total retry budget "
-                "exhausted after {}ms for {}", elapsed_ms, url);
+            spdlog::warn("RemoteRegistryClient::httpGetBinary: total retry budget "
+                         "exhausted after {}ms for {}",
+                         elapsed_ms, url);
             break;
         }
 
@@ -667,14 +622,13 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
             const int shift_amount = std::min(attempt - 1, kMaxBackoffShift);
             const int backoff_ms   = 500 * (1 << shift_amount);
             const int sleep_ms     = std::min(backoff_ms, remaining_ms);
-            spdlog::warn("RemoteRegistryClient::httpGetBinary: retry {}/{} after {}ms",
-                         attempt, max_retries, sleep_ms);
+            spdlog::warn("RemoteRegistryClient::httpGetBinary: retry {}/{} after {}ms", attempt, max_retries, sleep_ms);
             asyncBackoffSleep(sleep_ms);
         }
 
         ++attempts_made;
 
-        CURL* curl = curl_easy_init();
+        CURL *curl = curl_easy_init();
         if (!curl) {
             spdlog::error("RemoteRegistryClient::httpGetBinary: curl_easy_init() failed");
             update_stats("curl_easy_init() failed");
@@ -684,24 +638,22 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
         std::ofstream out(out_path, std::ios::binary | std::ios::trunc);
         if (!out.is_open()) {
             curl_easy_cleanup(curl);
-            spdlog::error("RemoteRegistryClient::httpGetBinary: cannot open '{}' for writing",
-                          out_path);
+            spdlog::error("RemoteRegistryClient::httpGetBinary: cannot open '{}' for writing", out_path);
             update_stats("cannot open output file");
             return false;
         }
 
-        struct curl_slist* headers = nullptr;
+        struct curl_slist *headers = nullptr;
         if (!auth_header.empty()) {
             headers = curl_slist_append(headers, auth_header.c_str());
         }
 
         // Cap per-attempt timeout to the remaining total budget.
         const auto elapsed_now = static_cast<int>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::steady_clock::now() - request_start)
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - request_start)
                 .count());
-        const long attempt_timeout = clampedCurlTimeout(
-            config_.timeout_ms, config_.max_total_retry_time_ms - elapsed_now);
+        const long attempt_timeout
+            = clampedCurlTimeout(config_.timeout_ms, config_.max_total_retry_time_ms - elapsed_now);
 
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -715,12 +667,11 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
             curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
         }
         if (!config_.pinned_public_key.empty()) {
-            curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY,
-                             config_.pinned_public_key.c_str());
+            curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, config_.pinned_public_key.c_str());
         }
 
         const CURLcode res = curl_easy_perform(curl);
-        long http_code = 0;
+        long http_code     = 0;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
 
         curl_slist_free_all(headers);
@@ -729,8 +680,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
 
         if (res != CURLE_OK) {
             last_error = std::string("CURL error: ") + curl_easy_strerror(res);
-            spdlog::error("RemoteRegistryClient::httpGetBinary: CURL error: {}",
-                          curl_easy_strerror(res));
+            spdlog::error("RemoteRegistryClient::httpGetBinary: CURL error: {}", curl_easy_strerror(res));
             // Remove the incomplete file before retrying.
             std::error_code ec;
             std::filesystem::remove(out_path, ec);
@@ -739,8 +689,7 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
 
         if (http_code < 200 || http_code >= 300) {
             last_error = "HTTP " + std::to_string(http_code) + " for " + url;
-            spdlog::error("RemoteRegistryClient::httpGetBinary: HTTP {} for {}",
-                          http_code, url);
+            spdlog::error("RemoteRegistryClient::httpGetBinary: HTTP {} for {}", http_code, url);
             // Remove the incomplete file.
             std::error_code ec;
             std::filesystem::remove(out_path, ec);
@@ -756,63 +705,55 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
         return true;
     }
 
-    spdlog::error("RemoteRegistryClient::httpGetBinary: all {} attempt(s) failed for {}",
-                  attempts, url);
-    const std::string final_error = last_error.empty()
-                                        ? "httpGetBinary failed after retries"
-                                        : last_error;
+    spdlog::error("RemoteRegistryClient::httpGetBinary: all {} attempt(s) failed for {}", attempts, url);
+    const std::string final_error = last_error.empty() ? "httpGetBinary failed after retries" : last_error;
     update_stats(final_error);
     return false;
 }
 
-std::future<std::string> RemoteRegistryClient::httpGetAsync(const std::string& url) {
+std::future<std::string> RemoteRegistryClient::httpGetAsync(const std::string &url) {
     // Caller must ensure this instance outlives the returned future.
     // url is copied to decouple the async worker from the caller's lifetime.
     // WARNING: destroying the client before the future completes is undefined (see header docs).
     std::weak_ptr<RemoteRegistryClient> weak_self;
     try {
         weak_self = shared_from_this();
-    } catch (const std::bad_weak_ptr&) {
-        throw std::runtime_error(
-            "httpGetAsync requires RemoteRegistryClient to be managed by std::shared_ptr");
+    } catch (const std::bad_weak_ptr &) {
+        throw std::runtime_error("httpGetAsync requires RemoteRegistryClient to be managed by std::shared_ptr");
     }
 
     return std::async(std::launch::async, [weak_self, url]() {
         auto self = weak_self.lock();
         if (!self) {
-            throw std::runtime_error(
-                "RemoteRegistryClient destroyed before httpGetAsync completed");
+            throw std::runtime_error("RemoteRegistryClient destroyed before httpGetAsync completed");
         }
         return self->httpGet(url);
     });
 }
 
-std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string& url,
-                                                           const std::string& out_path) {
+std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string &url, const std::string &out_path) {
     // Caller must ensure this instance outlives the returned future.
     // url/out_path are copied to decouple the async worker from the caller's lifetime.
     // WARNING: destroying the client before the future completes is undefined (see header docs).
     std::weak_ptr<RemoteRegistryClient> weak_self;
     try {
         weak_self = shared_from_this();
-    } catch (const std::bad_weak_ptr&) {
-        throw std::runtime_error(
-            "httpGetBinaryAsync requires RemoteRegistryClient to be managed by std::shared_ptr");
+    } catch (const std::bad_weak_ptr &) {
+        throw std::runtime_error("httpGetBinaryAsync requires RemoteRegistryClient to be managed by std::shared_ptr");
     }
 
     return std::async(std::launch::async, [weak_self, url, out_path]() {
         auto self = weak_self.lock();
         if (!self) {
-            throw std::runtime_error(
-                "RemoteRegistryClient destroyed before httpGetBinaryAsync completed");
+            throw std::runtime_error("RemoteRegistryClient destroyed before httpGetBinaryAsync completed");
         }
         return self->httpGetBinary(url, out_path);
     });
 }
 
-/*static*/ void RemoteRegistryClient::setBackoffDispatcher(
-    std::function<std::future<void>(std::chrono::milliseconds)> dispatcher) {
-    auto& state = dispatcherState();
+/*static*/ void
+RemoteRegistryClient::setBackoffDispatcher(std::function<std::future<void>(std::chrono::milliseconds)> dispatcher) {
+    auto &state = dispatcherState();
     std::lock_guard<std::mutex> lock(state.mutex);
     state.dispatcher = std::move(dispatcher);
 }
@@ -822,37 +763,37 @@ RequestStats RemoteRegistryClient::lastRequestStats() const {
     return last_stats_;
 }
 
-/*static*/ bool RemoteRegistryClient::verifyIntegrity(
-    const std::string& file_path, const std::string& expected_sha256) {
+/*static*/ bool RemoteRegistryClient::verifyIntegrity(const std::string &file_path,
+                                                      const std::string &expected_sha256) {
     const std::string actual = sha256File(file_path);
     if (actual.empty()) {
-        spdlog::error("RemoteRegistryClient::verifyIntegrity: could not hash '{}'",
-                      file_path);
+        spdlog::error("RemoteRegistryClient::verifyIntegrity: could not hash '{}'", file_path);
         return false;
     }
     const bool ok = (actual == expected_sha256);
     if (!ok) {
         spdlog::error("RemoteRegistryClient::verifyIntegrity: hash mismatch for '{}' "
-                      "(expected={}, actual={})", file_path, expected_sha256, actual);
+                      "(expected={}, actual={})",
+                      file_path, expected_sha256, actual);
     }
     return ok;
 }
 
-/*static*/ bool RemoteRegistryClient::parseEntry(const nlohmann::json& obj,
-                                                  RegistryPluginEntry& out) {
-    if (!obj.is_object()) return false;
+/*static*/ bool RemoteRegistryClient::parseEntry(const nlohmann::json &obj, RegistryPluginEntry &out) {
+    if (!obj.is_object()) {
+        return false;
+    }
     if (!obj.contains("name") || !obj.contains("download_url")) {
         return false;
     }
-    out.name         = obj.value("name", "");
-    out.version      = obj.value("version", "");
-    out.description  = obj.value("description", "");
-    out.download_url = obj.value("download_url", "");
-    out.sha256       = obj.value("sha256", "");
+    out.name               = obj.value("name", "");
+    out.version            = obj.value("version", "");
+    out.description        = obj.value("description", "");
+    out.download_url       = obj.value("download_url", "");
+    out.sha256             = obj.value("sha256", "");
     out.min_themis_version = obj.value("min_themis_version", "");
     return !out.name.empty() && !out.download_url.empty();
 }
 
 } // namespace modules
 } // namespace themis
-

@@ -31,7 +31,7 @@
 #include "themis/gpu/vulkan_backend.h"
 
 #ifdef THEMIS_ENABLE_VULKAN
-#  include <vulkan/vulkan.h>
+#include <vulkan/vulkan.h>
 #endif
 
 namespace themis {
@@ -43,7 +43,9 @@ namespace gpu {
 
 void VulkanComputeBackend::probeDevices() const {
     // Must be called under mutex_.
-    if (vulkan_initialized_) return;
+    if (vulkan_initialized_) {
+        return;
+    }
 
 #ifdef THEMIS_ENABLE_VULKAN
     // Minimal instance creation to count physical devices and capture vendor.
@@ -67,17 +69,17 @@ void VulkanComputeBackend::probeDevices() const {
     vkEnumeratePhysicalDevices(inst, &count, nullptr);
 
     // Filter for compute-capable devices and capture vendor of the first one.
-    int compute_count = 0;
+    int compute_count   = 0;
     cached_vendor_name_ = "Unknown";
     if (count > 0) {
         std::vector<VkPhysicalDevice> devs(count);
         vkEnumeratePhysicalDevices(inst, &count, devs.data());
-        for (const auto& dev : devs) {
+        for (const auto &dev : devs) {
             uint32_t qfCount = 0;
             vkGetPhysicalDeviceQueueFamilyProperties(dev, &qfCount, nullptr);
             std::vector<VkQueueFamilyProperties> qfs(qfCount);
             vkGetPhysicalDeviceQueueFamilyProperties(dev, &qfCount, qfs.data());
-            for (const auto& qf : qfs) {
+            for (const auto &qf : qfs) {
                 if (qf.queueFlags & VK_QUEUE_COMPUTE_BIT) {
                     ++compute_count;
                     // Capture vendor name from the first compute device.
@@ -85,13 +87,27 @@ void VulkanComputeBackend::probeDevices() const {
                         VkPhysicalDeviceProperties props{};
                         vkGetPhysicalDeviceProperties(dev, &props);
                         switch (props.vendorID) {
-                            case 0x10DE: cached_vendor_name_ = "NVIDIA";   break;
-                            case 0x1002: cached_vendor_name_ = "AMD";      break;
-                            case 0x8086: cached_vendor_name_ = "Intel";    break;
-                            case 0x13B5: cached_vendor_name_ = "ARM";      break;
-                            case 0x5143: cached_vendor_name_ = "Qualcomm"; break;
-                            case 0x1010: cached_vendor_name_ = "ImgTec";   break;
-                            default:     cached_vendor_name_ = "Unknown";  break;
+                            case 0x10DE:
+                                cached_vendor_name_ = "NVIDIA";
+                                break;
+                            case 0x1002:
+                                cached_vendor_name_ = "AMD";
+                                break;
+                            case 0x8086:
+                                cached_vendor_name_ = "Intel";
+                                break;
+                            case 0x13B5:
+                                cached_vendor_name_ = "ARM";
+                                break;
+                            case 0x5143:
+                                cached_vendor_name_ = "Qualcomm";
+                                break;
+                            case 0x1010:
+                                cached_vendor_name_ = "ImgTec";
+                                break;
+                            default:
+                                cached_vendor_name_ = "Unknown";
+                                break;
                         }
                     }
                     break;
@@ -135,11 +151,10 @@ std::string VulkanComputeBackend::vendorName() const {
 // ============================================================================
 
 GPULauncher::BackendFn VulkanComputeBackend::createBackendFn([[maybe_unused]] int device_index) {
-
     // Return a BackendFn that dispatches via Vulkan when available, or falls
     // back to CPU execution.  A single lock covers the entire lambda body to
     // avoid re-entrancy issues with std::mutex (which is not recursive).
-    return [this](const GPULauncher::WorkItem& /*item*/) -> bool {
+    return [this](const GPULauncher::WorkItem & /*item*/) -> bool {
         std::lock_guard<std::mutex> lock(mutex_);
         probeDevices();
 #ifdef THEMIS_ENABLE_VULKAN
@@ -161,8 +176,7 @@ GPULauncher::BackendFn VulkanComputeBackend::createBackendFn([[maybe_unused]] in
 // Stream management
 // ============================================================================
 
-VulkanComputeBackend::Result
-VulkanComputeBackend::createStream(const std::string& name, int device_index) {
+VulkanComputeBackend::Result VulkanComputeBackend::createStream(const std::string &name, int device_index) {
     if (name.empty()) {
         return {false, "stream name must not be empty"};
     }
@@ -191,8 +205,7 @@ VulkanComputeBackend::createStream(const std::string& name, int device_index) {
     return {true, ""};
 }
 
-VulkanComputeBackend::Result
-VulkanComputeBackend::destroyStream(const std::string& name) {
+VulkanComputeBackend::Result VulkanComputeBackend::destroyStream(const std::string &name) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = streams_.find(name);
     if (it == streams_.end()) {
@@ -203,8 +216,7 @@ VulkanComputeBackend::destroyStream(const std::string& name) {
     return {true, ""};
 }
 
-VulkanComputeBackend::Result
-VulkanComputeBackend::synchronizeStream(const std::string& name) {
+VulkanComputeBackend::Result VulkanComputeBackend::synchronizeStream(const std::string &name) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!streams_.count(name)) {
         return {false, "stream '" + name + "' not found"};
@@ -214,8 +226,7 @@ VulkanComputeBackend::synchronizeStream(const std::string& name) {
     return {true, ""};
 }
 
-VulkanComputeBackend::StreamHandle
-VulkanComputeBackend::getStream(const std::string& name) const {
+VulkanComputeBackend::StreamHandle VulkanComputeBackend::getStream(const std::string &name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = streams_.find(name);
     if (it == streams_.end()) {
@@ -224,7 +235,7 @@ VulkanComputeBackend::getStream(const std::string& name) const {
     return it->second;
 }
 
-bool VulkanComputeBackend::hasStream(const std::string& name) const {
+bool VulkanComputeBackend::hasStream(const std::string &name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return streams_.count(name) > 0;
 }
@@ -233,7 +244,7 @@ std::vector<std::string> VulkanComputeBackend::streamNames() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> names;
     names.reserve(streams_.size());
-    for (const auto& kv : streams_) {
+    for (const auto &kv : streams_) {
         names.push_back(kv.first);
     }
     return names;

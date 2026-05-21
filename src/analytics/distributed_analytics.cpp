@@ -60,32 +60,48 @@ namespace analytics {
 
 namespace {
 
-using OLAPResult  = themis::analytics::OLAPResult;
-using OLAPQuery   = themis::analytics::OLAPQuery;
-using Row         = OLAPResult::Row;
-using Measure     = themis::analytics::Measure;
-using RowValue    = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+using OLAPResult = themis::analytics::OLAPResult;
+using OLAPQuery  = themis::analytics::OLAPQuery;
+using Row        = OLAPResult::Row;
+using Measure    = themis::analytics::Measure;
+using RowValue   = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
 
 /**
  * Convert a RowValue to double for numeric aggregation.
  * Returns 0.0 for non-numeric or null values.
  */
-double toDouble(const RowValue& v) {
-    if (auto* d = std::get_if<double>(&v))   return *d;
-    if (auto* i = std::get_if<int64_t>(&v))  return static_cast<double>(*i);
-    if (auto* b = std::get_if<bool>(&v))     return *b ? 1.0 : 0.0;
+double toDouble(const RowValue &v) {
+    if (auto *d = std::get_if<double>(&v)) {
+        return *d;
+    }
+    if (auto *i = std::get_if<int64_t>(&v)) {
+        return static_cast<double>(*i);
+    }
+    if (auto *b = std::get_if<bool>(&v)) {
+        return *b ? 1.0 : 0.0;
+    }
     return 0.0;
 }
 
 /**
  * Convert a RowValue to a string for use in group keys.
  */
-std::string valueToString(const RowValue& v) {
-    if (std::holds_alternative<std::nullptr_t>(v)) return "<null>";
-    if (auto* s = std::get_if<std::string>(&v)) return *s;
-    if (auto* i = std::get_if<int64_t>(&v))     return std::to_string(*i);
-    if (auto* d = std::get_if<double>(&v))       return std::to_string(*d);
-    if (auto* b = std::get_if<bool>(&v))         return *b ? "true" : "false";
+std::string valueToString(const RowValue &v) {
+    if (std::holds_alternative<std::nullptr_t>(v)) {
+        return "<null>";
+    }
+    if (auto *s = std::get_if<std::string>(&v)) {
+        return *s;
+    }
+    if (auto *i = std::get_if<int64_t>(&v)) {
+        return std::to_string(*i);
+    }
+    if (auto *d = std::get_if<double>(&v)) {
+        return std::to_string(*d);
+    }
+    if (auto *b = std::get_if<bool>(&v)) {
+        return *b ? "true" : "false";
+    }
     return "";
 }
 
@@ -123,7 +139,7 @@ struct MeasureAccumulator {
     RowValue last_value;
     bool has_first = false;
 
-    void accumulate(const RowValue& val) {
+    void accumulate(const RowValue &val) {
         double dval = toDouble(val);
 
         switch (func) {
@@ -141,26 +157,28 @@ struct MeasureAccumulator {
                 // is already an average.  We accumulate (avg * 1) here and
                 // during the shard-merge step we use the weighted approach.
                 // See accumulateWeighted() below for the proper path.
-                sum   += dval;
+                sum += dval;
                 count += 1.0;
                 break;
 
             case Measure::Function::Min:
-                if (dval < min_val) min_val = dval;
+                if (dval < min_val)
+                    min_val = dval;
                 break;
 
             case Measure::Function::Max:
-                if (dval > max_val) max_val = dval;
+                if (dval > max_val)
+                    max_val = dval;
                 break;
 
             case Measure::Function::StdDev:
             case Measure::Function::Variance: {
                 // Welford online update
                 count += 1.0;
-                double delta  = dval - mean;
+                double delta = dval - mean;
                 mean += delta / count;
                 double delta2 = dval - mean;
-                m2   += delta * delta2;
+                m2 += delta * delta2;
                 break;
             }
 
@@ -173,7 +191,7 @@ struct MeasureAccumulator {
             case Measure::Function::Median:
             case Measure::Function::Percentile:
                 // Approximate: accumulate values and compute average at end.
-                sum   += dval;
+                sum += dval;
                 count += 1.0;
                 break;
 
@@ -205,21 +223,21 @@ struct MeasureAccumulator {
     void accumulateWeightedAvg(double agg_val, double row_count) {
         // Maintain parallel-sum and total-count so we can compute a
         // weighted average at the end.
-        sum   += agg_val * row_count;
+        sum += agg_val * row_count;
         count += row_count;
     }
 
     /**
      * Merge another Chan state (for STDDEV/VARIANCE parallel combination).
      */
-    void mergeVarianceState(double other_count,
-                             double other_mean,
-                             double other_m2) {
-        if (other_count == 0.0) return;
+    void mergeVarianceState(double other_count, double other_mean, double other_m2) {
+        if (other_count == 0.0) {
+            return;
+        }
         double total = count + other_count;
         double delta = other_mean - mean;
-        mean  = (count * mean + other_count * other_mean) / total;
-        m2   += other_m2 + delta * delta * count * other_count / total;
+        mean         = (count * mean + other_count * other_mean) / total;
+        m2 += other_m2 + delta * delta * count * other_count / total;
         count = total;
     }
 
@@ -233,15 +251,21 @@ struct MeasureAccumulator {
                 return RowValue{sum};
 
             case Measure::Function::Avg:
-                if (count == 0.0) return RowValue{0.0};
+                if (count == 0.0) {
+                    return RowValue{0.0};
+                }
                 return RowValue{sum / count};
 
             case Measure::Function::Min:
-                if (min_val == std::numeric_limits<double>::max()) return RowValue{0.0};
+                if (min_val == std::numeric_limits<double>::max()) {
+                    return RowValue{0.0};
+                }
                 return RowValue{min_val};
 
             case Measure::Function::Max:
-                if (max_val == std::numeric_limits<double>::lowest()) return RowValue{0.0};
+                if (max_val == std::numeric_limits<double>::lowest()) {
+                    return RowValue{0.0};
+                }
                 return RowValue{max_val};
 
             case Measure::Function::StdDev:
@@ -249,12 +273,16 @@ struct MeasureAccumulator {
                 // OLAPEngine::computeAggregate which also uses population variance.
                 // count is integer-valued (incremented by 1.0 per Welford update),
                 // so count < 1.0 is equivalent to count == 0.
-                if (count < 1.0) return RowValue{0.0};
+                if (count < 1.0) {
+                    return RowValue{0.0};
+                }
                 return RowValue{std::sqrt(m2 / count)};
 
             case Measure::Function::Variance:
                 // Population variance: see StdDev comment above.
-                if (count < 1.0) return RowValue{0.0};
+                if (count < 1.0) {
+                    return RowValue{0.0};
+                }
                 return RowValue{m2 / count};
 
             case Measure::Function::CountDistinct:
@@ -262,7 +290,9 @@ struct MeasureAccumulator {
 
             case Measure::Function::Median:
             case Measure::Function::Percentile:
-                if (count == 0.0) return RowValue{0.0};
+                if (count == 0.0) {
+                    return RowValue{0.0};
+                }
                 return RowValue{sum / count};
 
             case Measure::Function::First:
@@ -280,7 +310,7 @@ struct MeasureAccumulator {
 // -----------------------------------------------------------------------
 
 struct GroupAccumulator {
-    Row prototype;   // Dimension values (dimension columns preserved as-is)
+    Row prototype; // Dimension values (dimension columns preserved as-is)
     std::unordered_map<std::string, MeasureAccumulator> measures;
 
     // For AVG: we also need the companion COUNT from the same shard row.
@@ -298,8 +328,7 @@ DistributedAnalyticsSharding::DistributedAnalyticsSharding() {
     startHealthMonitor();
 }
 
-DistributedAnalyticsSharding::DistributedAnalyticsSharding(const Config& cfg)
-    : config_(cfg) {
+DistributedAnalyticsSharding::DistributedAnalyticsSharding(const Config &cfg) : config_(cfg) {
     startHealthMonitor();
 }
 
@@ -317,8 +346,7 @@ DistributedAnalyticsSharding::~DistributedAnalyticsSharding() {
 
 void DistributedAnalyticsSharding::startHealthMonitor() {
     if (config_.health_check_interval.count() > 0) {
-        health_monitor_thread_ =
-            std::thread(&DistributedAnalyticsSharding::runHealthMonitor, this);
+        health_monitor_thread_ = std::thread(&DistributedAnalyticsSharding::runHealthMonitor, this);
     }
 }
 
@@ -327,13 +355,13 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
         // Wait for the configured interval (or until stopped)
         {
             std::unique_lock<std::mutex> lock(health_monitor_mutex_);
-            health_monitor_cv_.wait_for(
-                lock,
-                config_.health_check_interval,
-                [this] { return stopping_.load(std::memory_order_acquire); });
+            health_monitor_cv_.wait_for(lock, config_.health_check_interval,
+                                        [this] { return stopping_.load(std::memory_order_acquire); });
         }
 
-        if (stopping_.load(std::memory_order_acquire)) break;
+        if (stopping_.load(std::memory_order_acquire)) {
+            break;
+        }
 
         // Snapshot shard list under main mutex (brief)
         std::vector<ShardEntry> snapshot;
@@ -343,8 +371,10 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
         }
 
         // Run health checks off the main lock
-        for (const auto& e : snapshot) {
-            if (stopping_.load(std::memory_order_acquire)) break;
+        for (const auto &e : snapshot) {
+            if (stopping_.load(std::memory_order_acquire)) {
+                break;
+            }
             if (e.executor && e.cached_healthy) {
                 bool healthy = false;
                 try {
@@ -362,10 +392,8 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
 // DistributedAnalyticsSharding – shard management
 // ============================================================================
 
-void DistributedAnalyticsSharding::addShard(
-        const std::string& shard_id,
-        std::shared_ptr<ShardQueryExecutor> executor,
-        const std::string& tenant_id) {
+void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::shared_ptr<ShardQueryExecutor> executor,
+                                            const std::string &tenant_id) {
     bool initial_healthy = true;
     if (executor) {
         try {
@@ -376,10 +404,10 @@ void DistributedAnalyticsSharding::addShard(
     }
 
     std::lock_guard<std::mutex> lock(mutex_);
-    for (auto& e : shards_) {
+    for (auto &e : shards_) {
         if (e.shard_id == shard_id) {
-            e.executor            = std::move(executor);
-            e.allowed_tenant_id   = tenant_id;
+            e.executor          = std::move(executor);
+            e.allowed_tenant_id = tenant_id;
             if (!e.cached_healthy) {
                 e.cached_healthy = std::make_shared<std::atomic<bool>>(initial_healthy);
             } else {
@@ -396,11 +424,10 @@ void DistributedAnalyticsSharding::addShard(
     shards_.push_back(std::move(entry));
 }
 
-void DistributedAnalyticsSharding::removeShard(const std::string& shard_id) {
+void DistributedAnalyticsSharding::removeShard(const std::string &shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     shards_.erase(
-        std::remove_if(shards_.begin(), shards_.end(),
-                       [&](const ShardEntry& e) { return e.shard_id == shard_id; }),
+        std::remove_if(shards_.begin(), shards_.end(), [&](const ShardEntry &e) { return e.shard_id == shard_id; }),
         shards_.end());
 }
 
@@ -412,8 +439,10 @@ size_t DistributedAnalyticsSharding::getShardCount() const {
 size_t DistributedAnalyticsSharding::getHealthyShardCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
     size_t n = 0;
-    for (const auto& e : shards_) {
-        if (e.cached_healthy && e.cached_healthy->load(std::memory_order_relaxed)) ++n;
+    for (const auto &e : shards_) {
+        if (e.cached_healthy && e.cached_healthy->load(std::memory_order_relaxed)) {
+            ++n;
+        }
     }
     return n;
 }
@@ -426,22 +455,24 @@ std::future<size_t> DistributedAnalyticsSharding::getHealthyShardCountAsync() co
         snapshot = shards_;
     }
     // Perform live health checks asynchronously, off the registry lock
-    return std::async(
-        std::launch::async,
-        [snapshot = std::move(snapshot)]() -> size_t {
-            size_t n = 0;
-            for (const auto& e : snapshot) {
-                if (e.executor && e.executor->isHealthy()) ++n;
+    return std::async(std::launch::async, [snapshot = std::move(snapshot)]() -> size_t {
+        size_t n = 0;
+        for (const auto &e : snapshot) {
+            if (e.executor && e.executor->isHealthy()) {
+                ++n;
             }
-            return n;
-        });
+        }
+        return n;
+    });
 }
 
 std::vector<std::string> DistributedAnalyticsSharding::getShardIds() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> ids;
     ids.reserve(shards_.size());
-    for (const auto& e : shards_) ids.push_back(e.shard_id);
+    for (const auto &e : shards_) {
+        ids.push_back(e.shard_id);
+    }
     return ids;
 }
 
@@ -450,13 +481,12 @@ std::vector<std::string> DistributedAnalyticsSharding::getShardIds() const {
 // ============================================================================
 
 /*static*/
-std::string DistributedAnalyticsSharding::rowGroupKey(
-        const Row& row,
-        const std::vector<themis::analytics::Dimension>& dims,
-        int64_t grouping_id) {
+std::string DistributedAnalyticsSharding::rowGroupKey(const Row &row,
+                                                      const std::vector<themis::analytics::Dimension> &dims,
+                                                      int64_t grouping_id) {
     std::ostringstream oss;
     oss << grouping_id;
-    for (const auto& dim : dims) {
+    for (const auto &dim : dims) {
         oss << '|';
         auto it = row.values.find(dim.name);
         if (it != row.values.end()) {
@@ -473,16 +503,16 @@ std::string DistributedAnalyticsSharding::rowGroupKey(
 // ============================================================================
 
 /*static*/
-OLAPResult DistributedAnalyticsSharding::mergeResults(
-        const std::vector<OLAPResult>& partials,
-        const OLAPQuery& query) {
-    if (partials.empty()) return {};
+OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResult> &partials, const OLAPQuery &query) {
+    if (partials.empty()) {
+        return {};
+    }
 
     // ------------------------------------------------------------------
     // Step 1: collect all column names from the first non-empty result.
     // ------------------------------------------------------------------
     OLAPResult merged;
-    for (const auto& p : partials) {
+    for (const auto &p : partials) {
         if (!p.columns.empty()) {
             merged.columns = p.columns;
             break;
@@ -491,13 +521,13 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(
 
     // Build a map from measure column name → Measure::Function
     std::unordered_map<std::string, Measure::Function> measure_funcs;
-    for (const auto& m : query.measures) {
+    for (const auto &m : query.measures) {
         measure_funcs[m.name] = m.function;
     }
 
     // Build a set of dimension column names for fast lookup
     std::unordered_map<std::string, bool> dim_set;
-    for (const auto& d : query.dimensions) {
+    for (const auto &d : query.dimensions) {
         dim_set[d.name] = true;
     }
 
@@ -508,8 +538,8 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(
     std::unordered_map<std::string, GroupAccumulator> groups;
     std::vector<std::string> group_order; // preserve first-seen ordering
 
-    for (const auto& partial : partials) {
-        for (const auto& row : partial.rows) {
+    for (const auto &partial : partials) {
+        for (const auto &row : partial.rows) {
             std::string key = rowGroupKey(row, query.dimensions, row.grouping_id);
 
             auto it = groups.find(key);
@@ -520,7 +550,7 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(
                 acc.prototype.values.clear();
 
                 // Copy dimension columns into the prototype
-                for (const auto& dim : query.dimensions) {
+                for (const auto &dim : query.dimensions) {
                     auto vit = row.values.find(dim.name);
                     if (vit != row.values.end()) {
                         acc.prototype.values[dim.name] = vit->second;
@@ -529,9 +559,9 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(
                 acc.prototype.grouping_id = row.grouping_id;
 
                 // Initialise measure accumulators
-                for (const auto& m : query.measures) {
+                for (const auto &m : query.measures) {
                     MeasureAccumulator ma;
-                    ma.func = m.function;
+                    ma.func              = m.function;
                     acc.measures[m.name] = ma;
                 }
 
@@ -541,11 +571,13 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(
             }
 
             // Accumulate each measure value
-            for (const auto& m : query.measures) {
+            for (const auto &m : query.measures) {
                 auto vit = row.values.find(m.name);
-                if (vit == row.values.end()) continue;
+                if (vit == row.values.end()) {
+                    continue;
+                }
 
-                auto& ma = it->second.measures[m.name];
+                auto &ma = it->second.measures[m.name];
 
                 if (m.function == Measure::Function::Avg) {
                     // For AVG: look for a companion COUNT in this row.
@@ -556,13 +588,12 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(
                     double row_count = 1.0;
                     // Look for a COUNT column with the same base field name
                     std::string cnt_col = "__cnt_" + m.name;
-                    auto cnt_it = row.values.find(cnt_col);
+                    auto cnt_it         = row.values.find(cnt_col);
                     if (cnt_it != row.values.end()) {
                         row_count = toDouble(cnt_it->second);
                     }
                     ma.accumulateWeightedAvg(toDouble(vit->second), row_count);
-                } else if (m.function == Measure::Function::StdDev ||
-                           m.function == Measure::Function::Variance) {
+                } else if (m.function == Measure::Function::StdDev || m.function == Measure::Function::Variance) {
                     // Best-effort: treat the shard value as a single sample
                     ma.accumulate(vit->second);
                 } else {
@@ -576,15 +607,17 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(
     // Step 3: Merge grand_totals (SUM / COUNT / MIN / MAX)
     // ------------------------------------------------------------------
     std::unordered_map<std::string, MeasureAccumulator> grand_accs;
-    for (const auto& m : query.measures) {
+    for (const auto &m : query.measures) {
         MeasureAccumulator ma;
-        ma.func = m.function;
+        ma.func            = m.function;
         grand_accs[m.name] = ma;
     }
-    for (const auto& partial : partials) {
-        for (const auto& m : query.measures) {
+    for (const auto &partial : partials) {
+        for (const auto &m : query.measures) {
             auto git = partial.grand_totals.find(m.name);
-            if (git == partial.grand_totals.end()) continue;
+            if (git == partial.grand_totals.end()) {
+                continue;
+            }
             RowValue rv{git->second};
             grand_accs[m.name].accumulate(rv);
         }
@@ -594,30 +627,34 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(
     // Step 4: Build the merged rows from the accumulators
     // ------------------------------------------------------------------
     merged.rows.reserve(group_order.size());
-    for (const auto& key : group_order) {
-        const auto& acc = groups.at(key);
-        Row out = acc.prototype;
+    for (const auto &key : group_order) {
+        const auto &acc = groups.at(key);
+        Row out         = acc.prototype;
 
-        for (const auto& m : query.measures) {
+        for (const auto &m : query.measures) {
             auto ait = acc.measures.find(m.name);
-            if (ait == acc.measures.end()) continue;
+            if (ait == acc.measures.end()) {
+                continue;
+            }
             out.values[m.name] = ait->second.finalise();
         }
         merged.rows.push_back(std::move(out));
     }
 
     // Build grand_totals
-    for (const auto& m : query.measures) {
+    for (const auto &m : query.measures) {
         auto it = grand_accs.find(m.name);
-        if (it == grand_accs.end()) continue;
+        if (it == grand_accs.end()) {
+            continue;
+        }
         merged.grand_totals[m.name] = toDouble(it->second.finalise());
     }
 
     // Aggregate metadata
-    merged.total_rows     = static_cast<int64_t>(merged.rows.size());
-    merged.has_more       = false;
+    merged.total_rows        = static_cast<int64_t>(merged.rows.size());
+    merged.has_more          = false;
     merged.execution_time_ms = 0.0;
-    for (const auto& p : partials) {
+    for (const auto &p : partials) {
         merged.execution_time_ms += p.execution_time_ms;
     }
 
@@ -629,25 +666,21 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(
 // ============================================================================
 
 DistributedAnalyticsSharding::DistributedResult
-DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
+DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     // Snapshot the active shard list under the lock (uses cached health — no I/O)
     std::vector<ShardEntry> active;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        for (const auto& e : shards_) {
-            if (!e.executor ||
-                !e.cached_healthy ||
-                !e.cached_healthy->load(std::memory_order_relaxed)) {
+        for (const auto &e : shards_) {
+            if (!e.executor || !e.cached_healthy || !e.cached_healthy->load(std::memory_order_relaxed)) {
                 continue;
             }
             // Tenant isolation: skip shards whose allowed_tenant_id is
             // non-empty and does not match the query's tenant_id.
-            if (!e.allowed_tenant_id.empty() &&
-                e.allowed_tenant_id != query.tenant_id) {
-                spdlog::warn(
-                    "DistributedAnalyticsSharding: shard '{}' rejected query "
-                    "from tenant '{}' (shard allows '{}') — PERMISSION_DENIED",
-                    e.shard_id, query.tenant_id, e.allowed_tenant_id);
+            if (!e.allowed_tenant_id.empty() && e.allowed_tenant_id != query.tenant_id) {
+                spdlog::warn("DistributedAnalyticsSharding: shard '{}' rejected query "
+                             "from tenant '{}' (shard allows '{}') — PERMISSION_DENIED",
+                             e.shard_id, query.tenant_id, e.allowed_tenant_id);
                 continue;
             }
             active.push_back(e);
@@ -659,7 +692,8 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
 
     if (active.empty()) {
         spdlog::warn("DistributedAnalyticsSharding: no healthy shards registered "
-                     "for tenant '{}'", query.tenant_id);
+                     "for tenant '{}'",
+                     query.tenant_id);
         return result;
     }
 
@@ -674,13 +708,11 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
     std::vector<OLAPResult> partials;
     partials.reserve(active.size());
 
-    const bool has_timeout = (config_.shard_timeout_ms > 0);
+    const bool has_timeout       = (config_.shard_timeout_ms > 0);
     const auto per_shard_timeout = std::chrono::milliseconds(config_.shard_timeout_ms);
 
-    const size_t parallel_limit =
-        (config_.max_parallel_shards == 0)
-            ? active.size()
-            : std::min(active.size(), config_.max_parallel_shards);
+    const size_t parallel_limit
+        = (config_.max_parallel_shards == 0) ? active.size() : std::min(active.size(), config_.max_parallel_shards);
 
     for (size_t batch_begin = 0; batch_begin < active.size(); batch_begin += parallel_limit) {
         const size_t batch_end = std::min(active.size(), batch_begin + parallel_limit);
@@ -688,51 +720,43 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
         futures.reserve(batch_end - batch_begin);
 
         for (size_t idx = batch_begin; idx < batch_end; ++idx) {
-            const auto& entry = active[idx];
+            const auto &entry = active[idx];
 
             std::promise<std::pair<OLAPResult, ShardExecutionInfo>> promise;
             futures.push_back(promise.get_future());
 
-            std::thread(
-                [entry, query, promise = std::move(promise)]() mutable {
-                    ShardExecutionInfo info;
-                    info.shard_id = entry.shard_id;
+            std::thread([entry, query, promise = std::move(promise)]() mutable {
+                ShardExecutionInfo info;
+                info.shard_id = entry.shard_id;
 
-                    const auto t0 = std::chrono::steady_clock::now();
-                    try {
-                        auto partial = entry.executor->execute(entry.shard_id, query);
-                        const auto t1 = std::chrono::steady_clock::now();
-                        info.success = true;
-                        info.execution_time_ms =
-                            std::chrono::duration<double, std::milli>(t1 - t0).count();
-                        promise.set_value({std::move(partial), std::move(info)});
-                    } catch (const std::exception& ex) {
-                        const auto t1 = std::chrono::steady_clock::now();
-                        info.success = false;
-                        info.error   = ex.what();
-                        info.execution_time_ms =
-                            std::chrono::duration<double, std::milli>(t1 - t0).count();
-                        spdlog::error(
-                            "DistributedAnalyticsSharding: shard {} failed: {}",
-                            entry.shard_id, ex.what());
-                        promise.set_value({OLAPResult{}, std::move(info)});
-                    } catch (...) {
-                        const auto t1 = std::chrono::steady_clock::now();
-                        info.success = false;
-                        info.error   = "unknown shard error";
-                        info.execution_time_ms =
-                            std::chrono::duration<double, std::milli>(t1 - t0).count();
-                        spdlog::error(
-                            "DistributedAnalyticsSharding: shard {} failed with unknown exception",
-                            entry.shard_id);
-                        promise.set_value({OLAPResult{}, std::move(info)});
-                    }
-                })
-                .detach();
+                const auto t0 = std::chrono::steady_clock::now();
+                try {
+                    auto partial           = entry.executor->execute(entry.shard_id, query);
+                    const auto t1          = std::chrono::steady_clock::now();
+                    info.success           = true;
+                    info.execution_time_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
+                    promise.set_value({std::move(partial), std::move(info)});
+                } catch (const std::exception &ex) {
+                    const auto t1          = std::chrono::steady_clock::now();
+                    info.success           = false;
+                    info.error             = ex.what();
+                    info.execution_time_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
+                    spdlog::error("DistributedAnalyticsSharding: shard {} failed: {}", entry.shard_id, ex.what());
+                    promise.set_value({OLAPResult{}, std::move(info)});
+                } catch (...) {
+                    const auto t1          = std::chrono::steady_clock::now();
+                    info.success           = false;
+                    info.error             = "unknown shard error";
+                    info.execution_time_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
+                    spdlog::error("DistributedAnalyticsSharding: shard {} failed with unknown exception",
+                                  entry.shard_id);
+                    promise.set_value({OLAPResult{}, std::move(info)});
+                }
+            }).detach();
         }
 
         for (size_t i = 0; i < futures.size(); ++i) {
-            auto& f = futures[i];
+            auto &f                 = futures[i];
             const auto active_index = batch_begin + i;
 
             // Per-shard timeout: use wait_for so we never block forever.
@@ -743,8 +767,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
                     info.shard_id = active[active_index].shard_id;
                     info.success  = false;
                     info.error    = "timeout (" + std::to_string(config_.shard_timeout_ms) + " ms)";
-                    spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out",
-                                 active[active_index].shard_id);
+                    spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out", active[active_index].shard_id);
                     result.shard_info.push_back(std::move(info));
                     continue;
                 }
@@ -757,10 +780,9 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
                 partials.push_back(std::move(partial));
             } else if (!config_.allow_partial_results) {
                 // At least one shard failed and partial results are not allowed
-                spdlog::error(
-                    "DistributedAnalyticsSharding: shard {} failed and "
-                    "allow_partial_results=false; aborting merge",
-                    info.shard_id);
+                spdlog::error("DistributedAnalyticsSharding: shard {} failed and "
+                              "allow_partial_results=false; aborting merge",
+                              info.shard_id);
                 return result;
             }
         }
@@ -771,14 +793,11 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
     // ------------------------------------------------------------------
     if (!active.empty() && config_.allow_partial_results) {
         const size_t failed_shards = active.size() - result.successful_shards;
-        const double failure_rate  = static_cast<double>(failed_shards) /
-                                     static_cast<double>(active.size());
+        const double failure_rate  = static_cast<double>(failed_shards) / static_cast<double>(active.size());
         if (failure_rate > config_.max_failure_rate) {
-            spdlog::error(
-                "DistributedAnalyticsSharding: failure rate {:.1f}% exceeds "
-                "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
-                failure_rate * 100.0, config_.max_failure_rate * 100.0,
-                failed_shards, active.size());
+            spdlog::error("DistributedAnalyticsSharding: failure rate {:.1f}% exceeds "
+                          "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
+                          failure_rate * 100.0, config_.max_failure_rate * 100.0, failed_shards, active.size());
             // Return partial shard_info without a merged result so the caller
             // can distinguish this from a full success.
             return result;
@@ -801,7 +820,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
 // execute (convenience)
 // ============================================================================
 
-OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery& query) {
+OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
     return executeDistributed(query).merged;
 }
 

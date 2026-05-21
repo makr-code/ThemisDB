@@ -365,16 +365,28 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
     if (query_pos == std::string::npos || query_pos + 1 >= target.size()) {
         return true;
     }
-    
-    pos += param_name.length() + 1;
-    size_t end = target.find('&', pos);
-    std::string value_str = (end == std::string::npos) ? 
-        target.substr(pos) : target.substr(pos, end - pos);
-    
-    try {
-        return std::stoi(value_str);
-    } catch (const std::exception&) {
-        return default_value;
+
+    std::size_t pos = query_pos + 1;
+    while (pos < target.size()) {
+        const std::size_t end = target.find('&', pos);
+        const std::size_t pair_end = (end == std::string::npos) ? target.size() : end;
+        const std::size_t eq = target.find('=', pos);
+
+        if (eq != std::string::npos && eq < pair_end &&
+            target.compare(pos, eq - pos, param_name) == 0) {
+            const std::string value_str = target.substr(eq + 1, pair_end - (eq + 1));
+            try {
+                value = std::stoi(value_str);
+                return true;
+            } catch (const std::exception&) {
+                return false;
+            }
+        }
+
+        if (end == std::string::npos) {
+            break;
+        }
+        pos = end + 1;
     }
 
     return true;

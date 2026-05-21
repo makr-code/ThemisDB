@@ -558,11 +558,6 @@ nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
     return {{"success", true}};
 }
 
-void OAuth2Provider::setTokenRevocationFn(TokenRevocationFn fn) {
-    std::lock_guard<std::mutex> lock(revocation_mutex_);
-    token_revocation_fn_ = std::move(fn);
-}
-
 // ---------------------------------------------------------------------------
 // Testing helpers
 // ---------------------------------------------------------------------------
