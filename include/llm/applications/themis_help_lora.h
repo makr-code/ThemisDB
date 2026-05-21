@@ -92,24 +92,6 @@ public:
         rocksdb::TransactionDB* db = nullptr;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
 
-        /**
-         * @brief Optional model-path resolver.
-         *
-         * When set, this function is called with @p base_model_id to obtain
-         * the filesystem path of the GGUF model file.  Implement this to
-         * integrate with LLMModelStorage::resolveGGUFPath() or any other
-         * model-registry backend.
-         *
-         * If nullptr, the handler falls back to the local path convention
-         * @c "models/" + base_model_id + ".gguf" relative to the working
-         * directory.
-         *
-         * @param model_id  The model identifier string.
-         * @return Absolute or relative path to the GGUF file.
-         */
-        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
-        ModelPathProviderFn model_path_provider;
-
         // Training settings
         lora::LoRAHyperparameters hyperparameters;
         int feedback_batch_size = 100;  // Train after N feedback items

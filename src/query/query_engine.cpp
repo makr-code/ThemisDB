@@ -3907,7 +3907,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					}
 					span.setAttribute("composite_prefilter_applied", true);
 				}
-			} catch(const std::exception&) {
+			} catch (const std::exception& ex) {
 				// defensiv: bei Fehler keine Composite-Nutzung
 				THEMIS_WARN("VectorGeoQuery: composite prefilter failed, skipping: {}", ex.what());
 			}

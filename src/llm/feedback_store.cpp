@@ -23,22 +23,6 @@
 #include <rocksdb/utilities/transaction.h>
 
 namespace themis {
-
-// ===== Static bridge storage for SpamKeywordsProvider =====
-namespace {
-    std::mutex g_spam_provider_mutex;
-    FeedbackStore::SpamKeywordsProviderFn g_spam_keywords_provider;
-} // anonymous namespace
-
-void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn fn) {
-    std::lock_guard<std::mutex> lock(g_spam_provider_mutex);
-    g_spam_keywords_provider = std::move(fn);
-}
-
-void FeedbackStore::clearSpamKeywordsProvider() {
-    std::lock_guard<std::mutex> lock(g_spam_provider_mutex);
-    g_spam_keywords_provider = nullptr;
-}
 namespace llm {
 
 // ── Spam-keywords provider bridge (stub #296) ─────────────────────────────
@@ -569,12 +553,12 @@ const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
     // Delegate to the injected runtime provider when available (stub #296 resolved).
     // Provider may load keywords from a config file or database table without recompilation.
     {
-        std::lock_guard<std::mutex> lock(g_spam_provider_mutex);
-        if (g_spam_keywords_provider) {
+        std::lock_guard<std::mutex> lock(s_spam_kw_mutex);
+        if (s_spam_kw_provider) {
             // Cache per-call result in a thread_local to satisfy the const-ref return type.
             thread_local std::vector<std::string> cached;
             try {
-                cached = g_spam_keywords_provider();
+                cached = s_spam_kw_provider();
             } catch (...) {
                 // Fall back to static list on provider failure.
                 return spam_keywords;

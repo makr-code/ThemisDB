@@ -104,20 +104,6 @@ public:
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
-        AzureUploadFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_azure_upload_fn;
-        }
-        if (fn) {
-            try {
-                return fn(account_name_, container_, local_path, remote_path, metadata);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("Azure upload callback failed: {}", e.what());
-                return false;
-            }
-        }
-
         S3UploadFn fn;
         {
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
@@ -256,19 +242,6 @@ public:
         //               for production deletion behavior.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        S3DeleteFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_s3_delete_fn;
-        }
-        if (fn) {
-            try {
-                return fn(bucket_, remote_path);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("S3 delete callback failed: {}", e.what());
-                return false;
-            }
-        }
         THEMIS_INFO("S3 delete (placeholder): s3://{}/{}", bucket_, remote_path);
         THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
@@ -307,19 +280,6 @@ public:
         //               callback) and return object keys.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        S3ListFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_s3_list_fn;
-        }
-        if (fn) {
-            try {
-                return fn(bucket_, prefix);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("S3 list callback failed: {}", e.what());
-                return {};
-            }
-        }
         THEMIS_INFO("S3 list: s3://{}/{}", bucket_, prefix);
         return {};
     }
@@ -350,19 +310,6 @@ public:
         //               injected existence callback.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        S3ExistsFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_s3_exists_fn;
-        }
-        if (fn) {
-            try {
-                return fn(bucket_, remote_path);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("S3 exists callback failed: {}", e.what());
-                return false;
-            }
-        }
         THEMIS_INFO("S3 exists check (placeholder): s3://{}/{}", bucket_, remote_path);
         return false;
     }
@@ -531,19 +478,6 @@ public:
         //               and map listed blob names into provider output.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        AzureListFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_azure_list_fn;
-        }
-        if (fn) {
-            try {
-                return fn(account_name_, container_, prefix);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("Azure list callback failed: {}", e.what());
-                return {};
-            }
-        }
         THEMIS_INFO("Azure list: {}/{}/{}", account_name_, container_, prefix);
         return {};
     }
@@ -573,19 +507,6 @@ public:
         //               callback) and return actual presence state.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        AzureExistsFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_azure_exists_fn;
-        }
-        if (fn) {
-            try {
-                return fn(account_name_, container_, remote_path);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("Azure exists callback failed: {}", e.what());
-                return false;
-            }
-        }
         THEMIS_INFO("Azure exists check: {}/{}/{}", account_name_, container_, remote_path);
         return false;
     }
@@ -647,20 +568,6 @@ public:
         //               (or injected upload callback) and propagate real status.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        GCSUploadFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_gcs_upload_fn;
-        }
-        if (fn) {
-            try {
-                return fn(bucket_, local_path, remote_path, metadata);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("GCS upload callback failed: {}", e.what());
-                return false;
-            }
-        }
-
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
             return false;
@@ -705,20 +612,6 @@ public:
         //               (or injected download callback) with error propagation.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        GCSDownloadFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_gcs_download_fn;
-        }
-        if (fn) {
-            try {
-                return fn(bucket_, remote_path, local_path);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("GCS download callback failed: {}", e.what());
-                return false;
-            }
-        }
-
         THEMIS_INFO("GCS download (placeholder): gs://{}/{} -> {}", bucket_, remote_path, local_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         
@@ -799,19 +692,6 @@ public:
         //               (or injected listing callback) and map results to keys.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        GCSListFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_gcs_list_fn;
-        }
-        if (fn) {
-            try {
-                return fn(bucket_, prefix);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("GCS list callback failed: {}", e.what());
-                return {};
-            }
-        }
         THEMIS_INFO("GCS list: gs://{}/{}", bucket_, prefix);
         return {};
     }
@@ -841,19 +721,6 @@ public:
         //               existence callback) and return real presence state.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        GCSExistsFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_gcs_exists_fn;
-        }
-        if (fn) {
-            try {
-                return fn(bucket_, remote_path);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("GCS exists callback failed: {}", e.what());
-                return false;
-            }
-        }
         THEMIS_INFO("GCS exists check: gs://{}/{}", bucket_, remote_path);
         return false;
     }

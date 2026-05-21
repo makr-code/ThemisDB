@@ -2935,7 +2935,6 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 			rotary_positional_rotations_.fetch_add(1);
 			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_rotation", position);
-			rotary_entities_added_.fetch_add(1, std::memory_order_relaxed);
 		}
 		
 		return status;
@@ -2979,7 +2978,6 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 			rotary_relational_rotations_.fetch_add(1);
 			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_relational_rotation", 0);
-			relational_rotations_.fetch_add(1, std::memory_order_relaxed);
 		}
 		
 		return status;

@@ -191,17 +191,6 @@ public:
     using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
 
     /**
-     * @brief Inject a real AllReduce implementation for CPU training (resolves stub #290).
-     *
-     * When set, allreduce_cpu() delegates to this function so that all ranks
-     * exchange gradients correctly.  Without an injected function the local
-     * scale-only fallback is used, which is only correct for single-process builds.
-     *
-     * @param fn  Callable that performs in-place AllReduce on the gradient vector.
-     */
-    void setAllReduceCpuFn(AllReduceCpuFn fn);
-
-    /**
      * @brief Inject a real barrier implementation (NCCL/MPI/Gloo).
      *
      * When set, barrier() delegates to this function instead of the

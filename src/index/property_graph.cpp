@@ -285,6 +285,10 @@ PropertyGraphManager::Status PropertyGraphManager::removeNodeLabel(std::string_v
     std::vector<std::string> labels = extractLabels_(node);
 
     // Update labels
+    const auto it = std::find(labels.begin(), labels.end(), label);
+    if (it == labels.end()) {
+        return Status::OK();  // Label not present (idempotent)
+    }
     labels.erase(it);
     node.setFieldAsStringArray("_labels", labels);
 

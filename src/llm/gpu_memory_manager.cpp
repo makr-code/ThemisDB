@@ -1684,8 +1684,8 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
                     gpu_temperatures_[gpu_device_id] = 0.0f;
                 }
             } catch (const std::exception& e) {
-                THEMIS_ERROR("GPU temperature callback failed for device {}: {}",
-                             gpu_device_id, e.what());
+                spdlog::error("GPU temperature callback failed for device {}: {}",
+                              gpu_device_id, e.what());
                 gpu_temperatures_[gpu_device_id] = 0.0f;
             }
         } else {
@@ -1718,8 +1718,8 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
                 gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
             }
         } catch (const std::exception& e) {
-            THEMIS_ERROR("GPU temperature callback failed for device {}: {}",
-                         gpu_device_id, e.what());
+            spdlog::error("GPU temperature callback failed for device {}: {}",
+                          gpu_device_id, e.what());
             gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
         }
     } else {

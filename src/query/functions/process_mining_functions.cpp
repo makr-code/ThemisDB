@@ -54,22 +54,9 @@ void PmListAdminModelsFunction::setAdminModelListFn(AdminModelListFn fn) {
     admin_model_list_fn_ = std::move(fn);
 }
 
-// ============================================================================
-// Static bridge storage — PM_PREDICT_END provider (stub #278)
-// ============================================================================
-namespace {
-    std::mutex g_predict_end_mutex;
-    PmPredictEndFunction::PredictEndFn g_predict_end_fn;
-} // anonymous namespace
-
-void PmPredictEndFunction::setPredictEndFn(PredictEndFn fn) {
-    std::lock_guard<std::mutex> lock(g_predict_end_mutex);
-    g_predict_end_fn = std::move(fn);
-}
-
 void PmPredictEndFunction::clearPredictEndFn() {
-    std::lock_guard<std::mutex> lock(g_predict_end_mutex);
-    g_predict_end_fn = nullptr;
+    std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
+    predict_end_fn_ = nullptr;
 }
 
 // ============================================================================
@@ -588,10 +575,10 @@ json PmPredictEndFunction::execute(
     }
 
     {
-        std::lock_guard<std::mutex> lock(g_predict_end_mutex);
-        if (g_predict_end_fn) {
+        std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
+        if (predict_end_fn_) {
             try {
-                return g_predict_end_fn(case_id);
+                return predict_end_fn_(case_id);
             } catch (const std::exception& ex) {
                 // Fail-closed: return null prediction with error detail.
                 json result;

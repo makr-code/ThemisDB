@@ -421,8 +421,8 @@ bool FeedbackStorageService::createGraphLink(
         edge.setField("adapter_id", adapter_id);
 
         auto status = config_.graph_index->addEdge(edge);
-        if (!status.ok()) {
-            spdlog::error("Failed to persist graph link: {}", status.error());
+        if (!status.ok) {
+            spdlog::error("Failed to persist graph link: {}", status.message);
             return false;
         }
         return true;
@@ -452,8 +452,8 @@ bool FeedbackStorageService::removeGraphLink(
 
         const std::string edge_id = "feedback_edge:" + feedback_id + ":" + adapter_id;
         auto status = config_.graph_index->deleteEdge(edge_id);
-        if (!status.ok()) {
-            spdlog::error("Failed to remove graph link: {}", status.error());
+        if (!status.ok) {
+            spdlog::error("Failed to remove graph link: {}", status.message);
             return false;
         }
         return true;
