@@ -52,6 +52,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <vector>
@@ -154,6 +155,15 @@ struct HTTrain {
     /// Frobenius norm of the original tensor.
     double original_norm = 0.0;
 
+    // ── TT-train memoization cache (stub #286) ─────────────────────────────────
+    //
+    // `tt_cache_mtx_` is a shared_ptr so the struct remains moveable: after a
+    // move, the moved-from object's mtx_ becomes null and cache operations
+    // degrade gracefully to uncached behaviour.
+    mutable std::shared_ptr<std::mutex>       tt_cache_mtx_{std::make_shared<std::mutex>()};
+    /// Lazily populated by `toTTTrain()`; null until first call.
+    mutable std::shared_ptr<storage::TTTrain> tt_cache_;
+
     // ── Introspection ──────────────────────────────────────────────────────────
 
     /// Number of modes d.
@@ -161,24 +171,25 @@ struct HTTrain {
 
     /// Total float parameters stored in the HT tree.
     std::size_t totalParams() const noexcept { return root ? root->totalParams() : 0; }
-
     /// Compression ratio: (∏ n_k) / totalParams.  > 1 means compressed.
     double compressionRatio() const noexcept;
 
     // ── Compatibility bridge ───────────────────────────────────────────────────
 
     /**
-     * @brief Flatten the HT representation to a TT-train.
+     * @brief Flatten the HT representation to a TT-train (memoized).
      *
-     * Reconstructs the full dense tensor and re-decomposes it as a TT-train.
-     * Intended for compatibility with `ITensorIndex`; not efficient for large tensors.
+     * On the first call, reconstructs the full dense tensor and re-decomposes it
+     * as a TT-train using `TensorTrainDecomposer`.  The result is cached behind a
+     * mutex so subsequent calls return the cached value without recomputing.
      *
-     * @note
-     * // STUB/SIMULATION NOTE (STUB #286):
-     * // Purpose: TTTrain compatibility until ITensorIndex is extended for HTTrain.
-     * // Activation: Always.
-     * // Production Delta: O(∏ n_k) full reconstruction + TT redecomposition.
-     * // Removal Plan: Q2 2028 — extend ITensorIndex / add IHierarchicalTuckerIndex path.
+     * Intended for compatibility with `ITensorIndex`; not efficient for large tensors
+     * on the initial call.  Cache is invalidated when the `HTTrain` is move-assigned.
+     *
+     * @note Stub #286 resolved: memoization behind `tt_cache_mtx_` / `tt_cache_`
+     * eliminates repeated O(∏ n_k) reconstruction cost.  The long-term removal plan
+     * (Q2 2028) is to extend `ITensorIndex` to support `IHierarchicalTuckerIndex`
+     * directly, removing the round-trip entirely.
      */
     storage::TTTrain toTTTrain() const;
 

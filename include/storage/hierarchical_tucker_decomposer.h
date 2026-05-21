@@ -13,18 +13,22 @@
 
 /**
  * @file storage/hierarchical_tucker_decomposer.h
- * @brief HierarchicalTuckerDecomposer — HOSVD-based HT tensor factorization.
+ * @brief HierarchicalTuckerDecomposer — HOSVD+HOOI HT tensor factorization.
  *
  * Implements the Hierarchical Tucker decomposition (Grasedyck 2010) of a dense
  * multi-dimensional tensor T ∈ ℝ^{n_0 × … × n_{d-1}} into an HTTrain.
  *
- * ## Algorithm (STUB #179 — HOSVD initialization, not HOOI)
+ * ## Algorithm (HOSVD initialization + HOOI refinement)
  *
  * 1. **HOSVD leaves**: for each mode k compute the truncated SVD of the mode-k
  *    unfolding T_(k) ∈ ℝ^{n_k × (N/n_k)} → U_k ∈ ℝ^{n_k × r_k}.
  *
  * 2. **Tucker core**: G = T ×_0 U_0^T ×_1 U_1^T … ×_{d-1} U_{d-1}^T
  *    (multi-mode product; G ∈ ℝ^{r_0 × … × r_{d-1}}).
+ *
+ * 2b. **HOOI sweep**: Alternating optimization — for each mode k, compute
+ *     G(k) = T ×_{j≠k} U_j^T, update U_k via truncated SVD of the k-unfolding.
+ *     Repeat until ‖G‖_F converges (rel. change < 1e-6) or 20 iterations.
  *
  * 3. **HT transfer tensors** (top-down balanced binary split):
  *    Starting from the full Tucker core G (augmented with a trailing 1-dim to
@@ -39,10 +43,8 @@
  *    Recursion terminates at d_sub == 2 (leaf-pair: B = core) or
  *    d_sub == 1 (single leaf: U_effective = U_k · core).
  *
- * ## Stubs
- * - STUB #287: HOSVD initialization (not HOOI alternating optimization).
- *
- * ## Resolved
+ * ## Resolved stubs
+ * - STUB #287 resolved: HOOI alternating optimization loop added (Step 2b).
  * - STUB #288 resolved: `truncatedSVD()` now reuses
  *   `TensorTrainDecomposer::truncatedSVD()` as the shared backend.
  */
@@ -102,16 +104,10 @@ public:
      * @throws std::invalid_argument if data.size() != ∏ shape[k], d < 2, or any
      *         shape[k] == 0.
      *
-     * @note
-     * // STUB/SIMULATION NOTE (STUB #287):
-     * // Purpose: HOSVD-based HT initialization so that IHierarchicalTuckerIndex can
-     * //          be exercised before HOOI alternating optimization is available.
-     * // Activation: Always — no compile-time flag required.
-     * // Production Delta: HOSVD is a suboptimal initialization; HOOI iterations
-     * //   minimize ‖T − T̃‖_F to machine precision but require multiple tensor
-     * //   passes.  Reconstruction error may be up to ε·√d higher than optimal.
-     * // Removal Plan: Q2 2028 — add HOOI iteration loop after HOSVD initialization;
-     * //   iterate until ‖T − T̃‖_F / ‖T‖_F < eps or max_iter (default 20) reached.
+     * @note Stub #287 resolved: HOOI alternating optimization loop added after
+     * HOSVD initialization in `decompose()` (see `hierarchical_tucker_decomposer.cpp`,
+     * Step 2b).  Iterates until ‖G‖_F converges (rel. change < 1e-6) or 20 sweeps
+     * complete.  Long-term plan (Q2 2028): extend `ITensorIndex` to support HT directly.
      */
     std::pair<tensor::HTTrain, Stats>
     decompose(const std::vector<float>&        data,

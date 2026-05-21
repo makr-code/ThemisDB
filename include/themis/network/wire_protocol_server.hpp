@@ -234,6 +234,19 @@ public:
         std::function<v1::TimeSeriesQueryResponse(
             const v1::TimeSeriesQueryRequest& req)>;
 
+    /// Graph traversal executor (injection bridge for stub #281).
+    ///
+    /// Called with the raw protobuf payload bytes of the client's OP_GRAPH_TRAVERSE
+    /// frame.  The callback is responsible for parsing the payload as whatever
+    /// schema the client negotiated (e.g. a JSON-encoded traversal request serialised
+    /// into the payload field) and returning the pre-serialised response bytes.
+    ///
+    /// @param raw_payload  Raw bytes from the GRAPH_TRAVERSE wire frame payload.
+    /// @return             Pre-serialised response bytes that will be framed and sent
+    ///                     back to the client verbatim.  Throws on traversal error.
+    using GraphTraverseFn =
+        std::function<std::string(std::string_view raw_payload)>;
+
     /**
      * @brief Install the AQL executor callback (thread-safe, process-global).
      *
@@ -252,6 +265,15 @@ public:
      * @brief Install the time-series executor callback (thread-safe, process-global).
      */
     static void setTimeseriesQueryFn(TimeseriesQueryFn fn);
+
+    /**
+     * @brief Install the graph-traversal executor callback (thread-safe, process-global).
+     *
+     * Resolves stub #281: after this call, OP_GRAPH_TRAVERSE frames are dispatched to
+     * the injected callback instead of returning HTTP 501.  The callback receives the
+     * raw payload bytes and must return serialised response bytes.
+     */
+    static void setGraphTraverseFn(GraphTraverseFn fn);
 #endif  // THEMIS_WIRE_V1_PB_HEADER_FOUND
     
 private:
@@ -275,7 +297,7 @@ private:
     void handle_transaction_commit(const v1::TransactionCommitRequest& req);
     void handle_transaction_abort(const v1::TransactionAbortRequest& req);
     void handle_vector_search(const v1::VectorSearchRequest& req);
-    void handle_graph_traverse();
+    void handle_graph_traverse(std::string_view raw_payload);
     void handle_geo_query(const v1::GeoQueryRequest& req);
     void handle_timeseries_query(const v1::TimeSeriesQueryRequest& req);
     void handle_bpmn_start(const v1::BpmnStartProcessRequest& req);

@@ -235,6 +235,7 @@ std::mutex        s_bridge_mutex;
 WireProtocolSession::QueryAqlFn      s_query_aql_fn;
 WireProtocolSession::GeoQueryFn      s_geo_query_fn;
 WireProtocolSession::TimeseriesQueryFn s_timeseries_query_fn;
+WireProtocolSession::GraphTraverseFn   s_graph_traverse_fn;
 } // anonymous namespace
 
 void WireProtocolSession::setQueryAqlFn(QueryAqlFn fn) {
@@ -250,6 +251,11 @@ void WireProtocolSession::setGeoQueryFn(GeoQueryFn fn) {
 void WireProtocolSession::setTimeseriesQueryFn(TimeseriesQueryFn fn) {
     std::lock_guard<std::mutex> lock(s_bridge_mutex);
     s_timeseries_query_fn = std::move(fn);
+}
+
+void WireProtocolSession::setGraphTraverseFn(GraphTraverseFn fn) {
+    std::lock_guard<std::mutex> lock(s_bridge_mutex);
+    s_graph_traverse_fn = std::move(fn);
 }
 #endif  // THEMIS_WIRE_V1_PB_HEADER_FOUND
 
@@ -522,7 +528,8 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                     break;
                 }
                 case OpCode::OP_GRAPH_TRAVERSE:
-                    handle_graph_traverse();
+                    handle_graph_traverse(std::string_view(
+                        reinterpret_cast<const char*>(payload.data()), isz));
                     break;
                 case OpCode::OP_GEO_QUERY: {
                     v1::GeoQueryRequest req;
@@ -828,20 +835,6 @@ void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
         "DELETE /api/v1/collection/" + sanitizeForMessage(req.collection()) +
         "/" + sanitizeForMessage(req.uuid()));
 }
-
-// STUB/SIMULATION NOTE (stub #281 — partial residual):
-// Purpose: GRAPH_TRAVERSE handler returns 501 because the raw binary payload
-//          is not forwarded to handle_graph_traverse() in the dispatch lambda
-//          (payload is consumed before the handler is called, and there is no
-//          typed proto message for GRAPH_TRAVERSE in the current proto schema).
-// Activation: Always active for OP_GRAPH_TRAVERSE only.
-// Production Delta: Only GRAPH_TRAVERSE is affected; QUERY_AQL, CURSOR_NEXT,
-//          CURSOR_CLOSE, GEO_QUERY, and TIMESERIES_QUERY are fully wired via
-//          injectable callbacks (see setQueryAqlFn / setGeoQueryFn /
-//          setTimeseriesQueryFn).
-// Removal Plan: Define a GraphTraverseRequest proto message, add the typed
-//          handler to the dispatch switch, and wire a GraphTraverseFn callback.
-//          Target: v2.0.0.
 
 void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     // QUERY_AQL: execute an AQL query string.
@@ -1228,18 +1221,83 @@ void WireProtocolSession::handle_transaction_abort(
         sanitizeForMessage(req.transaction_id()) + "/abort");
 }
 
-void WireProtocolSession::handle_graph_traverse() {
+// Stub #281 resolved: GraphTraverseFn injection bridge wired; handler now accepts
+// the raw payload bytes forwarded from the dispatch switch and delegates to the
+// injected callback.  Falls back to 501 when no callback is installed.
+
+void WireProtocolSession::handle_graph_traverse(std::string_view raw_payload) {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
-    // Requires authentication.
-    // Full graph traversal integration over the protobuf wire protocol is planned
-    // for a future release.  Clients should use HTTP POST /api/v1/graph/traverse.
+    // Uses the injectable GraphTraverseFn when available; falls back to 501
+    // when no callback has been installed via setGraphTraverseFn().
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
     }
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+    GraphTraverseFn fn;
+    {
+        std::lock_guard<std::mutex> lock(s_bridge_mutex);
+        fn = s_graph_traverse_fn;
+    }
+    if (!fn) {
+        send_error(501,
+            "Graph traversal engine not wired to protobuf wire protocol session. "
+            "Use the HTTP REST API endpoint POST /api/v1/graph/traverse instead.");
+        return;
+    }
+    try {
+        const std::string response_bytes = fn(raw_payload);
+
+        // Frame the pre-serialised response bytes directly onto the wire.
+        WireFrameHeader resp_hdr{};
+        resp_hdr.magic          = WIRE_MAGIC;
+        resp_hdr.version        = WIRE_VERSION_1;
+        resp_hdr.opcode         = static_cast<uint8_t>(OpCode::OP_GRAPH_TRAVERSE);
+        resp_hdr.flags          = 0;
+        resp_hdr.payload_length = static_cast<uint32_t>(response_bytes.size());
+
+        const auto hdr_bytes = serializeHeader(resp_hdr);
+        const uint32_t crc    = crc32Compute(
+            reinterpret_cast<const uint8_t*>(response_bytes.data()),
+            response_bytes.size());
+        const uint32_t crc_be = htonl(crc);
+
+        write_buffer_.clear();
+        write_buffer_.insert(write_buffer_.end(), hdr_bytes.begin(), hdr_bytes.end());
+        write_buffer_.insert(
+            write_buffer_.end(),
+            reinterpret_cast<const uint8_t*>(response_bytes.data()),
+            reinterpret_cast<const uint8_t*>(response_bytes.data()) +
+                response_bytes.size());
+        write_buffer_.insert(
+            write_buffer_.end(),
+            reinterpret_cast<const uint8_t*>(&crc_be),
+            reinterpret_cast<const uint8_t*>(&crc_be) + CHECKSUM_SIZE);
+
+        auto self = shared_from_this();
+        net::async_write(
+            socket_,
+            net::buffer(write_buffer_),
+            [this, self](const error_code& ec, std::size_t written) {
+                if (ec) {
+                    std::cerr << "[WireV1:" << session_id_
+                              << "] graph_traverse write error: " << ec.message() << '\n';
+                    close();
+                    return;
+                }
+                bytes_sent_ += written;
+                ++messages_sent_;
+            });
+    } catch (const std::exception& e) {
+        send_error(0x0007, std::string("GRAPH_TRAVERSE failed: ") + e.what());
+    }
+#else
     send_error(501,
         "Graph traversal is not yet integrated in the protobuf wire protocol. "
         "Use the HTTP REST API endpoint POST /api/v1/graph/traverse instead.");
+    [[maybe_unused]] auto _ = raw_payload;
+#endif
 }
 
 void WireProtocolSession::handle_bpmn_task_complete(
