@@ -388,7 +388,7 @@ bool FlashLoRA::is_available(const Device& device) {
     if (device.type == DeviceType::CUDA) {
         // Check CUDA compute capability
         int device_id = device.index;
-        cudaDeviceProp prop;
+        cudaDeviceProp prop{};
         cudaError_t err = cudaGetDeviceProperties(&prop, device_id);
         
         if (err != cudaSuccess) {

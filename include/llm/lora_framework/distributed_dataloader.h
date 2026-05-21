@@ -131,6 +131,7 @@ private:
 class InMemoryDataset : public DistributedDataLoader::Dataset {
 public:
     explicit InMemoryDataset(std::vector<GPUTensor> data);
+    ~InMemoryDataset() override = default;
     
     GPUTensor get(size_t index) const override;
     size_t size() const override { return data_.size(); }

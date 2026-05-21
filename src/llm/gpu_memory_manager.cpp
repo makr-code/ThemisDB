@@ -206,7 +206,7 @@ void GPUMemoryManager::initializeGPU() {
         }
         
         // Query GPU properties
-        cudaDeviceProp prop;
+        cudaDeviceProp prop{};
         if (cudaGetDeviceProperties(&prop, gpu_device_id_) == cudaSuccess) {
             spdlog::info("GPU detected: {} (Compute {}.{})", 
                          prop.name, prop.major, prop.minor);

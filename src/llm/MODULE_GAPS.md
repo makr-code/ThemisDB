@@ -1,7 +1,7 @@
 # llm Module — Implementation Gap Analysis
 
-**Status:** Updated 2026-05-19  
-**Last Updated:** 2026-05-19  
+**Status:** Updated 2026-05-21  
+**Last Updated:** 2026-05-21  
 
 ---
 
@@ -105,6 +105,15 @@ Most gaps are in GPU-backend header-only or conditionally compiled code:
 
 **Priority:** Addressed incrementally via refactoring sprints; no security impact.
 
+**Status (v1.21.0-pre — batch 31):** `~Override() override = default;` added to 13 concrete
+subclasses that lacked an explicit virtual destructor: `MedianDetector`, `KrumDetector`,
+`BulyanDetector`, `EnsembleDetector` (`byzantine_detector.h`); `AllReduceAggregator`,
+`ParameterServerAggregator`, `RingAllReduceAggregator` (`distributed_training_coordinator.h`);
+`BaseFeedbackPlugin`, `PrivacyFilterPlugin`, `ContentValidationPlugin`,
+`TrainingTriggerPlugin`, `CacheAwareWeightingPlugin` (`lora_framework/feedback_plugin.h`);
+`FlashAttentionCPU` (`attention/flash_attention.cpp`); `InMemoryDataset`
+(`lora_framework/distributed_dataloader.h`).
+
 ### uninitialized (5263 gaps) — Target: v1.21.0
 
 Primarily in GPU-backend conditional compilation paths (`#ifdef THEMIS_ENABLE_CUDA` blocks):
@@ -112,6 +121,12 @@ Primarily in GPU-backend conditional compilation paths (`#ifdef THEMIS_ENABLE_CU
 - CUDA device properties structs not zero-initialised before `cudaGetDeviceProperties()`
 
 **Priority:** Medium-high; risk of undefined behavior on non-standard GPU configurations.
+
+**Status (v1.21.0-pre — batch 31):** Four remaining uninitialized `cudaDeviceProp prop;`
+declarations zero-initialised via aggregate init (`prop{}`): `lora_framework/flash_lora.cpp`,
+`multi_gpu_memory_coordinator.cpp`, `attention/cuda/flash_attention_cuda.cu`,
+and `gpu_memory_manager.cpp`. All CUDA struct uninitialized gaps in the top-file list are
+now resolved.
 
 ### reliability (1637 gaps) — Target: v1.21.0
 
