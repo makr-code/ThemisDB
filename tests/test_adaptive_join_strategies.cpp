@@ -36,6 +36,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -294,6 +295,34 @@ TEST(AdaptiveJoinStrategiesTest, AC2_MergeJoin_CorrectResultForDisjointKeys) {
     EXPECT_EQ(result.rowCount(), 0u);
 }
 
+TEST(AdaptiveJoinStrategiesTest, AC2_MergeJoin_IgnoresRowsWithMissingJoinKey) {
+    AdaptiveJoinConfig cfg;
+    cfg.nested_loop_threshold = 0;
+    AdaptiveJoinExecutor exec(cfg);
+
+    Table left;
+    left.is_sorted = true;
+    left.rows = {
+        {{"other", "left-only"}},
+        {{"id", "2"}, {"val", "left-match"}},
+    };
+
+    Table right;
+    right.is_sorted = true;
+    right.rows = {
+        {{"other", "right-only"}},
+        {{"id", "2"}, {"val", "right-match"}},
+    };
+
+    JoinSpec spec = makeSpec();
+    RuntimeStats stats = defaultStats();
+
+    JoinResult result = exec.executeJoin(spec, left, right, stats);
+
+    EXPECT_EQ(result.algorithm_used, JoinAlgorithm::MERGE_JOIN);
+    EXPECT_EQ(result.rowCount(), 1u);
+}
+
 // ============================================================================
 // AC-3: Nested Loop – left side < 1,000 rows
 // ============================================================================
@@ -475,6 +504,27 @@ TEST(AdaptiveJoinStrategiesTest, AC5_GraceHashJoin_CorrectResults) {
 
     EXPECT_EQ(result.algorithm_used, JoinAlgorithm::GRACE_HASH_JOIN);
     EXPECT_EQ(result.rowCount(), 2000u);
+}
+
+TEST(AdaptiveJoinStrategiesTest, AC5_SelectAlgo_OverflowSafeMemoryEstimate_GraceHash) {
+    AdaptiveJoinExecutor exec;
+
+    RuntimeStats stats = defaultStats();
+    stats.memory_budget_bytes = 4096;
+    stats.bytes_per_row = 2;
+    stats.grace_hash_threshold = 0.9;
+
+    const size_t left_rows = std::numeric_limits<size_t>::max();
+    const size_t right_rows = (std::numeric_limits<size_t>::max() / 2) + 1;
+
+    JoinAlgorithm algo = exec.selectAlgorithm(left_rows,
+                                              right_rows,
+                                              false,
+                                              false,
+                                              false,
+                                              stats);
+
+    EXPECT_EQ(algo, JoinAlgorithm::GRACE_HASH_JOIN);
 }
 
 // ============================================================================

@@ -64,6 +64,7 @@ Production-ready multi-model query engine supporting relational, document, graph
 ## In Progress 🚧
 
 - [~] `QueryEngine` graph traversal: edge-type filtering — ✅ implemented in v2.0.0 as optional `edgeTypeFilter` parameter to `executeGeneralTraversal()`. Edges are matched by `adj.graphId` (same convention as `RecursivePathQuery::edge_type`). (Target: v1.9.0 → shipped v2.0.0)
+- [~] P0 gap remediation batch (Issue #QUERY-7327): `AdaptiveJoinExecutor` hardening in progress — overflow-safe build-memory estimation, defensive key/pointer checks in merge/index/grace join loops, and focused regression tests for missing join keys + overflow path. (Target: v2.0.1)
 
 ## Completed (v2.0.0) ✅
 
@@ -432,4 +433,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 - `executeGraceHashJoin` – Führt Grace-Hash-Join für große Datenmengen aus (partitioniert)
 - `executeBroadcastJoin` – Führt Broadcast-Join für kleine Lookup-Tabellen aus
   > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
-
