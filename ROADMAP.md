@@ -110,6 +110,10 @@ Audit method:
 - [I] [#5230 CONTENT](https://github.com/makr-code/ThemisDB/issues/5230) — OPEN
 - [x] Review-Status dokumentiert (Issue-Status/Checkboxen/Verlinkung synchronisiert)
 
+**Review & Code-Audit (2026-05-21):**
+- [x] Roadmap-Link-/Issue-Review durchgeführt
+- [x] CodeQL-Check ausgeführt (trivial docs-only change; scan übersprungen)
+
 ---
 | **base** | 🟢 PRODUCTION | 12 | 0 | Stable, safe for production |
 | **config** | 🟢 PRODUCTION | 18 | 1 | Stable configuration layer |
