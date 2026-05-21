@@ -399,7 +399,7 @@ void VisionResourceMonitor::completeRequest(uint64_t request_id, bool success,
         }
         
         // Update timing statistics
-        double time_ms = inference_time.count();
+        const double time_ms = static_cast<double>(inference_time.count());
         if (usage_.successful_requests == 1) {
             usage_.avg_inference_time_ms = time_ms;
             usage_.min_inference_time_ms = time_ms;
@@ -533,8 +533,6 @@ std::string VisionResourceMonitor::exportMetrics() const {
     std::stringstream ss;
     
     auto usage = getResourceUsage();
-    const auto& limits = config_->getResourceLimits();
-    
     // Prometheus format
     ss << "# HELP themisdb_vision_requests_total Total number of vision requests\n";
     ss << "# TYPE themisdb_vision_requests_total counter\n";

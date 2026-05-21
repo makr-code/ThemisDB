@@ -84,7 +84,7 @@ public:
      * @param pki_client Optional PKI client for signature verification (default: nullptr = skip verification)
      */
     explicit PIIDetector(
-        const std::string& config_path = "config/pii_patterns.yaml",
+        std::string config_path = "config/pii_patterns.yaml",
         std::shared_ptr<VCCPKIClient> pki_client = nullptr);
     
     /**
@@ -210,7 +210,7 @@ private:
         std::unordered_map<std::string, std::vector<PIIFinding>>& findings) const;
     
     // Helper: Deduplicate overlapping findings
-    std::vector<PIIFinding> deduplicateFindings(std::vector<PIIFinding> findings) const;
+    static std::vector<PIIFinding> deduplicateFindings(std::vector<PIIFinding> findings);
 };
 
 } // namespace utils

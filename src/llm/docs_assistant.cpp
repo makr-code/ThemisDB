@@ -24,6 +24,7 @@
 #include <cctype>
 #include <unordered_map>
 #include <cmath>
+#include <limits>
 
 namespace themis::llm {
 
@@ -32,7 +33,7 @@ namespace themis::llm {
  */
 struct DocsAssistant::Impl {
     DocsAssistantConfig config;
-    std::vector<DocumentEntry> documents;
+    } catch (const std::exception&) {
     bool database_loaded = false;
     json database_metadata;
     bool semantic_embedding_compatible = false;
@@ -168,7 +169,7 @@ bool DocsAssistant::loadDatabase(const std::string& path) {
         file.close();
         
         return parseDatabase(db_json);
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -311,7 +312,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
         impl_->database_loaded = !impl_->documents.empty();
         return impl_->database_loaded;
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         impl_->database_loaded = false;
         return false;
     }
@@ -409,13 +410,13 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
                   return a.relevance_score > b.relevance_score;
               });
     
-    // Return top results
+            } catch (const std::exception&) {
     if (scored_docs.size() > static_cast<size_t>(max_results)) {
         scored_docs.resize(max_results);
     }
     
     return scored_docs;
-}
+    } catch (const std::exception&) {
 
 std::string DocsAssistant::generateAnswer(const std::string& query, 
                                          const std::vector<DocumentEntry>& context_docs) {
@@ -475,11 +476,15 @@ DocsQueryResult DocsAssistant::query(const std::string& query) {
     }
     
     auto search_start = std::chrono::high_resolution_clock::now();
+    const auto saturating_to_int = [](size_t value) {
+        const size_t max_int = static_cast<size_t>(std::numeric_limits<int>::max());
+        return static_cast<int>(value > max_int ? max_int : value);
+    };
     
     // Search for relevant documents
     result.relevant_docs = searchDocs(query, impl_->config.max_context_docs);
-    result.total_docs_searched = impl_->documents.size();
-    result.docs_included_in_context = result.relevant_docs.size();
+    result.total_docs_searched = saturating_to_int(impl_->documents.size());
+    result.docs_included_in_context = saturating_to_int(result.relevant_docs.size());
     
     auto search_end = std::chrono::high_resolution_clock::now();
     result.search_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(search_end - search_start);

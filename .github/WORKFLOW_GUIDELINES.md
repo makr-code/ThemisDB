@@ -6,7 +6,7 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
 duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (17)
+## Aktive Workflows (18)
 - `.github/workflows/00-shared_changelog-update.yml`
 - `.github/workflows/00-shared_changelog-backfill.yml`
 - `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
@@ -18,6 +18,7 @@ duerfen nicht stillschweigend reaktiviert werden.
 - `.github/workflows/08-maintenance_code-maturity.yml`
 - `.github/workflows/08-quality_doxygen-coverage-gate.yml`
 - `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
+- `.github/workflows/09-pr-gates_scanner-delta-report.yml`
 - `.github/workflows/sbom-ci.yml`
 - `.github/workflows/security-dast-ci.yml`
 - `.github/workflows/soc2-evidence-ci.yml`

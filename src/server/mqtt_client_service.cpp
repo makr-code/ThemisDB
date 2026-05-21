@@ -570,14 +570,14 @@ void MqttClientService::onPublishReceived(const std::string& topic,
     }
 }
 
-void MqttClientService::enqueuePacket(std::vector<uint8_t> pkt) {
+void MqttClientService::enqueuePacket(std::vector<uint8_t> packet) {
     {
         std::lock_guard<std::mutex> lk(outbound_mutex_);
         if (outbound_queue_.size() >= config_.max_outbound_queue) {
             ++stats_.publish_errors;
             return;
         }
-        outbound_queue_.push_back(std::move(pkt));
+        outbound_queue_.push_back(std::move(packet));
     }
     asio::post(asio_->io_ctx, [this] { doWrite(); });
 }

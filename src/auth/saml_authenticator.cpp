@@ -104,13 +104,13 @@ void SAMLAuthenticator::setClockForTesting(std::function<std::chrono::system_clo
 
 std::string SAMLAuthenticator::generateRequestId() {
     // SAML IDs must be NCName-safe: start with '_' + 32 hex chars
-    static std::random_device rd;
-    static std::mt19937_64 gen(rd());
+    static std::random_device local_rd;
+    static std::mt19937_64 local_gen(local_rd());
     std::uniform_int_distribution<uint64_t> dist;
 
     std::ostringstream oss;
     oss << '_';
-    oss << std::hex << std::setfill('0') << std::setw(16) << dist(gen) << std::setw(16) << dist(gen);
+    oss << std::hex << std::setfill('0') << std::setw(16) << dist(local_gen) << std::setw(16) << dist(local_gen);
     return oss.str();
 }
 

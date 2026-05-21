@@ -37,7 +37,8 @@ PIIPseudonymizer::PIIPseudonymizer(std::shared_ptr<themis::RocksDBWrapper> db,
         if (RAND_bytes(key_bytes.data(), static_cast<int>(key_bytes.size())) != 1) {
             throw std::runtime_error("Failed to generate random key for PII mapping");
         }
-        key_provider->createKeyFromBytes(key_id_, key_bytes);
+        [[maybe_unused]] const uint32_t created_version =
+            key_provider->createKeyFromBytes(key_id_, key_bytes);
     }
 }
 

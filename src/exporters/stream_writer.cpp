@@ -166,6 +166,8 @@ void StreamWriter::compressAndWrite(const char* data, size_t size) {
         }
     }
 #endif
+    (void)data;
+    (void)size;
 }
 
 void StreamWriter::finalizeCompression() {

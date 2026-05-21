@@ -999,7 +999,7 @@ bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>&
         auto claims = jwt_validator_->parseAndValidate(*token);
         // Token is valid
         return true;
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Token validation failed (expired, invalid signature, etc.)
         return false;
     }

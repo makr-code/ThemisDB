@@ -24568,6 +24568,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
     add_executable(test_llama_cpp_plugin
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plugin.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_plugin.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/rag/rag_context_assembler.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/content/stt_processor.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/content/tts_processor.cpp"
         # Registrar (groups N1-N6) and its transitive dependencies compiled
         # directly into the test so no shared library is needed.
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_registrar.cpp"
@@ -24580,6 +24583,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
     target_link_libraries(test_llama_cpp_plugin PRIVATE
         GTest::gtest
         GTest::gtest_main
+        themis_llm
+        themis_query
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         fmt::fmt
@@ -25221,11 +25226,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_simd_columnar_filter.cpp")
 
     target_link_libraries(test_simd_columnar_filter_focused PRIVATE
         ${TEST_LIBS}
-        lz4
-        snappy
         spdlog::spdlog
         Threads::Threads
     )
+    if(DEFINED THEMIS_LZ4_TARGET)
+        target_link_libraries(test_simd_columnar_filter_focused PRIVATE ${THEMIS_LZ4_TARGET})
+    elseif(TARGET lz4::lz4)
+        target_link_libraries(test_simd_columnar_filter_focused PRIVATE lz4::lz4)
+    endif()
+    if(TARGET Snappy::snappy)
+        target_link_libraries(test_simd_columnar_filter_focused PRIVATE Snappy::snappy)
+    endif()
 
     target_compile_definitions(test_simd_columnar_filter_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -25268,11 +25279,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_parquet_exporter.cpp")
 
     target_link_libraries(test_storage_parquet_exporter_focused PRIVATE
         ${TEST_LIBS}
-        lz4
-        snappy
         spdlog::spdlog
         Threads::Threads
     )
+    if(DEFINED THEMIS_LZ4_TARGET)
+        target_link_libraries(test_storage_parquet_exporter_focused PRIVATE ${THEMIS_LZ4_TARGET})
+    elseif(TARGET lz4::lz4)
+        target_link_libraries(test_storage_parquet_exporter_focused PRIVATE lz4::lz4)
+    endif()
+    if(TARGET Snappy::snappy)
+        target_link_libraries(test_storage_parquet_exporter_focused PRIVATE Snappy::snappy)
+    endif()
 
     target_compile_definitions(test_storage_parquet_exporter_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -25846,7 +25863,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_routing.cpp")
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_llm_raid_routing_focused
-        PRIVATE ${TEST_LIBS} spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
+        PRIVATE ${TEST_LIBS}
+            $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
+            spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
                 $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
                 Threads::Threads)
 
@@ -25886,6 +25905,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
         ${THEMIS_ROOT_DIR}/src/sharding/signed_request.cpp
         ${THEMIS_ROOT_DIR}/src/sharding/operational_metrics.cpp
         ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
+        ${THEMIS_ROOT_DIR}/src/content/stt_processor.cpp
+        ${THEMIS_ROOT_DIR}/src/content/tts_processor.cpp
         ${THEMIS_ROOT_DIR}/src/utils/tracing.cpp
         ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
@@ -25894,7 +25915,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_llm_raid_integration_focused
-        PRIVATE ${TEST_LIBS} spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
+        PRIVATE ${TEST_LIBS}
+            $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
+            $<$<TARGET_EXISTS:themis_llm>:themis_llm>
+            spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
                 $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
                 Threads::Threads)
 
@@ -25960,6 +25984,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_draft_fn_bridge.cpp")
         ${THEMIS_ROOT_DIR}/src/llm/kv_prefix_transfer_manager.cpp
         ${THEMIS_ROOT_DIR}/src/llm/continuous_batch_scheduler.cpp
         ${THEMIS_ROOT_DIR}/src/llm/lookup_decoder.cpp
+        ${THEMIS_ROOT_DIR}/src/content/stt_processor.cpp
+        ${THEMIS_ROOT_DIR}/src/content/tts_processor.cpp
         ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
@@ -25967,8 +25993,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_draft_fn_bridge.cpp")
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_speculative_draft_fn_bridge_focused
-        PRIVATE ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json
-                Threads::Threads)
+        PRIVATE ${TEST_LIBS}
+            $<$<TARGET_EXISTS:themis_llm>:themis_llm>
+            $<$<TARGET_EXISTS:themis_query>:themis_query>
+            $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            Threads::Threads)
 
     target_compile_definitions(test_speculative_draft_fn_bridge_focused
         PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)
@@ -25993,6 +26024,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_whisper_stub_transcribe_bridge.cpp")
     add_executable(test_whisper_stub_transcribe_bridge_focused
         test_whisper_stub_transcribe_bridge.cpp
         ${THEMIS_ROOT_DIR}/src/whisper/whisper_plugin.cpp
+        ${THEMIS_ROOT_DIR}/src/whisper/whisper_config.cpp
         ${THEMIS_ROOT_DIR}/src/whisper/audio_chunk_reader.cpp
         ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )

@@ -482,7 +482,7 @@ private:
         spdlog::info("    Session Pool: {}", config_.hsm_session_pool_size);
         
         // Configure HSM
-        security::HSMConfig hsm_config;
+        ::themis::security::HSMConfig hsm_config;
         hsm_config.library_path = config_.hsm_library_path;
         hsm_config.slot_id = config_.hsm_slot_id;
         hsm_config.pin = config_.hsm_pin;
@@ -491,19 +491,19 @@ private:
         hsm_config.signature_algorithm = "RSA-SHA256";
         
         // Create HSM provider
-        auto hsm = std::make_shared<security::HSMProvider>(hsm_config);
+        auto hsm = std::make_shared<::themis::security::HSMProvider>(hsm_config);
         if (!hsm->initialize()) {
             throw std::runtime_error("HSM initialization failed: " + hsm->getLastError());
         }
         
         // Create HSM adapter
-        security::HSMKeyProviderAdapter::Config adapter_config;
+        ::themis::security::HSMKeyProviderAdapter::Config adapter_config;
         adapter_config.kek_label = config_.hsm_key_label;
         adapter_config.cache_ttl_ms = DEFAULT_HSM_CACHE_TTL_MS;
         adapter_config.max_cache_size = DEFAULT_HSM_MAX_CACHE_SIZE;
         adapter_config.enable_caching = true;
         
-        auto key_provider = std::make_shared<security::HSMKeyProviderAdapter>(hsm, adapter_config);
+        auto key_provider = std::make_shared<::themis::security::HSMKeyProviderAdapter>(hsm, adapter_config);
         
         spdlog::info("  ✓ HSM-backed encryption initialized successfully");
         spdlog::info("  Hardware-backed keys provide maximum security");
@@ -554,7 +554,7 @@ private:
         spdlog::info("    Verify: {}", config_.pki_verify_certificate);
         
         // Initialize PKIKeyProvider with certificate files
-        auto key_provider = std::make_shared<security::PKIKeyProvider>(
+        auto key_provider = std::make_shared<::themis::security::PKIKeyProvider>(
             config_.pki_cert_path,
             config_.pki_private_key_path,
             config_.db,

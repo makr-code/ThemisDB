@@ -1138,6 +1138,9 @@ set(THEMIS_LLM_SOURCES
     # Feedback & Security
     ../src/llm/feedback_plugin_basic.cpp
     ../src/llm/llm_security_utils.cpp
+    ../src/llm/lora_security_validator.cpp
+    ../src/llm/lora_certificate_store.cpp
+    ../src/llm/security/signature_verifier.cpp
     # Vision resource monitoring
     ../src/llm/vision_resource_monitor.cpp
     # LoRA framework additions (unconditional)

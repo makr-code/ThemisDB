@@ -178,6 +178,10 @@ void DistributedTrainer::setAllReduceCpuFn(AllReduceCpuFn fn) {
     allreduce_cpu_fn_ = std::move(fn);
 }
 
+void DistributedTrainer::clearAllReduceCpuFn() {
+    allreduce_cpu_fn_.reset();
+}
+
 DistributedStats DistributedTrainer::stats() const {
     return stats_;
 }

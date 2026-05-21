@@ -465,6 +465,7 @@ bool ArchiveProcessor::validateArchive(const ArchiveMetadata &metadata, std::str
 }
 
 ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string &blob, const std::string &password) {
+    (void)password;
     ArchiveExtractionResult result;
     result.success = false;
 

@@ -244,16 +244,16 @@ void ZeroTrustAuthVerifier::monitorLoop() {
             // detect when a new session is added (which bumps the generation)
             // and re-compute the earliest deadline without sleeping until the
             // old `next_wake`.
-            const auto gen = schedule_generation_.load();
+            const auto schedule_gen = schedule_generation_.load();
 
             // Sleep until the deadline, a stop is requested, the session map
             // becomes empty, or a new session is registered.
             monitor_cv_.wait_until(
                 lock, next_wake,
-                [this, gen] {
+                [this, schedule_gen] {
                     return monitor_stop_.load()
                         || monitored_sessions_.empty()
-                        || schedule_generation_.load() != gen;
+                    || schedule_generation_.load() != schedule_gen;
                 });
 
             if (monitor_stop_.load() || monitored_sessions_.empty()) {
