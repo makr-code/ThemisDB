@@ -18,7 +18,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 343,
+          "line_number": 332,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak"
@@ -27,7 +27,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 344,
+          "line_number": 333,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak"
@@ -36,7 +36,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 363,
+          "line_number": 352,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak"
@@ -45,7 +45,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 121,
+          "line_number": 110,
           "var_name": "mock_provider",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -54,7 +54,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 126,
+          "line_number": 115,
           "var_name": "mock_provider",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -63,7 +63,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 129,
+          "line_number": 118,
           "var_name": "mock_provider",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -72,7 +72,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 132,
+          "line_number": 121,
           "var_name": "mock_provider",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -81,7 +81,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 169,
+          "line_number": 158,
           "var_name": "db_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -90,7 +90,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 254,
+          "line_number": 243,
           "var_name": "db_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -99,7 +99,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 264,
+          "line_number": 253,
           "var_name": "db_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -108,7 +108,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 282,
+          "line_number": 271,
           "var_name": "db_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -117,7 +117,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 283,
+          "line_number": 272,
           "var_name": "start",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -126,26 +126,26 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 287,
+          "line_number": 276,
           "var_name": "alice_data",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
         },
         {
           "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 311,
+          "var_name": "mock_provider",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
           "line_number": 322,
           "var_name": "mock_provider",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\demo_encryption.cpp",
-          "line_number": 333,
-          "var_name": "mock_provider",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
         },
@@ -153,7 +153,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 336,
+          "line_number": 325,
           "var_name": "mock_provider",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -162,7 +162,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 343,
+          "line_number": 332,
           "var_name": "mock_provider",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -171,7 +171,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 351,
+          "line_number": 340,
           "var_name": "db_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -180,7 +180,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 356,
+          "line_number": 345,
           "var_name": "alice_data",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -189,7 +189,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 416,
+          "line_number": 405,
           "var_name": "db_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -198,7 +198,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 471,
+          "line_number": 460,
           "var_name": "mode",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -207,7 +207,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 473,
+          "line_number": 462,
           "var_name": "mode",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -216,7 +216,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 93,
+          "line_number": 82,
           "class_name": "EncryptionDemo",
           "function_name": "setupKeyProvider",
           "issue": "Virtual function called in constructor",
@@ -226,7 +226,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 94,
+          "line_number": 83,
           "class_name": "EncryptionDemo",
           "function_name": "setupKeyProvider",
           "issue": "Virtual function called in constructor",
@@ -236,7 +236,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 189,
+          "line_number": 178,
           "class_name": "EncryptionDemo",
           "function_name": "Alice",
           "issue": "Virtual function called in constructor",
@@ -246,7 +246,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 246,
+          "line_number": 235,
           "class_name": "EncryptionDemo",
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
@@ -256,7 +256,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 268,
+          "line_number": 257,
           "class_name": "EncryptionDemo",
           "function_name": "for",
           "issue": "Virtual function called in constructor",
@@ -266,9 +266,29 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 279,
+          "line_number": 268,
           "class_name": "EncryptionDemo",
           "function_name": "count",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 277,
+          "class_name": "EncryptionDemo",
+          "function_name": "now",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\demo_encryption.cpp",
+          "line_number": 279,
+          "class_name": "EncryptionDemo",
+          "function_name": "get",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -286,17 +306,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 290,
-          "class_name": "EncryptionDemo",
-          "function_name": "get",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\demo_encryption.cpp",
-          "line_number": 299,
+          "line_number": 295,
           "class_name": "EncryptionDemo",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -306,17 +316,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 306,
-          "class_name": "EncryptionDemo",
-          "function_name": "now",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\demo_encryption.cpp",
-          "line_number": 357,
+          "line_number": 346,
           "class_name": "EncryptionDemo",
           "function_name": "get",
           "issue": "Virtual function called in constructor",
@@ -326,7 +326,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 383,
+          "line_number": 372,
           "class_name": "EncryptionDemo",
           "function_name": "demoPerformance",
           "issue": "Virtual function called in constructor",
@@ -336,7 +336,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 387,
+          "line_number": 376,
           "class_name": "EncryptionDemo",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -346,7 +346,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 388,
+          "line_number": 377,
           "class_name": "EncryptionDemo",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -356,7 +356,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 389,
+          "line_number": 378,
           "class_name": "EncryptionDemo",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -366,7 +366,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 390,
+          "line_number": 379,
           "class_name": "EncryptionDemo",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -376,7 +376,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 393,
+          "line_number": 382,
           "class_name": "EncryptionDemo",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -386,7 +386,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 405,
+          "line_number": 394,
           "class_name": "EncryptionDemo",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -396,7 +396,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 409,
+          "line_number": 398,
           "class_name": "EncryptionDemo",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -406,7 +406,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 410,
+          "line_number": 399,
           "class_name": "EncryptionDemo",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -416,7 +416,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 411,
+          "line_number": 400,
           "class_name": "EncryptionDemo",
           "function_name": "now",
           "issue": "Virtual function called in constructor",
@@ -426,7 +426,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\demo_encryption.cpp",
-          "line_number": 419,
+          "line_number": 408,
           "class_name": "EncryptionDemo",
           "function_name": "to_string",
           "issue": "Virtual function called in constructor",
@@ -434,7 +434,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 60,
+          "line": 49,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -443,7 +443,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 61,
+          "line": 50,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -452,7 +452,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 62,
+          "line": 51,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -461,7 +461,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 63,
+          "line": 52,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -470,7 +470,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 64,
+          "line": 53,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -479,7 +479,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 65,
+          "line": 54,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -488,7 +488,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 89,
+          "line": 78,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -497,7 +497,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 90,
+          "line": 79,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -506,7 +506,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 110,
+          "line": 99,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -515,7 +515,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 111,
+          "line": 100,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -524,7 +524,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 112,
+          "line": 101,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -533,7 +533,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 125,
+          "line": 114,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -542,7 +542,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 127,
+          "line": 116,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -551,7 +551,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 130,
+          "line": 119,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -560,7 +560,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 133,
+          "line": 122,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -569,7 +569,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 136,
+          "line": 125,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -578,7 +578,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 141,
+          "line": 130,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -587,7 +587,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 142,
+          "line": 131,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -596,7 +596,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 151,
+          "line": 140,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -605,7 +605,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 152,
+          "line": 141,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -614,7 +614,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 153,
+          "line": 142,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -623,7 +623,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 154,
+          "line": 143,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -632,7 +632,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 155,
+          "line": 144,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -641,7 +641,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 156,
+          "line": 145,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -650,7 +650,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 160,
+          "line": 149,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -659,7 +659,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 161,
+          "line": 150,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -668,7 +668,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 171,
+          "line": 160,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -677,7 +677,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 172,
+          "line": 161,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -686,7 +686,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 173,
+          "line": 162,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -695,7 +695,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 174,
+          "line": 163,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -704,7 +704,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 178,
+          "line": 167,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -713,7 +713,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 179,
+          "line": 168,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -722,7 +722,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 182,
+          "line": 171,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -731,7 +731,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 183,
+          "line": 172,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -740,7 +740,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 194,
+          "line": 183,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -749,7 +749,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 195,
+          "line": 184,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -758,7 +758,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 196,
+          "line": 185,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -767,7 +767,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 197,
+          "line": 186,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -776,7 +776,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 198,
+          "line": 187,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -785,7 +785,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 205,
+          "line": 194,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -794,7 +794,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 206,
+          "line": 195,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -803,7 +803,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 207,
+          "line": 196,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -812,7 +812,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 208,
+          "line": 197,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -821,7 +821,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 212,
+          "line": 201,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -830,7 +830,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 213,
+          "line": 202,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -839,7 +839,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 218,
+          "line": 207,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -848,7 +848,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 219,
+          "line": 208,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -857,7 +857,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 227,
+          "line": 216,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -866,7 +866,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 228,
+          "line": 217,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -875,7 +875,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 229,
+          "line": 218,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -884,7 +884,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 230,
+          "line": 219,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -893,7 +893,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 236,
+          "line": 225,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -902,7 +902,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 237,
+          "line": 226,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -911,7 +911,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 243,
+          "line": 232,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -920,7 +920,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 244,
+          "line": 233,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -929,7 +929,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 255,
+          "line": 244,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -938,7 +938,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 265,
+          "line": 254,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -947,7 +947,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 271,
+          "line": 260,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -956,7 +956,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 272,
+          "line": 261,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -965,7 +965,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 276,
+          "line": 265,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -974,7 +974,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 277,
+          "line": 266,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -983,7 +983,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 293,
+          "line": 282,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -992,7 +992,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 294,
+          "line": 283,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1001,7 +1001,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 295,
+          "line": 284,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1010,7 +1010,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 296,
+          "line": 285,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1019,7 +1019,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 309,
+          "line": 298,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1028,7 +1028,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 310,
+          "line": 299,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1037,7 +1037,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 311,
+          "line": 300,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1046,7 +1046,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 312,
+          "line": 301,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1055,7 +1055,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 313,
+          "line": 302,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1064,7 +1064,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 314,
+          "line": 303,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1073,7 +1073,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 315,
+          "line": 304,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1082,7 +1082,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 319,
+          "line": 308,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1091,7 +1091,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 320,
+          "line": 309,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1100,7 +1100,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 323,
+          "line": 312,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1109,7 +1109,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 329,
+          "line": 318,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1118,7 +1118,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 330,
+          "line": 319,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1127,7 +1127,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 338,
+          "line": 327,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1136,7 +1136,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 344,
+          "line": 333,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1145,7 +1145,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 345,
+          "line": 334,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1154,7 +1154,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 347,
+          "line": 336,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1163,7 +1163,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 348,
+          "line": 337,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1172,7 +1172,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 360,
+          "line": 349,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1181,7 +1181,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 361,
+          "line": 350,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1190,7 +1190,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 363,
+          "line": 352,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1199,7 +1199,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 364,
+          "line": 353,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1208,7 +1208,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 370,
+          "line": 359,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1217,7 +1217,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 371,
+          "line": 360,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1226,7 +1226,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 375,
+          "line": 364,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1235,7 +1235,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 376,
+          "line": 365,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1244,7 +1244,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 380,
+          "line": 369,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1253,7 +1253,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 381,
+          "line": 370,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1262,7 +1262,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 396,
+          "line": 385,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1271,7 +1271,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 397,
+          "line": 386,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1280,7 +1280,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 398,
+          "line": 387,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1289,7 +1289,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 399,
+          "line": 388,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1298,7 +1298,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 401,
+          "line": 390,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1307,7 +1307,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 402,
+          "line": 391,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1316,7 +1316,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 422,
+          "line": 411,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1325,7 +1325,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 423,
+          "line": 412,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1334,7 +1334,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 424,
+          "line": 413,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1343,7 +1343,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 428,
+          "line": 417,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1352,7 +1352,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 429,
+          "line": 418,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1361,7 +1361,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 430,
+          "line": 419,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1370,7 +1370,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 431,
+          "line": 420,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1379,7 +1379,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 433,
+          "line": 422,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1388,7 +1388,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 434,
+          "line": 423,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1397,7 +1397,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 435,
+          "line": 424,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1406,7 +1406,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 436,
+          "line": 425,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1415,7 +1415,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 438,
+          "line": 427,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1424,7 +1424,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 439,
+          "line": 428,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1433,7 +1433,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 440,
+          "line": 429,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1442,7 +1442,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 441,
+          "line": 430,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1451,7 +1451,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 443,
+          "line": 432,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1460,7 +1460,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 444,
+          "line": 433,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1469,7 +1469,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 445,
+          "line": 434,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1478,7 +1478,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 446,
+          "line": 435,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1487,7 +1487,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 447,
+          "line": 436,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1496,7 +1496,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 449,
+          "line": 438,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1505,7 +1505,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 450,
+          "line": 439,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1514,7 +1514,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 451,
+          "line": 440,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1523,7 +1523,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 452,
+          "line": 441,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1532,7 +1532,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 454,
+          "line": 443,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1541,7 +1541,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 455,
+          "line": 444,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1550,7 +1550,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 456,
+          "line": 445,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1559,7 +1559,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 457,
+          "line": 446,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1568,7 +1568,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 458,
+          "line": 447,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1577,7 +1577,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 459,
+          "line": 448,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1586,7 +1586,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 461,
+          "line": 450,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1595,7 +1595,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 127,
+          "line": 116,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1604,7 +1604,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 127,
+          "line": 116,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1613,7 +1613,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 130,
+          "line": 119,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1622,7 +1622,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 195,
+          "line": 184,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1631,7 +1631,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 196,
+          "line": 185,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1640,7 +1640,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 197,
+          "line": 186,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1649,7 +1649,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 206,
+          "line": 195,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1658,7 +1658,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 207,
+          "line": 196,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1667,7 +1667,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 208,
+          "line": 197,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1676,7 +1676,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 310,
+          "line": 299,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1685,7 +1685,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 311,
+          "line": 300,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1694,7 +1694,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 312,
+          "line": 301,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1703,7 +1703,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 360,
+          "line": 349,
           "category": "audit_logging",
           "severity": "CRITICAL",
           "pattern": "sensitive_data_logging",
@@ -1712,7 +1712,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 246,
+          "line": 235,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -1721,7 +1721,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 269,
+          "line": 258,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -1730,7 +1730,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 383,
+          "line": 372,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -1739,7 +1739,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 394,
+          "line": 383,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -1748,7 +1748,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 405,
+          "line": 394,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -1757,7 +1757,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 420,
+          "line": 409,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -1766,7 +1766,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 154,
+          "line": 143,
           "category": "determinism",
           "severity": "MEDIUM",
           "pattern": "random_unseeded",
@@ -1775,7 +1775,7 @@
         },
         {
           "file": "src\\demo_encryption.cpp",
-          "line": 473,
+          "line": 462,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
