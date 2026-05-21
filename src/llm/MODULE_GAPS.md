@@ -114,6 +114,13 @@ subclasses that lacked an explicit virtual destructor: `MedianDetector`, `KrumDe
 `FlashAttentionCPU` (`attention/flash_attention.cpp`); `InMemoryDataset`
 (`lora_framework/distributed_dataloader.h`).
 
+**Status (v1.21.0-pre — batch 32):** `~Override() override = default;` added to 14 further
+concrete subclasses: `ConstantLR`, `LinearLR`, `CosineAnnealingLR`,
+`CosineAnnealingWarmRestartsLR`, `PolynomialLR`, `StepLR`, `ExponentialLR`,
+`WarmupConstantLR`, `WarmupCosineLR`, `CyclicLR`, `OneCycleLR`, `WarmupLinearLR`
+(`lora_framework/lr_scheduler.h`); `NoOpFeedbackPlugin`, `BasicSpamDetectionPlugin`
+(`i_feedback_plugin.h`); `NullKVStateSerializer` (`kv_prefix_transfer_manager.h`).
+
 ### uninitialized (5263 gaps) — Target: v1.21.0
 
 Primarily in GPU-backend conditional compilation paths (`#ifdef THEMIS_ENABLE_CUDA` blocks):
@@ -143,6 +150,10 @@ calls in `select_physical_device()` and `vk_init()` now checked; `vkBindBufferMe
 `cudaDeviceProp` zero-initialised in `flash_lora.cpp` and `gpu_memory.cpp`. Focused
 regression tests added (`test_vulkan_dispatch_reliability.cpp`).
 
+**Status (v1.21.0-pre — batch 32):** REL-08..REL-09 fixed — `ncclAllReduce` return value
+now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCLBackend`
+(`rccl_backend.cpp`); errors logged via `spdlog::error` before continuing stream sync.
+
 ---
 
 ## 📋 Implementation Priority
@@ -159,6 +170,15 @@ files: `byzantine_detector.cpp` (3 sites: `int n = shard_gradients.size()`),
 `multi_perspective_generator.cpp` (`int threshold = ...size()`), and
 `lora_framework/lora_training_service.cpp` (`int total_steps = data.size()/...`).
 All converted to `static_cast<int>(...)` with explicit narrowing intent.
+
+**Status (v1.22.0-pre — batch 32):** Second batch of type_conversion fixes:
+- `llama_wrapper.cpp` — 4× `llama_batch_get_one(..., .size())` → `static_cast<int32_t>(.size())`
+  (prompt evaluation, embedding, speculative decoding, generation paths)
+- `llm_model_storage.cpp` + `lora_security_validator.cpp` — C-style `(int)hash[i]` replaced
+  with `static_cast<unsigned int>(static_cast<unsigned char>(hash[i]))` to avoid sign-extension
+  before hex formatting
+- `lora_framework/kernels/quantization_kernels.cu` — `(int)block_size` replaced with
+  `static_cast<int>(block_size)` in NF4 and INT8 quantization launch helpers
 
 ---
 
@@ -183,4 +203,4 @@ src/llm/MODULE_GAPS.md  ← You are here
 
 **Format:** THEMIS_MODULE_GAPS_v2  
 **Generator:** Manual + ThemisDB Gap Audit Pipeline v2 (`gap_scan_v3_llm.json`)  
-**Last Updated:** 2026-05-19
+**Last Updated:** 2026-05-21

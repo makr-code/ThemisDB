@@ -581,7 +581,7 @@ std::string LoRASecurityValidator::calculateChecksum(
     // Convert to hex string
     std::stringstream ss;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(static_cast<unsigned char>(hash[i]));
     }
     
     return ss.str();

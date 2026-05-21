@@ -1037,7 +1037,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         }
         
         // 3. Prepare batch for prompt evaluation
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
         
         // 3. Evaluate prompt (populate KV cache)
         if (llama_decode(lctx, batch) != 0) {
@@ -1404,7 +1404,7 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
         std::vector<llama_token> tokens = tokenizeInternal(lmodel, text, true);
         
         // 2. Prepare batch for evaluation
-        llama_batch batch = llama_batch_get_one(tokens.data(), tokens.size());
+        llama_batch batch = llama_batch_get_one(tokens.data(), static_cast<int32_t>(tokens.size()));
         
         // 3. Evaluate to generate embeddings
         if (llama_decode(lctx, batch) != 0) {
@@ -2235,7 +2235,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         }
         
         // 2. Evaluate prompt in both models
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
         if (llama_decode(target_context, batch) != 0) {
             throw std::runtime_error("Failed to evaluate prompt in target model");
         }
@@ -2488,7 +2488,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             llama_memory_seq_rm(mem, 0, -1, -1);
         }
 
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
         
         if (llama_decode(lctx, batch) != 0) {
             throw std::runtime_error("Failed to evaluate prompt");

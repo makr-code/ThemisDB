@@ -230,7 +230,7 @@ void NCCLBackend::barrier() {
     float dummy = 0.0f;
     cudaStream_t stream = static_cast<cudaStream_t>(cuda_stream_);
     
-    ncclAllReduce(
+    ncclResult_t result = ncclAllReduce(
         &dummy,
         &dummy,
         1,
@@ -239,6 +239,10 @@ void NCCLBackend::barrier() {
         nccl_comm_,
         stream
     );
+    
+    if (result != ncclSuccess) {
+        spdlog::error("NCCL barrier allreduce failed: {}", ncclGetErrorString(result));
+    }
     
     cudaStreamSynchronize(stream);
 #endif

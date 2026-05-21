@@ -180,6 +180,8 @@ public:
  */
 class NoOpFeedbackPlugin : public IFeedbackPlugin {
 public:
+    ~NoOpFeedbackPlugin() override = default;
+
     std::string getName() const override {
         return "noop";
     }
@@ -215,6 +217,8 @@ public:
  */
 class BasicSpamDetectionPlugin : public IFeedbackPlugin {
 public:
+    ~BasicSpamDetectionPlugin() override = default;
+
     std::string getName() const override {
         return "basic_spam_detection";
     }
