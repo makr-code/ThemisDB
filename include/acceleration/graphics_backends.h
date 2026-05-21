@@ -10,6 +10,7 @@
 
 #include "acceleration/compute_backend.h"
 #include "acceleration/metrics/backend_metrics.h"
+#include "themis_export.h"
 #include <functional>
 #include <memory>
 #include <mutex>
@@ -575,7 +576,7 @@ using GlslCompilerFn = std::function<
  *
  * Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
  */
-void setVulkanGlslCompilerFn(GlslCompilerFn fn);
+THEMIS_BASE_API void setVulkanGlslCompilerFn(GlslCompilerFn fn);
 
 } // namespace acceleration
 } // namespace themis

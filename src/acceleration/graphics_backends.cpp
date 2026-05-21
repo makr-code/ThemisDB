@@ -10,6 +10,7 @@
 // Public interface
 #include "acceleration/graphics_backends.h"
 #include "acceleration/shader_integrity.h"
+#include "utils/geometric_distances.h"
 
 #include <algorithm>
 #include <chrono>
@@ -17,9 +18,11 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <mutex>
+#include <queue>
 #include <string>
 #include <utility>
 #include <vector>

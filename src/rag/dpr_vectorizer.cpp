@@ -63,8 +63,8 @@ public:
     std::optional<themis::rag::judge::ONNXModelInfo> passage_model_info;
     
     // Tokenizers for query and passage encoding
-    std::unique_ptr<themis::llm::LlamaTokenizer> query_tokenizer;
-    std::unique_ptr<themis::llm::LlamaTokenizer> passage_tokenizer;
+    std::unique_ptr<themis::llm::lora::LlamaTokenizer> query_tokenizer;
+    std::unique_ptr<themis::llm::lora::LlamaTokenizer> passage_tokenizer;
 
 #if THEMIS_DPR_HAS_ONNX_RUNTIME
     std::unique_ptr<Ort::Env> ort_env;
@@ -93,13 +93,13 @@ public:
      * @brief Tokenize text with truncation/padding
      */
     std::vector<int> tokenizeText(const std::string& text, 
-                                   themis::llm::LlamaTokenizer* tokenizer) {
+                                   themis::llm::lora::LlamaTokenizer* tokenizer) {
         if (!tokenizer) {
             THEMIS_WARN("Tokenizer not initialized, returning empty token sequence");
             return {};
         }
         
-        auto tokens = tokenizer->tokenize(text);
+        auto tokens = tokenizer->encode(text);
         
         // Truncate if necessary
         if (tokens.size() > config.max_token_length) {
@@ -300,8 +300,8 @@ void DPRVectorizer::initialize() {
                     config_.passage_model_path, passage_model->model_size_bytes);
         
         // Initialize tokenizers
-        impl_->query_tokenizer = std::make_unique<themis::llm::LlamaTokenizer>();
-        impl_->passage_tokenizer = std::make_unique<themis::llm::LlamaTokenizer>();
+        impl_->query_tokenizer = std::make_unique<themis::llm::lora::LlamaTokenizer>(config_.query_model_path);
+        impl_->passage_tokenizer = std::make_unique<themis::llm::lora::LlamaTokenizer>(config_.passage_model_path);
 
 #if THEMIS_DPR_HAS_ONNX_RUNTIME
         try {
@@ -311,10 +311,19 @@ void DPRVectorizer::initialize() {
             impl_->ort_session_options->SetGraphOptimizationLevel(
                 GraphOptimizationLevel::ORT_ENABLE_BASIC);
 
+#ifdef _WIN32
+            std::wstring q_path(config_.query_model_path.begin(), config_.query_model_path.end());
+            std::wstring p_path(config_.passage_model_path.begin(), config_.passage_model_path.end());
+            impl_->query_session = std::make_unique<Ort::Session>(
+                *impl_->ort_env, q_path.c_str(), *impl_->ort_session_options);
+            impl_->passage_session = std::make_unique<Ort::Session>(
+                *impl_->ort_env, p_path.c_str(), *impl_->ort_session_options);
+#else
             impl_->query_session = std::make_unique<Ort::Session>(
                 *impl_->ort_env, config_.query_model_path.c_str(), *impl_->ort_session_options);
             impl_->passage_session = std::make_unique<Ort::Session>(
                 *impl_->ort_env, config_.passage_model_path.c_str(), *impl_->ort_session_options);
+#endif
 
             THEMIS_INFO("DPRVectorizer ONNX sessions created successfully");
         } catch (const std::exception& e) {

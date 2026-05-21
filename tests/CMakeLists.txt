@@ -100,6 +100,11 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_columnar_cache\\.cpp$")
 # that properly links themis_base (which contains vulkan_backend_full.cpp).
 # In non-modular builds, exclude it from ALL_TEST_SOURCES and compile as a focused test too.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_vulkan_glsl_compiler_fn\\.cpp$")
+# test_voice_api_handler.cpp requires VoiceApiHandler which is only compiled
+# when THEMIS_ENABLE_VOICE_ASSISTANT=ON. Exclude from themis_tests otherwise.
+if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
+    list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_voice_api_handler\\.cpp$")
+endif()
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_concurrent_write_controller\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_disaster_recovery_manager\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ethics_ai_.*\\.cpp$")
@@ -1267,7 +1272,7 @@ if(THEMIS_BUILD_MODULAR)
         set(_module_owned_basenames)
         foreach(_dedup_mod
                 themis_base themis_storage themis_security themis_transaction
-                themis_sharding themis_llm themis_query themis_timeseries
+            themis_sharding themis_llm themis_llm_ext themis_query themis_timeseries
                 themis_graph themis_geo themis_content themis_network)
             if(TARGET ${_dedup_mod})
                 get_target_property(_dedup_mod_type ${_dedup_mod} TYPE)
@@ -1533,6 +1538,7 @@ if(THEMIS_BUILD_MODULAR)
             themis_transaction
             themis_sharding
             themis_llm
+            themis_llm_ext
             themis_query
             themis_timeseries
             themis_graph
@@ -1552,6 +1558,7 @@ if(THEMIS_BUILD_MODULAR)
             themis_transaction
             themis_sharding
             themis_llm
+            themis_llm_ext
             themis_query
             themis_timeseries
             themis_graph
@@ -1611,7 +1618,7 @@ if(_themis_tests_sources_final)
     set(_themis_module_owned_basenames_final)
     foreach(_dedup_mod_final
             themis_base themis_storage themis_security themis_transaction
-            themis_sharding themis_llm themis_query themis_timeseries
+            themis_sharding themis_llm themis_llm_ext themis_query themis_timeseries
             themis_graph themis_geo themis_content themis_network)
         if(TARGET ${_dedup_mod_final})
             get_target_property(_dedup_mod_type_final ${_dedup_mod_final} TYPE)
@@ -10413,6 +10420,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp" AND TH
         target_link_libraries(test_llm_timeout_cancellation PRIVATE
             ${TEST_LIBS}
             themis_llm
+            $<$<TARGET_EXISTS:themis_content>:themis_content>
             spdlog::spdlog
             nlohmann_json::nlohmann_json
             OpenSSL::SSL
@@ -10467,6 +10475,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_per_operation_circuit_breakers.cpp")
         target_link_libraries(test_per_operation_circuit_breakers PRIVATE
             ${TEST_LIBS}
             themis_llm
+            $<$<TARGET_EXISTS:themis_content>:themis_content>
             spdlog::spdlog
             nlohmann_json::nlohmann_json
             OpenSSL::SSL
@@ -10521,6 +10530,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp"
         target_link_libraries(test_accurate_token_count_estimation PRIVATE
             ${TEST_LIBS}
             themis_llm
+            $<$<TARGET_EXISTS:themis_content>:themis_content>
             spdlog::spdlog
             nlohmann_json::nlohmann_json
             OpenSSL::SSL
