@@ -15815,6 +15815,7 @@ if(THEMIS_ENABLE_LLM)
             target_link_libraries(test_inference_engine_enhanced_focused PRIVATE
                 ${TEST_LIBS}
                 themis_llm
+                $<$<TARGET_EXISTS:themis_content>:themis_content>
                 spdlog::spdlog
                 nlohmann_json::nlohmann_json
                 OpenSSL::SSL
@@ -15857,6 +15858,7 @@ if(THEMIS_ENABLE_LLM)
             target_link_libraries(test_lookup_decoder_focused PRIVATE
                 ${TEST_LIBS}
                 themis_llm
+                $<$<TARGET_EXISTS:themis_content>:themis_content>
                 spdlog::spdlog
                 Threads::Threads
             )
