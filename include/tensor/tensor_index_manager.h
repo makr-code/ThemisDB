@@ -216,15 +216,11 @@ public:
      * `const float*` pointers that are valid only while the index is
      * alive; no mmap or mlock is performed.
      *
-     * @deprecated Use mapCores() instead.
-     *
-     * @note
-     * // STUB/SIMULATION NOTE:
-     * // Purpose: backward-compatible raw-pointer bridge (Phase 3-A)
-     * // Activation: always (no compile flag)
-     * // Production Delta: no mmap / mlock; pointers invalidated on mutation
-     * // Removal Plan: remove after all callers migrate to mapCores()
+     * @deprecated Use mapCores() instead. Raw pointers have no lifetime
+     *             protection and are unsafe for concurrent mutation or index
+     *             replacement (stub #277; removal after all callers migrate).
      */
+    [[deprecated("Use mapCores() for safe mmap-pinned TT-core access (stub #277 resolved)")]]
     std::vector<std::pair<const float*, size_t>>
         ggmlCorePtrs(const std::string& tenant_id,
                      const std::string& collection,

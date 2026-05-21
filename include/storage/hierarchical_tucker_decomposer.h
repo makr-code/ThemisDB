@@ -66,6 +66,11 @@ namespace storage {
 struct HTConfig {
     std::size_t max_rank = 16;  ///< Maximum rank per node (clamped to min(n_k, N/n_k))
     double      eps      = 0.01; ///< Relative reconstruction error tolerance
+
+    /// Maximum HOOI alternating-optimization iterations after HOSVD initialization.
+    /// Set to 0 to use HOSVD-only (lower quality but faster).  Default 20 iterations
+    /// are sufficient for convergence in most practical cases.
+    std::size_t max_hooi_iter = 20;
 };
 
 // ============================================================================
@@ -100,16 +105,9 @@ public:
      * @throws std::invalid_argument if data.size() != ∏ shape[k], d < 2, or any
      *         shape[k] == 0.
      *
-     * @note
-     * // STUB/SIMULATION NOTE (STUB #287):
-     * // Purpose: HOSVD-based HT initialization so that IHierarchicalTuckerIndex can
-     * //          be exercised before HOOI alternating optimization is available.
-     * // Activation: Always — no compile-time flag required.
-     * // Production Delta: HOSVD is a suboptimal initialization; HOOI iterations
-     * //   minimize ‖T − T̃‖_F to machine precision but require multiple tensor
-     * //   passes.  Reconstruction error may be up to ε·√d higher than optimal.
-     * // Removal Plan: Q2 2028 — add HOOI iteration loop after HOSVD initialization;
-     * //   iterate until ‖T − T̃‖_F / ‖T‖_F < eps or max_iter (default 20) reached.
+     * The decomposition uses HOSVD to initialize factor matrices U_k, then
+     * alternating HOOI iterations (up to HTConfig::max_hooi_iter) to minimize
+     * ‖T − T̃‖_F / ‖T‖_F.  Set max_hooi_iter = 0 to use HOSVD-only initialization.
      */
     std::pair<tensor::HTTrain, Stats>
     decompose(const std::vector<float>&        data,

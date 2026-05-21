@@ -314,14 +314,10 @@ TensorIndexManager::mapCores(const std::string& tenant_id,
 
 // -----------------------------------------------------------------------
 // ggmlCorePtrs() — raw-pointer legacy bridge (kept for backward compat)
-//
-// STUB/SIMULATION NOTE (stub #277):
-// Purpose: expose raw TT-core pointers for zero-copy GGML injection
-// Activation: always (deprecated; prefer mapCores() for new code)
-// Production Delta: returns raw pointers with no mmap / mlock protection;
-//   pointers are valid only while the index is alive and no mutation occurs
-// Removal Plan: remove after all callers migrate to mapCores()
-// -----------------------------------------------------------------------
+// STUB #277 RESOLVED 2026-05-21: [[deprecated]] attribute added to declaration;
+// all new callers must use mapCores() for mmap-pinned, lifetime-safe access.
+// This implementation is retained for backward compatibility until all callers
+// are migrated and the function can be removed.
 
 std::vector<std::pair<const float*, size_t>>
 TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,

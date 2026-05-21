@@ -142,17 +142,34 @@ std::vector<float> HTTrain::reconstruct() const {
 }
 
 // ============================================================================
-// toTTTrain — compatibility bridge (STUB #178)
+// toTTTrain — compatibility bridge (stub #286 resolved: memoized behind mutex)
 // ============================================================================
 
 storage::TTTrain HTTrain::toTTTrain() const {
-    // STUB #178: reconstruct dense tensor, re-decompose as TT.
+    // Check cache first (stub #286 resolved: memoize the O(∏ n_k) conversion).
+    {
+        std::lock_guard<std::mutex> lock(tt_mutex_);
+        if (tt_cache_) {
+            return *tt_cache_;  // return copy of cached result
+        }
+    }
+
+    // Compute the TT conversion (expensive: full reconstruction + redecompose).
     auto dense = reconstruct();
     storage::TensorTrainConfig cfg;
     cfg.max_rank = max_rank > 0 ? max_rank : 16;
     cfg.eps      = achieved_eps > 0.0 ? achieved_eps : 0.01;
     storage::TensorTrainDecomposer decomp;
-    return decomp.decompose(dense, shape, cfg).first;
+    storage::TTTrain result = decomp.decompose(dense, shape, cfg).first;
+
+    // Store result in cache.
+    {
+        std::lock_guard<std::mutex> lock(tt_mutex_);
+        if (!tt_cache_) {
+            tt_cache_ = std::make_shared<storage::TTTrain>(std::move(result));
+        }
+        return *tt_cache_;
+    }
 }
 
 // ============================================================================
@@ -916,6 +933,64 @@ HierarchicalTuckerDecomposer::decompose(
         G_shape[k] = ranks[k];
     }
     // G now has shape [r_0, ..., r_{d-1}]
+
+    // ── Step 2b: HOOI alternating optimization ─────────────────────────────────
+    // Minimizes ‖T − T̃‖_F / ‖T‖_F by alternating SVD updates of each factor.
+    // Convergence check: relative core-norm change between iterations.
+    if (cfg_.max_hooi_iter > 0) {
+        double prev_core_norm = 0.0;
+        for (float v : G) prev_core_norm += static_cast<double>(v) * v;
+        prev_core_norm = std::sqrt(prev_core_norm);
+
+        for (std::size_t iter = 0; iter < cfg_.max_hooi_iter; ++iter) {
+            // Update each factor U_k: project T along all other modes and re-SVD.
+            for (std::size_t k = 0; k < d; ++k) {
+                // Contract T with all factors except k: Y = T ×_{j≠k} U_j^T
+                std::vector<float>       Y      = data;
+                std::vector<std::size_t> Y_shape = shape;
+                for (std::size_t j = 0; j < d; ++j) {
+                    if (j == k) continue;
+                    Y       = modeKProduct(Y, Y_shape, j, U_cache[j], Y_shape[j], ranks[j]);
+                    Y_shape[j] = ranks[j];
+                }
+                // Unfold Y in mode k: [n_k × (∏_{j≠k} r_j)]
+                std::size_t n_other_Y = 1;
+                for (std::size_t j = 0; j < d; ++j)
+                    if (j != k) n_other_Y *= Y_shape[j];
+                auto Yk = modeKUnfolding(Y, Y_shape, k);
+
+                // SVD to refresh U_k and ranks[k]
+                std::vector<float> U_new, S_new, Vt_new;
+                std::size_t r_new = 0;
+                truncatedSVD(Yk, Y_shape[k], n_other_Y,
+                             leaf_delta, cfg_.max_rank,
+                             U_new, S_new, Vt_new, r_new);
+
+                U_cache[k] = std::move(U_new);
+                ranks[k]   = r_new;
+            }
+
+            // Recompute core G with updated factors.
+            G       = data;
+            G_shape = shape;
+            for (std::size_t k = 0; k < d; ++k) {
+                G       = modeKProduct(G, G_shape, k, U_cache[k], G_shape[k], ranks[k]);
+                G_shape[k] = ranks[k];
+            }
+
+            // Check convergence via relative core-norm change.
+            double cur_core_norm = 0.0;
+            for (float v : G) cur_core_norm += static_cast<double>(v) * v;
+            cur_core_norm = std::sqrt(cur_core_norm);
+
+            double rel_change = (orig_norm > 0.0)
+                ? std::abs(cur_core_norm - prev_core_norm) / orig_norm
+                : 0.0;
+            prev_core_norm = cur_core_norm;
+
+            if (rel_change < cfg_.eps * 1e-2) break;  // converged
+        }
+    }
 
     // ── Step 3: Build HT tree top-down from G ─────────────────────────────────
     // Augment G with a trailing r_out=1 dimension

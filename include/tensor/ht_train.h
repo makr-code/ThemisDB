@@ -52,6 +52,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <vector>
@@ -196,8 +197,32 @@ struct HTTrain {
     // ── Move / copy ────────────────────────────────────────────────────────────
 
     HTTrain() = default;
-    HTTrain(HTTrain&&) noexcept = default;
-    HTTrain& operator=(HTTrain&&) noexcept = default;
+
+    // Explicit move ctor: move all data members; mutex is default-constructed
+    // (mutexes are not moveable in C++).
+    HTTrain(HTTrain&& other) noexcept
+        : root(std::move(other.root))
+        , shape(std::move(other.shape))
+        , max_rank(other.max_rank)
+        , achieved_eps(other.achieved_eps)
+        , original_norm(other.original_norm)
+        , tt_cache_(std::move(other.tt_cache_))
+        // tt_mutex_ default-constructed
+    {}
+
+    // Explicit move assignment.
+    HTTrain& operator=(HTTrain&& other) noexcept {
+        if (this != &other) {
+            root         = std::move(other.root);
+            shape        = std::move(other.shape);
+            max_rank     = other.max_rank;
+            achieved_eps = other.achieved_eps;
+            original_norm = other.original_norm;
+            std::lock_guard<std::mutex> lock(tt_mutex_);
+            tt_cache_    = std::move(other.tt_cache_);
+        }
+        return *this;
+    }
 
     // No implicit copy; use clone()
     HTTrain(const HTTrain&)            = delete;
@@ -205,6 +230,12 @@ struct HTTrain {
 
     /// Deep-copy the entire HT tree.
     HTTrain clone() const;
+
+private:
+    // Memoised TT-train conversion cache (stub #286 resolved).
+    // guarded by tt_mutex_; std::shared_ptr allows the cache to outlive a move.
+    mutable std::shared_ptr<storage::TTTrain> tt_cache_;
+    mutable std::mutex                         tt_mutex_;
 };
 
 // ============================================================================

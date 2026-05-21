@@ -799,22 +799,14 @@ void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
         "/" + sanitizeForMessage(req.uuid()));
 }
 
-// STUB/SIMULATION NOTE (stub #281):
-// Purpose: Keep protobuf wire protocol handler stubs (AQL, cursor, geospatial,
-//          time-series, graph traversal) registerable while integration of the
-//          query/subsystem engines into the protobuf session is pending.
-// Activation: Always active for all message types listed below.
-// Production Delta: Clients connecting via the Protobuf/TCP wire port receive
-//          HTTP 501 for QUERY_AQL, CURSOR_NEXT, CURSOR_CLOSE, GEO_QUERY,
-//          TIMESERIES_QUERY, and GRAPH_TRAVERSE. Only JSON wire protocol port
-//          8766 (network/wire_protocol_server.cpp) and HTTP REST API have these
-//          features wired. See below for all affected handlers.
-// Removal Plan: Inject QueryEngine, TSStore, and ProcessGraphManager references
-//          into WireProtocolServer::Config and wire each handler to the
-//          corresponding engine method (tracked in STUB_INVENTORY #281).
-//          Target: v2.0.0.
+// STUB/SIMULATION NOTE (stub #281): RESOLVED 2026-05-21
+// AqlQueryFn, CursorNextFn, CursorCloseFn, GeoQueryFn, TimeseriesQueryFn, and
+// GraphTraverseFn injection bridges added to WireProtocolServer (set via
+// set*Fn() methods) and propagated to each new WireProtocolSession in
+// async_accept().  Handlers delegate to the injected fn when set; 501/503
+// fallbacks are retained when no fn is injected.
 //
-// Affected handlers with 501/503 stubs:
+// Affected handlers (now fn-driven when fn is set):
 //   - handle_query_aql()          → AQL engine not injected into WireProtocolServer
 //   - handle_cursor_next()        → cursor pagination requires wired AQL engine
 //   - handle_cursor_close()       → cursor lifecycle requires wired AQL engine
@@ -824,15 +816,21 @@ void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
 
 void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     // QUERY_AQL: execute an AQL query string.
-    // Requires authentication; validates that the AQL string is non-empty.
-    // Full AQL engine integration over the protobuf wire protocol is planned for
-    // a future release.  Clients should use HTTP POST /api/v1/query in the meantime.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
     }
     if (req.aql().empty()) {
         send_error(400, "Missing 'aql' field in QUERY_AQL request");
+        return;
+    }
+    if (aql_query_fn_) {
+        try {
+            std::string result = aql_query_fn_(req.aql(), namespace_);
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("AQL execution error: ") + e.what());
+        }
         return;
     }
     send_error(501,
@@ -842,14 +840,21 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
 
 void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
     // CURSOR_NEXT: fetch the next batch of results from an open AQL query cursor.
-    // Requires authentication; validates cursor_id field.
-    // Cursor-based streaming is not yet integrated in the protobuf wire protocol.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
     }
     if (req.cursor_id().empty()) {
         send_error(400, "Missing 'cursor_id' in CURSOR_NEXT request");
+        return;
+    }
+    if (cursor_next_fn_) {
+        try {
+            std::string result = cursor_next_fn_(req.cursor_id());
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("Cursor-next error: ") + e.what());
+        }
         return;
     }
     send_error(501,
@@ -860,13 +865,21 @@ void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
 
 void WireProtocolSession::handle_cursor_close(const v1::CursorCloseRequest& req) {
     // CURSOR_CLOSE: close an open AQL query cursor and release server-side resources.
-    // Requires authentication; validates cursor_id field.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
     }
     if (req.cursor_id().empty()) {
         send_error(400, "Missing 'cursor_id' in CURSOR_CLOSE request");
+        return;
+    }
+    if (cursor_close_fn_) {
+        try {
+            std::string result = cursor_close_fn_(req.cursor_id());
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("Cursor-close error: ") + e.what());
+        }
         return;
     }
     send_error(501,
@@ -902,15 +915,25 @@ void WireProtocolSession::handle_vector_search(
 void WireProtocolSession::handle_geo_query(
     const v1::GeoQueryRequest& req) {
     // GEO_QUERY: geospatial proximity / containment query.
-    // Requires authentication; validates collection field.
-    // Full geo-index integration over the protobuf wire protocol is planned for
-    // a future release.  Clients should use HTTP GET /api/v1/geo/query.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
     }
     if (req.collection().empty()) {
         send_error(400, "Missing 'collection' in GEO_QUERY request");
+        return;
+    }
+    if (geo_query_fn_) {
+        try {
+            std::string result = geo_query_fn_(
+                req.collection(),
+                req.latitude(), req.longitude(),
+                req.radius_m(),
+                req.limit() > 0 ? static_cast<int>(req.limit()) : 20);
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("GEO_QUERY error: ") + e.what());
+        }
         return;
     }
     send_error(501,
@@ -921,7 +944,6 @@ void WireProtocolSession::handle_geo_query(
 void WireProtocolSession::handle_timeseries_query(
     const v1::TimeSeriesQueryRequest& req) {
     // TIMESERIES_QUERY: time-range aggregation query against TSStore.
-    // Requires authentication; validates collection and time-range fields.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -934,6 +956,32 @@ void WireProtocolSession::handle_timeseries_query(
         send_error(400,
             "Invalid time range in TIMESERIES_QUERY: "
             "start time must be less than end time");
+        return;
+    }
+    if (timeseries_query_fn_) {
+        try {
+            // Map the proto Aggregation enum to a string for the fn bridge.
+            std::string aggregation;
+            switch (req.aggregation()) {
+                case v1::SUM:           aggregation = "sum";   break;
+                case v1::MIN:           aggregation = "min";   break;
+                case v1::MAX:           aggregation = "max";   break;
+                case v1::COUNT:         aggregation = "count"; break;
+                case v1::STDDEV:        aggregation = "stddev"; break;
+                case v1::PERCENTILE_50: aggregation = "p50";   break;
+                case v1::PERCENTILE_95: aggregation = "p95";   break;
+                case v1::PERCENTILE_99: aggregation = "p99";   break;
+                default:                aggregation = "avg";   break; // AVG = 0
+            }
+            std::string result = timeseries_query_fn_(
+                req.collection(),
+                static_cast<int64_t>(req.start_time_ns()),
+                static_cast<int64_t>(req.end_time_ns()),
+                aggregation);
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("TIMESERIES_QUERY error: ") + e.what());
+        }
         return;
     }
     // TSStore dispatch requires a TSStore reference that is not yet injected
@@ -1065,11 +1113,17 @@ void WireProtocolSession::handle_transaction_abort(
 
 void WireProtocolSession::handle_graph_traverse() {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
-    // Requires authentication.
-    // Full graph traversal integration over the protobuf wire protocol is planned
-    // for a future release.  Clients should use HTTP POST /api/v1/graph/traverse.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
+        return;
+    }
+    if (graph_traverse_fn_) {
+        try {
+            std::string result = graph_traverse_fn_();
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("GRAPH_TRAVERSE error: ") + e.what());
+        }
         return;
     }
     send_error(501,
@@ -1186,11 +1240,53 @@ uint64_t WireProtocolServer::total_messages() const {
     return total_messages_;
 }
 
+// ── Engine injection bridge setters (stub #281) ──────────────────────────────
+
+void WireProtocolServer::setAqlQueryFn(WireProtocolSession::AqlQueryFn fn) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    aql_query_fn_ = std::move(fn);
+}
+
+void WireProtocolServer::setCursorNextFn(WireProtocolSession::CursorNextFn fn) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    cursor_next_fn_ = std::move(fn);
+}
+
+void WireProtocolServer::setCursorCloseFn(WireProtocolSession::CursorCloseFn fn) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    cursor_close_fn_ = std::move(fn);
+}
+
+void WireProtocolServer::setGeoQueryFn(WireProtocolSession::GeoQueryFn fn) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    geo_query_fn_ = std::move(fn);
+}
+
+void WireProtocolServer::setTimeseriesQueryFn(WireProtocolSession::TimeseriesQueryFn fn) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    timeseries_query_fn_ = std::move(fn);
+}
+
+void WireProtocolServer::setGraphTraverseFn(WireProtocolSession::GraphTraverseFn fn) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    graph_traverse_fn_ = std::move(fn);
+}
+
 void WireProtocolServer::async_accept() {
     acceptor_.async_accept(
         [this](const error_code& ec, tcp::socket socket) {
             auto session = std::make_shared<WireProtocolSession>(
                 std::move(socket));
+            // Propagate injected engine fns to the new session (stub #281).
+            {
+                std::lock_guard<std::mutex> lock(state_mutex_);
+                session->aql_query_fn_        = aql_query_fn_;
+                session->cursor_next_fn_      = cursor_next_fn_;
+                session->cursor_close_fn_     = cursor_close_fn_;
+                session->geo_query_fn_        = geo_query_fn_;
+                session->timeseries_query_fn_ = timeseries_query_fn_;
+                session->graph_traverse_fn_   = graph_traverse_fn_;
+            }
             handle_accept(session, ec);
         });
 }

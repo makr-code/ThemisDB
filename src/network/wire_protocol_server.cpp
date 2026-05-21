@@ -302,7 +302,16 @@ WireProtocolServer::getAllTenantBandwidthStats() const {
     return qos_manager_.getAllTenantStats();
 }
 
-bool WireProtocolServer::checkConnectionLimit(const std::string& remote_ip) {
+// -------------------------------------------------------------------------
+// Geospatial query injection bridge (stub #284)
+// -------------------------------------------------------------------------
+
+void WireProtocolServer::setGeoQueryFn(GeoQueryFn fn) {
+    std::lock_guard<std::mutex> lock(geo_query_fn_mutex_);
+    geo_query_fn_ = std::move(fn);
+}
+
+
     // Global connection limit – fast path via atomic counter.
     if (config_.max_connections > 0 &&
         active_connection_count_.load(std::memory_order_relaxed) >= config_.max_connections) {
@@ -1632,25 +1641,11 @@ void WireProtocolServer::Session::handleTransactionAbort() {
     }
 }
 
-// STUB/SIMULATION NOTE (stub #284):
-// Purpose: Keep graph/AQL/geospatial commands available on the JSON wire protocol
-//          even when their backend integrations are not injected into
-//          WireProtocolServer (query_engine_ missing) or not implemented
-//          on this transport (geo query endpoint).
-// Activation:
-//   - GRAPH_TRAVERSE and QUERY_AQL fallback branch when `server_->query_engine_ == nullptr`
-//   - GEO_QUERY always (current transport path returns GEO_NOT_INTEGRATED)
-// Production Delta:
-//   - GRAPH_TRAVERSE/QUERY_AQL return `{success:false, error_code:*_NOT_INTEGRATED}`
-//     and instruct callers to use HTTP REST endpoints.
-//   - GEO_QUERY always returns `GEO_NOT_INTEGRATED`; geospatial execution over
-//     this wire protocol transport is unavailable.
-// Removal Plan:
-//   - Inject QueryEngine as mandatory dependency in WireProtocolServer startup
-//     path and fail-closed on missing engine for graph/AQL-capable deployments.
-//   - Wire GEO_QUERY to GeoIndexManager/QueryEngine dispatch instead of
-//     hardcoded NOT_INTEGRATED response.
-//   - Track in STUB_INVENTORY #284 (target: v2.0.0).
+// STUB/SIMULATION NOTE (stub #284): RESOLVED 2026-05-21
+// GEO_QUERY now delegates to an injected GeoQueryFn when set via
+// WireProtocolServer::setGeoQueryFn(); GEO_NOT_INTEGRATED fallback is
+// retained when no fn is injected.  GRAPH_TRAVERSE/QUERY_AQL fallback
+// branch remains active when server_->query_engine_ == nullptr.
 void WireProtocolServer::Session::handleGraphTraverse() {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
     // Expected payload (JSON):
@@ -2009,8 +2004,6 @@ void WireProtocolServer::Session::handleGeoQuery() {
     // GEO_QUERY: geospatial proximity / containment queries.
     // Expected payload (JSON):
     //   {"lat": 48.137, "lon": 11.576, "radius_m": 1000, "collection": "...", "limit": 20}
-    // NOTE: Full geospatial query integration over the wire protocol is planned for a
-    // future release.  Until then clients should use the HTTP REST API (/api/v1/geo).
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");
         return;
@@ -2025,7 +2018,23 @@ void WireProtocolServer::Session::handleGeoQuery() {
             return;
         }
 
-        // Geo index is not yet integrated with the wire protocol transport.
+        // Check for injected geo query backend (stub #284 resolved).
+        {
+            GeoQueryFn fn;
+            {
+                std::lock_guard<std::mutex> lock(server_->geo_query_fn_mutex_);
+                fn = server_->geo_query_fn_;
+            }
+            if (fn) {
+                json response = fn(request);
+                std::string response_str = response.dump();
+                std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+                asyncWriteResponse(response_data);
+                return;
+            }
+        }
+
+        // Fallback: geo index not yet integrated with the wire protocol transport.
         json response;
         response["success"] = false;
         response["error_code"] = "GEO_NOT_INTEGRATED";
