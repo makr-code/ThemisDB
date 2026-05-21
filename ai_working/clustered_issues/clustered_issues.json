@@ -69,7 +69,14 @@
       },
       "total_gaps": 1620,
       "severity": "critical",
-      "example_count": 5
+      "example_count": 5,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5231",
+        "https://github.com/makr-code/ThemisDB/issues/5245",
+        "https://github.com/makr-code/ThemisDB/issues/5246"
+      ],
+      "note": "Pending creation. Related: #5231 (meta scanner), #5245-#5254 (P0-CRITICAL modules)"
     },
     {
       "id": "META-002",
@@ -130,7 +137,12 @@
       },
       "total_gaps": 384,
       "severity": "high",
-      "example_count": 5
+      "example_count": 5,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5231"
+      ],
+      "note": "Pending creation. Related: #5231 (meta scanner)"
     },
     {
       "id": "META-003",
@@ -152,7 +164,12 @@
       },
       "total_gaps": 29,
       "severity": "medium",
-      "example_count": 5
+      "example_count": 5,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5231"
+      ],
+      "note": "Pending creation. Related: #5231 (meta scanner)"
     },
     {
       "id": "MOD-acceleration",
@@ -166,7 +183,12 @@
       },
       "total_gaps": 235,
       "severity": "critical",
-      "example_count": 4
+      "example_count": 4,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5257"
+      ],
+      "note": "Pending creation. Related per-module issue: #5257"
     },
     {
       "id": "MOD-ingestion",
@@ -181,7 +203,12 @@
       },
       "total_gaps": 178,
       "severity": "critical",
-      "example_count": 5
+      "example_count": 5,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5280"
+      ],
+      "note": "Pending creation. Related per-module issue: #5280"
     },
     {
       "id": "MOD-llm",
@@ -196,7 +223,13 @@
       },
       "total_gaps": 151,
       "severity": "critical",
-      "example_count": 5
+      "example_count": 5,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5245",
+        "https://github.com/makr-code/ThemisDB/issues/5317"
+      ],
+      "note": "Pending creation. Related: #5245 (P0-CRITICAL), #5317 (Phase 3)"
     },
     {
       "id": "MOD-security",
@@ -210,7 +243,13 @@
       },
       "total_gaps": 139,
       "severity": "critical",
-      "example_count": 4
+      "example_count": 4,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5253",
+        "https://github.com/makr-code/ThemisDB/issues/5320"
+      ],
+      "note": "Pending creation. Related: #5253 (P0-CRITICAL), #5320 (Phase 3)"
     },
     {
       "id": "MOD-index",
@@ -225,7 +264,13 @@
       },
       "total_gaps": 94,
       "severity": "critical",
-      "example_count": 5
+      "example_count": 5,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5249",
+        "https://github.com/makr-code/ThemisDB/issues/5316"
+      ],
+      "note": "Pending creation. Related: #5249 (P0-CRITICAL), #5316 (Phase 3)"
     },
     {
       "id": "MOD-storage",
@@ -239,7 +284,13 @@
       },
       "total_gaps": 84,
       "severity": "critical",
-      "example_count": 4
+      "example_count": 4,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5250",
+        "https://github.com/makr-code/ThemisDB/issues/5323"
+      ],
+      "note": "Pending creation. Related: #5250 (P0-CRITICAL), #5323 (Phase 3)"
     },
     {
       "id": "GROUP-001",
@@ -259,7 +310,16 @@
       },
       "total_gaps": 292,
       "severity": "high",
-      "example_count": 5
+      "example_count": 5,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5248",
+        "https://github.com/makr-code/ThemisDB/issues/5286",
+        "https://github.com/makr-code/ThemisDB/issues/5301",
+        "https://github.com/makr-code/ThemisDB/issues/5275",
+        "https://github.com/makr-code/ThemisDB/issues/5284"
+      ],
+      "note": "Pending creation. Related: #5248 (sharding), #5286 (network), #5301 (tensor), #5275 (geo), #5284 (maintenance)"
     },
     {
       "id": "GROUP-002",
@@ -277,7 +337,15 @@
       },
       "total_gaps": 186,
       "severity": "high",
-      "example_count": 5
+      "example_count": 5,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5247",
+        "https://github.com/makr-code/ThemisDB/issues/5298",
+        "https://github.com/makr-code/ThemisDB/issues/5252",
+        "https://github.com/makr-code/ThemisDB/issues/5296"
+      ],
+      "note": "Pending creation. Related: #5247 (query), #5298 (search), #5252 (rag), #5296 (scheduler)"
     },
     {
       "id": "GROUP-003",
@@ -296,7 +364,16 @@
       },
       "total_gaps": 264,
       "severity": "high",
-      "example_count": 5
+      "example_count": 5,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5245",
+        "https://github.com/makr-code/ThemisDB/issues/5267",
+        "https://github.com/makr-code/ThemisDB/issues/5305",
+        "https://github.com/makr-code/ThemisDB/issues/5301",
+        "https://github.com/makr-code/ThemisDB/issues/5293"
+      ],
+      "note": "Pending creation. Related: #5245 (llm), #5267 (ai), #5305 (training), #5301 (tensor), #5293 (prompt_engineering)"
     },
     {
       "id": "GROUP-004",
@@ -312,7 +389,42 @@
       },
       "total_gaps": 107,
       "severity": "high",
-      "example_count": 4
+      "example_count": 4,
+      "github_url": "NOT_CREATED",
+      "related_github_issues": [
+        "https://github.com/makr-code/ThemisDB/issues/5286",
+        "https://github.com/makr-code/ThemisDB/issues/5262",
+        "https://github.com/makr-code/ThemisDB/issues/5294",
+        "https://github.com/makr-code/ThemisDB/issues/5263"
+      ],
+      "note": "Pending creation. Related: #5286 (network), #5262 (cache), #5294 (replication), #5263 (cdc)"
     }
-  ]
+  ],
+  "per_module_issues_created": {
+    "status": "CREATED",
+    "created_date": "2026-05-19",
+    "count": 55,
+    "issue_range": "#5257\u2013#5311",
+    "note": "Per-module Gap Remediation issues created on 2026-05-19 (7-phase workflow model)"
+  },
+  "p0_critical_issues_created": {
+    "status": "CREATED",
+    "created_date": "2026-05-19",
+    "count": 10,
+    "issue_range": "#5245\u2013#5254",
+    "note": "P0-CRITICAL module issues for top 10 modules by gap count"
+  },
+  "phase3_codegen_issues_created": {
+    "status": "CREATED",
+    "created_date": "2026-05-19",
+    "count": 10,
+    "issue_range": "#5314\u2013#5323",
+    "note": "Phase 3 Code Generation issues for top modules"
+  },
+  "meta_scanner_issue_created": {
+    "status": "CREATED",
+    "github_url": "https://github.com/makr-code/ThemisDB/issues/5231",
+    "note": "Phase 1-5 Gap Scanner Analysis meta issue"
+  },
+  "last_updated": "2026-05-20"
 }
