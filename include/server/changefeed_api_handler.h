@@ -22,7 +22,10 @@
 
 #pragma once
 
+#include <chrono>
+#include <functional>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <optional>
 #include <boost/beast/http.hpp>
@@ -63,6 +66,61 @@ class SseConnectionManager;
  */
 class ChangefeedApiHandler {
 public:
+    // ─── Async SSE stream writer bridge (stub #305 resolution) ──────────────
+
+    /**
+     * @brief Injection bridge for a production async SSE write loop.
+     *
+     * When registered via `setSseStreamWriterFn()`, the SSE keep-alive
+     * handler delegates the entire event-push lifecycle to this function
+     * instead of running its own sync busy-wait poll loop.  This allows the
+     * caller (e.g., an Asio-backed HTTP/2 session) to drive writes through
+     * its own async strand.
+     *
+     * The function must:
+     *  - Call `mgr.pollRawEvents(conn_id, …)` to drain buffered raw events.
+     *  - Format each event as SSE (`"id: N\ndata: {...}\n\n"`) and write to
+     *    `body`.
+     *  - Send heartbeat comments (`": heartbeat\n\n"`) as needed.
+     *  - Return when `max_duration` has elapsed or the client disconnects.
+     *
+     * The handler's delivery_tracker is NOT passed here; callers that need
+     * at-least-once tracking should obtain raw events from the manager and
+     * call the tracker themselves via a separate injection.
+     *
+     * @param mgr              Active SSE connection manager.
+     * @param conn_id          Connection ID returned by registerConnection().
+     * @param body             Output stream for SSE lines.
+     * @param max_duration     Maximum wall-clock duration for the stream.
+     * @param heartbeat_ms     Heartbeat interval hint (0 = use manager default).
+     * @param max_events_per_poll Maximum events to drain per poll cycle.
+     */
+    using SseStreamWriterFn = std::function<void(
+        SseConnectionManager& mgr,
+        uint64_t conn_id,
+        std::ostream& body,
+        std::chrono::seconds max_duration,
+        uint32_t heartbeat_ms,
+        size_t max_events_per_poll
+    )>;
+
+    /**
+     * @brief Register an async SSE stream writer for keep-alive connections.
+     *
+     * Thread-safe.  Replaces any previously registered writer.
+     *
+     * @param fn  Writer function; may be empty to clear.
+     */
+    static void setSseStreamWriterFn(SseStreamWriterFn fn);
+
+    /**
+     * @brief Clear any previously registered SSE stream writer.
+     *
+     * After this call the handler reverts to its built-in sync poll loop.
+     * Thread-safe.
+     */
+    static void clearSseStreamWriterFn();
+
     /**
      * @brief Construct a new Changefeed API Handler
      * 
@@ -181,6 +239,10 @@ private:
     /// At-least-once delivery tracker for SSE consumers.
     /// Tracks in-flight events per consumer_id until the client ACKs them.
     cdc::DeliveryTracker delivery_tracker_;
+
+    // Static async SSE stream writer bridge (guarded by sse_writer_mutex_).
+    static SseStreamWriterFn sse_stream_writer_fn_;
+    static std::mutex        sse_writer_mutex_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(
