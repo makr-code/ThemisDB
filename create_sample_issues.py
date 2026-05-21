@@ -8,6 +8,7 @@ import json
 import subprocess
 from pathlib import Path
 from datetime import datetime
+from urllib.parse import urlparse
 
 ISSUE_BODY_TEMPLATE = """# Gap Remediation Phases 1-10: {module}
 
@@ -130,9 +131,15 @@ Starting issue creation...
             if result.returncode == 0:
                 # Extract issue number
                 output_lines = result.stdout.strip().split('\n')
-                issue_url = [l for l in output_lines if 'github.com' in l]
-                if issue_url:
-                    issue_num = issue_url[0].split('/')[-1]
+                issue_num = None
+                for l in output_lines:
+                    parsed = urlparse(l.strip())
+                    if parsed.scheme in ("http", "https") and parsed.hostname == "github.com":
+                        candidate = parsed.path.rstrip('/').split('/')[-1]
+                        if candidate.isdigit():
+                            issue_num = candidate
+                            break
+                if issue_num:
                     print(f"✓ #{issue_num}")
                     created.append((module, issue_num))
                 else:
