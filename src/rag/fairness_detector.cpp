@@ -283,7 +283,8 @@ public:
         // Compute dot product (projection onto bias vector)
         double projection = 0.0;
         for (size_t i = 0; i < word_emb.size(); ++i) {
-            projection += word_emb[i] * bias_vector[i];
+            projection += static_cast<double>(word_emb[i]) *
+                          static_cast<double>(bias_vector[i]);
         }
         
         // Normalize to [0, 1] range
