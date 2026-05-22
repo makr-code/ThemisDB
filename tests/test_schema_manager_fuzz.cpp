@@ -43,8 +43,8 @@ static bool tryParse(const json& j) {
 // ============================================================================
 
 TEST(SchemaManagerFuzzTest, EmptyObject) {
-    // Minimum valid schema: even an empty object must not crash
-    EXPECT_NO_THROW(SchemaManager::parseTableSchema(json::object()));
+    // Empty schema is invalid because the required "name" field is missing.
+    EXPECT_THROW(SchemaManager::parseTableSchema(json::object()), std::runtime_error);
 }
 
 TEST(SchemaManagerFuzzTest, MinimalValidSchema) {

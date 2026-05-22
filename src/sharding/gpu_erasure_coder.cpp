@@ -86,6 +86,7 @@ bool GPUErasureCoder::initializeGPU() {
     
     // Create platform-specific implementation
     try {
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_OPENCL)
         switch (accel_type_) {
 #ifdef THEMIS_ENABLE_CUDA
             case AccelerationType::GPU_CUDA:
@@ -103,6 +104,10 @@ bool GPUErasureCoder::initializeGPU() {
                 spdlog::error("Requested GPU acceleration type not available");
                 return false;
         }
+        #else
+            spdlog::error("Requested GPU acceleration type not available");
+            return false;
+        #endif
         
         if (!impl_ || !impl_->initialize(config_)) {
             spdlog::error("Failed to initialize GPU erasure coder implementation");

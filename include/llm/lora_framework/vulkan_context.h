@@ -31,6 +31,7 @@
 #endif
 
 #include <vector>
+#include <array>
 #include <string>
 #include <memory>
 #include <cstdint>
@@ -210,13 +211,15 @@ private:
     bool initialized_ = false;
     bool validation_enabled_ = false;
     
-    // Validation layers
-    static const std::vector<const char*> validation_layers_;
+    // Validation layers (returned by value to avoid static storage initialization concerns)
+    static constexpr std::array<const char*, 1> validation_layers() noexcept {
+        return {"VK_LAYER_KHRONOS_validation"};
+    }
     
     /**
      * @brief Check if validation layers are available
      */
-    bool check_validation_layer_support() const;
+    static bool check_validation_layer_support();
 };
 
 } // namespace vulkan

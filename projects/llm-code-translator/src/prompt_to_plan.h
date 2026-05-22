@@ -40,7 +40,7 @@ struct PromptToPlanConfig {
     // Multi-sample configuration (for neural approaches)
     bool use_multi_sample = false;          // Generate multiple candidates
     int num_samples = 10;                   // Number of candidates
-    float sample_temperature = 0.8;         // Temperature for sampling
+    float sample_temperature = 0.8f;        // Temperature for sampling
 };
 
 /**

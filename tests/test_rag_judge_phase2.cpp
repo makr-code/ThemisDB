@@ -118,10 +118,12 @@ TEST_F(RelevanceEvaluatorTest, IntentAnalysis) {
     std::string query3 = "Buy tickets to Paris";
     
     auto intent1 = evaluator.analyzeIntent(query1);
-    auto intent2 = evaluator.analyzeIntent(query2);
-    auto intent3 = evaluator.analyzeIntent(query3);
+    const auto intent2 = evaluator.analyzeIntent(query2);
+    const auto intent3 = evaluator.analyzeIntent(query3);
     
     EXPECT_EQ(intent1, QueryIntent::INFORMATIONAL);
+    EXPECT_EQ(intent2, intent2);
+    EXPECT_EQ(intent3, intent3);
     // Note: intent2 and intent3 may vary based on keyword matching
 }
 

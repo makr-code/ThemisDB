@@ -78,7 +78,7 @@ std::string AQLIngestionBridge::enrichInsertPayload(nlohmann::json& payload) {
         // available here, so we write only the nodes. Relations require the
         // full BaseEntitySet produced by the workflow, which is accessible via
         // the WorkflowEngine directly when needed.
-        graph_writer_->writeEntities(entities);
+        static_cast<void>(graph_writer_->writeEntities(entities));
     }
 
     return buildEntityContext(entities);

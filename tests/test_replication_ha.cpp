@@ -27,6 +27,7 @@
 #include "replication/multi_tier_replication.h"
 
 #include <algorithm>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <future>
@@ -258,8 +259,11 @@ TEST_F(WALChecksumTest, CorruptChecksumEntryIsDropped) {
         std::fstream fs(seg_path, std::ios::in | std::ios::out | std::ios::binary);
         ASSERT_TRUE(fs.is_open());
         // Seek close to end and flip a byte to corrupt the checksum field
-        fs.seekp(-4, std::ios::end);
-        const unsigned char dummy = 0xFFu;
+        fs.seekg(static_cast<std::streamoff>(-4), std::ios::end);
+        std::uint8_t dummy{};
+        fs.read(reinterpret_cast<char*>(&dummy), 1);
+        dummy ^= static_cast<std::uint8_t>(0x1u);
+        fs.seekp(static_cast<std::streamoff>(-4), std::ios::end);
         fs.write(reinterpret_cast<const char*>(&dummy), 1);
     }
 

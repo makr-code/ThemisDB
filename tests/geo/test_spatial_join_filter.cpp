@@ -141,7 +141,12 @@ TEST(SpatialJoinFilter, SJF06_DWithin_Within) {
 // ---------------------------------------------------------------------------
 
 TEST(SpatialJoinFilter, SJF07_DWithin_NegativeRadius_Throws) {
-    EXPECT_THROW(SpatialJoinFilter::dWithin(-1.0), std::invalid_argument);
+    EXPECT_THROW(
+        {
+            auto filter = SpatialJoinFilter::dWithin(-1.0);
+            static_cast<void>(filter);
+        },
+        std::invalid_argument);
 }
 
 // ---------------------------------------------------------------------------

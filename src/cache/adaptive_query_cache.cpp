@@ -757,8 +757,8 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         if (!pii_uuids.empty()) {
             std::lock_guard<std::mutex> plock(pii_index_mutex_);
             for (const auto &pii_uuid : pii_uuids) {
-                pii_key_index_[pii_uuid].insert(key);         // tenanted version
-                pii_key_index_[pii_uuid].insert(fingerprint); // untenanted version
+                static_cast<void>(pii_key_index_[pii_uuid].insert(key));         // tenanted version
+                static_cast<void>(pii_key_index_[pii_uuid].insert(fingerprint)); // untenanted version
             }
         }
         notifyCoordinator();
@@ -803,8 +803,8 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         if (!pii_uuids.empty()) {
             std::lock_guard<std::mutex> plock(pii_index_mutex_);
             for (const auto &pii_uuid : pii_uuids) {
-                pii_key_index_[pii_uuid].insert(fingerprint); // untenanted version
-                pii_key_index_[pii_uuid].insert(key);         // tenanted version
+                static_cast<void>(pii_key_index_[pii_uuid].insert(fingerprint)); // untenanted version
+                static_cast<void>(pii_key_index_[pii_uuid].insert(key));         // tenanted version
             }
         }
         notifyCoordinator();
@@ -850,7 +850,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
                     }
                     enhanced_metrics_.total_bytes_cached += result_size;
                     for (const auto &pii_uuid : pii_uuids) {
-                        l3_db_->put("pii_ref:" + pii_uuid + ":" + fingerprint, "");
+                        static_cast<void>(l3_db_->put("pii_ref:" + pii_uuid + ":" + fingerprint, ""));
                     }
                 } else {
                     enhanced_metrics_.l3_write_errors++;
@@ -1049,22 +1049,22 @@ void AdaptiveQueryCache::clear() {
         try {
             {
                 std::lock_guard<std::mutex> lock(l3_mutex_);
-                l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&keys](std::string_view key, std::string_view) {
+                static_cast<void>(l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&keys](std::string_view key, std::string_view) {
                     keys.emplace_back(key);
                     return true;
-                });
+                }));
                 // GDPR: Also collect L3 PII reference index entries
-                l3_db_->scanPrefix("pii_ref:", [&pii_ref_keys](std::string_view key, std::string_view) {
+                static_cast<void>(l3_db_->scanPrefix("pii_ref:", [&pii_ref_keys](std::string_view key, std::string_view) {
                     pii_ref_keys.emplace_back(key);
                     return true;
-                });
+                }));
             }
             // Deletes happen outside l3_mutex_ to avoid blocking readers.
             for (const auto &del_key : keys) {
-                l3_db_->del(del_key);
+                static_cast<void>(l3_db_->del(del_key));
             }
             for (const auto &del_key : pii_ref_keys) {
-                l3_db_->del(del_key);
+                static_cast<void>(l3_db_->del(del_key));
             }
         } catch (const std::exception &e) {
             THEMIS_WARN("Failed to clear L3 cache: {}", e.what());
@@ -2020,7 +2020,7 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string &pii_uuid) {
                     }
                 }
                 for (const auto &rk : pii_ref_keys) {
-                    l3_db_->del(rk);
+                    static_cast<void>(l3_db_->del(rk));
                 }
                 std::lock_guard<std::mutex> lock(l3_mutex_);
                 if (l3_circuit_breaker_) {

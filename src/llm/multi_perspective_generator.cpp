@@ -22,6 +22,7 @@
 #include <unordered_set>
 #include <cmath>
 #include <chrono>
+#include <limits>
 
 namespace themis {
 namespace llm {
@@ -31,14 +32,20 @@ namespace llm {
 // ═══════════════════════════════════════════════════════════
 
 namespace {
+int clampSizeToInt(const size_t value) {
+    const size_t int_max = static_cast<size_t>(std::numeric_limits<int>::max());
+    return static_cast<int>(std::min(value, int_max));
+}
+
 // Extract unique words from text (words longer than 3 characters)
 std::unordered_set<std::string> extractWords(const std::string& text) {
     std::unordered_set<std::string> words;
     std::string current;
     
     for (char c : text) {
-        if (std::isalpha(c)) {
-            current += std::tolower(c);
+        const auto uc = static_cast<unsigned char>(c);
+        if (std::isalpha(uc) != 0) {
+            current.push_back(static_cast<char>(std::tolower(uc)));
         } else if (!current.empty()) {
             if (current.length() > 3) {
                 words.insert(current);
@@ -154,7 +161,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     }
     
     // Calculate diversity metrics
-    result.unique_perspectives_count = result.perspectives.size();
+    result.unique_perspectives_count = clampSizeToInt(result.perspectives.size());
     result.perspective_diversity_score = calculateDiversityScore(result.perspectives);
     
     // Check if diversity requirements are met
@@ -911,8 +918,8 @@ std::unique_ptr<MultiPerspectiveGenerator> MultiPerspectiveGeneratorFactory::cre
     MultiPerspectiveConfig config;
     config.required_perspectives = required_perspectives;
     config.auto_select_perspectives = false;
-    config.min_perspectives = required_perspectives.size();
-    config.max_perspectives = required_perspectives.size();
+    config.min_perspectives = clampSizeToInt(required_perspectives.size());
+    config.max_perspectives = clampSizeToInt(required_perspectives.size());
     return std::make_unique<MultiPerspectiveGenerator>(config);
 }
 

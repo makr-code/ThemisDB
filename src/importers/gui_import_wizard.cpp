@@ -294,7 +294,7 @@ void ImportWizard::runImport(const std::string& session_id,
     }
 
     std::string cfg = s.connection_params.dump();
-    importer->initialize(cfg);
+    static_cast<void>(importer->initialize(cfg));
 
     size_t batch_counter = 0;
 
@@ -303,7 +303,7 @@ void ImportWizard::runImport(const std::string& session_id,
     ImportOptions import_opts;
     import_opts.dry_run = s.dry_run;
 
-    importer->importDataStreaming(cfg, import_opts,
+    static_cast<void>(importer->importDataStreaming(cfg, import_opts,
             [&](const std::string& /*table*/, const json& /*row*/) -> bool {
         ++s.rows_processed;
         if (!s.dry_run) {
@@ -320,7 +320,7 @@ void ImportWizard::runImport(const std::string& session_id,
             if (on_progress) on_progress(s);
         }
         return true;  // continue
-    });
+    }));
 
     s.progress_pct = 100.0;
     s.current_step = WizardStep::DONE;

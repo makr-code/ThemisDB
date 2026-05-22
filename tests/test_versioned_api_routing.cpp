@@ -91,9 +91,9 @@ TEST(RouteVersionRouterAC, UnversionedPath_ReturnsRedirectToV1) {
 
 TEST(RouteVersionRouterAC, UnversionedPathWithQuery_RedirectPreservesQuery) {
     RouteVersionRouter vr;
-    auto target = vr.getRedirectTarget("/query/aql?limit=5");
+    auto target = vr.getRedirectTarget("/documents/abc?limit=5");
     ASSERT_TRUE(target.has_value());
-    EXPECT_EQ(*target, "/v1/query/aql?limit=5");
+    EXPECT_EQ(*target, "/v1/documents/abc?limit=5");
 }
 
 TEST(RouteVersionRouterAC, AlreadyVersionedV1_NoRedirect) {

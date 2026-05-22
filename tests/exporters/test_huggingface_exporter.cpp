@@ -198,7 +198,10 @@ TEST_F(HuggingFaceExporterTest, DataFileContainsValidJsonl) {
     EXPECT_GT(lines.size(), 0);
 
     for (const auto& line : lines) {
-        EXPECT_NO_THROW(json::parse(line));
+        EXPECT_NO_THROW({
+            auto parsed = json::parse(line);
+            static_cast<void>(parsed);
+        });
     }
 }
 
@@ -215,7 +218,7 @@ TEST_F(HuggingFaceExporterTest, InfersFeatureTypesFromEntities) {
     ExportOptions options;
     options.output_path = test_dir_ + "/infer_features";
 
-    exporter.exportEntities(test_entities_, options);
+    static_cast<void>(exporter.exportEntities(test_entities_, options));
 
     auto j = json::parse(readFile(options.output_path + "/dataset_info.json"));
     EXPECT_TRUE(j.contains("features"));

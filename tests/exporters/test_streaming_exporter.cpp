@@ -141,7 +141,10 @@ TEST_F(StreamingExporterTest, ExportEntitiesBasic) {
 
     // Every line must be valid JSON
     for (const auto& line : lines) {
-        EXPECT_NO_THROW(json::parse(line));
+        EXPECT_NO_THROW({
+            auto parsed = json::parse(line);
+            static_cast<void>(parsed);
+        });
     }
 }
 

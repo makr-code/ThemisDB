@@ -17,17 +17,10 @@
 
 #if THEMIS_HAS_VULKAN_HEADER
 
-namespace themis {
-namespace lora {
-namespace vulkan {
-
-// Validation layers for debugging
-const std::vector<const char*> VulkanContext::validation_layers_ = {
-    "VK_LAYER_KHRONOS_validation"
-};
+namespace themis::lora::vulkan {
 
 // Debug callback for validation layers
-static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(
+static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
     [[maybe_unused]] VkDebugUtilsMessageTypeFlagsEXT message_type,
     const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
@@ -225,11 +218,12 @@ bool VulkanContext::create_instance(bool enable_validation) {
     
     // Enable validation layers if requested
     if (enable_validation) {
-        create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers_.size());
-        create_info.ppEnabledLayerNames = validation_layers_.data();
+        const auto layers = validation_layers();
+        create_info.enabledLayerCount = static_cast<uint32_t>(layers.size());
+        create_info.ppEnabledLayerNames = layers.data();
         
         // Add debug utils extension
-        std::vector<const char*> extensions = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME };
+        constexpr std::array<const char*, 1> extensions = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME };
         create_info.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         create_info.ppEnabledExtensionNames = extensions.data();
     }
@@ -265,7 +259,7 @@ bool VulkanContext::select_physical_device(int device_id) {
     
     // If device_id is specified and valid, use it
     if (device_id >= 0 && device_id < static_cast<int>(device_count)) {
-        physical_device_ = devices[device_id];
+        physical_device_ = devices.at(static_cast<size_t>(device_id));
     } else {
         // Otherwise, prefer discrete GPU
         for (const auto& device : devices) {
@@ -280,7 +274,7 @@ bool VulkanContext::select_physical_device(int device_id) {
         
         // If no discrete GPU found, use first device
         if (physical_device_ == VK_NULL_HANDLE) {
-            physical_device_ = devices[0];
+            physical_device_ = devices.at(0);
         }
     }
     
@@ -302,8 +296,10 @@ bool VulkanContext::find_queue_family() {
                                               queue_families.data());
     
     // Find a queue family that supports compute operations
-    for (uint32_t i = 0; i < queue_family_count; i++) {
-        if (queue_families[i].queueFlags & VK_QUEUE_COMPUTE_BIT) {
+    for (uint32_t i = 0; i < queue_family_count; ++i) {
+        const VkQueueFlags flags = queue_families.at(i).queueFlags;
+        const VkQueueFlags compute_flag = static_cast<VkQueueFlags>(VK_QUEUE_COMPUTE_BIT);
+        if ((flags & compute_flag) != static_cast<VkQueueFlags>(0)) {
             queue_family_index_ = i;
             return true;
         }
@@ -334,8 +330,9 @@ bool VulkanContext::create_device() {
     
     // Enable validation layers for device (deprecated but still used in some drivers)
     if (validation_enabled_) {
-        create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers_.size());
-        create_info.ppEnabledLayerNames = validation_layers_.data();
+        const auto layers = validation_layers();
+        create_info.enabledLayerCount = static_cast<uint32_t>(layers.size());
+        create_info.ppEnabledLayerNames = layers.data();
     }
     
     VkResult result = vkCreateDevice(physical_device_, &create_info, nullptr, &device_);
@@ -372,14 +369,16 @@ bool VulkanContext::setup_debug_messenger() {
     
     VkDebugUtilsMessengerCreateInfoEXT create_info = {};
     create_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    create_info.messageSeverity = 
-        VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
-        VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-    create_info.messageType = 
-        VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
-        VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
-        VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-    create_info.pfnUserCallback = debug_callback;
+    const uint32_t message_severity_flags =
+        static_cast<uint32_t>(VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) |
+        static_cast<uint32_t>(VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT);
+    const uint32_t message_type_flags =
+        static_cast<uint32_t>(VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT) |
+        static_cast<uint32_t>(VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT) |
+        static_cast<uint32_t>(VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT);
+    create_info.messageSeverity = message_severity_flags;
+    create_info.messageType = message_type_flags;
+    create_info.pfnUserCallback = DebugCallback;
     
     auto func = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(
         vkGetInstanceProcAddr(instance_, "vkCreateDebugUtilsMessengerEXT")
@@ -462,8 +461,9 @@ void VulkanContext::reset_fence(VkFence fence) {
 
 int32_t VulkanContext::find_memory_type(uint32_t type_filter,
                                          VkMemoryPropertyFlags properties) const {
-    for (uint32_t i = 0; i < memory_properties_.memoryTypeCount; i++) {
-        if ((type_filter & (1 << i)) &&
+    for (uint32_t i = 0; i < memory_properties_.memoryTypeCount; ++i) {
+        const uint32_t type_bit = uint32_t{1u} << i;
+        if ((type_filter & type_bit) != 0U &&
             (memory_properties_.memoryTypes[i].propertyFlags & properties) == properties) {
             return static_cast<int32_t>(i);
         }
@@ -472,7 +472,7 @@ int32_t VulkanContext::find_memory_type(uint32_t type_filter,
     return -1;
 }
 
-bool VulkanContext::check_validation_layer_support() const {
+bool VulkanContext::check_validation_layer_support() {
     uint32_t layer_count = 0;
     VkResult result = vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
     if (result != VK_SUCCESS) {
@@ -489,7 +489,8 @@ bool VulkanContext::check_validation_layer_support() const {
         return false;
     }
     
-    for (const char* layer_name : validation_layers_) {
+    const auto layers = validation_layers();
+    for (const char* layer_name : layers) {
         bool layer_found = false;
         
         for (const auto& layer_props : available_layers) {
@@ -507,8 +508,6 @@ bool VulkanContext::check_validation_layer_support() const {
     return true;
 }
 
-} // namespace vulkan
-} // namespace lora
-} // namespace themis
+} // namespace themis::lora::vulkan
 
 #endif // THEMIS_HAS_VULKAN_HEADER

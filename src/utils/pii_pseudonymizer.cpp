@@ -296,7 +296,7 @@ size_t PIIPseudonymizer::eraseAllPIIForEntity(const std::string& entity_pk) {
     }
     
     // Delete entity index
-    db_->del(entityIndexKey(entity_pk));
+    static_cast<void>(db_->del(entityIndexKey(entity_pk)));
     
     return erased_count;
 }

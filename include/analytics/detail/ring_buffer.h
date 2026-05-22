@@ -45,6 +45,13 @@ namespace themis {
 namespace analytics {
 namespace detail {
 
+#ifdef _MSC_VER
+// EventRingBuffer intentionally uses cache-line alignment to avoid false sharing.
+// This may introduce structural padding, which is expected and harmless here.
+#pragma warning(push)
+#pragma warning(disable : 4324)
+#endif
+
 /**
  * @brief Bounded MPMC ring buffer.
  *
@@ -184,6 +191,10 @@ private:
     std::unique_ptr<Slot[]> slots_;
     size_t                  mask_{0};
 };
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 } // namespace detail
 } // namespace analytics

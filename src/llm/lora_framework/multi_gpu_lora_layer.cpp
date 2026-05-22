@@ -126,10 +126,12 @@ std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& 
     outputs.reserve(inputs.size());
     
     // Forward pass on each GPU independently
-    for (size_t i = 0; i < inputs.size(); ++i) {
+    for (int device_index = 0; device_index < ctx_.num_gpus(); ++device_index) {
+        const size_t i = static_cast<size_t>(device_index);
+        const Device expected_device = ctx_.get_device(device_index);
         // Verify input is on correct device
-        if (inputs[i].device().device_id != ctx_.get_device(i).device_id ||
-            inputs[i].device().type != ctx_.get_device(i).type) {
+        if (inputs[i].device().device_id != expected_device.device_id ||
+            inputs[i].device().type != expected_device.type) {
             throw std::invalid_argument(
                 "Input tensor " + std::to_string(i) + " is not on correct device");
         }

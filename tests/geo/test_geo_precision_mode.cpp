@@ -323,7 +323,7 @@ TEST(GeoCpuContainmentFn, GEO_CF_04_InjectedFnReceivesCorrectArgs) {
     ISpatialComputeBackend* backend = getCpuExactBackend();
     const GeometryInfo pt  = makePoint(0.5, 0.5);
     const GeometryInfo box = makeBox(0.0, 0.0, 1.0, 1.0);
-    backend->exactIntersects(pt, box);
+    static_cast<void>(backend->exactIntersects(pt, box));
 
     EXPECT_TRUE(fn_called) << "GEO-CF-04: injected fn must be called";
     EXPECT_NEAR(last_px, 0.5, 1e-12) << "GEO-CF-04: px must match point x coordinate";

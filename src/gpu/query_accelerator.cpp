@@ -1045,6 +1045,7 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
     }
 
 #ifdef THEMIS_ENABLE_CUDA
+    const bool use_gpu = shouldUseGPU(numVectors);
     // -------------------------------------------------------------------------
     // GPU path — cuVS/RAFT IVF-Flat ANN search.
     //

@@ -121,10 +121,8 @@ protected:
 TEST_F(PITRManagerComprehensiveTest, LargeScaleRestore) {
     // Add 1000 events
     addEvents(1000);
-    
-    static_cast<void>(changefeed_->getLatestSequence());
-    static_cast<void>(current_seq);
-    ASSERT_EQ(current_seq, 1000);
+
+    ASSERT_EQ(changefeed_->getLatestSequence(), 1000);
     
     // Restore to 500
     PITRManager::RestoreOptions options;
@@ -145,8 +143,7 @@ TEST_F(PITRManagerComprehensiveTest, SelectiveTableRestore) {
     std::vector<std::string> tables = {"users", "products", "orders"};
     addMultiTableEvents(100, tables);
     
-    uint64_t current_seq = changefeed_->getLatestSequence();
-    ASSERT_EQ(current_seq, 300);
+    ASSERT_EQ(changefeed_->getLatestSequence(), 300);
     
     // Preview restore to sequence 150 (middle of the dataset)
     // This should show affected tables from the replay range (151-300)
@@ -349,13 +346,12 @@ TEST_F(PITRManagerComprehensiveTest, ConcurrentRestoreAttempts) {
 // Test: Restore validation
 TEST_F(PITRManagerComprehensiveTest, RestoreValidation) {
     addEvents(10);
-    uint64_t current_seq = changefeed_->getLatestSequence();
     
     PITRManager::RestoreOptions options;
     options.dry_run = true;
     
     // Try to restore to future sequence
-    auto status = pitr_mgr_->restoreToSequence(current_seq + 100, options);
+    auto status = pitr_mgr_->restoreToSequence(changefeed_->getLatestSequence() + 100, options);
     EXPECT_FALSE(status.ok);
     EXPECT_THAT(status.message, ::testing::HasSubstr("must be less than current"));
 }
@@ -374,8 +370,6 @@ TEST_F(PITRManagerComprehensiveTest, RestoreWithDeleteEvents) {
         event.timestamp_ms = 2000 + i;
         changefeed_->recordEvent(event);
     }
-    
-    uint64_t current_seq = changefeed_->getLatestSequence();
     
     PITRManager::RestoreOptions options;
     options.dry_run = true;
