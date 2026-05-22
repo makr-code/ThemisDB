@@ -655,8 +655,8 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
 
             std::vector<uint8_t> to_store;
             size_t original_size = bb.size();
-            size_t compressed_size = original_size;
-            float compression_ratio = 1.0f;
+            [[maybe_unused]] size_t compressed_size = original_size;
+            [[maybe_unused]] float compression_ratio = 1.0f;
             
             if (should_compress(meta.mime_type, bb.size())) {
 #ifdef THEMIS_HAS_ZSTD

@@ -448,7 +448,7 @@ void LLMJudgeClient::parseEvaluationResponse(
             parsed.confidence = 0.5;  // Default
         }
         
-    } catch (const json::exception& e) {
+    } catch (const json::exception&) {
         // Fallback to simple parsing for non-JSON responses
         // Look for score
     size_t score_pos = response.find("\"score\"");

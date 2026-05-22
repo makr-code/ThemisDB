@@ -1024,7 +1024,6 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
         return result;
     }
 
-    bool use_gpu    = shouldUseGPU(numVectors);
     result.used_gpu = false; // set true only if GPU path executes successfully
 
     // Graph cache check — key on (numQueries * dim) as row count and pack

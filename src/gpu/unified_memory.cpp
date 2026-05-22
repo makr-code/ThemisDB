@@ -168,7 +168,7 @@ bool GPUUnifiedMemoryAllocator::free(void *ptr) {
 // prefetch
 // ============================================================================
 
-bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, int device_id) {
+bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, [[maybe_unused]] int device_id) {
     if (!ptr || bytes == 0) {
         return false;
     }
@@ -181,6 +181,7 @@ bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, int devi
 #elif defined(THEMIS_ENABLE_HIP)
     return hipMemPrefetchAsync(ptr, bytes, device_id, nullptr) == hipSuccess;
 #else
+    static_cast<void>(device_id);
     return true;
 #endif
 }
@@ -189,7 +190,7 @@ bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, int devi
 // advise
 // ============================================================================
 
-bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, MemAdvice advice, int device_id) {
+bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, [[maybe_unused]] MemAdvice advice, [[maybe_unused]] int device_id) {
     if (!ptr || bytes == 0) {
         return false;
     }
@@ -248,6 +249,8 @@ bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, MemAdvice 
     }
     return hipMemAdvise(ptr, bytes, hip_advice, device_id) == hipSuccess;
 #else
+    static_cast<void>(advice);
+    static_cast<void>(device_id);
     return true;
 #endif
 }

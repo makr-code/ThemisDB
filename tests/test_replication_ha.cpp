@@ -259,8 +259,8 @@ TEST_F(WALChecksumTest, CorruptChecksumEntryIsDropped) {
         ASSERT_TRUE(fs.is_open());
         // Seek close to end and flip a byte to corrupt the checksum field
         fs.seekp(-4, std::ios::end);
-        char dummy = 0xFF;
-        fs.write(&dummy, 1);
+        const unsigned char dummy = 0xFFu;
+        fs.write(reinterpret_cast<const char*>(&dummy), 1);
     }
 
     // readFrom should skip the corrupted entry

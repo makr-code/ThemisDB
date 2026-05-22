@@ -3486,11 +3486,17 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			}
 			if (i < kMaxPathLookups) {
 				// Attempt to reconstruct the full path via Dijkstra.
-				bool hasTypeFilter = !q.edge_type.empty();
-				std::string graphId = q.graph_id.empty() ? std::string("default") : q.graph_id;
-				auto [st, pathResult] = hasTypeFilter
-					? graphIdx_->dijkstra(q.start_node, node, q.edge_type, graphId)
-					: graphIdx_->dijkstra(q.start_node, node);
+				GraphIndexManager::PathResult pathResult;
+				if (!q.edge_type.empty()) {
+					std::string graphIdForPath = q.graph_id.empty() ? std::string("default") : q.graph_id;
+					auto dijkstraResult = graphIdx_->dijkstra(q.start_node, node, q.edge_type, graphIdForPath);
+					st = dijkstraResult.first;
+					pathResult = std::move(dijkstraResult.second);
+				} else {
+					auto dijkstraResult = graphIdx_->dijkstra(q.start_node, node);
+					st = dijkstraResult.first;
+					pathResult = std::move(dijkstraResult.second);
+				}
 				if (st.ok && !pathResult.path.empty()) {
 					allPaths.push_back(std::move(pathResult.path));
 				} else {

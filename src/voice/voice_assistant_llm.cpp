@@ -54,6 +54,7 @@ std::string VoiceAssistant::generateLLMResponse(
             return response;
         }
     } catch (const std::exception& e) {
+        static_cast<void>(e);
         // Log error in production
     }
     
@@ -79,6 +80,7 @@ json VoiceAssistant::generateSummary(const std::string& transcript) {
             return summary;
         }
     } catch (const std::exception& e) {
+        static_cast<void>(e);
         // Log error
     }
     
@@ -117,6 +119,7 @@ json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
             return key_points;
         }
     } catch (const std::exception& e) {
+        static_cast<void>(e);
         // Log error
     }
     
@@ -158,6 +161,7 @@ json VoiceAssistant::extractActionItems(const std::string& transcript) {
             return action_items;
         }
     } catch (const std::exception& e) {
+        static_cast<void>(e);
         // Log error
     }
     

@@ -231,15 +231,24 @@ std::string ParallelDownloader::computeSha256(const std::string& path) {
 // ============================================================================
 
 bool ParallelDownloader::defaultFetch(
-    const std::string& url,
-    const std::string& dest,
-    uint64_t           resume_offset,
-    long               connect_timeout_s,
-    long               transfer_timeout_s,
-    uint64_t*          out_bytes,
-    uint64_t*          out_total,
-    std::string*       out_error)
+    [[maybe_unused]] const std::string& url,
+    [[maybe_unused]] const std::string& dest,
+    [[maybe_unused]] uint64_t          resume_offset,
+    [[maybe_unused]] long               connect_timeout_s,
+    [[maybe_unused]] long               transfer_timeout_s,
+    [[maybe_unused]] uint64_t*          out_bytes,
+    [[maybe_unused]] uint64_t*          out_total,
+    [[maybe_unused]] std::string*       out_error)
 {
+    static_cast<void>(url);
+    static_cast<void>(dest);
+    static_cast<void>(resume_offset);
+    static_cast<void>(connect_timeout_s);
+    static_cast<void>(transfer_timeout_s);
+    static_cast<void>(out_bytes);
+    static_cast<void>(out_total);
+    static_cast<void>(out_error);
+
     if (out_bytes)  *out_bytes  = 0;
     if (out_total)  *out_total  = 0;
 
@@ -304,6 +313,11 @@ bool ParallelDownloader::defaultFetch(
                                            : ctx.written + resume_offset;
     return true;
 #else
+    static_cast<void>(url);
+    static_cast<void>(dest);
+    static_cast<void>(resume_offset);
+    static_cast<void>(connect_timeout_s);
+    static_cast<void>(transfer_timeout_s);
     if (out_error) *out_error = "No HTTP transport: build with -DTHEMIS_ENABLE_CURL=ON "
                                 "or inject a custom FetchFn via setFetchFunction()";
     return false;

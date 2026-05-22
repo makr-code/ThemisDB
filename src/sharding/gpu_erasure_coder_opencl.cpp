@@ -737,9 +737,10 @@ private:
 // ═══════════════════════════════════════════════════════════
 
 std::unique_ptr<GPUErasureCoderImpl> createOpenCLErasureCoder(
-    const GPUConfig& config,
+    [[maybe_unused]] const GPUConfig& config,
     ErasureCodingAlgorithm algorithm
 ) {
+    static_cast<void>(config);
     return std::make_unique<OpenCLErasureCoderImpl>(algorithm);
 }
 

@@ -1123,7 +1123,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         // Decode manifest using explicit little-endian helpers (R-6).
         const auto* raw = reinterpret_cast<const uint8_t*>(manifest_raw.data());
         uint32_t num_chunks = readLE32(raw);
-        uint64_t chunk_size = readLE64(raw + 4);
+        [[maybe_unused]] uint64_t chunk_size = readLE64(raw + 4);
         uint64_t total_size = readLE64(raw + 12);
 
         if (num_chunks == 0 || total_size == 0) {

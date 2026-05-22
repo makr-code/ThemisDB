@@ -985,6 +985,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetSession(
     const std::string& session_id
 ) {
     auto span = Tracer::startSpan("handleGetSession");
+    static_cast<void>(req);
     auto session = voice_assistant_->getSession(session_id);
     
     json result;
@@ -1033,6 +1034,7 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     const std::string& session_id
 ) {
     auto span = Tracer::startSpan("handleDeleteSession");
+    static_cast<void>(req);
     if (!voice_assistant_->deleteSession(session_id)) {
         return createErrorResponse(
             http::status::not_found,
@@ -1052,6 +1054,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetVoices(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleGetVoices");
+    static_cast<void>(req);
     json result;
     result["voices"] = voice_assistant_->getAvailableVoices();
     return createJsonResponse(result);
@@ -1061,6 +1064,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetLanguages(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleGetLanguages");
+    static_cast<void>(req);
     json result;
     result["languages"] = json::array({
         "en", "de", "es", "fr", "it", "pt", "ru", "zh", "ja", "ko"
@@ -1333,6 +1337,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetMacro(
     const std::string& macro_id
 ) {
     auto span = Tracer::startSpan("handleGetMacro");
+    static_cast<void>(req);
     auto info = voice_assistant_->macroManager().getMacro(macro_id);
     if (!info) {
         return createErrorResponse(
@@ -1470,6 +1475,7 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteMacro(
     const std::string& macro_id
 ) {
     auto span = Tracer::startSpan("handleDeleteMacro");
+    static_cast<void>(req);
     bool ok = voice_assistant_->macroManager().deleteMacro(macro_id);
     if (!ok) {
         return createErrorResponse(
@@ -1621,6 +1627,7 @@ http::response<http::string_body> VoiceApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleStats");
+    static_cast<void>(req);
     auto stats = voice_assistant_->getStatistics();
     return createJsonResponse(stats);
 }
@@ -1629,6 +1636,7 @@ http::response<http::string_body> VoiceApiHandler::handleHealth(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleHealth");
+    static_cast<void>(req);
     json result;
     result["status"] = "healthy";
     result["voice_assistant"] = "available";
@@ -1836,7 +1844,7 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     utils::URLComponents components;
     try {
         components = utils::parseURL(url);
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         throw std::invalid_argument("Invalid URL format");
     }
     

@@ -4227,6 +4227,7 @@ if(THEMIS_ENABLE_WEBSOCKET AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_
 
     add_executable(test_graphql_ws_handler
         test_graphql_ws_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/api/graphql_ws_handler.cpp
     )
 
     target_link_libraries(test_graphql_ws_handler PRIVATE
@@ -20570,7 +20571,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_v2.cpp" AND NOT TARGET
     message(STATUS "  WireProtocolV2: multiplexed streams, flow control, GOAWAY, push-promise")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_websocket.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_websocket.cpp" AND NOT TARGET test_wire_protocol_websocket_focused)
     message(STATUS "Adding Network: WireProtocolWebSocket focused tests")
     add_executable(test_wire_protocol_websocket_focused test_wire_protocol_websocket.cpp)
     target_include_directories(test_wire_protocol_websocket_focused PRIVATE ${THEMIS_ROOT_DIR}/include)

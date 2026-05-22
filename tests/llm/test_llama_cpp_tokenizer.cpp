@@ -395,6 +395,11 @@ TEST_F(LlamaCppTokenizerTest, ImplementsITokenizerInterface) {
         int bos = tokenizer->bos_token_id();
         int eos = tokenizer->eos_token_id();
         int pad = tokenizer->pad_token_id();
+        static_cast<void>(text);
+        static_cast<void>(vocab_size);
+        static_cast<void>(bos);
+        static_cast<void>(eos);
+        static_cast<void>(pad);
     });
 }
 

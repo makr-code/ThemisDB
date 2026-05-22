@@ -788,19 +788,23 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
 
 OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
     QueryPlan plan;
+    const auto to_plan_rows = [](size_t value) {
+        const size_t max_rows = static_cast<size_t>(std::numeric_limits<int>::max());
+        return static_cast<int>(std::min(value, max_rows));
+    };
 
     // Use cached collection statistics when available; fall back to 1000 rows.
     {
         std::lock_guard<std::mutex> lock(impl_->stats_mutex);
         auto it = impl_->stats_cache_.find(query.collection);
         if (it != impl_->stats_cache_.end() && it->second.valid) {
-            plan.estimated_rows = static_cast<size_t>(it->second.row_count);
+            plan.estimated_rows = to_plan_rows(static_cast<size_t>(it->second.row_count));
         } else {
             // No statistics collected yet — use the in-memory store directly if
             // it holds data for this collection.
             auto cit = impl_->collections.find(query.collection);
             if (cit != impl_->collections.end() && !cit->second.empty()) {
-                plan.estimated_rows = cit->second.size();
+                plan.estimated_rows = to_plan_rows(cit->second.size());
             } else {
                 plan.estimated_rows = 1000; // default when no data available
             }

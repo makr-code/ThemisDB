@@ -1372,7 +1372,8 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
 }
 
 bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
-                                const std::string& key, std::error_code& ec) {
+                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
+    static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
     // AES-256-GCM encryption.  File format:
     //   [4 bytes magic "TENC"] [12 bytes IV] [ciphertext] [16 bytes GCM tag]
@@ -1448,6 +1449,7 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
     }
     return true;
 #else
+    static_cast<void>(key);
     static std::once_flag s_encrypt_warn;
     std::call_once(s_encrypt_warn, [] {
         THEMIS_WARN("BackupManager::encryptFile: STUB — files will be copied without "
@@ -1472,7 +1474,8 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
 }
 
 bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
-                                const std::string& key, std::error_code& ec) {
+                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
+    static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
     // AES-256-GCM decryption — mirrors encryptFile() format:
     //   [4 bytes magic "TENC"] [12 bytes IV] [ciphertext] [16 bytes GCM tag]
@@ -1558,6 +1561,7 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
     out.write(reinterpret_cast<const char*>(plain.data()), outl + finl);
     return true;
 #else
+    static_cast<void>(key);
     static std::once_flag s_decrypt_warn;
     std::call_once(s_decrypt_warn, [] {
         THEMIS_WARN("BackupManager::decryptFile: STUB — files will be copied without "

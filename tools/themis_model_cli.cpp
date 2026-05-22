@@ -184,7 +184,7 @@ int cmdPull(const std::string& model_name, const std::string& model_dir) {
     size_t last_downloaded = 0;
     auto last_time = start_time;
     
-    config.progress_callback = [&](size_t downloaded, size_t total, const std::string& status) {
+    config.progress_callback = [&](size_t downloaded, size_t total, const std::string&) {
         if (total > 0) {
             auto now = std::chrono::steady_clock::now();
             auto time_diff = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_time).count();
@@ -213,7 +213,7 @@ int cmdPull(const std::string& model_name, const std::string& model_dir) {
     
     if (result.success) {
         auto end_time = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count();
+        [[maybe_unused]] auto duration = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count();
         
         std::cout << Color::Green << "✓ " << Color::Bold << "Success!" << Color::Reset << "\n";
         std::cout << "Model: " << result.model_path << "\n";

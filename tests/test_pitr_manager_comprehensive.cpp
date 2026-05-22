@@ -122,7 +122,8 @@ TEST_F(PITRManagerComprehensiveTest, LargeScaleRestore) {
     // Add 1000 events
     addEvents(1000);
     
-    uint64_t current_seq = changefeed_->getLatestSequence();
+    static_cast<void>(changefeed_->getLatestSequence());
+    static_cast<void>(current_seq);
     ASSERT_EQ(current_seq, 1000);
     
     // Restore to 500
@@ -405,6 +406,7 @@ TEST_F(PITRManagerComprehensiveTest, DisasterRecovery_DataCorruption) {
     auto snapshot = snapshot_mgr_->createTag("pre-deployment", "Before risky deployment");
     ASSERT_TRUE(snapshot.has_value());
     uint64_t safe_sequence = snapshot->sequence_number;
+    static_cast<void>(safe_sequence);
     
     // 3. Simulate deployment that corrupts data
     event.key = "users:1";

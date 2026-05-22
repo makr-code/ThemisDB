@@ -588,11 +588,11 @@ private:
     
     // Helper: Encrypt file
     bool encryptFile(const std::string& src_path, const std::string& dest_path,
-                     const std::string& key, std::error_code& ec);
+                     [[maybe_unused]] const std::string& key, std::error_code& ec);
     
     // Helper: Decrypt file
     bool decryptFile(const std::string& src_path, const std::string& dest_path,
-                     const std::string& key, std::error_code& ec);
+                     [[maybe_unused]] const std::string& key, std::error_code& ec);
     
     // Helper: Upload to cloud storage
     bool uploadToCloud(const std::string& local_path, const std::string& cloud_path,

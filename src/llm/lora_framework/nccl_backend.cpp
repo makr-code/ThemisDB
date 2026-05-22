@@ -178,7 +178,9 @@ bool NCCLBackend::allreduce(GPUTensor& tensor, bool average) {
     return allreduce(tensors, average);
 }
 
-bool NCCLBackend::broadcast(GPUTensor& tensor, [[maybe_unused]] int root) {
+bool NCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]] int root) {
+    static_cast<void>(tensor);
+    static_cast<void>(root);
     if (!initialized_) {
         spdlog::error("NCCLBackend not initialized");
         return false;

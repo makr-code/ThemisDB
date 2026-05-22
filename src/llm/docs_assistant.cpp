@@ -33,7 +33,7 @@ namespace themis::llm {
  */
 struct DocsAssistant::Impl {
     DocsAssistantConfig config;
-    } catch (const std::exception&) {
+    std::vector<DocumentEntry> documents;
     bool database_loaded = false;
     json database_metadata;
     bool semantic_embedding_compatible = false;
@@ -409,14 +409,13 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
               [](const DocumentEntry& a, const DocumentEntry& b) {
                   return a.relevance_score > b.relevance_score;
               });
-    
-            } catch (const std::exception&) {
+
     if (scored_docs.size() > static_cast<size_t>(max_results)) {
         scored_docs.resize(max_results);
     }
     
     return scored_docs;
-    } catch (const std::exception&) {
+}
 
 std::string DocsAssistant::generateAnswer(const std::string& query, 
                                          const std::vector<DocumentEntry>& context_docs) {

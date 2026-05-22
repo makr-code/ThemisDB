@@ -92,7 +92,8 @@ public:
     }
     
     static int32_t zigzag_decode(uint32_t n) {
-        return static_cast<int32_t>((n >> 1) ^ -(n & 1));
+        const int32_t sign = (n & 1u) != 0u ? -1 : 0;
+        return static_cast<int32_t>((n >> 1) ^ static_cast<uint32_t>(sign));
     }
     
     static void encode(std::vector<uint8_t>& output, uint32_t value) {
@@ -182,7 +183,10 @@ public:
         for (const auto& val : vec) {
             auto it = value_to_index.find(val);
             if (it == value_to_index.end()) {
-                uint32_t idx = result.dictionary.size();
+                if (result.dictionary.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+                    throw std::overflow_error("Dictionary size exceeds uint32_t index range");
+                }
+                uint32_t idx = static_cast<uint32_t>(result.dictionary.size());
                 result.dictionary.push_back(val);
                 value_to_index[val] = idx;
                 result.indices.push_back(idx);

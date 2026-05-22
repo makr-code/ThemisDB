@@ -454,7 +454,7 @@ TEST_F(LLMProcessAnalyzerTest, AnalyzeProcess_DeviationsField) {
     EXPECT_TRUE(ok);
     // deviations should be initialized (may be empty in simulation)
     // What matters is no crash and the vector is accessible
-    EXPECT_NO_FATAL_FAILURE(resp.deviations.size());
+    EXPECT_GE(resp.deviations.size(), 0u);
 }
 
 TEST_F(LLMProcessAnalyzerTest, AnalyzeProcess_ComplianceIssuesField) {
@@ -467,7 +467,7 @@ TEST_F(LLMProcessAnalyzerTest, AnalyzeProcess_ComplianceIssuesField) {
     auto [ok, resp] = analyzer.analyze(req);
 
     EXPECT_TRUE(ok);
-    EXPECT_NO_FATAL_FAILURE(resp.compliance_issues.size());
+    EXPECT_GE(resp.compliance_issues.size(), 0u);
 }
 
 TEST_F(LLMProcessAnalyzerTest, ResponseTimeIsNonNegative) {

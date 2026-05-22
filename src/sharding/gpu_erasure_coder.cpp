@@ -33,7 +33,7 @@ std::unique_ptr<GPUErasureCoderImpl> createCUDAErasureCoder(
 
 #ifdef THEMIS_ENABLE_OPENCL
 std::unique_ptr<GPUErasureCoderImpl> createOpenCLErasureCoder(
-    const GPUConfig& config,
+    [[maybe_unused]] const GPUConfig& config,
     ErasureCodingAlgorithm algorithm
 );
 #endif

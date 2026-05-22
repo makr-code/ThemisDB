@@ -686,7 +686,9 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	idToPk_.clear();
 
 	const std::string prefix = objectName_ + ":"; // KeySchema::makeVectorKey(object, pk) = object:pk
+#ifdef THEMIS_HNSW_ENABLED
 	size_t nextId = 0;
+#endif
 	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
 		std::string pk = KeySchema::extractPrimaryKey(key);
 		std::vector<uint8_t> bytes(value.begin(), value.end());
@@ -1066,7 +1068,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		} else {
 			ann_id = static_cast<int64_t>(it->second);
 		}
-		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		const bool added = ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		static_cast<void>(added);
 	}
 	return Status::OK();
 }
@@ -1146,7 +1149,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		} else {
 			ann_id = static_cast<int64_t>(it->second);
 		}
-		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		const bool added = ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		static_cast<void>(added);
 	}
 	return Status::OK();
 }
@@ -2210,7 +2214,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Check for encryption flag (Phase 2)
 			std::string encryptionFlag;
 			std::getline(metaFile, encryptionFlag);
-			bool isEncrypted = (encryptionFlag == "encrypted");
+			static_cast<void>(encryptionFlag);
 
 			if (obj != objectName_) return Status::Error("loadIndex: objectName passt nicht zum Manager");
 			if (dim_ != 0 && dim_ != dim) return Status::Error("loadIndex: Dimension passt nicht zum Manager");

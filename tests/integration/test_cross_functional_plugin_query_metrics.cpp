@@ -259,7 +259,7 @@ TEST_F(CrossFunctionalPluginQueryMetricsTest, ConcurrentPluginAccessWithMetrics)
                 auto info = plugin_manager_->getManifest(name);
                 
                 // Check if loaded
-                bool loaded = plugin_manager_->isPluginLoaded(name);
+                [[maybe_unused]] bool loaded = plugin_manager_->isPluginLoaded(name);
                 
                 auto end = std::chrono::steady_clock::now();
                 auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();

@@ -29,12 +29,12 @@ const std::vector<const char*> VulkanContext::validation_layers_ = {
 // Debug callback for validation layers
 static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(
     VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
-    VkDebugUtilsMessageTypeFlagsEXT message_type,
+    [[maybe_unused]] VkDebugUtilsMessageTypeFlagsEXT message_type,
     const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
-    void* user_data) {
+    [[maybe_unused]] void* user_data) {
     
     if (message_severity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
-        std::cerr << "Vulkan validation: " << callback_data->pMessage << std::endl;
+        std::cerr << "Vulkan validation: " << callback_data->pMessage << '\n';
     }
     
     return VK_FALSE;
@@ -104,7 +104,7 @@ bool VulkanContext::initialize(int device_id, bool enable_validation) {
     
     // Check validation layer support if requested
     if (validation_enabled_ && !check_validation_layer_support()) {
-        std::cerr << "Validation layers requested but not available" << std::endl;
+        std::cerr << "Validation layers requested but not available\n";
         validation_enabled_ = false;
     }
     
@@ -171,8 +171,9 @@ void VulkanContext::cleanup() {
     
     // Destroy debug messenger
     if (debug_messenger_ != VK_NULL_HANDLE && validation_enabled_) {
-        auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)
-            vkGetInstanceProcAddr(instance_, "vkDestroyDebugUtilsMessengerEXT");
+        auto func = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(
+            vkGetInstanceProcAddr(instance_, "vkDestroyDebugUtilsMessengerEXT")
+        );
         if (func != nullptr) {
             func(instance_, debug_messenger_, nullptr);
         }
@@ -235,7 +236,7 @@ bool VulkanContext::create_instance(bool enable_validation) {
     
     VkResult result = vkCreateInstance(&create_info, nullptr, &instance_);
     if (result != VK_SUCCESS) {
-        std::cerr << "Failed to create Vulkan instance: " << result << std::endl;
+        std::cerr << "Failed to create Vulkan instance: " << result << '\n';
         return false;
     }
     
@@ -246,19 +247,19 @@ bool VulkanContext::select_physical_device(int device_id) {
     uint32_t device_count = 0;
     VkResult enum_result = vkEnumeratePhysicalDevices(instance_, &device_count, nullptr);
     if (enum_result != VK_SUCCESS) {
-        std::cerr << "vkEnumeratePhysicalDevices (count) failed: " << enum_result << std::endl;
+        std::cerr << "vkEnumeratePhysicalDevices (count) failed: " << enum_result << '\n';
         return false;
     }
 
     if (device_count == 0) {
-        std::cerr << "No Vulkan-capable GPU found" << std::endl;
+        std::cerr << "No Vulkan-capable GPU found\n";
         return false;
     }
     
     std::vector<VkPhysicalDevice> devices(device_count);
     enum_result = vkEnumeratePhysicalDevices(instance_, &device_count, devices.data());
     if (enum_result != VK_SUCCESS && enum_result != VK_INCOMPLETE) {
-        std::cerr << "vkEnumeratePhysicalDevices (fill) failed: " << enum_result << std::endl;
+        std::cerr << "vkEnumeratePhysicalDevices (fill) failed: " << enum_result << '\n';
         return false;
     }
     
@@ -287,7 +288,7 @@ bool VulkanContext::select_physical_device(int device_id) {
     vkGetPhysicalDeviceProperties(physical_device_, &device_properties_);
     vkGetPhysicalDeviceMemoryProperties(physical_device_, &memory_properties_);
     
-    std::cout << "Selected Vulkan device: " << device_properties_.deviceName << std::endl;
+    std::cout << "Selected Vulkan device: " << device_properties_.deviceName << '\n';
     
     return true;
 }
@@ -308,13 +309,13 @@ bool VulkanContext::find_queue_family() {
         }
     }
     
-    std::cerr << "Failed to find compute queue family" << std::endl;
+    std::cerr << "Failed to find compute queue family\n";
     return false;
 }
 
 bool VulkanContext::create_device() {
     // Specify queue priorities
-    float queue_priority = 1.0f;
+    float queue_priority = 1.0F;
     
     VkDeviceQueueCreateInfo queue_create_info = {};
     queue_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
@@ -339,7 +340,7 @@ bool VulkanContext::create_device() {
     
     VkResult result = vkCreateDevice(physical_device_, &create_info, nullptr, &device_);
     if (result != VK_SUCCESS) {
-        std::cerr << "Failed to create logical device: " << result << std::endl;
+        std::cerr << "Failed to create logical device: " << result << '\n';
         return false;
     }
     
@@ -357,7 +358,7 @@ bool VulkanContext::create_command_pool() {
     
     VkResult result = vkCreateCommandPool(device_, &pool_info, nullptr, &command_pool_);
     if (result != VK_SUCCESS) {
-        std::cerr << "Failed to create command pool: " << result << std::endl;
+        std::cerr << "Failed to create command pool: " << result << '\n';
         return false;
     }
     
@@ -380,8 +381,9 @@ bool VulkanContext::setup_debug_messenger() {
         VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
     create_info.pfnUserCallback = debug_callback;
     
-    auto func = (PFN_vkCreateDebugUtilsMessengerEXT)
-        vkGetInstanceProcAddr(instance_, "vkCreateDebugUtilsMessengerEXT");
+    auto func = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(
+        vkGetInstanceProcAddr(instance_, "vkCreateDebugUtilsMessengerEXT")
+    );
     
     if (func != nullptr) {
         VkResult result = func(instance_, &create_info, nullptr, &debug_messenger_);
@@ -475,7 +477,7 @@ bool VulkanContext::check_validation_layer_support() const {
     VkResult result = vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
     if (result != VK_SUCCESS) {
         std::cerr << "vkEnumerateInstanceLayerProperties (count) failed: "
-                  << result << std::endl;
+              << result << '\n';
         return false;
     }
     
@@ -483,7 +485,7 @@ bool VulkanContext::check_validation_layer_support() const {
     result = vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
     if (result != VK_SUCCESS) {
         std::cerr << "vkEnumerateInstanceLayerProperties (fill) failed: "
-                  << result << std::endl;
+              << result << '\n';
         return false;
     }
     

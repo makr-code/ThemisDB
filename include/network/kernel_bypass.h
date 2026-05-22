@@ -108,7 +108,7 @@ public:
      * @return true on success; false if the core is out-of-range or the
      *         syscall fails.
      */
-    static bool pinCallerToCore(int core_id) noexcept;
+    static bool pinCallerToCore([[maybe_unused]] int core_id) noexcept;
 
     /**
      * @brief Pin an arbitrary thread to a single logical CPU core.
@@ -118,14 +118,15 @@ public:
      * @param core_id   Zero-based logical CPU index.
      * @return true on success.
      */
-    static bool pinThreadToCore(std::thread& thread, int core_id) noexcept;
+    static bool pinThreadToCore([[maybe_unused]] std::thread& thread,
+                                [[maybe_unused]] int core_id) noexcept;
 
     /**
      * @brief Return the NUMA node that owns @p core_id, or -1 on error.
      *
      * Reads `/sys/devices/system/cpu/cpu<N>/node<M>` symlinks.
      */
-    static int numaNodeForCore(int core_id) noexcept;
+    static int numaNodeForCore([[maybe_unused]] int core_id) noexcept;
 
     /**
      * @brief Return the number of logical CPUs visible to the process.
@@ -166,7 +167,7 @@ public:
      * @param node  Target NUMA node (-1 = system default).
      * @return Pointer to the allocation; never null (throws std::bad_alloc).
      */
-    static void* allocate(size_t size, int node = -1);
+    static void* allocate(size_t size, [[maybe_unused]] int node = -1);
 
     /**
      * @brief Release memory previously allocated via `allocate()`.
@@ -174,7 +175,7 @@ public:
      * @param ptr   Pointer returned by `allocate()`.
      * @param size  Original allocation size.
      */
-    static void deallocate(void* ptr, size_t size) noexcept;
+    static void deallocate(void* ptr, [[maybe_unused]] size_t size) noexcept;
 
     /**
      * @brief Whether NUMA-aware allocation is available on this system.

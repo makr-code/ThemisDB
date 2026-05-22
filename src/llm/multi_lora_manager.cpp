@@ -1258,16 +1258,16 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
         // Fallback: generate a size-representative weight vector when the file
         // cannot be parsed (e.g. unit tests with non-existent paths).
         if (weights.empty()) {
-            size_t num_weights = lora->original_vram_bytes / sizeof(float);
+            size_t fallback_weights = lora->original_vram_bytes / sizeof(float);
             const size_t kMaxFallback = 256 * 1024;   // 1 MB of floats
-            num_weights = std::min(num_weights, kMaxFallback);
-            if (num_weights == 0) {
+            fallback_weights = std::min(fallback_weights, kMaxFallback);
+            if (fallback_weights == 0) {
                 spdlog::warn("quantizeLoRA: zero-size LoRA '{}', skipping quantization", lora->lora_id);
                 return false;
             }
-            weights.assign(num_weights, 0.0f);
+            weights.assign(fallback_weights, 0.0f);
             // Populate with a deterministic non-zero pattern for scale calibration.
-            for (size_t i = 0; i < num_weights; ++i) {
+            for (size_t i = 0; i < fallback_weights; ++i) {
                 weights[i] = static_cast<float>((i % 255) - 127) / 127.0f;
             }
         }
@@ -2683,7 +2683,6 @@ json MultiLoRAManager::getGPUTransferAuditLog(size_t limit) const {
     
     json log = json::array();
     
-    size_t count = 0;
     size_t start = (limit > 0 && audit_log_.size() > limit) ? 
                    (audit_log_.size() - limit) : 0;
     

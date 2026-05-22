@@ -262,7 +262,7 @@ void ZeroTrustAuthVerifier::monitorLoop() {
 
             // If the generation changed (new session added), loop back to
             // re-compute the earliest wake deadline before dispatching.
-            if (schedule_generation_.load() != gen) {
+            if (schedule_generation_.load() != schedule_gen) {
                 continue;
             }
 

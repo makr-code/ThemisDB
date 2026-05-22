@@ -197,6 +197,7 @@ TEST_F(ModelLoadingTest, Memory_BoundsChecking) {
 TEST_F(ModelLoadingTest, Memory_ProperCleanup) {
     test::MemoryUsageTracker memory;
     double baseline = memory.getCurrentMemoryUsageMB();
+    static_cast<void>(baseline);
     
 #ifdef THEMIS_ENABLE_LLM
     // Load and unload model

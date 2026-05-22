@@ -740,7 +740,7 @@ public:
                     float batch_loss = compute_mse_loss(predictions, batch_target);
                     
                     // Scale loss for mixed precision
-                    float scaled_loss = mixed_precision->scale_loss(batch_loss);
+                    static_cast<void>(mixed_precision->scale_loss(batch_loss));
                     
                     epoch_loss += batch_loss;
                     num_batches++;
@@ -1586,7 +1586,6 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         spdlog::info("GGUF KV pairs: {}", kv_count);
         
         // Parse metadata KV pairs to extract model info
-        size_t model_param_count = 0;
         std::vector<std::string> layer_names;
         
         for (uint64_t i = 0; i < kv_count; ++i) {

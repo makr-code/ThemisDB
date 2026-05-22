@@ -213,7 +213,6 @@ TEST_F(PIIStreamDetectorTest, Statelessness_ConcurrentCallsDoNotInterfere) {
 
     std::vector<std::future<PIIDetectionResult>> futures;
     for (int i = 0; i < 16; ++i) {
-        auto& chunk = (i % 2 == 0) ? chunkA : chunkB;
         futures.push_back(std::async(std::launch::async,
             [&, i]() {
                 auto& c = (i % 2 == 0) ? chunkA : chunkB;

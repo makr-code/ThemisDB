@@ -58,7 +58,7 @@ bool ABTestingFramework::startTest(const ABTestConfig &config) {
 }
 
 void ABTestingFramework::recordObservation(const std::string &test_id, bool is_treatment, bool success,
-                                           double metric_value) {
+                                           [[maybe_unused]] double metric_value) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     auto it = impl_->tests.find(test_id);
@@ -197,6 +197,7 @@ double ABTestingFramework::calculateTStatistic(const GroupMetrics &control, cons
 }
 
 double ABTestingFramework::calculatePValue(double t_statistic, size_t df) {
+    static_cast<void>(df);
     // Simplified p-value calculation using normal approximation
     // For large df (>30), t-distribution ≈ normal distribution
 

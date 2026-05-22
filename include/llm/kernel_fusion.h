@@ -76,7 +76,7 @@ void fusedSoftmaxDropoutAttention(
     float* attention_weights,   // Attention weights (for visualization)
     const float* scores,        // Attention scores (pre-softmax)
     const float* values,        // Value tensor
-    const float* attention_mask,// Optional attention mask
+    [[maybe_unused]] const float* attention_mask,// Optional attention mask
     int batch_size,
     int num_heads,
     int seq_len_q,
@@ -136,12 +136,15 @@ public:
     
     // Check if fusion is beneficial for given dimensions
     bool shouldFuseLayerNormLinear(int batch, int seq_len, int hidden_dim) const;
-    bool shouldFuseQKV(int batch, int seq_len, int hidden_dim) const;
-    bool shouldFuseFFN(int batch, int seq_len, int hidden_dim) const;
+    bool shouldFuseQKV([[maybe_unused]] int batch, [[maybe_unused]] int seq_len,
+                       [[maybe_unused]] int hidden_dim) const;
+    bool shouldFuseFFN(int batch, int seq_len, [[maybe_unused]] int hidden_dim) const;
     
     // Performance estimation
     double estimateSpeedup(const std::string& fusion_type,
-                          int batch, int seq_len, int hidden_dim) const;
+                          [[maybe_unused]] int batch,
+                          [[maybe_unused]] int seq_len,
+                          [[maybe_unused]] int hidden_dim) const;
     
     // Statistics
     struct FusionStats {

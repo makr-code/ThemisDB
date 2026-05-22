@@ -122,7 +122,6 @@ GPUTensor FlashLoRA::forward(
     }
     
     // Get LoRA dimensions
-    size_t rank = B.shape()[0];
     size_t out_dim = A.shape()[0];
     
     // Create output tensor
@@ -491,7 +490,6 @@ void FlashLoRA::validate_shapes(
     size_t in_dim = input_shape.back();
     size_t rank_B = B_shape[0];
     size_t in_dim_B = B_shape[1];
-    size_t out_dim_A = A_shape[0];
     size_t rank_A = A_shape[1];
     
     if (in_dim != in_dim_B) {

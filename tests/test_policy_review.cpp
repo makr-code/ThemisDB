@@ -464,7 +464,6 @@ TEST(ReviewWorkflowTest, GetOverdueReviews) {
     ReviewWorkflow workflow;
     
     auto now = getCurrentTime();
-    auto past_time = now - getTimeOffset(10);
     
     // Create a review with a past due date
     auto id = workflow.createReview("rule-001", "alice", "bob", 7);

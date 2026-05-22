@@ -465,7 +465,7 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
                              batch_loss);
             }
             
-        } catch (const std::bad_alloc& e) {
+        } catch (const std::bad_alloc&) {
             // Handle OOM (NEW)
             if (adaptive_batcher_) {
                 adaptive_batcher_->handleOOMEvent();

@@ -262,6 +262,10 @@ static std::vector<uint8_t> makeFrame(uint8_t opcode,
     frame.push_back(static_cast<uint8_t>((ps >>  8) & 0xFF));
     frame.push_back(static_cast<uint8_t>( ps         & 0xFF));
     // Payload
+    frame.insert(frame.end(), payload.begin(), payload.end());
+    return frame;
+}
+
 // Binary frame format helpers (mirrors the logic in processBinaryFrame)
 // ---------------------------------------------------------------------------
 
@@ -442,18 +446,19 @@ TEST(WireProtocolWebSocket, BinaryResponseOpcodeValues) {
     EXPECT_NE(kOpcodeErrorResponse, 0xFFu);
 
     SUCCEED() << "Binary response opcode values documented";
+}
 // ---------------------------------------------------------------------------
 // Binary frame parse validation tests (no network I/O, purely structural)
 // ---------------------------------------------------------------------------
 
-TEST(WireProtocolWebSocket, BinaryFrameTooShort) {
+TEST(WireProtocolWebSocket, BinaryFrameTooShortStructural) {
     // A 4-byte frame is too short (header requires 12 bytes).
     // Verify the frame-length check rejects it before magic validation.
     const std::vector<uint8_t> short_frame = {0x54, 0x4D, 0x44, 0x42};
     EXPECT_LT(short_frame.size(), 12u);
 }
 
-TEST(WireProtocolWebSocket, BinaryFrameInvalidMagic) {
+TEST(WireProtocolWebSocket, BinaryFrameInvalidMagicStructural) {
     // Frame with wrong magic must be rejected.
     const std::vector<uint8_t> bad_magic = {
         0x00, 0x00, 0x00, 0x00,  // wrong magic

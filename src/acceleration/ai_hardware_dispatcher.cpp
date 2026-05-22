@@ -748,9 +748,9 @@ AiInferenceResult AiHardwareDispatcher::dispatchNNAPI([[maybe_unused]] AiInferen
 #endif // THEMIS_HAS_NNAPI
 }
 
-AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime(AiInferenceRequest &req) {
+AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime([[maybe_unused]] AiInferenceRequest &req) {
 #if defined(THEMIS_ORT_AVAILABLE)
-    if (!req.input_data || req.input_elements == 0) {
+    if (req.input_data == nullptr || req.input_elements == 0) {
         return makeError(BackendType::ONNX_RUNTIME, "Invalid input: null or empty");
     }
     if (req.model_path.empty()) {
@@ -764,14 +764,14 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime(AiInferenceRequest &
 
     try {
         const OrtApi *ort = OrtGetApiBase()->GetApi(ORT_API_VERSION);
-        if (!ort) {
+        if (ort == nullptr) {
             return makeError(BackendType::ONNX_RUNTIME, "OrtGetApiBase returned null");
         }
 
         // Environment (one per process)
         OrtEnv *env       = nullptr;
         OrtStatus *status = ort->CreateEnv(ORT_LOGGING_LEVEL_WARNING, "ThemisAiDispatcher", &env);
-        if (status) {
+        if (status != nullptr) {
             std::string msg = ort->GetErrorMessage(status);
             ort->ReleaseStatus(status);
             return makeError(BackendType::ONNX_RUNTIME, "ORT CreateEnv failed: " + msg);
@@ -796,7 +796,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime(AiInferenceRequest &
 #else
         status = ort->CreateSession(env, req.model_path.c_str(), opts, &session);
 #endif
-        if (status) {
+        if (status != nullptr) {
             std::string msg = ort->GetErrorMessage(status);
             ort->ReleaseStatus(status);
             ort->ReleaseSessionOptions(opts);
@@ -841,7 +841,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime(AiInferenceRequest &
         status = ort->Run(session, nullptr, in_names, &input_tensor, input_count, out_names, output_count,
                           output_tensors.data());
 
-        if (status) {
+        if (status != nullptr) {
             std::string msg = ort->GetErrorMessage(status);
             ort->ReleaseStatus(status);
             // Cleanup
@@ -894,6 +894,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime(AiInferenceRequest &
     result.latency_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
     return result;
 #else
+    static_cast<void>(req);
     return makeError(BackendType::ONNX_RUNTIME, "ONNX Runtime headers not found at compile time");
 #endif
 }
@@ -908,7 +909,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchGpuFallback(AiInferenceRequest &
 }
 
 AiInferenceResult AiHardwareDispatcher::dispatchCpuFallback(AiInferenceRequest &req) {
-    if (!req.input_data || req.input_elements == 0) {
+    if (req.input_data == nullptr || req.input_elements == 0) {
         return makeError(BackendType::CPU, "Invalid input: null or empty");
     }
     auto t0 = std::chrono::steady_clock::now();

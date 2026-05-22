@@ -568,6 +568,7 @@ std::vector<std::string> LoRASecurityValidator::detectWeightAnomalies(
 std::string LoRASecurityValidator::calculateChecksum(
     const std::string& lora_path,
     const std::string& algorithm) {
+    static_cast<void>(algorithm);
     
     std::vector<uint8_t> data;
     if (!loadLoRAFile(lora_path, data)) {

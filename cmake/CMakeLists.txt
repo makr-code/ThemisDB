@@ -1705,6 +1705,11 @@ set(THEMIS_CORE_SOURCES
     ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/synopsis_store.cpp
+    ../src/query/incremental_agg.cpp
+    ../src/query/cq_watermark.cpp
+    ../src/query/continuous_query_engine.cpp
+    ../src/query/continuous_query_planner.cpp
     ../src/query/query_rewrite_rule.cpp
     ../src/query/query_profiler.cpp
 
