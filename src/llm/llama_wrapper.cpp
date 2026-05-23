@@ -77,6 +77,20 @@ extern "C" {
 namespace themis {
 namespace llm {
 
+namespace {
+constexpr int DEFAULT_MAX_GENERATION_TOKENS = 512;
+
+int resolveMaxTokensWithContextCap(int requested_max_tokens, int context_limit, bool& was_capped) {
+    int resolved = requested_max_tokens > 0 ? requested_max_tokens : DEFAULT_MAX_GENERATION_TOKENS;
+    was_capped = false;
+    if (context_limit > 0 && resolved > context_limit) {
+        resolved = context_limit;
+        was_capped = true;
+    }
+    return resolved;
+}
+}  // namespace
+
 // ═══════════════════════════════════════════════════════════
 // Configuration Validation
 // ═══════════════════════════════════════════════════════════
@@ -1023,7 +1037,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         }
         
         // 3. Prepare batch for prompt evaluation
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
         
         // 3. Evaluate prompt (populate KV cache)
         if (llama_decode(lctx, batch) != 0) {
@@ -1032,7 +1046,12 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // 4. Generate tokens
         std::vector<llama_token> generated_tokens;
-        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
+        bool max_tokens_capped = false;
+        int max_tokens = resolveMaxTokensWithContextCap(request.max_tokens, config_.n_ctx, max_tokens_capped);
+        if (max_tokens_capped) {
+            spdlog::warn("Requested max_tokens={} exceeds context limit n_ctx={}, capping generation to {}",
+                         request.max_tokens, config_.n_ctx, max_tokens);
+        }
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
@@ -1385,7 +1404,7 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
         std::vector<llama_token> tokens = tokenizeInternal(lmodel, text, true);
         
         // 2. Prepare batch for evaluation
-        llama_batch batch = llama_batch_get_one(tokens.data(), tokens.size());
+        llama_batch batch = llama_batch_get_one(tokens.data(), static_cast<int32_t>(tokens.size()));
         
         // 3. Evaluate to generate embeddings
         if (llama_decode(lctx, batch) != 0) {
@@ -2216,7 +2235,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         }
         
         // 2. Evaluate prompt in both models
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
         if (llama_decode(target_context, batch) != 0) {
             throw std::runtime_error("Failed to evaluate prompt in target model");
         }
@@ -2230,7 +2249,12 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
         llama_token eos_token = llama_vocab_eos(vocab);
         
-        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
+        bool max_tokens_capped = false;
+        int max_tokens = resolveMaxTokensWithContextCap(request.max_tokens, config_.n_ctx, max_tokens_capped);
+        if (max_tokens_capped) {
+            spdlog::warn("Requested max_tokens={} exceeds context limit n_ctx={}, capping generation to {}",
+                         request.max_tokens, config_.n_ctx, max_tokens);
+        }
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
@@ -2464,14 +2488,19 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             llama_memory_seq_rm(mem, 0, -1, -1);
         }
 
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
         
         if (llama_decode(lctx, batch) != 0) {
             throw std::runtime_error("Failed to evaluate prompt");
         }
         
         std::vector<llama_token> generated_tokens;
-        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
+        bool max_tokens_capped = false;
+        int max_tokens = resolveMaxTokensWithContextCap(request.max_tokens, config_.n_ctx, max_tokens_capped);
+        if (max_tokens_capped) {
+            spdlog::warn("Requested max_tokens={} exceeds context limit n_ctx={}, capping generation to {}",
+                         request.max_tokens, config_.n_ctx, max_tokens);
+        }
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
@@ -3100,4 +3129,5 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
 
 } // namespace llm
 } // namespace themis
+
 

@@ -506,7 +506,7 @@ WorkloadClassifier::Stats WorkloadClassifier::getStats() const {
 
 // HnswMemoryOptimizer implementation
 
-void HnswMemoryOptimizer::prefetchNodes(const std::vector<size_t>& node_ids) {
+void HnswMemoryOptimizer::prefetchNodes([[maybe_unused]] const std::vector<size_t>& node_ids) {
 #ifdef __SSE__
     // Use SIMD prefetch instructions if available
     for (size_t id : node_ids) {

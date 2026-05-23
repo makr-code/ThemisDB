@@ -7,13 +7,14 @@
  */
 
 #include "api/tracing_middleware.h"
-#include "api/otlp_exporter.h"
-#include "utils/logger.h"
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <chrono>
+
+#include "api/otlp_exporter.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace api {
@@ -29,9 +30,7 @@ thread_local int64_t tl_span_start_ns = 0;
 // Construction
 // ---------------------------------------------------------------------------
 
-TracingMiddleware::TracingMiddleware(OtlpExporter* exporter)
-    : exporter_(exporter)
-{}
+TracingMiddleware::TracingMiddleware(OtlpExporter *exporter) : exporter_(exporter) {}
 
 // ---------------------------------------------------------------------------
 // processRequest
@@ -50,7 +49,7 @@ std::string TracingMiddleware::processRequest(std::string_view incoming_id) cons
 
     // Record span start time (used by finishSpan())
     if (exporter_) {
-        const auto now = std::chrono::system_clock::now().time_since_epoch();
+        const auto now   = std::chrono::system_clock::now().time_since_epoch();
         tl_span_start_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(now).count();
     }
 
@@ -64,18 +63,23 @@ std::string TracingMiddleware::processRequest(std::string_view incoming_id) cons
 // finishSpan
 // ---------------------------------------------------------------------------
 
-void TracingMiddleware::finishSpan(std::string_view span_name, int http_status) const
-{
-    if (!exporter_) return;
-    if (tl_correlation_id.empty()) return;
-    if (tl_span_start_ns == 0) return;  // processRequest() was not called with this exporter
+void TracingMiddleware::finishSpan(std::string_view span_name, int http_status) const {
+    if (!exporter_) {
+        return;
+    }
+    if (tl_correlation_id.empty()) {
+        return;
+    }
+    if (tl_span_start_ns == 0) {
+        return; // processRequest() was not called with this exporter
+    }
 
-    const auto now = std::chrono::system_clock::now().time_since_epoch();
+    const auto now       = std::chrono::system_clock::now().time_since_epoch();
     const int64_t end_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(now).count();
 
     SpanData span;
-    span.trace_id          = tl_correlation_id;
-    span.name              = std::string(span_name);
+    span.trace_id             = tl_correlation_id;
+    span.name                 = std::string(span_name);
     span.start_time_unix_nano = tl_span_start_ns > 0 ? tl_span_start_ns : end_ns;
     span.end_time_unix_nano   = end_ns;
 
@@ -83,7 +87,7 @@ void TracingMiddleware::finishSpan(std::string_view span_name, int http_status) 
         span.status_code    = 2; // Error
         span.status_message = "HTTP " + std::to_string(http_status);
     } else if (http_status > 0) {
-        span.status_code    = 1; // OK
+        span.status_code = 1; // OK
     }
 
     if (http_status > 0) {
@@ -98,7 +102,7 @@ void TracingMiddleware::finishSpan(std::string_view span_name, int http_status) 
 // ---------------------------------------------------------------------------
 
 /*static*/
-const std::string& TracingMiddleware::currentCorrelationId() noexcept {
+const std::string &TracingMiddleware::currentCorrelationId() noexcept {
     return tl_correlation_id;
 }
 

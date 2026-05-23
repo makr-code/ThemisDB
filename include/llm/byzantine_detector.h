@@ -101,6 +101,7 @@ public:
 class MedianDetector : public ByzantineDetector {
 public:
     explicit MedianDetector(float threshold = 3.0f);
+    ~MedianDetector() override = default;
     
     DetectionResult detectByzantineShards(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
@@ -132,6 +133,7 @@ private:
 class KrumDetector : public ByzantineDetector {
 public:
     explicit KrumDetector(int max_byzantine_shards = 1);
+    ~KrumDetector() override = default;
     
     DetectionResult detectByzantineShards(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
@@ -169,6 +171,7 @@ private:
 class BulyanDetector : public ByzantineDetector {
 public:
     explicit BulyanDetector(int max_byzantine_shards = 1);
+    ~BulyanDetector() override = default;
     
     DetectionResult detectByzantineShards(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
@@ -209,6 +212,7 @@ public:
         float median_threshold = 3.0f,
         int max_byzantine_shards = 1
     );
+    ~EnsembleDetector() override = default;
     
     DetectionResult detectByzantineShards(
         const std::map<std::string, std::vector<GradientTensor>>& shard_gradients

@@ -84,7 +84,9 @@ public:
     /// Get cached metadata für Tabelle
     /// Returns: IndexMetadata if cached, std::nullopt if cache miss
     std::optional<IndexMetadata> get(std::string_view table) {
-        std::shared_lock<std::shared_mutex> lock(cache_mutex_);
+        // get() updates cache statistics; therefore it must not run under a
+        // shared/read lock while mutating stats_.
+        std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         
         stats_.total_lookups++;
         

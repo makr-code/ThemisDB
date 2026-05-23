@@ -207,7 +207,6 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
             if (rk2 != lk) break;
             ++ri;
         }
-        size_t li_start = li;
         while (li < left.size()) {
             const uint64_t lk2 = (op.left_key_col < left[li].size())
                                       ? left[li][op.left_key_col] : UINT64_MAX;

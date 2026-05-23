@@ -19,23 +19,25 @@
  */
 
 #include "cache/redis_cache_coordinator.h"
-#include "utils/logger.h"
-#include "observability/metrics_collector.h"
+
 #include <algorithm>
-#include <sstream>
-#include <stdexcept>
-#include <chrono>
 #include <cerrno>
+#include <chrono>
 #include <climits>
 #include <iomanip>
+#include <sstream>
+#include <stdexcept>
+
+#include "observability/metrics_collector.h"
+#include "utils/logger.h"
 
 #ifdef THEMIS_ENABLE_REDIS
 #include <hiredis/hiredis.h>
 #endif
 
-#include <openssl/hmac.h>
-#include <openssl/evp.h>
 #include <openssl/crypto.h>
+#include <openssl/evp.h>
+#include <openssl/hmac.h>
 
 namespace themis {
 namespace cache {
@@ -44,8 +46,8 @@ namespace cache {
 // STUB #42 — RedisPublishFn static bridge (non-hiredis injection)
 // ---------------------------------------------------------------------------
 namespace {
-std::mutex                         s_redis_pub_fn_mutex;
-std::function<bool(const std::string&, const std::string&)> s_redis_pub_fn;
+std::mutex s_redis_pub_fn_mutex;
+std::function<bool(const std::string &, const std::string &)> s_redis_pub_fn;
 } // namespace
 
 void RedisCacheCoordinator::setRedisPublishFn(RedisPublishFn fn) {
@@ -57,14 +59,10 @@ void RedisCacheCoordinator::setRedisPublishFn(RedisPublishFn fn) {
 // Constructor / destructor
 // ============================================================================
 
-RedisCacheCoordinator::RedisCacheCoordinator(const Config& config)
-    : config_(config)
-{
+RedisCacheCoordinator::RedisCacheCoordinator(const Config &config) : config_(config) {
     // Derive channel name and effective node_id
     channel_ = config_.channel_prefix + ":replication";
-    node_id_ = config_.node_id.empty()
-                   ? (config_.host + ":" + std::to_string(config_.port))
-                   : config_.node_id;
+    node_id_ = config_.node_id.empty() ? (config_.host + ":" + std::to_string(config_.port)) : config_.node_id;
 
 #ifdef THEMIS_ENABLE_REDIS
     THEMIS_INFO("RedisCacheCoordinator: channel={} node_id={}", channel_, node_id_);
@@ -112,10 +110,8 @@ RedisCacheCoordinator::~RedisCacheCoordinator() {
 // ICacheCoordinator – publish side
 // ============================================================================
 
-void RedisCacheCoordinator::publishEntry(const std::string& key,
-                                          const nlohmann::json& result,
-                                          int ttl_seconds,
-                                          const std::string& tenant_id) {
+void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
+                                         const std::string &tenant_id) {
 #ifdef THEMIS_ENABLE_REDIS
     ReplicationMessage msg;
     msg.type        = ReplicationMessage::Type::ENTRY_PUT;
@@ -133,15 +129,14 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
         return;
     }
 
-    redisReply* reply = static_cast<redisReply*>(
-        redisCommand(pub_ctx_, "PUBLISH %s %b",
-                     channel_.c_str(),
-                     payload.data(), payload.size()));
+    redisReply *reply = static_cast<redisReply *>(
+        redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
 
     if (reply == nullptr || pub_ctx_->err) {
         THEMIS_WARN("RedisCacheCoordinator::publishEntry: PUBLISH failed: {}",
                     pub_ctx_ ? pub_ctx_->errstr : "null context");
-        if (reply) freeReplyObject(reply);
+        if (reply)
+            freeReplyObject(reply);
         // Close broken connection; will reconnect on next call
         redisFree(pub_ctx_);
         pub_ctx_ = nullptr;
@@ -159,7 +154,10 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
 #else
     {
         RedisPublishFn fn;
-        { std::lock_guard<std::mutex> lk(s_redis_pub_fn_mutex); fn = s_redis_pub_fn; }
+        {
+            std::lock_guard<std::mutex> lk(s_redis_pub_fn_mutex);
+            fn = s_redis_pub_fn;
+        }
         if (fn) {
             ReplicationMessage msg2;
             msg2.type        = ReplicationMessage::Type::ENTRY_PUT;
@@ -167,10 +165,18 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
             msg2.result      = result;
             msg2.ttl_seconds = ttl_seconds;
             msg2.tenant_id   = tenant_id;
-            bool ok = false;
-            try { ok = fn(channel_, serializeMessage(msg2)); } catch (...) { ok = false; }
+            bool ok          = false;
+            try {
+                ok = fn(channel_, serializeMessage(msg2));
+            } catch (...) {
+                ok = false;
+            }
             std::lock_guard<std::mutex> slk(stats_mutex_);
-            if (ok) ++messages_published_; else ++publish_errors_;
+            if (ok) {
+                ++messages_published_;
+            } else {
+                ++publish_errors_;
+            }
         } else {
             std::lock_guard<std::mutex> slk(stats_mutex_);
             ++publish_errors_;
@@ -179,8 +185,7 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
 #endif
 }
 
-void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
-                                                  const std::string& tenant_id) {
+void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
 #ifdef THEMIS_ENABLE_REDIS
     ReplicationMessage msg;
     msg.type      = ReplicationMessage::Type::INVALIDATE;
@@ -196,15 +201,14 @@ void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
         return;
     }
 
-    redisReply* reply = static_cast<redisReply*>(
-        redisCommand(pub_ctx_, "PUBLISH %s %b",
-                     channel_.c_str(),
-                     payload.data(), payload.size()));
+    redisReply *reply = static_cast<redisReply *>(
+        redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(), payload.size()));
 
     if (reply == nullptr || pub_ctx_->err) {
         THEMIS_WARN("RedisCacheCoordinator::publishInvalidation: PUBLISH failed: {}",
                     pub_ctx_ ? pub_ctx_->errstr : "null context");
-        if (reply) freeReplyObject(reply);
+        if (reply)
+            freeReplyObject(reply);
         redisFree(pub_ctx_);
         pub_ctx_ = nullptr;
         pub_connected_.store(false);
@@ -221,16 +225,27 @@ void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
 #else
     {
         RedisPublishFn fn;
-        { std::lock_guard<std::mutex> lk(s_redis_pub_fn_mutex); fn = s_redis_pub_fn; }
+        {
+            std::lock_guard<std::mutex> lk(s_redis_pub_fn_mutex);
+            fn = s_redis_pub_fn;
+        }
         if (fn) {
             ReplicationMessage msg2;
             msg2.type      = ReplicationMessage::Type::INVALIDATE;
             msg2.key       = pattern;
             msg2.tenant_id = tenant_id;
-            bool ok = false;
-            try { ok = fn(channel_, serializeMessage(msg2)); } catch (...) { ok = false; }
+            bool ok        = false;
+            try {
+                ok = fn(channel_, serializeMessage(msg2));
+            } catch (...) {
+                ok = false;
+            }
             std::lock_guard<std::mutex> slk(stats_mutex_);
-            if (ok) ++messages_published_; else ++publish_errors_;
+            if (ok) {
+                ++messages_published_;
+            } else {
+                ++publish_errors_;
+            }
         } else {
             std::lock_guard<std::mutex> slk(stats_mutex_);
             ++publish_errors_;
@@ -258,8 +273,7 @@ bool RedisCacheCoordinator::isConnected() const {
 }
 
 std::string RedisCacheCoordinator::name() const {
-    return "RedisCacheCoordinator(" + config_.host + ":" +
-           std::to_string(config_.port) + ")";
+    return "RedisCacheCoordinator(" + config_.host + ":" + std::to_string(config_.port) + ")";
 }
 
 nlohmann::json RedisCacheCoordinator::getStats() const {
@@ -271,15 +285,9 @@ nlohmann::json RedisCacheCoordinator::getStats() const {
         err    = publish_errors_;
         reconn = reconnect_count_;
     }
-    return {
-        {"messages_published", pub},
-        {"messages_received",  recv},
-        {"publish_errors",     err},
-        {"reconnect_count",    reconn},
-        {"connected",          pub_connected_.load()},
-        {"channel",            channel_},
-        {"node_id",            node_id_}
-    };
+    return {{"messages_published", pub}, {"messages_received", recv},          {"publish_errors", err},
+            {"reconnect_count", reconn}, {"connected", pub_connected_.load()}, {"channel", channel_},
+            {"node_id", node_id_}};
 }
 
 // ============================================================================
@@ -290,13 +298,13 @@ nlohmann::json RedisCacheCoordinator::getStats() const {
 
 namespace {
 /// Maximum back-off cap for the subscriber reconnect loop.
-constexpr int kReconnectBackoffMaxMs = 30000;  ///< Maximum back-off: 30 seconds
+constexpr int kReconnectBackoffMaxMs = 30000; ///< Maximum back-off: 30 seconds
 } // anonymous namespace
 
 bool RedisCacheCoordinator::connectPublish() {
     // Caller must hold pub_mutex_
     if (pub_ctx_ != nullptr && !pub_ctx_->err) {
-        return true;  // Already connected
+        return true; // Already connected
     }
 
     // Clean up any broken context
@@ -311,15 +319,13 @@ bool RedisCacheCoordinator::connectPublish() {
 
     pub_ctx_ = redisConnectWithTimeout(config_.host.c_str(), config_.port, timeout);
     if (pub_ctx_ == nullptr) {
-        THEMIS_WARN("RedisCacheCoordinator: publish connect failed (null context) {}:{}",
-                    config_.host, config_.port);
+        THEMIS_WARN("RedisCacheCoordinator: publish connect failed (null context) {}:{}", config_.host, config_.port);
         pub_connected_.store(false);
         return false;
     }
     if (pub_ctx_->err) {
         THEMIS_WARN("RedisCacheCoordinator: publish connect error {}: {}",
-                    config_.host + ":" + std::to_string(config_.port),
-                    pub_ctx_->errstr);
+                    config_.host + ":" + std::to_string(config_.port), pub_ctx_->errstr);
         redisFree(pub_ctx_);
         pub_ctx_ = nullptr;
         pub_connected_.store(false);
@@ -328,12 +334,11 @@ bool RedisCacheCoordinator::connectPublish() {
 
     // Authenticate if password provided
     if (!config_.auth.empty()) {
-        redisReply* r = static_cast<redisReply*>(
-            redisCommand(pub_ctx_, "AUTH %s", config_.auth.c_str()));
-        if (r == nullptr || pub_ctx_->err ||
-            (r->type == REDIS_REPLY_ERROR)) {
+        redisReply *r = static_cast<redisReply *>(redisCommand(pub_ctx_, "AUTH %s", config_.auth.c_str()));
+        if (r == nullptr || pub_ctx_->err || (r->type == REDIS_REPLY_ERROR)) {
             THEMIS_WARN("RedisCacheCoordinator: AUTH failed on publish connection");
-            if (r) freeReplyObject(r);
+            if (r)
+                freeReplyObject(r);
             redisFree(pub_ctx_);
             pub_ctx_ = nullptr;
             pub_connected_.store(false);
@@ -343,8 +348,7 @@ bool RedisCacheCoordinator::connectPublish() {
     }
 
     pub_connected_.store(true);
-    THEMIS_INFO("RedisCacheCoordinator: publish connection established to {}:{}",
-                config_.host, config_.port);
+    THEMIS_INFO("RedisCacheCoordinator: publish connection established to {}:{}", config_.host, config_.port);
     return true;
 }
 
@@ -360,8 +364,7 @@ bool RedisCacheCoordinator::connectSubscribe() {
 
     sub_ctx_ = redisConnectWithTimeout(config_.host.c_str(), config_.port, timeout);
     if (sub_ctx_ == nullptr || sub_ctx_->err) {
-        THEMIS_WARN("RedisCacheCoordinator: subscribe connect failed {}:{}",
-                    config_.host, config_.port);
+        THEMIS_WARN("RedisCacheCoordinator: subscribe connect failed {}:{}", config_.host, config_.port);
         if (sub_ctx_) {
             redisFree(sub_ctx_);
             sub_ctx_ = nullptr;
@@ -371,12 +374,11 @@ bool RedisCacheCoordinator::connectSubscribe() {
 
     // Authenticate
     if (!config_.auth.empty()) {
-        redisReply* r = static_cast<redisReply*>(
-            redisCommand(sub_ctx_, "AUTH %s", config_.auth.c_str()));
-        if (r == nullptr || sub_ctx_->err ||
-            (r->type == REDIS_REPLY_ERROR)) {
+        redisReply *r = static_cast<redisReply *>(redisCommand(sub_ctx_, "AUTH %s", config_.auth.c_str()));
+        if (r == nullptr || sub_ctx_->err || (r->type == REDIS_REPLY_ERROR)) {
             THEMIS_WARN("RedisCacheCoordinator: AUTH failed on subscribe connection");
-            if (r) freeReplyObject(r);
+            if (r)
+                freeReplyObject(r);
             redisFree(sub_ctx_);
             sub_ctx_ = nullptr;
             return false;
@@ -385,11 +387,11 @@ bool RedisCacheCoordinator::connectSubscribe() {
     }
 
     // Issue SUBSCRIBE command
-    redisReply* r = static_cast<redisReply*>(
-        redisCommand(sub_ctx_, "SUBSCRIBE %s", channel_.c_str()));
+    redisReply *r = static_cast<redisReply *>(redisCommand(sub_ctx_, "SUBSCRIBE %s", channel_.c_str()));
     if (r == nullptr || sub_ctx_->err) {
         THEMIS_WARN("RedisCacheCoordinator: SUBSCRIBE failed on channel {}", channel_);
-        if (r) freeReplyObject(r);
+        if (r)
+            freeReplyObject(r);
         redisFree(sub_ctx_);
         sub_ctx_ = nullptr;
         return false;
@@ -400,11 +402,10 @@ bool RedisCacheCoordinator::connectSubscribe() {
     // the running_ flag and exit cleanly on destruction.
     struct timeval read_timeout;
     read_timeout.tv_sec  = 0;
-    read_timeout.tv_usec = 200 * 1000;  // 200 ms
+    read_timeout.tv_usec = 200 * 1000; // 200 ms
     redisSetTimeout(sub_ctx_, read_timeout);
 
-    THEMIS_INFO("RedisCacheCoordinator: subscribe connection established, channel={}",
-                channel_);
+    THEMIS_INFO("RedisCacheCoordinator: subscribe connection established, channel={}", channel_);
     return true;
 }
 
@@ -413,7 +414,7 @@ void RedisCacheCoordinator::subscribeLoop() {
     // each failed attempt, capped at kReconnectBackoffMaxMs.
     // Resets to the base interval on a successful connection.
     const int backoff_base_ms = std::max(1, config_.reconnect_interval_ms);
-    int backoff_ms = backoff_base_ms;
+    int backoff_ms            = backoff_base_ms;
 
     while (running_.load()) {
         // Connect the subscribe connection
@@ -425,18 +426,19 @@ void RedisCacheCoordinator::subscribeLoop() {
                 }
                 // Emit reconnect metric
                 try {
-                    auto& mc = observability::MetricsCollector::getInstance();
+                    auto &mc = observability::MetricsCollector::getInstance();
                     mc.addCounter("cache.redis.reconnect", 1);
-                } catch (const std::exception& ex) {
+                } catch (const std::exception &ex) {
                     THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
-                } catch (...) {}
+                } catch (...) {
+                }
 
                 THEMIS_WARN("RedisCacheCoordinator: subscribe connect failed; "
-                            "retrying in {} ms (back-off)", backoff_ms);
+                            "retrying in {} ms (back-off)",
+                            backoff_ms);
             }
             // Interruptible sleep in 50 ms increments so shutdown is fast
-            for (int elapsed = 0; elapsed < backoff_ms && running_.load();
-                 elapsed += 50) {
+            for (int elapsed = 0; elapsed < backoff_ms && running_.load(); elapsed += 50) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(50));
             }
             // Double the back-off interval, capped at max
@@ -449,14 +451,13 @@ void RedisCacheCoordinator::subscribeLoop() {
 
         // Read messages in a loop; redisGetReply times out every 200ms
         // (set via redisSetTimeout in connectSubscribe) so we can check running_.
-        redisReply* reply = nullptr;
+        redisReply *reply = nullptr;
         while (running_.load() && sub_ctx_ != nullptr) {
-            int rc = redisGetReply(sub_ctx_, reinterpret_cast<void**>(&reply));
+            int rc = redisGetReply(sub_ctx_, reinterpret_cast<void **>(&reply));
 
             if (rc != REDIS_OK) {
                 // EAGAIN / EWOULDBLOCK = read timeout; check running_ and retry
-                if (sub_ctx_ && sub_ctx_->err == REDIS_ERR_IO &&
-                    (errno == EAGAIN || errno == EWOULDBLOCK)) {
+                if (sub_ctx_ && sub_ctx_->err == REDIS_ERR_IO && (errno == EAGAIN || errno == EWOULDBLOCK)) {
                     reply = nullptr;
                     continue;
                 }
@@ -470,14 +471,10 @@ void RedisCacheCoordinator::subscribeLoop() {
             }
 
             // A pub/sub message is an array: ["message", channel, payload]
-            if (reply->type == REDIS_REPLY_ARRAY &&
-                reply->elements == 3 &&
-                reply->element[0]->type == REDIS_REPLY_STRING &&
-                std::string(reply->element[0]->str) == "message" &&
-                reply->element[2]->type == REDIS_REPLY_STRING) {
-
-                std::string payload(reply->element[2]->str,
-                                    static_cast<size_t>(reply->element[2]->len));
+            if (reply->type == REDIS_REPLY_ARRAY && reply->elements == 3
+                && reply->element[0]->type == REDIS_REPLY_STRING && std::string(reply->element[0]->str) == "message"
+                && reply->element[2]->type == REDIS_REPLY_STRING) {
+                std::string payload(reply->element[2]->str, static_cast<size_t>(reply->element[2]->len));
                 handleMessage(payload);
 
                 {
@@ -506,16 +503,17 @@ void RedisCacheCoordinator::subscribeLoop() {
             }
             // Emit reconnect metric
             try {
-                auto& mc = observability::MetricsCollector::getInstance();
+                auto &mc = observability::MetricsCollector::getInstance();
                 mc.addCounter("cache.redis.reconnect", 1);
-            } catch (const std::exception& ex) {
+            } catch (const std::exception &ex) {
                 THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
-            } catch (...) {}
+            } catch (...) {
+            }
 
             THEMIS_WARN("RedisCacheCoordinator: subscriber connection lost; "
-                        "reconnecting in {} ms (back-off)", backoff_ms);
-            for (int elapsed = 0; elapsed < backoff_ms && running_.load();
-                 elapsed += 50) {
+                        "reconnecting in {} ms (back-off)",
+                        backoff_ms);
+            for (int elapsed = 0; elapsed < backoff_ms && running_.load(); elapsed += 50) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(50));
             }
             backoff_ms = std::min(backoff_ms * 2, kReconnectBackoffMaxMs);
@@ -524,7 +522,7 @@ void RedisCacheCoordinator::subscribeLoop() {
     THEMIS_DEBUG("RedisCacheCoordinator: subscribe loop exited");
 }
 
-#else  // !THEMIS_ENABLE_REDIS
+#else // !THEMIS_ENABLE_REDIS
 
 // STUB/SIMULATION NOTE:
 // Purpose: Provide link-compatible no-op bodies for the three private methods
@@ -540,13 +538,17 @@ void RedisCacheCoordinator::subscribeLoop() {
 // Removal Plan: Enable hiredis and set THEMIS_ENABLE_REDIS=ON; the real
 //   pub/sub path above the #else branch becomes active.
 // Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md § "Redis Pub/Sub Invalidation (v1.6.0)"
-bool RedisCacheCoordinator::connectPublish()  { return false; }
-bool RedisCacheCoordinator::connectSubscribe(){ return false; }
-void RedisCacheCoordinator::subscribeLoop()   {}
+bool RedisCacheCoordinator::connectPublish() {
+    return false;
+}
+bool RedisCacheCoordinator::connectSubscribe() {
+    return false;
+}
+void RedisCacheCoordinator::subscribeLoop() {}
 
-#endif  // THEMIS_ENABLE_REDIS
+#endif // THEMIS_ENABLE_REDIS
 
-void RedisCacheCoordinator::handleMessage(const std::string& payload) {
+void RedisCacheCoordinator::handleMessage(const std::string &payload) {
     // Parse once; check self-echo before dispatching to avoid spurious evictions.
     try {
         auto j = nlohmann::json::parse(payload);
@@ -568,8 +570,7 @@ void RedisCacheCoordinator::handleMessage(const std::string& payload) {
         } else if (type_str == "INVALIDATE") {
             msg.type = ReplicationMessage::Type::INVALIDATE;
         } else {
-            THEMIS_WARN("RedisCacheCoordinator: unknown message type '{}' (ignored)",
-                        type_str);
+            THEMIS_WARN("RedisCacheCoordinator: unknown message type '{}' (ignored)", type_str);
             return;
         }
 
@@ -578,7 +579,7 @@ void RedisCacheCoordinator::handleMessage(const std::string& payload) {
         msg.ttl_seconds = j.value("ttl_seconds", 0);
         msg.result      = j.value("result", nlohmann::json{});
 
-        EntryCallback        entry_cb;
+        EntryCallback entry_cb;
         InvalidationCallback inv_cb;
         {
             std::lock_guard<std::mutex> lk(cb_mutex_);
@@ -591,19 +592,19 @@ void RedisCacheCoordinator::handleMessage(const std::string& payload) {
         } else if (msg.type == ReplicationMessage::Type::INVALIDATE && inv_cb) {
             inv_cb(msg);
         }
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         THEMIS_WARN("RedisCacheCoordinator: message handling error: {}", ex.what());
     }
 }
 
-std::string RedisCacheCoordinator::serializeMessage(const ReplicationMessage& msg) const {
+std::string RedisCacheCoordinator::serializeMessage(const ReplicationMessage &msg) const {
     nlohmann::json j;
     j["type"]        = (msg.type == ReplicationMessage::Type::ENTRY_PUT) ? "ENTRY_PUT" : "INVALIDATE";
     j["key"]         = msg.key;
     j["tenant_id"]   = msg.tenant_id;
     j["ttl_seconds"] = msg.ttl_seconds;
     j["result"]      = msg.result;
-    j["node_id"]     = node_id_;  // Used by peers for self-echo detection
+    j["node_id"]     = node_id_; // Used by peers for self-echo detection
 
     std::string payload = j.dump();
 
@@ -613,46 +614,40 @@ std::string RedisCacheCoordinator::serializeMessage(const ReplicationMessage& ms
         // signature over the payload WITHOUT the sig field to avoid a
         // chicken-and-egg dependency.
         j["sig"] = sig;
-        payload = j.dump();
+        payload  = j.dump();
     }
 
     return payload;
 }
 
-std::string RedisCacheCoordinator::computeHmac(const std::string& payload) const {
+std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const {
     if (config_.hmac_secret.empty()) {
         return {};
     }
 
     // Guard against pathological sizes that would truncate in the cast to int.
-    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) ||
-        payload.size() > static_cast<size_t>(INT_MAX)) {
+    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) || payload.size() > static_cast<size_t>(INT_MAX)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC input exceeds INT_MAX – aborting");
         return {};
     }
 
     unsigned char md[EVP_MAX_MD_SIZE];
-    unsigned int  md_len = 0;
+    unsigned int md_len = 0;
 
-    if (!HMAC(EVP_sha256(),
-              config_.hmac_secret.data(),
-              static_cast<int>(config_.hmac_secret.size()),
-              reinterpret_cast<const unsigned char*>(payload.data()),
-              static_cast<int>(payload.size()),
-              md, &md_len)) {
+    if (!HMAC(EVP_sha256(), config_.hmac_secret.data(), static_cast<int>(config_.hmac_secret.size()),
+              reinterpret_cast<const unsigned char *>(payload.data()), static_cast<int>(payload.size()), md, &md_len)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC computation failed");
         return {};
     }
 
     std::ostringstream oss;
     for (unsigned int i = 0; i < md_len; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0')
-            << static_cast<int>(md[i]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(md[i]);
     }
     return oss.str();
 }
 
-bool RedisCacheCoordinator::verifyHmac(const nlohmann::json& j) const {
+bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
     // Signing disabled – all messages are accepted.
     if (config_.hmac_secret.empty()) {
         return true;
@@ -684,20 +679,18 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json& j) const {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
             return false;
         }
-        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),
-                          expected_sig.size()) != 0) {
+        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(), expected_sig.size()) != 0) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed");
             return false;
         }
         return true;
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC verification error: {}", ex.what());
         return false;
     }
 }
 
-std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(
-    const std::string& data) const {
+std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(const std::string &data) const {
     // Note: handleMessage() already parses and dispatches; this helper is
     // provided for callers that need a standalone deserialise step.
     try {
@@ -719,7 +712,7 @@ std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(
         msg.result      = j.value("result", nlohmann::json{});
 
         return msg;
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         THEMIS_WARN("RedisCacheCoordinator: JSON parse error: {}", ex.what());
         return std::nullopt;
     }
@@ -727,4 +720,3 @@ std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(
 
 } // namespace cache
 } // namespace themis
-

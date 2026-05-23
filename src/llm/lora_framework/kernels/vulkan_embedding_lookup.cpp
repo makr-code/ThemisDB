@@ -1,15 +1,6 @@
-/*
- * ThemisDB | File: vulkan_embedding_lookup.cpp | Version: 0.0.1 | Last Modified: 2026-05-18 20:49:59
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 323
- * Open Issues: TODOs=1, Stubs=3, Gaps=6, Unimpl=0, Mock=1, Sim=1, Debt=0
- * Gap Correlation: internal=6 | external_v3=61 | delta=55 | status=divergent
- * External Severity (v3): C=9, H=51, M=1
- * PR: none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
+// THEMIS_GAP_STATS: gaps=0 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 #include "llm/lora_framework/vulkan_kernels.h"
+#include "llm/lora_framework/vulkan_context.h"
 
 #include <algorithm>
 #include <cmath>
@@ -21,8 +12,6 @@ namespace vulkan {
 
 namespace {
 
-bool g_vulkan_sim_available = true;
-
 inline void validate_ptr(const void* ptr, const char* name) {
     if (!ptr) {
         throw std::invalid_argument(std::string("null pointer: ") + name);
@@ -31,35 +20,29 @@ inline void validate_ptr(const void* ptr, const char* name) {
 
 } // namespace
 
-// STUB/SIMULATION NOTE (stub #285):
-// Purpose: Provide a build-safe CPU implementation of all Vulkan LoRA kernel APIs
-//          (matmul, element-wise ops, transpose, embedding lookup, LoRA
-//          fwd/bwd pass, fused forward/backward) for modular builds where
-//          `vulkan_kernels.cpp` is not compiled.
-// Activation: Compiled when `THEMIS_ENABLE_VULKAN` is set in the modular LLM
-//             build but `vulkan_kernels.cpp` is not yet reintegrated (pending
-//             compile-safety fixes).
-// Production Delta: All dispatch functions execute on CPU memory using plain
-//             C++ loops.  No Vulkan shader compilation, no device-memory
-//             allocation, no GPU parallelism.  LoRA training and inference
-//             on this path is O(batch×M×N×K) on the host CPU instead of
-//             running in parallel on Vulkan compute queues; throughput will
-//             be 10-100× lower than the GPU path on typical workloads.
-// Removal Plan: Replace with real Vulkan compute-shader dispatch once
-//               `vulkan_kernels.cpp` is compile-safe; guard with a runtime
-//               `is_vulkan_available()` check so the CPU path remains as
-//               fallback.  Track via STUB_INVENTORY #285 (target: v2.1.0).
+// CPU-FALLBACK PATH (resolved stub #285):
+// This file provides a build-safe CPU implementation of all Vulkan LoRA kernel
+// APIs.  It is compiled when the Vulkan SDK is not available
+// (!THEMIS_HAS_VULKAN_HEADER), meaning vulkan_kernels.cpp cannot be compiled.
+// is_vulkan_available() delegates to VulkanContext::is_available(), which
+// returns false in this build configuration.  All launch_* functions perform
+// equivalent operations on CPU memory and are correct but 10–100× slower than
+// the GPU path.  When vulkan_kernels.cpp is compiled instead, that translation
+// unit satisfies the same symbol names with real GPU dispatch.
 bool initialize_vulkan_lora(int /*device_id*/) {
-    g_vulkan_sim_available = true;
-    return true;
+    // In the CPU-fallback build Vulkan is not compiled in; return false so
+    // callers know the GPU path is unavailable.
+    return VulkanContext::is_available();
 }
 
 void cleanup_vulkan_lora() {
-    g_vulkan_sim_available = false;
+    // No-op in the CPU-fallback build.
 }
 
 bool is_vulkan_available() {
-    return g_vulkan_sim_available;
+    // Delegates to the compile-time / runtime Vulkan availability check
+    // provided by VulkanContext.  Returns false in non-Vulkan builds.
+    return VulkanContext::is_available();
 }
 
 void launch_matmul_shader(

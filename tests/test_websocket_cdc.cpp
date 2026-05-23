@@ -14,10 +14,12 @@
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "server/websocket_session.h"
+#include "cdc/changefeed.h"
 #include <string>
 #include <nlohmann/json.hpp>
 
 using namespace themis::server;
+using themis::Changefeed;
 using json = nlohmann::json;
 
 // ============================================================================

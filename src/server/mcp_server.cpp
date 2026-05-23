@@ -1788,7 +1788,7 @@ json McpServer::toolGetErrorInfo(const json& args) {
             {"status", "success"},
             {"error", metadata.toJSON()}
         };
-    } catch (...) {
+    } catch (const std::exception&) {
         // Search by query
         auto results = registry.searchErrors(query);
         
@@ -2698,7 +2698,7 @@ void StdioTransport::start() {
             fn = stdioReadFnStorage();
         }
         if (fn) {
-            try { fn(); } catch (...) {}
+            try { fn(); } catch (const std::exception&) {}
         } else {
             spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
         }

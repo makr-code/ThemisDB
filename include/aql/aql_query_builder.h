@@ -278,6 +278,23 @@ public:
      */
     ValidationResult validate() const;
 
+    /**
+     * @brief Validate the current builder state against an explicit schema snapshot.
+     *
+     * Runs all structural checks (same as @c validate()), then additionally:
+     *  - Warns when a collection in a FOR clause is absent from @p schema.
+     *  - Warns when a field access (@c variable.field) refers to a field not
+     *    present in the schema for that collection.
+     *
+     * The @p schema passed here takes precedence over any schema previously
+     * attached via @c setSchema().  The internally attached schema is not
+     * consulted for schema-aware checks when an explicit @p schema is provided.
+     *
+     * @param schema  Collection metadata snapshot to validate against.
+     * @return ValidationResult with all structural and schema issues found.
+     */
+    ValidationResult validate(const std::vector<CollectionMetadata>& schema) const;
+
     // =========================================================================
     // Schema-aware query generation (live collection metadata)
     // =========================================================================

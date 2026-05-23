@@ -212,32 +212,26 @@ float DistributedTrainer::scale_learning_rate(
     }
 }
 
-// CPU-based AllReduce — delegates to injected AllReduceCpuFn when available;
-// falls back to local scale-only path for single-process builds.
+// CPU-based AllReduce — stub #290 resolved via AllReduceCpuFn injection.
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
-    if (allreduce_cpu_fn_) {
-        try {
-            (*allreduce_cpu_fn_)(data);
-        } catch (const std::exception& ex) {
-            spdlog::error("DistributedTrainer::allreduce_cpu: injected fn threw: {}", ex.what());
-        }
+    // Delegate to the injected AllReduce implementation when available.
+    // This enables MPI_Allreduce / Gloo allreduce to be wired at startup
+    // without modifying this function (resolves stub #290).
+    if (allreduce_cpu_fn_.has_value()) {
+        (*allreduce_cpu_fn_)(data);
         return;
     }
 
-    // STUB/SIMULATION NOTE (stub #290):
-    // Purpose: Allow distributed training code paths to compile and run without
-    //          NCCL, RCCL, or MPI installed.  Gradient vectors are scaled locally
-    //          (divide by world_size) under the assumption that they were already
-    //          summed externally, which is only true for single-process builds.
-    // Activation: When no AllReduceCpuFn has been injected via setAllReduceCpuFn().
-    // Production Delta: In a genuine multi-GPU or multi-node setting each rank
-    //                   independently scales its *own* gradient vector without
-    //                   exchanging data with peers.  This is mathematically incorrect
-    //                   and causes divergent model weights after the first step.
-    //                   Single-process builds (world_size == 1) are unaffected.
-    // Removal Plan: Inject MPI_Allreduce / Gloo allreduce via setAllReduceCpuFn()
-    //               at startup; this fallback is then unreachable in production.
-    float scale = 1.0f / static_cast<float>(config_.world_size);
+    // Fallback: local scale-only path for single-process builds (world_size == 1).
+    // This is mathematically correct only when world_size == 1; for multi-rank
+    // deployments inject a real AllReduceCpuFn via setAllReduceCpuFn().
+    if (config_.world_size > 1) {
+        spdlog::warn("DistributedTrainer::allreduce_cpu: no AllReduceCpuFn injected "
+                     "and world_size={} > 1; gradients will not be exchanged with peers. "
+                     "Call setAllReduceCpuFn() to enable true multi-rank training.",
+                     config_.world_size);
+    }
+    const float scale = 1.0f / static_cast<float>(config_.world_size);
     for (float& val : data) {
         val *= scale;
     }

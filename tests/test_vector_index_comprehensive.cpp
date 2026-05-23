@@ -171,7 +171,10 @@ TEST(VectorIndexBackend, VIB_07_DimensionMismatch)
     InMemoryVectorIndex idx(cfg);
 
     EXPECT_THROW(idx.add("bad", {1.0f, 2.0f}), std::invalid_argument);
-    EXPECT_THROW(idx.search({1.0f, 2.0f}, 1), std::invalid_argument);
+    EXPECT_THROW({
+        auto search_res = idx.search({1.0f, 2.0f}, 1);
+        static_cast<void>(search_res);
+    }, std::invalid_argument);
 }
 
 // ============================================================================
@@ -228,7 +231,8 @@ TEST(VectorIndexBackend, VIB_10_ConcurrentAddSearch)
 
     std::thread reader([&idx]() {
         for (int i = 0; i < 20; ++i) {
-            idx->search({0.0f, 0.0f, 0.0f, 0.0f}, 5);
+            auto search_res = idx->search({0.0f, 0.0f, 0.0f, 0.0f}, 5);
+            static_cast<void>(search_res);
         }
     });
 

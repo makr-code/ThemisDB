@@ -70,7 +70,8 @@ TEST_F(RaftConsensusTest, BecomeLeaderAndPropose) {
     
     // Set up callback that always succeeds
     int replication_calls = 0;
-    consensus.setReplicationCallback([&](const std::string& node_id, const LogEntry& entry) {
+    consensus.setReplicationCallback([&]([[maybe_unused]] const std::string& node_id,
+                                         [[maybe_unused]] const LogEntry& entry) {
         replication_calls++;
         return true;
     });
@@ -120,7 +121,8 @@ TEST_F(RaftConsensusTest, HeartbeatCallback) {
     RaftConsensus consensus(config);
     
     int heartbeat_count = 0;
-    consensus.setHeartbeatCallback([&](const std::string& node_id, const Heartbeat& hb) {
+    consensus.setHeartbeatCallback([&]([[maybe_unused]] const std::string& node_id,
+                                       [[maybe_unused]] const Heartbeat& hb) {
         heartbeat_count++;
         return true;
     });

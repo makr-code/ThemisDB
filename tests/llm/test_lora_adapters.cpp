@@ -209,6 +209,7 @@ TEST_F(LoRAAdapterTest, Unloading_UnloadAll) {
 TEST_F(LoRAAdapterTest, Unloading_MemoryCleanup) {
     test::MemoryUsageTracker memory;
     double baseline = memory.getCurrentMemoryUsageMB();
+    static_cast<void>(baseline);
     
 #ifdef THEMIS_ENABLE_LLM
     // Would load adapter, measure memory, unload, verify cleanup

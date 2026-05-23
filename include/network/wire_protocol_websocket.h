@@ -163,8 +163,6 @@ private:
     void handleBinaryGet(const uint8_t* payload_data, uint32_t payload_size);
     void handleBinaryPut(const uint8_t* payload_data, uint32_t payload_size);
     void handleBinaryDelete(const uint8_t* payload_data, uint32_t payload_size);
-    // Binary frame helpers
-    void sendBinaryError(uint32_t error_code, const std::string& message);
 
     // Write helpers
     void doWrite();

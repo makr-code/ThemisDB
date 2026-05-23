@@ -71,8 +71,13 @@ cpp_best_practices:
     - "Prevent deadlocks by consistent locking order."
     - "Write clear, const-correct, exception-safe functions."
     - "Optimize only after profiling and consider cache friendliness."
-    - "If stubs, mocks, or simulation paths are introduced in source code, document them explicitly (purpose, activation conditions, production delta, and removal plan)."
+    - "Stubs, mocks, and simulation paths are forbidden by default; only add them after explicit human approval."
+    - "Any approved stub/mock/simulation path must be human-marked with purpose, activation conditions, production delta, approver reference, and removal plan."
     - "Apply [[nodiscard]], [[deprecated]], [[maybe_unused]], [[noreturn]], [[likely]], [[unlikely]], and [[fallthrough]] consistently per the cpp_attributes rules above."
+
+  non_production_path_governance:
+    - "Simulation/Stub/Mockup paths are forbidden without explicit human approval and explicit human marking."
+    - "Any approved non-production path must include approver reference and removal target."
 ```
 
   Use this comment template directly above the stub/mock/simulation code path:
@@ -83,6 +88,17 @@ cpp_best_practices:
   // Activation: <build flag/runtime condition/test-only gate>
   // Production Delta: <how behavior differs from production>
   // Removal Plan: <when/how this path will be removed>
+  ```
+
+  Mandatory human-marked approval template:
+
+  ```cpp
+  // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
+  // Reason: <why needed>
+  // Activation: <when active>
+  // Production Delta: <difference to primary path>
+  // Approved By: <human name/role + ticket/PR reference>
+  // Removal Target: <date or milestone>
   ```
 
 ## C++ Attribute Quick Reference

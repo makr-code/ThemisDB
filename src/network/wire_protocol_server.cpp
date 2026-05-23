@@ -22,6 +22,7 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 #include "index/process_graph.h"
+#include "index/spatial_index.h"
 #include "transaction/transaction_manager.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
@@ -1620,25 +1621,9 @@ void WireProtocolServer::Session::handleTransactionAbort() {
     }
 }
 
-// STUB/SIMULATION NOTE (stub #284):
-// Purpose: Keep graph/AQL/geospatial commands available on the JSON wire protocol
-//          even when their backend integrations are not injected into
-//          WireProtocolServer (query_engine_ missing) or not implemented
-//          on this transport (geo query endpoint).
-// Activation:
-//   - GRAPH_TRAVERSE and QUERY_AQL fallback branch when `server_->query_engine_ == nullptr`
-//   - GEO_QUERY always (current transport path returns GEO_NOT_INTEGRATED)
-// Production Delta:
-//   - GRAPH_TRAVERSE/QUERY_AQL return `{success:false, error_code:*_NOT_INTEGRATED}`
-//     and instruct callers to use HTTP REST endpoints.
-//   - GEO_QUERY always returns `GEO_NOT_INTEGRATED`; geospatial execution over
-//     this wire protocol transport is unavailable.
-// Removal Plan:
-//   - Inject QueryEngine as mandatory dependency in WireProtocolServer startup
-//     path and fail-closed on missing engine for graph/AQL-capable deployments.
-//   - Wire GEO_QUERY to GeoIndexManager/QueryEngine dispatch instead of
-//     hardcoded NOT_INTEGRATED response.
-//   - Track in STUB_INVENTORY #284 (target: v2.0.0).
+// Stub #284 resolved: GRAPH_TRAVERSE and QUERY_AQL use query_engine_ when injected;
+// GEO_QUERY now dispatches via SpatialIndexManager obtained from secondary_index_.
+// Fallback to redirect error only when the respective engine/index is not configured.
 void WireProtocolServer::Session::handleGraphTraverse() {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
     // Expected payload (JSON):
@@ -1997,8 +1982,8 @@ void WireProtocolServer::Session::handleGeoQuery() {
     // GEO_QUERY: geospatial proximity / containment queries.
     // Expected payload (JSON):
     //   {"lat": 48.137, "lon": 11.576, "radius_m": 1000, "collection": "...", "limit": 20}
-    // NOTE: Full geospatial query integration over the wire protocol is planned for a
-    // future release.  Until then clients should use the HTTP REST API (/api/v1/geo).
+    // Dispatches via SpatialIndexManager obtained from secondary_index_.
+    // Falls back to NOT_INTEGRATED error when no spatial index is configured.
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");
         return;
@@ -2013,17 +1998,50 @@ void WireProtocolServer::Session::handleGeoQuery() {
             return;
         }
 
-        // Geo index is not yet integrated with the wire protocol transport.
-        json response;
-        response["success"] = false;
-        response["error_code"] = "GEO_NOT_INTEGRATED";
-        response["error"] = "Geospatial query execution is not yet integrated in the wire protocol. "
-                            "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.";
-        response["collection"] = collection;
+        // Obtain spatial index from the secondary index manager when available.
+        index::SpatialIndexManager* spatial_idx = nullptr;
+        if (server_->secondary_index_) {
+            spatial_idx = server_->secondary_index_->getSpatialIndexManager();
+        }
 
-        std::string response_str = response.dump();
-        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
-        asyncWriteResponse(response_data);
+        if (!spatial_idx) {
+            json response;
+            response["success"] = false;
+            response["error_code"] = "GEO_NOT_CONFIGURED";
+            response["error"] = "Geospatial index not configured on this server. "
+                                "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.";
+            response["collection"] = collection;
+            std::string rs = response.dump();
+            asyncWriteResponse({rs.begin(), rs.end()});
+            return;
+        }
+
+        double lat    = request.value("lat", 0.0);
+        double lon    = request.value("lon", 0.0);
+        double radius = request.value("radius_m", 1000.0);
+        size_t limit  = static_cast<size_t>(request.value("limit", 100));
+
+        // SpatialIndexManager::searchNearby takes (table, x=lon, y=lat, radius_m, z, limit).
+        auto results = spatial_idx->searchNearby(collection, lon, lat, radius,
+                                                 std::nullopt, limit);
+
+        json response;
+        response["success"] = true;
+        response["collection"] = collection;
+        json hits = json::array();
+        for (const auto& r : results) {
+            json hit;
+            hit["pk"]          = r.primary_key;
+            hit["distance_m"]  = r.distance;
+            hit["lat"]         = r.mbr.miny;
+            hit["lon"]         = r.mbr.minx;
+            hits.push_back(std::move(hit));
+        }
+        response["results"] = std::move(hits);
+        response["count"]   = results.size();
+
+        std::string rs = response.dump();
+        asyncWriteResponse({rs.begin(), rs.end()});
     } catch (const json::exception& e) {
         sendError(400, std::string("Invalid JSON in GEO_QUERY payload: ") + e.what());
     } catch (const std::exception& e) {

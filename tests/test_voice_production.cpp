@@ -3005,8 +3005,8 @@ TEST(EmotionAnalyzer, TrackEngagementFalse) {
 TEST(EmotionAnalyzer, StatisticsCounterIncremented) {
     themis::voice::EmotionAnalyzer analyzer;
     auto audio = makeEmotionAudio(440.0f);
-    analyzer.analyze(audio);
-    analyzer.analyze(audio);
+    static_cast<void>(analyzer.analyze(audio));
+    static_cast<void>(analyzer.analyze(audio));
     auto stats = analyzer.get_statistics();
     EXPECT_EQ(stats["total_analyses"].get<uint64_t>(), 2u);
 }

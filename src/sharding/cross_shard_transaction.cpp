@@ -282,7 +282,7 @@ bool CrossShardTransactionCoordinator::beginTransaction(
             {"state", static_cast<int>(TransactionState::ACTIVE)}
         };
         
-        consensus_->propose("BEGIN_TRANSACTION", data);
+        static_cast<void>(consensus_->propose("BEGIN_TRANSACTION", data));
     }
     
     spdlog::info("Transaction {} started with protocol {}", 
@@ -410,10 +410,10 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     
     // Replicate prepare state via consensus
     if (consensus_ && all_prepared) {
-        consensus_->propose("PREPARE_TRANSACTION", {
+        static_cast<void>(consensus_->propose("PREPARE_TRANSACTION", {
             {"transaction_id", transaction_id},
             {"state", static_cast<int>(TransactionState::PREPARED)}
-        });
+        }));
     }
     
     return all_prepared;
@@ -484,10 +484,10 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
     // Replicate final state via consensus
     if (consensus_) {
         auto final_state = success ? TransactionState::COMMITTED : TransactionState::ABORTED;
-        consensus_->propose("FINALIZE_TRANSACTION", {
+        static_cast<void>(consensus_->propose("FINALIZE_TRANSACTION", {
             {"transaction_id", transaction_id},
             {"state", static_cast<int>(final_state)}
-        });
+        }));
     }
     
     return success;
@@ -524,7 +524,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     
     // Send abort requests to all participants using the local copy.
     for (auto& [shard_id, participant] : txn.participants) {
-        sendAbort(shard_id, transaction_id);
+        static_cast<void>(sendAbort(shard_id, transaction_id));
         participant.aborted = true;
         
         // Phase 2.3.4: Log ABORTED confirmation to WAL
@@ -559,10 +559,10 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     
     // Replicate abort state via consensus
     if (consensus_) {
-        consensus_->propose("ABORT_TRANSACTION", {
+        static_cast<void>(consensus_->propose("ABORT_TRANSACTION", {
             {"transaction_id", transaction_id},
             {"state", static_cast<int>(TransactionState::ABORTED)}
-        });
+        }));
     }
     
     spdlog::info("Transaction {} aborted", transaction_id);
@@ -1216,10 +1216,10 @@ bool CrossShardTransactionCoordinator::executeCalvin(CrossShardTransaction& txn)
 
     // Replicate the sequence decision via consensus so all nodes agree
     if (consensus_) {
-        consensus_->propose("CALVIN_SEQUENCE", {
+        static_cast<void>(consensus_->propose("CALVIN_SEQUENCE", {
             {"transaction_id", txn.transaction_id},
             {"sequence_number", sequence_number}
-        });
+        }));
     }
 
     // -------------------------------------------------------------------------

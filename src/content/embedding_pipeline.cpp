@@ -143,4 +143,3 @@ std::vector<std::vector<float>> EmbeddingPipeline::generateEmbeddingBatch(
 
 } // namespace content
 } // namespace themis
-

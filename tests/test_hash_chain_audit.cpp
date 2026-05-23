@@ -45,7 +45,7 @@ protected:
 // ============================================================================
 
 TEST_F(HashChainAuditTest, ConstructionDoesNotThrow) {
-    EXPECT_NO_THROW(HashChainAuditWriter(cfg));
+    EXPECT_NO_THROW(HashChainAuditWriter local_writer(this->cfg));
 }
 
 TEST_F(HashChainAuditTest, WriteCreatesLogFile) {

@@ -16,6 +16,7 @@
 #include <vector>
 #include <optional>
 #include <mutex>
+#include <functional>
 
 namespace themis {
 namespace llm {
@@ -36,6 +37,13 @@ using GraphIndexManager = ::themis::GraphIndexManager;
 
 class FeedbackStorageService {
 public:
+    using CreateGraphLinkFn = std::function<bool(const std::string& feedback_pk,
+                                                 const std::string& adapter_pk,
+                                                 const std::string& edge_type)>;
+    using RemoveGraphLinkFn = std::function<bool(const std::string& feedback_pk,
+                                                 const std::string& adapter_pk,
+                                                 const std::string& edge_type)>;
+
     /**
      * @brief Configuration for feedback storage
      */
@@ -44,6 +52,8 @@ public:
         std::shared_ptr<GraphIndexManager> graph_index;  // Graph index for relationships
         std::string collection_name = "help_feedback";   // Collection name
         bool enable_graph_links = true;                  // Enable graph relationships
+        CreateGraphLinkFn create_graph_link_fn;          // Optional graph-link bridge
+        RemoveGraphLinkFn remove_graph_link_fn;          // Optional graph-unlink bridge
     };
     
     explicit FeedbackStorageService(const Config& config);

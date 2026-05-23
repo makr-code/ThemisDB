@@ -14,6 +14,7 @@ For C/C++ symbol analysis and refactoring safety, use language-service symbol to
 - Use `GetSymbolCallHierarchy_CppTools` to analyze incoming/outgoing call relationships before behavior-changing edits.
 - Always pass absolute file paths to all tool calls.
 - Do not rely on `grep`/`ripgrep` for authoritative C++ symbol references; use them only as a supplemental fallback after symbol tools.
+- Simulation/Stub/Mockup paths are forbidden without explicit human approval and explicit human marking.
 
 ## Safe Refactor Workflow
 
@@ -27,3 +28,16 @@ For C/C++ symbol analysis and refactoring safety, use language-service symbol to
 
 - C++ overloads/templates/macros can make text search incomplete or ambiguous.
 - Symbol tools are required to reduce missed call sites and regressions.
+
+## Mandatory Marker For Approved Non-Production Paths
+
+If a human explicitly approves a Simulation/Stub/Mockup path, the code must include a human-marked block:
+
+```cpp
+// NON-PRODUCTION PATH (Simulation/Stub/Mockup)
+// Reason: <why needed>
+// Activation: <when active>
+// Production Delta: <difference to primary path>
+// Approved By: <human name/role + ticket/PR reference>
+// Removal Target: <date or milestone>
+```

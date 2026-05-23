@@ -7,32 +7,34 @@
  */
 
 #include "acceleration/vllm_resource_manager.h"
-#include "utils/logger.h"
-#include <functional>
-#include <thread>
+
 #include <algorithm>
-#include <future>
 #include <chrono>
+#include <functional>
+#include <future>
 #include <memory>
+#include <thread>
+
+#include "utils/logger.h"
 
 #ifdef __linux__
-#   include <fstream>
-#   include <string>
-#   include <inttypes.h>
+#include <fstream>
+#include <inttypes.h>
+#include <string>
 #endif
 
 #ifdef _WIN32
-#   ifndef WIN32_LEAN_AND_MEAN
-#       define WIN32_LEAN_AND_MEAN
-#   endif
-#   include <windows.h>
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
 #endif
 
 #ifdef THEMIS_ENABLE_CUDA
-#   include <cuda_runtime.h>
-#   ifdef __linux__
-#       include <nvml.h>
-#   endif
+#include <cuda_runtime.h>
+#ifdef __linux__
+#include <nvml.h>
+#endif
 #endif
 
 namespace themis {
@@ -42,8 +44,7 @@ namespace acceleration {
 // Calls within this window reuse the last snapshot as the base, avoiding sleep.
 static constexpr std::chrono::milliseconds kCpuCacheTTL{200};
 
-VLLMResourceManager::VLLMResourceManager(const Config& config)
-    : config_(config) {}
+VLLMResourceManager::VLLMResourceManager(const Config &config) : config_(config) {}
 
 VLLMResourceManager::~VLLMResourceManager() {
     shutdown();
@@ -54,22 +55,19 @@ bool VLLMResourceManager::initialize() {
         THEMIS_WARN("VLLMResourceManager already initialized");
         return true;
     }
-    
+
     // Detect system resources
     config_.total_cpu_cores = std::thread::hardware_concurrency();
-    
+
     // Calculate ThemisDB allocation (remaining after vLLM)
     config_.themis_cpu_cores = config_.total_cpu_cores - config_.vllm_cpu_cores;
-    config_.themis_ram_gb = config_.total_ram_gb - config_.vllm_ram_gb;
-    
+    config_.themis_ram_gb    = config_.total_ram_gb - config_.vllm_ram_gb;
+
     THEMIS_INFO("VLLMResourceManager initialized:");
-    THEMIS_INFO("  System: {} CPU cores, {} GB RAM", 
-                config_.total_cpu_cores, config_.total_ram_gb);
-    THEMIS_INFO("  vLLM reservation: {} cores, {} GB RAM", 
-                config_.vllm_cpu_cores, config_.vllm_ram_gb);
-    THEMIS_INFO("  ThemisDB allocation: {} cores, {} GB RAM", 
-                config_.themis_cpu_cores, config_.themis_ram_gb);
-    
+    THEMIS_INFO("  System: {} CPU cores, {} GB RAM", config_.total_cpu_cores, config_.total_ram_gb);
+    THEMIS_INFO("  vLLM reservation: {} cores, {} GB RAM", config_.vllm_cpu_cores, config_.vllm_ram_gb);
+    THEMIS_INFO("  ThemisDB allocation: {} cores, {} GB RAM", config_.themis_cpu_cores, config_.themis_ram_gb);
+
     // Initialize NVML for GPU monitoring
 #ifdef THEMIS_ENABLE_CUDA
     if (!initializeNVML()) {
@@ -78,18 +76,20 @@ bool VLLMResourceManager::initialize() {
 #else
     THEMIS_INFO("CUDA not enabled - GPU monitoring disabled");
 #endif
-    
+
     initialized_ = true;
     return true;
 }
 
 void VLLMResourceManager::shutdown() {
-    if (!initialized_) return;
-    
+    if (!initialized_) {
+        return;
+    }
+
 #ifdef THEMIS_ENABLE_CUDA
     shutdownNVML();
 #endif
-    
+
     initialized_ = false;
     THEMIS_INFO("VLLMResourceManager shutdown");
 }
@@ -99,15 +99,18 @@ bool VLLMResourceManager::canUseGPU() {
     // Test override: allows CI tests to verify GPU-busy logic without real CUDA.
     if (gpu_util_provider_for_testing_) {
         auto util = gpu_util_provider_for_testing_();
-        if (!util.has_value()) return false;
+        if (!util.has_value()) {
+            return false;
+        }
         return util.value() < 80.0;
     }
-    return false;  // CUDA not enabled
+    return false; // CUDA not enabled
 #else
     // Test override: bypasses NVML for CI/mock environments.
     if (gpu_util_provider_for_testing_) {
         auto util = gpu_util_provider_for_testing_();
-        if (!util.has_value()) return false;
+        if (!util.has_value())
+            return false;
         return util.value() < 80.0;
     }
 
@@ -119,36 +122,34 @@ bool VLLMResourceManager::canUseGPU() {
     // rather than `this`, so the background task cannot dereference a destroyed
     // VLLMResourceManager if the timeout fires.  The shared ownership means no
     // use-after-free is possible.
-    std::vector<void*> device_handles = nvml_devices_;
+    std::vector<void *> device_handles = nvml_devices_;
     if (device_handles.empty()) {
-        return false;  // NVML not initialized
+        return false; // NVML not initialized
     }
 
     auto shared_future = std::make_shared<std::future<std::optional<double>>>(
-        std::async(std::launch::async,
-                   [device_handles]() -> std::optional<double> {
+        std::async(std::launch::async, [device_handles]() -> std::optional<double> {
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
-                       // Return max utilization across all monitored devices so
-                       // that a single busy GPU blocks new ThemisDB work.
-                       double max_util = 0.0;
-                       bool got_any = false;
-                       for (void* handle : device_handles) {
-                           nvmlUtilization_t util;
-                           nvmlDevice_t dev = static_cast<nvmlDevice_t>(handle);
-                           if (nvmlDeviceGetUtilizationRates(dev, &util) == NVML_SUCCESS) {
-                               double u = static_cast<double>(util.gpu);
-                               max_util = std::max(max_util, u);
-                               got_any = true;
-                           }
-                       }
-                       return got_any ? std::optional<double>{max_util} : std::nullopt;
+            // Return max utilization across all monitored devices so
+            // that a single busy GPU blocks new ThemisDB work.
+            double max_util = 0.0;
+            bool got_any    = false;
+            for (void *handle : device_handles) {
+                nvmlUtilization_t util;
+                nvmlDevice_t dev = static_cast<nvmlDevice_t>(handle);
+                if (nvmlDeviceGetUtilizationRates(dev, &util) == NVML_SUCCESS) {
+                    double u = static_cast<double>(util.gpu);
+                    max_util = std::max(max_util, u);
+                    got_any  = true;
+                }
+            }
+            return got_any ? std::optional<double>{max_util} : std::nullopt;
 #endif
-                       return std::nullopt;
-                   }));
+            return std::nullopt;
+        }));
 
     std::optional<double> gpu_util;
-    if (shared_future->wait_for(std::chrono::milliseconds(500)) ==
-        std::future_status::ready) {
+    if (shared_future->wait_for(std::chrono::milliseconds(500)) == std::future_status::ready) {
         gpu_util = shared_future->get();
     } else {
         // NVML query timed out — assume GPU busy, fall back to CPU.
@@ -162,23 +163,23 @@ bool VLLMResourceManager::canUseGPU() {
         // Can't query GPU - assume busy (safe fallback to CPU)
         return false;
     }
-    
+
     // Only use GPU if vLLM is not heavily utilizing it (< 80%)
     bool can_use = gpu_util.value() < 80.0;
-    
+
     if (!can_use) {
         THEMIS_DEBUG("GPU busy ({}% utilization) - using CPU fallback", gpu_util.value());
     }
-    
+
     return can_use;
 #endif
 }
 
-size_t VLLMResourceManager::getRecommendedThreadCount(const std::string& operation_type) const {
+size_t VLLMResourceManager::getRecommendedThreadCount(const std::string &operation_type) const {
     if (!initialized_) {
         return std::thread::hardware_concurrency();
     }
-    
+
     if (operation_type == "rocksdb") {
         return static_cast<size_t>(config_.themis_cpu_cores * config_.rocksdb_thread_ratio);
     } else if (operation_type == "tbb") {
@@ -191,11 +192,11 @@ size_t VLLMResourceManager::getRecommendedThreadCount(const std::string& operati
 
 VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
     Stats stats;
-    
+
     if (!initialized_) {
         return stats;
     }
-    
+
     // CPU stats
     stats.active_threads = config_.themis_cpu_cores;
 
@@ -204,13 +205,15 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
     // If a fresh cached snapshot exists (< 200 ms old) it is used as the base
     // (t0) to avoid a blocking 100 ms sleep on rapid successive calls.
     // Format of line 1: "cpu  user nice system idle iowait irq softirq steal ..."
-    auto readCpuTimes = [](uint64_t& total, uint64_t& idle) -> bool {
+    auto readCpuTimes = [](uint64_t &total, uint64_t &idle) -> bool {
         std::ifstream f("/proc/stat");
-        if (!f.is_open()) return false;
+        if (!f.is_open())
+            return false;
         std::string tag;
         uint64_t user, nice, system, idle_val, iowait, irq, softirq, steal;
         f >> tag >> user >> nice >> system >> idle_val >> iowait >> irq >> softirq >> steal;
-        if (tag != "cpu") return false;
+        if (tag != "cpu")
+            return false;
         idle  = idle_val + iowait;
         total = user + nice + system + idle_val + iowait + irq + softirq + steal;
         return true;
@@ -221,10 +224,9 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
     bool have_t0 = false;
     {
         std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
-        if (cpu_snapshot_cache_.valid &&
-            (now - cpu_snapshot_cache_.ts) < kCpuCacheTTL) {
-            t0 = cpu_snapshot_cache_.v0;
-            i0 = cpu_snapshot_cache_.v1;
+        if (cpu_snapshot_cache_.valid && (now - cpu_snapshot_cache_.ts) < kCpuCacheTTL) {
+            t0      = cpu_snapshot_cache_.v0;
+            i0      = cpu_snapshot_cache_.v1;
             have_t0 = true;
         }
     }
@@ -252,15 +254,14 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
                 cpu_snapshot_cache_.ts = std::chrono::steady_clock::now();
                 // last_cpu_util and valid are unchanged
             } else {
-                uint64_t didle = (i1 > i0) ? (i1 - i0) : 0;
-                stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(didle) /
-                                                        static_cast<double>(dtotal));
+                uint64_t didle        = (i1 > i0) ? (i1 - i0) : 0;
+                stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(didle) / static_cast<double>(dtotal));
                 std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
-                cpu_snapshot_cache_.v0           = t1;
-                cpu_snapshot_cache_.v1           = i1;
+                cpu_snapshot_cache_.v0            = t1;
+                cpu_snapshot_cache_.v1            = i1;
                 cpu_snapshot_cache_.last_cpu_util = stats.cpu_utilization;
-                cpu_snapshot_cache_.ts           = std::chrono::steady_clock::now();
-                cpu_snapshot_cache_.valid        = true;
+                cpu_snapshot_cache_.ts            = std::chrono::steady_clock::now();
+                cpu_snapshot_cache_.valid         = true;
             }
         }
     }
@@ -268,11 +269,10 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
     // Linux RAM: /proc/meminfo  (MemTotal and MemAvailable in kB)
     {
         std::ifstream mf("/proc/meminfo");
-        uint64_t mem_total_kb  = 0;
-        uint64_t mem_avail_kb  = 0;
+        uint64_t mem_total_kb = 0;
+        uint64_t mem_avail_kb = 0;
         std::string line;
-        while (std::getline(mf, line) &&
-               (mem_total_kb == 0 || mem_avail_kb == 0)) {
+        while (std::getline(mf, line) && (mem_total_kb == 0 || mem_avail_kb == 0)) {
             if (line.rfind("MemTotal:", 0) == 0) {
                 sscanf(line.c_str(), "MemTotal: %" SCNu64 " kB", &mem_total_kb);
             } else if (line.rfind("MemAvailable:", 0) == 0) {
@@ -280,12 +280,9 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
             }
         }
         if (mem_total_kb > 0) {
-            uint64_t used_kb  = (mem_total_kb > mem_avail_kb)
-                                ? (mem_total_kb - mem_avail_kb)
-                                : 0;
+            uint64_t used_kb      = (mem_total_kb > mem_avail_kb) ? (mem_total_kb - mem_avail_kb) : 0;
             stats.ram_used_mb     = used_kb / 1024u;
-            stats.ram_utilization = 100.0 * static_cast<double>(used_kb) /
-                                            static_cast<double>(mem_total_kb);
+            stats.ram_utilization = 100.0 * static_cast<double>(used_kb) / static_cast<double>(mem_total_kb);
         }
     }
 
@@ -296,17 +293,15 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
     {
         const auto now_win = std::chrono::steady_clock::now();
 
-        auto ft2u64 = [](const FILETIME& ft) -> uint64_t {
-            return (static_cast<uint64_t>(ft.dwHighDateTime) << 32) |
-                   static_cast<uint64_t>(ft.dwLowDateTime);
+        auto ft2u64 = [](const FILETIME &ft) -> uint64_t {
+            return (static_cast<uint64_t>(ft.dwHighDateTime) << 32) | static_cast<uint64_t>(ft.dwLowDateTime);
         };
 
         uint64_t base_idle = 0, base_kernel = 0, base_user = 0;
         bool have_base = false;
         {
             std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
-            if (cpu_snapshot_cache_.valid &&
-                (now_win - cpu_snapshot_cache_.ts) < kCpuCacheTTL) {
+            if (cpu_snapshot_cache_.valid && (now_win - cpu_snapshot_cache_.ts) < kCpuCacheTTL) {
                 base_idle   = cpu_snapshot_cache_.v0;
                 base_kernel = cpu_snapshot_cache_.v1;
                 base_user   = cpu_snapshot_cache_.v2;
@@ -329,10 +324,10 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
                 uint64_t idle1v   = ft2u64(idle1);
                 uint64_t kernel1v = ft2u64(kernel1);
                 uint64_t user1v   = ft2u64(user1);
-                uint64_t idle   = (idle1v   > base_idle)   ? (idle1v   - base_idle)   : 0;
-                uint64_t kernel = (kernel1v > base_kernel) ? (kernel1v - base_kernel) : 0;
-                uint64_t user   = (user1v   > base_user)   ? (user1v   - base_user)   : 0;
-                uint64_t total  = kernel + user;   // kernel already includes idle
+                uint64_t idle     = (idle1v > base_idle) ? (idle1v - base_idle) : 0;
+                uint64_t kernel   = (kernel1v > base_kernel) ? (kernel1v - base_kernel) : 0;
+                uint64_t user     = (user1v > base_user) ? (user1v - base_user) : 0;
+                uint64_t total    = kernel + user; // kernel already includes idle
                 if (total == 0) {
                     // Same resolution tick — reuse last computed utilization.
                     // Still refresh the baseline (v0/v1/v2/ts) to avoid stale deltas
@@ -347,15 +342,14 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
                     cpu_snapshot_cache_.ts = std::chrono::steady_clock::now();
                     // last_cpu_util and valid are unchanged
                 } else {
-                    stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(idle) /
-                                                           static_cast<double>(total));
+                    stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(idle) / static_cast<double>(total));
                     std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
-                    cpu_snapshot_cache_.v0           = idle1v;
-                    cpu_snapshot_cache_.v1           = kernel1v;
-                    cpu_snapshot_cache_.v2           = user1v;
+                    cpu_snapshot_cache_.v0            = idle1v;
+                    cpu_snapshot_cache_.v1            = kernel1v;
+                    cpu_snapshot_cache_.v2            = user1v;
                     cpu_snapshot_cache_.last_cpu_util = stats.cpu_utilization;
-                    cpu_snapshot_cache_.ts           = std::chrono::steady_clock::now();
-                    cpu_snapshot_cache_.valid        = true;
+                    cpu_snapshot_cache_.ts            = std::chrono::steady_clock::now();
+                    cpu_snapshot_cache_.valid         = true;
                 }
             }
         }
@@ -367,8 +361,8 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         ms.dwLength = sizeof(ms);
         if (GlobalMemoryStatusEx(&ms)) {
             stats.ram_utilization = static_cast<double>(ms.dwMemoryLoad);
-            uint64_t used = ms.ullTotalPhys - ms.ullAvailPhys;
-            stats.ram_used_mb = static_cast<size_t>(used / (1024u * 1024u));
+            uint64_t used         = ms.ullTotalPhys - ms.ullAvailPhys;
+            stats.ram_used_mb     = static_cast<size_t>(used / (1024u * 1024u));
         }
     }
 #endif
@@ -377,22 +371,22 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
     // GPU stats via NVML (or test provider).
     // queryGPUUtilization() returns nullopt when neither the test provider nor
     // a real NVML device is available, so this is safe to call unconditionally.
-    auto gpu_util = const_cast<VLLMResourceManager*>(this)->queryGPUUtilization();
+    auto gpu_util = const_cast<VLLMResourceManager *>(this)->queryGPUUtilization();
     if (gpu_util.has_value()) {
-        stats.gpu_available = true;
+        stats.gpu_available   = true;
         stats.gpu_utilization = gpu_util.value();
-        
+
         // Estimate vLLM usage (anything > 20% is likely vLLM)
         if (stats.gpu_utilization > 20.0) {
-            stats.vllm_detected = true;
+            stats.vllm_detected  = true;
             stats.vllm_gpu_usage = stats.gpu_utilization;
         }
     }
-    
+
     return stats;
 }
 
-void VLLMResourceManager::setConfig(const Config& config) {
+void VLLMResourceManager::setConfig(const Config &config) {
     if (initialized_) {
         THEMIS_WARN("Cannot change config while initialized - call shutdown() first");
         return;
@@ -400,8 +394,7 @@ void VLLMResourceManager::setConfig(const Config& config) {
     config_ = config;
 }
 
-void VLLMResourceManager::setGpuUtilizationProviderForTesting(
-    std::function<std::optional<double>()> provider) {
+void VLLMResourceManager::setGpuUtilizationProviderForTesting(std::function<std::optional<double>()> provider) {
     gpu_util_provider_for_testing_ = std::move(provider);
 }
 
@@ -416,22 +409,21 @@ bool VLLMResourceManager::initializeNVML() {
     // Build the list of device indices to monitor.
     // gpu_device_indices (explicit multi-device) takes priority over gpu_device_index.
     const std::vector<uint32_t> indices = !config_.gpu_device_indices.empty()
-        ? config_.gpu_device_indices
-        : std::vector<uint32_t>{config_.gpu_device_index};
+                                              ? config_.gpu_device_indices
+                                              : std::vector<uint32_t>{config_.gpu_device_index};
 
     nvml_devices_.clear();
     for (uint32_t idx : indices) {
         nvmlDevice_t dev;
         result = nvmlDeviceGetHandleByIndex(idx, &dev);
         if (result != NVML_SUCCESS) {
-            THEMIS_ERROR("Failed to get NVML device handle for device {}: {}",
-                         idx, nvmlErrorString(result));
+            THEMIS_ERROR("Failed to get NVML device handle for device {}: {}", idx, nvmlErrorString(result));
             nvml_devices_.clear();
             nvml_device_ = nullptr;
             nvmlShutdown();
             return false;
         }
-        nvml_devices_.push_back(static_cast<void*>(dev));
+        nvml_devices_.push_back(static_cast<void *>(dev));
     }
 
     // nvml_device_ is a convenience alias to the first monitored device; it is
@@ -443,7 +435,7 @@ bool VLLMResourceManager::initializeNVML() {
     THEMIS_INFO("NVML initialized, monitoring {} GPU device(s)", nvml_devices_.size());
     return true;
 #else
-    return false;  // NVML not available
+    return false; // NVML not available
 #endif
 }
 
@@ -473,8 +465,8 @@ std::optional<double> VLLMResourceManager::queryGPUUtilization() {
     // Return the maximum utilization across all monitored devices so that a
     // single busy GPU blocks ThemisDB from scheduling new work on any device.
     double max_utilization = 0.0;
-    bool got_any = false;
-    for (void* handle : nvml_devices_) {
+    bool got_any           = false;
+    for (void *handle : nvml_devices_) {
         nvmlDevice_t device = static_cast<nvmlDevice_t>(handle);
         nvmlUtilization_t utilization;
         nvmlReturn_t result = nvmlDeviceGetUtilizationRates(device, &utilization);
@@ -482,13 +474,13 @@ std::optional<double> VLLMResourceManager::queryGPUUtilization() {
             THEMIS_WARN("Failed to query GPU utilization: {}", nvmlErrorString(result));
             continue;
         }
-        double util = static_cast<double>(utilization.gpu);
+        double util     = static_cast<double>(utilization.gpu);
         max_utilization = std::max(max_utilization, util);
-        got_any = true;
+        got_any         = true;
     }
     return got_any ? std::optional<double>{max_utilization} : std::nullopt;
 #else
-    return std::nullopt;  // NVML not available
+    return std::nullopt; // NVML not available
 #endif
 }
 

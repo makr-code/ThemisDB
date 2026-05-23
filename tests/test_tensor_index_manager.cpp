@@ -546,6 +546,46 @@ TEST(TensorMmapBridge, TIM24_ReleaseInvalidatesRegions) {
     EXPECT_NO_THROW(bridge->release());
 }
 
+TEST(TensorMmapBridge, TIM25_GgmlCorePtrsReturnsNonEmptySlicesForExistingVector) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t_ggml", "c", "f");
+    addVecGetRaw(idx, 77, 8, 1.25f);
+
+    auto ptrs = mgr->ggmlCorePtrs("t_ggml", "c", "f", 77);
+    ASSERT_FALSE(ptrs.empty());
+    for (const auto& [ptr, bytes] : ptrs) {
+        if (bytes > 0) {
+            ASSERT_NE(ptr, nullptr);
+        }
+    }
+}
+
+TEST(TensorMmapBridge, TIM26_GgmlCorePtrsDataMatchesStoredTrainCores) {
+    auto mgr = TensorIndexManager::create(nullptr);
+    auto* idx = mgr->createIndex("t_ggml2", "c", "f");
+    addVecGetRaw(idx, 88, 8, 2.75f);
+
+    const TTTrain* train = idx->get(88);
+    ASSERT_NE(train, nullptr);
+
+    auto ptrs = mgr->ggmlCorePtrs("t_ggml2", "c", "f", 88);
+    ASSERT_EQ(ptrs.size(), train->cores.size());
+
+    for (size_t ci = 0; ci < train->cores.size(); ++ci) {
+        const auto& core = train->cores[ci];
+        const auto* data = ptrs[ci].first;
+        const auto bytes = ptrs[ci].second;
+        ASSERT_EQ(bytes, core.data.size() * sizeof(float));
+        if (core.data.empty()) {
+            continue;
+        }
+        ASSERT_NE(data, nullptr);
+        for (size_t ei = 0; ei < core.data.size(); ++ei) {
+            EXPECT_FLOAT_EQ(data[ei], core.data[ei]);
+        }
+    }
+}
+
 
 // ============================================================================
 // TensorMmapBridge SST-page-map bridge (STUB #270)

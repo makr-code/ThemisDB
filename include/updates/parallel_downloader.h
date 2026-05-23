@@ -220,14 +220,14 @@ public:
      *              std::string* out_error);
      */
     using FetchFn = std::function<bool(
-        const std::string& url,
-        const std::string& dest,
-        uint64_t resume_offset,
-        long connect_timeout_s,
-        long transfer_timeout_s,
-        uint64_t* out_bytes,
-        uint64_t* out_total,
-        std::string* out_error)>;
+        [[maybe_unused]] const std::string& url,
+        [[maybe_unused]] const std::string& dest,
+        [[maybe_unused]] uint64_t resume_offset,
+        [[maybe_unused]] long connect_timeout_s,
+        [[maybe_unused]] long transfer_timeout_s,
+        [[maybe_unused]] uint64_t* out_bytes,
+        [[maybe_unused]] uint64_t* out_total,
+        [[maybe_unused]] std::string* out_error)>;
 
     void setFetchFunction(FetchFn fn);
 

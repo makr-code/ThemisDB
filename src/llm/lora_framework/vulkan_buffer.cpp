@@ -103,7 +103,7 @@ bool VulkanBuffer::create_buffer() {
     }
     
     // Get memory requirements
-    VkMemoryRequirements mem_requirements;
+    VkMemoryRequirements mem_requirements = {};
     vkGetBufferMemoryRequirements(context_->device(), buffer_, &mem_requirements);
     
     // Allocate memory
@@ -132,7 +132,14 @@ bool VulkanBuffer::create_buffer() {
     }
     
     // Bind buffer to memory
-    vkBindBufferMemory(context_->device(), buffer_, memory_, 0);
+    result = vkBindBufferMemory(context_->device(), buffer_, memory_, 0);
+    if (result != VK_SUCCESS) {
+        vkFreeMemory(context_->device(), memory_, nullptr);
+        memory_ = VK_NULL_HANDLE;
+        vkDestroyBuffer(context_->device(), buffer_, nullptr);
+        buffer_ = VK_NULL_HANDLE;
+        return false;
+    }
     
     return true;
 }
@@ -202,8 +209,11 @@ void VulkanBuffer::download(void* data, VkDeviceSize size, VkDeviceSize offset) 
         staging.download(data, size, 0);
     } else {
         // For host-visible buffers, map and copy directly
-        void* mapped_memory;
-        vkMapMemory(context_->device(), memory_, offset, size, 0, &mapped_memory);
+        void* mapped_memory = nullptr;
+        VkResult map_result = vkMapMemory(context_->device(), memory_, offset, size, 0, &mapped_memory);
+        if (map_result != VK_SUCCESS) {
+            throw std::runtime_error("Failed to map buffer memory for download");
+        }
         std::memcpy(data, mapped_memory, size);
         vkUnmapMemory(context_->device(), memory_);
     }
@@ -248,7 +258,11 @@ void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
     begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
     
-    vkBeginCommandBuffer(cmd_buffer, &begin_info);
+    VkResult begin_result = vkBeginCommandBuffer(cmd_buffer, &begin_info);
+    if (begin_result != VK_SUCCESS) {
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed to begin command buffer for buffer copy");
+    }
     
     VkBufferCopy copy_region = {};
     copy_region.srcOffset = src_offset;
@@ -257,7 +271,11 @@ void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
     
     vkCmdCopyBuffer(cmd_buffer, src.buffer_, buffer_, 1, &copy_region);
     
-    vkEndCommandBuffer(cmd_buffer);
+    VkResult end_result = vkEndCommandBuffer(cmd_buffer);
+    if (end_result != VK_SUCCESS) {
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed to end command buffer for buffer copy");
+    }
     
     // Submit command buffer
     VkSubmitInfo submit_info = {};
@@ -266,8 +284,18 @@ void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
     submit_info.pCommandBuffers = &cmd_buffer;
     
     VkFence fence = context_->create_fence(false);
-    vkQueueSubmit(context_->compute_queue(), 1, &submit_info, fence);
-    context_->wait_for_fence(fence);
+    VkResult submit_result = vkQueueSubmit(context_->compute_queue(), 1, &submit_info, fence);
+    if (submit_result != VK_SUCCESS) {
+        context_->destroy_fence(fence);
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed to submit buffer copy command");
+    }
+
+    if (!context_->wait_for_fence(fence)) {
+        context_->destroy_fence(fence);
+        context_->free_command_buffer(cmd_buffer);
+        throw std::runtime_error("Failed while waiting for buffer copy completion");
+    }
     
     context_->destroy_fence(fence);
     context_->free_command_buffer(cmd_buffer);

@@ -51,7 +51,8 @@ bool ROCmBackend::isAvailable() const {
 // Launcher backend
 // ============================================================================
 
-GPULauncher::BackendFn ROCmBackend::createBackendFn(int device_index) {
+GPULauncher::BackendFn ROCmBackend::createBackendFn([[maybe_unused]] int device_index) {
+    static_cast<void>(device_index);
 #ifdef THEMIS_ENABLE_HIP
     return [device_index](const GPULauncher::WorkItem& item) -> bool {
         // Select the target device.

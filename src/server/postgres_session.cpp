@@ -1469,7 +1469,7 @@ void PostgresSession::handleSchemaQuery(const std::string& query) {
                             }
                         }
                     }
-                } catch (...) {}
+                } catch (const std::exception&) {}
                 ++oid;
             }
             sendCommandComplete("SELECT " + std::to_string(total_cols));

@@ -65,9 +65,6 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
     // For simplicity, we'll build a k-NN graph (k=64 neighbors per node)
     const int R = 64;  // Max degree (from DiskANN paper)
     
-    std::mt19937 rng(42);
-    std::uniform_int_distribution<size_t> dist(0, vectors.size() - 1);
-    
     // Create nodes with initial empty neighbor lists
     std::vector<DiskANNNode> nodes;
     nodes.reserve(vectors.size());
@@ -88,13 +85,13 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
         for (size_t j = 0; j < nodes.size(); j++) {
             if (i == j) continue;
             
-            float dist = compute_distance(nodes[i].vector, nodes[j].vector);
+            const float distance = compute_distance(nodes[i].vector, nodes[j].vector);
             
             if (nearest.size() < R) {
-                nearest.push({dist, j});
-            } else if (dist < nearest.top().first) {
+                nearest.push({distance, j});
+            } else if (distance < nearest.top().first) {
                 nearest.pop();
-                nearest.push({dist, j});
+                nearest.push({distance, j});
             }
         }
         

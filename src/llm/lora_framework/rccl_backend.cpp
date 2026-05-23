@@ -178,7 +178,9 @@ bool RCCLBackend::allreduce(GPUTensor& tensor, bool average) {
     return allreduce(tensors, average);
 }
 
-bool RCCLBackend::broadcast(GPUTensor& tensor, [[maybe_unused]] int root) {
+bool RCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]] int root) {
+    static_cast<void>(tensor);
+    static_cast<void>(root);
     if (!initialized_) {
         spdlog::error("RCCLBackend not initialized");
         return false;
@@ -230,7 +232,7 @@ void RCCLBackend::barrier() {
     float dummy = 0.0f;
     hipStream_t stream = static_cast<hipStream_t>(hip_stream_);
     
-    ncclAllReduce(
+    ncclResult_t result = ncclAllReduce(
         &dummy,
         &dummy,
         1,
@@ -239,6 +241,10 @@ void RCCLBackend::barrier() {
         rccl_comm_,
         stream
     );
+    
+    if (result != ncclSuccess) {
+        spdlog::error("RCCL barrier allreduce failed: {}", ncclGetErrorString(result));
+    }
     
     hipStreamSynchronize(stream);
 #endif

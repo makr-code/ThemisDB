@@ -115,7 +115,7 @@ public:
      */
     std::pair<DepthLevel, double> assessDepth(
         const std::string& answer,
-        const std::vector<QueryAspect>& aspects
+        [[maybe_unused]] const std::vector<QueryAspect>& aspects
     );
     
     /**
@@ -126,8 +126,8 @@ public:
      * @return List of missing information items
      */
     std::vector<std::string> detectMissingInformation(
-        const std::string& answer,
-        const std::string& query,
+        [[maybe_unused]] const std::string& answer,
+        [[maybe_unused]] const std::string& query,
         const std::vector<QueryAspect>& aspects
     );
 

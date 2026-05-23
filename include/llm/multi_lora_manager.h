@@ -9,6 +9,7 @@
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/lora_security_validator.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -334,6 +335,15 @@ public:
         
         // Multi-GPU support (v1.4.0)
         MultiGPUConfig multi_gpu;
+
+        // Security validation (v1.20.0): when set, loadLoRAInternal() calls
+        // validateMetadata() before any GGUF parse.  Optional: null disables
+        // validation (legacy / test deployments).
+        std::shared_ptr<LoRASecurityValidator> security_validator;
+        /// When true and security_validator is set, a metadata-validation
+        /// failure causes loadLoRA() to reject the adapter hard.
+        /// When false the failure is logged as a warning and loading continues.
+        bool enforce_security_validation = true;
     };
     
     explicit MultiLoRAManager(const Config& config);

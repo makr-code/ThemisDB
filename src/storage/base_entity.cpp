@@ -689,5 +689,55 @@ std::optional<std::string> BaseEntity::getRotationType(std::string_view field_na
     return getFieldAsString(rotation_type_field);
 }
 
+// ── String-array helpers (stub #292) ─────────────────────────────────────────
+
+std::optional<std::vector<std::string>>
+BaseEntity::getFieldAsStringArray(std::string_view field_name) const {
+    auto raw = getFieldAsString(field_name);
+    if (!raw.has_value()) {
+        return std::nullopt;
+    }
+    const std::string& s = *raw;
+    std::vector<std::string> result;
+
+    // Try JSON-array format first (e.g. `["label1","label2"]`).
+    // This is the authoritative format written by setFieldAsStringArray().
+    if (!s.empty() && s.front() == '[') {
+        auto parsed = nlohmann::json::parse(s, nullptr, /*throw_on_error=*/false);
+        if (!parsed.is_discarded() && parsed.is_array()) {
+            result.reserve(parsed.size());
+            for (const auto& elem : parsed) {
+                if (elem.is_string()) {
+                    result.push_back(elem.get<std::string>());
+                }
+            }
+            return result;
+        }
+        // JSON parse failed; fall through to comma-split for resilience.
+    }
+
+    // Fallback: comma-separated string (backward-compatible with legacy data).
+    std::istringstream ss(s);
+    std::string token;
+    while (std::getline(ss, token, ',')) {
+        // Trim leading whitespace.
+        const auto first = token.find_first_not_of(" \t\r\n");
+        if (first == std::string::npos) continue;
+        // Trim trailing whitespace.
+        const auto last = token.find_last_not_of(" \t\r\n");
+        result.push_back(token.substr(first, last - first + 1));
+    }
+    return result;
+}
+
+void BaseEntity::setFieldAsStringArray(std::string_view field_name,
+                                        const std::vector<std::string>& values) {
+    nlohmann::json arr = nlohmann::json::array();
+    for (const auto& v : values) {
+        arr.push_back(v);
+    }
+    setField(field_name, arr.dump());
+}
+
 } // namespace themis
 

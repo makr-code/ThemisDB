@@ -180,7 +180,7 @@ std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded)
         size_t chunk_size = 0;
         try {
             chunk_size = std::stoul(size_str, nullptr, 16);
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_WARN("decodeChunkedBody: failed to parse chunk size '{}'; aborting decode", size_str);
             break;
         }

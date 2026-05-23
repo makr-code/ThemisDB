@@ -482,7 +482,9 @@ public:
             // Create learning rate scheduler using factory (more comprehensive than params-based)
             // Use config_ scheduler if available, otherwise fall back to params
             std::unique_ptr<LRScheduler> lr_scheduler;
-            int total_steps = (data.size() / params.batch_size) * params.num_epochs;
+            const int total_steps = static_cast<int>(
+                (data.size() / static_cast<size_t>(params.batch_size)) *
+                static_cast<size_t>(params.num_epochs));
             
             // Use production LR scheduler factory with full configuration support
             if (config_.lr_scheduler.type != SchedulerType::CONSTANT || config_.lr_scheduler.base_lr != 1e-4f) {
@@ -738,7 +740,7 @@ public:
                     float batch_loss = compute_mse_loss(predictions, batch_target);
                     
                     // Scale loss for mixed precision
-                    float scaled_loss = mixed_precision->scale_loss(batch_loss);
+                    static_cast<void>(mixed_precision->scale_loss(batch_loss));
                     
                     epoch_loss += batch_loss;
                     num_batches++;
@@ -1546,28 +1548,18 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
     
     // Create quantized model
     auto quantized_model = std::make_unique<QuantizedModel>(model_config);
-
-    // Attempt to load layers from the real GGUF file first.
-    // Synthetic layers are only created as a fallback when the file is absent, so
-    // that CI runs without model assets can still exercise the training pipeline.
+    
+    // Load actual model from GGUF file
     try {
         if (!std::filesystem::exists(model_path)) {
-            spdlog::warn("GGUF model file not found at '{}' — "
-                         "falling back to synthetic 3-layer model. "
-                         "Production training on synthetic weights is NOT supported.",
-                         model_path);
-            // Synthetic fallback: 3 fixed-dimension layers.
-            for (int i = 0; i < 3; ++i) {
-                quantized_model->add_layer("layer_" + std::to_string(i),
-                                           tensor_utils::randn({768, 768}));
-            }
-            return quantized_model;
+            spdlog::error("GGUF model file not found: {}", model_path);
+            return nullptr;
         }
 
         std::ifstream gguf_file(model_path, std::ios::binary);
         if (!gguf_file.is_open()) {
             spdlog::error("Failed to open GGUF file: {}", model_path);
-            return quantized_model;
+            return nullptr;
         }
         
         // Read GGUF magic number (4 bytes): "GGUF"
@@ -1575,7 +1567,7 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         gguf_file.read(magic, 4);
         if (std::string(magic, 4) != "GGUF") {
             spdlog::error("Invalid GGUF file format: {}", model_path);
-            return quantized_model;
+            return nullptr;
         }
         
         // Read GGUF version (4 bytes, little-endian uint32)
@@ -1594,7 +1586,6 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         spdlog::info("GGUF KV pairs: {}", kv_count);
         
         // Parse metadata KV pairs to extract model info
-        size_t model_param_count = 0;
         std::vector<std::string> layer_names;
         
         for (uint64_t i = 0; i < kv_count; ++i) {
@@ -1683,15 +1674,8 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
                     quantized_model->num_layers());
         
     } catch (const std::exception& e) {
-        spdlog::error("Exception while loading GGUF model '{}': {}", model_path, e.what());
-        spdlog::warn("Falling back to synthetic 3-layer model — production training NOT supported");
-        // Ensure at least the synthetic fallback is populated.
-        if (quantized_model->num_layers() == 0) {
-            for (int i = 0; i < 3; ++i) {
-                quantized_model->add_layer("layer_" + std::to_string(i),
-                                           tensor_utils::randn({768, 768}));
-            }
-        }
+        spdlog::error("Exception while loading GGUF model: {}", e.what());
+        return nullptr;
     }
 
     return quantized_model;
@@ -2110,4 +2094,3 @@ TrainingResult LoRATrainingService::trainDistributed(
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

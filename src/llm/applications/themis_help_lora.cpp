@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=0 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 /*
  * ThemisDB | File: themis_help_lora.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 80/100 | Lines: 677
@@ -29,6 +30,27 @@ namespace applications {
 
 using json = nlohmann::json;
 using namespace themis::llm::lora;
+
+namespace {
+std::string resolveModelPath(const ThemisHelpLoRA::Config& config) {
+    if (config.model_path_provider) {
+        try {
+            auto resolved = config.model_path_provider(config.base_model_id);
+            if (!resolved.empty()) {
+                return resolved;
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("ThemisHelpLoRA: model path provider failed for '{}': {}",
+                         config.base_model_id, e.what());
+        } catch (...) {
+            spdlog::warn("ThemisHelpLoRA: model path provider failed for '{}'",
+                         config.base_model_id);
+        }
+    }
+
+    return "models/" + config.base_model_id + ".gguf";
+}
+} // namespace
 
 class ThemisHelpLoRA::Impl {
 public:
@@ -88,7 +110,7 @@ public:
 
         // Initialize LoRA training service
         LoRATrainingService::Config training_cfg;
-        training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+        training_cfg.base_model_path = resolveModelPath(cfg);
         training_cfg.default_hyperparameters = cfg.hyperparameters;
         training_service = std::make_unique<LoRATrainingService>(training_cfg);
         
@@ -126,14 +148,7 @@ public:
                 // Try to load model - this may fail if model file is not available
                 // In that case, we'll fall back to placeholder responses
                 try {
-                    // Resolve the model path: use the injected provider if available,
-                    // otherwise fall back to the local path convention.
-                    std::string model_path;
-                    if (config.model_path_provider) {
-                        model_path = config.model_path_provider(config.base_model_id);
-                    } else {
-                        model_path = "models/" + config.base_model_id + ".gguf";
-                    }
+                    std::string model_path = resolveModelPath(config);
                     bool loaded = llama_wrapper->loadModel(model_path);
                     
                     if (loaded) {
@@ -663,4 +678,3 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
 } // namespace applications
 } // namespace llm
 } // namespace themis
-

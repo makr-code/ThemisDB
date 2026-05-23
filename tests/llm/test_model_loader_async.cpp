@@ -59,7 +59,7 @@ TEST_F(ModelLoaderAsyncTest, ProgressCallbackCalled) {
     auto future = loader.loadAsync("test_model", "non_existent.gguf", callback);
     
     // Wait for completion
-    auto* result = future.get();
+    static_cast<void>(future.get());
     
     // Progress callback should have been called at least once
     EXPECT_GT(callback_count.load(), 0);
@@ -268,7 +268,7 @@ TEST_F(ModelLoaderAsyncTest, ProgressUpdatesMultipleTimes) {
     
     std::atomic<int> update_count{0};
     
-    auto callback = [&](const LoadProgress& progress) {
+    auto callback = [&](const LoadProgress&) {
         update_count++;
     };
     

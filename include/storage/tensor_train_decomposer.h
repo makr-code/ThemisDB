@@ -311,19 +311,22 @@ public:
      */
     static double cosineSimilarity(const TTTrain& a, const TTTrain& b);
 
-private:
-    /// Perform truncated SVD of an m×n matrix.  Returns U, S, Vt truncated to
+    /// Perform truncated SVD of an m×n matrix. Returns U, S, Vt truncated to
     /// `rank` columns/rows (rank chosen so that σ_{rank+1} ≤ delta, or by
-    /// max_rank cap).  Uses Householder bidiagonalisation (Golub-Reinsch).
+    /// max_rank cap). Uses Householder bidiagonalisation (Golub-Reinsch).
+    ///
+    /// Exposed for other tensor decomposers (e.g. HT) to reuse the same
+    /// numerically robust truncation routine.
     static void truncatedSVD(const std::vector<float>& mat,
-                              std::size_t m, std::size_t n,
-                              double delta,
-                              std::size_t max_rank_cap,
-                              std::vector<float>& U,
-                              std::vector<float>& S,
-                              std::vector<float>& Vt,
-                              std::size_t& rank_out);
+                             std::size_t m, std::size_t n,
+                             double delta,
+                             std::size_t max_rank_cap,
+                             std::vector<float>& U,
+                             std::vector<float>& S,
+                             std::vector<float>& Vt,
+                             std::size_t& rank_out);
 
+private:
     /// Matrix multiply C = A·B where A is (m×k) and B is (k×n) — row-major.
     static std::vector<float> matMul(const std::vector<float>& A,
                                      const std::vector<float>& B,

@@ -178,7 +178,9 @@ bool NCCLBackend::allreduce(GPUTensor& tensor, bool average) {
     return allreduce(tensors, average);
 }
 
-bool NCCLBackend::broadcast(GPUTensor& tensor, [[maybe_unused]] int root) {
+bool NCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]] int root) {
+    static_cast<void>(tensor);
+    static_cast<void>(root);
     if (!initialized_) {
         spdlog::error("NCCLBackend not initialized");
         return false;
@@ -230,7 +232,7 @@ void NCCLBackend::barrier() {
     float dummy = 0.0f;
     cudaStream_t stream = static_cast<cudaStream_t>(cuda_stream_);
     
-    ncclAllReduce(
+    ncclResult_t result = ncclAllReduce(
         &dummy,
         &dummy,
         1,
@@ -239,6 +241,10 @@ void NCCLBackend::barrier() {
         nccl_comm_,
         stream
     );
+    
+    if (result != ncclSuccess) {
+        spdlog::error("NCCL barrier allreduce failed: {}", ncclGetErrorString(result));
+    }
     
     cudaStreamSynchronize(stream);
 #endif

@@ -222,7 +222,8 @@ TEST_F(GraphQueryExplainTest, ExplainConstrainedPath_NoExecutionSideEffect) {
 
     themis::graph::PathConstraints pc(graph_mgr_.get());
     pc.addMaxLength(3);
-    optimizer_->explainConstrainedPath("A", "D", pc);
+    auto explain_result = optimizer_->explainConstrainedPath("A", "D", pc);
+    static_cast<void>(explain_result);
 
     // Only the execution counter is checked here: explainConstrainedPath is a
     // pure dry-run wrapper around optimizeConstrainedPath, which generates a

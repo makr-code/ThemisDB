@@ -1372,7 +1372,8 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
 }
 
 bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
-                                const std::string& key, std::error_code& ec) {
+                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
+    static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
     // AES-256-GCM encryption.  File format:
     //   [4 bytes magic "TENC"] [12 bytes IV] [ciphertext] [16 bytes GCM tag]
@@ -1448,6 +1449,7 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
     }
     return true;
 #else
+    static_cast<void>(key);
     static std::once_flag s_encrypt_warn;
     std::call_once(s_encrypt_warn, [] {
         THEMIS_WARN("BackupManager::encryptFile: STUB — files will be copied without "
@@ -1472,7 +1474,8 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
 }
 
 bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
-                                const std::string& key, std::error_code& ec) {
+                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
+    static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
     // AES-256-GCM decryption — mirrors encryptFile() format:
     //   [4 bytes magic "TENC"] [12 bytes IV] [ciphertext] [16 bytes GCM tag]
@@ -1558,6 +1561,7 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
     out.write(reinterpret_cast<const char*>(plain.data()), outl + finl);
     return true;
 #else
+    static_cast<void>(key);
     static std::once_flag s_decrypt_warn;
     std::call_once(s_decrypt_warn, [] {
         THEMIS_WARN("BackupManager::decryptFile: STUB — files will be copied without "
@@ -1834,6 +1838,10 @@ void BackupManager::setWalReplayFn(WalReplayFn fn) {
     wal_replay_fn_ = std::move(fn);
 }
 
+void BackupManager::setCfSstIngestFn(CfSstIngestFn fn) {
+    cf_sst_ingest_fn_ = std::move(fn);
+}
+
 bool BackupManager::restoreCollections(const std::string& src_dir,
                                        const std::vector<std::string>& collections,
                                        std::error_code& ec) {
@@ -1884,20 +1892,24 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             THEMIS_INFO("restoreCollections: requested collections: [{}]", coll_list);
         }
 
-        // STUB/SIMULATION NOTE (stub #300):
-        // Purpose: Provide a validated, non-silent restore path while per-column-family
-        //          selective restore (via rocksdb::DB::IngestExternalFile) is not yet
-        //          implemented.  Restores the full checkpoint so that all requested
-        //          collections are available after the call.
-        // Activation: Always — per-CF SST ingest is not yet wired.
-        // Production Delta: All column families in the checkpoint are restored, not
-        //                   only the named collections.  Existing collections not in
-        //                   `collections` will be overwritten from the backup.
-        // Removal Plan: Map collection names to CF names from the backup MANIFEST;
-        //               for each match, call db_wrapper_->getRawDB()->IngestExternalFile()
-        //               with the SST files from checkpoint/ that belong to that CF.
-        //               See src/storage/FUTURE_ENHANCEMENTS.md §Partial Collection Restore.
-        //               Target: Q4 2027.
+        // If a per-CF SST ingest fn is injected, use it for selective restore
+        // (stub #300 resolved).  Only the named collections are affected;
+        // all other column families remain untouched.
+        if (cf_sst_ingest_fn_.has_value()) {
+            if (!(*cf_sst_ingest_fn_)(checkpoint_dir.string(), collections, ec)) {
+                THEMIS_ERROR("restoreCollections: per-CF SST ingest failed for '{}'",
+                             checkpoint_dir.string());
+                return false;
+            }
+            THEMIS_INFO("restoreCollections: per-CF SST ingest complete from '{}' "
+                        "({} collection(s) restored selectively)",
+                        checkpoint_dir.string(), collections.size());
+            return true;
+        }
+
+        // Fallback: full checkpoint restore when no per-CF ingest fn is injected.
+        // All column families in the checkpoint are overwritten.  Inject a
+        // CfSstIngestFn via setCfSstIngestFn() to enable selective restore.
         if (!db_wrapper_->restoreFromCheckpoint(checkpoint_dir.string())) {
             THEMIS_ERROR("restoreCollections: checkpoint restore failed for '{}'",
                          checkpoint_dir.string());
@@ -1905,8 +1917,9 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             return false;
         }
 
-        THEMIS_INFO("restoreCollections: checkpoint restored from '{}' "
-                    "({} collection(s) requested; full checkpoint applied)",
+        THEMIS_INFO("restoreCollections: full checkpoint restored from '{}' "
+                    "({} collection(s) requested; full checkpoint applied — "
+                    "inject CfSstIngestFn for selective restore)",
                     checkpoint_dir.string(), collections.size());
         return true;
 

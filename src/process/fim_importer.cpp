@@ -277,7 +277,6 @@ std::vector<FimModelResult> FimImporter::importFimCatalogue(
     std::vector<ProzessEntry> entries;
     ProzessEntry current;
     bool         in_prozess{false};
-    size_t       char_pos{0};       // approximated byte position during tokenisation
 
     // We track byte position manually: each tag_cb call occurs in order.
     // After tokenisation we know positions relative to XML string.

@@ -10,22 +10,19 @@
 // Licensed under MIT License
 
 #include "cache/bounded_lru_cache.h"
+
 #include <mutex>
 
 namespace themis {
 namespace cache {
 
-BoundedLRUCache::BoundedLRUCache(const Config& config)
-    : config_(config)
-    , head_(nullptr)
-    , tail_(nullptr) {
-}
+BoundedLRUCache::BoundedLRUCache(const Config &config) : config_(config), head_(nullptr), tail_(nullptr) {}
 
 BoundedLRUCache::~BoundedLRUCache() {
     clear();
 }
 
-std::optional<nlohmann::json> BoundedLRUCache::get(const std::string& key) {
+std::optional<nlohmann::json> BoundedLRUCache::get(const std::string &key) {
     // Fast miss path: a shared (read) lock is sufficient to check whether the
     // key is absent.  This allows concurrent reads without any write contention.
     {
@@ -53,9 +50,9 @@ std::optional<nlohmann::json> BoundedLRUCache::get(const std::string& key) {
         }
         return std::nullopt;
     }
-    
+
     auto node = it->second;
-    
+
     // Check if expired
     if (isExpired(node->entry)) {
         // Remove expired entry
@@ -66,97 +63,97 @@ std::optional<nlohmann::json> BoundedLRUCache::get(const std::string& key) {
         }
         return std::nullopt;
     }
-    
+
     // Update last access time
     node->entry.last_access = std::chrono::steady_clock::now();
-    
+
     // Move to front (most recently used)
     moveToFront(node);
-    
+
     if (config_.enable_statistics) {
         hits_.fetch_add(1, std::memory_order_relaxed);
     }
-    
+
     return node->entry.value;
 }
 
-void BoundedLRUCache::put(const std::string& key, nlohmann::json value, uint32_t ttl_seconds) {
+void BoundedLRUCache::put(const std::string &key, nlohmann::json value, uint32_t ttl_seconds) {
     const auto ttl = (ttl_seconds > 0) ? std::chrono::seconds(ttl_seconds) : config_.ttl;
 
     std::unique_lock<std::shared_mutex> lock(mutex_);
-    
+
     auto it = cache_.find(key);
     if (it != cache_.end()) {
         // Update existing entry
-        auto node = it->second;
-        node->entry.value = std::move(value);
-        node->entry.expiry = std::chrono::steady_clock::now() + ttl;
+        auto node               = it->second;
+        node->entry.value       = std::move(value);
+        node->entry.expiry      = std::chrono::steady_clock::now() + ttl;
         node->entry.last_access = std::chrono::steady_clock::now();
         moveToFront(node);
         return;
     }
-    
+
     // Evict if at capacity
     if (cache_.size() >= config_.max_entries) {
         removeLRU();
     }
-    
+
     // Create new entry
     CacheEntry entry;
-    entry.value = std::move(value);
-    entry.expiry = std::chrono::steady_clock::now() + ttl;
+    entry.value       = std::move(value);
+    entry.expiry      = std::chrono::steady_clock::now() + ttl;
     entry.last_access = std::chrono::steady_clock::now();
-    
+
     // Create new node
-    auto node = std::make_shared<Node>();
-    node->key = key;
+    auto node   = std::make_shared<Node>();
+    node->key   = key;
     node->entry = std::move(entry);
-    
+
     // Add to cache and list
     cache_[key] = node;
     addToFront(node);
 }
 
-bool BoundedLRUCache::remove(const std::string& key) {
+bool BoundedLRUCache::remove(const std::string &key) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
-    
+
     auto it = cache_.find(key);
     if (it == cache_.end()) {
         return false;
     }
-    
+
     auto node = it->second;
     removeNode(node);
     cache_.erase(it);
-    
+
     return true;
 }
 
 bool BoundedLRUCache::evictLRUIfNeeded() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
-    
+
     if (cache_.size() >= config_.max_entries) {
         removeLRU();
         return true;
     }
-    
+
     return false;
 }
 
 BoundedLRUCache::Statistics BoundedLRUCache::getStatistics() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    
+
     Statistics stats;
     stats.current_size = cache_.size();
-    stats.hits = hits_.load(std::memory_order_relaxed);
-    stats.misses = misses_.load(std::memory_order_relaxed);
-    
+    stats.hits         = hits_.load(std::memory_order_relaxed);
+    stats.misses       = misses_.load(std::memory_order_relaxed);
+
     return stats;
 }
 
 void BoundedLRUCache::clear() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
-    
+
     cache_.clear();
     head_ = nullptr;
     tail_ = nullptr;
@@ -169,7 +166,7 @@ void BoundedLRUCache::moveToFront(std::shared_ptr<Node> node) {
         // Already at front
         return;
     }
-    
+
     // Remove from current position
     if (node->prev) {
         node->prev->next = node->next;
@@ -180,7 +177,7 @@ void BoundedLRUCache::moveToFront(std::shared_ptr<Node> node) {
     if (node == tail_) {
         tail_ = node->prev;
     }
-    
+
     // Add to front
     node->prev = nullptr;
     node->next = head_;
@@ -188,7 +185,7 @@ void BoundedLRUCache::moveToFront(std::shared_ptr<Node> node) {
         head_->prev = node;
     }
     head_ = node;
-    
+
     if (!tail_) {
         tail_ = node;
     }
@@ -200,7 +197,7 @@ void BoundedLRUCache::removeNode(std::shared_ptr<Node> node) {
     } else {
         head_ = node->next;
     }
-    
+
     if (node->next) {
         node->next->prev = node->prev;
     } else {
@@ -211,12 +208,12 @@ void BoundedLRUCache::removeNode(std::shared_ptr<Node> node) {
 void BoundedLRUCache::addToFront(std::shared_ptr<Node> node) {
     node->prev = nullptr;
     node->next = head_;
-    
+
     if (head_) {
         head_->prev = node;
     }
     head_ = node;
-    
+
     if (!tail_) {
         tail_ = node;
     }
@@ -226,12 +223,12 @@ void BoundedLRUCache::removeLRU() {
     if (!tail_) {
         return;
     }
-    
+
     auto lru = tail_;
     cache_.erase(lru->key);
-    
+
     if (tail_->prev) {
-        tail_ = tail_->prev;
+        tail_       = tail_->prev;
         tail_->next = nullptr;
     } else {
         head_ = nullptr;
@@ -239,14 +236,16 @@ void BoundedLRUCache::removeLRU() {
     }
 }
 
-bool BoundedLRUCache::isExpired(const CacheEntry& entry) const {
+bool BoundedLRUCache::isExpired(const CacheEntry &entry) const {
     return std::chrono::steady_clock::now() > entry.expiry;
 }
 
-bool BoundedLRUCache::contains(const std::string& key) const {
+bool BoundedLRUCache::contains(const std::string &key) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = cache_.find(key);
-    if (it == cache_.end()) return false;
+    if (it == cache_.end()) {
+        return false;
+    }
     return !isExpired(it->second->entry);
 }
 

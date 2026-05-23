@@ -28,25 +28,9 @@
  * a rank-1 sketch of the adapter.  This is O(n₁ · r₁) to compute
  * and O(r₁) to store — negligible compared to the full adapter.
  *
- * ### STUB #276 — Full TT Inner-Product Similarity
- *
- * The production `findSimilar()` should use the TT inner-product sweep
- * (Holtz 2012, O(d·r²)) for provably correct cosine similarity on the
- * full adapter.  The fingerprint approximation deviates up to ~15% on
- * adversarial adapters (high-rank, low first-core energy).
- *
- * @note
- * // STUB/SIMULATION NOTE (stub #276):
- * // Purpose: Fast fingerprint similarity while full TT inner-product
- * //          sweep is pending.
- * // Activation: Always (no compile flag required).
- * // Production Delta: findSimilar() uses column-mean fingerprint cosine
- * //                   similarity, NOT the full TT inner-product.  For
- * //                   adapters where G_0 energy < 60% of total Frobenius
- * //                   norm the ranking may differ from the exact result.
- * // Removal Plan: Q3 2027 — wire TTTrain::innerProduct() per-pair and
- * //               add HNSW indexing over fingerprints for sub-linear
- * //               search (findSimilarAdapters Phase 4).
+ * Exact ranking can be injected with `setExactSimilarityFn(fn)`.
+ * When the callback is absent (or returns no score), deterministic
+ * fingerprint-cosine fallback is used.
  *
  * ## Thread Safety
  * All public methods are thread-safe via shared_mutex.
@@ -63,9 +47,11 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <shared_mutex>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -124,6 +110,9 @@ struct SimilarityResult {
  */
 class TensorFingerprintGraph {
 public:
+    using ExactSimilarityFn =
+        std::function<std::optional<float>(std::string_view query_key, std::string_view candidate_key)>;
+
     TensorFingerprintGraph() = default;
 
     // ─── Write API ────────────────────────────────────────────────────────
@@ -164,9 +153,9 @@ public:
      * fingerprint of G_0.  The query adapter itself is excluded from the
      * result list.
      *
-     * @note
-      * // STUB/SIMULATION NOTE (stub #276):
-     * // Uses fingerprint cosine similarity, not full TT inner-product.
+     * If `setExactSimilarityFn(fn)` is configured and returns a score
+     * for a candidate, that score is used. Otherwise fallback cosine on
+     * fingerprints is used.
      *
      * @param query_key  Storage key of the query adapter (must be registered).
      * @param k          Maximum number of results to return.
@@ -214,6 +203,20 @@ public:
 
     [[nodiscard]] GraphStats stats() const noexcept;
 
+    /**
+     * @brief Inject an exact-similarity backend for adapter ranking.
+     *
+     * @param fn Callback returning an exact similarity score for
+     *           (query_key, candidate_key). Returning std::nullopt keeps
+     *           fingerprint-cosine fallback for that pair.
+     */
+    void setExactSimilarityFn(ExactSimilarityFn fn);
+
+    /**
+     * @brief Clear a previously injected exact-similarity backend.
+     */
+    void clearExactSimilarityFn();
+
 private:
     /// Compute column means of a TT-core data block.
     /// data layout: [n_rows × n_cols] row-major.
@@ -231,6 +234,8 @@ private:
 
     mutable std::shared_mutex stats_mutex_;
     mutable GraphStats        stats_;
+    mutable std::shared_mutex exact_similarity_fn_mutex_;
+    ExactSimilarityFn exact_similarity_fn_;
 };
 
 } // namespace tensor

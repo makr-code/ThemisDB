@@ -10,9 +10,6 @@
 
 #include "importers/importer_interface.h"
 #include "importers/importer_interfaces.h"
-#ifdef THEMIS_ENABLE_POSTGRES_WIRE
-#include "importers/postgres_importer.h"
-#endif
 #include "importers/s3_importer.h"
 
 #include <memory>

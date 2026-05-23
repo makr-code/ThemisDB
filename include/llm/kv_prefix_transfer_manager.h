@@ -100,6 +100,8 @@ struct IKVStateSerializer {
  */
 class NullKVStateSerializer final : public IKVStateSerializer {
 public:
+    ~NullKVStateSerializer() override = default;
+
     using SerialiseFn =
         std::function<std::vector<std::uint8_t>(const std::string& prefix_text,
                                                 const std::string& model_id)>;

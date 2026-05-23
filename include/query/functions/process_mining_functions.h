@@ -590,22 +590,18 @@ public:
 class PmPredictEndFunction : public IFunction {
 public:
     /**
-     * @brief Injectable bridge for process-end prediction.
+     * @brief Inject a process-end prediction backend.
      *
-     * @param case_id  The AQL-supplied process case identifier.
-     * @return JSON object; callers should include a `predicted_end` key.
+     * When set, `execute()` delegates to the provider to produce a real
+     * forecast timestamp for the given case_id.  The provider receives the
+     * case_id string and must return a JSON object with at least a
+     * `"predicted_end"` field (ISO-8601 string or null on failure).
      *
-     * Register a real prediction backend via setPredictEndFn() so that
-     * PM_PREDICT_END AQL calls delegate to it instead of returning null.
+     * @param fn  Provider callable, or `nullptr` to revert to null-placeholder.
      */
     using PredictEndFn = std::function<nlohmann::json(const std::string& case_id)>;
-
-    /**
-     * @brief Install a prediction bridge function (thread-safe, process-wide).
-     * @param fn  Callable to invoke for each PM_PREDICT_END call; pass nullptr
-     *            to revert to the null-placeholder behaviour.
-     */
     static void setPredictEndFn(PredictEndFn fn);
+    static void clearPredictEndFn();
 
     FunctionSignature signature() const override {
         return {
@@ -621,7 +617,7 @@ public:
             {CostComplexity::LINEAR, 25.0, 2.0, true, false, "process"}
         };
     }
-    
+
     nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
         const FunctionContext& ctx

@@ -49,7 +49,7 @@ public:
                 embed_config.embedding_dim = 1536;
                 
                 embedding_cache_ = std::make_unique<EmbeddingCache>(embed_config);
-            } catch (const std::exception& e) {
+            } catch (const std::exception&) {
                 // Fallback to linear search if EmbeddingCache initialization fails
                 embedding_cache_.reset();
             }
@@ -65,7 +65,7 @@ public:
             return;  // Too short to cache
         }
         
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         
         PrefixCacheEntry entry;
         entry.prefix = prefix;
@@ -110,9 +110,8 @@ public:
                 stats_.hits++;
                 updateLookupTime(start);
                 return it->second;
-            } else {
-                cache_.erase(it);
             }
+            cache_.erase(it);
         }
         
         // Use EmbeddingCache for HNSW-based similarity search
@@ -121,16 +120,16 @@ public:
             if (similar_entry) {
                 // Found similar prefix via HNSW search
                 const std::string& similar_prefix = similar_entry->metadata;
-                auto it = cache_.find(similar_prefix);
-                if (it != cache_.end() && !isExpired(it->second)) {
-                    it->second.usage_count++;
-                    it->second.last_used = clock_->now();
+                auto similar_it = cache_.find(similar_prefix);
+                if (similar_it != cache_.end() && !isExpired(similar_it->second)) {
+                    similar_it->second.usage_count++;
+                    similar_it->second.last_used = clock_->now();
                     // Update average similarity before incrementing hits
                     stats_.avg_similarity = (stats_.avg_similarity * stats_.hits + similar_entry->last_similarity) 
                                           / (stats_.hits + 1);
                     stats_.hits++;
                     updateLookupTime(start);
-                    return it->second;
+                    return similar_it->second;
                 }
             }
         }
@@ -140,7 +139,9 @@ public:
         std::optional<PrefixCacheEntry> best_match;
         
         for (auto& [key, entry] : cache_) {
-            if (isExpired(entry)) continue;
+            if (isExpired(entry)) {
+                continue;
+            }
             
             double similarity = computeSimilarity(embedding, entry.embedding);
             if (similarity >= config_.similarity_threshold && similarity > best_similarity) {
@@ -172,17 +173,19 @@ public:
     
     std::optional<PrefixCacheEntry> getLongestMatch(const std::string& text,
                                                      const std::vector<float>& /*embedding*/) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         
         std::optional<PrefixCacheEntry> longest;
         size_t longest_length = 0;
         
         for (auto& [key, entry] : cache_) {
-            if (isExpired(entry)) continue;
+            if (isExpired(entry)) {
+                continue;
+            }
             
             // Check if entry.prefix is a prefix of text
             if (text.length() >= entry.prefix.length() &&
-                text.substr(0, entry.prefix.length()) == entry.prefix) {
+                text.starts_with(entry.prefix)) {
                 if (entry.prefix.length() > longest_length) {
                     longest_length = entry.prefix.length();
                     longest = entry;
@@ -201,7 +204,7 @@ public:
     }
     
     void touch(const std::string& prefix) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         auto it = cache_.find(prefix);
         if (it != cache_.end()) {
             it->second.usage_count++;
@@ -210,7 +213,7 @@ public:
     }
     
     void invalidateByPattern(const std::string& pattern) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         std::regex regex_pattern(pattern);
         
         auto it = cache_.begin();
@@ -224,7 +227,7 @@ public:
     }
     
     void clear() {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         cache_.clear();
         stats_ = PrefixCacheStatistics{};
         
@@ -235,7 +238,7 @@ public:
     }
     
     PrefixCacheStatistics getStatistics() const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock lock(mutex_);
         auto stats = stats_;
         stats.total_entries = cache_.size();
         return stats;
@@ -249,7 +252,9 @@ private:
     }
     
     void evictLRU() {
-        if (cache_.empty()) return;
+        if (cache_.empty()) {
+            return;
+        }
         
         auto oldest = cache_.begin();
         for (auto it = cache_.begin(); it != cache_.end(); ++it) {
@@ -269,7 +274,9 @@ private:
     }
     
     double computeSimilarity(const std::vector<float>& a, const std::vector<float>& b) const {
-        if (a.size() != b.size() || a.empty()) return 0.0;
+        if (a.size() != b.size() || a.empty()) {
+            return 0.0;
+        }
         
         // Cosine similarity
         double dot = 0.0, mag_a = 0.0, mag_b = 0.0;
@@ -279,7 +286,9 @@ private:
             mag_b += b[i] * b[i];
         }
         
-        if (mag_a == 0.0 || mag_b == 0.0) return 0.0;
+        if (mag_a == 0.0 || mag_b == 0.0) {
+            return 0.0;
+        }
         return dot / (std::sqrt(mag_a) * std::sqrt(mag_b));
     }
     

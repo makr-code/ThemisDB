@@ -815,7 +815,7 @@ static std::shared_ptr<ShardQueryExecutor> makeSuccessExec(double value) {
     class FixedExec : public ShardQueryExecutor {
     public:
         explicit FixedExec(double v) : v_(v) {}
-        OLAPResult execute(const std::string&, const OLAPQuery& q) override {
+        OLAPResult execute(const std::string&, const OLAPQuery&) override {
             OLAPResult r;
             r.columns = {"total"};
             OLAPResult::Row row;

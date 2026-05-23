@@ -138,7 +138,7 @@ public:
      */
     std::vector<Citation> verifyCitations(
         const std::string& answer,
-        const std::vector<std::pair<std::string, std::string>>& documents,
+        [[maybe_unused]] const std::vector<std::pair<std::string, std::string>>& documents,
         const std::vector<Claim>& claims
     );
 

@@ -28,7 +28,9 @@ namespace llm_translator {
 
 // Callback for CURL to write response data
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    auto* out = static_cast<std::string*>(userp);
+    const auto* data = static_cast<const char*>(contents);
+    out->append(data, size * nmemb);
     return size * nmemb;
 }
 

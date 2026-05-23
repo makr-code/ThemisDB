@@ -15,6 +15,7 @@
 #include <mutex>
 #include <vector>
 #include <memory>
+#include <functional>
 
 namespace themis {
 namespace llm {
@@ -34,6 +35,8 @@ namespace detail {
  */
 class GPUMemoryManager {
 public:
+    using GPUTemperatureProviderFn = std::function<bool(int gpu_device_id, float& temperature_celsius)>;
+
     struct MemoryAllocation {
         std::string model_id;
         size_t vram_bytes = 0;
@@ -59,6 +62,7 @@ public:
         bool enable_multi_gpu = false;
         std::vector<int> gpu_devices;  // GPU device IDs to use
         bool enable_peer_access = false;  // Enable CUDA peer-to-peer access
+        GPUTemperatureProviderFn temperature_provider_fn;  // Optional temperature callback
     };
     
     explicit GPUMemoryManager(const Config& config);
@@ -230,4 +234,3 @@ private:
 
 } // namespace llm
 } // namespace themis
-

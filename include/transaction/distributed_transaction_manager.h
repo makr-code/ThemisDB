@@ -258,42 +258,6 @@ public:
     using TransactionId = std::string;
 
     /**
-     * @brief Function type for remote phase-2 decision delivery.
-     *
-     * Inject a real mTLS/RPC transport via setRemoteDecisionFn().
-     * The function receives the node_id, endpoint, txn_id, and a bool
-     * indicating COMMIT (true) or ABORT (false).  It must return true if
-     * the remote participant acknowledged the decision, false on failure.
-     *
-     * @param node_id   Participant node identifier.
-     * @param endpoint  Remote endpoint string (e.g. "host:port").
-     * @param txn_id    Transaction identifier.
-     * @param do_commit true = COMMIT, false = ABORT.
-     * @return          true if the remote node acknowledged.
-     */
-    using RemoteDecisionFn = std::function<bool(
-        const std::string& node_id,
-        const std::string& endpoint,
-        const std::string& txn_id,
-        bool               do_commit
-    )>;
-
-    /**
-     * @brief Inject a real remote phase-2 transport (mTLS/RPC).
-     *
-     * When set, runPhase2Unlocked() calls the function for each
-     * callback-less participant instead of skipping it.  Exceptions
-     * from the function are caught and treated as delivery failure.
-     * Pass an empty function to clear.
-     *
-     * @param fn Callable implementing the remote decision delivery.
-     */
-    void setRemoteDecisionFn(RemoteDecisionFn fn);
-
-    /// Clear the injected remote-decision transport.
-    void clearRemoteDecisionFn();
-
-    /**
      * @brief Coordinator statistics snapshot (approximate).
      */
     struct Statistics {
@@ -451,6 +415,34 @@ public:
      */
     size_t checkTimeouts();
 
+    // ── Remote phase-2 transport bridge ──────────────────────────────────────
+
+    /**
+     * @brief Function type for delivering a phase-2 decision to a remote participant.
+     *
+     * Parameters:
+     *   - endpoint  : The network address of the participant (from Participant::endpoint).
+     *   - txn_id    : The transaction identifier.
+     *   - do_commit : true → send COMMIT; false → send ABORT.
+     *
+     * The function must be non-throwing; internal transport errors should be
+     * logged or signalled via out-of-band mechanisms.
+     */
+    using RemotePhase2Fn = std::function<void(
+        const std::string& endpoint,
+        const TransactionId& txn_id,
+        bool do_commit
+    )>;
+
+    // ── Remote phase-2 transport bridge ──────────────────────────────────────
+
+    /// Inject a transport function for delivering phase-2 decisions to remote
+    /// participants (resolves stub #279).
+    void setRemotePhase2Fn(RemotePhase2Fn fn) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        remote_phase2_fn_ = std::move(fn);
+    }
+
     // ── Failure detection ─────────────────────────────────────────────────────
 
     /**
@@ -586,9 +578,8 @@ private:
     std::thread                           batch_flush_thread_;
     std::atomic<bool>                     batch_stop_{false};
 
-    // ── Remote phase-2 transport bridge (stub #279) ───────────────────────────
-    mutable std::mutex    remote_decision_fn_mutex_;
-    RemoteDecisionFn      remote_decision_fn_;
+    // ── Remote phase-2 bridge (stub #279) ─────────────────────────────────────
+    std::optional<RemotePhase2Fn>         remote_phase2_fn_;
 };
 
 } // namespace themis::transaction

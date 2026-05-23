@@ -561,6 +561,11 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/synopsis_store.cpp
+    ../src/query/incremental_agg.cpp
+    ../src/query/cq_watermark.cpp
+    ../src/query/continuous_query_engine.cpp
+    ../src/query/continuous_query_planner.cpp
     ../src/query/query_rewrite_rule.cpp
     ../src/query/query_profiler.cpp
     ../src/query/workload_cache_strategy.cpp
@@ -1138,6 +1143,9 @@ set(THEMIS_LLM_SOURCES
     # Feedback & Security
     ../src/llm/feedback_plugin_basic.cpp
     ../src/llm/llm_security_utils.cpp
+    ../src/llm/lora_security_validator.cpp
+    ../src/llm/lora_certificate_store.cpp
+    ../src/llm/security/signature_verifier.cpp
     # Vision resource monitoring
     ../src/llm/vision_resource_monitor.cpp
     # LoRA framework additions (unconditional)

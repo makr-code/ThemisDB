@@ -111,80 +111,82 @@ void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
     }
 }
 
-std::vector<std::string> SseConnectionManager::pollEvents(
+std::vector<std::pair<uint64_t, std::string>> SseConnectionManager::pollEventsWithSequences(
     uint64_t conn_id,
-    size_t max_events
+    size_t   max_events
 ) {
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
-    
+
     auto it = connections_.find(conn_id);
     if (it == connections_.end() || !it->second->active) {
         return {};
     }
-    
+
     auto& conn = it->second;
-    
-    // Optional server-side rate limit per connection (events/second)
+
+    // Apply server-side rate limit when configured.
     if (config_.max_events_per_second > 0) {
         auto now = std::chrono::steady_clock::now();
-        auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - conn->window_start).count();
+        auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            now - conn->window_start).count();
         if (elapsed_ms >= 1000) {
-            // Reset 1s window
             conn->window_start = now;
             conn->sent_in_window = 0;
         }
-        // Compute remaining budget for this window
         uint32_t budget = 0;
         if (conn->sent_in_window < config_.max_events_per_second) {
             budget = config_.max_events_per_second - conn->sent_in_window;
         }
         if (budget == 0) {
-            // No budget left -> defer sending
             return {};
         }
-        // Apply both client poll cap and server budget
-        size_t allowed = static_cast<size_t>(budget);
-        size_t count = std::min({max_events, conn->buffered_events.size(), allowed});
+        size_t count = std::min({max_events, conn->buffered_events.size(),
+                                 static_cast<size_t>(budget)});
         if (count == 0) {
             return {};
         }
-        std::vector<std::string> events(
+        std::vector<std::pair<uint64_t, std::string>> events(
             conn->buffered_events.begin(),
-            conn->buffered_events.begin() + count
+            conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
         );
-        // Remove consumed events from buffer
         conn->buffered_events.erase(
             conn->buffered_events.begin(),
-            conn->buffered_events.begin() + count
+            conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
         );
-        if (!events.empty()) {
-            conn->last_activity = std::chrono::steady_clock::now();
-            total_events_sent_ += events.size();
-            conn->sent_in_window += static_cast<uint32_t>(events.size());
-        }
-        
+        conn->last_activity = std::chrono::steady_clock::now();
+        total_events_sent_ += events.size();
+        conn->sent_in_window += static_cast<uint32_t>(events.size());
         return events;
     }
-    
-    // No server-side rate limit: take events from buffer (up to max_events)
+
+    // No rate limit.
     size_t count = std::min(max_events, conn->buffered_events.size());
-    std::vector<std::string> events(
+    std::vector<std::pair<uint64_t, std::string>> events(
         conn->buffered_events.begin(),
-        conn->buffered_events.begin() + count
+        conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
     );
-    
-    // Remove consumed events from buffer
     conn->buffered_events.erase(
         conn->buffered_events.begin(),
-        conn->buffered_events.begin() + count
+        conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
     );
-    
     if (!events.empty()) {
         conn->last_activity = std::chrono::steady_clock::now();
         total_events_sent_ += events.size();
     }
-    
     return events;
+}
+
+std::vector<std::string> SseConnectionManager::pollEvents(
+    uint64_t conn_id,
+    size_t max_events
+) {
+    auto seq_events = pollEventsWithSequences(conn_id, max_events);
+    std::vector<std::string> strings;
+    strings.reserve(seq_events.size());
+    for (auto& [seq, line] : seq_events) {
+        strings.push_back(std::move(line));
+    }
+    return strings;
 }
 
 bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
@@ -311,7 +313,7 @@ void SseConnectionManager::backgroundPollTask() {
 
                 std::string sse_line = "id: " + std::to_string(event.sequence) + "\n";
                 sse_line += "data: " + event.toJson().dump() + "\n\n";
-                c.buffered_events.push_back(std::move(sse_line));
+                c.buffered_events.emplace_back(event.sequence, std::move(sse_line));
                 c.current_sequence = std::max(c.current_sequence, event.sequence);
             }
         }

@@ -199,7 +199,10 @@ protected:
 
 TEST_F(SlackPayloadTest, SuccessPayload_IsValidJson) {
     const std::string body = webhook_.buildSlackPayload(makeSuccessPayload());
-    EXPECT_NO_THROW(json::parse(body));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(body);
+        static_cast<void>(parsed);
+    });
 }
 
 TEST_F(SlackPayloadTest, SuccessPayload_ContainsVersion) {
@@ -298,7 +301,10 @@ protected:
 TEST_F(PagerDutyPayloadTest, SuccessPayload_IsValidJson) {
     const std::string body =
         webhook_.buildPagerDutyPayload(makeSuccessPayload());
-    EXPECT_NO_THROW(json::parse(body));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(body);
+        static_cast<void>(parsed);
+    });
 }
 
 TEST_F(PagerDutyPayloadTest, RoutingKeyInPayload) {
@@ -464,12 +470,18 @@ TEST_F(MinimalPayloadTest, MinimalPayload_SlackPayloadValid) {
     UpdateEventPayload p;
     p.event   = UpdateEvent::UPDATE_SUCCESS;
     p.version = "1.0.0";
-    EXPECT_NO_THROW(json::parse(webhook_.buildSlackPayload(p)));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(webhook_.buildSlackPayload(p));
+        static_cast<void>(parsed);
+    });
 }
 
 TEST_F(MinimalPayloadTest, MinimalPayload_PagerDutyPayloadValid) {
     UpdateEventPayload p;
     p.event   = UpdateEvent::UPDATE_FAILED;
     p.version = "1.0.0";
-    EXPECT_NO_THROW(json::parse(webhook_.buildPagerDutyPayload(p)));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(webhook_.buildPagerDutyPayload(p));
+        static_cast<void>(parsed);
+    });
 }

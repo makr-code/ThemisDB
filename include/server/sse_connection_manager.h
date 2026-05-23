@@ -88,6 +88,19 @@ public:
     void unregisterConnection(uint64_t conn_id);
 
     /**
+     * @brief Get pending events for a connection with their sequence numbers.
+     *
+     * Enables at-least-once delivery tracking: callers can pass the returned
+     * sequence numbers to a DeliveryTracker to record in-flight events.
+     *
+     * @param conn_id Connection ID
+     * @param max_events Max events to retrieve
+     * @return Vector of {sequence_number, SSE-formatted event string} pairs
+     */
+    std::vector<std::pair<uint64_t, std::string>> pollEventsWithSequences(
+        uint64_t conn_id, size_t max_events = 100);
+
+    /**
      * @brief Get pending events for a connection
      * @param conn_id Connection ID
      * @param max_events Max events to retrieve
@@ -126,7 +139,7 @@ private:
         std::set<Changefeed::ChangeEventType> event_types;
         std::chrono::steady_clock::time_point last_activity;
         std::chrono::steady_clock::time_point last_heartbeat;
-        std::vector<std::string> buffered_events;
+        std::vector<std::pair<uint64_t, std::string>> buffered_events;
         std::atomic<bool> active{true};
         // Backpressure accounting
         uint64_t dropped_events{0};

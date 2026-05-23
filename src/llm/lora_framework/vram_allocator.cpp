@@ -106,7 +106,16 @@ namespace {
 
         // 2. Physical device (first discrete GPU, or first available)
         uint32_t dev_count = 0;
-        vkEnumeratePhysicalDevices(ctx->instance, &dev_count, nullptr);
+        {
+            VkResult enum_result = vkEnumeratePhysicalDevices(ctx->instance, &dev_count, nullptr);
+            if (enum_result != VK_SUCCESS && enum_result != VK_INCOMPLETE) {
+                spdlog::error("VRAMAllocator(Vulkan): vkEnumeratePhysicalDevices (count) failed: {}",
+                              static_cast<int>(enum_result));
+                vkDestroyInstance(ctx->instance, nullptr);
+                ctx->instance = VK_NULL_HANDLE;
+                return false;
+            }
+        }
         if (dev_count == 0) {
             spdlog::error("VRAMAllocator(Vulkan): no physical devices found");
             vkDestroyInstance(ctx->instance, nullptr);
@@ -114,7 +123,16 @@ namespace {
             return false;
         }
         std::vector<VkPhysicalDevice> devs(dev_count);
-        vkEnumeratePhysicalDevices(ctx->instance, &dev_count, devs.data());
+        {
+            VkResult enum_result = vkEnumeratePhysicalDevices(ctx->instance, &dev_count, devs.data());
+            if (enum_result != VK_SUCCESS && enum_result != VK_INCOMPLETE) {
+                spdlog::error("VRAMAllocator(Vulkan): vkEnumeratePhysicalDevices (fill) failed: {}",
+                              static_cast<int>(enum_result));
+                vkDestroyInstance(ctx->instance, nullptr);
+                ctx->instance = VK_NULL_HANDLE;
+                return false;
+            }
+        }
 
         ctx->physical_device = devs[0];                     // fallback
         for (const auto& pd : devs) {
@@ -233,7 +251,12 @@ namespace {
             return nullptr;
         }
 
-        vkBindBufferMemory(ctx->device, buffer, memory, 0);
+        if (vkBindBufferMemory(ctx->device, buffer, memory, 0) != VK_SUCCESS) {
+            spdlog::error("VRAMAllocator(Vulkan): vkBindBufferMemory failed");
+            vkFreeMemory(ctx->device, memory, nullptr);
+            vkDestroyBuffer(ctx->device, buffer, nullptr);
+            return nullptr;
+        }
 
         void* mapped = nullptr;
         if (vkMapMemory(ctx->device, memory, 0, mem_req.size, 0, &mapped) != VK_SUCCESS) {

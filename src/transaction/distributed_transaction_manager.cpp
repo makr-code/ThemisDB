@@ -111,20 +111,6 @@ DistributedTransactionManager::~DistributedTransactionManager() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Remote-decision transport bridge (stub #279)
-// ─────────────────────────────────────────────────────────────────────────────
-
-void DistributedTransactionManager::setRemoteDecisionFn(RemoteDecisionFn fn) {
-    std::lock_guard<std::mutex> lk(remote_decision_fn_mutex_);
-    remote_decision_fn_ = std::move(fn);
-}
-
-void DistributedTransactionManager::clearRemoteDecisionFn() {
-    std::lock_guard<std::mutex> lk(remote_decision_fn_mutex_);
-    remote_decision_fn_ = RemoteDecisionFn{};
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // Coordinator API
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -758,33 +744,28 @@ void DistributedTransactionManager::runPhase2Unlocked(
 
     for (const auto& part : parts) {
         if (!part.callback) {
-            // Resolve remote-decision transport (stub #279 → bridged).
-            RemoteDecisionFn remote_fn;
-            {
-                std::lock_guard<std::mutex> lk(remote_decision_fn_mutex_);
-                remote_fn = remote_decision_fn_;
-            }
-            if (remote_fn && !part.endpoint.empty()) {
-                const std::string nid = part.node_id;
+            if (!part.endpoint.empty() && remote_phase2_fn_.has_value()) {
+                // Route the phase-2 decision to the remote participant via the
+                // injected transport bridge (stub #279 resolved).
                 const std::string ep  = part.endpoint;
                 const std::string tid = txn_id;
-                const std::string cid = coordinator_id_;
-                const bool        dc  = do_commit;
-                futures.push_back(submitTask([remote_fn, nid, ep, tid, cid, dc]() {
+                const bool        commit = do_commit;
+                const RemotePhase2Fn fn = *remote_phase2_fn_;
+                futures.push_back(submitTask([fn, ep, tid, commit]() {
                     try {
-                        if (!remote_fn(nid, ep, tid, dc)) {
-                            THEMIS_WARN("DistributedTransactionManager [{}] remote {} {} NACK for txn={}",
-                                        cid, (dc ? "COMMIT" : "ABORT"), nid, tid);
-                        }
+                        fn(ep, tid, commit);
                     } catch (const std::exception& ex) {
-                        THEMIS_ERROR("DistributedTransactionManager [{}] remote {} {} threw for node={} txn={}: {}",
-                                     cid, (dc ? "COMMIT" : "ABORT"), nid, tid, ex.what());
+                        THEMIS_ERROR("2PC remote phase-2 {} threw for endpoint={} txn={}: {}",
+                                     commit ? "COMMIT" : "ABORT", ep, tid, ex.what());
                     }
                 }));
             } else {
-                THEMIS_WARN("DistributedTransactionManager [{}] txn={} participant {} has no callback "
-                            "and no RemoteDecisionFn injected — phase-2 decision not delivered",
-                            coordinator_id_, txn_id, part.node_id);
+                // No callback and no remote transport fn injected: log and skip.
+                // Decision is durable in WAL; recoverInDoubtTransactions() can
+                // replay it when the transport becomes available.
+                THEMIS_WARN("runPhase2Unlocked: no phase-2 transport for node='{}' endpoint='{}' "
+                            "(decision={} durable in WAL; not delivered to remote)",
+                            part.node_id, part.endpoint, do_commit ? "COMMIT" : "ABORT");
             }
             continue;
         }

@@ -354,12 +354,33 @@ TEST_F(HttpRopeApiTest, GetRoPEStats) {
     };
     httpPost("/api/v1/vector-index/test_rope/rope/config", config_request);
 
+    // Add one rotated entity to produce runtime stats.
+    std::vector<float> embedding(768, 0.1f);
+    json add_request = {
+        {"entity", {
+            {"id", "stats_doc"},
+            {"embedding", embedding}
+        }},
+        {"vector_field", "embedding"},
+        {"position", 7}
+    };
+    auto add_response = httpPost("/api/v1/vector-index/test_rope/rope/add", add_request);
+    ASSERT_TRUE(add_response.contains("status"));
+    EXPECT_EQ(add_response["status"], "success");
+
     auto response = httpGet("/api/v1/vector-index/test_rope/rope/stats");
     
     ASSERT_TRUE(response.contains("enabled"));
     EXPECT_TRUE(response["enabled"]);
     ASSERT_TRUE(response.contains("config"));
     ASSERT_TRUE(response.contains("statistics"));
+    EXPECT_TRUE(response["statistics"].contains("total_rotated_entities"));
+    EXPECT_TRUE(response["statistics"].contains("avg_rotation_time_us"));
+    EXPECT_TRUE(response["statistics"].contains("positional_rotations"));
+    EXPECT_TRUE(response["statistics"].contains("relational_rotations"));
+    EXPECT_TRUE(response["statistics"].contains("query_rotations"));
+    EXPECT_GE(response["statistics"]["total_rotated_entities"].get<uint64_t>(), 1u);
+    EXPECT_GE(response["statistics"]["positional_rotations"].get<uint64_t>(), 1u);
 }
 
 // Test 8: Disable RoPE

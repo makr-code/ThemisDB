@@ -7,12 +7,13 @@
  */
 
 #include "geo/spatial_join.h"
-#include "geo/geo_rtree.h"
-#include "geo/geo_math.h"
-#include "utils/logger.h"
 
 #include <cmath>
 #include <unordered_map>
+
+#include "geo/geo_math.h"
+#include "geo/geo_rtree.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace geo {
@@ -24,7 +25,7 @@ namespace geo {
 /// Return the representative point (lon, lat) for a geometry.
 /// For a Point the coordinate itself is used; for all other types the centroid
 /// computed by GeometryInfo::computeCentroid() is used.
-static Coordinate geometryCentroid(const GeometryInfo& geom) {
+static Coordinate geometryCentroid(const GeometryInfo &geom) {
     if (geom.isPoint() && !geom.coords.empty()) {
         return geom.coords[0];
     }
@@ -35,15 +36,11 @@ static Coordinate geometryCentroid(const GeometryInfo& geom) {
 // spatialJoin implementation
 // ---------------------------------------------------------------------------
 
-std::vector<SpatialJoinPair> spatialJoin(
-    const std::vector<std::pair<std::string, GeometryInfo>>& outer,
-    const std::vector<std::pair<std::string, GeometryInfo>>& inner,
-    double threshold_m,
-    const SpatialJoinConfig& config)
-{
+std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string, GeometryInfo>> &outer,
+                                         const std::vector<std::pair<std::string, GeometryInfo>> &inner,
+                                         double threshold_m, const SpatialJoinConfig &config) {
     if (threshold_m <= 0.0) {
-        THEMIS_WARN("spatialJoin: threshold_m ({}) must be positive; returning empty result",
-                    threshold_m);
+        THEMIS_WARN("spatialJoin: threshold_m ({}) must be positive; returning empty result", threshold_m);
         return {};
     }
 
@@ -69,8 +66,10 @@ std::vector<SpatialJoinPair> spatialJoin(
 
     bool limit_reached = false;
 
-    for (const auto& [key_a, geom_a] : outer) {
-        if (limit_reached) break;
+    for (const auto &[key_a, geom_a] : outer) {
+        if (limit_reached) {
+            break;
+        }
 
         const Coordinate centroid_a = geometryCentroid(geom_a);
 
@@ -80,20 +79,22 @@ std::vector<SpatialJoinPair> spatialJoin(
         // Query R-tree for all inner geometries whose MBR intersects the search box.
         const std::vector<std::string> candidates = index.intersects(search_box);
 
-        for (const auto& key_b : candidates) {
+        for (const auto &key_b : candidates) {
             auto it = inner_key_idx.find(key_b);
-            if (it == inner_key_idx.end()) continue;
+            if (it == inner_key_idx.end()) {
+                continue;
+            }
 
             const Coordinate centroid_b = geometryCentroid(inner[it->second].second);
 
-            const double dist = haversineDistanceM(centroid_a.x, centroid_a.y,
-                                                   centroid_b.x, centroid_b.y);
+            const double dist = haversineDistanceM(centroid_a.x, centroid_a.y, centroid_b.x, centroid_b.y);
             if (dist <= threshold_m) {
                 results.push_back({key_a, key_b, dist});
 
                 if (results.size() >= config.max_pairs) {
                     THEMIS_WARN("spatialJoin: max_pairs limit ({}) reached; "
-                                "result set may be incomplete", config.max_pairs);
+                                "result set may be incomplete",
+                                config.max_pairs);
                     limit_reached = true;
                     break;
                 }
@@ -110,7 +111,7 @@ std::vector<SpatialJoinPair> spatialJoin(
 
 struct SpatialJoinIterator::Impl {
     // References into the caller-owned outer collection.
-    const std::vector<std::pair<std::string, GeometryInfo>>* outer_ptr;
+    const std::vector<std::pair<std::string, GeometryInfo>> *outer_ptr;
     double threshold_m;
     SpatialJoinConfig config;
 
@@ -119,24 +120,21 @@ struct SpatialJoinIterator::Impl {
     // key -> inner-vector index (first occurrence wins for duplicate keys).
     std::unordered_map<std::string, std::size_t> inner_key_idx;
     // Owning copy of the inner geometries (needed for centroid lookup).
-    const std::vector<std::pair<std::string, GeometryInfo>>* inner_ptr;
+    const std::vector<std::pair<std::string, GeometryInfo>> *inner_ptr;
 
     // Iterator state --------------------------------------------------------
-    std::size_t outer_idx    = 0; // current position in outer
-    std::size_t cand_idx     = 0; // current position in current candidate list
+    std::size_t outer_idx = 0;           // current position in outer
+    std::size_t cand_idx  = 0;           // current position in current candidate list
     std::vector<std::string> candidates; // R-tree results for current outer element
     std::size_t pairs_yielded = 0;
-    bool exhausted = false;
+    bool exhausted            = false;
 
     // Last yielded pair (valid when not exhausted and advance() returned true).
     SpatialJoinPair current_pair{};
 
-    Impl(const std::vector<std::pair<std::string, GeometryInfo>>& outer,
-         const std::vector<std::pair<std::string, GeometryInfo>>& inner,
-         double thr,
-         const SpatialJoinConfig& cfg)
-        : outer_ptr(&outer), threshold_m(thr), config(cfg), inner_ptr(&inner)
-    {
+    Impl(const std::vector<std::pair<std::string, GeometryInfo>> &outer,
+         const std::vector<std::pair<std::string, GeometryInfo>> &inner, double thr, const SpatialJoinConfig &cfg)
+        : outer_ptr(&outer), threshold_m(thr), config(cfg), inner_ptr(&inner) {
         if (thr <= 0.0 || outer.empty() || inner.empty()) {
             exhausted = true;
             return;
@@ -157,35 +155,38 @@ struct SpatialJoinIterator::Impl {
             exhausted = true;
             return;
         }
-        const GeometryInfo& geom_a = (*outer_ptr)[outer_idx].second;
-        const MBR search_box = geom_a.computeMBR().expand(threshold_m);
-        candidates = index.intersects(search_box);
+        const GeometryInfo &geom_a = (*outer_ptr)[outer_idx].second;
+        const MBR search_box       = geom_a.computeMBR().expand(threshold_m);
+        candidates                 = index.intersects(search_box);
     }
 
     /// Advance to the next valid pair.  Returns true on success.
     bool advance() {
-        if (exhausted) return false;
+        if (exhausted) {
+            return false;
+        }
 
         while (outer_idx < outer_ptr->size()) {
             // Scan remaining candidates for the current outer element.
-            const auto& [key_a, geom_a] = (*outer_ptr)[outer_idx];
+            const auto &[key_a, geom_a] = (*outer_ptr)[outer_idx];
             const Coordinate centroid_a = geometryCentroid(geom_a);
 
             while (cand_idx < candidates.size()) {
-                const std::string& key_b = candidates[cand_idx++];
-                auto it = inner_key_idx.find(key_b);
-                if (it == inner_key_idx.end()) continue;
+                const std::string &key_b = candidates[cand_idx++];
+                auto it                  = inner_key_idx.find(key_b);
+                if (it == inner_key_idx.end()) {
+                    continue;
+                }
 
-                const Coordinate centroid_b =
-                    geometryCentroid((*inner_ptr)[it->second].second);
-                const double dist = haversineDistanceM(centroid_a.x, centroid_a.y,
-                                                       centroid_b.x, centroid_b.y);
+                const Coordinate centroid_b = geometryCentroid((*inner_ptr)[it->second].second);
+                const double dist = haversineDistanceM(centroid_a.x, centroid_a.y, centroid_b.x, centroid_b.y);
                 if (dist <= threshold_m) {
                     current_pair = {key_a, key_b, dist};
                     ++pairs_yielded;
                     if (pairs_yielded >= config.max_pairs) {
                         THEMIS_WARN("spatialJoin (iterator): max_pairs limit ({}) reached; "
-                                    "result set may be incomplete", config.max_pairs);
+                                    "result set may be incomplete",
+                                    config.max_pairs);
                         exhausted = true;
                     }
                     return true;
@@ -206,28 +207,26 @@ struct SpatialJoinIterator::Impl {
     }
 };
 
-SpatialJoinIterator::SpatialJoinIterator(
-    const std::vector<std::pair<std::string, GeometryInfo>>& outer,
-    const std::vector<std::pair<std::string, GeometryInfo>>& inner,
-    double threshold_m,
-    const SpatialJoinConfig& config)
-    : impl_(std::make_unique<Impl>(outer, inner, threshold_m, config))
-{
+SpatialJoinIterator::SpatialJoinIterator(const std::vector<std::pair<std::string, GeometryInfo>> &outer,
+                                         const std::vector<std::pair<std::string, GeometryInfo>> &inner,
+                                         double threshold_m, const SpatialJoinConfig &config)
+    : impl_(std::make_unique<Impl>(outer, inner, threshold_m, config)) {
     if (threshold_m <= 0.0) {
         THEMIS_WARN("SpatialJoinIterator: threshold_m ({}) must be positive; "
-                    "iterator will yield no results", threshold_m);
+                    "iterator will yield no results",
+                    threshold_m);
     }
 }
 
-SpatialJoinIterator::~SpatialJoinIterator() = default;
-SpatialJoinIterator::SpatialJoinIterator(SpatialJoinIterator&&) noexcept = default;
-SpatialJoinIterator& SpatialJoinIterator::operator=(SpatialJoinIterator&&) noexcept = default;
+SpatialJoinIterator::~SpatialJoinIterator()                                          = default;
+SpatialJoinIterator::SpatialJoinIterator(SpatialJoinIterator &&) noexcept            = default;
+SpatialJoinIterator &SpatialJoinIterator::operator=(SpatialJoinIterator &&) noexcept = default;
 
 bool SpatialJoinIterator::advance() {
     return impl_->advance();
 }
 
-const SpatialJoinPair& SpatialJoinIterator::current() const {
+const SpatialJoinPair &SpatialJoinIterator::current() const {
     return impl_->current_pair;
 }
 

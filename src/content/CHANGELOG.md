@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Reliability hardening batch 3: all remaining `catch (...)` handlers removed from `geo_processor.cpp` (3), `html_processor.cpp` (1), `video_processor.cpp` (4), `archive_processor.cpp` (4), `embedding_pipeline.cpp` (1), and `content_fs.cpp` (5); replaced with typed `catch (const std::exception&)` handlers. Zero catch-all handlers now remain in `src/content/`.
 - Configurable processing pipeline: plugin-based processor chain via `ProcessorChainConfig` and `IIngestionPlugin` (Issue #1686, Target Q3 2026)
 - Video frame extraction and scene detection via FFmpeg (Issue #1688, Target Q4 2026)
+- Reliability hardening block: replaced catch-all exception handlers in `content_manager.cpp` metadata/blob/chunk retrieval, expansion search, virtual filesystem scanning, and streaming indexing-config parsing paths with typed `std::exception` handlers plus diagnostic logging.
+- Reliability hardening block: replaced catch-all exception handlers in `content_manager.cpp` hash duplicate lookup and `importContent()` blob/config/metrics/encryption metadata paths with typed `std::exception` handlers and explicit diagnostics.
+- Reliability hardening block: removed remaining catch-all handlers in `content_manager.cpp` whitelist/filter scan and duplicate-hash lookup paths; fixed invalid filter logging context and kept fail-closed behavior.
+- Reliability hardening block: replaced catch-all handlers in `content_fs.cpp` metadata decode/remove cleanup paths and `embedding_pipeline.cpp` timeout-get path with typed `std::exception` handlers.
 
 ## [1.7.0] — 2026-03-09
 ### Added

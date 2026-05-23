@@ -692,7 +692,7 @@ void IngestionCoordinator::leaseRenewalLoop() {
         // Only renew if we currently hold the lease.
         auto lease = leader_election_->getCurrentLease();
         if (lease.isValid() && lease.owner_node_id == my_node_id_) {
-            leader_election_->tryAcquireLease(my_node_id_, config_.lease_ttl);
+            static_cast<void>(leader_election_->tryAcquireLease(my_node_id_, config_.lease_ttl));
         }
     }
 }

@@ -81,10 +81,17 @@ public:
     void set_push_constants(const void* data, size_t size, size_t offset = 0);
     
     /**
-     * @brief Dispatch compute shader
+     * @brief Dispatch compute shader.
+     *
+     * Records the compute workload into a one-time-submit command buffer and
+     * submits it to the Vulkan compute queue.
+     *
      * @param group_x Number of workgroups in X dimension
      * @param group_y Number of workgroups in Y dimension
      * @param group_z Number of workgroups in Z dimension
+     *
+     * @throws std::runtime_error if vkBeginCommandBuffer, vkEndCommandBuffer,
+     *         or vkQueueSubmit returns a non-VK_SUCCESS code.
      */
     void dispatch(uint32_t group_x, uint32_t group_y = 1, uint32_t group_z = 1);
     

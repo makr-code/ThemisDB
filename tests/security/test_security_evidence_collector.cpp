@@ -351,7 +351,12 @@ TEST_F(SecurityEvidenceCollectorTest, ToJson_CanBeRoundTripped) {
     auto j = bundle.toJson();
     // Verify the JSON can be serialised and re-parsed
     std::string s = j.dump();
-    EXPECT_NO_THROW(nlohmann::json::parse(s));
+    try {
+        auto parsed = nlohmann::json::parse(s);
+        static_cast<void>(parsed);
+    } catch (const std::exception& ex) {
+        FAIL() << "Roundtrip JSON parse failed: " << ex.what();
+    }
 }
 
 // ============================================================================
