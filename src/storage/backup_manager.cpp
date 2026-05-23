@@ -57,27 +57,6 @@
 
 namespace themis {
 
-// ─── IngestExternalFileFn bridge storage (stub #300) ─────────────────────────
-namespace {
-    std::mutex s_ingest_fn_mutex;
-    BackupManager::IngestExternalFileFn s_ingest_fn;
-
-    BackupManager::IngestExternalFileFn getIngestFn() {
-        std::lock_guard<std::mutex> lk(s_ingest_fn_mutex);
-        return s_ingest_fn;
-    }
-} // namespace
-
-void BackupManager::setIngestExternalFileFn(IngestExternalFileFn fn) {
-    std::lock_guard<std::mutex> lk(s_ingest_fn_mutex);
-    s_ingest_fn = std::move(fn);
-}
-
-void BackupManager::clearIngestExternalFileFn() {
-    std::lock_guard<std::mutex> lk(s_ingest_fn_mutex);
-    s_ingest_fn = nullptr;
-}
-
 #ifdef _WIN32
 /// Wrap a string in double quotes for use as a CreateProcess command argument.
 /// Backslash-escapes embedded double-quote characters.
@@ -1921,31 +1900,16 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             THEMIS_INFO("restoreCollections: requested collections: [{}]", coll_list);
         }
 
-        // Attempt per-collection SST ingest via bridge if available (stub #300 resolved).
-        if (auto ingest_fn = getIngestFn()) {
-            bool all_ok = true;
-            for (const auto& coll : collections) {
-                std::vector<std::string> sst_files;
-                // Collect SST files for this collection from checkpoint dir.
-                for (const auto& entry : std::filesystem::directory_iterator(checkpoint_dir)) {
-                    const auto& p = entry.path();
-                    if (p.extension() == ".sst" &&
-                        p.stem().string().find(coll) != std::string::npos) {
-                        sst_files.push_back(p.string());
-                    }
-                }
-                if (!ingest_fn(coll, sst_files)) {
-                    THEMIS_ERROR("restoreCollections: SST ingest failed for collection '{}'", coll);
-                    all_ok = false;
-                }
-            }
-            if (all_ok) {
+        // Attempt per-collection SST ingest via injected hook (stub #300 resolved).
+        if (cf_sst_ingest_fn_) {
+            if (cf_sst_ingest_fn_(checkpoint_dir.string(), collections, ec)) {
                 THEMIS_INFO("restoreCollections: per-CF SST ingest succeeded for {} collection(s)",
                             collections.size());
                 return true;
             }
-            THEMIS_WARN("restoreCollections: per-CF SST ingest incomplete, falling back to "
-                        "full checkpoint restore");
+            THEMIS_WARN("restoreCollections: per-CF SST ingest failed, falling back to "
+                        "full checkpoint restore: {}", ec.message());
+            ec.clear();
         }
 
         // STUB/SIMULATION NOTE (stub #300):

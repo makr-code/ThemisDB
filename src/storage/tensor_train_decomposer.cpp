@@ -550,15 +550,6 @@ void TensorTrainDecomposer::truncatedSVD(
             Vt[i * n + j] = static_cast<float>(Vtd[i * n + j]);
 }
 
-void TensorTrainDecomposer::sharedTruncatedSVD(
-    const std::vector<float>& mat, std::size_t m, std::size_t n,
-    double delta, std::size_t max_rank_cap,
-    std::vector<float>& U, std::vector<float>& S, std::vector<float>& Vt,
-    std::size_t& rank_out)
-{
-    truncatedSVD(mat, m, n, delta, max_rank_cap, U, S, Vt, rank_out);
-}
-
 // ============================================================================
 // TensorTrainDecomposer::decompose
 // ============================================================================
