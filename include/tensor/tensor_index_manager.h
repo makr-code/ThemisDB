@@ -207,18 +207,11 @@ public:
     /**
      * @brief Raw-pointer variant (kept for backward compatibility).
      *
-     * Prefer `mapCores()` for new code.  This method returns raw
-     * `const float*` pointers that are valid only while the index is
-     * alive; no mmap or mlock is performed.
+     * Prefer `mapCores()` for new code. This method now delegates to
+     * `mapCores()` internally and returns borrowed pointers into a
+     * thread-local `TensorMmapBridge` cache.
      *
      * @deprecated Use mapCores() instead.
-     *
-     * @note
-     * // STUB/SIMULATION NOTE:
-     * // Purpose: backward-compatible raw-pointer bridge (Phase 3-A)
-     * // Activation: always (no compile flag)
-     * // Production Delta: no mmap / mlock; pointers invalidated on mutation
-     * // Removal Plan: remove after all callers migrate to mapCores()
      */
     std::vector<std::pair<const float*, size_t>>
         ggmlCorePtrs(const std::string& tenant_id,
@@ -264,4 +257,3 @@ private:
 
 } // namespace tensor
 } // namespace themis
-

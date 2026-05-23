@@ -122,13 +122,39 @@ public:
     explicit AIPluginGenerator(const Config& config);
     ~AIPluginGenerator();
     
+    /**
+     * @brief Function type for delivering an HTTP POST to the LLM endpoint.
+     *
+     * Parameters:
+     *   - endpoint : Full URL of the LLM code-generation endpoint.
+     *   - body     : JSON request body (serialised PluginGenerationPrompt fields).
+     *
+     * Returns the raw HTTP response body as a string.
+     * Must throw on network or HTTP errors.
+     */
+    using LlmHttpPostFn = std::function<std::string(
+        const std::string& endpoint,
+        const std::string& body
+    )>;
+
+    /**
+     * @brief Inject a real HTTP transport for LLM endpoint calls (resolves stub #282).
+     *
+     * When set, `generatePlugin()` performs an HTTP POST to `config_.llm_endpoint`
+     * via this function and parses the JSON response into a `GeneratedPlugin`.
+     * Without an injected function the call returns an error indicating that
+     * Phase 2 is not available in this build.
+     *
+     * @param fn  Callable that performs the HTTP POST and returns the response body.
+     */
+    void setLlmHttpPostFn(LlmHttpPostFn fn);
+
     Result<GeneratedPlugin> generatePlugin(const PluginGenerationPrompt& prompt);
     Result<void> validatePrompt(const PluginGenerationPrompt& prompt);
     
 private:
     Config config_;
-    LLMGenerateFn llm_generate_fn_;
-    mutable std::mutex llm_fn_mutex_;
+    std::optional<LlmHttpPostFn> llm_http_post_fn_;
 };
 
 } // namespace ai

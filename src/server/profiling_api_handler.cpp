@@ -366,35 +366,27 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
         return true;
     }
 
-    auto query = std::string_view(target).substr(query_pos + 1);
-    while (!query.empty()) {
-        const auto amp_pos = query.find('&');
-        const auto token = query.substr(0, amp_pos);
+    std::size_t pos = query_pos + 1;
+    while (pos < target.size()) {
+        const std::size_t end = target.find('&', pos);
+        const std::size_t pair_end = (end == std::string::npos) ? target.size() : end;
+        const std::size_t eq = target.find('=', pos);
 
-        const auto eq_pos = token.find('=');
-        const auto key = token.substr(0, eq_pos);
-        if (key == param_name) {
-            if (eq_pos == std::string_view::npos || eq_pos + 1 >= token.size()) {
+        if (eq != std::string::npos && eq < pair_end &&
+            target.compare(pos, eq - pos, param_name) == 0) {
+            const std::string value_str = target.substr(eq + 1, pair_end - (eq + 1));
+            try {
+                value = std::stoi(value_str);
+                return true;
+            } catch (const std::exception&) {
                 return false;
             }
-
-            const auto value_view = token.substr(eq_pos + 1);
-            int parsed_value = 0;
-            const auto* begin = value_view.data();
-            const auto* end = value_view.data() + value_view.size();
-            const auto [ptr, ec] = std::from_chars(begin, end, parsed_value);
-            if (ec != std::errc{} || ptr != end || parsed_value < 0) {
-                return false;
-            }
-
-            value = parsed_value;
-            return true;
         }
 
-        if (amp_pos == std::string_view::npos) {
+        if (end == std::string::npos) {
             break;
         }
-        query.remove_prefix(amp_pos + 1);
+        pos = end + 1;
     }
 
     return true;

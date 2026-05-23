@@ -181,6 +181,16 @@ public:
     void barrier();
 
     /**
+     * @brief Function type for CPU AllReduce across training ranks.
+     *
+     * The callable receives the gradient vector in-place and must perform the
+     * collective reduction (sum + divide by world_size) across all ranks.
+     * A real implementation uses MPI_Allreduce, Gloo allreduce, or a shared-
+     * memory ring-reduce.
+     */
+    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
+
+    /**
      * @brief Inject a real barrier implementation (NCCL/MPI/Gloo).
      *
      * When set, barrier() delegates to this function instead of the
@@ -271,7 +281,7 @@ private:
     void broadcast_cpu(std::vector<float>& data);
 
     std::optional<BarrierFn>      barrier_fn_;
-    std::optional<BroadcastFn>   broadcast_fn_;
+    std::optional<BroadcastFn>    broadcast_fn_;
     std::optional<AllReduceCpuFn> allreduce_cpu_fn_;
 };
 

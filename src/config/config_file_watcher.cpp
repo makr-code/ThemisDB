@@ -8,38 +8,37 @@
 
 #include "config/config_file_watcher.h"
 
-#include <spdlog/spdlog.h>
-
 #include <filesystem>
 #include <set>
+#include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
 // ── Platform headers ──────────────────────────────────────────────────────────
 #if defined(__linux__)
-#  include <sys/inotify.h>
-#  include <unistd.h>
-#  include <poll.h>
-#  include <fcntl.h>
-#  include <cerrno>
-#  include <cstring>
-#  include <map>
+#include <cerrno>
+#include <cstring>
+#include <fcntl.h>
+#include <map>
+#include <poll.h>
+#include <sys/inotify.h>
+#include <unistd.h>
 #elif defined(__APPLE__)
-#  include <sys/types.h>
-#  include <sys/event.h>
-#  include <sys/time.h>
-#  include <dirent.h>
-#  include <fcntl.h>
-#  include <unistd.h>
-#  include <cerrno>
-#  include <cstring>
-#  include <map>
+#include <cerrno>
+#include <cstring>
+#include <dirent.h>
+#include <fcntl.h>
+#include <map>
+#include <sys/event.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
 #elif defined(_WIN32)
-#  ifndef WIN32_LEAN_AND_MEAN
-#    define WIN32_LEAN_AND_MEAN
-#  endif
-#  include <windows.h>
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
 #endif
 
 namespace themis {
@@ -50,9 +49,11 @@ namespace config {
 namespace {
 
 /// Returns true if the filename extension is .yaml, .yml, or .json.
-bool isWatchedExtension(const std::string& filename) {
+bool isWatchedExtension(const std::string &filename) {
     auto pos = filename.rfind('.');
-    if (pos == std::string::npos) return false;
+    if (pos == std::string::npos) {
+        return false;
+    }
     std::string ext = filename.substr(pos);
     return ext == ".yaml" || ext == ".yml" || ext == ".json";
 }
@@ -61,13 +62,9 @@ bool isWatchedExtension(const std::string& filename) {
 
 // ── ConfigFileWatcher implementation ─────────────────────────────────────────
 
-ConfigFileWatcher::ConfigFileWatcher(std::string watch_path,
-                                     std::function<void()> callback,
+ConfigFileWatcher::ConfigFileWatcher(std::string watch_path, std::function<void()> callback,
                                      std::chrono::milliseconds debounce)
-    : watch_path_(std::move(watch_path))
-    , callback_(std::move(callback))
-    , debounce_(debounce)
-{}
+    : watch_path_(std::move(watch_path)), callback_(std::move(callback)), debounce_(debounce) {}
 
 ConfigFileWatcher::~ConfigFileWatcher() {
     stop();
@@ -79,8 +76,7 @@ bool ConfigFileWatcher::start() {
     }
 
     if (!std::filesystem::exists(watch_path_)) {
-        spdlog::warn("ConfigFileWatcher: watch path '{}' does not exist – watcher not started",
-                     watch_path_);
+        spdlog::warn("ConfigFileWatcher: watch path '{}' does not exist – watcher not started", watch_path_);
         return false;
     }
 
@@ -124,24 +120,37 @@ bool ConfigFileWatcher::start() {
         running_.store(false, std::memory_order_release);
         // Roll back OS resources allocated above
 #if defined(__linux__)
-        if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }
-        if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }
+        if (pipe_write_fd_ != -1) {
+            ::close(pipe_write_fd_);
+            pipe_write_fd_ = -1;
+        }
+        if (pipe_read_fd_ != -1) {
+            ::close(pipe_read_fd_);
+            pipe_read_fd_ = -1;
+        }
 #elif defined(__APPLE__)
-        if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }
-        if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }
-        if (kqueue_fd_     != -1) { ::close(kqueue_fd_);     kqueue_fd_     = -1; }
+        if (pipe_write_fd_ != -1) {
+            ::close(pipe_write_fd_);
+            pipe_write_fd_ = -1;
+        }
+        if (pipe_read_fd_ != -1) {
+            ::close(pipe_read_fd_);
+            pipe_read_fd_ = -1;
+        }
+        if (kqueue_fd_ != -1) {
+            ::close(kqueue_fd_);
+            kqueue_fd_ = -1;
+        }
 #elif defined(_WIN32)
         if (stop_event_ != nullptr) {
             CloseHandle(static_cast<HANDLE>(stop_event_));
             stop_event_ = nullptr;
         }
 #endif
-        spdlog::warn("ConfigFileWatcher: failed to start watcher thread for '{}'",
-                     watch_path_);
+        spdlog::warn("ConfigFileWatcher: failed to start watcher thread for '{}'", watch_path_);
         return false;
     }
-    spdlog::info("ConfigFileWatcher: started watching '{}' (debounce {}ms)",
-                 watch_path_, debounce_.count());
+    spdlog::info("ConfigFileWatcher: started watching '{}' (debounce {}ms)", watch_path_, debounce_.count());
     return true;
 }
 
@@ -173,12 +182,27 @@ void ConfigFileWatcher::stop() {
 
     // Close OS resources
 #if defined(__linux__)
-    if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }
-    if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }
+    if (pipe_write_fd_ != -1) {
+        ::close(pipe_write_fd_);
+        pipe_write_fd_ = -1;
+    }
+    if (pipe_read_fd_ != -1) {
+        ::close(pipe_read_fd_);
+        pipe_read_fd_ = -1;
+    }
 #elif defined(__APPLE__)
-    if (pipe_write_fd_ != -1) { ::close(pipe_write_fd_); pipe_write_fd_ = -1; }
-    if (pipe_read_fd_  != -1) { ::close(pipe_read_fd_);  pipe_read_fd_  = -1; }
-    if (kqueue_fd_     != -1) { ::close(kqueue_fd_);     kqueue_fd_     = -1; }
+    if (pipe_write_fd_ != -1) {
+        ::close(pipe_write_fd_);
+        pipe_write_fd_ = -1;
+    }
+    if (pipe_read_fd_ != -1) {
+        ::close(pipe_read_fd_);
+        pipe_read_fd_ = -1;
+    }
+    if (kqueue_fd_ != -1) {
+        ::close(kqueue_fd_);
+        kqueue_fd_ = -1;
+    }
 #elif defined(_WIN32)
     if (stop_event_ != nullptr) {
         CloseHandle(static_cast<HANDLE>(stop_event_));
@@ -230,14 +254,11 @@ void ConfigFileWatcher::watchLoopInotify() {
     std::map<int, std::string> wd_to_path;
 
     // Helper: add a watch on a single directory
-    auto add_watch = [&](const std::string& dir) {
+    auto add_watch = [&](const std::string &dir) {
         int wd = inotify_add_watch(ifd, dir.c_str(),
-                                   IN_CLOSE_WRITE | IN_MOVED_TO |
-                                   IN_CREATE | IN_DELETE |
-                                   IN_MODIFY | IN_DONT_FOLLOW);
+                                   IN_CLOSE_WRITE | IN_MOVED_TO | IN_CREATE | IN_DELETE | IN_MODIFY | IN_DONT_FOLLOW);
         if (wd == -1) {
-            spdlog::debug("ConfigFileWatcher: inotify_add_watch('{}') failed: {}",
-                          dir, strerror(errno));
+            spdlog::debug("ConfigFileWatcher: inotify_add_watch('{}') failed: {}", dir, strerror(errno));
         } else {
             wd_to_path[wd] = dir;
         }
@@ -246,23 +267,22 @@ void ConfigFileWatcher::watchLoopInotify() {
     // Recursively watch the config directory tree
     add_watch(watch_path_);
     try {
-        for (auto& entry : std::filesystem::recursive_directory_iterator(
-                 watch_path_,
-                 std::filesystem::directory_options::skip_permission_denied)) {
+        for (auto &entry : std::filesystem::recursive_directory_iterator(
+                 watch_path_, std::filesystem::directory_options::skip_permission_denied)) {
             if (entry.is_directory()) {
                 add_watch(entry.path().string());
             }
         }
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         spdlog::debug("ConfigFileWatcher: recursive dir scan error: {}", ex.what());
     }
 
     // poll: fd[0] = inotify, fd[1] = stop pipe
     struct pollfd pfds[2];
-    pfds[0].fd      = ifd;
-    pfds[0].events  = POLLIN;
-    pfds[1].fd      = pipe_read_fd_;
-    pfds[1].events  = POLLIN;
+    pfds[0].fd     = ifd;
+    pfds[0].events = POLLIN;
+    pfds[1].fd     = pipe_read_fd_;
+    pfds[1].events = POLLIN;
 
     constexpr int kBufSize = 4096;
     alignas(struct inotify_event) char buf[kBufSize];
@@ -274,18 +294,18 @@ void ConfigFileWatcher::watchLoopInotify() {
         {
             std::lock_guard<std::mutex> lk(debounce_mutex_);
             if (event_pending_) {
-                auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::steady_clock::now() - last_event_time_);
+                auto elapsed   = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()
+                                                                                       - last_event_time_);
                 auto remaining = debounce_ - elapsed;
-                timeout_ms = static_cast<int>(
-                    std::max(std::chrono::milliseconds(0), remaining).count());
+                timeout_ms     = static_cast<int>(std::max(std::chrono::milliseconds(0), remaining).count());
             }
         }
 
         int nfds = poll(pfds, 2, timeout_ms);
 
         if (nfds < 0) {
-            if (errno == EINTR) continue;
+            if (errno == EINTR)
+                continue;
             spdlog::warn("ConfigFileWatcher: poll error: {}", strerror(errno));
             break;
         }
@@ -307,7 +327,7 @@ void ConfigFileWatcher::watchLoopInotify() {
             if (should_fire && callback_) {
                 try {
                     callback_();
-                } catch (const std::exception& ex) {
+                } catch (const std::exception &ex) {
                     spdlog::warn("ConfigFileWatcher: callback threw: {}", ex.what());
                 }
             }
@@ -322,11 +342,12 @@ void ConfigFileWatcher::watchLoopInotify() {
         // inotify events
         if (pfds[0].revents & POLLIN) {
             ssize_t len = read(ifd, buf, kBufSize);
-            if (len <= 0) continue;
+            if (len <= 0)
+                continue;
 
-            const char* ptr = buf;
+            const char *ptr = buf;
             while (ptr < buf + len) {
-                const auto* ev = reinterpret_cast<const struct inotify_event*>(ptr);
+                const auto *ev = reinterpret_cast<const struct inotify_event *>(ptr);
                 ptr += sizeof(struct inotify_event) + ev->len;
 
                 // If a new sub-directory was created, add a watch on it
@@ -348,7 +369,7 @@ void ConfigFileWatcher::watchLoopInotify() {
     }
 
     // Clean up inotify watches
-    for (auto& [wd, _] : wd_to_path) {
+    for (auto &[wd, _] : wd_to_path) {
         inotify_rm_watch(ifd, wd);
     }
     ::close(ifd);
@@ -370,22 +391,19 @@ void ConfigFileWatcher::watchLoopKqueue() {
     std::map<int, std::string> fd_to_path;
     std::set<std::string> registered_paths;
 
-    auto register_path = [&](const std::string& path) {
-        if (registered_paths.count(path)) return; // already registered
+    auto register_path = [&](const std::string &path) {
+        if (registered_paths.count(path))
+            return; // already registered
         int fd = ::open(path.c_str(), O_RDONLY | O_EVTONLY | O_CLOEXEC);
         if (fd == -1) {
             spdlog::debug("ConfigFileWatcher: open('{}') failed: {}", path, strerror(errno));
             return;
         }
         struct kevent ev{};
-        EV_SET(&ev, static_cast<uintptr_t>(fd),
-               EVFILT_VNODE,
-               EV_ADD | EV_ENABLE | EV_CLEAR,
-               NOTE_WRITE | NOTE_RENAME | NOTE_DELETE | NOTE_ATTRIB,
-               0, nullptr);
+        EV_SET(&ev, static_cast<uintptr_t>(fd), EVFILT_VNODE, EV_ADD | EV_ENABLE | EV_CLEAR,
+               NOTE_WRITE | NOTE_RENAME | NOTE_DELETE | NOTE_ATTRIB, 0, nullptr);
         if (kevent(kqueue_fd_, &ev, 1, nullptr, 0, nullptr) == -1) {
-            spdlog::debug("ConfigFileWatcher: kevent register for '{}' failed: {}",
-                          path, strerror(errno));
+            spdlog::debug("ConfigFileWatcher: kevent register for '{}' failed: {}", path, strerror(errno));
             ::close(fd);
             return;
         }
@@ -396,22 +414,18 @@ void ConfigFileWatcher::watchLoopKqueue() {
     // Register the watch root and all files/dirs under it
     register_path(watch_path_);
     try {
-        for (auto& entry : std::filesystem::recursive_directory_iterator(
-                 watch_path_,
-                 std::filesystem::directory_options::skip_permission_denied)) {
+        for (auto &entry : std::filesystem::recursive_directory_iterator(
+                 watch_path_, std::filesystem::directory_options::skip_permission_denied)) {
             register_path(entry.path().string());
         }
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         spdlog::debug("ConfigFileWatcher: recursive dir scan error: {}", ex.what());
     }
 
     // Also register the stop-pipe read end so we can wake up
     {
         struct kevent ev{};
-        EV_SET(&ev, static_cast<uintptr_t>(pipe_read_fd_),
-               EVFILT_READ,
-               EV_ADD | EV_ENABLE,
-               0, 0, nullptr);
+        EV_SET(&ev, static_cast<uintptr_t>(pipe_read_fd_), EVFILT_READ, EV_ADD | EV_ENABLE, 0, 0, nullptr);
         kevent(kqueue_fd_, &ev, 1, nullptr, 0, nullptr);
     }
 
@@ -421,23 +435,24 @@ void ConfigFileWatcher::watchLoopKqueue() {
     while (running_.load(std::memory_order_acquire)) {
         // Calculate timeout
         struct timespec ts_buf{};
-        struct timespec* ts = nullptr;
+        struct timespec *ts = nullptr;
         {
             std::lock_guard<std::mutex> lk(debounce_mutex_);
             if (event_pending_) {
-                auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::steady_clock::now() - last_event_time_);
+                auto elapsed   = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()
+                                                                                       - last_event_time_);
                 auto remaining = std::max(std::chrono::milliseconds(0), debounce_ - elapsed);
                 ts_buf.tv_sec  = remaining.count() / 1000;
                 ts_buf.tv_nsec = (remaining.count() % 1000) * 1'000'000L;
-                ts = &ts_buf;
+                ts             = &ts_buf;
             }
         }
 
         int n = kevent(kqueue_fd_, nullptr, 0, events, kMaxEvents, ts);
 
         if (n < 0) {
-            if (errno == EINTR) continue;
+            if (errno == EINTR)
+                continue;
             spdlog::warn("ConfigFileWatcher: kevent wait failed: {}", strerror(errno));
             break;
         }
@@ -459,7 +474,7 @@ void ConfigFileWatcher::watchLoopKqueue() {
             if (should_fire && callback_) {
                 try {
                     callback_();
-                } catch (const std::exception& ex) {
+                } catch (const std::exception &ex) {
                     spdlog::warn("ConfigFileWatcher: callback threw: {}", ex.what());
                 }
             }
@@ -473,24 +488,27 @@ void ConfigFileWatcher::watchLoopKqueue() {
             }
 
             auto it = fd_to_path.find(static_cast<int>(events[i].ident));
-            if (it == fd_to_path.end()) continue;
+            if (it == fd_to_path.end())
+                continue;
 
-            const std::string& path = it->second;
-            bool is_dir = std::filesystem::is_directory(path);
+            const std::string &path = it->second;
+            bool is_dir             = std::filesystem::is_directory(path);
 
             if (is_dir) {
                 // Re-scan directory for new files/sub-dirs not yet registered
                 try {
-                    for (auto& entry : std::filesystem::directory_iterator(path)) {
+                    for (auto &entry : std::filesystem::directory_iterator(path)) {
                         const std::string entry_path = entry.path().string();
-                        if (registered_paths.count(entry_path)) continue;
+                        if (registered_paths.count(entry_path))
+                            continue;
                         if (entry.is_regular_file() && isWatchedExtension(entry_path)) {
                             register_path(entry_path);
                         } else if (entry.is_directory()) {
                             register_path(entry_path);
                         }
                     }
-                } catch (...) {}
+                } catch (...) {
+                }
                 scheduleCallback();
             } else if (isWatchedExtension(path)) {
                 spdlog::debug("ConfigFileWatcher: kqueue event for '{}'", path);
@@ -499,7 +517,7 @@ void ConfigFileWatcher::watchLoopKqueue() {
         }
     }
 done:
-    for (auto& [fd, _] : fd_to_path) {
+    for (auto &[fd, _] : fd_to_path) {
         ::close(fd);
     }
 }
@@ -515,14 +533,9 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
     // Convert watch_path_ to wide string
     std::wstring wide_path(watch_path_.begin(), watch_path_.end());
 
-    HANDLE dir_handle = CreateFileW(
-        wide_path.c_str(),
-        FILE_LIST_DIRECTORY,
-        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-        nullptr,
-        OPEN_EXISTING,
-        FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED,
-        nullptr);
+    HANDLE dir_handle
+        = CreateFileW(wide_path.c_str(), FILE_LIST_DIRECTORY, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                      nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, nullptr);
 
     if (dir_handle == INVALID_HANDLE_VALUE) {
         spdlog::warn("ConfigFileWatcher: CreateFileW failed: {}", GetLastError());
@@ -547,15 +560,11 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
     auto issue_read = [&]() -> bool {
         ResetEvent(overlapped.hEvent);
         DWORD bytes_returned = 0;
-        BOOL ok = ReadDirectoryChangesW(
-            dir_handle, buf, kBufSize,
-            /*bWatchSubtree=*/TRUE,
-            FILE_NOTIFY_CHANGE_FILE_NAME |
-            FILE_NOTIFY_CHANGE_DIR_NAME  |
-            FILE_NOTIFY_CHANGE_LAST_WRITE,
-            &bytes_returned,
-            &overlapped,
-            nullptr);
+        BOOL ok              = ReadDirectoryChangesW(dir_handle, buf, kBufSize,
+                                                     /*bWatchSubtree=*/TRUE,
+                                                     FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME
+                                                         | FILE_NOTIFY_CHANGE_LAST_WRITE,
+                                                     &bytes_returned, &overlapped, nullptr);
         if (!ok && GetLastError() != ERROR_IO_PENDING) {
             spdlog::warn("ConfigFileWatcher: ReadDirectoryChangesW failed: {}", GetLastError());
             return false;
@@ -576,10 +585,10 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
         {
             std::lock_guard<std::mutex> lk(debounce_mutex_);
             if (event_pending_) {
-                auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::steady_clock::now() - last_event_time_);
+                auto elapsed   = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()
+                                                                                       - last_event_time_);
                 auto remaining = std::max(std::chrono::milliseconds(0), debounce_ - elapsed);
-                timeout_ms = static_cast<DWORD>(remaining.count());
+                timeout_ms     = static_cast<DWORD>(remaining.count());
             }
         }
 
@@ -607,7 +616,7 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
             if (should_fire && callback_) {
                 try {
                     callback_();
-                } catch (const std::exception& ex) {
+                } catch (const std::exception &ex) {
                     spdlog::warn("ConfigFileWatcher: callback threw: {}", ex.what());
                 }
             }
@@ -622,18 +631,15 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
         }
 
         if (bytes_transferred > 0) {
-            const BYTE* ptr = buf;
+            const BYTE *ptr = buf;
             for (;;) {
-                const auto* info = reinterpret_cast<const FILE_NOTIFY_INFORMATION*>(ptr);
+                const auto *info = reinterpret_cast<const FILE_NOTIFY_INFORMATION *>(ptr);
                 // Convert wide filename to narrow
-                int len = WideCharToMultiByte(CP_UTF8, 0,
-                                              info->FileName,
-                                              static_cast<int>(info->FileNameLength / sizeof(WCHAR)),
-                                              nullptr, 0, nullptr, nullptr);
+                int len = WideCharToMultiByte(CP_UTF8, 0, info->FileName,
+                                              static_cast<int>(info->FileNameLength / sizeof(WCHAR)), nullptr, 0,
+                                              nullptr, nullptr);
                 std::string filename(static_cast<size_t>(len), '\0');
-                WideCharToMultiByte(CP_UTF8, 0,
-                                    info->FileName,
-                                    static_cast<int>(info->FileNameLength / sizeof(WCHAR)),
+                WideCharToMultiByte(CP_UTF8, 0, info->FileName, static_cast<int>(info->FileNameLength / sizeof(WCHAR)),
                                     filename.data(), len, nullptr, nullptr);
 
                 if (isWatchedExtension(filename)) {
@@ -641,12 +647,16 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
                     scheduleCallback();
                 }
 
-                if (info->NextEntryOffset == 0) break;
+                if (info->NextEntryOffset == 0) {
+                    break;
+                }
                 ptr += info->NextEntryOffset;
             }
         }
 
-        if (!issue_read()) break;
+        if (!issue_read()) {
+            break;
+        }
     }
 
     CancelIo(dir_handle);
@@ -658,4 +668,3 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
 
 } // namespace config
 } // namespace themis
-

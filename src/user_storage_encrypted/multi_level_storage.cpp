@@ -101,7 +101,7 @@ bool MultiLevelEncryptedStorage::initialize(const char* config_json) {
         
         impl_->initialized = true;
         return true;
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         return false;
     }
 }

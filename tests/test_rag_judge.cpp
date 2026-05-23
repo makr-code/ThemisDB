@@ -257,7 +257,7 @@ TEST_F(RAGJudgeTest, EvaluationCallback) {
     
     bool callback_invoked = false;
     judge.setEvaluationCallback([&callback_invoked](const EvaluationResult& result) {
-        callback_invoked = true;
+        callback_invoked = callback_invoked || (result.overall_score >= 0.0);
     });
     
     std::string query = "Test query";

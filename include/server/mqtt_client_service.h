@@ -193,13 +193,13 @@ public:
      * @brief Called once the CONNACK is received and the session is live.
      * @param client_id  The effective client ID used for this session.
      */
-    virtual void onConnected(const std::string& client_id) noexcept {}
+    virtual void onConnected([[maybe_unused]] const std::string&) noexcept {}
 
     /**
      * @brief Called when the connection is lost or cleanly closed.
      * @param reason  Human-readable reason string.
      */
-    virtual void onDisconnected(const std::string& reason) noexcept {}
+    virtual void onDisconnected([[maybe_unused]] const std::string&) noexcept {}
 };
 
 // ── CDC → MQTT transport ──────────────────────────────────────────────────────

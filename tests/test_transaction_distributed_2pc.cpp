@@ -1084,21 +1084,19 @@ TEST_F(DistributedTxnManagerTest, CC1_SuccessfulWALWriteDoesNotSuppressPhase2) {
 // DTM-RPC bridge tests (stub #279)
 // ============================================================================
 
-// DTM-RPC-01: when RemoteDecisionFn is set, it is called for callback-less
+// DTM-RPC-01: when RemotePhase2Fn is set, it is called for callback-less
 // participants during phase 2 (commit path).
-TEST_F(DistributedTxnManagerTest, DTM_RPC01_RemoteDecisionFnCalledOnCommit) {
+TEST_F(DistributedTxnManagerTest, DTM_RPC01_RemotePhase2FnCalledOnCommit) {
     std::atomic<int> rpc_calls{0};
     std::string last_txn;
     bool last_decision = false;
 
-    mgr->setRemoteDecisionFn([&](const std::string& /*node_id*/,
-                                  const std::string& /*endpoint*/,
-                                  const std::string& txn_id,
-                                  bool do_commit) -> bool {
+    mgr->setRemotePhase2Fn([&](const std::string& /*endpoint*/,
+                               const std::string& txn_id,
+                               bool do_commit) {
         ++rpc_calls;
         last_txn      = txn_id;
         last_decision = do_commit;
-        return true;
     });
 
     const auto tid = mgr->beginDistributed({
@@ -1108,24 +1106,20 @@ TEST_F(DistributedTxnManagerTest, DTM_RPC01_RemoteDecisionFnCalledOnCommit) {
     ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
     ASSERT_TRUE(mgr->commitDistributed(tid).ok);
 
-    EXPECT_GE(rpc_calls.load(), 1) << "RemoteDecisionFn must be called for callback-less participant";
+    EXPECT_GE(rpc_calls.load(), 1) << "RemotePhase2Fn must be called for callback-less participant";
     EXPECT_EQ(last_txn, tid);
     EXPECT_TRUE(last_decision) << "Commit path must pass do_commit=true";
-
-    mgr->clearRemoteDecisionFn();
 }
 
-// DTM-RPC-02: when RemoteDecisionFn is set, it is called for callback-less
+// DTM-RPC-02: when RemotePhase2Fn is set, it is called for callback-less
 // participants during phase 2 (abort path).
-TEST_F(DistributedTxnManagerTest, DTM_RPC02_RemoteDecisionFnCalledOnAbort) {
+TEST_F(DistributedTxnManagerTest, DTM_RPC02_RemotePhase2FnCalledOnAbort) {
     std::atomic<int> rpc_calls{0};
     bool last_decision = true;
 
-    mgr->setRemoteDecisionFn([&](const std::string&, const std::string&,
-                                  const std::string&, bool do_commit) -> bool {
+    mgr->setRemotePhase2Fn([&](const std::string&, const std::string&, bool do_commit) {
         ++rpc_calls;
         last_decision = do_commit;
-        return true;
     });
 
     const auto tid = mgr->beginDistributed({
@@ -1133,23 +1127,19 @@ TEST_F(DistributedTxnManagerTest, DTM_RPC02_RemoteDecisionFnCalledOnAbort) {
     });
     mgr->abortDistributed(tid);
 
-    EXPECT_GE(rpc_calls.load(), 1) << "RemoteDecisionFn must be called on abort for callback-less participant";
+    EXPECT_GE(rpc_calls.load(), 1) << "RemotePhase2Fn must be called on abort for callback-less participant";
     EXPECT_FALSE(last_decision) << "Abort path must pass do_commit=false";
-
-    mgr->clearRemoteDecisionFn();
 }
 
-// DTM-RPC-03: when no RemoteDecisionFn is set, callback-less participants are
+// DTM-RPC-03: when no RemotePhase2Fn is set, callback-less participants are
 // skipped silently (no crash, no delivered decision).
 TEST_F(DistributedTxnManagerTest, DTM_RPC03_NoFnSkipsRemoteParticipantGracefully) {
-    mgr->clearRemoteDecisionFn(); // ensure unset
-
     const auto tid = mgr->beginDistributed({
         makeParticipant("local-only", p1.get()),
         makeRemoteParticipant("remote-no-fn"),
     });
     ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
-    // Must not throw or crash when no RemoteDecisionFn is set.
+    // Must not throw or crash when no RemotePhase2Fn is set.
     EXPECT_NO_THROW(mgr->commitDistributed(tid));
     EXPECT_GE(p1->commitCount(), 1) << "Local participant still receives COMMIT";
 }

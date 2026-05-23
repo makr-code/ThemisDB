@@ -17,6 +17,7 @@
 #include <vector>
 #include <chrono>
 #include <functional>
+#include <string_view>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -63,10 +64,23 @@ public:
      * @brief Configuration for ThemisHelpLoRA
      */
     struct Config {
+        /**
+         * @brief Callback used to resolve a GGUF base-model path for a model id.
+         *
+         * @param model_id Logical model identifier (for example "llama-2-7b")
+         * @return Absolute or relative filesystem path to the GGUF model file.
+         *         Return an empty string when no path is available.
+         *
+         * @note When unset, ThemisHelpLoRA falls back to the local convention
+         *       `models/<model_id>.gguf`.
+         */
+        using ModelPathProviderFn = std::function<std::string(std::string_view model_id)>;
+
         std::string adapter_id = "themis_help_lora";
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
-
+        ModelPathProviderFn model_path_provider;
+        
         // Remote model loading (Ollama support)
         bool enable_remote_loading = false;
         std::string ollama_url = "http://localhost:11434";
@@ -77,24 +91,6 @@ public:
         // Dependencies (to be injected)
         rocksdb::TransactionDB* db = nullptr;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
-
-        /**
-         * @brief Optional model-path resolver.
-         *
-         * When set, this function is called with @p base_model_id to obtain
-         * the filesystem path of the GGUF model file.  Implement this to
-         * integrate with LLMModelStorage::resolveGGUFPath() or any other
-         * model-registry backend.
-         *
-         * If nullptr, the handler falls back to the local path convention
-         * @c "models/" + base_model_id + ".gguf" relative to the working
-         * directory.
-         *
-         * @param model_id  The model identifier string.
-         * @return Absolute or relative path to the GGUF file.
-         */
-        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
-        ModelPathProviderFn model_path_provider;
 
         // Training settings
         lora::LoRAHyperparameters hyperparameters;

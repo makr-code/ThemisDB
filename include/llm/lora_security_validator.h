@@ -93,7 +93,9 @@ struct LoRASecurityConfig {
 class LoRASecurityValidator {
 public:
     explicit LoRASecurityValidator(const LoRASecurityConfig& config);
-    ~LoRASecurityValidator() = default;
+    /// @brief Virtual destructor to allow safe polymorphic use in tests and
+    ///        custom validator implementations injected via Config::security_validator.
+    virtual ~LoRASecurityValidator() = default;
     
     /**
      * @brief Verify signature of a LoRa adapter file
@@ -141,10 +143,14 @@ public:
      * - Size constraints
      * - Format version
      * 
+     * Virtual to allow test doubles and custom validators to be injected via
+     * MultiLoRAManager::Config::security_validator without subclassing the
+     * full implementation.
+     *
      * @param lora_path Path to LoRa adapter file
      * @return true if metadata is valid
      */
-    bool validateMetadata(const std::string& lora_path);
+    virtual bool validateMetadata(const std::string& lora_path);
     
     /**
      * @brief Detect anomalies in LoRa weights

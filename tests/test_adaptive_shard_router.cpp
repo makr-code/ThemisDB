@@ -16,6 +16,7 @@
 #include "sharding/remote_executor.h"
 #include "sharding/consistent_hash.h"
 #include <memory>
+#include <stdexcept>
 
 using namespace themis::sharding;
 
@@ -286,6 +287,35 @@ TEST_F(AdaptiveShardRouterTest, DisabledAdaptiveRouting) {
     
     // Result should still be valid JSON payload from base router
     EXPECT_TRUE(result.is_array() || result.is_object());
+}
+
+TEST_F(AdaptiveShardRouterTest, UsesInjectedNlpContextForRouting) {
+    router->setNlpContextFn([](std::string_view query) -> std::optional<CapabilityMatcher::QueryContext> {
+        CapabilityMatcher::QueryContext context;
+        context.query_text = std::string(query);
+        context.domains = {"law"};
+        context.regions = {"hamburg"};
+        context.organizations = {"bauamt"};
+        return context;
+    });
+
+    AdaptiveShardRouter::AdaptiveStats stats;
+    router->executeAdaptiveQuery("What are permit requirements?", stats);
+
+    EXPECT_TRUE(stats.used_adaptive_routing);
+    EXPECT_FALSE(stats.iteration_details.empty());
+}
+
+TEST_F(AdaptiveShardRouterTest, NlpContextFallbacksToKeywordHeuristicsOnException) {
+    router->setNlpContextFn([]([[maybe_unused]] std::string_view query)
+                                -> std::optional<CapabilityMatcher::QueryContext> {
+        throw std::runtime_error("mock nlp failure");
+    });
+
+    AdaptiveShardRouter::AdaptiveStats stats;
+    router->executeAdaptiveQuery("Baurechtsakten Hamburg", stats);
+
+    EXPECT_TRUE(stats.used_adaptive_routing);
 }
 
 TEST_F(AdaptiveShardRouterTest, GetStatistics) {

@@ -91,7 +91,7 @@ void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Re
         if (req.has_param("limit")) {
             try {
                 limit = std::stoull(req.get_param_value("limit"));
-            } catch (...) {
+            } catch (const std::exception&) {
                 sendError(res, 400, "Invalid limit parameter");
                 return;
             }

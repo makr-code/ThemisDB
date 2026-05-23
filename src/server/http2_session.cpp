@@ -453,16 +453,18 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
             NGHTTP2_NV_FLAG_NONE
         });
     }
+    
+    // Allocate response buffer with unique_ptr for exception-safe lifetime management
+    // (stub #298 resolved). If nghttp2_submit_response succeeds, ownership is transferred
+    // to the read_callback via release(); on failure the unique_ptr destructor frees the
+    // buffer automatically, eliminating the prior leak on the error path.
+    struct ResponseBuffer {
+        std::string data;
+        size_t offset = 0;
+    };
 
-    // Store the response body in a shared_ptr captured in the nghttp2 data
-    // provider callback.  This guarantees the buffer lives exactly as long as
-    // nghttp2 needs it (until NGHTTP2_DATA_FLAG_EOF is set) without any raw
-    // new/delete, even if an exception is thrown before or after submit.
-    // A reference copy is also kept in response_buffers_ so that a stream reset
-    // or close callback can erase it immediately rather than relying on the EOF
-    // path.
-    auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
-    response_buffers_[stream_id] = resp_buffer;
+    auto resp_buffer_owner = std::make_unique<ResponseBuffer>(ResponseBuffer{body, 0});
+    auto* resp_buffer = resp_buffer_owner.get();
 
     nghttp2_data_provider data_prd;
     // Store the weak_ptr in the source void* to avoid a circular reference;
@@ -472,28 +474,30 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
                                  uint8_t* buf, size_t length, uint32_t* data_flags,
                                  nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
         auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
-        const size_t remaining = buffer->data.size() - buffer->offset;
-        const size_t to_copy = std::min(length, remaining);
-        
+        size_t remaining = buffer->data.size() - buffer->offset;
+        size_t to_copy = std::min(length, remaining);
+
         if (to_copy > 0) {
             std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
             buffer->offset += to_copy;
         }
-        
+
         if (buffer->offset >= buffer->data.size()) {
             *data_flags |= NGHTTP2_DATA_FLAG_EOF;
-            // The shared_ptr in response_buffers_ will be erased by the
-            // stream-close callback (or on session teardown).
+            delete buffer; // ownership was transferred via release() on success path
         }
-        
+
         return static_cast<ssize_t>(to_copy);
     };
-    
+
     int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(), nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response failed: {}", nghttp2_strerror(rv));
-        response_buffers_.erase(stream_id); // Release buffer on submit failure
+        // unique_ptr destructor automatically frees buffer — no leak
+        return;
     }
+    // Transfer ownership to the read_callback; it will delete on EOF.
+    resp_buffer_owner.release();
     
     doWrite();
 }

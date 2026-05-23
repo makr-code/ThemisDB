@@ -129,7 +129,8 @@ VoiceSessionData VoiceSessionManager::createSession(
         std::lock_guard<std::mutex> lock(manager_mutex_);
         active_cache_[session.session_id] = session;
     }
-    backend_->save(session);
+    const bool saved = backend_->save(session);
+    static_cast<void>(saved);
     return session;
 }
 
@@ -139,7 +140,8 @@ std::optional<VoiceSessionData> VoiceSessionManager::getSession(const std::strin
     if (it != active_cache_.end()) {
         if (isExpired(it->second)) {
             it->second.state = SessionState::EXPIRED;
-            backend_->save(it->second);
+            const bool saved = backend_->save(it->second);
+            static_cast<void>(saved);
             return std::nullopt;
         }
         return it->second;
@@ -150,7 +152,8 @@ std::optional<VoiceSessionData> VoiceSessionManager::getSession(const std::strin
     if (!loaded) return std::nullopt;
     if (isExpired(*loaded)) {
         loaded->state = SessionState::EXPIRED;
-        backend_->save(*loaded);
+        const bool saved = backend_->save(*loaded);
+        static_cast<void>(saved);
         return std::nullopt;
     }
     active_cache_[session_id] = *loaded;
@@ -173,7 +176,8 @@ bool VoiceSessionManager::updateSession(
         it->second.context = context_update;
     }
     it->second.last_activity_ms = nowMs();
-    backend_->save(it->second);
+    const bool saved = backend_->save(it->second);
+    static_cast<void>(saved);
     return true;
 }
 
@@ -190,7 +194,8 @@ bool VoiceSessionManager::addConversationTurn(
     it->second.conversation_history.push_back("Assistant: " + assistant_msg);
     it->second.total_turns++;
     it->second.last_activity_ms = nowMs();
-    backend_->save(it->second);
+    const bool saved = backend_->save(it->second);
+    static_cast<void>(saved);
     return true;
 }
 
@@ -199,7 +204,8 @@ bool VoiceSessionManager::touchSession(const std::string& session_id) {
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) return false;
     it->second.last_activity_ms = nowMs();
-    backend_->save(it->second);
+    const bool saved = backend_->save(it->second);
+    static_cast<void>(saved);
     return true;
 }
 
@@ -211,7 +217,8 @@ bool VoiceSessionManager::updatePreferredLanguage(
     if (it == active_cache_.end()) return false;
     it->second.preferred_language = language_code;
     it->second.last_activity_ms = nowMs();
-    backend_->save(it->second);
+    const bool saved = backend_->save(it->second);
+    static_cast<void>(saved);
     return true;
 }
 
@@ -221,7 +228,8 @@ bool VoiceSessionManager::terminateSession(const std::string& session_id) {
     if (it == active_cache_.end()) return false;
 
     it->second.state = SessionState::TERMINATED;
-    backend_->save(it->second);
+    const bool saved = backend_->save(it->second);
+    static_cast<void>(saved);
     active_cache_.erase(it);
     return true;
 }
@@ -232,7 +240,8 @@ size_t VoiceSessionManager::expireOldSessions() {
     for (auto& [id, session] : active_cache_) {
         if (isExpired(session)) {
             session.state = SessionState::EXPIRED;
-            backend_->save(session);
+            const bool saved = backend_->save(session);
+            static_cast<void>(saved);
             ++expired;
         }
     }

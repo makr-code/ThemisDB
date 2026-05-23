@@ -156,7 +156,10 @@ TEST_F(JoinExporterTest, BasicInnerJoin) {
 
     // Every output line must be valid JSON.
     for (const auto& l : lines) {
-        EXPECT_NO_THROW(json::parse(l));
+        EXPECT_NO_THROW({
+            auto parsed = json::parse(l);
+            static_cast<void>(parsed);
+        });
     }
 }
 

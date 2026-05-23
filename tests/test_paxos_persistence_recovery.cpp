@@ -35,6 +35,7 @@
 #include <filesystem>
 #include <string>
 #include <memory>
+#include <algorithm>
 
 namespace fs = std::filesystem;
 
@@ -323,10 +324,37 @@ TEST_F(PaxosPersistenceRecoveryTest, PSR09_MaybeCompactNoOp) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PSR-10: ShardRPCClient::writeEntity on loopback (in-process) path returns true
+// PSR-10: ACCEPT WAL entry stores structured payload metadata
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(ShardRpcWriteEntityTest, PSR10_WriteEntityInProcessReturnsTrue) {
+TEST_F(PaxosPersistenceRecoveryTest, PSR10_AcceptWalCarriesStructuredPayload) {
+    auto p = makePersistence();
+    ASSERT_TRUE(p->open("node-1"));
+
+    const std::string accepted_value = R"({"operation":"UPSERT","entity":"users","id":"u-1"})";
+    ASSERT_TRUE(p->persistAccept(/*slot=*/55, /*ballot_round=*/12, accepted_value));
+    p->close();
+
+    const auto entries = wal_->readEntries(LSN(0, 0));
+    auto accept_it = std::find_if(entries.begin(), entries.end(), [](const PaxosWALEntry& e) {
+        return e.type == PaxosWALEntryType::ACCEPT && e.slot == 55;
+    });
+
+    ASSERT_NE(accept_it, entries.end());
+    ASSERT_TRUE(accept_it->data.contains("value"));
+    ASSERT_TRUE(accept_it->data["value"].contains("data"));
+    const auto& value_data = accept_it->data["value"]["data"];
+    ASSERT_TRUE(value_data.contains("raw_value"));
+    EXPECT_EQ(value_data["raw_value"], accepted_value);
+    EXPECT_EQ(value_data["accepted_round"], 12);
+    EXPECT_EQ(value_data["slot"], 55);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PSR-11: ShardRPCClient::writeEntity on loopback (in-process) path returns true
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(ShardRpcWriteEntityTest, PSR11_WriteEntityInProcessReturnsTrue) {
     ShardRPCClient::Config cfg;
     cfg.endpoint    = "127.0.0.1:50051";   // loopback → in-process path
     cfg.shard_id    = "test-shard-1";

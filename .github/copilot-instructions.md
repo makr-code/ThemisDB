@@ -329,3 +329,47 @@ Documentation is a required quality artifact, not an optional add-on.
 - Documentation gaps are review blockers and must be fixed before merge.
 - README/API docs must stay synchronized with architecture and behavior changes.
 - Enforcement is achieved via prompt rules, review checklists, and manual sign-off.
+
+## 11) Legacy-Code Governance (mandatory)
+
+Legacy code paths are forbidden by default in AI-generated changes.
+
+### 11.1 Default rule
+
+- No new legacy/compatibility fallback paths without explicit prior human approval.
+- "No approval" means: do not add legacy branches, dual APIs, or hidden migration shims.
+
+### 11.2 Approval requirement
+
+- A human maintainer must explicitly approve legacy introduction in the same task/PR context.
+- Approval must include scope and sunset/removal expectation.
+
+### 11.3 Mandatory marking when approved
+
+- Every approved legacy path MUST be clearly marked in code comments with:
+  - reason/business need
+  - activation conditions
+  - behavior delta to the primary path
+  - owner and removal target (date/milestone)
+
+Recommended marker template:
+
+```cpp
+// LEGACY PATH (requires human approval)
+// Reason: <why needed>
+// Activation: <when active>
+// Primary Delta: <difference to primary path>
+// Approved By: <name/role + reference>
+// Removal Target: <date/milestone>
+```
+
+### 11.4 PR policy
+
+- Unmarked legacy code or legacy code without explicit human approval is a hard review blocker.
+- AI agents must prefer migration to the canonical API/path over adding compatibility aliases.
+
+### 11.5 Non-production path ban (Simulation/Stub/Mockup)
+
+- Simulations, stubs, and mockup code paths are forbidden by default in production code changes.
+- Such paths are only allowed after explicit human approval and must be marked by a human with purpose, activation, production delta, approver reference, and removal target.
+- AI-generated unapproved or unmarked Simulation/Stub/Mockup code is a hard blocker and must be removed before merge.

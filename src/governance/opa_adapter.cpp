@@ -7,11 +7,12 @@
  */
 
 #include "governance/opa_adapter.h"
-#include <curl/curl.h>
-#include <nlohmann/json.hpp>
+
 #include <atomic>
+#include <curl/curl.h>
 #include <filesystem>
 #include <mutex>
+#include <nlohmann/json.hpp>
 #include <stdexcept>
 
 namespace themis {
@@ -25,9 +26,9 @@ std::atomic<uint64_t> governance_opa_wasm_eval_wasm_success{0};
 std::atomic<uint64_t> governance_opa_wasm_eval_wasm_fallback{0};
 
 /// libcurl write callback: appends received data to a std::string.
-size_t curl_write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
-    auto* buf = static_cast<std::string*>(userdata);
-    buf->append(static_cast<char*>(ptr), size * nmemb);
+size_t curl_write_callback(void *ptr, size_t size, size_t nmemb, void *userdata) {
+    auto *buf = static_cast<std::string *>(userdata);
+    buf->append(static_cast<char *>(ptr), size * nmemb);
     return size * nmemb;
 }
 
@@ -41,7 +42,7 @@ void ensure_curl_global_init() {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-OpaAdapter::OpaAdapter(const Config& config) : config_(config) {
+OpaAdapter::OpaAdapter(const Config &config) : config_(config) {
     if (config_.endpoint_url.empty()) {
         throw std::invalid_argument("governance::OpaAdapter: endpoint_url must not be empty");
     }
@@ -63,21 +64,23 @@ void OpaAdapter::setWasmEvalFn(WasmEvalFn fn) {
 std::string OpaAdapter::buildUrl() const {
     // Ensure exactly one '/' between endpoint and path
     std::string url = config_.endpoint_url;
-    if (!url.empty() && url.back() == '/') url.pop_back();
+    if (!url.empty() && url.back() == '/') {
+        url.pop_back();
+    }
     std::string path = config_.policy_path;
-    if (!path.empty() && path.front() == '/') path.erase(path.begin());
+    if (!path.empty() && path.front() == '/') {
+        path.erase(path.begin());
+    }
     return url + "/v1/data/" + path;
 }
 
-std::string OpaAdapter::buildRequestBody(
-    const std::unordered_map<std::string, std::string>& headers,
-    const std::string& route)
-{
+std::string OpaAdapter::buildRequestBody(const std::unordered_map<std::string, std::string> &headers,
+                                         const std::string &route) {
     nlohmann::json input;
     input["route"] = route;
 
     nlohmann::json headers_obj = nlohmann::json::object();
-    for (const auto& kv : headers) {
+    for (const auto &kv : headers) {
         headers_obj[kv.first] = kv.second;
     }
     input["headers"] = std::move(headers_obj);
@@ -87,26 +90,28 @@ std::string OpaAdapter::buildRequestBody(
     return body.dump();
 }
 
-std::optional<PolicyDecision> OpaAdapter::parseOpaResponse(const std::string& response_body) {
+std::optional<PolicyDecision> OpaAdapter::parseOpaResponse(const std::string &response_body) {
     try {
         auto j = nlohmann::json::parse(response_body);
-        if (!j.contains("result")) return std::nullopt;
-        const auto& result = j["result"];
+        if (!j.contains("result")) {
+            return std::nullopt;
+        }
+        const auto &result = j["result"];
 
         // Simple boolean result
         if (result.is_boolean()) {
             if (!result.get<bool>()) {
                 // OPA explicitly denied: return strict deny decision
                 PolicyDecision d;
-                d.classification          = "streng-geheim";
-                d.mode                    = "enforce";
-                d.encrypt_logs            = true;
-                d.redaction               = "strict";
-                d.ann_allowed             = false;
+                d.classification             = "streng-geheim";
+                d.mode                       = "enforce";
+                d.encrypt_logs               = true;
+                d.redaction                  = "strict";
+                d.ann_allowed                = false;
                 d.require_content_encryption = true;
-                d.export_allowed          = false;
-                d.cache_allowed           = false;
-                d.retention_days          = 7;
+                d.export_allowed             = false;
+                d.cache_allowed              = false;
+                d.retention_days             = 7;
                 return d;
             }
             // true: OPA says OK but provides no governance details;
@@ -154,10 +159,8 @@ std::optional<PolicyDecision> OpaAdapter::parseOpaResponse(const std::string& re
     return std::nullopt;
 }
 
-std::optional<PolicyDecision> OpaAdapter::evaluate(
-    const std::unordered_map<std::string, std::string>& headers,
-    const std::string& route) const
-{
+std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std::string, std::string> &headers,
+                                                   const std::string &route) const {
     // WASM evaluation path (tried first when mode == WASM)
     if (config_.mode == Config::EvalMode::WASM) {
         auto wasm_result = evaluateWasm(headers, route);
@@ -171,26 +174,28 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(
     const std::string url  = buildUrl();
     const std::string body = buildRequestBody(headers, route);
 
-    CURL* curl = curl_easy_init();
-    if (!curl) return std::nullopt;
+    CURL *curl = curl_easy_init();
+    if (!curl) {
+        return std::nullopt;
+    }
 
     std::string response_body;
     long http_code = 0;
 
-    struct curl_slist* req_headers = nullptr;
-    req_headers = curl_slist_append(req_headers, "Content-Type: application/json");
+    struct curl_slist *req_headers = nullptr;
+    req_headers                    = curl_slist_append(req_headers, "Content-Type: application/json");
 
-    curl_easy_setopt(curl, CURLOPT_URL,              url.c_str());
-    curl_easy_setopt(curl, CURLOPT_POST,              1L);
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS,        body.c_str());
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,     static_cast<long>(body.size()));
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER,        req_headers);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,     curl_write_callback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA,         &response_body);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,        config_.timeout_ms);
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, req_headers);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_write_callback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, config_.timeout_ms);
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, config_.timeout_ms);
     // Disable signal handling for thread safety
-    curl_easy_setopt(curl, CURLOPT_NOSIGNAL,          1L);
+    curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
 
     CURLcode res = curl_easy_perform(curl);
 
@@ -224,10 +229,8 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(
 // Removal Plan: Replace with actual WASM runtime call when
 //   THEMIS_ENABLE_OPA_WASM is added to the build system and a WASM runtime
 //   dependency is approved (Target: v1.6.0).
-std::optional<PolicyDecision> OpaAdapter::evaluateWasm(
-    const std::unordered_map<std::string, std::string>& headers,
-    const std::string& route) const
-{
+std::optional<PolicyDecision> OpaAdapter::evaluateWasm(const std::unordered_map<std::string, std::string> &headers,
+                                                       const std::string &route) const {
     // Injected evaluator takes priority over the built-in stub.
     if (wasm_eval_fn_) {
         auto result = wasm_eval_fn_(headers, route);

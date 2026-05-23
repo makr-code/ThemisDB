@@ -65,7 +65,6 @@ bool BasicSpamDetectionPlugin::isLowQuality(const FeedbackData& feedback) const 
     // Configuration constants
     constexpr size_t MIN_LENGTH = 5;
     constexpr size_t MAX_LENGTH = 10000;
-    constexpr size_t MIN_REPETITION = 10;
     
     // Too short
     if (feedback.question.length() < MIN_LENGTH || feedback.answer.length() < MIN_LENGTH) {

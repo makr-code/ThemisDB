@@ -152,6 +152,7 @@ Device MultiGPUContext::get_device(int rank) const {
 }
 
 void MultiGPUContext::synchronize_all() const {
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
     for (const auto& device : devices_) {
 #ifdef THEMIS_ENABLE_CUDA
         if (device.type == DeviceType::CUDA) {
@@ -166,6 +167,9 @@ void MultiGPUContext::synchronize_all() const {
         }
 #endif
     }
+#else
+    static_cast<void>(devices_);
+#endif
 }
 
 GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {

@@ -14,7 +14,7 @@
  * @brief TensorIndexManager implementation.
  *
  * ### Stub log
- * - TIM-01  `ggmlCorePtrs()` — mmap bridge to GGML (Phase 3, Q1 2027)
+ * - TIM-01  `ggmlCorePtrs()` legacy raw-pointer path — resolved 2026-05-20
  * - TIM-02  `dropTenantIndexes()` RocksDB prefix-delete — resolved 2026-05-06
  */
 
@@ -27,6 +27,7 @@
 #include <fstream>
 #include <shared_mutex>
 #include <stdexcept>
+#include <unordered_map>
 
 // The FlatTensorIndex concrete class is defined in tensor_index.cpp and is
 // not exposed in the header.  We forward-create it here via a factory lambda
@@ -48,6 +49,12 @@ class FlatTensorIndex;
 
 namespace themis {
 namespace tensor {
+
+namespace {
+thread_local std::unordered_map<std::string, std::shared_ptr<TensorMmapBridge>>
+    g_ggml_bridge_cache;
+constexpr std::size_t kMaxLegacyBridgeCacheEntries = 128;
+} // namespace
 
 // ============================================================================
 // TensorIndexManager — implementation
@@ -308,14 +315,12 @@ TensorIndexManager::mapCores(const std::string& tenant_id,
 }
 
 // -----------------------------------------------------------------------
-// ggmlCorePtrs() — raw-pointer legacy bridge (kept for backward compat)
+// ggmlCorePtrs() — legacy pointer bridge backed by mapCores()
 //
-// STUB/SIMULATION NOTE (stub #277):
-// Purpose: expose raw TT-core pointers for zero-copy GGML injection
-// Activation: always (deprecated; prefer mapCores() for new code)
-// Production Delta: returns raw pointers with no mmap / mlock protection;
-//   pointers are valid only while the index is alive and no mutation occurs
-// Removal Plan: remove after all callers migrate to mapCores()
+// Returns borrowed pointers into a thread-local cache of TensorMmapBridge
+// instances so callers that still depend on the raw pointer API get mmap/mlock
+// backing and deterministic lifetime until the next cache replacement on the
+// same thread.
 // -----------------------------------------------------------------------
 
 std::vector<std::pair<const float*, size_t>>
@@ -323,17 +328,25 @@ TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,
                                   const std::string& collection,
                                   const std::string& field,
                                   int64_t id) const {
-    auto* idx = getIndex(tenant_id, collection, field);
-    if (!idx) return {};
+    const std::string cache_key =
+        tenant_id + ":" + collection + ":" + field + ":" + std::to_string(id);
 
-    const storage::TTTrain* train = idx->get(id);
-    if (!train) return {};
+    auto bridge = mapCores(tenant_id, collection, field, id);
+    if (!bridge) {
+        g_ggml_bridge_cache.erase(cache_key);
+        return {};
+    }
+
+    if (g_ggml_bridge_cache.size() >= kMaxLegacyBridgeCacheEntries) {
+        g_ggml_bridge_cache.clear();
+    }
+    auto& slot = g_ggml_bridge_cache[cache_key];
+    slot = std::shared_ptr<TensorMmapBridge>(std::move(bridge));
 
     std::vector<std::pair<const float*, size_t>> ptrs;
-    ptrs.reserve(train->cores.size());
-    for (const auto& core : train->cores) {
-        ptrs.emplace_back(core.data.data(),
-                          core.data.size() * sizeof(float));
+    ptrs.reserve(slot->coreCount());
+    for (const auto& slice : slot->slices()) {
+        ptrs.emplace_back(slice.data, slice.bytes);
     }
     return ptrs;
 }

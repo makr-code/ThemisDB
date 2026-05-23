@@ -153,7 +153,7 @@ nlohmann::json ApiKeyMgmtHandler::createKey(const nlohmann::json& body) {
                     cfg.scopes.insert(p);
                 }
                 auth_->addToken(cfg);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Rollback: remove from keys_ so we don't track an unauthenticated key
                 std::lock_guard<std::mutex> lock(mutex_);
                 keys_.erase(key_id);

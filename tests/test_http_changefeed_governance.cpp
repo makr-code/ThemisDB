@@ -375,6 +375,7 @@ TEST_F(HttpChangefeedGovernanceTest, CDC_TimestampPresent) {
         int64_t timestamp = std::stoll(timestamp_str);
         EXPECT_GT(timestamp, 0);
     } catch (const std::exception& e) {
+        static_cast<void>(e);
         FAIL() << "Invalid timestamp format: " << timestamp_str;
     }
 }

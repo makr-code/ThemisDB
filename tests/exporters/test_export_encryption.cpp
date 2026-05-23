@@ -321,7 +321,7 @@ TEST_F(ExportEncryptionTest, EncryptDecryptFile) {
     }
 
     ExportEncryption enc(makeConfig("test_kek", key_provider_, "file-job-001"));
-    enc.encryptFile(src_path, enc_path);
+    static_cast<void>(enc.encryptFile(src_path, enc_path));
 
     // Encrypted file must exist and differ from plaintext.
     ASSERT_TRUE(std::filesystem::exists(enc_path));
@@ -332,7 +332,7 @@ TEST_F(ExportEncryptionTest, EncryptDecryptFile) {
         EXPECT_EQ(std::string(magic, 4), "TENC");
     }
 
-    enc.decryptFile(enc_path, dec_path);
+    static_cast<void>(enc.decryptFile(enc_path, dec_path));
 
     // Decrypted content must match original.
     ASSERT_TRUE(std::filesystem::exists(dec_path));
@@ -355,7 +355,7 @@ TEST_F(ExportEncryptionTest, DisabledEncryptFileCopiesFile) {
     ExportEncryptionConfig cfg;
     cfg.enabled = false;
     ExportEncryption enc(cfg);
-    enc.encryptFile(src_path, dst_path);
+    static_cast<void>(enc.encryptFile(src_path, dst_path));
 
     ASSERT_TRUE(std::filesystem::exists(dst_path));
     std::ifstream df(dst_path);
@@ -469,14 +469,17 @@ TEST_F(ExportEncryptionTest, StreamingExporterWithEncryption) {
     // Decrypt and verify JSONL content.
     const std::string dec_path = test_dir_ + "/decrypted_export.jsonl";
     ExportEncryption enc(makeConfig("test_kek", key_provider_, "streaming-job-001"));
-    enc.decryptFile(out_path, dec_path);
+    static_cast<void>(enc.decryptFile(out_path, dec_path));
 
     std::ifstream df(dec_path);
     std::string line;
     size_t line_count = 0;
     while (std::getline(df, line)) {
         if (!line.empty()) {
-            EXPECT_NO_THROW(json::parse(line));
+            EXPECT_NO_THROW({
+                auto parsed = json::parse(line);
+                static_cast<void>(parsed);
+            });
             ++line_count;
         }
     }
@@ -552,7 +555,7 @@ TEST_F(ExportEncryptionTest, RoundTripEmptyFile) {
     auto cfg = makeConfig("kek-empty", kp);
     ExportEncryptor encryptor(cfg);
 
-    encryptor.encryptFile(plain_path, enc_path);
+    static_cast<void>(encryptor.encryptFile(plain_path, enc_path));
     const size_t dec_bytes = encryptor.decryptFile(enc_path, dec_path);
     EXPECT_EQ(dec_bytes, 0u);
     EXPECT_EQ(readFile(dec_path), "");
@@ -575,8 +578,8 @@ TEST_F(ExportEncryptionTest, RoundTripLargerThanOneChunk) {
     auto cfg = makeConfig("kek-big", kp);
     ExportEncryptor encryptor(cfg);
 
-    encryptor.encryptFile(plain_path, enc_path);
-    encryptor.decryptFile(enc_path, dec_path);
+    static_cast<void>(encryptor.encryptFile(plain_path, enc_path));
+    static_cast<void>(encryptor.decryptFile(enc_path, dec_path));
     EXPECT_EQ(readFile(dec_path), big_content);
 }
 
@@ -595,7 +598,7 @@ TEST_F(ExportEncryptionTest, TamperedCiphertextFailsAuthentication) {
     auto cfg = makeConfig("kek-tamper", kp);
     ExportEncryptor encryptor(cfg);
 
-    encryptor.encryptFile(plain_path, enc_path);
+    static_cast<void>(encryptor.encryptFile(plain_path, enc_path));
 
     // Flip a byte in the middle of the ciphertext
     {
@@ -636,7 +639,7 @@ TEST_F(ExportEncryptionTest, DISABLED_WrongJobIdFailsAuthentication) {
     {
         auto cfg = makeConfig("kek-aad", kp, "job-A");
         ExportEncryptor encryptor(cfg);
-        encryptor.encryptFile(plain_path, enc_path);
+        static_cast<void>(encryptor.encryptFile(plain_path, enc_path));
     }
 
     // Attempt decrypt with job-B (different AAD → authentication fails)
@@ -680,7 +683,7 @@ TEST_F(ExportEncryptionTest, NoKeyProviderForDecryptThrows) {
     auto kp  = makeProvider("kek-nodec");
     auto cfg = makeConfig("kek-nodec", kp);
     ExportEncryptor encryptor(cfg);
-    encryptor.encryptFile(plain_path, enc_path);
+    static_cast<void>(encryptor.encryptFile(plain_path, enc_path));
 
     // Attempt decrypt with no key_provider
     ExportEncryptionConfig bad_cfg;
@@ -719,7 +722,7 @@ TEST_F(ExportEncryptionTest, EncryptedFileDoesNotContainKekId_InPlaintext) {
     auto cfg = makeConfig("kek-leak", kp);
     ExportEncryptor encryptor(cfg);
 
-    encryptor.encryptFile(plain_path, enc_path);
+    static_cast<void>(encryptor.encryptFile(plain_path, enc_path));
 
     const std::string cipher_content = readFile(enc_path);
     EXPECT_EQ(cipher_content.find("password=hunter2"), std::string::npos)
@@ -757,14 +760,17 @@ TEST_F(ExportEncryptionTest, JSONLLLMExporterEncryptsOutput) {
     // Verify round-trip decryption recovers valid JSONL
     const std::string dec_path = test_dir_ + "/lora_dec.jsonl";
     ExportEncryptor encryptor(*opts.encryption_config);
-    encryptor.decryptFile(out_path, dec_path);
+    static_cast<void>(encryptor.decryptFile(out_path, dec_path));
 
     std::ifstream dec_f(dec_path);
     std::string line;
     int line_count = 0;
     while (std::getline(dec_f, line)) {
         if (line.empty()) continue;
-        EXPECT_NO_THROW(json::parse(line)) << "Decrypted line is not valid JSON";
+        EXPECT_NO_THROW({
+            auto parsed = json::parse(line);
+            static_cast<void>(parsed);
+        }) << "Decrypted line is not valid JSON";
         ++line_count;
     }
     EXPECT_GT(line_count, 0);
@@ -795,14 +801,17 @@ TEST_F(ExportEncryptionTest, StreamingExporterEncryptsOutput) {
     // Decrypt and check content
     const std::string dec_path = test_dir_ + "/streaming_dec.jsonl";
     ExportEncryptor encryptor(*opts.encryption_config);
-    encryptor.decryptFile(out_path, dec_path);
+    static_cast<void>(encryptor.decryptFile(out_path, dec_path));
 
     std::ifstream dec_f(dec_path);
     std::string line;
     int line_count = 0;
     while (std::getline(dec_f, line)) {
         if (line.empty()) continue;
-        EXPECT_NO_THROW(json::parse(line));
+        EXPECT_NO_THROW({
+            auto parsed = json::parse(line);
+            static_cast<void>(parsed);
+        });
         ++line_count;
     }
     EXPECT_GT(line_count, 0);
@@ -846,7 +855,7 @@ TEST_F(ExportEncryptionTest, MetricsTrackEncryptedBytes) {
 
     JSONLLLMConfig cfg;
     JSONLLLMExporter exporter(cfg);
-    exporter.exportEntities(entities, opts);
+    static_cast<void>(exporter.exportEntities(entities, opts));
 
     const auto metrics = exporter.getMetrics();
     ASSERT_NE(metrics, nullptr);
@@ -866,7 +875,7 @@ TEST_F(ExportEncryptionTest, MetricsZeroWithoutEncryption) {
 
     JSONLLLMConfig cfg;
     JSONLLLMExporter exporter(cfg);
-    exporter.exportEntities(entities, opts);
+    static_cast<void>(exporter.exportEntities(entities, opts));
 
     const auto metrics = exporter.getMetrics();
     ASSERT_NE(metrics, nullptr);
@@ -895,7 +904,7 @@ TEST_F(ExportEncryptionTest, ExportWithNoEncryptionProducesPlaintextJsonl) {
     JSONLLLMConfig cfg;
     cfg.quality.min_text_length = 0;
     JSONLLLMExporter exporter(cfg);
-    exporter.exportEntities(entities, opts);
+    static_cast<void>(exporter.exportEntities(entities, opts));
 
     // File must be plain JSONL — first char must be '{' not 'T'
     const std::string content = readFile(out_path);
@@ -1031,7 +1040,10 @@ TEST_F(ExportPolicyEnforcementTest, NoPolicyEngine_ExportProceeds) {
     JSONLLLMConfig cfg;
     cfg.quality.min_text_length = 0;
     JSONLLLMExporter exporter(cfg);
-    EXPECT_NO_THROW(exporter.exportEntities(entities, opts));
+    EXPECT_NO_THROW({
+        auto stats = exporter.exportEntities(entities, opts);
+        static_cast<void>(stats);
+    });
     EXPECT_TRUE(std::filesystem::exists(out_path));
 }
 
@@ -1052,7 +1064,10 @@ TEST_F(ExportPolicyEnforcementTest, PolicyEnginePermits_ExportProceeds) {
     JSONLLLMConfig cfg;
     cfg.quality.min_text_length = 0;
     JSONLLLMExporter exporter(cfg);
-    EXPECT_NO_THROW(exporter.exportEntities(entities, opts));
+    EXPECT_NO_THROW({
+        auto stats = exporter.exportEntities(entities, opts);
+        static_cast<void>(stats);
+    });
     EXPECT_TRUE(std::filesystem::exists(out_path));
 }
 
@@ -1156,7 +1171,10 @@ TEST_F(ExportPolicyEnforcementTest, PolicyEnginePermits_AuditLogReceivesBulkExpo
     JSONLLLMConfig cfg;
     cfg.quality.min_text_length = 0;
     JSONLLLMExporter exporter(cfg);
-    EXPECT_NO_THROW(exporter.exportEntities(entities, opts));
+    EXPECT_NO_THROW({
+        auto stats = exporter.exportEntities(entities, opts);
+        static_cast<void>(stats);
+    });
 
     logger->flush();
 

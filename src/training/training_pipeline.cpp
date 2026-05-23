@@ -218,7 +218,7 @@ public:
             if (callback) callback("training", 0, "Starting LoRA training stage");
 
             TrainingResult tr = trainer_->train(TrainingMode::INITIAL,
-                [&]([[maybe_unused]] size_t epoch, size_t step, double loss, const std::string& msg) {
+                [&]([[maybe_unused]] size_t epoch, size_t step, [[maybe_unused]] double loss, const std::string& msg) {
                     if (callback) callback("training", step, msg);
                 });
 

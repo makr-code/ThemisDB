@@ -39,15 +39,6 @@
 
 using namespace themis::graph;
 
-// Helper — find a derived edge in an InferenceChain by predicate.
-static const InferenceEdge* findEdge(const InferenceChain& chain,
-                                     const std::string& predicate) {
-    for (const auto& e : chain.edges) {
-        if (e.fact.predicate == predicate) return &e;
-    }
-    return nullptr;
-}
-
 // Helper — check if a triple is present in the chain.
 static bool hasTriple(const InferenceChain& chain,
                        const std::string& subj, const std::string& pred,
@@ -65,13 +56,12 @@ static bool hasTriple(const InferenceChain& chain,
 TEST(KnowledgeGraphReasonerTest, KGR01_SimpleTransitiveRule) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"transitive_knows",
-                 {{"?A", "knows", "?B"}, {"?B", "knows", "?C"}},
-                 {{"?A", "indirectly_knows", "?C"}}});
+    ASSERT_TRUE((kgr.addRule({"transitive_knows",
+                             {{"?A", "knows", "?B"}, {"?B", "knows", "?C"}},
+                             {{"?A", "indirectly_knows", "?C"}}})));
 
     kgr.addFact({"alice", "knows", "bob"});
     kgr.addFact({"bob",   "knows", "carol"});
-
     auto chain = kgr.infer("alice", 2);
     ASSERT_FALSE(chain.empty());
     EXPECT_TRUE(hasTriple(chain, "alice", "indirectly_knows", "carol"));
@@ -85,18 +75,17 @@ TEST(KnowledgeGraphReasonerTest, KGR02_MultiHopTransitive) {
 
     // Standard transitive closure: base case lifts reports_to → indirectly_reports_to,
     // then the inductive case extends the chain.
-    kgr.addRule({"reports_to_base",
-                 {{"?A", "reports_to", "?B"}},
-                 {{"?A", "indirectly_reports_to", "?B"}}});
+    ASSERT_TRUE((kgr.addRule({"reports_to_base",
+                             {{"?A", "reports_to", "?B"}},
+                             {{"?A", "indirectly_reports_to", "?B"}}})));
 
-    kgr.addRule({"reports_to_trans",
-                 {{"?A", "indirectly_reports_to", "?B"}, {"?B", "reports_to", "?C"}},
-                 {{"?A", "indirectly_reports_to", "?C"}}});
+    ASSERT_TRUE((kgr.addRule({"reports_to_trans",
+                             {{"?A", "indirectly_reports_to", "?B"}, {"?B", "reports_to", "?C"}},
+                             {{"?A", "indirectly_reports_to", "?C"}}})));
 
     kgr.addFact({"alice", "reports_to", "bob"});
     kgr.addFact({"bob",   "reports_to", "carol"});
     kgr.addFact({"carol", "reports_to", "dave"});
-
     auto chain = kgr.infer("alice", 5);
     EXPECT_TRUE(hasTriple(chain, "alice", "indirectly_reports_to", "bob"));
     EXPECT_TRUE(hasTriple(chain, "alice", "indirectly_reports_to", "carol"));
@@ -109,12 +98,11 @@ TEST(KnowledgeGraphReasonerTest, KGR02_MultiHopTransitive) {
 TEST(KnowledgeGraphReasonerTest, KGR03_InverseRule) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"inverse_manages",
-                 {{"?A", "reports_to", "?B"}},
-                 {{"?B", "manages", "?A"}}});
+    ASSERT_TRUE((kgr.addRule({"inverse_manages",
+                             {{"?A", "reports_to", "?B"}},
+                             {{"?B", "manages", "?A"}}})));
 
     kgr.addFact({"alice", "reports_to", "bob"});
-
     auto chain = kgr.infer("bob", 1);
     ASSERT_FALSE(chain.empty());
     EXPECT_TRUE(hasTriple(chain, "bob", "manages", "alice"));
@@ -126,13 +114,11 @@ TEST(KnowledgeGraphReasonerTest, KGR03_InverseRule) {
 TEST(KnowledgeGraphReasonerTest, KGR04_DualConclusionRule) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"partner_symmetric",
-                 {{"?A", "partner_of", "?B"}},
-                 {{"?B", "partner_of", "?A"}, {"?A", "knows", "?B"}}});
+    ASSERT_TRUE((kgr.addRule({"partner_symmetric",
+                             {{"?A", "partner_of", "?B"}},
+                             {{"?B", "partner_of", "?A"}, {"?A", "knows", "?B"}}})));
 
-    kgr.addFact({"alice", "partner_of", "bob"});
-
-    // infer for "bob" to get the symmetric partner_of
+    kgr.addFact({"alice", "partner_of", "bob"});// infer for "bob" to get the symmetric partner_of
     auto chain_bob = kgr.infer("bob", 1);
     EXPECT_TRUE(hasTriple(chain_bob, "bob", "partner_of", "alice"));
 
@@ -147,13 +133,12 @@ TEST(KnowledgeGraphReasonerTest, KGR04_DualConclusionRule) {
 TEST(KnowledgeGraphReasonerTest, KGR05_NoDerivationWhenFactsMissing) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"transitive",
-                 {{"?A", "knows", "?B"}, {"?B", "knows", "?C"}},
-                 {{"?A", "indirectly_knows", "?C"}}});
+    ASSERT_TRUE((kgr.addRule({"transitive",
+                             {{"?A", "knows", "?B"}, {"?B", "knows", "?C"}},
+                             {{"?A", "indirectly_knows", "?C"}}})));
 
     // Only one fact — rule cannot fire.
     kgr.addFact({"alice", "knows", "bob"});
-
     auto chain = kgr.infer("alice", 2);
     EXPECT_TRUE(chain.empty());
 }
@@ -164,12 +149,12 @@ TEST(KnowledgeGraphReasonerTest, KGR05_NoDerivationWhenFactsMissing) {
 TEST(KnowledgeGraphReasonerTest, KGR06_ExplainReturnsRuleId) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"my_rule",
-                 {{"?A", "friend", "?B"}},
-                 {{"?A", "knows", "?B"}}});
+    ASSERT_TRUE((kgr.addRule({"my_rule",
+                             {{"?A", "friend", "?B"}},
+                             {{"?A", "knows", "?B"}}})));
 
     kgr.addFact({"alice", "friend", "bob"});
-    kgr.infer("alice", 1); // populate store
+    static_cast<void>(kgr.infer("alice", 1)); // populate store
 
     auto proof = kgr.explain({"alice", "knows", "bob"});
     ASSERT_TRUE(proof.has_value());
@@ -182,13 +167,13 @@ TEST(KnowledgeGraphReasonerTest, KGR06_ExplainReturnsRuleId) {
 TEST(KnowledgeGraphReasonerTest, KGR07_ExplainReturnsPremises) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"transitive",
-                 {{"?A", "reports_to", "?B"}, {"?B", "reports_to", "?C"}},
-                 {{"?A", "indirectly_reports_to", "?C"}}});
+    ASSERT_TRUE((kgr.addRule({"transitive",
+                             {{"?A", "reports_to", "?B"}, {"?B", "reports_to", "?C"}},
+                             {{"?A", "indirectly_reports_to", "?C"}}})));
 
     kgr.addFact({"alice", "reports_to", "bob"});
     kgr.addFact({"bob",   "reports_to", "carol"});
-    kgr.infer("alice", 2);
+    static_cast<void>(kgr.infer("alice", 2));
 
     auto proof = kgr.explain({"alice", "indirectly_reports_to", "carol"});
     ASSERT_TRUE(proof.has_value());
@@ -218,14 +203,12 @@ TEST(KnowledgeGraphReasonerTest, KGR08_ExplainNulloptForUnknown) {
 TEST(KnowledgeGraphReasonerTest, KGR09_InferSubjectFilter) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"inv",
-                 {{"?A", "follows", "?B"}},
-                 {{"?B", "followed_by", "?A"}}});
+    ASSERT_TRUE((kgr.addRule({"inv",
+                             {{"?A", "follows", "?B"}},
+                             {{"?B", "followed_by", "?A"}}})));
 
     kgr.addFact({"alice", "follows", "bob"});
-    kgr.addFact({"carol", "follows", "dave"});
-
-    // Request for "bob" should only return edges involving bob as subject.
+    kgr.addFact({"carol", "follows", "dave"});// Request for "bob" should only return edges involving bob as subject.
     auto chain = kgr.infer("bob", 1);
     for (const auto& e : chain.edges) {
         EXPECT_EQ(e.fact.subject, "bob");
@@ -239,12 +222,11 @@ TEST(KnowledgeGraphReasonerTest, KGR09_InferSubjectFilter) {
 TEST(KnowledgeGraphReasonerTest, KGR10_InferenceChainFields) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"r1",
-                 {{"?A", "likes", "?B"}},
-                 {{"?A", "enjoys", "?B"}}});
+    ASSERT_TRUE((kgr.addRule({"r1",
+                             {{"?A", "likes", "?B"}},
+                             {{"?A", "enjoys", "?B"}}})));
 
     kgr.addFact({"alice", "likes", "music"});
-
     auto chain = kgr.infer("alice", 1);
     ASSERT_FALSE(chain.empty());
     EXPECT_EQ(chain.subject_id, "alice");
@@ -264,13 +246,11 @@ TEST(KnowledgeGraphReasonerTest, KGR10_InferenceChainFields) {
 TEST(KnowledgeGraphReasonerTest, KGR11_CDCInsertTriggersDerivation) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"transitive",
-                 {{"?A", "knows", "?B"}, {"?B", "knows", "?C"}},
-                 {{"?A", "indirectly_knows", "?C"}}});
+    ASSERT_TRUE((kgr.addRule({"transitive",
+                             {{"?A", "knows", "?B"}, {"?B", "knows", "?C"}},
+                             {{"?A", "indirectly_knows", "?C"}}})));
 
-    kgr.addFact({"alice", "knows", "bob"});
-
-    // Before INSERT: no derivation possible.
+    kgr.addFact({"alice", "knows", "bob"});// Before INSERT: no derivation possible.
     EXPECT_EQ(kgr.infer("alice", 1).size(), 0u);
 
     // CDC INSERT: add the missing fact.
@@ -324,12 +304,11 @@ TEST(KnowledgeGraphReasonerTest, KGR13_CDCInsertIdempotent) {
 TEST(KnowledgeGraphReasonerTest, KGR14_ApplyLoRAScoreAssignsScores) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"r1",
-                 {{"?A", "knows", "?B"}},
-                 {{"?A", "trusts", "?B"}}});
+    ASSERT_TRUE((kgr.addRule({"r1",
+                             {{"?A", "knows", "?B"}},
+                             {{"?A", "trusts", "?B"}}})));
 
     kgr.addFact({"alice", "knows", "bob"});
-
     auto chain = kgr.infer("alice", 1);
     ASSERT_FALSE(chain.empty());
 
@@ -352,14 +331,13 @@ TEST(KnowledgeGraphReasonerTest, KGR15_ApplyLoRAScoreFiltersLowScores) {
     KnowledgeGraphReasoner kgr;
 
     // Rule with very high min score — stub will produce 1/(1+1) = 0.5, below 0.9.
-    kgr.addRule({"strict_rule",
-                 {{"?A", "knows", "?B"}},
-                 {{"?A", "deeply_trusts", "?B"}},
-                 "adapter",
-                 0.9}); // min_lora_score = 0.9
+    ASSERT_TRUE((kgr.addRule({"strict_rule",
+                             {{"?A", "knows", "?B"}},
+                             {{"?A", "deeply_trusts", "?B"}},
+                             "adapter",
+                             0.9}))); // min_lora_score = 0.9
 
     kgr.addFact({"alice", "knows", "bob"});
-
     auto chain = kgr.infer("alice", 1);
     ASSERT_FALSE(chain.empty());
 
@@ -389,19 +367,18 @@ TEST(KnowledgeGraphReasonerTest, KGR17_ChainOfAuthorityPattern) {
     KnowledgeGraphReasoner kgr(10);
 
     // Base case: any direct authorized_by lifts to indirectly_authorized_by.
-    kgr.addRule({"authority_base",
-                 {{"?A", "authorized_by", "?B"}},
-                 {{"?A", "indirectly_authorized_by", "?B"}}});
+    ASSERT_TRUE((kgr.addRule({"authority_base",
+                             {{"?A", "authorized_by", "?B"}},
+                             {{"?A", "indirectly_authorized_by", "?B"}}})));
 
     // Inductive case: extend the chain.
-    kgr.addRule({"authority_chain",
-                 {{"?A", "indirectly_authorized_by", "?B"}, {"?B", "authorized_by", "?C"}},
-                 {{"?A", "indirectly_authorized_by", "?C"}}});
+    ASSERT_TRUE((kgr.addRule({"authority_chain",
+                             {{"?A", "indirectly_authorized_by", "?B"}, {"?B", "authorized_by", "?C"}},
+                             {{"?A", "indirectly_authorized_by", "?C"}}})));
 
     kgr.addFact({"alice",    "authorized_by", "manager"});
     kgr.addFact({"manager",  "authorized_by", "director"});
     kgr.addFact({"director", "authorized_by", "ceo"});
-
     auto chain = kgr.infer("alice", 10);
 
     EXPECT_TRUE(hasTriple(chain, "alice", "indirectly_authorized_by", "manager"));
@@ -415,14 +392,13 @@ TEST(KnowledgeGraphReasonerTest, KGR17_ChainOfAuthorityPattern) {
 TEST(KnowledgeGraphReasonerTest, KGR18_HubSpokePattern) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"co_member",
-                 {{"?A", "member_of", "?G"}, {"?B", "member_of", "?G"}},
-                 {{"?A", "co_member", "?B"}}});
+    ASSERT_TRUE((kgr.addRule({"co_member",
+                             {{"?A", "member_of", "?G"}, {"?B", "member_of", "?G"}},
+                             {{"?A", "co_member", "?B"}}})));
 
     kgr.addFact({"alice", "member_of", "engineering"});
     kgr.addFact({"bob",   "member_of", "engineering"});
     kgr.addFact({"carol", "member_of", "engineering"});
-
     auto chain = kgr.infer("alice", 1);
     EXPECT_TRUE(hasTriple(chain, "alice", "co_member", "bob"));
     EXPECT_TRUE(hasTriple(chain, "alice", "co_member", "carol"));
@@ -460,24 +436,24 @@ TEST(KnowledgeGraphReasonerTest, KGR20_AddRuleValidation) {
     KnowledgeGraphReasoner kgr;
 
     // Empty id → rejected.
-    EXPECT_FALSE(kgr.addRule({"",
+    EXPECT_FALSE((kgr.addRule({"",
                               {{"?A", "knows", "?B"}},
-                              {{"?A", "trusts", "?B"}}}));
+                              {{"?A", "trusts", "?B"}}})));
 
     // Empty conditions → rejected.
-    EXPECT_FALSE(kgr.addRule({"rule_no_conditions",
+    EXPECT_FALSE((kgr.addRule({"rule_no_conditions",
                               {},
-                              {{"?A", "trusts", "?B"}}}));
+                              {{"?A", "trusts", "?B"}}})));
 
     // Empty conclusions → rejected.
-    EXPECT_FALSE(kgr.addRule({"rule_no_conclusions",
+    EXPECT_FALSE((kgr.addRule({"rule_no_conclusions",
                               {{"?A", "knows", "?B"}},
-                              {}}));
+                              {}})));
 
     // Valid rule → accepted.
-    EXPECT_TRUE(kgr.addRule({"valid_rule",
+    EXPECT_TRUE((kgr.addRule({"valid_rule",
                              {{"?A", "knows", "?B"}},
-                             {{"?A", "trusts", "?B"}}}));
+                             {{"?A", "trusts", "?B"}}})));
 
     EXPECT_EQ(kgr.ruleCount(), 1u);
 }
@@ -487,13 +463,12 @@ TEST(KnowledgeGraphReasonerTest, KGR20_AddRuleValidation) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(KnowledgeGraphReasonerTest, KGR21_ApplyLoRAScoreUsesRuleAdapterFallback) {
     KnowledgeGraphReasoner kgr;
-    kgr.addRule({"domain_rule",
-                 {{"?A", "knows", "?B"}},
-                 {{"?A", "trusts", "?B"}},
-                 "domain_adapter_v1",
-                 0.0});
+    ASSERT_TRUE(kgr.addRule({"domain_rule",
+                             {{"?A", "knows", "?B"}},
+                             {{"?A", "trusts", "?B"}},
+                             "domain_adapter_v1",
+                             0.0}));
     kgr.addFact({"alice", "knows", "bob"});
-
     auto chain = kgr.infer("alice", 1);
     ASSERT_FALSE(chain.empty());
 
@@ -521,13 +496,12 @@ TEST(KnowledgeGraphReasonerTest, KGR21_ApplyLoRAScoreUsesRuleAdapterFallback) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(KnowledgeGraphReasonerTest, KGR22_ApplyLoRAScoreClampsInvalidValues) {
     KnowledgeGraphReasoner kgr;
-    kgr.addRule({"strict_rule",
-                 {{"?A", "knows", "?B"}},
-                 {{"?A", "trusts", "?B"}},
-                 "strict_adapter",
-                 0.6});
+    ASSERT_TRUE(kgr.addRule({"strict_rule",
+                             {{"?A", "knows", "?B"}},
+                             {{"?A", "trusts", "?B"}},
+                             "strict_adapter",
+                             0.6}));
     kgr.addFact({"alice", "knows", "bob"});
-
     auto make_chain = [&]() {
         auto chain = kgr.infer("alice", 1);
         EXPECT_FALSE(chain.empty());
@@ -571,11 +545,11 @@ TEST(KnowledgeGraphReasonerTest, KGR22_ApplyLoRAScoreClampsInvalidValues) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(KnowledgeGraphReasonerTest, KGR23_ApplyLoRAScoreUsesMultiLoRAManagerBridge) {
     KnowledgeGraphReasoner kgr;
-    ASSERT_TRUE(kgr.addRule({"rule_with_lora",
+    ASSERT_TRUE((kgr.addRule({"rule_with_lora",
                              {{"?A", "knows", "?B"}},
                              {{"?A", "trusts", "?B"}},
                              "graph_adapter_v1",
-                             0.0}));
+                             0.0})));
     kgr.addFact({"alice", "knows", "bob"});
 
     auto chain = kgr.infer("alice", 1);
@@ -651,9 +625,9 @@ TEST(TripleTest, IsGround) {
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(KnowledgeGraphReasonerTest, AddFactRejectsNonGround) {
     KnowledgeGraphReasoner kgr;
-    kgr.addFact({"?A", "knows", "bob"}); // non-ground → ignored
+    kgr.addFact({"?A", "knows", "bob"});// non-ground → ignored
     EXPECT_EQ(kgr.factCount(), 0u);
-    kgr.addFact({"alice", "knows", "bob"}); // ground → accepted
+    kgr.addFact({"alice", "knows", "bob"});// ground → accepted
     EXPECT_EQ(kgr.factCount(), 1u);
 }
 
@@ -663,12 +637,12 @@ TEST(KnowledgeGraphReasonerTest, AddFactRejectsNonGround) {
 TEST(KnowledgeGraphReasonerTest, DuplicateRuleIdOverwrites) {
     KnowledgeGraphReasoner kgr;
 
-    kgr.addRule({"r1",
-                 {{"?A", "knows", "?B"}},
-                 {{"?A", "trusts", "?B"}}});
-    kgr.addRule({"r1",
-                 {{"?A", "knows", "?B"}},
-                 {{"?A", "respects", "?B"}}});
+    ASSERT_TRUE((kgr.addRule({"r1",
+                             {{"?A", "knows", "?B"}},
+                             {{"?A", "trusts", "?B"}}})));
+    ASSERT_TRUE((kgr.addRule({"r1",
+                             {{"?A", "knows", "?B"}},
+                             {{"?A", "respects", "?B"}}})));
 
     EXPECT_EQ(kgr.ruleCount(), 1u);
 

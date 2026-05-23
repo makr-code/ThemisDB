@@ -11,6 +11,7 @@
 
 #include "query/functions/process_mining_functions.h"
 #include <nlohmann/json.hpp>
+#include <mutex>
 #include <stdexcept>
 #include <string>
 #include <mutex>
@@ -51,6 +52,11 @@ void PmLoadAdminModelFunction::setAdminModelLoadFn(AdminModelLoadFn fn) {
 void PmListAdminModelsFunction::setAdminModelListFn(AdminModelListFn fn) {
     std::lock_guard<std::mutex> lock(admin_model_list_fn_mutex_);
     admin_model_list_fn_ = std::move(fn);
+}
+
+void PmPredictEndFunction::clearPredictEndFn() {
+    std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
+    predict_end_fn_ = nullptr;
 }
 
 // ============================================================================
@@ -390,45 +396,51 @@ json PmVariantsFunction::execute(
 // ============================================================================
 // Administrative model management (stub #283 resolution)
 // ============================================================================
+// Stub #283 resolved: PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS now
+// delegate to injected AdminModelLoadFn / AdminModelListFn when available.
+
+// ============================================================================
+// Administrative model management
+// ============================================================================
+// Stub #283 resolved: PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS now
+// delegate to injected AdminModelLoadFn / AdminModelListFn when available.
+// Without an injected registry the previous fallback behaviour is retained
+// (makeNotImplemented for LOAD; empty array for LIST).
 
 json PmLoadAdminModelFunction::execute(
     const std::vector<json>& args,
-    const FunctionContext& /*ctx*/) const {
-
-    const std::string model_id = (!args.empty() && args[0].is_string())
-                                     ? args[0].get<std::string>()
-                                     : std::string{};
-
-    // Delegate to injected YAML-backed registry when available.
-    AdminModelLoadFn fn;
-    {
-        std::lock_guard<std::mutex> lock(admin_model_load_fn_mutex_);
-        fn = admin_model_load_fn_;
+    const FunctionContext& ctx) const {
+    const auto& loadFn = ctx.adminModelLoadFn();
+    if (!loadFn) {
+        return makeNotImplemented("PM_LOAD_ADMIN_MODEL");
     }
-    if (fn) {
-        return fn(model_id);
+    if (args.empty() || !args[0].is_string()) {
+        return makeError("PM_LOAD_ADMIN_MODEL: string argument 'model_id' is required");
     }
-
-    // Fallback: registry not yet wired.
-    return makeNotImplemented("PM_LOAD_ADMIN_MODEL");
+    const std::string model_id = args[0].get<std::string>();
+    if (model_id.empty()) {
+        return makeError("PM_LOAD_ADMIN_MODEL: 'model_id' must not be empty");
+    }
+    try {
+        return loadFn(model_id);
+    } catch (const std::exception& ex) {
+        return makeError(std::string("PM_LOAD_ADMIN_MODEL: ") + ex.what());
+    }
 }
 
 json PmListAdminModelsFunction::execute(
     const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-
-    // Delegate to injected registry when available.
-    AdminModelListFn fn;
-    {
-        std::lock_guard<std::mutex> lock(admin_model_list_fn_mutex_);
-        fn = admin_model_list_fn_;
+    const FunctionContext& ctx) const {
+    const auto& listFn = ctx.adminModelListFn();
+    if (!listFn) {
+        return json::array();
     }
-    if (fn) {
-        return fn();
+    try {
+        return listFn();
+    } catch (const std::exception& ex) {
+        spdlog::error("PM_LIST_ADMIN_MODELS: registry error: {}", ex.what());
+        return json::array();
     }
-
-    // Fallback: registry not yet wired — return empty array.
-    return json::array();
 }
 
 // ============================================================================
@@ -554,22 +566,30 @@ json PmBottlenecksFunction::execute(
 json PmPredictEndFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& /*ctx*/) const {
+    // Delegate to the injected prediction backend when available (stub #278 resolved).
+    // The provider receives the case_id and returns a JSON object with
+    // "predicted_end" (ISO-8601 string or null) plus any additional fields.
+    std::string case_id;
+    if (!args.empty() && args[0].is_string()) {
+        case_id = args[0].get<std::string>();
+    }
 
-    const std::string case_id = (!args.empty() && args[0].is_string())
-                                    ? args[0].get<std::string>()
-                                    : std::string{};
-
-    // Delegate to injected prediction bridge when available (stub #278 resolution).
-    PredictEndFn fn;
     {
         std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
-        fn = predict_end_fn_;
-    }
-    if (fn) {
-        return fn(case_id);
+        if (predict_end_fn_) {
+            try {
+                return predict_end_fn_(case_id);
+            } catch (const std::exception& ex) {
+                // Fail-closed: return null prediction with error detail.
+                json result;
+                result["predicted_end"] = nullptr;
+                result["error"] = ex.what();
+                return result;
+            }
+        }
     }
 
-    // Fallback: no backend wired yet — return null placeholder.
+    // No backend injected — return null placeholder.
     json result;
     result["predicted_end"] = nullptr;
     return result;

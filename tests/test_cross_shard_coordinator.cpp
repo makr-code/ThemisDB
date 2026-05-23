@@ -85,8 +85,8 @@ public:
     ConsensusType getType() const override { return ConsensusType::RAFT; }
     
     bool initialize(
-        const std::string& node_id,
-        const std::vector<std::string>& cluster_nodes
+        const std::string&,
+        const std::vector<std::string>&
     ) override { return true; }
     
     bool start() override { return true; }
@@ -104,22 +104,24 @@ public:
         return ++last_index_;
     }
     
-    bool waitForCommit(uint64_t log_index, std::chrono::milliseconds timeout) override { return true; }
+    bool waitForCommit([[maybe_unused]] uint64_t log_index,
+                       [[maybe_unused]] std::chrono::milliseconds timeout) override { return true; }
     
     std::vector<ConsensusLogEntry> readLog(
-        uint64_t start_index,
-        std::optional<uint64_t> end_index = std::nullopt
+        [[maybe_unused]] uint64_t start_index,
+        [[maybe_unused]] std::optional<uint64_t> end_index = std::nullopt
     ) override { return {}; }
     
     uint64_t getCommitIndex() const override { return 0; }
     uint64_t getLastLogIndex() const override { return last_index_; }
     
-    bool addNode(const std::string& node_id, const std::string& endpoint) override { return true; }
-    bool removeNode(const std::string& node_id) override { return true; }
-    bool transferLeadership(const std::string& target_node_id) override { return true; }
+    bool addNode([[maybe_unused]] const std::string& node_id,
+                 [[maybe_unused]] const std::string& endpoint) override { return true; }
+    bool removeNode([[maybe_unused]] const std::string& node_id) override { return true; }
+    bool transferLeadership([[maybe_unused]] const std::string& target_node_id) override { return true; }
     
-    bool takeSnapshot(const nlohmann::json& snapshot_data) override { return true; }
-    bool restoreSnapshot(const nlohmann::json& snapshot_data) override { return true; }
+    bool takeSnapshot([[maybe_unused]] const nlohmann::json& snapshot_data) override { return true; }
+    bool restoreSnapshot([[maybe_unused]] const nlohmann::json& snapshot_data) override { return true; }
     
     ConsensusStats getStats() const override {
         return ConsensusStats{
@@ -138,9 +140,9 @@ public:
     
     nlohmann::json getStatus() const override { return nlohmann::json::object(); }
     
-    void onCommit(std::function<void(const ConsensusLogEntry&)> callback) override {}
-    void onStateChange(std::function<void(ConsensusState, ConsensusState)> callback) override {}
-    void onLeaderChange(std::function<void(const std::string&, const std::string&)> callback) override {}
+    void onCommit([[maybe_unused]] std::function<void(const ConsensusLogEntry&)> callback) override {}
+    void onStateChange([[maybe_unused]] std::function<void(ConsensusState, ConsensusState)> callback) override {}
+    void onLeaderChange([[maybe_unused]] std::function<void(const std::string&, const std::string&)> callback) override {}
     
     std::vector<std::pair<std::string, nlohmann::json>> proposals_;
     uint64_t last_index_ = 0;

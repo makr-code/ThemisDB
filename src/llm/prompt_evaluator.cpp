@@ -261,12 +261,17 @@ std::string PromptEvaluator::normalizeString(const std::string& s) {
     result.reserve(s.length());
     
     for (char c : s) {
-        if (std::isspace(c)) {
+        const bool is_space = (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
+        if (is_space) {
             if (!result.empty() && result.back() != ' ') {
-                result += ' ';
+                result.push_back(' ');
             }
         } else {
-            result += std::tolower(c);
+            if (c >= 'A' && c <= 'Z') {
+                result.push_back(static_cast<char>(c - 'A' + 'a'));
+            } else {
+                result.push_back(c);
+            }
         }
     }
     

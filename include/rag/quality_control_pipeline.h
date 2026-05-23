@@ -67,6 +67,23 @@ struct DimensionScore {
  * @brief Quality check result
  */
 struct QualityCheckResult {
+    QualityCheckResult()
+        : status(QualityGateStatus::FAILED)
+        , overall_score(0.0)
+        , confidence(0.0)
+        , dimension_scores()
+        , fast_stage_time(0)
+        , balanced_stage_time(0)
+        , thorough_stage_time(0)
+        , total_time(0)
+        , failure_reasons()
+        , should_retry(false)
+        , improvement_suggestions()
+        , sent_to_learning_system(false)
+        , learning_feedback_id()
+        , citation_coverage(0.0) {
+    }
+
     QualityGateStatus status;
     double overall_score;      ///< Aggregate score (0-1)
     double confidence;         ///< Aggregate confidence (0-1)
@@ -287,7 +304,6 @@ private:
     
     void sendLearningFeedback(
         const std::string& query,
-        const std::string& answer,
         const QualityCheckResult& result
     );
     

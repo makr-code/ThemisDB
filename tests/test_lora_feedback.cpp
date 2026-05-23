@@ -140,6 +140,36 @@ TEST_F(LoRAFeedbackTest, DeleteFeedback) {
     EXPECT_FALSE(retrieved.has_value());
 }
 
+TEST_F(LoRAFeedbackTest, CreateFeedbackUsesGraphLinkCallbackWhenConfigured) {
+    bool create_link_called = false;
+
+    FeedbackStorageService::Config config;
+    config.db = std::shared_ptr<RocksDBWrapper>(db_.get(), [](RocksDBWrapper*){});
+    config.enable_graph_links = true;
+    config.create_graph_link_fn =
+        [&create_link_called](const std::string& feedback_pk,
+                              const std::string& adapter_pk,
+                              const std::string& edge_type) {
+            create_link_called = true;
+            EXPECT_FALSE(feedback_pk.empty());
+            EXPECT_EQ(adapter_pk, "lora_adapters:adapter-with-graph-link");
+            EXPECT_EQ(edge_type, "belongs_to_adapter");
+            return true;
+        };
+
+    storage_ = std::make_unique<FeedbackStorageService>(config);
+
+    Feedback feedback;
+    feedback.adapter_id = "adapter-with-graph-link";
+    feedback.user_id = "user123";
+    feedback.rating = 5;
+    feedback.feedback_text = "graph-link-callback";
+
+    auto created = storage_->createFeedback(feedback);
+    ASSERT_TRUE(created.has_value());
+    EXPECT_TRUE(create_link_called);
+}
+
 TEST_F(LoRAFeedbackTest, ListFeedback) {
     // Create multiple feedback entries
     for (int i = 0; i < 5; i++) {

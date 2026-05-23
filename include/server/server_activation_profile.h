@@ -312,13 +312,13 @@ struct ServerProfileValidationResult {
     require_feature(build_capabilities.http_server, "THEMIS_ENABLE_HTTP_SERVER");
 
     if (profile == ServerActivationProfile::Standard || profile == ServerActivationProfile::Enterprise) {
-        require_feature(build_capabilities.grpc, "THEMIS_ENABLE_GRPC");
         require_feature(build_capabilities.prometheus, "THEMIS_HAS_PROMETHEUS");
         require_feature(build_capabilities.llm, "THEMIS_ENABLE_LLM");
         require_feature(build_capabilities.mimalloc, "THEMIS_ENABLE_MIMALLOC");
     }
 
     if (profile == ServerActivationProfile::Enterprise) {
+        require_feature(build_capabilities.grpc, "THEMIS_ENABLE_GRPC");
         require_feature(build_capabilities.hsm_real, "THEMIS_ENABLE_HSM_REAL");
     }
 

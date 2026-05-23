@@ -263,6 +263,8 @@ TEST_F(TenantTxnTest, AbortTenantTransactions_AbortsAllForTenant) {
     auto id1 = mgr_->beginTransaction("abort-tenant");
     auto id2 = mgr_->beginTransaction("abort-tenant");
     auto id3 = mgr_->beginTransaction("safe-tenant");
+    static_cast<void>(id1);
+    static_cast<void>(id2);
 
     size_t aborted = mgr_->abortTenantTransactions("abort-tenant");
     EXPECT_EQ(aborted, 2u);

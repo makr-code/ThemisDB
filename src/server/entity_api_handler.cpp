@@ -231,8 +231,8 @@ http::response<http::string_body> EntityApiHandler::handleGet(
 
         // Decryption only when schema is configured and fields are marked
         json entity_json;
-        try { entity_json = json::parse(blob_str); } catch (...) {
-            THEMIS_ERROR("GET entity: stored blob is not valid JSON for key: {}", key);
+        try { entity_json = json::parse(blob_str); } catch (const std::exception& e) {
+            THEMIS_ERROR("GET entity: stored blob is not valid JSON for key {}: {}", key, e.what());
             span.setStatus(false, "Stored blob is not valid JSON");
             return makeErrorResponse(http::status::internal_server_error, "Stored entity JSON parse failed", req);
         }
@@ -259,8 +259,8 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                         for (const auto& f : fields) {
                             if (!entity_json.contains(f + "_enc") || !entity_json.contains(f + "_encrypted")) continue;
                             bool encFlag = false;
-                            try { encFlag = entity_json[f + "_enc"].get<bool>(); } catch (...) {
-                                THEMIS_WARN("Enc flag cast failed for field {}: defaulting to false", f);
+                            try { encFlag = entity_json[f + "_enc"].get<bool>(); } catch (const std::exception& e) {
+                                THEMIS_WARN("Enc flag cast failed for field {}: {} (defaulting to false)", f, e.what());
                                 encFlag = false;
                             }
                             if (!encFlag) continue;
@@ -272,8 +272,8 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                                 if (context_type == "group" && pki && entity_json.contains(f + "_group")) {
                                     // Group context (MVP: first group / single string)
                                     std::string group_name;
-                                    try { group_name = entity_json[f + "_group"].get<std::string>(); } catch (...) {
-                                        THEMIS_WARN("Group name cast failed for field {}: skipping group context", f);
+                                    try { group_name = entity_json[f + "_group"].get<std::string>(); } catch (const std::exception& e) {
+                                        THEMIS_WARN("Group name cast failed for field {}: {} (skipping group context)", f, e.what());
                                         group_name.clear();
                                     }
                                     if (!group_name.empty()) {
@@ -301,7 +301,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
                                     try {
                                         auto parsed = nlohmann::json::parse(plain_str);
                                         entity_json[f] = parsed; // Take JSON structure
-                                    } catch (...) {
+                                    } catch (const std::exception&) {
                                         THEMIS_DEBUG("Decrypted value for field {} is not valid JSON, treating as string", f);
                                         entity_json[f] = plain_str;
                                     }
@@ -1234,4 +1234,3 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
 
 } // namespace server
 } // namespace themis
-

@@ -146,7 +146,8 @@ TEST(EpochFencingManagerTest, MultipleBumpsAreMonotonic) {
 
 TEST(EpochFencingManagerTest, MakeTokenReturnsCurrentEpoch) {
     EpochFencingManager mgr(makeConfig());
-    mgr.bumpEpoch("up");
+    auto bumped = mgr.bumpEpoch("up");
+    static_cast<void>(bumped);
     auto tok = mgr.makeToken();
     EXPECT_EQ(tok.epoch, mgr.currentEpoch());
     EXPECT_EQ(tok.issuer, "n1");
@@ -166,7 +167,8 @@ TEST(EpochFencingManagerTest, CurrentTokenAllowed) {
 TEST(EpochFencingManagerTest, StaleTokenRejectedWithoutStonith) {
     EpochFencingManager mgr(makeConfig("s1", "n1", false));
     auto old_tok = mgr.makeToken();   // epoch==1
-    mgr.bumpEpoch("bump");            // now epoch==2
+    auto bumped = mgr.bumpEpoch("bump"); // now epoch==2
+    static_cast<void>(bumped);
     EXPECT_EQ(mgr.checkToken(old_tok, "n2"), FencingResult::STALE_EPOCH);
 }
 
@@ -181,7 +183,8 @@ TEST(EpochFencingManagerTest, StaleTokenTriggersStonith) {
     auto stonith = std::make_shared<NullStonithProvider>();
     EpochFencingManager mgr(makeConfig("s1", "n1", true), stonith);
     auto old_tok = mgr.makeToken();
-    mgr.bumpEpoch("bump");
+    auto bumped = mgr.bumpEpoch("bump");
+    static_cast<void>(bumped);
     auto result = mgr.checkToken(old_tok, "stale-node");
     EXPECT_EQ(result, FencingResult::STONITH_ISSUED);
     EXPECT_TRUE(stonith->isFenced("stale-node"));
@@ -206,19 +209,23 @@ TEST(EpochFencingManagerTest, MetricsAccumulateCorrectly) {
     EpochFencingManager mgr(makeConfig("s1", "n1", true), stonith);
 
     // 2 bumps
-    mgr.bumpEpoch("a");
-    mgr.bumpEpoch("b");
+    auto bumped_a = mgr.bumpEpoch("a");
+    auto bumped_b = mgr.bumpEpoch("b");
+    static_cast<void>(bumped_a);
+    static_cast<void>(bumped_b);
 
     // 3 allowed writes
     auto cur = mgr.makeToken();
     for (int i = 0; i < 3; ++i) {
-        mgr.checkToken(cur, "writer");
+        auto result = mgr.checkToken(cur, "writer");
+        static_cast<void>(result);
     }
 
     // 1 stale → STONITH
     EpochToken stale;
     stale.epoch = 1;
-    mgr.checkToken(stale, "old-writer");
+    auto stale_result = mgr.checkToken(stale, "old-writer");
+    static_cast<void>(stale_result);
 
     auto m = mgr.metrics();
     EXPECT_EQ(m.epoch_bumps,      2u);
@@ -297,14 +304,16 @@ TEST(LeaseManagerTest, AcquireSucceeds) {
 
 TEST(LeaseManagerTest, IsHolderReturnsTrueForHolder) {
     LeaseManager lm(makeLeaseConfig(), makeFencing());
-    lm.acquire("leader", "node-1");
+    auto acquired = lm.acquire("leader", "node-1");
+    static_cast<void>(acquired);
     EXPECT_TRUE(lm.isHolder("leader", "node-1"));
     EXPECT_FALSE(lm.isHolder("leader", "node-2"));
 }
 
 TEST(LeaseManagerTest, ReleaseAllowsReacquire) {
     LeaseManager lm(makeLeaseConfig(), makeFencing());
-    lm.acquire("leader", "node-1");
+    auto acquired = lm.acquire("leader", "node-1");
+    static_cast<void>(acquired);
     lm.release("leader", "node-1");
 
     auto res = lm.acquire("leader", "node-2");
@@ -314,14 +323,16 @@ TEST(LeaseManagerTest, ReleaseAllowsReacquire) {
 
 TEST(LeaseManagerTest, ReleaseByNonHolderNoOp) {
     LeaseManager lm(makeLeaseConfig(), makeFencing());
-    lm.acquire("leader", "node-1");
+    auto acquired = lm.acquire("leader", "node-1");
+    static_cast<void>(acquired);
     EXPECT_FALSE(lm.release("leader", "node-2"));
     EXPECT_TRUE(lm.isHolder("leader", "node-1"));
 }
 
 TEST(LeaseManagerTest, RenewExtendsTtl) {
     LeaseManager lm(makeLeaseConfig(500ms, 100ms), makeFencing());
-    lm.acquire("leader", "node-1");
+    auto acquired = lm.acquire("leader", "node-1");
+    static_cast<void>(acquired);
     std::this_thread::sleep_for(50ms);
     auto renewed = lm.renew("leader", "node-1");
     ASSERT_TRUE(renewed.has_value());
@@ -330,13 +341,15 @@ TEST(LeaseManagerTest, RenewExtendsTtl) {
 
 TEST(LeaseManagerTest, RenewByNonHolderFails) {
     LeaseManager lm(makeLeaseConfig(), makeFencing());
-    lm.acquire("leader", "node-1");
+    auto acquired = lm.acquire("leader", "node-1");
+    static_cast<void>(acquired);
     EXPECT_FALSE(lm.renew("leader", "node-2").has_value());
 }
 
 TEST(LeaseManagerTest, GetReturnsLeaseRecord) {
     LeaseManager lm(makeLeaseConfig(), makeFencing());
-    lm.acquire("leader", "node-1");
+    auto acquired = lm.acquire("leader", "node-1");
+    static_cast<void>(acquired);
     auto rec = lm.get("leader");
     ASSERT_TRUE(rec.has_value());
     EXPECT_EQ(rec->holder, "node-1");
@@ -349,8 +362,10 @@ TEST(LeaseManagerTest, GetUnknownKeyReturnsNullopt) {
 
 TEST(LeaseManagerTest, ListLeasesIncludesAcquiredKey) {
     LeaseManager lm(makeLeaseConfig(), makeFencing());
-    lm.acquire("key-a", "n1");
-    lm.acquire("key-b", "n2");
+    auto acquired_a = lm.acquire("key-a", "n1");
+    auto acquired_b = lm.acquire("key-b", "n2");
+    static_cast<void>(acquired_a);
+    static_cast<void>(acquired_b);
     auto keys = lm.listLeases();
     EXPECT_EQ(keys.size(), 2u);
 }
@@ -361,7 +376,8 @@ TEST(LeaseManagerTest, ListLeasesIncludesAcquiredKey) {
 
 TEST(LeaseManagerTest, ExpiredLeaseIsReacquirable) {
     LeaseManager lm(makeLeaseConfig(100ms, 20ms, 500ms), makeFencing());
-    lm.acquire("leader", "node-1");
+    auto acquired = lm.acquire("leader", "node-1");
+    static_cast<void>(acquired);
     std::this_thread::sleep_for(150ms);  // let it expire
     auto res = lm.acquire("leader", "node-2");
     EXPECT_TRUE(res.success);
@@ -384,8 +400,10 @@ TEST(LeaseManagerTest, IdempotentReacquireBySameHolder) {
 
 TEST(LeaseManagerTest, MetricsCountAcquireAndRelease) {
     LeaseManager lm(makeLeaseConfig(), makeFencing());
-    lm.acquire("k", "n1");
-    lm.renew("k", "n1");
+    auto acquired = lm.acquire("k", "n1");
+    auto renewed = lm.renew("k", "n1");
+    static_cast<void>(acquired);
+    static_cast<void>(renewed);
     lm.release("k", "n1");
 
     auto m = lm.metrics();
@@ -406,7 +424,8 @@ TEST(LeaseManagerTest, WalPersistsAndRestores) {
         auto lcfg       = makeLeaseConfig(500ms, 50ms);
         lcfg.wal_path   = wal;
         LeaseManager lm(lcfg, makeFencing());
-        lm.acquire("shard-0-leader", "node-A");
+        auto acquired = lm.acquire("shard-0-leader", "node-A");
+        static_cast<void>(acquired);
     }
 
     // Re-open from WAL
@@ -429,7 +448,8 @@ TEST(LeaseManagerTest, WalDiscardsExpiredRecords) {
         auto lcfg       = makeLeaseConfig(100ms, 20ms);
         lcfg.wal_path   = wal;
         LeaseManager lm(lcfg, makeFencing());
-        lm.acquire("shard-0-leader", "node-A");
+        auto acquired = lm.acquire("shard-0-leader", "node-A");
+        static_cast<void>(acquired);
     }
 
     std::this_thread::sleep_for(150ms);  // let it expire

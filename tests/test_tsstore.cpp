@@ -131,7 +131,7 @@ TEST_F(TSStoreFixture, MultiplePointsReturnedInTimestampOrder) {
 
 TEST_F(TSStoreFixture, RangeQueryReturnsOnlyPointsInRange) {
     for (int i = 0; i < 10; ++i) {
-        store->putDataPoint(makePoint("m", "e", base + i * 1000, static_cast<double>(i)));
+        ASSERT_TRUE(store->putDataPoint(makePoint("m", "e", base + i * 1000, static_cast<double>(i))).has_value());
     }
 
     TSStore::QueryOptions q;
@@ -148,7 +148,7 @@ TEST_F(TSStoreFixture, RangeQueryReturnsOnlyPointsInRange) {
 }
 
 TEST_F(TSStoreFixture, EmptyRangeReturnsNothing) {
-    store->putDataPoint(makePoint("m", "e", base, 1.0));
+    ASSERT_TRUE(store->putDataPoint(makePoint("m", "e", base, 1.0)).has_value());
 
     TSStore::QueryOptions q;
     q.metric            = "m";
@@ -162,9 +162,9 @@ TEST_F(TSStoreFixture, EmptyRangeReturnsNothing) {
 // ─── Entity filter ────────────────────────────────────────────────────────────
 
 TEST_F(TSStoreFixture, EntityFilterIsolatesCorrectEntity) {
-    store->putDataPoint(makePoint("cpu", "host1", base,     10.0));
-    store->putDataPoint(makePoint("cpu", "host2", base + 1, 20.0));
-    store->putDataPoint(makePoint("cpu", "host1", base + 2, 30.0));
+    ASSERT_TRUE(store->putDataPoint(makePoint("cpu", "host1", base,     10.0)).has_value());
+    ASSERT_TRUE(store->putDataPoint(makePoint("cpu", "host2", base + 1, 20.0)).has_value());
+    ASSERT_TRUE(store->putDataPoint(makePoint("cpu", "host1", base + 2, 30.0)).has_value());
 
     TSStore::QueryOptions q;
     q.metric            = "cpu";
@@ -182,9 +182,9 @@ TEST_F(TSStoreFixture, EntityFilterIsolatesCorrectEntity) {
 TEST_F(TSStoreFixture, TagFilterMatchesCorrectPoints) {
     nlohmann::json t1 = {{"env", "prod"}};
     nlohmann::json t2 = {{"env", "dev"}};
-    store->putDataPoint(makePoint("cpu", "h1", base,     1.0, t1));
-    store->putDataPoint(makePoint("cpu", "h2", base + 1, 2.0, t2));
-    store->putDataPoint(makePoint("cpu", "h3", base + 2, 3.0, t1));
+    ASSERT_TRUE(store->putDataPoint(makePoint("cpu", "h1", base,     1.0, t1)).has_value());
+    ASSERT_TRUE(store->putDataPoint(makePoint("cpu", "h2", base + 1, 2.0, t2)).has_value());
+    ASSERT_TRUE(store->putDataPoint(makePoint("cpu", "h3", base + 2, 3.0, t1)).has_value());
 
     TSStore::QueryOptions q;
     q.metric            = "cpu";
@@ -201,7 +201,7 @@ TEST_F(TSStoreFixture, TagFilterMatchesCorrectPoints) {
 
 TEST_F(TSStoreFixture, LimitCapsReturnedPoints) {
     for (int i = 0; i < 20; ++i) {
-        store->putDataPoint(makePoint("m", "e", base + i * 1000, static_cast<double>(i)));
+        ASSERT_TRUE(store->putDataPoint(makePoint("m", "e", base + i * 1000, static_cast<double>(i))).has_value());
     }
     TSStore::QueryOptions q;
     q.metric            = "m";
@@ -218,7 +218,7 @@ TEST_F(TSStoreFixture, LimitCapsReturnedPoints) {
 TEST_F(TSStoreFixture, AggregateBasicStats) {
     // Insert 5 points: 1, 2, 3, 4, 5
     for (int i = 1; i <= 5; ++i) {
-        store->putDataPoint(makePoint("agg_m", "h", base + i * 1000, static_cast<double>(i)));
+        ASSERT_TRUE(store->putDataPoint(makePoint("agg_m", "h", base + i * 1000, static_cast<double>(i))).has_value());
     }
     TSStore::QueryOptions q;
     q.metric            = "agg_m";
@@ -246,9 +246,9 @@ TEST_F(TSStoreFixture, AggregateEmptyReturnsZeroCount) {
 // ─── deleteOldData (global) ───────────────────────────────────────────────────
 
 TEST_F(TSStoreFixture, DeleteOldDataRemovesOnlyOldPoints) {
-    store->putDataPoint(makePoint("m", "e", base,         1.0));  // old
-    store->putDataPoint(makePoint("m", "e", base + 1000,  2.0));  // new
-    store->putDataPoint(makePoint("m", "e", base + 2000,  3.0));  // new
+    ASSERT_TRUE(store->putDataPoint(makePoint("m", "e", base,         1.0)).has_value());  // old
+    ASSERT_TRUE(store->putDataPoint(makePoint("m", "e", base + 1000,  2.0)).has_value());  // new
+    ASSERT_TRUE(store->putDataPoint(makePoint("m", "e", base + 2000,  3.0)).has_value());  // new
 
     size_t deleted = store->deleteOldData(base + 500);
     EXPECT_EQ(deleted, 1u);  // only the base point
@@ -265,8 +265,8 @@ TEST_F(TSStoreFixture, DeleteOldDataRemovesOnlyOldPoints) {
 // ─── deleteOldDataForMetric ───────────────────────────────────────────────────
 
 TEST_F(TSStoreFixture, DeleteOldDataForMetricOnlyTouchesNamedMetric) {
-    store->putDataPoint(makePoint("cpu",  "h", base, 1.0));  // old – should be deleted
-    store->putDataPoint(makePoint("disk", "h", base, 2.0));  // old – kept (different metric)
+    ASSERT_TRUE(store->putDataPoint(makePoint("cpu",  "h", base, 1.0)).has_value());  // old – should be deleted
+    ASSERT_TRUE(store->putDataPoint(makePoint("disk", "h", base, 2.0)).has_value());  // old – kept (different metric)
 
     size_t deleted = store->deleteOldDataForMetric("cpu", base + 1);
     EXPECT_EQ(deleted, 1u);
@@ -291,9 +291,9 @@ TEST_F(TSStoreFixture, DeleteOldDataForMetricOnlyTouchesNamedMetric) {
 // ─── deleteMetric ─────────────────────────────────────────────────────────────
 
 TEST_F(TSStoreFixture, DeleteMetricRemovesAllPointsForMetric) {
-    store->putDataPoint(makePoint("to_del", "h", base,         1.0));
-    store->putDataPoint(makePoint("to_del", "h", base + 1000,  2.0));
-    store->putDataPoint(makePoint("keep",   "h", base,         3.0));
+    ASSERT_TRUE(store->putDataPoint(makePoint("to_del", "h", base,         1.0)).has_value());
+    ASSERT_TRUE(store->putDataPoint(makePoint("to_del", "h", base + 1000,  2.0)).has_value());
+    ASSERT_TRUE(store->putDataPoint(makePoint("keep",   "h", base,         3.0)).has_value());
 
     auto r = store->deleteMetric("to_del");
     ASSERT_TRUE(r.has_value());
@@ -317,8 +317,8 @@ TEST_F(TSStoreFixture, DeleteMetricEmptyNameReturnsError) {
 // ─── clear ───────────────────────────────────────────────────────────────────
 
 TEST_F(TSStoreFixture, ClearDeletesAllData) {
-    store->putDataPoint(makePoint("a", "h", base,         1.0));
-    store->putDataPoint(makePoint("b", "h", base + 1000,  2.0));
+    ASSERT_TRUE(store->putDataPoint(makePoint("a", "h", base,         1.0)).has_value());
+    ASSERT_TRUE(store->putDataPoint(makePoint("b", "h", base + 1000,  2.0)).has_value());
     store->clear();
 
     auto stats = store->getStats();
@@ -329,7 +329,7 @@ TEST_F(TSStoreFixture, ClearDeletesAllData) {
 
 TEST_F(TSStoreFixture, GetStatsReflectsInsertedPoints) {
     for (int i = 0; i < 3; ++i) {
-        store->putDataPoint(makePoint("stat_m", "e", base + i * 1000, static_cast<double>(i)));
+        ASSERT_TRUE(store->putDataPoint(makePoint("stat_m", "e", base + i * 1000, static_cast<double>(i))).has_value());
     }
     auto stats = store->getStats();
     EXPECT_EQ(stats.total_data_points, 3u);

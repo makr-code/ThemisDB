@@ -28,25 +28,35 @@ std::string MigrationResult::summary() const {
     int warnings = 0;
     int infos    = 0;
 
-    for (const auto& issue : issues) {
+    for (const auto &issue : issues) {
         switch (issue.severity) {
-            case MigrationIssue::Severity::ERROR:   ++errors;   break;
-            case MigrationIssue::Severity::WARNING: ++warnings; break;
-            case MigrationIssue::Severity::INFO:    ++infos;    break;
+            case MigrationIssue::Severity::ERROR:
+                ++errors;
+                break;
+            case MigrationIssue::Severity::WARNING:
+                ++warnings;
+                break;
+            case MigrationIssue::Severity::INFO:
+                ++infos;
+                break;
         }
     }
 
     std::ostringstream oss;
-    bool first = true;
-    auto append = [&](int count, const char* singular, const char* plural) {
-        if (count <= 0) return;
-        if (!first) oss << ", ";
+    bool first  = true;
+    auto append = [&](int count, const char *singular, const char *plural) {
+        if (count <= 0) {
+            return;
+        }
+        if (!first) {
+            oss << ", ";
+        }
         oss << count << ' ' << (count == 1 ? singular : plural);
         first = false;
     };
-    append(errors,   "error",   "errors");
+    append(errors, "error", "errors");
     append(warnings, "warning", "warnings");
-    append(infos,    "info",    "infos");
+    append(infos, "info", "infos");
     return oss.str();
 }
 
@@ -54,11 +64,11 @@ std::string MigrationResult::summary() const {
 // Public API
 // ---------------------------------------------------------------------------
 
-MigrationResult AQLMigrationAssistant::migrate(const std::string& arango_aql) const {
+MigrationResult AQLMigrationAssistant::migrate(const std::string &arango_aql) const {
     MigrationResult result;
 
     if (arango_aql.empty()) {
-        result.migrated_query      = "";
+        result.migrated_query       = "";
         result.is_fully_automatable = true;
         return result;
     }
@@ -83,7 +93,7 @@ MigrationResult AQLMigrationAssistant::migrate(const std::string& arango_aql) co
 
     // is_fully_automatable is false when any ERROR issue is present
     result.is_fully_automatable = true;
-    for (const auto& issue : result.issues) {
+    for (const auto &issue : result.issues) {
         if (issue.severity == MigrationIssue::Severity::ERROR) {
             result.is_fully_automatable = false;
             break;
@@ -97,22 +107,20 @@ MigrationResult AQLMigrationAssistant::migrate(const std::string& arango_aql) co
 // Private helpers — static utilities
 // ---------------------------------------------------------------------------
 
-std::string AQLMigrationAssistant::extractArgs(
-    const std::string& src,
-    std::size_t open_paren
-) {
+std::string AQLMigrationAssistant::extractArgs(const std::string &src, std::size_t open_paren) {
     if (open_paren >= src.size() || src[open_paren] != '(') {
         return {};
     }
 
-    int depth = 0;
+    int depth         = 0;
     std::size_t start = open_paren + 1;
     std::size_t i     = open_paren;
 
     for (; i < src.size(); ++i) {
         char c = src[i];
-        if (c == '(')      ++depth;
-        else if (c == ')') {
+        if (c == '(') {
+            ++depth;
+        } else if (c == ')') {
             --depth;
             if (depth == 0) {
                 return src.substr(start, i - start);
@@ -129,16 +137,18 @@ std::string AQLMigrationAssistant::extractArgs(
 namespace {
 
 /// Split a raw argument string on top-level commas (not inside nested parens).
-std::vector<std::string> splitArgs(const std::string& args_str) {
+std::vector<std::string> splitArgs(const std::string &args_str) {
     std::vector<std::string> result;
-    int depth = 0;
+    int depth         = 0;
     std::size_t start = 0;
 
     for (std::size_t i = 0; i < args_str.size(); ++i) {
         char c = args_str[i];
-        if (c == '(')      ++depth;
-        else if (c == ')') --depth;
-        else if (c == ',' && depth == 0) {
+        if (c == '(') {
+            ++depth;
+        } else if (c == ')') {
+            --depth;
+        } else if (c == ',' && depth == 0) {
             std::string part = args_str.substr(start, i - start);
             // trim whitespace
             std::size_t b = part.find_first_not_of(" \t\r\n");
@@ -149,33 +159,33 @@ std::vector<std::string> splitArgs(const std::string& args_str) {
     }
     // last segment
     std::string part = args_str.substr(start);
-    std::size_t b = part.find_first_not_of(" \t\r\n");
-    std::size_t e = part.find_last_not_of(" \t\r\n");
+    std::size_t b    = part.find_first_not_of(" \t\r\n");
+    std::size_t e    = part.find_last_not_of(" \t\r\n");
     result.push_back(b == std::string::npos ? "" : part.substr(b, e - b + 1));
 
     return result;
 }
 
 /// Case-insensitive find of needle in haystack; returns position or npos.
-std::size_t findCI(const std::string& haystack, const std::string& needle,
-                   std::size_t pos = 0) {
-    if (needle.empty()) return pos;
-    auto it = std::search(
-        haystack.begin() + static_cast<std::string::difference_type>(pos),
-        haystack.end(),
-        needle.begin(), needle.end(),
-        [](unsigned char a, unsigned char b) {
-            return std::tolower(a) == std::tolower(b);
-        }
-    );
-    if (it == haystack.end()) return std::string::npos;
+std::size_t findCI(const std::string &haystack, const std::string &needle, std::size_t pos = 0) {
+    if (needle.empty()) {
+        return pos;
+    }
+    auto it = std::search(haystack.begin() + static_cast<std::string::difference_type>(pos), haystack.end(),
+                          needle.begin(), needle.end(),
+                          [](unsigned char a, unsigned char b) { return std::tolower(a) == std::tolower(b); });
+    if (it == haystack.end()) {
+        return std::string::npos;
+    }
     return static_cast<std::size_t>(it - haystack.begin());
 }
 
 /// Return true when the character at position @p pos (if valid) is NOT an
 /// identifier character, making it a word boundary.
-bool isWordBoundary(const std::string& s, std::size_t pos) {
-    if (pos >= s.size()) return true;
+bool isWordBoundary(const std::string &s, std::size_t pos) {
+    if (pos >= s.size()) {
+        return true;
+    }
     unsigned char c = static_cast<unsigned char>(s[pos]);
     return !(std::isalnum(c) || c == '_');
 }
@@ -195,17 +205,14 @@ bool isWordBoundary(const std::string& s, std::size_t pos) {
  * @param paren_pos  [out] Position of the '(' when found.
  * @return true when a valid function call was found; false when none remain.
  */
-bool findNextFunctionCall(
-    const std::string& query,
-    const std::string& keyword,
-    std::size_t        start_pos,
-    std::size_t&       kw_pos,
-    std::size_t&       paren_pos
-) {
+bool findNextFunctionCall(const std::string &query, const std::string &keyword, std::size_t start_pos,
+                          std::size_t &kw_pos, std::size_t &paren_pos) {
     std::size_t search_from = start_pos;
     while (true) {
         std::size_t pos = findCI(query, keyword, search_from);
-        if (pos == std::string::npos) return false;
+        if (pos == std::string::npos) {
+            return false;
+        }
 
         // Word boundary check before keyword
         if (pos > 0 && !isWordBoundary(query, pos - 1)) {
@@ -215,8 +222,9 @@ bool findNextFunctionCall(
 
         // Must be followed by optional whitespace then '('
         std::size_t check = pos + keyword.size();
-        while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check])))
+        while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
             ++check;
+        }
         if (check >= query.size() || query[check] != '(') {
             search_from = pos + keyword.size();
             continue;
@@ -234,10 +242,8 @@ bool findNextFunctionCall(
 // Rewrite: @@collection → @collection
 // ---------------------------------------------------------------------------
 
-std::string AQLMigrationAssistant::rewriteDoubleAtBind(
-    const std::string& query,
-    std::vector<MigrationIssue>& issues
-) const {
+std::string AQLMigrationAssistant::rewriteDoubleAtBind(const std::string &query,
+                                                       std::vector<MigrationIssue> &issues) const {
     if (query.find("@@") == std::string::npos) {
         return query;
     }
@@ -258,12 +264,9 @@ std::string AQLMigrationAssistant::rewriteDoubleAtBind(
     }
 
     if (rewritten) {
-        issues.push_back({
-            MigrationIssue::Severity::INFO,
-            "@@collection bind parameters rewritten to @collection",
-            "ThemisDB uses a single '@' prefix for all bind parameters. "
-            "Verify that the collection name is supplied correctly at query time."
-        });
+        issues.push_back({MigrationIssue::Severity::INFO, "@@collection bind parameters rewritten to @collection",
+                          "ThemisDB uses a single '@' prefix for all bind parameters. "
+                          "Verify that the collection name is supplied correctly at query time."});
     }
 
     return result;
@@ -286,15 +289,12 @@ std::string AQLMigrationAssistant::rewriteDoubleAtBind(
 // All occurrences are rewritten in a single pass.
 // ---------------------------------------------------------------------------
 
-std::string AQLMigrationAssistant::rewriteNear(
-    const std::string& query,
-    std::vector<MigrationIssue>& issues
-) const {
+std::string AQLMigrationAssistant::rewriteNear(const std::string &query, std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "NEAR";
     std::string result;
     result.reserve(query.size() + 128);
-    std::size_t cursor     = 0;
-    bool        any_rewrite = false;
+    std::size_t cursor = 0;
+    bool any_rewrite   = false;
 
     std::size_t kw_pos = 0, paren_pos = 0;
     while (findNextFunctionCall(query, keyword, cursor, kw_pos, paren_pos)) {
@@ -307,58 +307,54 @@ std::string AQLMigrationAssistant::rewriteNear(
 
         auto args = splitArgs(args_str);
         if (args.size() < 4) {
-            issues.push_back({
-                MigrationIssue::Severity::WARNING,
-                "NEAR() detected but argument count is unexpected; manual migration required",
-                "Replace NEAR(collection, lat, lng, n) with: "
-                "FOR _doc IN <collection> "
-                "SORT ST_DISTANCE(_doc.location, [lng, lat]) ASC "
-                "LIMIT <n> RETURN _doc"
-            });
+            issues.push_back({MigrationIssue::Severity::WARNING,
+                              "NEAR() detected but argument count is unexpected; manual migration required",
+                              "Replace NEAR(collection, lat, lng, n) with: "
+                              "FOR _doc IN <collection> "
+                              "SORT ST_DISTANCE(_doc.location, [lng, lat]) ASC "
+                              "LIMIT <n> RETURN _doc"});
             cursor = paren_pos + 1;
             continue;
         }
 
-        const std::string& collection = args[0];
-        const std::string& lat        = args[1];
-        const std::string& lng        = args[2];
-        const std::string& limit_n    = args[3];
+        const std::string &collection = args[0];
+        const std::string &lat        = args[1];
+        const std::string &lng        = args[2];
+        const std::string &limit_n    = args[3];
 
-        std::string replacement =
-            "(FOR _near_doc IN " + collection +
-            " SORT ST_DISTANCE(_near_doc.location, [" + lng + ", " + lat + "]) ASC" +
-            " LIMIT " + limit_n +
-            " RETURN _near_doc)";
+        std::string replacement = "(FOR _near_doc IN " + collection + " SORT ST_DISTANCE(_near_doc.location, [" + lng
+                                  + ", " + lat + "]) ASC" + " LIMIT " + limit_n + " RETURN _near_doc)";
 
         // Advance end past the closing paren of NEAR(...)
         std::size_t end = paren_pos;
         {
             int depth = 0;
             for (; end < query.size(); ++end) {
-                if (query[end] == '(') ++depth;
-                else if (query[end] == ')') {
+                if (query[end] == '(') {
+                    ++depth;
+                } else if (query[end] == ')') {
                     --depth;
-                    if (depth == 0) { ++end; break; }
+                    if (depth == 0) {
+                        ++end;
+                        break;
+                    }
                 }
             }
         }
 
         result += query.substr(cursor, kw_pos - cursor);
         result += replacement;
-        cursor    = end;
+        cursor      = end;
         any_rewrite = true;
     }
 
     result += query.substr(cursor);
 
     if (any_rewrite) {
-        issues.push_back({
-            MigrationIssue::Severity::WARNING,
-            "NEAR() rewritten to ST_DISTANCE()-based sub-query",
-            "ArangoDB's NEAR() is a shorthand geo function. "
-            "The migration assumes the document has a 'location' field of GeoJSON type. "
-            "Adjust the field name and geo expression as needed."
-        });
+        issues.push_back({MigrationIssue::Severity::WARNING, "NEAR() rewritten to ST_DISTANCE()-based sub-query",
+                          "ArangoDB's NEAR() is a shorthand geo function. "
+                          "The migration assumes the document has a 'location' field of GeoJSON type. "
+                          "Adjust the field name and geo expression as needed."});
     }
 
     return result;
@@ -372,15 +368,12 @@ std::string AQLMigrationAssistant::rewriteNear(
 // All occurrences are rewritten in a single pass.
 // ---------------------------------------------------------------------------
 
-std::string AQLMigrationAssistant::rewriteWithin(
-    const std::string& query,
-    std::vector<MigrationIssue>& issues
-) const {
+std::string AQLMigrationAssistant::rewriteWithin(const std::string &query, std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "WITHIN";
     std::string result;
     result.reserve(query.size() + 128);
-    std::size_t cursor      = 0;
-    bool        any_rewrite = false;
+    std::size_t cursor = 0;
+    bool any_rewrite   = false;
 
     std::size_t kw_pos = 0, paren_pos = 0;
     while (findNextFunctionCall(query, keyword, cursor, kw_pos, paren_pos)) {
@@ -392,36 +385,36 @@ std::string AQLMigrationAssistant::rewriteWithin(
 
         auto args = splitArgs(args_str);
         if (args.size() < 4) {
-            issues.push_back({
-                MigrationIssue::Severity::WARNING,
-                "WITHIN() detected but argument count is unexpected; manual migration required",
-                "Replace WITHIN(collection, lat, lng, radius) with: "
-                "FOR _doc IN <collection> "
-                "FILTER ST_DISTANCE(_doc.location, [lng, lat]) <= <radius> "
-                "RETURN _doc"
-            });
+            issues.push_back({MigrationIssue::Severity::WARNING,
+                              "WITHIN() detected but argument count is unexpected; manual migration required",
+                              "Replace WITHIN(collection, lat, lng, radius) with: "
+                              "FOR _doc IN <collection> "
+                              "FILTER ST_DISTANCE(_doc.location, [lng, lat]) <= <radius> "
+                              "RETURN _doc"});
             cursor = paren_pos + 1;
             continue;
         }
 
-        const std::string& collection = args[0];
-        const std::string& lat        = args[1];
-        const std::string& lng        = args[2];
-        const std::string& radius     = args[3];
+        const std::string &collection = args[0];
+        const std::string &lat        = args[1];
+        const std::string &lng        = args[2];
+        const std::string &radius     = args[3];
 
-        std::string replacement =
-            "(FOR _within_doc IN " + collection +
-            " FILTER ST_DISTANCE(_within_doc.location, [" + lng + ", " + lat + "]) <= " + radius +
-            " RETURN _within_doc)";
+        std::string replacement = "(FOR _within_doc IN " + collection + " FILTER ST_DISTANCE(_within_doc.location, ["
+                                  + lng + ", " + lat + "]) <= " + radius + " RETURN _within_doc)";
 
         std::size_t end = paren_pos;
         {
             int depth = 0;
             for (; end < query.size(); ++end) {
-                if (query[end] == '(') ++depth;
-                else if (query[end] == ')') {
+                if (query[end] == '(') {
+                    ++depth;
+                } else if (query[end] == ')') {
                     --depth;
-                    if (depth == 0) { ++end; break; }
+                    if (depth == 0) {
+                        ++end;
+                        break;
+                    }
                 }
             }
         }
@@ -435,13 +428,10 @@ std::string AQLMigrationAssistant::rewriteWithin(
     result += query.substr(cursor);
 
     if (any_rewrite) {
-        issues.push_back({
-            MigrationIssue::Severity::WARNING,
-            "WITHIN() rewritten to ST_DISTANCE()-based FILTER",
-            "ArangoDB's WITHIN() is a shorthand geo function. "
-            "The migration assumes the document has a 'location' field of GeoJSON type. "
-            "Adjust the field name and geo expression as needed."
-        });
+        issues.push_back({MigrationIssue::Severity::WARNING, "WITHIN() rewritten to ST_DISTANCE()-based FILTER",
+                          "ArangoDB's WITHIN() is a shorthand geo function. "
+                          "The migration assumes the document has a 'location' field of GeoJSON type. "
+                          "Adjust the field name and geo expression as needed."});
     }
 
     return result;
@@ -455,15 +445,13 @@ std::string AQLMigrationAssistant::rewriteWithin(
 // All occurrences are rewritten in a single pass.
 // ---------------------------------------------------------------------------
 
-std::string AQLMigrationAssistant::rewriteFulltext(
-    const std::string& query,
-    std::vector<MigrationIssue>& issues
-) const {
+std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
+                                                   std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "FULLTEXT";
     std::string result;
     result.reserve(query.size() + 128);
-    std::size_t cursor      = 0;
-    bool        any_rewrite = false;
+    std::size_t cursor = 0;
+    bool any_rewrite   = false;
 
     std::size_t kw_pos = 0, paren_pos = 0;
     while (findNextFunctionCall(query, keyword, cursor, kw_pos, paren_pos)) {
@@ -475,43 +463,42 @@ std::string AQLMigrationAssistant::rewriteFulltext(
 
         auto args = splitArgs(args_str);
         if (args.size() < 3) {
-            issues.push_back({
-                MigrationIssue::Severity::WARNING,
-                "FULLTEXT() detected but argument count is unexpected; manual migration required",
-                "Replace FULLTEXT(collection, attribute, searchQuery) with: "
-                "FOR _doc IN <collection> "
-                "FILTER SIMILARITY(_doc.<attribute>, <searchQuery>, 1) "
-                "RETURN _doc"
-            });
+            issues.push_back({MigrationIssue::Severity::WARNING,
+                              "FULLTEXT() detected but argument count is unexpected; manual migration required",
+                              "Replace FULLTEXT(collection, attribute, searchQuery) with: "
+                              "FOR _doc IN <collection> "
+                              "FILTER SIMILARITY(_doc.<attribute>, <searchQuery>, 1) "
+                              "RETURN _doc"});
             cursor = paren_pos + 1;
             continue;
         }
 
-        const std::string& collection   = args[0];
-        const std::string& attr_quoted  = args[1];
-        const std::string& search_query = args[2];
+        const std::string &collection   = args[0];
+        const std::string &attr_quoted  = args[1];
+        const std::string &search_query = args[2];
 
         // Strip quotes from attribute if present
         std::string attr = attr_quoted;
-        if (attr.size() >= 2 &&
-            ((attr.front() == '"' && attr.back() == '"') ||
-             (attr.front() == '\'' && attr.back() == '\''))) {
+        if (attr.size() >= 2
+            && ((attr.front() == '"' && attr.back() == '"') || (attr.front() == '\'' && attr.back() == '\''))) {
             attr = attr.substr(1, attr.size() - 2);
         }
 
-        std::string replacement =
-            "(FOR _ft_doc IN " + collection +
-            " FILTER SIMILARITY(_ft_doc." + attr + ", " + search_query + ", 1)" +
-            " RETURN _ft_doc)";
+        std::string replacement = "(FOR _ft_doc IN " + collection + " FILTER SIMILARITY(_ft_doc." + attr + ", "
+                                  + search_query + ", 1)" + " RETURN _ft_doc)";
 
         std::size_t end = paren_pos;
         {
             int depth = 0;
             for (; end < query.size(); ++end) {
-                if (query[end] == '(') ++depth;
-                else if (query[end] == ')') {
+                if (query[end] == '(') {
+                    ++depth;
+                } else if (query[end] == ')') {
                     --depth;
-                    if (depth == 0) { ++end; break; }
+                    if (depth == 0) {
+                        ++end;
+                        break;
+                    }
                 }
             }
         }
@@ -525,13 +512,10 @@ std::string AQLMigrationAssistant::rewriteFulltext(
     result += query.substr(cursor);
 
     if (any_rewrite) {
-        issues.push_back({
-            MigrationIssue::Severity::WARNING,
-            "FULLTEXT() rewritten to SIMILARITY()-based FILTER",
-            "ArangoDB's FULLTEXT() uses an inverted index. "
-            "ThemisDB uses SIMILARITY() for full-text search. "
-            "Ensure a FULLTEXT or SIMILARITY index exists on the target attribute."
-        });
+        issues.push_back({MigrationIssue::Severity::WARNING, "FULLTEXT() rewritten to SIMILARITY()-based FILTER",
+                          "ArangoDB's FULLTEXT() uses an inverted index. "
+                          "ThemisDB uses SIMILARITY() for full-text search. "
+                          "Ensure a FULLTEXT or SIMILARITY index exists on the target attribute."});
     }
 
     return result;
@@ -543,15 +527,13 @@ std::string AQLMigrationAssistant::rewriteFulltext(
 // All two-argument occurrences are rewritten in a single pass.
 // ---------------------------------------------------------------------------
 
-std::string AQLMigrationAssistant::rewriteDocument(
-    const std::string& query,
-    std::vector<MigrationIssue>& issues
-) const {
+std::string AQLMigrationAssistant::rewriteDocument(const std::string &query,
+                                                   std::vector<MigrationIssue> &issues) const {
     const std::string keyword = "DOCUMENT";
     std::string result;
     result.reserve(query.size() + 128);
-    std::size_t cursor      = 0;
-    bool        any_rewrite = false;
+    std::size_t cursor = 0;
+    bool any_rewrite   = false;
 
     std::size_t kw_pos = 0, paren_pos = 0;
     while (findNextFunctionCall(query, keyword, cursor, kw_pos, paren_pos)) {
@@ -565,34 +547,34 @@ std::string AQLMigrationAssistant::rewriteDocument(
 
         if (args.size() == 1) {
             // Single-arg form: cannot automatically rewrite
-            issues.push_back({
-                MigrationIssue::Severity::WARNING,
-                "DOCUMENT(id) single-argument form is not directly supported in ThemisDB",
-                "Split the document handle into collection and key, then use: "
-                "FOR _doc IN <collection> FILTER _doc._key == <key> LIMIT 1 RETURN _doc"
-            });
+            issues.push_back({MigrationIssue::Severity::WARNING,
+                              "DOCUMENT(id) single-argument form is not directly supported in ThemisDB",
+                              "Split the document handle into collection and key, then use: "
+                              "FOR _doc IN <collection> FILTER _doc._key == <key> LIMIT 1 RETURN _doc"});
             // Don't rewrite; advance past this call so subsequent ones are still found
             cursor = paren_pos + 1;
             continue;
         }
 
         if (args.size() >= 2) {
-            const std::string& collection = args[0];
-            const std::string& key        = args[1];
+            const std::string &collection = args[0];
+            const std::string &key        = args[1];
 
-            std::string replacement =
-                "(FOR _doc IN " + collection +
-                " FILTER _doc._key == " + key +
-                " LIMIT 1 RETURN _doc)";
+            std::string replacement
+                = "(FOR _doc IN " + collection + " FILTER _doc._key == " + key + " LIMIT 1 RETURN _doc)";
 
             std::size_t end = paren_pos;
             {
                 int depth = 0;
                 for (; end < query.size(); ++end) {
-                    if (query[end] == '(') ++depth;
-                    else if (query[end] == ')') {
+                    if (query[end] == '(') {
+                        ++depth;
+                    } else if (query[end] == ')') {
                         --depth;
-                        if (depth == 0) { ++end; break; }
+                        if (depth == 0) {
+                            ++end;
+                            break;
+                        }
                     }
                 }
             }
@@ -610,13 +592,11 @@ std::string AQLMigrationAssistant::rewriteDocument(
     result += query.substr(cursor);
 
     if (any_rewrite) {
-        issues.push_back({
-            MigrationIssue::Severity::WARNING,
-            "DOCUMENT(collection, key) rewritten to inline FOR/FILTER/LIMIT sub-query",
-            "ThemisDB does not have a DOCUMENT() shorthand. "
-            "The generated sub-query returns the first document matching the _key. "
-            "If used in a scalar context, wrap with FIRST() if needed."
-        });
+        issues.push_back({MigrationIssue::Severity::WARNING,
+                          "DOCUMENT(collection, key) rewritten to inline FOR/FILTER/LIMIT sub-query",
+                          "ThemisDB does not have a DOCUMENT() shorthand. "
+                          "The generated sub-query returns the first document matching the _key. "
+                          "If used in a scalar context, wrap with FIRST() if needed."});
     }
 
     return result;
@@ -626,60 +606,62 @@ std::string AQLMigrationAssistant::rewriteDocument(
 // Detection: V8()
 // ---------------------------------------------------------------------------
 
-void AQLMigrationAssistant::detectV8(
-    const std::string& query,
-    std::vector<MigrationIssue>& issues
-) const {
+void AQLMigrationAssistant::detectV8(const std::string &query, std::vector<MigrationIssue> &issues) const {
     std::size_t pos = findCI(query, "V8");
-    if (pos == std::string::npos) return;
+    if (pos == std::string::npos) {
+        return;
+    }
 
     // Require V8(
     std::size_t check = pos + 2;
-    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check])))
+    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
-    if (check >= query.size() || query[check] != '(') return;
+    }
+    if (check >= query.size() || query[check] != '(') {
+        return;
+    }
 
     // Require word boundary before V8
-    if (pos > 0 && !isWordBoundary(query, pos - 1)) return;
+    if (pos > 0 && !isWordBoundary(query, pos - 1)) {
+        return;
+    }
 
-    issues.push_back({
-        MigrationIssue::Severity::ERROR,
-        "V8() is not supported in ThemisDB AQL",
-        "V8() embeds JavaScript expressions and is specific to ArangoDB. "
-        "Rewrite the expression using native ThemisDB AQL functions or LLM extensions."
-    });
+    issues.push_back({MigrationIssue::Severity::ERROR, "V8() is not supported in ThemisDB AQL",
+                      "V8() embeds JavaScript expressions and is specific to ArangoDB. "
+                      "Rewrite the expression using native ThemisDB AQL functions or LLM extensions."});
 }
 
 // ---------------------------------------------------------------------------
 // Detection: IS_STRING / IS_NUMBER / IS_BOOL / IS_NULL / IS_LIST / IS_DOCUMENT
 // ---------------------------------------------------------------------------
 
-void AQLMigrationAssistant::detectTypeCheckFunctions(
-    const std::string& query,
-    std::vector<MigrationIssue>& issues
-) const {
-    static const std::vector<std::string> funcs = {
-        "IS_STRING", "IS_NUMBER", "IS_BOOL", "IS_NULL",
-        "IS_LIST", "IS_DOCUMENT", "IS_ARRAY", "IS_OBJECT"
-    };
+void AQLMigrationAssistant::detectTypeCheckFunctions(const std::string &query,
+                                                     std::vector<MigrationIssue> &issues) const {
+    static const std::vector<std::string> funcs
+        = {"IS_STRING", "IS_NUMBER", "IS_BOOL", "IS_NULL", "IS_LIST", "IS_DOCUMENT", "IS_ARRAY", "IS_OBJECT"};
 
-    for (const auto& fn : funcs) {
+    for (const auto &fn : funcs) {
         std::size_t pos = findCI(query, fn);
-        if (pos == std::string::npos) continue;
+        if (pos == std::string::npos) {
+            continue;
+        }
 
         std::size_t check = pos + fn.size();
-        while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check])))
+        while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
             ++check;
-        if (check >= query.size() || query[check] != '(') continue;
+        }
+        if (check >= query.size() || query[check] != '(') {
+            continue;
+        }
 
-        if (pos > 0 && !isWordBoundary(query, pos - 1)) continue;
+        if (pos > 0 && !isWordBoundary(query, pos - 1)) {
+            continue;
+        }
 
-        issues.push_back({
-            MigrationIssue::Severity::INFO,
-            fn + "() is an ArangoDB-specific type-check function",
-            "ThemisDB uses TYPENAME(expr) for runtime type introspection. "
-            "Replace " + fn + "(x) with TYPENAME(x) == '<type>' as appropriate."
-        });
+        issues.push_back({MigrationIssue::Severity::INFO, fn + "() is an ArangoDB-specific type-check function",
+                          "ThemisDB uses TYPENAME(expr) for runtime type introspection. "
+                          "Replace "
+                              + fn + "(x) with TYPENAME(x) == '<type>' as appropriate."});
     }
 }
 
@@ -687,82 +669,86 @@ void AQLMigrationAssistant::detectTypeCheckFunctions(
 // Detection: HASH()
 // ---------------------------------------------------------------------------
 
-void AQLMigrationAssistant::detectHashFunction(
-    const std::string& query,
-    std::vector<MigrationIssue>& issues
-) const {
+void AQLMigrationAssistant::detectHashFunction(const std::string &query, std::vector<MigrationIssue> &issues) const {
     const std::string fn = "HASH";
-    std::size_t pos = findCI(query, fn);
-    if (pos == std::string::npos) return;
+    std::size_t pos      = findCI(query, fn);
+    if (pos == std::string::npos) {
+        return;
+    }
 
     std::size_t check = pos + fn.size();
-    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check])))
+    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
-    if (check >= query.size() || query[check] != '(') return;
+    }
+    if (check >= query.size() || query[check] != '(') {
+        return;
+    }
 
-    if (pos > 0 && !isWordBoundary(query, pos - 1)) return;
+    if (pos > 0 && !isWordBoundary(query, pos - 1)) {
+        return;
+    }
 
-    issues.push_back({
-        MigrationIssue::Severity::INFO,
-        "HASH() is not available in ThemisDB AQL",
-        "Use SHA256(expr) for cryptographic hashing, or MD5(expr) if MD5 is sufficient. "
-        "Note that HASH() in ArangoDB returns a numeric CityHash, not a hex string."
-    });
+    issues.push_back({MigrationIssue::Severity::INFO, "HASH() is not available in ThemisDB AQL",
+                      "Use SHA256(expr) for cryptographic hashing, or MD5(expr) if MD5 is sufficient. "
+                      "Note that HASH() in ArangoDB returns a numeric CityHash, not a hex string."});
 }
 
 // ---------------------------------------------------------------------------
 // Detection: ATTRIBUTES()
 // ---------------------------------------------------------------------------
 
-void AQLMigrationAssistant::detectAttributesFunction(
-    const std::string& query,
-    std::vector<MigrationIssue>& issues
-) const {
+void AQLMigrationAssistant::detectAttributesFunction(const std::string &query,
+                                                     std::vector<MigrationIssue> &issues) const {
     const std::string fn = "ATTRIBUTES";
-    std::size_t pos = findCI(query, fn);
-    if (pos == std::string::npos) return;
+    std::size_t pos      = findCI(query, fn);
+    if (pos == std::string::npos) {
+        return;
+    }
 
     std::size_t check = pos + fn.size();
-    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check])))
+    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
-    if (check >= query.size() || query[check] != '(') return;
+    }
+    if (check >= query.size() || query[check] != '(') {
+        return;
+    }
 
-    if (pos > 0 && !isWordBoundary(query, pos - 1)) return;
+    if (pos > 0 && !isWordBoundary(query, pos - 1)) {
+        return;
+    }
 
-    issues.push_back({
-        MigrationIssue::Severity::INFO,
-        "ATTRIBUTES() is not available in ThemisDB AQL",
-        "Use KEYS(doc) to retrieve the attribute names of a document object."
-    });
+    issues.push_back({MigrationIssue::Severity::INFO, "ATTRIBUTES() is not available in ThemisDB AQL",
+                      "Use KEYS(doc) to retrieve the attribute names of a document object."});
 }
 
 // ---------------------------------------------------------------------------
 // Detection: TRANSLATE()
 // ---------------------------------------------------------------------------
 
-void AQLMigrationAssistant::detectTranslateFunction(
-    const std::string& query,
-    std::vector<MigrationIssue>& issues
-) const {
+void AQLMigrationAssistant::detectTranslateFunction(const std::string &query,
+                                                    std::vector<MigrationIssue> &issues) const {
     const std::string fn = "TRANSLATE";
-    std::size_t pos = findCI(query, fn);
-    if (pos == std::string::npos) return;
+    std::size_t pos      = findCI(query, fn);
+    if (pos == std::string::npos) {
+        return;
+    }
 
     std::size_t check = pos + fn.size();
-    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check])))
+    while (check < query.size() && std::isspace(static_cast<unsigned char>(query[check]))) {
         ++check;
-    if (check >= query.size() || query[check] != '(') return;
+    }
+    if (check >= query.size() || query[check] != '(') {
+        return;
+    }
 
-    if (pos > 0 && !isWordBoundary(query, pos - 1)) return;
+    if (pos > 0 && !isWordBoundary(query, pos - 1)) {
+        return;
+    }
 
-    issues.push_back({
-        MigrationIssue::Severity::INFO,
-        "TRANSLATE() is not available in ThemisDB AQL",
-        "TRANSLATE(value, lookup) maps a value to another via a lookup object. "
-        "Replace with a FOR/FILTER lookup query on a mapping collection."
-    });
+    issues.push_back({MigrationIssue::Severity::INFO, "TRANSLATE() is not available in ThemisDB AQL",
+                      "TRANSLATE(value, lookup) maps a value to another via a lookup object. "
+                      "Replace with a FOR/FILTER lookup query on a mapping collection."});
 }
 
 } // namespace aql
 } // namespace themis
-

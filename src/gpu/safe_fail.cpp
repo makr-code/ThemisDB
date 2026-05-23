@@ -21,29 +21,28 @@ namespace gpu {
 // Construction
 // ============================================================================
 
-GPUSafeFail::GPUSafeFail(const Config& cfg) : cfg_(cfg) {}
+GPUSafeFail::GPUSafeFail(const Config &cfg) : cfg_(cfg) {}
 
-void GPUSafeFail::reset(const Config& cfg) {
+void GPUSafeFail::reset(const Config &cfg) {
     std::lock_guard<std::mutex> lock(mutex_);
-    cfg_                  = cfg;
-    state_                = State::HEALTHY;
-    consecutive_failures_ = 0;
+    cfg_                   = cfg;
+    state_                 = State::HEALTHY;
+    consecutive_failures_  = 0;
     consecutive_successes_ = 0;
-    total_failures_       = 0;
-    total_operations_     = 0;
-    total_fallbacks_      = 0;
-    cpu_fallback_active_  = false;
+    total_failures_        = 0;
+    total_operations_      = 0;
+    total_fallbacks_       = 0;
+    cpu_fallback_active_   = false;
     last_error_.clear();
-    last_failure_type_    = FailureType::DEVICE_ERROR;
+    last_failure_type_ = FailureType::DEVICE_ERROR;
 }
 
 // ============================================================================
 // executeWithFallback
 // ============================================================================
 
-bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op,
-                                       std::function<bool()> cpu_fallback,
-                                       [[maybe_unused]] const std::string& op_name) {
+bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op, std::function<bool()> cpu_fallback,
+                                      [[maybe_unused]] const std::string &op_name) {
     // op_name is reserved for future structured-logging / audit integration.
     // Determine whether we should attempt the GPU at all (lock briefly).
     bool attempt_gpu = false;
@@ -102,7 +101,7 @@ bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op,
 // Manual record methods
 // ============================================================================
 
-void GPUSafeFail::recordFailure(FailureType type, const std::string& msg) {
+void GPUSafeFail::recordFailure(FailureType type, const std::string &msg) {
     std::lock_guard<std::mutex> lock(mutex_);
     last_failure_type_ = type;
     last_error_        = msg;
@@ -127,19 +126,23 @@ bool GPUSafeFail::shouldAttemptGPU() const {
 
 bool GPUSafeFail::canResetCircuit() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (state_ != State::CIRCUIT_OPEN) return false;
+    if (state_ != State::CIRCUIT_OPEN) {
+        return false;
+    }
     const auto elapsed = std::chrono::steady_clock::now() - circuit_opened_at_;
     return elapsed >= cfg_.circuit_reset_timeout;
 }
 
 void GPUSafeFail::tryResetCircuit() {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (state_ != State::CIRCUIT_OPEN) return;
+    if (state_ != State::CIRCUIT_OPEN) {
+        return;
+    }
     const auto elapsed = std::chrono::steady_clock::now() - circuit_opened_at_;
     if (elapsed >= cfg_.circuit_reset_timeout) {
         // Transition to DEGRADED (half-open): one probe attempt allowed.
-        state_                = State::DEGRADED;
-        consecutive_failures_ = 0;
+        state_                 = State::DEGRADED;
+        consecutive_failures_  = 0;
         consecutive_successes_ = 0;
     }
 }
@@ -153,10 +156,10 @@ void GPUSafeFail::forceHealthy() {
     last_error_.clear();
 }
 
-void GPUSafeFail::forceFailed(const std::string& reason) {
+void GPUSafeFail::forceFailed(const std::string &reason) {
     std::lock_guard<std::mutex> lock(mutex_);
-    state_              = State::FAILED;
-    last_error_         = reason;
+    state_               = State::FAILED;
+    last_error_          = reason;
     cpu_fallback_active_ = false;
 }
 
@@ -172,38 +175,38 @@ bool GPUSafeFail::isHealthy() const {
 GPUSafeFail::HealthStatus GPUSafeFail::getStatus() const {
     std::lock_guard<std::mutex> lock(mutex_);
     HealthStatus s;
-    s.state                = state_;
-    s.consecutive_failures = consecutive_failures_;
+    s.state                 = state_;
+    s.consecutive_failures  = consecutive_failures_;
     s.consecutive_successes = consecutive_successes_;
-    s.total_failures       = total_failures_;
-    s.total_operations     = total_operations_;
-    s.total_fallbacks      = total_fallbacks_;
-    s.last_error           = last_error_;
-    s.last_failure_type    = last_failure_type_;
-    s.cpu_fallback_active  = cpu_fallback_active_;
-    s.error_rate = (total_operations_ > 0)
-                       ? (static_cast<float>(total_failures_) /
-                          static_cast<float>(total_operations_))
-                       : 0.0f;
+    s.total_failures        = total_failures_;
+    s.total_operations      = total_operations_;
+    s.total_fallbacks       = total_fallbacks_;
+    s.last_error            = last_error_;
+    s.last_failure_type     = last_failure_type_;
+    s.cpu_fallback_active   = cpu_fallback_active_;
+    s.error_rate            = (total_operations_ > 0)
+                                  ? (static_cast<float>(total_failures_) / static_cast<float>(total_operations_))
+                                  : 0.0f;
     return s;
 }
 
 float GPUSafeFail::getErrorRate() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (total_operations_ == 0) return 0.0f;
-    return static_cast<float>(total_failures_) /
-           static_cast<float>(total_operations_);
+    if (total_operations_ == 0) {
+        return 0.0f;
+    }
+    return static_cast<float>(total_failures_) / static_cast<float>(total_operations_);
 }
 
-bool GPUSafeFail::checkMemoryAvailable(uint64_t required_bytes,
-                                        uint64_t available_bytes,
-                                        uint64_t total_bytes) const {
-    if (available_bytes < required_bytes) return false;
+bool GPUSafeFail::checkMemoryAvailable(uint64_t required_bytes, uint64_t available_bytes, uint64_t total_bytes) const {
+    if (available_bytes < required_bytes) {
+        return false;
+    }
     if (total_bytes > 0) {
-        const float used_frac =
-            static_cast<float>(total_bytes - available_bytes) /
-            static_cast<float>(total_bytes);
-        if (used_frac >= cfg_.oom_threshold) return false;
+        const float used_frac = static_cast<float>(total_bytes - available_bytes) / static_cast<float>(total_bytes);
+        if (used_frac >= cfg_.oom_threshold) {
+            return false;
+        }
     }
     return true;
 }
@@ -230,8 +233,7 @@ void GPUSafeFail::applySuccess() {
     ++consecutive_successes_;
     consecutive_failures_ = 0;
 
-    if (state_ == State::DEGRADED &&
-        consecutive_successes_ >= cfg_.success_threshold) {
+    if (state_ == State::DEGRADED && consecutive_successes_ >= cfg_.success_threshold) {
         state_ = State::HEALTHY;
     }
 }

@@ -861,7 +861,22 @@ Describe the tests you ran to verify your changes.
 - [ ] New and existing unit tests pass locally with my changes
 - [ ] Any dependent changes have been merged and published
 - [ ] I have run `./scripts/check-quality.sh` and fixed all issues
+- [ ] I did not introduce Simulation/Stub/Mockup or legacy compatibility paths without explicit human approval
+- [ ] Any approved non-production path is explicitly human-marked (Reason, Activation, Production Delta, Approved By, Removal Target)
 ```
+
+### Reviewer Gate: Non-Production Paths
+
+Reviewers must treat this as a hard blocker policy:
+
+- No Simulation/Stub/Mockup or legacy compatibility path without explicit human approval.
+- No unmarked non-production path.
+- If approved, require explicit human marker fields in code comments:
+   - Reason
+   - Activation
+   - Production Delta
+   - Approved By
+   - Removal Target
 
 ### Review Process
 

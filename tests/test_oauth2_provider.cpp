@@ -473,6 +473,32 @@ TEST_F(OAuth2ProviderTest, LogoutWithRefreshTokenReturnsSuccess) {
     EXPECT_TRUE(result.value("success", false));
 }
 
+TEST_F(OAuth2ProviderTest, LogoutUsesRefreshTokenRevocationCallback) {
+    bool called = false;
+    provider_->setRefreshTokenRevocationFn(
+        [&called](const std::string& refresh_token) {
+            called = true;
+            EXPECT_EQ(refresh_token, "refresh-token-for-revoke");
+            return true;
+        });
+
+    auto result = provider_->handleLogout("refresh-token-for-revoke");
+    ASSERT_FALSE(result.contains("status_code")) << result.dump();
+    EXPECT_TRUE(result.value("success", false));
+    EXPECT_TRUE(called);
+}
+
+TEST_F(OAuth2ProviderTest, LogoutRevocationCallbackExceptionStillReturnsSuccess) {
+    provider_->setRefreshTokenRevocationFn(
+        [](const std::string&) -> bool {
+            throw std::runtime_error("simulated revocation failure");
+        });
+
+    auto result = provider_->handleLogout("refresh-token-for-exception");
+    ASSERT_FALSE(result.contains("status_code")) << result.dump();
+    EXPECT_TRUE(result.value("success", false));
+}
+
 // ===========================================================================
 // State TTL expiry
 // ===========================================================================

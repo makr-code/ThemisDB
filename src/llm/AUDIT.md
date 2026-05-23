@@ -22,7 +22,7 @@
 | S0 Critical | ✅ 0 (F1-1, F1-2, F2-1 fixed 2026-04-21) |
 | S1 High | ✅ 0 (F1-3, F1-4, F1-5, F2-2, F2-3, F2-4, F3-1, F3-2 fixed 2026-05-04) |
 | S2 Medium | ✅ 0 (F2-5, F2-6 fixed 2026-05-04) |
-| Trusted-directory enforcement on model loading | 🔴 **None** |
+| Trusted-directory enforcement on model loading | ✅ `isLoRAPathTrusted()` in `loadLoRAInternal`; `weakly_canonical` path check in `loadModelFromThemisDB` |
 | Build system registration | ✅ All files registered in CMakeLists.txt |
 | Documentation completeness | ✅ CHANGELOG, SECURITY, AUDIT present |
 
@@ -270,10 +270,15 @@ is an arbitrary file write for any path writable by the server process.
 
 | ID | Description | Priority | Target |
 |----|-------------|----------|--------|
-| **LLM-NEW-1** | **Trusted-directory enforcement missing for all model/LoRA loading paths (F1-1, F1-2, F2-1)** | **Critical** | **Immediate** |
 | LLM-005 | Federated inference not yet implemented | High | v2.0.0 |
 | LLM-006 | Request cancellation is best-effort; GPU kernel may complete | Medium | v1.17.0 |
 | LLM-007 | Speculative decoding uses synthetic draft-model logits | Medium | v1.17.0 |
+
+### Resolved (2026-05-19)
+
+| ID | Description | Resolution |
+|----|-------------|------------|
+| LLM-NEW-1 | Trusted-directory enforcement missing for all model/LoRA loading paths (F1-1, F1-2, F2-1) | ✅ `isLoRAPathTrusted()` in `loadLoRAInternal` (F1-1/F1-2); `weakly_canonical` guard in `loadModelFromThemisDB` (F2-1); `LoRASecurityValidator::validateMetadata()` now called in `loadLoRAInternal` before GGUF parse via `Config::security_validator` (v1.20.0) |
 
 ## Compliance
 
@@ -281,8 +286,8 @@ is an arbitrary file write for any path writable by the server process.
 |-------------|--------|
 | API keys never logged | ✅ Deny-list enforced in log formatters |
 | VRAM isolation between models | ✅ `vram_secure_clear.cpp` + `ActiveVRAMAllocator` per-model regions |
-| LoRA adapter integrity verification | 🔴 **Bypassed** — `lora_security_validator.cpp` not called from `loadLoRAInternal` before file open; path validation absent |
-| GGUF format validation before loading | ⚠️ Partial — magic bytes validated but path is untrusted input (F1-1) |
+| LoRA adapter integrity verification | ✅ `LoRASecurityValidator::validateMetadata()` called in `loadLoRAInternal` before GGUF parse (v1.20.0); path confined to `config_.lora_base_dir` via `isLoRAPathTrusted()` |
+| GGUF format validation before loading | ✅ Magic bytes + format version + metadata-field types validated before allocation; path confined to trusted directory (F1-1 fix) |
 | Prompt injection detection | ✅ `llm_security_utils.cpp` applied at inference boundary |
 | Post-generation constitutional filter | ✅ Constitutional reasoning engine + ethical guidelines manager |
 | Per-model resource quotas | ✅ Enforced by `token_quota_manager.cpp` |

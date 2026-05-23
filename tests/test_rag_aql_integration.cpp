@@ -304,6 +304,7 @@ TEST_F(RAGAQLIntegrationTest, MultipleEmbeddings) {
 TEST_F(RAGAQLIntegrationTest, RAGWithInvalidTopK) {
     try {
         auto result = handler->executeRAG("query", "collection", -5, "", {});
+        static_cast<void>(result);
         // Should handle negative top_k gracefully
     } catch (const std::exception& e) {
         // Expected to fail with invalid parameter
@@ -315,8 +316,9 @@ TEST_F(RAGAQLIntegrationTest, RAGWithInvalidTopK) {
 TEST_F(RAGAQLIntegrationTest, RAGWithZeroTopK) {
     try {
         auto result = handler->executeRAG("query", "collection", 0, "", {});
+        static_cast<void>(result);
         // Should handle zero top_k (no documents retrieved)
-    } catch (const std::exception& e) {
+    } catch ([[maybe_unused]] const std::exception& e) {
         // May fail or return result with empty context
     }
 }

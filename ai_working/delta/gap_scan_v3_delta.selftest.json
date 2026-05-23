@@ -1,0 +1,100 @@
+{
+  "total": {
+    "baseline": 194852,
+    "current": 194852,
+    "delta": 0
+  },
+  "severity": {
+    "baseline": {
+      "severity_critical": 11778,
+      "severity_high": 142775,
+      "severity_medium": 40299
+    },
+    "current": {
+      "severity_critical": 11778,
+      "severity_high": 142775,
+      "severity_medium": 40299
+    },
+    "delta": {
+      "severity_critical": 0,
+      "severity_high": 0,
+      "severity_medium": 0
+    }
+  },
+  "category": {
+    "baseline": {
+      "security": 1525,
+      "memory": 2234,
+      "reliability": 14748,
+      "concurrency": 1855,
+      "raii": 1847,
+      "container": 7741,
+      "platform": 1147,
+      "performance": 1018,
+      "type_conversion": 15958,
+      "input_validation": 8377,
+      "exception_safety": 1494,
+      "uninitialized": 40003,
+      "oop_design": 58596,
+      "audit_logging": 760,
+      "performance_patterns": 6798,
+      "gpu_memory_safety": 229,
+      "llm_ai_safety": 3425,
+      "observability": 5948,
+      "determinism": 8523,
+      "distributed_consistency": 1186,
+      "query_correctness": 11436,
+      "deprecated_apis": 4
+    },
+    "current": {
+      "security": 1525,
+      "memory": 2234,
+      "reliability": 14748,
+      "concurrency": 1855,
+      "raii": 1847,
+      "container": 7741,
+      "platform": 1147,
+      "performance": 1018,
+      "type_conversion": 15958,
+      "input_validation": 8377,
+      "exception_safety": 1494,
+      "uninitialized": 40003,
+      "oop_design": 58596,
+      "audit_logging": 760,
+      "performance_patterns": 6798,
+      "gpu_memory_safety": 229,
+      "llm_ai_safety": 3425,
+      "observability": 5948,
+      "determinism": 8523,
+      "distributed_consistency": 1186,
+      "query_correctness": 11436,
+      "deprecated_apis": 4
+    },
+    "delta": {
+      "audit_logging": 0,
+      "concurrency": 0,
+      "container": 0,
+      "deprecated_apis": 0,
+      "determinism": 0,
+      "distributed_consistency": 0,
+      "exception_safety": 0,
+      "gpu_memory_safety": 0,
+      "input_validation": 0,
+      "llm_ai_safety": 0,
+      "memory": 0,
+      "observability": 0,
+      "oop_design": 0,
+      "performance": 0,
+      "performance_patterns": 0,
+      "platform": 0,
+      "query_correctness": 0,
+      "raii": 0,
+      "reliability": 0,
+      "security": 0,
+      "type_conversion": 0,
+      "uninitialized": 0
+    },
+    "top_increased": [],
+    "top_decreased": []
+  }
+}

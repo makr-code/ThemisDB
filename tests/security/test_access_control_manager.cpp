@@ -207,8 +207,8 @@ TEST_F(AccessControlManagerTest, CustomAuthorizerHook) {
     
     // Add custom authorizer that allows all access for specific user
     config.custom_authorizer = [](const SecurityContext& ctx, 
-                                   const std::string& resource,
-                                   const std::string& action) -> AccessDecision {
+                                   [[maybe_unused]] const std::string& resource,
+                                   [[maybe_unused]] const std::string& action) -> AccessDecision {
         if (ctx.user_id == "special@test.com") {
             return AccessDecision::Allow("Custom authorizer bypass");
         }

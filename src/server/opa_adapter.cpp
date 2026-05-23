@@ -90,7 +90,7 @@ std::optional<bool> OpaAdapter::parseOpaResponse(const std::string& response_bod
         // non-empty).  Treat this as "allow" consistent with OPA's convention
         // where undefined / empty results indicate denial.
         if (result.is_object() && !result.empty()) return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         // Parse failure → treat as unavailable
     }
     return std::nullopt;

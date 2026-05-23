@@ -450,6 +450,22 @@ TEST_F(GGUFLoaderTest, ParseFile_AcceptsQ4_K_M) {
     EXPECT_EQ(loader.getLastError().find("Unsupported quantization format"), std::string::npos);
 }
 
+TEST_F(GGUFLoaderTest, GetTensorDataRejectsOutOfBoundsRange) {
+    // makeMockGGUF(Q4_K) intentionally writes only a tiny placeholder data area.
+    // The tensor metadata still advertises a Q4_K payload that is larger than
+    // the available bytes, so getTensorData() must reject the copy safely.
+    ScopedTempFile tmp("q4km_oob_tensor_data.gguf");
+    tmp.write(makeMockGGUF(GGMLType::Q4_K));
+
+    GGUFLoader loader;
+    if (!loader.parseFile(tmp.str())) {
+        GTEST_SKIP() << "Mock GGUF did not parse on this platform: " << loader.getLastError();
+    }
+
+    auto data = loader.getTensorData("w.one");
+    EXPECT_TRUE(data.empty()) << "Out-of-bounds tensor payload must be rejected";
+}
+
 TEST_F(GGUFLoaderTest, GetLastError_ClearedBetweenCalls) {
     // Error state should reset between parseFile() calls
     ScopedTempFile tmp_bad("q4_0_clear.gguf");
@@ -496,4 +512,3 @@ TEST(GrammarTest, ModelAwareConstructor_NullModel_SetsError) {
 }
 
 // Main test runner
-

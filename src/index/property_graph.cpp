@@ -26,64 +26,14 @@ PropertyGraphManager::PropertyGraphManager(RocksDBWrapper& db) : db_(db) {}
 // ===== Helper Methods =====
 
 std::vector<std::string> PropertyGraphManager::extractLabels_(const BaseEntity& node) const {
-    std::vector<std::string> labels;
-    
-    // Try to get _labels field as array
-    auto labelsField = node.getField("_labels");
-    if (!labelsField.has_value()) {
-        return labels;  // No labels
+    // Use getFieldAsStringArray() which handles both JSON-array format
+    // (written by setFieldAsStringArray) and legacy comma-separated strings
+    // (stub #292 resolved).
+    auto arr = node.getFieldAsStringArray("_labels");
+    if (!arr.has_value()) {
+        return {};
     }
-
-    // Value can be variant, check if it's a vector
-    // STUB/SIMULATION NOTE (stub #292 — partial resolution):
-    // Purpose: Allow label extraction to work without a native string-array type
-    //          in BaseEntity.
-    // Activation: Always — BaseEntity does not yet support std::vector<std::string>
-    //             typed fields; all multi-value fields are stored as scalars.
-    // Production Delta: Labels containing commas stored in plain comma-split format
-    //                   are still mis-parsed.  JSON-array encoded labels (stub #292
-    //                   improvement) are now handled correctly.
-    // Removal Plan: Extend BaseEntity::PropertyValue to include
-    //               std::vector<std::string>; add getFieldAsStringArray(); update
-    //               PropertyGraphManager to call getFieldAsStringArray("_labels").
-    //               See src/index/FUTURE_ENHANCEMENTS.md §PropertyGraph StringArray.
-    //               Target: Q2 2027.
-    auto labelsStr = node.getFieldAsString("_labels");
-    if (labelsStr.has_value()) {
-        // First try JSON-array encoding (e.g. ["label1","label2"]) which avoids
-        // the comma-ambiguity issue of the flat comma-split path (stub #292 improvement).
-        const std::string& raw = *labelsStr;
-        if (!raw.empty() && raw.front() == '[') {
-            try {
-                auto arr = nlohmann::json::parse(raw);
-                if (arr.is_array()) {
-                    for (const auto& elem : arr) {
-                        if (elem.is_string()) {
-                            labels.push_back(elem.get<std::string>());
-                        }
-                    }
-                    return labels;
-                }
-            } catch (const nlohmann::json::exception&) {
-                // Not valid JSON array — fall through to comma-split.
-            }
-        }
-
-        // Fallback: comma-separated string (legacy storage format).
-        std::string labels_str = raw;
-        std::stringstream ss(labels_str);
-        std::string label;
-        while (std::getline(ss, label, ',')) {
-            // Trim whitespace
-            label.erase(0, label.find_first_not_of(" \t"));
-            label.erase(label.find_last_not_of(" \t") + 1);
-            if (!label.empty()) {
-                labels.push_back(label);
-            }
-        }
-    }
-    
-    return labels;
+    return *arr;
 }
 
 std::optional<std::string> PropertyGraphManager::extractType_(const BaseEntity& edge) const {
@@ -298,12 +248,7 @@ PropertyGraphManager::Status PropertyGraphManager::addNodeLabel(std::string_view
 
     // Add label to node
     labels.push_back(std::string(label));
-    std::string labelsStr;
-    for (size_t i = 0; i < labels.size(); ++i) {
-        if (i > 0) labelsStr += ",";
-        labelsStr += labels[i];
-    }
-    node.setField("_labels", labelsStr);
+    node.setFieldAsStringArray("_labels", labels);
 
     auto batch = db_.createWriteBatch();
     if (!batch) {
@@ -339,20 +284,13 @@ PropertyGraphManager::Status PropertyGraphManager::removeNodeLabel(std::string_v
     BaseEntity node = BaseEntity::deserialize(std::string(pk), *blob);
     std::vector<std::string> labels = extractLabels_(node);
 
-    // Remove label
-    auto it = std::find(labels.begin(), labels.end(), label);
+    // Update labels
+    const auto it = std::find(labels.begin(), labels.end(), label);
     if (it == labels.end()) {
-        return Status::OK();  // Label doesn't exist (idempotent)
+        return Status::OK();  // Label not present (idempotent)
     }
     labels.erase(it);
-
-    // Update labels string
-    std::string labelsStr;
-    for (size_t i = 0; i < labels.size(); ++i) {
-        if (i > 0) labelsStr += ",";
-        labelsStr += labels[i];
-    }
-    node.setField("_labels", labelsStr);
+    node.setFieldAsStringArray("_labels", labels);
 
     auto batch = db_.createWriteBatch();
     if (!batch) {

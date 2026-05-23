@@ -155,7 +155,7 @@ public:
     
     explicit MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion = 4, 
                         TransportType transport = TransportType::TCP);
-    ~MqttSession();
+    ~MqttSession() noexcept;
 
     void start();
     void stop();
@@ -208,7 +208,7 @@ private:
     void doWebSocketRead();
     void doWebSocketWrite();
     void processQos2Timeouts();
-    void triggerWillMessage();
+    void triggerWillMessage() const;
     void updateRateLimiter();
     
     asio::ip::tcp::socket socket_;

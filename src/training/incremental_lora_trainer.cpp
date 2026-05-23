@@ -332,7 +332,7 @@ public:
             // Phase 4: Compute metrics (simulated)
             if (!validation_samples.empty()) {
                 double total_loss = 0.0;
-                for (const auto& s : validation_samples) {
+                for ([[maybe_unused]] const auto& s : validation_samples) {
                     total_loss += 0.45;
                 }
                 result.validation_loss = total_loss / validation_samples.size();
@@ -615,7 +615,8 @@ public:
             if (!llm_router_->isAvailable()) {
                 return DeployResult::fail("router_unavailable");
             }
-            llm_router_->setAdapterWeight(adapter_version, traffic_split);
+            const bool weight_set = llm_router_->setAdapterWeight(adapter_version, traffic_split);
+            static_cast<void>(weight_set);
         }
         return DeployResult::ok(adapter_version, traffic_split);
     }
@@ -635,7 +636,8 @@ public:
             if (!llm_router_->isAvailable()) {
                 return DeployResult::fail("router_unavailable");
             }
-            llm_router_->setAdapterWeight(target_version, 1.0f);
+            const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
+            static_cast<void>(weight_set);
         }
         return DeployResult::ok(target_version, 1.0f);
     }
@@ -914,8 +916,12 @@ public:
                 target_vec = encodeSample(training_data[idx].second, feature_dim);
             } else {
                 // Synthetic deterministic batch: varied across steps and batch positions
-                std::mt19937 gen_in(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
-                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                const auto seed_in = static_cast<std::uint64_t>(
+                    step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
+                const auto seed_tg = static_cast<std::uint64_t>(
+                    step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                std::mt19937_64 gen_in(seed_in);
+                std::mt19937_64 gen_tg(seed_tg);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
                 target_vec.resize(feature_dim);

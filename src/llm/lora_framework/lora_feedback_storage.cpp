@@ -86,7 +86,8 @@ std::optional<Feedback> FeedbackStorageService::createFeedback(Feedback feedback
         }
         
         // Create graph link to adapter
-        if (config_.enable_graph_links && config_.graph_index) {
+        if (config_.enable_graph_links &&
+            (config_.graph_index || config_.create_graph_link_fn)) {
             createGraphLink(feedback.id, feedback.adapter_id);
         }
         
@@ -216,7 +217,9 @@ bool FeedbackStorageService::deleteFeedback(const std::string& id) {
         }
         
         // Remove graph link
-        if (config_.enable_graph_links && config_.graph_index && feedback) {
+        if (config_.enable_graph_links &&
+            (config_.graph_index || config_.remove_graph_link_fn) &&
+            feedback) {
             removeGraphLink(id, feedback->adapter_id);
         }
         
@@ -397,7 +400,7 @@ bool FeedbackStorageService::createGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
 ) {
-    if (!config_.graph_index) {
+    if (!config_.graph_index && !config_.create_graph_link_fn) {
         return false;
     }
     
@@ -405,29 +408,23 @@ bool FeedbackStorageService::createGraphLink(
         std::string from = makeFeedbackKey(feedback_id);
         std::string to = "lora_adapters:" + adapter_id;
         std::string edge_type = "belongs_to_adapter";
-
-        CreateGraphLinkFn fn;
-        {
-            std::lock_guard<std::mutex> lock(mutex_);
-            fn = create_graph_link_fn_;
-        }
-        if (fn) {
-            return fn(from, to, edge_type);
+        
+        if (config_.create_graph_link_fn) {
+            return config_.create_graph_link_fn(from, to, edge_type);
         }
 
-        // STUB/SIMULATION NOTE (stub #304):
-        // Purpose: Keep feedback-storage writes independent from GraphIndex API
-        //          churn until a stable edge-create / edge-delete interface is wired.
-        // Activation: Always when `config_.graph_index` is non-null and no
-        //             CreateGraphLinkFn has been injected via setCreateGraphLinkFn().
-        // Production Delta: Adapter/feedback relationships are only logged, not
-        //                   persisted. Graph traversals cannot discover which
-        //                   feedback belongs to which adapter.
-        // Removal Plan: Inject CreateGraphLinkFn/RemoveGraphLinkFn pointing at the
-        //               concrete GraphIndex edge API; replace the log-only path.
-        //               See src/llm/FUTURE_ENHANCEMENTS.md §LoRA Feedback Graph Links.
-        //               Target: v2.1.0.
-        spdlog::debug("Created graph link (log-only): {} --[{}]--> {}", from, edge_type, to);
+        BaseEntity edge("feedback_edge:" + feedback_id + ":" + adapter_id);
+        edge.setField("_from", from);
+        edge.setField("_to", to);
+        edge.setField("edge_type", edge_type);
+        edge.setField("feedback_id", feedback_id);
+        edge.setField("adapter_id", adapter_id);
+
+        auto status = config_.graph_index->addEdge(edge);
+        if (!status.ok) {
+            spdlog::error("Failed to persist graph link: {}", status.message);
+            return false;
+        }
         return true;
         
     } catch (const std::exception& e) {
@@ -440,7 +437,7 @@ bool FeedbackStorageService::removeGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
 ) {
-    if (!config_.graph_index) {
+    if (!config_.graph_index && !config_.remove_graph_link_fn) {
         return false;
     }
     
@@ -448,20 +445,17 @@ bool FeedbackStorageService::removeGraphLink(
         std::string from = makeFeedbackKey(feedback_id);
         std::string to = "lora_adapters:" + adapter_id;
         std::string edge_type = "belongs_to_adapter";
-
-        RemoveGraphLinkFn fn;
-        {
-            std::lock_guard<std::mutex> lock(mutex_);
-            fn = remove_graph_link_fn_;
-        }
-        if (fn) {
-            return fn(from, to, edge_type);
+        
+        if (config_.remove_graph_link_fn) {
+            return config_.remove_graph_link_fn(from, to, edge_type);
         }
 
-        // STUB/SIMULATION NOTE (stub #304 — remove path, same graph-link gap):
-        // See createGraphLink() above. This path only logs edge deletion and does
-        // not mutate the graph backend when no RemoveGraphLinkFn is injected.
-        spdlog::debug("Removed graph link (log-only): {} --[{}]--> {}", from, edge_type, to);
+        const std::string edge_id = "feedback_edge:" + feedback_id + ":" + adapter_id;
+        auto status = config_.graph_index->deleteEdge(edge_id);
+        if (!status.ok) {
+            spdlog::error("Failed to remove graph link: {}", status.message);
+            return false;
+        }
         return true;
         
     } catch (const std::exception& e) {
@@ -506,4 +500,3 @@ void FeedbackStorageService::runProcessing(Feedback& feedback) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

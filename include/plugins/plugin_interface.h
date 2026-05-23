@@ -6,7 +6,8 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-#pragma once
+#ifndef THEMISDB_PLUGIN_INTERFACE_H
+#define THEMISDB_PLUGIN_INTERFACE_H
 
 #include <string>
 #include <memory>
@@ -808,4 +809,6 @@ private:
             delete plugin; \
         } \
     }
+
+#endif  // THEMISDB_PLUGIN_INTERFACE_H
 

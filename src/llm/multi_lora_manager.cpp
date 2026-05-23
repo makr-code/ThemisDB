@@ -11,6 +11,7 @@
 
 #include "llm/multi_lora_manager.h"
 #include "llm/gguf_loader.h"
+#include "llm/lora_security_validator.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -40,6 +41,8 @@ namespace llm {
 // Quantization and memory constants
 namespace {
     constexpr size_t TYPICAL_LORA_RANK8_BYTES = 32 * 1024 * 1024;  // 32 MB for rank-8 LoRA
+    constexpr size_t MIN_LORA_RANK = 4;    // Matches LoRASecurityConfig::min_rank default
+    constexpr size_t MAX_LORA_RANK = 128;  // Matches LoRASecurityConfig::max_rank default
     constexpr float INT8_MAX_VALUE = 127.0f;
     constexpr float INT4_MAX_VALUE = 7.0f;
     constexpr float MIN_SCALE_EPSILON = 1e-8f;
@@ -1255,16 +1258,16 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
         // Fallback: generate a size-representative weight vector when the file
         // cannot be parsed (e.g. unit tests with non-existent paths).
         if (weights.empty()) {
-            size_t num_weights = lora->original_vram_bytes / sizeof(float);
+            size_t fallback_weights = lora->original_vram_bytes / sizeof(float);
             const size_t kMaxFallback = 256 * 1024;   // 1 MB of floats
-            num_weights = std::min(num_weights, kMaxFallback);
-            if (num_weights == 0) {
+            fallback_weights = std::min(fallback_weights, kMaxFallback);
+            if (fallback_weights == 0) {
                 spdlog::warn("quantizeLoRA: zero-size LoRA '{}', skipping quantization", lora->lora_id);
                 return false;
             }
-            weights.assign(num_weights, 0.0f);
+            weights.assign(fallback_weights, 0.0f);
             // Populate with a deterministic non-zero pattern for scale calibration.
-            for (size_t i = 0; i < num_weights; ++i) {
+            for (size_t i = 0; i < fallback_weights; ++i) {
                 weights[i] = static_cast<float>((i % 255) - 127) / 127.0f;
             }
         }
@@ -1994,6 +1997,26 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
         return nullptr;
     }
 
+    // Security validation (v1.20.0): run LoRASecurityValidator::validateMetadata()
+    // before any file I/O so that malformed or tampered adapters are rejected
+    // early — before the GGUF parser streams adapter weights into memory.
+    if (config_.security_validator) {
+        if (!config_.security_validator->validateMetadata(lora_path)) {
+            if (config_.enforce_security_validation) {
+                spdlog::error("loadLoRAInternal: security-validator rejected adapter '{}' "
+                              "at path '{}' — metadata validation failed (enforce=true)",
+                              lora_id, lora_path);
+                return nullptr;
+            }
+            spdlog::warn("loadLoRAInternal: security-validator reported metadata issue for "
+                         "adapter '{}' at path '{}' — continuing (enforce=false)",
+                         lora_id, lora_path);
+        } else {
+            spdlog::debug("loadLoRAInternal: security-validator approved adapter '{}' "
+                          "at path '{}'", lora_id, lora_path);
+        }
+    }
+
     // Validate that LoRA file exists
     std::ifstream file_check(lora_path, std::ios::binary);
     if (!file_check.good()) {
@@ -2030,6 +2053,12 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
             auto it_rank = meta.config.find("lora.rank");
             if (it_rank != meta.config.end()) {
                 try { lora->rank = std::stoi(it_rank->second); } catch (...) {}
+            }
+            if (lora->rank != 0 && (lora->rank < MIN_LORA_RANK || lora->rank > MAX_LORA_RANK)) {
+                spdlog::error("loadLoRAInternal: adapter '{}' has out-of-bounds rank {} "
+                              "(allowed range: {}..{})",
+                              lora_id, lora->rank, MIN_LORA_RANK, MAX_LORA_RANK);
+                return nullptr;
             }
             auto it_alpha = meta.config.find("lora.alpha");
             if (it_alpha != meta.config.end()) {
@@ -2654,7 +2683,6 @@ json MultiLoRAManager::getGPUTransferAuditLog(size_t limit) const {
     
     json log = json::array();
     
-    size_t count = 0;
     size_t start = (limit > 0 && audit_log_.size() > limit) ? 
                    (audit_log_.size() - limit) : 0;
     
@@ -3377,4 +3405,3 @@ void MultiLoRAManager::updateInferenceMetrics(
 
 } // namespace llm
 } // namespace themis
-

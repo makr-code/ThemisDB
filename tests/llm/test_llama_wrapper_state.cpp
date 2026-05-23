@@ -63,7 +63,7 @@ TEST_F(LlamaWrapperStateTest, LoadModelTransitionsToLoading) {
     LlamaWrapper wrapper(config_);
     
     // Attempt to load non-existent model (will fail but should transition)
-    bool result = wrapper.loadModel("non_existent_model.gguf");
+    [[maybe_unused]] bool result = wrapper.loadModel("non_existent_model.gguf");
     
     // Should have transitioned through LOADING state
     auto history = wrapper.stateHistory();
@@ -198,8 +198,8 @@ TEST_F(LlamaWrapperStateTest, StateAccessThreadSafe) {
     for (int i = 0; i < 3; ++i) {
         readers.emplace_back([&]() {
             while (!stop) {
-                auto state = wrapper.state();
-                auto history = wrapper.stateHistory();
+                [[maybe_unused]] auto state = wrapper.state();
+                [[maybe_unused]] auto history = wrapper.stateHistory();
                 read_count++;
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
             }

@@ -250,6 +250,8 @@ public:
 // All-Reduce: Average gradients from all shards
 class AllReduceAggregator : public GradientAggregator {
 public:
+    ~AllReduceAggregator() override = default;
+
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
     ) override;
@@ -262,6 +264,7 @@ class ParameterServerAggregator : public GradientAggregator {
 public:
     ParameterServerAggregator(const std::map<std::string, float>& shard_weights)
         : shard_weights_(shard_weights) {}
+    ~ParameterServerAggregator() override = default;
     
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
@@ -276,6 +279,8 @@ private:
 // Ring All-Reduce: Communication-efficient ring pattern
 class RingAllReduceAggregator : public GradientAggregator {
 public:
+    ~RingAllReduceAggregator() override = default;
+
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
     ) override;

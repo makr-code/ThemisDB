@@ -236,7 +236,7 @@ private:
     AiInferenceResult dispatchQualcommQNN(AiInferenceRequest& req);
     AiInferenceResult dispatchArmEthos(AiInferenceRequest& req);
     AiInferenceResult dispatchNNAPI(AiInferenceRequest& req);
-    AiInferenceResult dispatchOnnxRuntime(AiInferenceRequest& req);
+    AiInferenceResult dispatchOnnxRuntime([[maybe_unused]] AiInferenceRequest& req);
     AiInferenceResult dispatchGpuFallback(AiInferenceRequest& req);
     AiInferenceResult dispatchCpuFallback(AiInferenceRequest& req);
 

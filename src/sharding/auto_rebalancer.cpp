@@ -320,6 +320,11 @@ bool AutoRebalancer::executeRebalance(const LoadImbalanceResult::RebalanceRecomm
     
     // Sign operation
     std::string signature = signOperation(op_id);
+    if (signature.rfind("SIGNATURE:", 0) != 0) {
+        THEMIS_ERROR("Failed to sign rebalance operation: {}", op_id);
+        span.recordError("Operation signing failed");
+        return false;
+    }
     
     // Start operation
     bool started = operation->start(signature);
@@ -370,35 +375,17 @@ std::string AutoRebalancer::generateOperationId() const {
 std::string AutoRebalancer::signOperation(const std::string& operation_id) const {
     // RSA-SHA256 signing using operator certificate
 
-    // Check for injected signing bridge (stub #310 resolution: SignOperationFn bridge)
-    {
-        std::lock_guard<std::mutex> lock(sign_fn_mutex_);
-        if (sign_fn_) {
-            return sign_fn_(operation_id);
-        }
-    }
-
-    // Built-in RSA path: helper lambda to handle fail-closed / UNSIGNED fallback
-    // uniformly across all error paths.
-    auto fail = [&](const char* reason) -> std::string {
-        if (config_.fail_closed_signing) {
-            throw std::runtime_error(
-                std::string("AutoRebalancer: signing failed (fail_closed_signing=true), reason=")
-                + reason);
-        }
-        THEMIS_WARN("AutoRebalancer: signing failed ({}), emitting UNSIGNED fallback", reason);
-        return std::string("UNSIGNED:") + operation_id + ":" + reason;
-    };
-
+    // Load private key from operator certificate
     if (config_.operator_key_path.empty()) {
-        return fail("no_key_configured");
+        THEMIS_ERROR("AutoRebalancer: No operator key configured");
+        return {};
     }
     
     // Open and read private key file
     FILE* key_file = fopen(config_.operator_key_path.c_str(), "r");
     if (!key_file) {
         THEMIS_ERROR("AutoRebalancer: Cannot open operator key file: {}", config_.operator_key_path);
-        return fail("key_file_error");
+        return {};
     }
     
     EVP_PKEY* pkey = PEM_read_PrivateKey(key_file, nullptr, nullptr, nullptr);
@@ -406,7 +393,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     
     if (!pkey) {
         THEMIS_ERROR("AutoRebalancer: Failed to parse operator private key");
-        return fail("key_parse_error");
+        return {};
     }
     
     // Create canonical message to sign: "REBALANCE:{operation_id}:{timestamp}"
@@ -429,14 +416,14 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     if (!ctx) {
         EVP_PKEY_free(pkey);
         THEMIS_ERROR("AutoRebalancer: Failed to create signing context");
-        return fail("context_error");
+        return {};
     }
     
     if (EVP_PKEY_sign_init(ctx) <= 0) {
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
         THEMIS_ERROR("AutoRebalancer: Failed to initialize signing");
-        return fail("init_error");
+        return {};
     }
     
     // Set padding mode to PKCS#1 v1.5
@@ -444,14 +431,14 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
         THEMIS_ERROR("AutoRebalancer: Failed to set RSA padding");
-        return fail("padding_error");
+        return {};
     }
     
     if (EVP_PKEY_CTX_set_signature_md(ctx, EVP_sha256()) <= 0) {
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
         THEMIS_ERROR("AutoRebalancer: Failed to set signature digest");
-        return fail("digest_error");
+        return {};
     }
     
     // Determine signature buffer size
@@ -460,7 +447,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
         THEMIS_ERROR("AutoRebalancer: Failed to determine signature size");
-        return fail("sigsize_error");
+        return {};
     }
     
     // Allocate buffer and perform signing
@@ -469,7 +456,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
         THEMIS_ERROR("AutoRebalancer: Signing operation failed");
-        return fail("sign_error");
+        return {};
     }
     signature.resize(sig_len);
     
@@ -490,7 +477,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
                              static_cast<size_t>(encoded_len));
     } else {
         THEMIS_ERROR("AutoRebalancer: Base64 encoding failed");
-        return fail("encoding_error");
+        return {};
     }
     
     // Return formatted signature: SIGNATURE:{sig_b64}:{timestamp}
@@ -850,4 +837,3 @@ void AutoRebalancer::setSignOperationFn(SignOperationFn fn) {
 
 } // namespace sharding
 } // namespace themis
-

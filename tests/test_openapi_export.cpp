@@ -83,7 +83,10 @@ TEST_F(OpenApiExportTest, ContentTypeIsJson) {
 }
 
 TEST_F(OpenApiExportTest, BodyIsValidJson) {
-    EXPECT_NO_THROW(json::parse(res_.body()));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(res_.body());
+        static_cast<void>(parsed);
+    });
 }
 
 // ---------------------------------------------------------------------------

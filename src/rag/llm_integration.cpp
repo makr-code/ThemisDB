@@ -27,6 +27,7 @@
 #include <atomic>
 #include <unordered_set>
 #include <stdexcept>
+#include <limits>
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/llm_plugin_manager.h"
@@ -127,7 +128,9 @@ std::string LLMIntegration::generate(
         try {
             llm::InferenceRequest req;
             req.prompt      = prompt;
-            req.max_tokens  = static_cast<int>(options.max_tokens);
+            req.max_tokens  = static_cast<int>(std::min(
+                options.max_tokens,
+                static_cast<size_t>(std::numeric_limits<int>::max())));
             req.temperature = static_cast<float>(options.temperature);
             req.model_id    = "default";
             auto response = llm::LLMPluginManager::instance().generate(req);
@@ -147,8 +150,10 @@ std::string LLMIntegration::generate(
         // Create an enhanced inference request
         llm::InferenceEngineEnhanced::EnhancedInferenceRequest request;
         request.base_request.prompt = prompt;
-        request.base_request.max_tokens = options.max_tokens;
-        request.base_request.temperature = options.temperature;
+        request.base_request.max_tokens = static_cast<int>(std::min(
+            options.max_tokens,
+            static_cast<size_t>(std::numeric_limits<int>::max())));
+        request.base_request.temperature = static_cast<float>(options.temperature);
         // Streaming handled via callbacks; no 'stream' field in base_request
         request.allow_caching = true;
         request.priority = 0;

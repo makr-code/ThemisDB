@@ -48,6 +48,7 @@ public:
     };
     
     ProcessingResult ProcessAudio(const std::vector<uint8_t>& audio_data) {
+        static_cast<void>(audio_data);
         ProcessingResult result;
         auto start = std::chrono::high_resolution_clock::now();
         
@@ -70,6 +71,7 @@ public:
     }
     
     ProcessingResult ProcessVideo(const std::vector<uint8_t>& video_data) {
+        static_cast<void>(video_data);
         ProcessingResult result;
         auto start = std::chrono::high_resolution_clock::now();
         
@@ -93,6 +95,7 @@ public:
     }
     
     ProcessingResult ProcessImage(const std::vector<uint8_t>& image_data) {
+        static_cast<void>(image_data);
         ProcessingResult result;
         auto start = std::chrono::high_resolution_clock::now();
         
@@ -116,6 +119,7 @@ public:
     }
     
     ProcessingResult ProcessPDF(const std::vector<uint8_t>& pdf_data) {
+        static_cast<void>(pdf_data);
         ProcessingResult result;
         auto start = std::chrono::high_resolution_clock::now();
         
@@ -139,6 +143,7 @@ public:
     }
     
     ProcessingResult ProcessUnsupported(const std::vector<uint8_t>& data) {
+        static_cast<void>(data);
         ProcessingResult result;
         result.success = false;
         result.mime_type = "application/octet-stream";

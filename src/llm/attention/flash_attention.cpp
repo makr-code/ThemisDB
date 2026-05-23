@@ -70,6 +70,7 @@ const char* getStatusMessage(Status status) {
 class FlashAttentionCPU : public IFlashAttention {
 public:
     explicit FlashAttentionCPU(const FlashAttentionConfig& config) : config_(config) {}
+    ~FlashAttentionCPU() override = default;
     
     Status forward(
         const Tensor& Q,

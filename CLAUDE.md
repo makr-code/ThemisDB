@@ -41,6 +41,9 @@ Preferred Windows preset flow:
 - Keep functions focused; avoid hidden side effects.
 - Do not introduce stubs as final production output.
 - If temporary simulation/stub paths are needed, document purpose, activation, and removal plan.
+- Do not introduce legacy/compatibility paths by default.
+- Legacy paths are only allowed with explicit human approval and must be clearly marked with reason, activation conditions, behavior delta, approver reference, and removal target.
+- Simulation/Stub/Mockup paths are forbidden without explicit human approval and explicit human marking.
 
 ## Documentation Rules
 

@@ -322,7 +322,7 @@ void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
                 total_failed   += stats.failed_records;
                 total_skipped  += stats.skipped_records;
                 total_duration += stats.elapsed_seconds;
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
     }
 
@@ -435,27 +435,14 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
 // v2.0 Handlers
 // ============================================================================
 
-void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& req,
+void ImportApiHandler::handleGetSchema(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
-#ifndef THEMIS_ENABLE_POSTGRES_WIRE
-    // STUB/SIMULATION NOTE (stub #294):
-    // Purpose: Expose the schema-preview and schema-validate REST endpoints so that
-    //          clients can discover them, while the PostgreSQL wire protocol parser
-    //          required for source introspection is not linked into this build.
-    // Activation: `THEMIS_ENABLE_POSTGRES_WIRE` is not defined at compile time
-    //             (default build without the 'pg-wire' vcpkg feature).
-    // Production Delta: GET /import/{id}/schema and POST /import/validate-schema
-    //                   always return HTTP 501.  Callers cannot preview table structures
-    //                   or validate relationship overrides before starting an import.
-    // Removal Plan: Enable the 'pg-wire' vcpkg feature and set
-    //               `-DTHEMIS_ENABLE_POSTGRES_WIRE=ON` in CMake; the `#else` branch
-    //               contains the real implementation.
-    //               See src/server/ROADMAP.md §Import Schema Preview.  Target: Q1 2027.
-    jsonError(res, 501,
-              "Schema preview requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
-    return;
-#else
+    if (!importer_) {
+        jsonError(res, 503, "Schema preview importer is not configured");
+        return;
+    }
+
     const std::string job_id = req.matches[1];
     auto handle = registry_->get(job_id);
     if (!handle) {
@@ -470,10 +457,13 @@ void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& 
         return;
     }
 
-    // Use a fresh importer to avoid mutating the running importer's state
-    auto schema_importer = std::make_shared<importers::PostgreSQLImporter>();
-    schema_importer->initialize("{}");
-    json schema = schema_importer->getSourceSchema(source_path);
+    json schema;
+    try {
+        schema = importer_->getSourceSchema(source_path);
+    } catch (const std::exception& e) {
+        jsonError(res, 422, std::string("Could not parse schema from: ") + source_path + " (" + e.what() + ")");
+        return;
+    }
 
     // Merge any custom relationship overrides
     {
@@ -488,20 +478,16 @@ void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& 
     }
 
     jsonOk(res, json{{"job_id", job_id}, {"schema", schema}});
-#endif
 }
 
-void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Request& req,
+void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
-#ifndef THEMIS_ENABLE_POSTGRES_WIRE
-    // STUB/SIMULATION NOTE (stub #294 — validateSchema path, same gate):
-    // See handleGetSchema() above for full details.  Both schema-inspection endpoints
-    // share the THEMIS_ENABLE_POSTGRES_WIRE compile-time gate.
-    jsonError(res, 501,
-              "Schema validation requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
-    return;
-#else
+    if (!importer_) {
+        jsonError(res, 503, "Schema validation importer is not configured");
+        return;
+    }
+
     json body;
     try {
         body = parseRequestBody(req.body);
@@ -526,9 +512,13 @@ void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Requ
     }
 
     // Parse schema and validate
-    auto schema_importer = std::make_shared<importers::PostgreSQLImporter>();
-    schema_importer->initialize("{}");
-    json schema = schema_importer->getSourceSchema(source_path);
+    json schema;
+    try {
+        schema = importer_->getSourceSchema(source_path);
+    } catch (const std::exception& e) {
+        jsonError(res, 422, std::string("Could not parse schema from: ") + source_path + " (" + e.what() + ")");
+        return;
+    }
 
     if (!schema.is_object()) {
         jsonError(res, 422, "Could not parse schema from: " + source_path);
@@ -566,7 +556,6 @@ void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Requ
         {"errors", err_arr},
         {"circular_references", cycles}
     });
-#endif
 }
 
 void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,
