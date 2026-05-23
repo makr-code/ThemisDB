@@ -732,16 +732,6 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery& query) {
                             "DistributedAnalyticsSharding: shard {} failed: {}",
                             entry.shard_id, ex.what());
                         promise.set_value({OLAPResult{}, std::move(info)});
-                    } catch (const std::exception&) {
-                        const auto t1 = std::chrono::steady_clock::now();
-                        info.success = false;
-                        info.error   = "unknown shard error";
-                        info.execution_time_ms =
-                            std::chrono::duration<double, std::milli>(t1 - t0).count();
-                        spdlog::error(
-                            "DistributedAnalyticsSharding: shard {} failed with unknown exception",
-                            entry.shard_id);
-                        promise.set_value({OLAPResult{}, std::move(info)});
                     }
                 })
                 .detach();

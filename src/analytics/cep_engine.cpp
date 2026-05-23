@@ -917,7 +917,6 @@ void WindowManager::handleTumblingWindow(const Event& event) {
     if (batch && callback_) {
         try { callback_(batch->events, batch->start, batch->end); }
         catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-        catch (const std::exception&) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
     }
 }
 
@@ -960,7 +959,6 @@ void WindowManager::handleSlidingWindow(const Event& event) {
     for (auto& b : batches) {
         try { callback_(b.events, b.start, b.end); }
         catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-        catch (const std::exception&) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
     }
 }
 
@@ -999,7 +997,6 @@ void WindowManager::handleSessionWindow(const Event& event) {
     if (batch && callback_) {
         try { callback_(batch->events, batch->start, batch->end); }
         catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-        catch (const std::exception&) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
     }
 }
 
@@ -1029,7 +1026,6 @@ void WindowManager::handleCountWindow(const Event& event) {
     if (batch && callback_) {
         try { callback_(batch->events, batch->start, batch->end); }
         catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-        catch (const std::exception&) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
     }
 }
 
@@ -1121,7 +1117,6 @@ void WindowManager::timerLoop() {
             for (auto& b : batches) {
                 try { callback_(b.events, b.start, b.end); }
                 catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-                catch (const std::exception&) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
             }
         }
 
@@ -1142,7 +1137,6 @@ void WindowManager::timerLoop() {
             for (auto& b : batches) {
                 try { callback_(b.events, b.start, b.end); }
                 catch (const std::exception& e) { spdlog::warn("CEPEngine: window callback threw: {}", e.what()); }
-                catch (const std::exception&) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
             }
         }
     }

@@ -61,7 +61,7 @@ namespace lora {
 
 namespace {
     static std::mutex s_model_path_fn_mutex;
-    static LoRATrainingService::ModelPathProviderFn s_model_path_fn;
+    static std::function<std::string(const std::string&)> s_model_path_fn;
 } // namespace
 
 void LoRATrainingService::setModelPathProviderFn(ModelPathProviderFn fn) {
@@ -74,7 +74,7 @@ void LoRATrainingService::clearModelPathProviderFn() {
     s_model_path_fn = nullptr;
 }
 
-static LoRATrainingService::ModelPathProviderFn getModelPathProviderFn() {
+static std::function<std::string(const std::string&)> getModelPathProviderFn() {
     std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
     return s_model_path_fn;
 }

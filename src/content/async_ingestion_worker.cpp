@@ -246,6 +246,8 @@ std::string AsyncIngestionWorker::submitFile(
 
     return job.job_id;
 }
+
+std::string AsyncIngestionWorker::submitStream(
     std::istream& stream,
     const std::string& filename,
     const std::string& mime_type,
