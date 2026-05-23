@@ -275,8 +275,10 @@ TEST_F(QueryJITCompilationFocusedTests, AC5_InvalidateSingleEntry) {
     auto handle = compiler_->compile(q, {}, makeEcho());
 
     // Compile it
-    for (int i = 0; i < 5; ++i)
-        static_cast<void>(compiler_->execute(handle, {}));
+    for (int i = 0; i < 5; ++i) {
+        auto warmup = compiler_->execute(handle, {});
+        ASSERT_TRUE(warmup.has_value());
+    }
     ASSERT_TRUE(compiler_->isCompiled(handle.key));
 
     // Invalidate
@@ -350,7 +352,7 @@ TEST_F(QueryJITCompilationFocusedTests, AC6_CanRewarmAfterInvalidateAll) {
     auto handle = compiler_->compile(q, {}, makeEcho());
 
     for (int i = 0; i < 5; ++i)
-        compiler_->execute(handle, {});
+        static_cast<void>(compiler_->execute(handle, {}));
     ASSERT_TRUE(compiler_->isCompiled(handle.key));
 
     compiler_->invalidateAll();

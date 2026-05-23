@@ -37,14 +37,15 @@
 
 using namespace themis::sharding;
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-namespace {
-
-// Forward declaration of the OpenCL factory (defined in gpu_erasure_coder_opencl.cpp).
+namespace themis::sharding {
 std::unique_ptr<GPUErasureCoderImpl> createOpenCLErasureCoder(
     const GPUConfig& config,
     ErasureCodingAlgorithm algorithm);
+} // namespace themis::sharding
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+namespace {
 
 /// Deterministic data generator.
 std::vector<uint8_t> makeData(size_t size, uint8_t seed = 0xA5) {

@@ -159,11 +159,11 @@ TEST_F(MultiRangeScanTest, OpenEndedEndKey_ScansToEnd) {
     // end_key = "" means scan to end of keyspace
     std::vector<IStorageEngine::ScanRange> ranges = {{"c:", ""}};
     std::vector<std::string> keys;
-    engine_->scanMultiRange(ranges,
+    ASSERT_TRUE(engine_->scanMultiRange(ranges,
         [&](std::string_view k, std::string_view) {
             keys.emplace_back(k);
             return true;
-        });
+        }).has_value());
     EXPECT_EQ(keys.size(), 10u);
     for (const auto& k : keys) EXPECT_EQ(k.substr(0, 2), "c:");
 }

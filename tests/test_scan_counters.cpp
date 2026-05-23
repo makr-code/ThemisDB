@@ -83,14 +83,14 @@ TEST_F(ScanCounterTest, InitialCountersAreZero) {
 
 TEST_F(ScanCounterTest, ScanRange_IncrementsCalls) {
     insertItems("r:", 0, 5);
-    engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; });
+    ASSERT_TRUE(engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; }).has_value());
 
     EXPECT_EQ(engine_->scanCounters().scan_calls, 1u);
 }
 
 TEST_F(ScanCounterTest, ScanRange_CountsExaminedAndReturned) {
     insertItems("x:", 0, 5);
-    engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; });
+    ASSERT_TRUE(engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; }).has_value());
 
     auto c = engine_->scanCounters();
     EXPECT_EQ(c.keys_examined, 5u);
@@ -100,9 +100,9 @@ TEST_F(ScanCounterTest, ScanRange_CountsExaminedAndReturned) {
 TEST_F(ScanCounterTest, ScanRange_EarlyStop_RecordsEarlyStop) {
     insertItems("e:", 0, 10);
     int visited = 0;
-    engine_->scanRange("", "", [&](std::string_view, std::string_view) {
+    ASSERT_TRUE(engine_->scanRange("", "", [&](std::string_view, std::string_view) {
         return ++visited < 3; // stop after 2
-    });
+    }).has_value());
 
     auto c = engine_->scanCounters();
     EXPECT_EQ(c.early_stops, 1u);
@@ -115,11 +115,11 @@ TEST_F(ScanCounterTest, ScanRange_EarlyStop_RecordsEarlyStop) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(ScanCounterTest, ScanPrefix_IncrementsCalls) {
-    engine_->put("pfx:a", "1");
-    engine_->put("pfx:b", "2");
-    engine_->put("other:c", "3");
+    ASSERT_TRUE(engine_->put("pfx:a", "1").has_value());
+    ASSERT_TRUE(engine_->put("pfx:b", "2").has_value());
+    ASSERT_TRUE(engine_->put("other:c", "3").has_value());
 
-    engine_->scanPrefix("pfx:", [](std::string_view, std::string_view) { return true; });
+    ASSERT_TRUE(engine_->scanPrefix("pfx:", [](std::string_view, std::string_view) { return true; }).has_value());
 
     auto c = engine_->scanCounters();
     EXPECT_EQ(c.scan_calls, 1u);
@@ -133,7 +133,7 @@ TEST_F(ScanCounterTest, ScanPrefix_IncrementsCalls) {
 
 TEST_F(ScanCounterTest, Reset_ZeroesAllCounters) {
     insertItems("z:", 0, 5);
-    engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; });
+    ASSERT_TRUE(engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; }).has_value());
 
     ASSERT_GT(engine_->scanCounters().scan_calls, 0u);
 
@@ -175,12 +175,12 @@ TEST_F(ScanCounterTest, ScanPredicate_FiltersCorrectly) {
 TEST_F(ScanCounterTest, ScanPredicate_CountersSeparateExaminedFromReturned) {
     insertItems("p:", 0, 10);
 
-    engine_->scanPredicate(
+    ASSERT_TRUE(engine_->scanPredicate(
         "", "",
         [](std::string_view, std::string_view val) {
             return !val.empty() && val.back() == '5'; // only val_5
         },
-        [](std::string_view, std::string_view) { return true; });
+        [](std::string_view, std::string_view) { return true; }).has_value());
 
     auto c = engine_->scanCounters();
     EXPECT_EQ(c.scan_calls,    1u);
@@ -192,12 +192,12 @@ TEST_F(ScanCounterTest, ScanPredicate_EarlyStop) {
     insertItems("q:", 0, 10);
 
     int returned = 0;
-    engine_->scanPredicate(
+    ASSERT_TRUE(engine_->scanPredicate(
         "", "",
         [](std::string_view, std::string_view) { return true; }, // accept all
         [&](std::string_view, std::string_view) {
             return ++returned < 3; // stop after 2 callbacks (returns false on 3rd)
-        });
+        }).has_value());
 
     auto c = engine_->scanCounters();
     EXPECT_EQ(c.early_stops, 1u);
@@ -219,19 +219,19 @@ TEST_F(ScanCounterTest, ScanPredicate_ClosedEngine_ReturnsError) {
 
 TEST_F(ScanCounterTest, Selectivity_AllPassed) {
     insertItems("s:", 0, 5);
-    engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; });
+    ASSERT_TRUE(engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; }).has_value());
     EXPECT_DOUBLE_EQ(engine_->scanCounters().selectivity(), 1.0);
 }
 
 TEST_F(ScanCounterTest, Selectivity_HalfPassed) {
     insertItems("t:", 0, 10);
-    engine_->scanPredicate(
+    ASSERT_TRUE(engine_->scanPredicate(
         "", "",
         [](std::string_view, std::string_view val) {
             // Keep entries whose numeric digit value is even: val_0, val_2, val_4, val_6, val_8
             return !val.empty() && ((val.back() - '0') % 2 == 0);
         },
-        [](std::string_view, std::string_view) { return true; });
+        [](std::string_view, std::string_view) { return true; }).has_value());
 
     auto s = engine_->scanCounters().selectivity();
     EXPECT_NEAR(s, 0.5, 0.01);
@@ -248,8 +248,8 @@ TEST_F(ScanCounterTest, Selectivity_NoExamined_ReturnsOne) {
 
 TEST_F(ScanCounterTest, MultipleScanCalls_CountersAccumulate) {
     insertItems("m:", 0, 5);
-    engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; });
-    engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; });
+    ASSERT_TRUE(engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; }).has_value());
+    ASSERT_TRUE(engine_->scanRange("", "", [](std::string_view, std::string_view) { return true; }).has_value());
 
     auto c = engine_->scanCounters();
     EXPECT_EQ(c.scan_calls, 2u);

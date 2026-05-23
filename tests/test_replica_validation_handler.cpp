@@ -212,9 +212,13 @@ TEST(ReplicaValidationHandlerTest, RVH08_IndependentHandlerState) {
         return "handler_b";
     });
 
-    handler_a.execute("job-1", MaintenanceTaskType::REPLICA_VALIDATION);
-    handler_a.execute("job-2", MaintenanceTaskType::REPLICA_VALIDATION);
-    handler_b.execute("job-3", MaintenanceTaskType::REPLICA_VALIDATION);
+    const auto r1 = handler_a.execute("job-1", MaintenanceTaskType::REPLICA_VALIDATION);
+    const auto r2 = handler_a.execute("job-2", MaintenanceTaskType::REPLICA_VALIDATION);
+    const auto r3 = handler_b.execute("job-3", MaintenanceTaskType::REPLICA_VALIDATION);
+
+    ASSERT_TRUE(r1.has_value());
+    ASSERT_TRUE(r2.has_value());
+    ASSERT_TRUE(r3.has_value());
 
     EXPECT_EQ(count_a, 2);
     EXPECT_EQ(count_b, 1);

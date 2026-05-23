@@ -353,7 +353,8 @@ TEST(RelationBuilder, RB06_IssuedBy_LegalDecision_Authority) {
 TEST(InMemoryGraphWriter, GW01_WriteEntities_StoredById) {
     InMemoryGraphWriter gw;
     auto e = makeEntity(EntityType::PERSON, "Hans", 1.0, "person:001");
-    gw.writeEntities({e});
+    auto write_res = gw.writeEntities({e});
+    ASSERT_TRUE(write_res.has_value()) << write_res.error().message();
     EXPECT_EQ(gw.nodeCount(), 1u);
     EXPECT_NE(gw.nodes().find("person:001"), gw.nodes().end());
 }
@@ -365,7 +366,8 @@ TEST(InMemoryGraphWriter, GW02_WriteEntities_MergesPropertiesOnDuplicate) {
     auto e2 = makeEntity(EntityType::PERSON, "Hans", 0.7, "person:001");
     e2.properties["title"] = "Dr.";
 
-    gw.writeEntities({e1, e2});
+    auto write_res = gw.writeEntities({e1, e2});
+    ASSERT_TRUE(write_res.has_value()) << write_res.error().message();
     EXPECT_EQ(gw.nodeCount(), 1u);
     const auto& n = gw.nodes().at("person:001");
     EXPECT_EQ(n.properties.at("role"), "Antragsteller");
@@ -376,18 +378,21 @@ TEST(InMemoryGraphWriter, GW03_WriteRelations_StoredEdges) {
     InMemoryGraphWriter gw;
     EntityRelation r;
     r.from_id = "law:X:§4"; r.to_id = "law:X:§5"; r.relation_type = RelationType::CITES;
-    gw.writeRelations({r});
+    auto write_res = gw.writeRelations({r});
+    ASSERT_TRUE(write_res.has_value()) << write_res.error().message();
     EXPECT_EQ(gw.edgeCount(), 1u);
 }
 
 TEST(InMemoryGraphWriter, GW04_NodeAndEdgeCount) {
     InMemoryGraphWriter gw;
-    gw.writeEntities({makeEntity(EntityType::DATE, "2024", 1.0, "date:1"),
-                      makeEntity(EntityType::DATE, "2025", 1.0, "date:2")});
+    auto write_entities = gw.writeEntities({makeEntity(EntityType::DATE, "2024", 1.0, "date:1"),
+                                            makeEntity(EntityType::DATE, "2025", 1.0, "date:2")});
+    ASSERT_TRUE(write_entities.has_value()) << write_entities.error().message();
     EntityRelation r;
     r.from_id = "date:1"; r.to_id = "date:2";
     r.relation_type = RelationType::CO_OCCURS;
-    gw.writeRelations({r});
+    auto write_rel = gw.writeRelations({r});
+    ASSERT_TRUE(write_rel.has_value()) << write_rel.error().message();
     EXPECT_EQ(gw.nodeCount(), 2u);
     EXPECT_EQ(gw.edgeCount(), 1u);
 }
@@ -422,23 +427,27 @@ static VectorRecord makeVecRec(const std::string& chunk_id,
 
 TEST(InMemoryVectorWriter, VW01_WriteVectors_StoredByChunkId) {
     InMemoryVectorWriter vw;
-    vw.writeVectors({makeVecRec("chunk:1")});
+    auto write_res = vw.writeVectors({makeVecRec("chunk:1")});
+    ASSERT_TRUE(write_res.has_value()) << write_res.error().message();
     EXPECT_EQ(vw.vectorCount(), 1u);
 }
 
 TEST(InMemoryVectorWriter, VW02_Overwrite_DuplicateChunkId) {
     InMemoryVectorWriter vw;
-    vw.writeVectors({makeVecRec("chunk:1")});
+    auto write_first = vw.writeVectors({makeVecRec("chunk:1")});
+    ASSERT_TRUE(write_first.has_value()) << write_first.error().message();
     auto v2 = makeVecRec("chunk:1");
     v2.text_snippet = "updated";
-    vw.writeVectors({v2});
+    auto write_second = vw.writeVectors({v2});
+    ASSERT_TRUE(write_second.has_value()) << write_second.error().message();
     EXPECT_EQ(vw.vectorCount(), 1u);
     EXPECT_EQ(vw.findByChunkId("chunk:1")->text_snippet, "updated");
 }
 
 TEST(InMemoryVectorWriter, VW03_VectorCount) {
     InMemoryVectorWriter vw;
-    vw.writeVectors({makeVecRec("a"), makeVecRec("b"), makeVecRec("c")});
+    auto write_res = vw.writeVectors({makeVecRec("a"), makeVecRec("b"), makeVecRec("c")});
+    ASSERT_TRUE(write_res.has_value()) << write_res.error().message();
     EXPECT_EQ(vw.vectorCount(), 3u);
 }
 
@@ -449,7 +458,8 @@ TEST(InMemoryVectorWriter, VW04_FindByChunkId_NotFound_ReturnsNullptr) {
 
 TEST(InMemoryVectorWriter, VW05_FindByChunkId_Found_ReturnsRecord) {
     InMemoryVectorWriter vw;
-    vw.writeVectors({makeVecRec("chunk:42")});
+    auto write_res = vw.writeVectors({makeVecRec("chunk:42")});
+    ASSERT_TRUE(write_res.has_value()) << write_res.error().message();
     const auto* rec = vw.findByChunkId("chunk:42");
     ASSERT_NE(rec, nullptr);
     EXPECT_EQ(rec->chunk_id, "chunk:42");
@@ -470,8 +480,10 @@ TEST(InMemoryDocWriter, DW01_WriteDocument_ReturnsNonEmptyId) {
 TEST(InMemoryDocWriter, DW02_DocumentCount_Increments) {
     InMemoryDocWriter dw;
     auto es = makeEntitySet("sha256:abc");
-    dw.writeDocument(es, "ingested");
-    dw.writeDocument(es, "ingested");
+    auto write_first = dw.writeDocument(es, "ingested");
+    ASSERT_TRUE(write_first.has_value()) << write_first.error().message();
+    auto write_second = dw.writeDocument(es, "ingested");
+    ASSERT_TRUE(write_second.has_value()) << write_second.error().message();
     EXPECT_EQ(dw.documentCount(), 2u);
 }
 

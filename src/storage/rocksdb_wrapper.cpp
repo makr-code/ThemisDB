@@ -1777,9 +1777,13 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
     
     rocksdb::Slice start_slice(start_key.data(), start_key.size());
     rocksdb::Slice end_slice(end_key.data(), end_key.size());
+    const bool has_end_bound = !end_key.empty();
     
     // v1.4.1: CPU prefetch hints for range scanning
-    for (it->Seek(start_slice); it->Valid() && it->key().compare(end_slice) < 0; it->Next()) {
+    for (it->Seek(start_slice); it->Valid(); it->Next()) {
+        if (has_end_bound && it->key().compare(end_slice) >= 0) {
+            break;
+        }
         std::string_view key(it->key().data(), it->key().size());
         std::string_view value(it->value().data(), it->value().size());
         
@@ -1819,8 +1823,12 @@ void RocksDBWrapper::iterateRange(std::string_view start_key, std::string_view e
 
     rocksdb::Slice start_slice(start_key.data(), start_key.size());
     rocksdb::Slice end_slice(end_key.data(), end_key.size());
+    const bool has_end_bound = !end_key.empty();
 
-    for (it->Seek(start_slice); it->Valid() && it->key().compare(end_slice) < 0; it->Next()) {
+    for (it->Seek(start_slice); it->Valid(); it->Next()) {
+        if (has_end_bound && it->key().compare(end_slice) >= 0) {
+            break;
+        }
         std::string_view key(it->key().data(), it->key().size());
         std::string_view value(it->value().data(), it->value().size());
         if (!callback(key, value)) {

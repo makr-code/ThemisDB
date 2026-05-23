@@ -76,6 +76,10 @@ static std::shared_ptr<MaterializedView> createView(
     return *result;
 }
 
+static void assertOk(const Result<void>& result) {
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
 // =============================================================================
 // Fixture
 // =============================================================================
@@ -239,7 +243,7 @@ TEST(MaterializedViewDeltaTests, AC3_ImmediateInsertAppendsRow) {
     auto view = createView(def);
 
     // Populate with an initial full refresh.
-    view->refresh(false, {makeSaleRow("k1", "EU", 100.0)});
+    assertOk(view->refresh(false, {makeSaleRow("k1", "EU", 100.0)}));
     EXPECT_EQ(view->getRows().size(), 1u);
 
     // Insert a new row via delta.
@@ -253,11 +257,11 @@ TEST(MaterializedViewDeltaTests, AC3_ImmediateDeleteRemovesRow) {
         "view2", MaterializedView::RefreshStrategy::IMMEDIATE);
     auto view = createView(def);
 
-    view->refresh(false, {
+    assertOk(view->refresh(false, {
         makeSaleRow("k1", "EU",   100.0),
         makeSaleRow("k2", "US",   200.0),
         makeSaleRow("k3", "APAC", 50.0)
-    });
+    }));
     ASSERT_EQ(view->getRows().size(), 3u);
 
     view->applyDeltaJson(DeltaOp::DELETE,
@@ -275,7 +279,7 @@ TEST(MaterializedViewDeltaTests, AC3_ImmediateUpdateReplacesRow) {
         "view3", MaterializedView::RefreshStrategy::IMMEDIATE);
     auto view = createView(def);
 
-    view->refresh(false, {makeSaleRow("k1", "EU", 100.0)});
+    assertOk(view->refresh(false, {makeSaleRow("k1", "EU", 100.0)}));
 
     auto updated = makeSaleRow("k1", "EU", 999.0);
     view->applyDeltaJson(DeltaOp::UPDATE, updated);
@@ -291,7 +295,7 @@ TEST(MaterializedViewRegistryTests, AC3_RegistryPropagatesInsert) {
         "reg_view", MaterializedView::RefreshStrategy::IMMEDIATE,
         {"orders"});
     auto view = createView(def);
-    view->refresh(false, {});  // empty snapshot
+    assertOk(view->refresh(false, {}));  // empty snapshot
 
     MaterializedViewRegistry reg;
     ASSERT_TRUE(reg.registerView(view).has_value());
@@ -306,7 +310,7 @@ TEST(MaterializedViewRegistryTests, AC3_RegistryDoesNotPropagateUnrelatedTable) 
         "view_orders", MaterializedView::RefreshStrategy::IMMEDIATE,
         {"orders"});
     auto view = createView(def);
-    view->refresh(false, {makeSaleRow("o1", "EU", 1.0)});
+    assertOk(view->refresh(false, {makeSaleRow("o1", "EU", 1.0)}));
 
     MaterializedViewRegistry reg;
     ASSERT_TRUE(reg.registerView(view).has_value());
@@ -325,7 +329,7 @@ TEST(MaterializedViewStrategyTests, AC4_ImmediateDeltaNoRefreshNeeded) {
     auto def = makeDefinition(
         "imm_view", MaterializedView::RefreshStrategy::IMMEDIATE);
     auto view = createView(def);
-    view->refresh(false, {});
+    assertOk(view->refresh(false, {}));
 
     view->applyDeltaJson(DeltaOp::INSERT, makeSaleRow("k1", "EU", 1.0));
     // No explicit refresh() called — rows must already be updated.
@@ -337,7 +341,7 @@ TEST(MaterializedViewStrategyTests, AC4_DeferredDeltaMarksStaleOnly) {
     auto def = makeDefinition(
         "def_view", MaterializedView::RefreshStrategy::DEFERRED);
     auto view = createView(def);
-    view->refresh(false, {makeSaleRow("k1", "EU", 1.0)});
+    assertOk(view->refresh(false, {makeSaleRow("k1", "EU", 1.0)}));
     ASSERT_FALSE(view->isStale());
 
     view->applyDeltaJson(DeltaOp::INSERT, makeSaleRow("k2", "US", 2.0));
@@ -352,7 +356,7 @@ TEST(MaterializedViewStrategyTests, AC4_PeriodicDeltaMarksStale) {
     auto def = makeDefinition(
         "per_view", MaterializedView::RefreshStrategy::PERIODIC);
     auto view = createView(def);
-    view->refresh(false, {makeSaleRow("k1", "EU", 1.0)});
+    assertOk(view->refresh(false, {makeSaleRow("k1", "EU", 1.0)}));
     ASSERT_FALSE(view->isStale());
 
     view->applyDeltaJson(DeltaOp::DELETE,
@@ -366,7 +370,7 @@ TEST(MaterializedViewStrategyTests, AC4_ManualDeltaIsNoop) {
     auto def = makeDefinition(
         "man_view", MaterializedView::RefreshStrategy::MANUAL);
     auto view = createView(def);
-    view->refresh(false, {makeSaleRow("k1", "EU", 1.0)});
+    assertOk(view->refresh(false, {makeSaleRow("k1", "EU", 1.0)}));
     ASSERT_FALSE(view->isStale());
 
     view->applyDeltaJson(DeltaOp::INSERT, makeSaleRow("k2", "US", 9.0));
@@ -379,7 +383,7 @@ TEST(MaterializedViewRegistryTests, AC4_RegistryRefreshStale) {
     auto def = makeDefinition(
         "stale_view", MaterializedView::RefreshStrategy::DEFERRED);
     auto view = createView(def);
-    view->refresh(false, {makeSaleRow("k1", "EU", 1.0)});
+    assertOk(view->refresh(false, {makeSaleRow("k1", "EU", 1.0)}));
     view->markStale();
     ASSERT_TRUE(view->isStale());
 
@@ -397,7 +401,7 @@ TEST(MaterializedViewRegistryTests, AC4_RegistryRefreshStale) {
 
 /// markStale() makes isStale() return true.
 TEST_F(MaterializedViewFocusedTests, AC5_MarkStaleIsStale) {
-    view_->refresh(false, {makeSaleRow("k1", "EU", 1.0)});
+    assertOk(view_->refresh(false, {makeSaleRow("k1", "EU", 1.0)}));
     ASSERT_FALSE(view_->isStale());
 
     view_->markStale();
@@ -409,7 +413,7 @@ TEST_F(MaterializedViewFocusedTests, AC5_RefreshClearsStale) {
     view_->markStale();
     ASSERT_TRUE(view_->isStale());
 
-    view_->refresh(false, {});
+    assertOk(view_->refresh(false, {}));
     EXPECT_FALSE(view_->isStale());
 }
 
@@ -421,7 +425,7 @@ TEST(MaterializedViewStalenessTests, AC5_TimeBasedStale) {
                               {"sales"},
                               /*staleness=*/std::chrono::milliseconds(100));
     auto view = createView(def);
-    view->refresh(false, {makeSaleRow("k1", "EU", 1.0)});
+    assertOk(view->refresh(false, {makeSaleRow("k1", "EU", 1.0)}));
     ASSERT_FALSE(view->isStale());
 
     // Poll until the snapshot expires (up to 2 s to tolerate slow CI).
@@ -445,7 +449,7 @@ TEST(MaterializedViewStalenessTests, AC5_ZeroToleranceNoTimeStaleness) {
                               {"sales"},
                               /*staleness=*/std::chrono::milliseconds{0});
     auto view = createView(def);
-    view->refresh(false, {makeSaleRow("k1", "EU", 1.0)});
+    assertOk(view->refresh(false, {makeSaleRow("k1", "EU", 1.0)}));
     // Even after a short wait the view must stay fresh (stale_ == false).
     std::this_thread::sleep_for(std::chrono::milliseconds{50});
     EXPECT_FALSE(view->isStale());
@@ -453,7 +457,7 @@ TEST(MaterializedViewStalenessTests, AC5_ZeroToleranceNoTimeStaleness) {
 
 /// ViewStats.is_stale reflects the current staleness.
 TEST_F(MaterializedViewFocusedTests, AC5_StatsStalenessField) {
-    view_->refresh(false, {makeSaleRow("k1", "EU", 1.0)});
+    assertOk(view_->refresh(false, {makeSaleRow("k1", "EU", 1.0)}));
     EXPECT_FALSE(view_->getStats().is_stale);
 
     view_->markStale();
@@ -506,12 +510,12 @@ TEST(MaterializedViewPerformanceTests, AC6_QueryRowsFilterWorksOnSnapshot) {
         "filter_view", MaterializedView::RefreshStrategy::MANUAL);
     auto view = createView(def);
 
-    view->refresh(false, {
+    assertOk(view->refresh(false, {
         makeSaleRow("k1", "EU",   10.0),
         makeSaleRow("k2", "US",   20.0),
         makeSaleRow("k3", "EU",   30.0),
         makeSaleRow("k4", "APAC", 40.0)
-    });
+    }));
 
     auto eu_rows = view->queryRows("region", "EU");
     EXPECT_EQ(eu_rows.size(), 2u);
@@ -529,14 +533,14 @@ TEST(MaterializedViewDeltaTests, AC7_MultipleImmediateInsertsConsistent) {
     auto def = makeDefinition(
         "multi_insert_view", MaterializedView::RefreshStrategy::IMMEDIATE);
     auto view = createView(def);
-    view->refresh(false, {});
+    assertOk(view->refresh(false, {}));
 
     const size_t N = 100;
     for (size_t i = 0; i < N; ++i) {
         view->applyDeltaJson(DeltaOp::INSERT,
-                             makeSaleRow("k" + std::to_string(i),
-                                         "EU",
-                                         static_cast<double>(i)));
+                     makeSaleRow("k" + std::to_string(i),
+                         "EU",
+                         static_cast<double>(i)));
     }
     EXPECT_EQ(view->getRows().size(), N);
 }
@@ -546,7 +550,7 @@ TEST(MaterializedViewDeltaTests, AC7_StatsCountedForImmediateInserts) {
     auto def = makeDefinition(
         "stats_view", MaterializedView::RefreshStrategy::IMMEDIATE);
     auto view = createView(def);
-    view->refresh(false, {});
+    assertOk(view->refresh(false, {}));
 
     view->applyDeltaJson(DeltaOp::INSERT, makeSaleRow("k1", "EU", 1.0));
     view->applyDeltaJson(DeltaOp::INSERT, makeSaleRow("k2", "US", 2.0));
@@ -569,8 +573,8 @@ TEST(MaterializedViewDeltaTests, AC7_ImmediateAndDeferredIndependentBehavior) {
     auto imm_view = createView(imm_def);
     auto def_view = createView(def_def);
 
-    imm_view->refresh(false, {});
-    def_view->refresh(false, {makeSaleRow("k1", "EU", 1.0)});
+    assertOk(imm_view->refresh(false, {}));
+    assertOk(def_view->refresh(false, {makeSaleRow("k1", "EU", 1.0)}));
 
     imm_view->applyDeltaJson(DeltaOp::INSERT, makeSaleRow("k2", "US", 2.0));
     def_view->applyDeltaJson(DeltaOp::INSERT, makeSaleRow("k3", "APAC", 3.0));

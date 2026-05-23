@@ -178,8 +178,10 @@ TEST(StepRegistry, SR02_RegisterAddsStep) {
 
 TEST(StepRegistry, SR03_ListStepsReturnsAll) {
     StepRegistry reg;
-    reg.registerStep("test.a", std::make_shared<AppendTextStep>("a"));
-    reg.registerStep("test.b", std::make_shared<AppendTextStep>("b"));
+    auto res_a = reg.registerStep("test.a", std::make_shared<AppendTextStep>("a"));
+    ASSERT_TRUE(res_a.has_value()) << res_a.error().message();
+    auto res_b = reg.registerStep("test.b", std::make_shared<AppendTextStep>("b"));
+    ASSERT_TRUE(res_b.has_value()) << res_b.error().message();
     const auto list = reg.listSteps();
     EXPECT_EQ(list.size(), 2u);
 }
@@ -187,7 +189,8 @@ TEST(StepRegistry, SR03_ListStepsReturnsAll) {
 TEST(StepRegistry, SR04_DuplicateRegistrationIsError) {
     StepRegistry reg;
     auto step = std::make_shared<AppendTextStep>("x");
-    reg.registerStep("test.dup", step);
+    auto first = reg.registerStep("test.dup", step);
+    ASSERT_TRUE(first.has_value()) << first.error().message();
     auto res = reg.registerStep("test.dup", step);
     ASSERT_FALSE(res.has_value());
     EXPECT_EQ(res.error().code(), ErrorCode::ERR_WORKFLOW_STEP_ALREADY_REGISTERED);
@@ -195,7 +198,8 @@ TEST(StepRegistry, SR04_DuplicateRegistrationIsError) {
 
 TEST(StepRegistry, SR05_UnloadRemovesStep) {
     StepRegistry reg;
-    reg.registerStep("test.rm", std::make_shared<AppendTextStep>("rm"));
+    auto reg_res = reg.registerStep("test.rm", std::make_shared<AppendTextStep>("rm"));
+    ASSERT_TRUE(reg_res.has_value()) << reg_res.error().message();
     ASSERT_TRUE(reg.hasStep("test.rm"));
     auto res = reg.unloadStep("test.rm");
     ASSERT_TRUE(res.has_value()) << res.error().message();
@@ -254,8 +258,10 @@ TEST(WorkflowEngine, WE06_DuplicateProfileLoadIsIdempotent) {
     const auto path = writeTempProfile(
         R"({"name":"test-profile","steps":[]})", "valid2.json");
     WorkflowEngine engine;
-    engine.loadProfile(path);
-    engine.loadProfile(path);  // second call
+    auto load1 = engine.loadProfile(path);
+    ASSERT_TRUE(load1.has_value()) << load1.error().message();
+    auto load2 = engine.loadProfile(path);  // second call
+    ASSERT_TRUE(load2.has_value()) << load2.error().message();
     EXPECT_EQ(engine.listProfiles().size(), 1u);
 }
 
@@ -273,7 +279,8 @@ TEST(WorkflowEngine, WE08_SelectProfileExactMimeMatch) {
         R"({"name":"pdf-profile","file_patterns":{"mime_types":["application/pdf"]},"steps":[]})",
         "pdf.json");
     WorkflowEngine engine;
-    engine.loadProfile(path);
+    auto load_res = engine.loadProfile(path);
+    ASSERT_TRUE(load_res.has_value()) << load_res.error().message();
     const auto* p = engine.selectProfile("application/pdf", "test.pdf");
     ASSERT_NE(p, nullptr);
     EXPECT_EQ(p->name, "pdf-profile");
@@ -283,7 +290,8 @@ TEST(WorkflowEngine, WE09_SelectProfileFallsBackToDefault) {
     const auto path = writeTempProfile(
         R"({"name":"default","steps":[]})", "def.json");
     WorkflowEngine engine;
-    engine.loadProfile(path);
+    auto load_res = engine.loadProfile(path);
+    ASSERT_TRUE(load_res.has_value()) << load_res.error().message();
     const auto* p = engine.selectProfile("application/pdf", "test.pdf");
     ASSERT_NE(p, nullptr);
     EXPECT_EQ(p->name, "default");
@@ -296,8 +304,10 @@ TEST(WorkflowEngine, WE10_SpecificProfilePreferredOverDefault) {
     const auto def_path = writeTempProfile(
         R"({"name":"default","steps":[]})", "def2.json");
     WorkflowEngine engine;
-    engine.loadProfile(pdf_path);
-    engine.loadProfile(def_path);
+    auto load_pdf = engine.loadProfile(pdf_path);
+    ASSERT_TRUE(load_pdf.has_value()) << load_pdf.error().message();
+    auto load_def = engine.loadProfile(def_path);
+    ASSERT_TRUE(load_def.has_value()) << load_def.error().message();
     const auto* p = engine.selectProfile("application/pdf", "test.pdf");
     ASSERT_NE(p, nullptr);
     EXPECT_EQ(p->name, "pdf-profile");
@@ -326,11 +336,14 @@ TEST(WorkflowEngine, WE12_ExecuteRunsStepsInOrder) {
         })",
         "order.json");
     WorkflowEngine engine;
-    engine.loadProfile(path);
-    engine.stepRegistry().registerStep("test.a",
+    auto load_res = engine.loadProfile(path);
+    ASSERT_TRUE(load_res.has_value()) << load_res.error().message();
+    auto reg_a = engine.stepRegistry().registerStep("test.a",
         std::make_shared<AppendTextStep>("A"));
-    engine.stepRegistry().registerStep("test.b",
+    ASSERT_TRUE(reg_a.has_value()) << reg_a.error().message();
+    auto reg_b = engine.stepRegistry().registerStep("test.b",
         std::make_shared<AppendTextStep>("B"));
+    ASSERT_TRUE(reg_b.has_value()) << reg_b.error().message();
 
     auto ctx = makeCtx("text/plain");
     auto res = engine.execute(ctx);
@@ -346,9 +359,11 @@ TEST(WorkflowEngine, WE13_StepSkippedWhenCanHandleReturnsFalse) {
         })",
         "pdf_only.json");
     WorkflowEngine engine;
-    engine.loadProfile(path);
-    engine.stepRegistry().registerStep("test.pdf_only",
+    auto load_res = engine.loadProfile(path);
+    ASSERT_TRUE(load_res.has_value()) << load_res.error().message();
+    auto reg_res = engine.stepRegistry().registerStep("test.pdf_only",
         std::make_shared<PdfOnlyStep>());
+    ASSERT_TRUE(reg_res.has_value()) << reg_res.error().message();
 
     auto ctx = makeCtx("text/plain");  // not PDF
     auto res = engine.execute(ctx);
@@ -368,11 +383,14 @@ TEST(WorkflowEngine, WE14_StepSkippedOnFailureWhenOnFailureSkip) {
         })",
         "skip.json");
     WorkflowEngine engine;
-    engine.loadProfile(path);
-    engine.stepRegistry().registerStep("test.fail",
+    auto load_res = engine.loadProfile(path);
+    ASSERT_TRUE(load_res.has_value()) << load_res.error().message();
+    auto reg_fail = engine.stepRegistry().registerStep("test.fail",
         std::make_shared<FailStep>());
-    engine.stepRegistry().registerStep("test.ok",
+    ASSERT_TRUE(reg_fail.has_value()) << reg_fail.error().message();
+    auto reg_ok = engine.stepRegistry().registerStep("test.ok",
         std::make_shared<AppendTextStep>("OK"));
+    ASSERT_TRUE(reg_ok.has_value()) << reg_ok.error().message();
 
     auto ctx = makeCtx();
     auto res = engine.execute(ctx);
@@ -389,9 +407,11 @@ TEST(WorkflowEngine, WE15_ExecuteWithProfileByName) {
         })",
         "custom.json");
     WorkflowEngine engine;
-    engine.loadProfile(path);
-    engine.stepRegistry().registerStep("test.custom",
+    auto load_res = engine.loadProfile(path);
+    ASSERT_TRUE(load_res.has_value()) << load_res.error().message();
+    auto reg_res = engine.stepRegistry().registerStep("test.custom",
         std::make_shared<AppendTextStep>("custom"));
+    ASSERT_TRUE(reg_res.has_value()) << reg_res.error().message();
 
     auto ctx = makeCtx("text/plain");
     auto res = engine.executeWithProfile("custom", ctx);
@@ -408,12 +428,16 @@ protected:
     void SetUp() override {
         tmp_dir_ = (std::filesystem::temp_directory_path()
                     / "themis_focused_tests").string();
-        std::filesystem::create_directories(tmp_dir_);
+        std::error_code ec;
+        std::filesystem::create_directories(tmp_dir_, ec);
+        ASSERT_FALSE(ec) << "create_directories failed: " << ec.message();
         engine_ = std::make_unique<WorkflowEngine>();
     }
 
     void TearDown() override {
-        std::filesystem::remove_all(tmp_dir_);
+        std::error_code ec;
+        (void)std::filesystem::remove_all(tmp_dir_, ec);
+        EXPECT_FALSE(ec) << "remove_all failed: " << ec.message();
     }
 
     void writeFile(const std::string& path, const std::string& content) {

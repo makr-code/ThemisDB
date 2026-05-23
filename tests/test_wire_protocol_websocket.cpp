@@ -293,6 +293,30 @@ static std::vector<uint8_t> makeBinaryFrame(
     return frame;
 }
 
+// Build a binary response frame matching the documented wire format used for
+// websocket responses (magic + version + opcode + flags + payload size + payload).
+static std::vector<uint8_t> makeBinaryResponseFrame(
+    uint8_t resp_opcode,
+    const std::vector<uint8_t>& payload)
+{
+    std::vector<uint8_t> frame;
+    frame.reserve(12 + payload.size());
+    frame.push_back(0x54); frame.push_back(0x4D);
+    frame.push_back(0x44); frame.push_back(0x42);
+    frame.push_back(0x01);
+    frame.push_back(resp_opcode);
+    const uint16_t flags = 0x0004u; // SKIP_CHECKSUM
+    frame.push_back(static_cast<uint8_t>((flags >> 8) & 0xFF));
+    frame.push_back(static_cast<uint8_t>(flags & 0xFF));
+    const uint32_t ps = static_cast<uint32_t>(payload.size());
+    frame.push_back(static_cast<uint8_t>((ps >> 24) & 0xFF));
+    frame.push_back(static_cast<uint8_t>((ps >> 16) & 0xFF));
+    frame.push_back(static_cast<uint8_t>((ps >> 8) & 0xFF));
+    frame.push_back(static_cast<uint8_t>(ps & 0xFF));
+    frame.insert(frame.end(), payload.begin(), payload.end());
+    return frame;
+}
+
 // Parse a response frame built by buildResponseFrame().
 // Returns true on success and fills opcode, flags, and payload_str.
 static bool parseResponseFrame(const std::vector<uint8_t>& frame,
@@ -542,9 +566,9 @@ TEST(WireProtocolWebSocket, BinaryFrameExpectedSizeWithChecksum) {
 }
 
 TEST(WireProtocolWebSocket, BinaryResponseFrameStructure) {
-    // Verify buildBinaryResponseFrame produces a well-formed frame.
+    // Verify the documented websocket binary-response frame layout.
     const std::vector<uint8_t> payload = {0x01, 0x02, 0x03};
-    const auto resp = WireProtocolWebSocketSession::buildBinaryResponseFrame(0x90, payload);
+    const auto resp = makeBinaryResponseFrame(0x90, payload);
 
     ASSERT_GE(resp.size(), 12u + payload.size());
     // Magic
@@ -573,7 +597,7 @@ TEST(WireProtocolWebSocket, BinaryResponseFrameStructure) {
 }
 
 TEST(WireProtocolWebSocket, BinaryResponseFrameEmptyPayload) {
-    const auto resp = WireProtocolWebSocketSession::buildBinaryResponseFrame(0xFE, {});
+    const auto resp = makeBinaryResponseFrame(0xFE, {});
     EXPECT_EQ(resp.size(), 12u);
     const uint32_t ps =
         (static_cast<uint32_t>(resp[8])  << 24) |

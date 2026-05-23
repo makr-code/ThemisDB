@@ -16888,6 +16888,7 @@ if(THEMIS_ENABLE_WEBSOCKET)
         target_link_libraries(test_wire_protocol_websocket_focused PRIVATE
             ${TEST_LIBS}
             themis_core
+            $<$<TARGET_EXISTS:themis_network>:themis_network>
             Threads::Threads
         )
 
@@ -16914,6 +16915,7 @@ if(THEMIS_ENABLE_WEBSOCKET)
 
         add_executable(test_websocket_cdc_focused
             test_websocket_cdc.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
         )
 
         target_include_directories(test_websocket_cdc_focused PRIVATE
@@ -16924,6 +16926,7 @@ if(THEMIS_ENABLE_WEBSOCKET)
         target_link_libraries(test_websocket_cdc_focused PRIVATE
             ${TEST_LIBS}
             themis_core
+            $<$<TARGET_EXISTS:themis_network>:themis_network>
             nlohmann_json::nlohmann_json
             RocksDB::rocksdb
             Threads::Threads
@@ -20502,7 +20505,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_opencl_erasure_coder_parity.cpp"
     # Try to locate an OpenCL SDK (headers + ICD loader)
     find_package(OpenCL QUIET)
 
-    if(OpenCL_FOUND OR THEMIS_ENABLE_OPENCL)
+    if(OpenCL_FOUND AND OpenCL_LIBRARIES)
         message(STATUS "Adding Sharding: OpenCL ErasureCoder parity tests (Issue #105)")
 
         add_executable(test_opencl_erasure_coder_parity_focused
@@ -20539,7 +20542,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_opencl_erasure_coder_parity.cpp"
 
         message(STATUS "  OpenCLErasureCoder: encode/decode round-trip 1/2/3 erasures, CPU/GPU parity, batchEncode")
     else()
-        message(STATUS "OpenCL SDK not found - OpenCL ErasureCoder parity tests will be skipped")
+        message(STATUS "OpenCL SDK/libs not found - OpenCL ErasureCoder parity tests will be skipped")
     endif()
 endif()
 
@@ -21923,6 +21926,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_online_schema_migration.cpp")
     message(STATUS "Adding Storage: OnlineSchemaMigration focused tests")
     add_executable(test_online_schema_migration_focused
         test_online_schema_migration.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/online_schema_migration.cpp
     )
     target_include_directories(test_online_schema_migration_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -23125,6 +23129,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
 
     add_executable(test_cuda_hnsw_large_k_focused
         test_cuda_hnsw_large_k.cpp
+        ${THEMIS_ROOT_DIR}/src/acceleration/cuda_backend.cpp
     )
 
     target_include_directories(test_cuda_hnsw_large_k_focused PRIVATE
@@ -23481,6 +23486,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_egov_data_driven.cpp")
 
         add_executable(test_egov_data_driven_focused
             test_egov_data_driven.cpp
+            ${THEMIS_ROOT_DIR}/src/analytics/llm_process_analyzer.cpp
         )
 
         target_include_directories(test_egov_data_driven_focused PRIVATE
@@ -27419,6 +27425,7 @@ endif()
 
 add_executable(test_wasm_runtime_injector
     ${THEMIS_ROOT_DIR}/tests/test_wasm_runtime_injector.cpp
+    ${THEMIS_ROOT_DIR}/src/plugins/wasm_plugin_loader.cpp
 )
 target_link_libraries(test_wasm_runtime_injector
     PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -28355,8 +28362,29 @@ unset(_logger_removed)
 # Helper macro for tensor focused tests
 macro(_tensor_focused_test _name)
     if(EXISTS "${THEMIS_ROOT_DIR}/tests/${_name}.cpp" AND NOT TARGET ${_name}_focused)
+        set(_tensor_extra_sources)
+
+        if(_name STREQUAL "test_tensor_ht")
+            list(APPEND _tensor_extra_sources
+                ${THEMIS_ROOT_DIR}/src/storage/hierarchical_tucker_decomposer.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/ht_index.cpp
+            )
+        elseif(_name STREQUAL "test_tensor_phase3")
+            list(APPEND _tensor_extra_sources
+                ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
+                ${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp
+                ${THEMIS_ROOT_DIR}/src/rag/flare_retrieval.cpp
+                ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_pipeline.cpp
+                ${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/tensor_butterfly_operator.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
+            )
+        endif()
+
         add_executable(${_name}_focused
             ${THEMIS_ROOT_DIR}/tests/${_name}.cpp
+            ${_tensor_extra_sources}
         )
         target_link_libraries(${_name}_focused
             PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -28366,11 +28394,26 @@ macro(_tensor_focused_test _name)
             WORKING_DIRECTORY $<TARGET_FILE_DIR:${_name}_focused>
             EXTRA_ARGS --gtest_color=yes
         )
+
+        unset(_tensor_extra_sources)
     endif()
 endmacro()
 
 # Phase 1–2: core TT decomposition and recompression
-_tensor_focused_test(test_tensor_recompress)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/test_tensor_recompress.cpp" AND NOT TARGET test_tensor_recompress_focused)
+    add_executable(test_tensor_recompress_focused
+        ${THEMIS_ROOT_DIR}/tests/test_tensor_recompress.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp
+    )
+    target_link_libraries(test_tensor_recompress_focused
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_tensor_recompress_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_tensor_recompress_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # Phase 2–3: ingestion bridge, core bridge, index manager
 _tensor_focused_test(test_tensor_ingestion_bridge)
@@ -28378,23 +28421,114 @@ _tensor_focused_test(test_tensor_core_bridge)
 _tensor_focused_test(test_tensor_index_manager)
 
 # Phase 3: RAG pipeline, FLARE/TARG, fingerprint graph, adapter repository
-_tensor_focused_test(test_tensor_phase3)
-_tensor_focused_test(test_gguf_metadata)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/test_tensor_phase3.cpp" AND NOT TARGET test_tensor_phase3_focused)
+    add_executable(test_tensor_phase3_focused
+        ${THEMIS_ROOT_DIR}/tests/test_tensor_phase3.cpp
+        ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/flare_retrieval.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_pipeline.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp
+        ${THEMIS_ROOT_DIR}/src/tensor/tensor_butterfly_operator.cpp
+        ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
+    )
+    target_link_libraries(test_tensor_phase3_focused
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_tensor_phase3_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_tensor_phase3_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/test_gguf_metadata.cpp" AND NOT TARGET test_gguf_metadata_focused)
+    add_executable(test_gguf_metadata_focused
+        ${THEMIS_ROOT_DIR}/tests/test_gguf_metadata.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/gguf_metadata.cpp
+    )
+    target_link_libraries(test_gguf_metadata_focused
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_gguf_metadata_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gguf_metadata_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # Phase 5: HT decomposition and HT index
-_tensor_focused_test(test_tensor_ht)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/test_tensor_ht.cpp" AND NOT TARGET test_tensor_ht_focused)
+    add_executable(test_tensor_ht_focused
+        ${THEMIS_ROOT_DIR}/tests/test_tensor_ht.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/hierarchical_tucker_decomposer.cpp
+        ${THEMIS_ROOT_DIR}/src/tensor/ht_index.cpp
+    )
+    target_link_libraries(test_tensor_ht_focused
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_tensor_ht_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_tensor_ht_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # Phase 6: Hiss structural search, TNSR, TemplateCatalog, HissReshaper
-_tensor_focused_test(test_tensor_hiss_structural_search)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/test_tensor_hiss_structural_search.cpp" AND NOT TARGET test_tensor_hiss_structural_search_focused)
+    add_executable(test_tensor_hiss_structural_search_focused
+        ${THEMIS_ROOT_DIR}/tests/test_tensor_hiss_structural_search.cpp
+        ${THEMIS_ROOT_DIR}/src/tensor/tnsr_task.cpp
+    )
+    target_link_libraries(test_tensor_hiss_structural_search_focused
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_tensor_hiss_structural_search_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_tensor_hiss_structural_search_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # TensorRouter domain-tag + TemplateCatalog (Phase 6)
 _tensor_focused_test(test_tensor_router)
 
 # Phase 7: Unified Tensor Representation (UTR) — multi-modal converters
-_tensor_focused_test(test_tensor_utr)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/test_tensor_utr.cpp" AND NOT TARGET test_tensor_utr_focused)
+    add_executable(test_tensor_utr_focused
+        ${THEMIS_ROOT_DIR}/tests/test_tensor_utr.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/hierarchical_tucker_decomposer.cpp
+        ${THEMIS_ROOT_DIR}/src/tensor/hyper_index_builder.cpp
+        ${THEMIS_ROOT_DIR}/src/tensor/utr_converter.cpp
+    )
+    target_link_libraries(test_tensor_utr_focused
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_tensor_utr_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_tensor_utr_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # AdaLoraTTBridge Phase 3+4 bridge injection (STUB #271)
-_tensor_focused_test(test_adalora_tt_bridge)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/test_adalora_tt_bridge.cpp" AND NOT TARGET test_adalora_tt_bridge_focused)
+    add_executable(test_adalora_tt_bridge_focused
+        ${THEMIS_ROOT_DIR}/tests/test_adalora_tt_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
+        ${THEMIS_ROOT_DIR}/src/training/adalora_tt_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
+    )
+    target_link_libraries(test_adalora_tt_bridge_focused
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_adalora_tt_bridge_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adalora_tt_bridge_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 # =========================================================================
 # Phase 8: TensorFingerprintGraph + TensorDeduplicationManager (TFG/TDM tests)
 # TFG-01..TFG-28  +  TDM-01..TDM-25

@@ -105,8 +105,8 @@ TEST_F(StorageEngineProdTest, Del_RemovesKey) {
 }
 
 TEST_F(StorageEngineProdTest, Put_Overwrite) {
-    engine_->put("k", "v1");
-    engine_->put("k", "v2");
+    ASSERT_TRUE(engine_->put("k", "v1").has_value());
+    ASSERT_TRUE(engine_->put("k", "v2").has_value());
 
     auto r = engine_->get("k");
     ASSERT_TRUE(r.has_value());
@@ -140,10 +140,10 @@ TEST_F(StorageEngineProdTest, ScanRange_HalfOpen_EndExclusive) {
     insertRange("x:", 0, 3); // x:00, x:01, x:02
 
     std::vector<std::string> keys;
-    engine_->scanRange("x:00", "x:02", [&](std::string_view k, std::string_view) {
+    ASSERT_TRUE(engine_->scanRange("x:00", "x:02", [&](std::string_view k, std::string_view) {
         keys.emplace_back(k);
         return true;
-    });
+    }).has_value());
 
     // x:02 must NOT be in results (exclusive upper bound).
     EXPECT_EQ(keys.size(), 2u);
@@ -154,18 +154,18 @@ TEST_F(StorageEngineProdTest, ScanRange_EarlyStop) {
     insertRange("e:", 0, 10);
 
     int count = 0;
-    engine_->scanRange("", "", [&](std::string_view, std::string_view) {
+    ASSERT_TRUE(engine_->scanRange("", "", [&](std::string_view, std::string_view) {
         return ++count < 3; // stop after 2
-    });
+    }).has_value());
     EXPECT_EQ(count, 3); // callback returns false on 3rd call
 }
 
 TEST_F(StorageEngineProdTest, ScanRange_EmptyResult) {
     bool called = false;
-    engine_->scanRange("z:zz", "z:zzz", [&](std::string_view, std::string_view) {
+    ASSERT_TRUE(engine_->scanRange("z:zz", "z:zzz", [&](std::string_view, std::string_view) {
         called = true;
         return true;
-    });
+    }).has_value());
     EXPECT_FALSE(called);
 }
 
@@ -173,10 +173,10 @@ TEST_F(StorageEngineProdTest, ScanRange_FullKeyspace) {
     insertRange("p:", 0, 5);
 
     std::vector<std::string> keys;
-    engine_->scanRange("", "", [&](std::string_view k, std::string_view) {
+    ASSERT_TRUE(engine_->scanRange("", "", [&](std::string_view k, std::string_view) {
         keys.emplace_back(k);
         return true;
-    });
+    }).has_value());
     // All 5 keys must appear.
     EXPECT_GE(keys.size(), 5u);
 }
@@ -186,10 +186,10 @@ TEST_F(StorageEngineProdTest, ScanRange_FullKeyspace) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(StorageEngineProdTest, ScanPrefix_FindsMatchingKeys) {
-    engine_->put("doc:1", "a");
-    engine_->put("doc:2", "b");
-    engine_->put("doc:3", "c");
-    engine_->put("other:1", "d");
+    ASSERT_TRUE(engine_->put("doc:1", "a").has_value());
+    ASSERT_TRUE(engine_->put("doc:2", "b").has_value());
+    ASSERT_TRUE(engine_->put("doc:3", "c").has_value());
+    ASSERT_TRUE(engine_->put("other:1", "d").has_value());
 
     std::vector<std::string> keys;
     auto r = engine_->scanPrefix(
@@ -207,25 +207,25 @@ TEST_F(StorageEngineProdTest, ScanPrefix_FindsMatchingKeys) {
 }
 
 TEST_F(StorageEngineProdTest, ScanPrefix_NoMatch) {
-    engine_->put("abc:1", "x");
+    ASSERT_TRUE(engine_->put("abc:1", "x").has_value());
 
     bool called = false;
-    engine_->scanPrefix("xyz:", [&](std::string_view, std::string_view) {
+    ASSERT_TRUE(engine_->scanPrefix("xyz:", [&](std::string_view, std::string_view) {
         called = true;
         return true;
-    });
+    }).has_value());
     EXPECT_FALSE(called);
 }
 
 TEST_F(StorageEngineProdTest, ScanPrefix_EarlyStop) {
     for (int i = 0; i < 10; ++i) {
-        engine_->put("pfx:" + std::to_string(i), "v");
+        ASSERT_TRUE(engine_->put("pfx:" + std::to_string(i), "v").has_value());
     }
 
     int count = 0;
-    engine_->scanPrefix("pfx:", [&](std::string_view, std::string_view) {
+    ASSERT_TRUE(engine_->scanPrefix("pfx:", [&](std::string_view, std::string_view) {
         return ++count < 3;
-    });
+    }).has_value());
     EXPECT_EQ(count, 3);
 }
 

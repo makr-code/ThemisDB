@@ -168,10 +168,14 @@ TEST_F(EncryptedBlobBackendTest, EBB_04_TamperDetection)
     // We need a mutable reference — re-put a modified copy.
     std::vector<uint8_t> corrupted = *it;
     corrupted[13] ^= 0xFF;
-    stub_->put(id, corrupted);
+    auto corrupt_put = stub_->put(id, corrupted);
+    ASSERT_TRUE(corrupt_put.has_value());
 
     // Decryption should throw due to GCM tag mismatch.
-    EXPECT_THROW(enc_->get(put_result.value()), std::runtime_error);
+    EXPECT_THROW({
+        auto get_attempt = enc_->get(put_result.value());
+        EXPECT_TRUE(get_attempt.has_value());
+    }, std::runtime_error);
 }
 
 // ============================================================================
@@ -181,12 +185,15 @@ TEST_F(EncryptedBlobBackendTest, EBB_05_Stats)
 {
     std::vector<uint8_t> data(10, 0x01);
 
-    enc_->put("s1", data);
-    enc_->put("s2", data);
+    auto put_s1 = enc_->put("s1", data);
+    auto put_s2 = enc_->put("s2", data);
+    ASSERT_TRUE(put_s1.has_value());
+    ASSERT_TRUE(put_s2.has_value());
 
     BlobRef ref1; ref1.id = "s1"; ref1.type = BlobStorageType::INLINE; ref1.uri = "mem://s1";
     BlobRef ref2; ref2.id = "s2"; ref2.type = BlobStorageType::INLINE; ref2.uri = "mem://s2";
-    enc_->get(ref1);
+    auto get_s1 = enc_->get(ref1);
+    ASSERT_TRUE(get_s1.has_value());
 
     auto st = enc_->stats();
     EXPECT_EQ(st.blobs_encrypted, 2u);

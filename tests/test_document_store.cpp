@@ -500,7 +500,8 @@ protected:
     const CollectionId       kCol{"diff-col"};
 
     void put(const std::string& id, const nlohmann::json& body) {
-        store_.put({id, kCol, body});
+        auto put_result = store_.put({id, kCol, body});
+        ASSERT_TRUE(put_result.has_value());
     }
 };
 
