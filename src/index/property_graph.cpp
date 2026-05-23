@@ -39,7 +39,7 @@ namespace themis {
 
 namespace {
     static std::mutex s_string_array_fn_mutex;
-    static PropertyGraphManager::StringArrayFn s_string_array_fn;
+    static std::function<std::vector<std::string>(const std::string&)> s_string_array_fn;
 } // namespace
 
 void PropertyGraphManager::setStringArrayFn(StringArrayFn fn) {
@@ -52,7 +52,7 @@ void PropertyGraphManager::clearStringArrayFn() {
     s_string_array_fn = nullptr;
 }
 
-static PropertyGraphManager::StringArrayFn getStringArrayFn() {
+static std::function<std::vector<std::string>(const std::string&)> getStringArrayFn() {
     std::lock_guard<std::mutex> lock(s_string_array_fn_mutex);
     return s_string_array_fn;
 }

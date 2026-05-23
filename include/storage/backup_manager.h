@@ -29,6 +29,7 @@
 #include <map>
 #include <mutex>
 #include <atomic>
+#include <functional>
 #include "utils/expected.h"
 
 namespace themis {
@@ -498,6 +499,31 @@ public:
      */
     void setWalReplayFn(WalReplayFn fn);
 
+    // ── Per-CF SST ingest injection (Stub #300) ──────────────────────────────
+
+    /**
+     * @brief Callable type for per-column-family selective SST ingest.
+     *
+     * Arguments:
+     *   - checkpoint_dir:  Path to the RocksDB checkpoint directory.
+     *   - collections:     Names of the collections (column families) to restore.
+     *   - ec:              Set on failure.
+     *
+     * Returns @c true on success.
+     */
+    using CfSstIngestFn = std::function<bool(
+        const std::string& checkpoint_dir,
+        const std::vector<std::string>& collections,
+        std::error_code& ec)>;
+
+    /**
+     * @brief Inject a per-CF SST ingest function used by restoreCollections().
+     *
+     * When set, restoreCollections() calls this function before falling back
+     * to full checkpoint restore.
+     */
+    void setCfSstIngestFn(CfSstIngestFn fn);
+
 private:
     // -------------------------------------------------------------------------
     // Scheduling: in-memory registry for backup schedules.
@@ -589,28 +615,8 @@ private:
     // Helper: Find last full backup for differential
     std::string findLastFullBackup(const std::string& backup_dir);
 
-    WalReplayFn wal_replay_fn_;  ///< Optional WAL-replay hook (Stub #249)
-
-    // ─── SST ingest bridge (stub #300) ───────────────────────────────────────
-
-    /// @brief Type alias for per-CF SST file ingest injection.
-    using IngestExternalFileFn =
-        std::function<bool(const std::string& cf_name,
-                           const std::vector<std::string>& sst_files)>;
-
-    /**
-     * @brief Install a CF-level SST ingest callback for restoreCollections().
-     *
-     * When set, restoreCollections() attempts per-collection SST ingest via this
-     * function before falling back to full-checkpoint restore.
-     * @param fn Callable receiving (cf_name, sst_files) → success.
-     */
-    static void setIngestExternalFileFn(IngestExternalFileFn fn);
-
-    /**
-     * @brief Remove the SST ingest bridge (falls back to full-checkpoint restore).
-     */
-    static void clearIngestExternalFileFn();
+    WalReplayFn wal_replay_fn_;      ///< Optional WAL-replay hook (Stub #249)
+    CfSstIngestFn cf_sst_ingest_fn_; ///< Optional per-CF SST ingest hook (Stub #300)
 };
 
 } // namespace themis

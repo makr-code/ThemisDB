@@ -2202,8 +2202,6 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	#endif
 		} catch (const std::exception& ex) {
 			return Status::Error(std::string("saveIndex: ") + ex.what());
-		} catch (const std::exception&) {
-			return Status::Error("saveIndex: unbekannter Fehler");
 		}
 		return Status::OK();
 	}
@@ -2330,8 +2328,6 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Cache ggf. leer lassen; rebuildFromStorage() kann separat genutzt werden
 		} catch (const std::exception& ex) {
 			return Status::Error(std::string("loadIndex: ") + ex.what());
-		} catch (const std::exception&) {
-			return Status::Error("loadIndex: unbekannter Fehler");
 		}
 		return Status::OK();
 	}
