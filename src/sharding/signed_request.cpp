@@ -345,10 +345,9 @@ bool SignedRequestVerifier::verify(const SignedRequest& request,
 
     // 1. Verify timestamp
     if (!verifyTimestamp(request.timestamp_ms)) {
-        rejectWithAuditCode(
+        return rejectWithAuditCode(
             kAuditTimestampExpired,
             "timestamp_ms=" + std::to_string(request.timestamp_ms));
-        return false;
     }
     
     // 2. Verify nonce (replay protection)
@@ -401,8 +400,7 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_
 
     // Check if nonce was seen before within replay window.
     if (seen_nonces_.find(nonce) != seen_nonces_.end()) {
-        rejectWithAuditCode(kAuditNonceReplay, "nonce=" + std::to_string(nonce));
-        return false;
+        return rejectWithAuditCode(kAuditNonceReplay, "nonce=" + std::to_string(nonce));
     }
 
     while (seen_nonces_.size() >= config_.max_nonce_cache && !nonce_fifo_.empty()) {

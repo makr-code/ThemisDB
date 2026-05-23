@@ -64,6 +64,7 @@ public:
                 embedding_cache_ = std::make_unique<EmbeddingCache>(embed_config);
             } catch (const std::exception& e) {
                 // Fallback to linear search if EmbeddingCache initialization fails
+                spdlog::warn("LLMPrefixCache: EmbeddingCache initialization failed: {}", e.what());
                 embedding_cache_.reset();
             }
         }
@@ -134,16 +135,16 @@ public:
             if (similar_entry) {
                 // Found similar prefix via HNSW search
                 const std::string& similar_prefix = similar_entry->metadata;
-                auto it = cache_.find(similar_prefix);
-                if (it != cache_.end() && !isExpired(it->second)) {
-                    it->second.usage_count++;
-                    it->second.last_used = clock_->now();
+                auto similar_it = cache_.find(similar_prefix);
+                if (similar_it != cache_.end() && !isExpired(similar_it->second)) {
+                    similar_it->second.usage_count++;
+                    similar_it->second.last_used = clock_->now();
                     // Update average similarity before incrementing hits
                     stats_.avg_similarity = (stats_.avg_similarity * stats_.hits + similar_entry->last_similarity) 
                                           / (stats_.hits + 1);
                     stats_.hits++;
                     updateLookupTime(start);
-                    return it->second;
+                    return similar_it->second;
                 }
             }
         }

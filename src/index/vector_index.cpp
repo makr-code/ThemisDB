@@ -324,7 +324,9 @@ void VectorIndexManager::setVectorEncryptionEnabled(bool enabled) {
 		// Write back to database
 		std::string json_str = j.dump();
 		std::vector<uint8_t> data(json_str.begin(), json_str.end());
-		db_.put("config:vector", data);
+		if (!db_.put("config:vector", data)) {
+			THEMIS_WARN("VectorIndexManager: Failed to persist vector encryption config");
+		}
 		
 		THEMIS_INFO("VectorIndexManager: Vector encryption {}", enabled ? "ENABLED" : "DISABLED");
 	} catch (const std::exception& ex) {
@@ -361,7 +363,9 @@ void VectorIndexManager::setHnswEncryptionEnabled(bool enabled) {
 		// Write back to database
 		std::string json_str = j.dump();
 		std::vector<uint8_t> data(json_str.begin(), json_str.end());
-		db_.put("config:hnsw", data);
+		if (!db_.put("config:hnsw", data)) {
+			THEMIS_WARN("VectorIndexManager: Failed to persist HNSW encryption config");
+		}
 		
 		THEMIS_INFO("VectorIndexManager: HNSW index encryption {}", enabled ? "ENABLED" : "DISABLED");
 	} catch (const std::exception& ex) {
@@ -2223,7 +2227,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Check for encryption flag (Phase 2)
 			std::string encryptionFlag;
 			std::getline(metaFile, encryptionFlag);
-			bool isEncrypted = (encryptionFlag == "encrypted");
+			[[maybe_unused]] const bool isEncrypted = (encryptionFlag == "encrypted");
 
 			if (obj != objectName_) return Status::Error("loadIndex: objectName passt nicht zum Manager");
 			if (dim_ != 0 && dim_ != dim) return Status::Error("loadIndex: Dimension passt nicht zum Manager");

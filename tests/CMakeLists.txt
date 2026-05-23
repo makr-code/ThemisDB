@@ -16836,6 +16836,10 @@ if(THEMIS_ENABLE_WEBSOCKET)
             Threads::Threads
         )
 
+        if(TARGET themis_network)
+            target_link_libraries(test_wire_protocol_websocket_focused PRIVATE themis_network)
+        endif()
+
         target_compile_definitions(test_wire_protocol_websocket_focused PRIVATE
             THEMIS_TEST_BUILD=1
             THEMIS_ENABLE_WEBSOCKET=1
@@ -16859,6 +16863,9 @@ if(THEMIS_ENABLE_WEBSOCKET)
 
         add_executable(test_websocket_cdc_focused
             test_websocket_cdc.cpp
+        )
+        target_sources(test_websocket_cdc_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
         )
 
         target_include_directories(test_websocket_cdc_focused PRIVATE
@@ -20483,6 +20490,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_websocket.cpp" AND NOT
     add_executable(test_wire_protocol_websocket_focused test_wire_protocol_websocket.cpp)
     target_include_directories(test_wire_protocol_websocket_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_wire_protocol_websocket_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    if(TARGET themis_network)
+        target_link_libraries(test_wire_protocol_websocket_focused PRIVATE themis_network)
+    endif()
     target_compile_definitions(test_wire_protocol_websocket_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME WireProtocolWebSocketFocusedTests COMMAND test_wire_protocol_websocket_focused)
     set_tests_properties(WireProtocolWebSocketFocusedTests PROPERTIES LABELS "network;websocket;upgrade;focused;unit" TIMEOUT 60)

@@ -759,7 +759,7 @@ bool AdaptiveQueryCache::put(
                 ev.payload = result_str;
                 ev.tenant_id = tenant_id;
                 ev.ttl_seconds = ttl_seconds;
-                rep_listener->onReplicationEvent(ev);
+                (void)rep_listener->onReplicationEvent(ev);
             }
         }
 
@@ -806,7 +806,7 @@ bool AdaptiveQueryCache::put(
             ev.payload = result_str;
             ev.tenant_id = tenant_id;
             ev.ttl_seconds = ttl_seconds;
-            rep_listener->onReplicationEvent(ev);
+            (void)rep_listener->onReplicationEvent(ev);
         }
         return true;
     }
@@ -852,7 +852,7 @@ bool AdaptiveQueryCache::put(
             ev.payload = result_str;
             ev.tenant_id = tenant_id;
             ev.ttl_seconds = ttl_seconds;
-            rep_listener->onReplicationEvent(ev);
+            (void)rep_listener->onReplicationEvent(ev);
         }
         return true;
     }
@@ -907,7 +907,7 @@ bool AdaptiveQueryCache::put(
                 ev.payload = payload;
                 ev.tenant_id = tenant_id;
                 ev.ttl_seconds = ttl_seconds;
-                rep_listener->onReplicationEvent(ev);
+                (void)rep_listener->onReplicationEvent(ev);
             }
             return true;
         }
@@ -1045,7 +1045,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
             cache::CacheReplicationEvent ev;
             ev.type = cache::CacheReplicationEventType::INVALIDATE;
             ev.pattern = pattern;
-            rep_listener->onReplicationEvent(ev);
+            (void)rep_listener->onReplicationEvent(ev);
         }
     }
 
@@ -1969,7 +1969,7 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
             cache::CacheReplicationEvent ev;
             ev.type = cache::CacheReplicationEventType::INVALIDATE_TENANT;
             ev.tenant_id = tenant_id;
-            rep_listener->onReplicationEvent(ev);
+            (void)rep_listener->onReplicationEvent(ev);
         }
     }
 

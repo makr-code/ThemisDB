@@ -85,7 +85,7 @@ private:
     
     void initCompression();
     void writeBuffer();
-    void compressAndWrite(const char* data, size_t size);
+    void compressAndWrite([[maybe_unused]] const char* data, [[maybe_unused]] size_t size);
     void finalizeCompression();
 };
 

@@ -540,9 +540,9 @@ TEST(WireProtocolWebSocket, BinaryFrameExpectedSizeWithChecksum) {
 }
 
 TEST(WireProtocolWebSocket, BinaryResponseFrameStructure) {
-    // Verify buildBinaryResponseFrame produces a well-formed frame.
+    // Verify the response-frame layout expected by the WebSocket layer.
     const std::vector<uint8_t> payload = {0x01, 0x02, 0x03};
-    const auto resp = WireProtocolWebSocketSession::buildBinaryResponseFrame(0x90, payload);
+    const auto resp = makeFrame(0x90u, payload, /*skip_checksum=*/true);
 
     ASSERT_GE(resp.size(), 12u + payload.size());
     // Magic
@@ -571,7 +571,7 @@ TEST(WireProtocolWebSocket, BinaryResponseFrameStructure) {
 }
 
 TEST(WireProtocolWebSocket, BinaryResponseFrameEmptyPayload) {
-    const auto resp = WireProtocolWebSocketSession::buildBinaryResponseFrame(0xFE, {});
+    const auto resp = makeFrame(0xFEu, {}, /*skip_checksum=*/true);
     EXPECT_EQ(resp.size(), 12u);
     const uint32_t ps =
         (static_cast<uint32_t>(resp[8])  << 24) |

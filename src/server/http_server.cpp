@@ -3749,14 +3749,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
                 
                 // Check query quota for query endpoints
-                std::string path_only = target;
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                std::string quota_path = target;
+                auto qpos = quota_path.find('?');
+                if (qpos != std::string::npos) quota_path = quota_path.substr(0, qpos);
                 
                 // Use prefix match for /search/* to catch all search endpoints
-                bool is_query_endpoint = (path_only == "/query" || 
-                                         path_only.rfind("/search/", 0) == 0 ||
-                                         path_only.rfind("/api/aql", 0) == 0);
+                bool is_query_endpoint = (quota_path == "/query" || 
+                                         quota_path.rfind("/search/", 0) == 0 ||
+                                         quota_path.rfind("/api/aql", 0) == 0);
                 
                 if (is_query_endpoint) {
                     // Acquire query slot via RAII guard
@@ -3790,12 +3790,12 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     // Early routing for Ethics AI API
     {
-        std::string path_only = target;
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (path_only.rfind("/ethics/", 0) == 0 || path_only.rfind("/api/ethics/", 0) == 0) {
+        std::string ethics_path = target;
+        auto qpos = ethics_path.find('?');
+        if (qpos != std::string::npos) ethics_path = ethics_path.substr(0, qpos);
+        if (ethics_path.rfind("/ethics/", 0) == 0 || ethics_path.rfind("/api/ethics/", 0) == 0) {
             // HS-12: Ethics routes require auth — check before any early dispatch.
-            if (auto auth_err = requireAccess(req, "ethics", "ethics.query", path_only)) {
+            if (auto auth_err = requireAccess(req, "ethics", "ethics.query", ethics_path)) {
                 return *auth_err;
             }
             if (ethics_api_) {
@@ -3813,13 +3813,13 @@ http::response<http::string_body> HttpServer::routeRequest(
 #if THEMIS_ENABLE_LLM
     // Early routing for core LLM API endpoints used by connector-mode tests.
     {
-        std::string path_only = target;
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        std::string llm_path = target;
+        auto qpos = llm_path.find('?');
+        if (qpos != std::string::npos) llm_path = llm_path.substr(0, qpos);
 
-        if (path_only.rfind("/api/v1/llm/", 0) == 0) {
+        if (llm_path.rfind("/api/v1/llm/", 0) == 0) {
             // HS-4: LLM routes require auth — check before any payload parsing or dispatch.
-            if (auto auth_err = requireAccess(req, "llm", "llm", path_only)) {
+            if (auto auth_err = requireAccess(req, "llm", "llm", llm_path)) {
                 return *auth_err;
             }
             try {
