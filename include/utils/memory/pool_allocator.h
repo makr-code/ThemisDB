@@ -201,6 +201,8 @@ public:
      * @param object_size Size of each object
      * @param objects_per_slab Number of objects per slab
      * @param max_slabs Maximum number of slabs (0 = unlimited)
+      * @throws std::invalid_argument If object_size or objects_per_slab is 0
+      * @throws std::overflow_error If alignment or slab-size computation would overflow
      */
     explicit SlabAllocator(size_t object_size, size_t objects_per_slab = 64, 
                           size_t max_slabs = 0);

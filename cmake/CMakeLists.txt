@@ -1504,6 +1504,19 @@ if(THEMIS_ENABLE_LLM)
     if(MSVC AND TARGET llama)
         target_compile_options(llama PRIVATE /Zc:char8_t-)
     endif()
+
+    # Keep third-party ggml-vulkan warnings from drowning out first-party diagnostics.
+    if(MSVC AND TARGET ggml-vulkan)
+        target_compile_options(ggml-vulkan PRIVATE
+            /wd4244  # possible data loss in numeric conversion
+            /wd4267  # size_t to smaller type conversion
+            /wd4505  # unreferenced local function removed
+            /wd4101  # unreferenced local variable
+            /wd4334  # 32-bit shift result cast to 64-bit
+            /wd4319  # zero-extending constant value
+            /wd4456  # local declaration hides previous declaration
+        )
+    endif()
     
     # Define LLM enabled for ThemisDB code
     add_compile_definitions(THEMIS_LLM_ENABLED)

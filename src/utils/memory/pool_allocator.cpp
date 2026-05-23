@@ -431,12 +431,27 @@ struct SlabAllocator::Impl {
     Impl(size_t obj_size, size_t objs_per_slab, size_t max)
         : object_size(obj_size), objects_per_slab(objs_per_slab),
           max_slabs(max), head_slab(nullptr), slab_count(0) {
+        if (object_size == 0 || objects_per_slab == 0) {
+            throw std::invalid_argument("SlabAllocator requires object_size > 0 and objects_per_slab > 0");
+        }
+
+        const size_t alignment = sizeof(void*);
+
         
         // Ensure object size is at least pointer size and aligned
         if (object_size < sizeof(void*)) {
             object_size = sizeof(void*);
         }
-        object_size = alignSize(object_size, sizeof(void*));
+
+        if (object_size > std::numeric_limits<size_t>::max() - (alignment - 1)) {
+            throw std::overflow_error("Slab allocator object size alignment overflow");
+        }
+
+        object_size = alignSize(object_size, alignment);
+
+        if (objects_per_slab > std::numeric_limits<size_t>::max() / object_size) {
+            throw std::overflow_error("Slab allocation size overflow: object_size * objects_per_slab exceeds SIZE_MAX");
+        }
     }
     
     ~Impl() {

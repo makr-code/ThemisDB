@@ -97,7 +97,7 @@ TEST(BuddyAllocatorTest, Exhaustion) {
     
     // Clean up
     for (void* ptr : ptrs) {
-        allocator.deallocate(ptr);
+        EXPECT_TRUE(allocator.deallocate(ptr).has_value());
     }
 }
 
@@ -111,7 +111,7 @@ TEST(BuddyAllocatorTest, Statistics) {
     EXPECT_EQ(stats.total_allocations.load(), 1);
     EXPECT_GT(stats.bytes_allocated.load(), 0);
     
-    allocator.deallocate(*result1);
+    EXPECT_TRUE(allocator.deallocate(*result1).has_value());
     EXPECT_EQ(stats.total_deallocations.load(), 1);
 }
 
@@ -138,7 +138,7 @@ TEST(BuddyAllocatorTest, CacheLineAlignment) {
     uintptr_t addr = reinterpret_cast<uintptr_t>(*result);
     EXPECT_EQ(addr % CACHE_LINE_SIZE, 0) << "Not cache line aligned";
     
-    allocator.deallocate(*result);
+    EXPECT_TRUE(allocator.deallocate(*result).has_value());
 }
 
 // ============================================================================
@@ -205,7 +205,7 @@ TEST(SlabAllocatorTest, Utilization) {
     EXPECT_LE(allocator.getUtilization(), 1.0);
     
     for (void* ptr : ptrs) {
-        allocator.deallocate(ptr);
+        EXPECT_TRUE(allocator.deallocate(ptr).has_value());
     }
 }
 
@@ -226,7 +226,7 @@ TEST(SlabAllocatorTest, MaxSlabs) {
     EXPECT_FALSE(result.has_value());
     
     for (void* ptr : ptrs) {
-        allocator.deallocate(ptr);
+        EXPECT_TRUE(allocator.deallocate(ptr).has_value());
     }
 }
 
@@ -267,7 +267,6 @@ TEST(SlabAllocatorTest, OverflowProtection) {
     });
     
     // Test that overflow is detected when multiplying two moderately large values
-    size_t half_sqrt_max = sqrt_max / 2;
     EXPECT_THROW({
         SlabAllocator allocator(sqrt_max + 1, sqrt_max + 1);
     }, std::overflow_error);
@@ -362,8 +361,8 @@ TEST(StackAllocatorTest, Exhaustion) {
 TEST(StackAllocatorTest, Reset) {
     StackAllocator allocator(4096);
     
-    allocator.allocate(256);
-    allocator.allocate(512);
+    ASSERT_TRUE(allocator.allocate(256).has_value());
+    ASSERT_TRUE(allocator.allocate(512).has_value());
     
     EXPECT_GT(allocator.getCurrentOffset(), 0);
     
@@ -420,7 +419,7 @@ TEST(PoolAllocatorTest, ShortLivedHint) {
     const auto& stack_stats = pool.getStackStats();
     EXPECT_GT(stack_stats.total_allocations.load(), 0);
     
-    pool.deallocate(*result);
+    EXPECT_TRUE(pool.deallocate(*result).has_value());
 }
 
 TEST(PoolAllocatorTest, CombinedStatistics) {
@@ -438,9 +437,9 @@ TEST(PoolAllocatorTest, CombinedStatistics) {
     auto stats = pool.getCombinedStats();
     EXPECT_GE(stats.total_allocations.load(), 3);
     
-    pool.deallocate(*result1);
-    pool.deallocate(*result2);
-    pool.deallocate(*result3);
+    EXPECT_TRUE(pool.deallocate(*result1).has_value());
+    EXPECT_TRUE(pool.deallocate(*result2).has_value());
+    EXPECT_TRUE(pool.deallocate(*result3).has_value());
 }
 
 TEST(PoolAllocatorTest, CustomConfiguration) {
@@ -454,15 +453,15 @@ TEST(PoolAllocatorTest, CustomConfiguration) {
     auto result = pool.allocate(32);
     ASSERT_TRUE(result.has_value());
     
-    pool.deallocate(*result);
+    EXPECT_TRUE(pool.deallocate(*result).has_value());
 }
 
 TEST(PoolAllocatorTest, Reset) {
     PoolAllocator pool;
     
-    pool.allocate(256);
-    pool.allocate(512);
-    pool.allocate(1024);
+    ASSERT_TRUE(pool.allocate(256).has_value());
+    ASSERT_TRUE(pool.allocate(512).has_value());
+    ASSERT_TRUE(pool.allocate(1024).has_value());
     
     auto stats_before = pool.getCombinedStats();
     EXPECT_GT(stats_before.total_allocations.load(), 0);
@@ -487,7 +486,7 @@ TEST(PoolAllocatorTest, ConcurrentAllocations) {
                 success_count++;
                 // Use the memory
                 std::memset(*result, 0xCC, 128);
-                pool.deallocate(*result);
+                EXPECT_TRUE(pool.deallocate(*result).has_value());
             } else {
                 failure_count++;
             }
@@ -515,7 +514,7 @@ TEST(BuddyAllocatorTest, ConcurrentAccess) {
             auto result = allocator.allocate(256);
             if (result.has_value()) {
                 success_count++;
-                allocator.deallocate(*result);
+                EXPECT_TRUE(allocator.deallocate(*result).has_value());
             }
         }
     };
@@ -545,7 +544,7 @@ TEST(PoolAllocatorTest, AllocationLatency) {
     for (int i = 0; i < iterations; ++i) {
         auto result = pool.allocate(128);
         ASSERT_TRUE(result.has_value());
-        pool.deallocate(*result);
+        ASSERT_TRUE(pool.deallocate(*result).has_value());
     }
     
     auto end = std::chrono::high_resolution_clock::now();
@@ -579,7 +578,7 @@ TEST(SlabAllocatorTest, AllocationLatency) {
     EXPECT_LT(avg_latency, 5.0) << "Average latency: " << avg_latency << "µs";
     
     for (void* ptr : ptrs) {
-        allocator.deallocate(ptr);
+        EXPECT_TRUE(allocator.deallocate(ptr).has_value());
     }
 }
 
