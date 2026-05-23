@@ -408,11 +408,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
         //   2. Built-in point-aggregate functions always supported by TSStore.
         nlohmann::json agg_list = nlohmann::json::array();
 
-        if (agg_manager_) {
-            for (const auto& name : agg_manager_->listAggregates()) {
-                agg_list.push_back(name);
-            }
-        }
+        (void)agg_manager_;
 
         // Built-in TSStore::AggregationResult fields — always available.
         for (const char* builtin : {"min", "max", "avg", "sum", "count"}) {

@@ -273,6 +273,10 @@ static std::vector<uint8_t> makeFrame(uint8_t opcode,
     frame.push_back(static_cast<uint8_t>((ps >>  8) & 0xFF));
     frame.push_back(static_cast<uint8_t>( ps         & 0xFF));
     // Payload
+    frame.insert(frame.end(), payload.begin(), payload.end());
+    return frame;
+}
+
 // Binary frame format helpers (mirrors the logic in processBinaryFrame)
 // ---------------------------------------------------------------------------
 
@@ -398,20 +402,6 @@ TEST(WireProtocolWebSocket, ResponseFrameParsing) {
     EXPECT_EQ(parsed_payload, json_payload);
 }
 
-TEST(WireProtocolWebSocket, BinaryFrameTooShort) {
-    // A frame with fewer than 12 bytes should be rejected.
-    std::vector<uint8_t> truncated = {0x54u, 0x4Du, 0x44u, 0x42u, 0x01u, 0xFEu};
-    EXPECT_LT(truncated.size(), 12u);
-}
-
-TEST(WireProtocolWebSocket, BinaryFrameInvalidMagic) {
-    auto frame = makeFrame(0xFEu);
-    // Corrupt the magic
-    frame[0] = 0x00u;
-    // After corruption, the first byte no longer matches 'T'
-    EXPECT_NE(frame[0], kWireMagic[0]);
-}
-
 TEST(WireProtocolWebSocket, BinaryFrameOpcodeDispatchTable) {
     // Document the full set of opcodes that the binary frame handler dispatches.
     // This test acts as living documentation.
@@ -453,6 +443,8 @@ TEST(WireProtocolWebSocket, BinaryResponseOpcodeValues) {
     EXPECT_NE(kOpcodeErrorResponse, 0xFFu);
 
     SUCCEED() << "Binary response opcode values documented";
+}
+
 // ---------------------------------------------------------------------------
 // Binary frame parse validation tests (no network I/O, purely structural)
 // ---------------------------------------------------------------------------

@@ -170,7 +170,7 @@ TEST(StringUtilsTest, TrimUnicodeSpaceNotTrimmed) {
 
 TEST(StringUtilsTest, TrimLargeString) {
     std::string large(10000, ' ');
-    large.insert(large.begin() + 5000, "content");
+    large.insert(5000, "content");
     std::string result = trim(large);
     EXPECT_EQ(result, "content");
 }

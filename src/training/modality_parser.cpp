@@ -41,6 +41,7 @@
  */
 
 #include "training/modality_parser.h"
+#include "utils/string_utils.h"
 
 #include <algorithm>
 #include <chrono>
@@ -81,7 +82,7 @@ static std::vector<std::string> splitLines(const std::string& text) {
 }
 
 // Trim leading/trailing ASCII whitespace
-// Using themis::utils::themis::utils::trim() from string_utils.h (Phase 1 consolidation)
+// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 // Return true if the line looks like part of a pipe-delimited table row
 static bool isPipeTableRow(const std::string& line) {
@@ -316,7 +317,7 @@ TableExtractor::extract(const std::string& text,
         if (count >= config_.max_table_rows) break;
 
         // Build a column-count summary from the first row
-        std::string first_row = detail::themis::utils::trim(lines[blk.first_line]);
+        std::string first_row = themis::utils::trim(lines[blk.first_line]);
         size_t col_count = detail::countChar(first_row, '|');
         if (col_count > 0) col_count = (col_count + 1) / 2; // pipe-delimited
 
@@ -355,7 +356,7 @@ CitationExtractor::extract(const std::string& text,
 
     auto addMatch = [&](const std::string& matched, const std::string& type) {
         if (samples.size() >= config_.max_citations_per_document) return;
-        std::string m = detail::themis::utils::trim(matched);
+        std::string m = themis::utils::trim(matched);
         if (m.empty()) return;
 
         TrainingSample s;

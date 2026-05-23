@@ -203,7 +203,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     if (!parse_result.success) {
         json errors_arr = json::array();
         for (const auto& e : parse_result.errors) {
-            errors_arr.push_back(json{{"message", e}});
+            errors_arr.push_back(json{{"message", e.toString()}});
         }
         return {buildError(id, "Parse error: " + errors_arr.dump())};
     }

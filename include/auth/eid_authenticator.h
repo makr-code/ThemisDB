@@ -454,12 +454,7 @@ public:
     std::string beginAuthSession(std::string_view session_id) override {
         std::unique_lock<std::mutex> lk(mutex_);
         if (!initialized_) {
-            // Keep in-memory test authenticator usable without explicit init.
-            initialized_ = true;
-            config_.enabled = true;
-            if (config_.eid_server_url.empty()) {
-                config_.eid_server_url = "https://eid.test.local/auth";
-            }
+            return "";
         }
         const std::string sid(session_id);
         active_sessions_.insert(sid);

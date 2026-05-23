@@ -68,6 +68,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <shared_mutex>
 #include <string>

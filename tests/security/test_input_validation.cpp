@@ -6,13 +6,14 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "security/input_validator.hpp"
 
 using namespace themis::security;
 
 class InputValidationTest : public ::testing::Test {
  protected:
-  InputValidator validator;
+  // InputValidator is a static utility class; no instance is required.
 };
 
 // ============================================================================
@@ -105,10 +106,15 @@ TEST_F(InputValidationTest, RejectsJsonWithNullBytes) {
 }
 
 TEST_F(InputValidationTest, RejectsJsonWithExcessiveNesting) {
-  // Build JSON with 25 levels of nesting (exceeds limit of 20)
-  std::string json = R"({"a":{"b":{"c":{"d":{"e":{"f":{"g":{"h":{"i":{"j":{)";
-  json += R"("k":{"l":{"m":{"n":{"o":{"p":{"q":{"r":{"s":{"t":{"u":{"v":42)";
-  json += R"(}}}}}}}}}}}}}}}}}}}}}}}}}"; // Close 25 levels
+  // Build JSON with 25 levels of nesting (exceeds limit of 20).
+  std::string json;
+  for (int i = 0; i < 25; ++i) {
+    json += "{\"a\":";
+  }
+  json += "42";
+  for (int i = 0; i < 25; ++i) {
+    json += "}";
+  }
   
   auto result = InputValidator::validateJsonPayload(json);
   EXPECT_FALSE(result.is_valid);
@@ -223,8 +229,7 @@ TEST_F(InputValidationTest, SanitizesHtmlCorrectly) {
 }
 
 TEST_F(InputValidationTest, SanitizesJsonCorrectly) {
-  std::string input = R"(Line 1
-Line 2	Tab)";
+  std::string input = "Line 1\nLine 2\tTab";
   auto sanitized = InputValidator::sanitizeForJson(input);
   
   EXPECT_EQ(sanitized, "Line 1\\nLine 2\\tTab");
@@ -232,10 +237,10 @@ Line 2	Tab)";
 }
 
 TEST_F(InputValidationTest, SanitizesSqlForLoggingCorrectly) {
-  std::string input = R"('; DROP TABLE--')";
+  std::string input = "'; DROP TABLE--'";
   auto sanitized = InputValidator::sanitizeForSqlLogging(input);
   
-  EXPECT_EQ(sanitized, R"(\'; DROP TABLE--\')");
+  EXPECT_EQ(sanitized, "\\'; DROP TABLE--\\'");
 }
 
 // ============================================================================

@@ -9758,8 +9758,6 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
         return makeResponse(http::status::ok, out.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("Hybrid search error: ") + e.what(), req);
-    } catch (const std::exception&) {
-        return makeErrorResponse(http::status::bad_request, "Hybrid search error", req);
     }
 }
 
@@ -9823,8 +9821,6 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fulltext search error: ") + e.what(), req);
-    } catch (const std::exception&) {
-        return makeErrorResponse(http::status::internal_server_error, "Unknown fulltext search error", req);
     }
 }
 
@@ -10004,8 +10000,6 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fusion search error: ") + e.what(), req);
-    } catch (const std::exception&) {
-        return makeErrorResponse(http::status::internal_server_error, "Unknown fusion search error", req);
     }
 }
 
@@ -10024,8 +10018,6 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
-    } catch (const std::exception&) {
-        return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
 
@@ -10044,8 +10036,6 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaPut(
         return makeResponse(http::status::ok, json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
-    } catch (const std::exception&) {
-        return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
 
@@ -10187,8 +10177,6 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
-    } catch (const std::exception&) {
-        return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
 
@@ -10213,8 +10201,6 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigPut(
         return makeResponse(http::status::ok, json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
-    } catch (const std::exception&) {
-        return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
 

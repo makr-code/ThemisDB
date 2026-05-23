@@ -25,7 +25,6 @@
 #include <regex>
 #include <optional>
 #include <vector>
-#include "common/status.hpp"
 
 namespace themis::security {
 
