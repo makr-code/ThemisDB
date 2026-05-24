@@ -97,7 +97,7 @@ AiOperationGuard::AiOperationGuard(Config cfg)
 GuardDecision AiOperationGuard::evaluate(
     const std::string& tool_name,
     const json&        args,
-    const std::string&,
+    const std::string& ai_session_id,
     const std::string& caller_role
 ) const {
     // If the guard is disabled, pass everything through as READ_ONLY

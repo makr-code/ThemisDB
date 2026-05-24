@@ -17,7 +17,6 @@
 #include <vector>
 #include <chrono>
 #include <functional>
-#include <string_view>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -64,21 +63,19 @@ public:
      * @brief Configuration for ThemisHelpLoRA
      */
     struct Config {
-        /**
-         * @brief Callback used to resolve a GGUF base-model path for a model id.
-         *
-         * @param model_id Logical model identifier (for example "llama-2-7b")
-         * @return Absolute or relative filesystem path to the GGUF model file.
-         *         Return an empty string when no path is available.
-         *
-         * @note When unset, ThemisHelpLoRA falls back to the local convention
-         *       `models/<model_id>.gguf`.
-         */
-        using ModelPathProviderFn = std::function<std::string(std::string_view model_id)>;
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
 
         std::string adapter_id = "themis_help_lora";
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
+        /**
+         * @brief Optional GGUF path resolver for @ref base_model_id.
+         *
+         * When set, this callback is queried first for both lazy inference-time
+         * model loading and training-service base-model initialization.
+         * Return an empty string to fall back to the default local path
+         * `models/<base_model_id>.gguf`.
+         */
         ModelPathProviderFn model_path_provider;
         
         // Remote model loading (Ollama support)
@@ -101,8 +98,24 @@ public:
         float min_accuracy_threshold = 0.80f;
         bool enable_ab_testing = true;
         bool enable_auto_rollback = true;
+
+        /**
+         * @brief Optional model-path resolver injected at startup.
+         *
+         * When set, the resolver is called with @p base_model_id and must
+         * return the absolute filesystem path to the GGUF model file.
+         * Implement via `LLMModelStorage::resolveGGUFPath(model_id)` and wire
+         * at server startup.
+         *
+         * When not set, the component falls back to the relative path
+         * `"models/" + base_model_id + ".gguf"`, which is only correct when
+         * the server working directory contains a `models/` sub-directory.
+         *
+         * @param model_id The base_model_id string from this Config.
+         * @return Absolute path to the GGUF file, or empty on resolution failure.
+         */
     };
-    
+
     explicit ThemisHelpLoRA(const Config& config);
     ThemisHelpLoRA();
     ~ThemisHelpLoRA();

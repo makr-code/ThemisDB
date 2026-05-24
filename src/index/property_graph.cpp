@@ -21,18 +21,65 @@
 
 namespace themis {
 
+namespace {
+
+[[nodiscard]] std::vector<std::string> parseLabelsField(const std::string& raw_labels) {
+    std::vector<std::string> labels;
+    if (raw_labels.empty()) {
+        return labels;
+    }
+
+    // Preferred format: JSON string array, e.g. ["Person","Employee"].
+    try {
+        auto parsed = nlohmann::json::parse(raw_labels);
+        if (parsed.is_array()) {
+            labels.reserve(parsed.size());
+            for (const auto& entry : parsed) {
+                if (!entry.is_string()) {
+                    continue;
+                }
+                auto label = entry.get<std::string>();
+                if (!label.empty()) {
+                    labels.push_back(std::move(label));
+                }
+            }
+            return labels;
+        }
+    } catch (const std::exception&) {
+        // Backward-compatible fallback below (legacy comma-separated encoding).
+    }
+
+    // Legacy format fallback: comma-separated string.
+    std::stringstream ss(raw_labels);
+    std::string label;
+    while (std::getline(ss, label, ',')) {
+        label.erase(0, label.find_first_not_of(" \t"));
+        label.erase(label.find_last_not_of(" \t") + 1);
+        if (!label.empty()) {
+            labels.push_back(std::move(label));
+        }
+    }
+    return labels;
+}
+
+[[nodiscard]] std::string encodeLabelsField(const std::vector<std::string>& labels) {
+    return nlohmann::json(labels).dump();
+}
+
+} // namespace
+
 PropertyGraphManager::PropertyGraphManager(RocksDBWrapper& db) : db_(db) {}
 
 // ===== Helper Methods =====
 
 std::vector<std::string> PropertyGraphManager::extractLabels_(const BaseEntity& node) const {
-    // Use getFieldAsStringArray() which handles both JSON-array format
-    // (written by setFieldAsStringArray) and legacy comma-separated strings
-    // (stub #292 resolved).
+    // Delegate to BaseEntity::getFieldAsStringArray(), which handles both the
+    // current JSON-array serialization and the legacy comma-separated format.
     auto arr = node.getFieldAsStringArray("_labels");
     if (!arr.has_value()) {
         return {};
     }
+
     return *arr;
 }
 
@@ -248,7 +295,7 @@ PropertyGraphManager::Status PropertyGraphManager::addNodeLabel(std::string_view
 
     // Add label to node
     labels.push_back(std::string(label));
-    node.setFieldAsStringArray("_labels", labels);
+    node.setField("_labels", encodeLabelsField(labels));
 
     auto batch = db_.createWriteBatch();
     if (!batch) {
@@ -290,7 +337,9 @@ PropertyGraphManager::Status PropertyGraphManager::removeNodeLabel(std::string_v
         return Status::OK();  // Label not present (idempotent)
     }
     labels.erase(it);
-    node.setFieldAsStringArray("_labels", labels);
+
+    // Update labels string
+    node.setField("_labels", encodeLabelsField(labels));
 
     auto batch = db_.createWriteBatch();
     if (!batch) {
@@ -1227,4 +1276,3 @@ PropertyGraphManager::computePageRank(
 }
 
 } // namespace themis
-

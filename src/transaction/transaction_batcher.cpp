@@ -451,3 +451,4 @@ void TransactionBatcher::adaptWindow(size_t batch_size,
 }
 
 } // namespace themis
+

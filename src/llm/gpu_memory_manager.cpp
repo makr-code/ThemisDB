@@ -1664,11 +1664,6 @@ bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
     return false;
 }
 
-void GPUMemoryManager::setNVMLTemperatureFn(NVMLTemperatureFn fn) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    nvml_temperature_fn_ = std::move(fn);
-}
-
 void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     // This would typically query actual GPU hardware
 #ifdef THEMIS_ENABLE_CUDA
@@ -1709,14 +1704,9 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     
     float utilization = calculateUtilization(used_vram, config_.max_vram_bytes) * 100.0f;
     gpu_utilizations_[gpu_device_id] = utilization;
-    float temperature_celsius = 0.0f;
     if (config_.temperature_provider_fn) {
         try {
-            if (config_.temperature_provider_fn(gpu_device_id, temperature_celsius)) {
-                gpu_temperatures_[gpu_device_id] = temperature_celsius;
-            } else {
-                gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
-            }
+            gpu_temperatures_[gpu_device_id] = config_.temperature_provider_fn(gpu_device_id);
         } catch (const std::exception& e) {
             spdlog::error("GPU temperature callback failed for device {}: {}",
                           gpu_device_id, e.what());

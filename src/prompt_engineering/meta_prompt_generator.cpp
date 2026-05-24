@@ -77,6 +77,10 @@ MetaPromptResult MetaPromptGenerator::generateImprovementPrompt(
     
     result.meta_prompt = meta_prompt.str();
 
+    if (!result.metadata.is_object()) {
+        result.metadata = nlohmann::json::object();
+    }
+
     // If a live LLM provider is attached, invoke it to get a real improved prompt
     if (llm_provider_) {
         THEMIS_DEBUG("Calling LLM provider '{}' for real-time improvement", llm_provider_->name());

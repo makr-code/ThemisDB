@@ -17,6 +17,8 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <functional>
+#include <optional>
 #include <chrono>
 #include <functional>
 #include <optional>
@@ -41,8 +43,6 @@ namespace themis::sharding {
  */
 class AdaptiveShardRouter : public ShardRouter {
 public:
-    using NlpContextFn = std::function<std::optional<CapabilityMatcher::QueryContext>(std::string_view)>;
-
     /**
      * Configuration for adaptive routing
      */
@@ -239,6 +239,21 @@ public:
      * @param config New configuration
      */
     void updateAdaptiveConfig(const AdaptiveConfig& config);
+
+    /**
+     * @brief Inject NLP/ML query-context enrichment callback.
+     *
+     * The callback receives the raw query text and the current query context
+     * (already populated with extracted keywords), and can enrich domains,
+     * regions, organizations, data types, or embeddings in-place.
+     *
+     * @param fn NLP/ML enrichment function.
+     */
+    using NlpContextFn = std::function<void(
+        const std::string& query,
+        CapabilityMatcher::QueryContext& context
+    )>;
+    void setNlpContextFn(NlpContextFn fn);
     
     /**
      * Get current adaptive configuration
@@ -248,25 +263,10 @@ public:
         return adaptive_config_;
     }
 
-    /**
-     * Inject an NLP context builder that can provide domain/organization/region hints
-     * for adaptive shard routing.
-     *
-     * @param fn Callback that returns enriched query context metadata. Returning
-     *           std::nullopt falls back to keyword-based heuristics.
-     */
-    void setNlpContextFn(NlpContextFn fn);
-
-    /**
-     * Clear a previously injected NLP context builder.
-     */
-    void clearNlpContextFn();
-
 private:
     std::shared_ptr<ShardTopology> topology_;
     std::shared_ptr<CapabilityMatcher> matcher_;
     AdaptiveConfig adaptive_config_;
-    NlpContextFn nlp_context_fn_;
 
     // Domain-score map: shard_id → { domain_type → accuracy_delta }
     // Updated via updateAdapterCapability(); consulted by routeByDomain().
@@ -283,13 +283,15 @@ private:
     std::map<std::string, ShardLLMLoad> shard_llm_load_;
 
     mutable std::mutex domain_scores_mutex_;
+
+    std::optional<NlpContextFn> nlp_context_fn_;
+    mutable std::mutex nlp_context_fn_mutex_;
     
     // Statistics
     mutable std::atomic<uint64_t> total_adaptive_queries_{0};
     mutable std::atomic<uint64_t> iterations_saved_{0};
     mutable std::atomic<uint64_t> early_stops_{0};
     mutable std::atomic<uint64_t> fallback_to_scatter_gather_{0};
-    
     /**
      * Prepare query context for capability matching
      * 

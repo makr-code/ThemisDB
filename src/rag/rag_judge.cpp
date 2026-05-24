@@ -1527,3 +1527,4 @@ double calculateCalibrationError(
 } // namespace metrics
 
 } // namespace themis::rag::judge
+

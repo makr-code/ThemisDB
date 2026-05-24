@@ -49,7 +49,7 @@ public:
                 embed_config.embedding_dim = 1536;
                 
                 embedding_cache_ = std::make_unique<EmbeddingCache>(embed_config);
-            } catch (const std::exception&) {
+            } catch (const std::exception& e) {
                 // Fallback to linear search if EmbeddingCache initialization fails
                 embedding_cache_.reset();
             }

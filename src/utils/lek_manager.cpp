@@ -10,6 +10,7 @@
  */
 
 #include "utils/lek_manager.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "utils/audit_logger.h"
 #include "utils/hkdf_helper.h"
@@ -209,7 +210,7 @@ bool LEKManager::revokeKey(const std::string& date_str) {
     // Persist revocation flag to RocksDB
     if (db_) {
         try {
-            static_cast<void>(db_->put("lek_revoked:" + date_str, "1"));
+            db_->put("lek_revoked:" + date_str, "1");
         } catch (...) {
             // Persistence is best-effort; revocation is already in-memory
         }
@@ -379,4 +380,5 @@ void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
 
 } // namespace utils
 } // namespace themis
+
 

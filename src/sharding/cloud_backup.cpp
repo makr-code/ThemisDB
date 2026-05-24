@@ -359,20 +359,6 @@ public:
         //               (or injected upload callback) and propagate real status.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        AzureUploadFn fn;
-        {
-            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-            fn = g_azure_upload_fn;
-        }
-        if (fn) {
-            try {
-                return fn(account_name_, container_, local_path, remote_path, metadata);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("Azure upload callback failed: {}", e.what());
-                return false;
-            }
-        }
-
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
             return false;

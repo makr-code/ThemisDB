@@ -228,8 +228,6 @@ private:
     bool defragmentModelGPU(const std::string& model_id, const std::vector<MemoryAllocation>& gpu_allocs);
     bool defragmentModelCPU(const std::string& model_id, const std::vector<MemoryAllocation>& cpu_allocs);
 
-    // Bridge callback for NVML temperature (stub #309)
-    NVMLTemperatureFn nvml_temperature_fn_;
 };
 
 } // namespace llm

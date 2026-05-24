@@ -283,3 +283,4 @@ void SagaOperation::vectorAddWithCompensation(
 }
 
 } // namespace themis
+
