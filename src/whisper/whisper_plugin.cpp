@@ -48,7 +48,7 @@ WhisperPlugin::WhisperPlugin() {
     if (factory) {
         try {
             transcriber_ = factory();
-        } catch (...) {
+        } catch (const std::exception&) {
             transcriber_.reset();
         }
     }
@@ -182,8 +182,9 @@ audio::TranscriptionResult WhisperPlugin::transcribeStream(
         return err;
     }
     try {
-        // Apply VAD to skip silent frames if a detector is installed
-        const auto& effective_pcm = vad_ ? applyVad(pcm_samples, sample_rate) : pcm_samples;
+        // Apply VAD to skip silent frames if a detector is installed.
+        // applyVad() holds vad_mutex_ internally, avoiding a data race.
+        const auto effective_pcm = applyVad(pcm_samples, sample_rate);
 
         audio::TranscriptionResult result;
         {
@@ -215,12 +216,14 @@ audio::TranscriptionResult WhisperPlugin::transcribeStream(
 
 void WhisperPlugin::setVoiceActivityDetector(std::unique_ptr<IVoiceActivityDetector> vad,
                                               const VadConfig& cfg) {
+    std::lock_guard<std::mutex> lk(vad_mutex_);
     vad_     = std::move(vad);
     vad_cfg_ = cfg;
 }
 
 std::vector<float> WhisperPlugin::applyVad(const std::vector<float>& pcm,
                                             float sample_rate) const {
+    std::lock_guard<std::mutex> lk(vad_mutex_);
     if (!vad_ || pcm.empty()) return pcm;
     const auto segments = vad_->detect(pcm, sample_rate, vad_cfg_);
     if (segments.empty()) return {};
@@ -270,6 +273,6 @@ themis::audio::IAudioBackend* themis_audio_create() {
 
 extern "C" THEMIS_PLUGIN_EXPORT
 void themis_audio_destroy(themis::audio::IAudioBackend* p) {
-    delete p;
+    delete p;  // delete nullptr is well-defined; ownership transferred to this function
 }
 #endif

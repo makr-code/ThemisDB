@@ -10,6 +10,7 @@
  */
 
 #include "security/vault_key_provider.h"
+#include <stdexcept>
 #include "security/key_provider.h"
 #include <nlohmann/json.hpp>
 #include <curl/curl.h>

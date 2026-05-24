@@ -7,6 +7,7 @@
  */
 
 #include "ingestion/workflow_engine.h"
+#include <stdexcept>
 #include "utils/error_registry.h"
 
 #include <nlohmann/json.hpp>

@@ -10,6 +10,7 @@
  */
 
 #include "utils/input_validator.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>

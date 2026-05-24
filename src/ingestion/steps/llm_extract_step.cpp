@@ -10,6 +10,7 @@
  */
 
 #include "ingestion/ingestion_step.h"
+#include <stdexcept>
 #include "ingestion/inference_backend.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>

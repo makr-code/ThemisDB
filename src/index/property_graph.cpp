@@ -21,29 +21,52 @@
 
 namespace themis {
 
-// ============================================================================
-// StringArrayFn bridge (stub #292)
-// ============================================================================
-
 namespace {
-    static std::mutex s_string_array_fn_mutex;
-    static std::function<std::vector<std::string>(const std::string&)> s_string_array_fn;
+
+[[nodiscard]] std::vector<std::string> parseLabelsField(const std::string& raw_labels) {
+    std::vector<std::string> labels;
+    if (raw_labels.empty()) {
+        return labels;
+    }
+
+    // Preferred format: JSON string array, e.g. ["Person","Employee"].
+    try {
+        auto parsed = nlohmann::json::parse(raw_labels);
+        if (parsed.is_array()) {
+            labels.reserve(parsed.size());
+            for (const auto& entry : parsed) {
+                if (!entry.is_string()) {
+                    continue;
+                }
+                auto label = entry.get<std::string>();
+                if (!label.empty()) {
+                    labels.push_back(std::move(label));
+                }
+            }
+            return labels;
+        }
+    } catch (const std::exception&) {
+        // Backward-compatible fallback below (legacy comma-separated encoding).
+    }
+
+    // Legacy format fallback: comma-separated string.
+    std::stringstream ss(raw_labels);
+    std::string label;
+    while (std::getline(ss, label, ',')) {
+        label.erase(0, label.find_first_not_of(" \t"));
+        label.erase(label.find_last_not_of(" \t") + 1);
+        if (!label.empty()) {
+            labels.push_back(std::move(label));
+        }
+    }
+    return labels;
+}
+
+[[nodiscard]] std::string encodeLabelsField(const std::vector<std::string>& labels) {
+    return nlohmann::json(labels).dump();
+}
+
 } // namespace
-
-void PropertyGraphManager::setStringArrayFn(StringArrayFn fn) {
-    std::lock_guard<std::mutex> lock(s_string_array_fn_mutex);
-    s_string_array_fn = std::move(fn);
-}
-
-void PropertyGraphManager::clearStringArrayFn() {
-    std::lock_guard<std::mutex> lock(s_string_array_fn_mutex);
-    s_string_array_fn = nullptr;
-}
-
-static std::function<std::vector<std::string>(const std::string&)> getStringArrayFn() {
-    std::lock_guard<std::mutex> lock(s_string_array_fn_mutex);
-    return s_string_array_fn;
-}
 
 PropertyGraphManager::PropertyGraphManager(RocksDBWrapper& db) : db_(db) {}
 
@@ -56,7 +79,16 @@ std::vector<std::string> PropertyGraphManager::extractLabels_(const BaseEntity& 
     if (!arr.has_value()) {
         return {};
     }
-    return *arr;
+
+    // `_labels` is persisted as a JSON string-array payload for compatibility
+    // with BaseEntity scalar values. Legacy comma-separated payloads are still
+    // accepted to keep existing data readable.
+    auto labelsStr = node.getFieldAsString("_labels");
+    if (labelsStr.has_value()) {
+        labels = parseLabelsField(*labelsStr);
+    }
+    
+    return labels;
 }
 
 std::optional<std::string> PropertyGraphManager::extractType_(const BaseEntity& edge) const {
@@ -271,7 +303,7 @@ PropertyGraphManager::Status PropertyGraphManager::addNodeLabel(std::string_view
 
     // Add label to node
     labels.push_back(std::string(label));
-    node.setField("_labels", nlohmann::json(labels).dump());
+    node.setField("_labels", encodeLabelsField(labels));
 
     auto batch = db_.createWriteBatch();
     if (!batch) {
@@ -314,8 +346,8 @@ PropertyGraphManager::Status PropertyGraphManager::removeNodeLabel(std::string_v
     }
     labels.erase(it);
 
-    // Persist the updated label list as a JSON array.
-    node.setField("_labels", nlohmann::json(labels).dump());
+    // Update labels string
+    node.setField("_labels", encodeLabelsField(labels));
 
     auto batch = db_.createWriteBatch();
     if (!batch) {
@@ -1252,4 +1284,3 @@ PropertyGraphManager::computePageRank(
 }
 
 } // namespace themis
-

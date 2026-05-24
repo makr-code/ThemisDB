@@ -208,25 +208,22 @@ float DistributedTrainer::scale_learning_rate(
     }
 }
 
-// CPU-based AllReduce — delegates to injected AllReduceCpuFn when set (stub #290 RESOLVED).
+// allreduce_cpu: delegates to the injected AllReduceCpuFn when available
+// (MPI_Allreduce / Gloo allreduce must be injected via setAllReduceCpuFn()
+// before training starts when world_size > 1).  Falls back to local scale for
+// single-process builds (world_size == 1) where no peer exchange is needed.
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
-    if (allreduce_cpu_fn_.has_value()) {
-        try {
-            (*allreduce_cpu_fn_)(data);
-        } catch (const std::exception& e) {
-            spdlog::error("DistributedTrainer::allreduce_cpu injected fn failed: {}; "
-                          "falling back to local gradient scaling", e.what());
-            // Fall through to local fallback on exception
-            const float scale = 1.0f / static_cast<float>(config_.world_size);
-            for (float& val : data) {
-                val *= scale;
-            }
-        }
+    if (allreduce_cpu_fn_) {
+        (*allreduce_cpu_fn_)(data);
         return;
     }
-    // Built-in fallback: local gradient scaling.
-    // Correct only for world_size == 1 (single-process builds); inject a real
-    // AllReduceCpuFn via setAllReduceCpuFn() for multi-process deployments.
+
+    // Fallback: local scale — only correct when world_size == 1.
+    if (config_.world_size > 1) {
+        spdlog::warn("DistributedTrainer::allreduce_cpu called without AllReduceCpuFn "
+                     "(world_size={}); gradients are scaled locally only — inject "
+                     "setAllReduceCpuFn() for genuine multi-rank training", config_.world_size);
+    }
     const float scale = 1.0f / static_cast<float>(config_.world_size);
     for (float& val : data) {
         val *= scale;

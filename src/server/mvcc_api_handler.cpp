@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "server/mvcc_api_handler.h"
+#include <stdexcept>
 #include "utils/input_validator.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>

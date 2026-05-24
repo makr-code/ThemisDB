@@ -7,6 +7,7 @@
  */
 
 #include "analytics/nlp_text_analyzer.h"
+#include <stdexcept>
 
 #include <algorithm>
 #include <cctype>

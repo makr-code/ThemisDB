@@ -10,6 +10,7 @@
  */
 
 #include "llm/multi_lora_manager.h"
+#include <stdexcept>
 #include "llm/gguf_loader.h"
 #include "llm/lora_security_validator.h"
 #include "utils/error_registry.h"

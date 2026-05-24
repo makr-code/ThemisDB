@@ -10,6 +10,7 @@
  */
 
 #include "utils/audit_logger.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <filesystem>

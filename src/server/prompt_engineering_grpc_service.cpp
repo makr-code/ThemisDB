@@ -32,6 +32,7 @@
  */
 
 #include "server/prompt_engineering_grpc_service.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <exception>
 #include <mutex>

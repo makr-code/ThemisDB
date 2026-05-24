@@ -85,7 +85,7 @@ std::vector<int> parseVersion(const std::string& v) {
     while (std::getline(ss, token, '.')) {
         try {
             parts.push_back(std::stoi(token));
-        } catch (...) {
+        } catch (const std::exception&) {
             parts.push_back(0);
         }
     }

@@ -9,6 +9,7 @@
 // Vector ANN index implementation
 
 #include "index/vector_index.h"
+#include <stdexcept>
 #include "index/advanced_vector_index.h"
 #include "index/ann_index.h"
 #include "index/rotary_embeddings.h"

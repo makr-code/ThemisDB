@@ -10,6 +10,7 @@
  */
 
 #include "utils/capability_auto_generator.h"
+#include <stdexcept>
 #include "utils/self_awareness.h"
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>

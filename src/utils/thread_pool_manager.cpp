@@ -10,6 +10,7 @@
  */
 
 #include "utils/thread_pool_manager.h"
+#include <stdexcept>
 #include <algorithm>
 
 namespace themis::utils {

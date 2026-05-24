@@ -10,6 +10,7 @@
  */
 
 #include "utils/pii_pseudonymizer.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 

@@ -1280,7 +1280,7 @@ bool TensorDeduplicationManager::restoreGraph(const std::string &snapshot_key) {
         THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: exception while restoring '{}': {}", snapshot_key,
                     ex.what());
         return false;
-    } catch (...) {
+    } catch (const std::exception&) {
         THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: unknown exception while restoring '{}'",
                     snapshot_key);
         return false;
@@ -1295,15 +1295,15 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string &snapsh
         std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
         if (journal_entry_enumerate_fn_) {
             try {
-                journal_entry_enumerate_fn_(snapshot_key,
-                                            [&](std::string_view /*tensor_id*/, const std::vector<uint8_t> &payload) {
-                                                std::vector<MutationJournalEntry> one;
-                                                if (deserializeMutationJournal(payload, one) && !one.empty()) {
-                                                    entries.push_back(std::move(one[0]));
-                                                }
-                                            });
-            } catch (...) {
-            }
+                journal_entry_enumerate_fn_(
+                    snapshot_key,
+                    [&](std::string_view /*tensor_id*/, const std::vector<uint8_t>& payload) {
+                        std::vector<MutationJournalEntry> one;
+                        if (deserializeMutationJournal(payload, one) && !one.empty()) {
+                            entries.push_back(std::move(one[0]));
+                        }
+                    });
+            } catch (const std::exception&) {}
         }
         // Per-entry journals are already compacted (one entry per tensor_id).
         // Compact again to handle duplicate tensor_ids from concurrent writes.
@@ -1398,10 +1398,8 @@ void TensorDeduplicationManager::clearMutationJournal(const std::string &snapsho
     if (hasJournalEntryHooks()) {
         std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
         if (journal_entry_clear_fn_) {
-            try {
-                journal_entry_clear_fn_(snapshot_key);
-            } catch (...) {
-            }
+            try { journal_entry_clear_fn_(snapshot_key); }
+            catch (const std::exception&) {}
         }
         // Also clear the legacy blob keys so they don't confuse future restores.
         storage_->putRawMetadata(mutationJournalKeyForSnapshot(snapshot_key), {});
@@ -1444,12 +1442,12 @@ void TensorDeduplicationManager::persistUpsertJournalEntry(const StoredTensorRec
                                 "tensor_id={}",
                                 record.tensor_id);
                 }
-            } catch (const std::exception &ex) {
-                THEMIS_WARN("[TensorDeduplicationManager] persistUpsertJournalEntry: persist_fn threw exception: {}",
-                            ex.what());
-            } catch (...) {
-                THEMIS_WARN(
-                    "[TensorDeduplicationManager] persistUpsertJournalEntry: persist_fn threw unknown exception");
+            }
+            catch (const std::exception& ex) {
+                THEMIS_WARN("[TensorDeduplicationManager] persistUpsertJournalEntry: persist_fn threw exception: {}", ex.what());
+            }
+            catch (const std::exception&) {
+                THEMIS_WARN("[TensorDeduplicationManager] persistUpsertJournalEntry: persist_fn threw unknown exception");
             }
         }
         return;
@@ -1480,10 +1478,8 @@ void TensorDeduplicationManager::persistDeleteJournalEntry(const std::string &te
         const auto payload = serializeMutationJournal({entry});
         std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
         if (journal_entry_persist_fn_) {
-            try {
-                journal_entry_persist_fn_(*snapshot_key, tensor_id, payload);
-            } catch (...) {
-            }
+            try { journal_entry_persist_fn_(*snapshot_key, tensor_id, payload); }
+            catch (const std::exception&) {}
         }
         return;
     }

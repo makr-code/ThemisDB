@@ -10,6 +10,7 @@
 // Supports BPMN, EPK, and advanced process modeling patterns
 
 #include "index/process_graph.h"
+#include <stdexcept>
 #include "index/edge_types.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"

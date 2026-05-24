@@ -560,14 +560,9 @@ void VoiceAssistant::updateSession(const std::string& session_id, const json& co
     }
 }
 
-void VoiceAssistant::deleteSession(const std::string& session_id) {
+bool VoiceAssistant::deleteSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-
-    auto it = sessions_.find(session_id);
-    if (it == sessions_.end()) {
-        throw std::out_of_range("VoiceAssistant::deleteSession: session not found: " + session_id);
-    }
-    sessions_.erase(it);
+    return sessions_.erase(session_id) > 0;
 }
 
 json VoiceAssistant::getStatistics() const {

@@ -7,6 +7,7 @@
  */
 
 #include "importers/s3_importer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <aws/core/Aws.h>
 #include <aws/core/auth/AWSCredentials.h>
@@ -345,7 +346,7 @@ std::shared_ptr<ImportHandle> S3Importer::importDataAsync(
                 "Unhandled exception in async S3 import: ") + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (...) {
+        } catch (const std::exception&) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;

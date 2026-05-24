@@ -10,6 +10,7 @@
  */
 
 #include "prompt_engineering/prompt_template_compiler.h"
+#include <stdexcept>
 
 #include "utils/string_utils.h"
 #include <algorithm>
@@ -449,7 +450,7 @@ static void validateNodes(
                     break;
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // noexcept — swallow all exceptions inside validation
             errors.push_back("Internal validation error for node");
         }

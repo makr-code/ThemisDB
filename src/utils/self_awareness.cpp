@@ -10,6 +10,7 @@
  */
 
 #include "utils/self_awareness.h"
+#include <stdexcept>
 #include <yaml-cpp/yaml.h>
 #include <filesystem>
 #include <fstream>

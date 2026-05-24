@@ -1,3 +1,4 @@
+// THEMIS_GAP_STATS: gaps=9 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 /*
  * ThemisDB | File: wire_protocol_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 81/100 | Lines: 2626
@@ -13,6 +14,7 @@
 // Binary protocol for high-performance native client communication
 
 #include "network/wire_protocol_server.h"
+#include <stdexcept>
 #include "network/wire_protocol_helpers.h"
 #ifdef THEMIS_ENABLE_WEBSOCKET
 #  include "network/wire_protocol_websocket.h"
@@ -21,6 +23,7 @@
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
+#include "index/spatial_index.h"
 #include "index/process_graph.h"
 #include "index/spatial_index.h"
 #include "transaction/transaction_manager.h"
@@ -43,6 +46,7 @@
 #include <openssl/crypto.h>  // For CRYPTO_memcmp (WPS-2: constant-time token comparison)
 #include <map>  // For multi-bucket aggregation
 #include <algorithm>  // For std::min/max
+#include <cmath>      // For std::cos, std::acos (GEO_QUERY distance)
 #include <spdlog/spdlog.h>  // For WPS-3 misconfiguration error log
 
 using json = nlohmann::json;
@@ -156,6 +160,11 @@ WireProtocolServer::WireProtocolServer(
 
 WireProtocolServer::~WireProtocolServer() {
     stop();
+}
+
+void WireProtocolServer::setSpatialIndexManager(
+    std::shared_ptr<index::SpatialIndexManager> idx) {
+    spatial_index_ = std::move(idx);
 }
 
 bool WireProtocolServer::validateTransportSecurity(int argc, const char* const argv[]) const {
@@ -421,7 +430,7 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
         std::string remote_ip = "unknown";
         try {
             remote_ip = session->socket_.remote_endpoint().address().to_string();
-        } catch (...) {
+        } catch (const std::exception&) {
             // Fall back to unknown if we can't get the endpoint
         }
 
@@ -521,7 +530,7 @@ void WireProtocolServer::Session::close() {
         if (socket_.is_open()) {
             socket_.close();
         }
-    } catch (...) {
+    } catch (const std::exception&) {
     }
 
     // Deregister from per-tenant QoS manager
@@ -538,7 +547,7 @@ void WireProtocolServer::Session::close() {
 std::string WireProtocolServer::Session::getRemoteIP() const {
     try {
         return socket_.remote_endpoint().address().to_string();
-    } catch (...) {
+    } catch (const std::exception&) {
         return "unknown";
     }
 }
@@ -1200,7 +1209,7 @@ void WireProtocolServer::Session::handleGet() {
             std::string value_str(value_bytes.begin(), value_bytes.end());
             try {
                 response["value"] = json::parse(value_str);
-            } catch (...) {
+            } catch (const std::exception&) {
                 response["value"] = value_str;
             }
             response["found"] = true;
@@ -1374,7 +1383,7 @@ void WireProtocolServer::Session::handleBatchGet() {
                 std::string value_str(value_bytes.begin(), value_bytes.end());
                 try {
                     item["value"] = json::parse(value_str);
-                } catch (...) {
+                } catch (const std::exception&) {
                     item["value"] = value_str;
                 }
                 item["found"] = true;
@@ -1641,11 +1650,6 @@ void WireProtocolServer::Session::handleTransactionAbort() {
     }
 }
 
-// STUB/SIMULATION NOTE (stub #284): RESOLVED 2026-05-21
-// GEO_QUERY now delegates to an injected GeoQueryFn when set via
-// WireProtocolServer::setGeoQueryFn(); GEO_NOT_INTEGRATED fallback is
-// retained when no fn is injected.  GRAPH_TRAVERSE/QUERY_AQL fallback
-// branch remains active when server_->query_engine_ == nullptr.
 void WireProtocolServer::Session::handleGraphTraverse() {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
     // Expected payload (JSON):
@@ -2003,7 +2007,10 @@ void WireProtocolServer::Session::handleVectorSearch() {
 void WireProtocolServer::Session::handleGeoQuery() {
     // GEO_QUERY: geospatial proximity / containment queries.
     // Expected payload (JSON):
-    //   {"lat": 48.137, "lon": 11.576, "radius_m": 1000, "collection": "...", "limit": 20}
+    //   {"collection": "...", "type": "within|near|intersects",
+    //    "bbox": {"minx":.., "miny":.., "maxx":.., "maxy":..},          // for within/intersects
+    //    "center": {"lon":.., "lat":..}, "radius": <m>,                  // for near
+    //    "limit": 100}
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");
         return;
@@ -2018,32 +2025,134 @@ void WireProtocolServer::Session::handleGeoQuery() {
             return;
         }
 
-        // Check for injected geo query backend (stub #284 resolved).
-        {
-            GeoQueryFn fn;
-            {
-                std::lock_guard<std::mutex> lock(server_->geo_query_fn_mutex_);
-                fn = server_->geo_query_fn_;
-            }
-            if (fn) {
-                json response = fn(request);
-                std::string response_str = response.dump();
-                std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
-                asyncWriteResponse(response_data);
-                return;
-            }
+        auto spatial_idx = server_->spatial_index_;
+        if (!spatial_idx) {
+            // Spatial index not configured — redirect to HTTP REST API.
+            json response;
+            response["success"]    = false;
+            response["error_code"] = "GEO_NOT_INTEGRATED";
+            response["error"]      = "Geospatial query execution is not configured on this wire "
+                                     "protocol port. Use the HTTP REST API endpoint "
+                                     "GET /api/v1/geo/query instead.";
+            response["collection"] = collection;
+            std::string rs = response.dump();
+            asyncWriteResponse({rs.begin(), rs.end()});
+            return;
         }
 
-        // Fallback: geo index not yet integrated with the wire protocol transport.
-        json response;
-        response["success"]    = false;
-        response["error_code"] = "GEO_NOT_INTEGRATED";
-        response["error"]      = "Geospatial query execution is not yet integrated in the wire protocol. "
-                                 "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.";
-        response["collection"] = collection;
+        std::string query_type = request.value("type", "");
+        if (query_type.empty()) {
+            sendError(400,
+                "Missing 'type' field in GEO_QUERY request "
+                "(expected: within, near, intersects)");
+            return;
+        }
 
-        const std::string response_str = response.dump();
-        asyncWriteResponse(std::vector<uint8_t>(response_str.begin(), response_str.end()));
+        if (!spatial_idx->hasSpatialIndex(collection)) {
+            json response;
+            response["success"]    = false;
+            response["error_code"] = "GEO_NO_INDEX";
+            response["error"]      = "Collection '" + collection + "' does not have a spatial "
+                                     "index. Create one first using the spatial index API.";
+            std::string rs = response.dump();
+            asyncWriteResponse({rs.begin(), rs.end()});
+            return;
+        }
+
+        const uint32_t limit =
+            request.value("limit", static_cast<uint32_t>(100));
+
+        std::vector<index::SpatialResult> search_results;
+
+        if (query_type == "intersects" || query_type == "within") {
+            if (!request.contains("bbox") || !request["bbox"].is_object()) {
+                sendError(400,
+                    "Missing or invalid 'bbox' in GEO_QUERY request "
+                    "(expected: {minx, miny, maxx, maxy})");
+                return;
+            }
+            const auto& bbox_json = request["bbox"];
+            if (!bbox_json.contains("minx") || !bbox_json.contains("miny") ||
+                !bbox_json.contains("maxx") || !bbox_json.contains("maxy")) {
+                sendError(400, "'bbox' must contain: minx, miny, maxx, maxy");
+                return;
+            }
+            geo::MBR query_bbox(
+                bbox_json["minx"].get<double>(),
+                bbox_json["miny"].get<double>(),
+                bbox_json["maxx"].get<double>(),
+                bbox_json["maxy"].get<double>());
+            search_results = spatial_idx->searchIntersects(collection, query_bbox);
+
+        } else if (query_type == "near") {
+            if (!request.contains("center") || !request["center"].is_object()) {
+                sendError(400,
+                    "Missing or invalid 'center' in GEO_QUERY near-request "
+                    "(expected: {lon, lat})");
+                return;
+            }
+            if (!request.contains("radius")) {
+                sendError(400, "Missing 'radius' (meters) in GEO_QUERY near-request");
+                return;
+            }
+            const auto& center = request["center"];
+            if (!center.contains("lon") || !center.contains("lat")) {
+                sendError(400, "'center' must contain: lon, lat");
+                return;
+            }
+            const double lon    = center["lon"].get<double>();
+            const double lat    = center["lat"].get<double>();
+            const double radius = request["radius"].get<double>();
+
+            // Approximate bounding box for the radius query.
+            // 1 degree latitude ≈ 111 km; 1 degree longitude varies with latitude.
+            constexpr double kMetersPerDegreeLat = 111000.0;
+            constexpr double kDegToRad           = 3.14159265358979323846 / 180.0;
+            const double meters_per_lon =
+                kMetersPerDegreeLat * std::cos(lat * kDegToRad);
+            const double lat_delta = radius / kMetersPerDegreeLat;
+            const double lon_delta = (meters_per_lon > 0.0)
+                ? radius / meters_per_lon : lat_delta;
+
+            geo::MBR query_bbox(
+                lon - lon_delta, lat - lat_delta,
+                lon + lon_delta, lat + lat_delta);
+            search_results = spatial_idx->searchIntersects(collection, query_bbox);
+
+        } else {
+            sendError(400,
+                "Unknown 'type' in GEO_QUERY request; "
+                "expected: within, near, intersects");
+            return;
+        }
+
+        json results_arr = json::array();
+        uint32_t count = 0;
+        for (const auto& res : search_results) {
+            if (count++ >= limit) break;
+            json entry;
+            entry["primary_key"] = res.primary_key;
+            entry["mbr"] = {
+                {"minx", res.mbr.minx},
+                {"miny", res.mbr.miny},
+                {"maxx", res.mbr.maxx},
+                {"maxy", res.mbr.maxy}};
+            if (res.z_min.has_value() && res.z_max.has_value()) {
+                entry["z_min"] = res.z_min.value();
+                entry["z_max"] = res.z_max.value();
+            }
+            results_arr.push_back(std::move(entry));
+        }
+
+        json response;
+        response["success"]    = true;
+        response["collection"] = collection;
+        response["type"]       = query_type;
+        response["results"]    = std::move(results_arr);
+        response["count"]      = count;
+        std::string rs = response.dump();
+        asyncWriteResponse({rs.begin(), rs.end()});
+
     } catch (const json::exception& e) {
         sendError(400, std::string("Invalid JSON in GEO_QUERY payload: ") + e.what());
     } catch (const std::exception& e) {
@@ -2113,7 +2222,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     std::string error_msg = "Time-series query failed";
                     try {
                         error_msg = std::string("Time-series query failed: ") + result.error().message();
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // Fallback if error() access fails
                     }
                     sendError(0x0005, error_msg);
@@ -2204,7 +2313,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     std::string error_msg = "Time-series aggregation failed";
                     try {
                         error_msg = std::string("Time-series aggregation failed: ") + agg_result.error().message();
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // Fallback if error() access fails
                     }
                     sendError(0x0005, error_msg);
@@ -2254,7 +2363,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 std::string error_msg = "Time-series query failed";
                 try {
                     error_msg = std::string("Time-series query failed: ") + result.error().message();
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Fallback if error() access fails
                 }
                 sendError(0x0005, error_msg);

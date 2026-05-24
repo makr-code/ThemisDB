@@ -21,6 +21,7 @@
  */
 
 #include "llm/ai_orchestrator.h"
+#include <stdexcept>
 #include <yaml-cpp/yaml.h>
 #include <spdlog/spdlog.h>
 #include <fstream>

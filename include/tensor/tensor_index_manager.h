@@ -207,13 +207,15 @@ public:
     /**
      * @brief Raw-pointer variant (kept for backward compatibility).
      *
-     * Prefer `mapCores()` for new code. This method now delegates to
-     * `mapCores()` internally and returns borrowed pointers into a
-     * thread-local `TensorMmapBridge` cache.
+     * Prefer `mapCores()` for new code. This legacy helper now builds on
+     * `mapCores()` internally and caches a pinned bridge per vector ID so
+     * returned pointers remain valid independently of index mutation.
      *
-     * @deprecated Use mapCores() instead. Raw pointers have no lifetime
-     *             protection and are unsafe for concurrent mutation or index
-     *             replacement (stub #277; removal after all callers migrate).
+     * @deprecated Use mapCores() instead.
+     *
+     * @note Legacy compatibility path:
+     * returns raw pointers but keeps the underlying mmap bridge cached so
+     * pointer data remains stable across index mutations.
      */
     [[deprecated("Use mapCores() for safe mmap-pinned TT-core access (stub #277 resolved)")]]
     std::vector<std::pair<const float*, size_t>>
@@ -256,6 +258,9 @@ private:
     mutable std::shared_mutex registry_mutex_;
     std::unordered_map<std::string, std::unique_ptr<ITensorIndex>> indexes_;
     std::unordered_map<std::string, IndexHandle>                    handles_;
+
+    mutable std::mutex legacy_bridge_mutex_;
+    mutable std::unordered_map<std::string, std::shared_ptr<TensorMmapBridge>> legacy_bridge_cache_;
 };
 
 } // namespace tensor

@@ -10,6 +10,7 @@
  */
 
 #include "plugins/plugin_health_monitor.h"
+#include <stdexcept>
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
 #include "utils/expected.h"
@@ -502,7 +503,7 @@ RecoveryResult PluginHealthMonitor::attemptRecoveryWithBackoff(MonitoredPlugin& 
                 auto post_diag = plugin.plugin->performHealthCheck();
                 plugin.last_diagnostics = post_diag;
                 result.status_after_recovery = post_diag.status;
-            } catch (...) {
+            } catch (const std::exception&) {
                 result.status_after_recovery = PluginHealthStatus::DEGRADED;
             }
 
@@ -647,7 +648,7 @@ void PluginHealthMonitor::publishHealthScore(const MonitoredPlugin& plugin) noex
     try {
         const double score = computeHealthScore(plugin.last_diagnostics);
         metrics_sink_->setGauge("plugin_health_score", score, {{"plugin", plugin.name}});
-    } catch (...) {
+    } catch (const std::exception&) {
         // noexcept: swallow any exception from the metrics backend
     }
 }

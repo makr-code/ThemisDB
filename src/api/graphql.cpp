@@ -7,11 +7,7 @@
  */
 
 #include "api/graphql.h"
-
-#include <algorithm>
-#include <cctype>
-#include <sstream>
-
+#include <stdexcept>
 #include "api/graphql_cache.h"
 #include "api/graphql_metrics.h"
 #include "utils/error_registry.h"
@@ -750,10 +746,18 @@ Executor::Result Executor::execute(const Document &document, const ExecutionCont
     try {
         result.data = executeOperation(*op, context);
         timer.setSuccess(true);
-    } catch (const std::exception &e) {
-        result.addError(std::string("Execution error: ") + e.what(), "ERR_EXECUTION_FAILED", context.mask_errors);
-    } catch (...) {
-        result.addError("Unknown execution error", "ERR_EXECUTION_FAILED", context.mask_errors);
+    } catch (const std::exception& e) {
+        result.addError(
+            std::string("Execution error: ") + e.what(),
+            "ERR_EXECUTION_FAILED",
+            context.mask_errors
+        );
+    } catch (const std::exception&) {
+        result.addError(
+            "Unknown execution error",
+            "ERR_EXECUTION_FAILED",
+            context.mask_errors
+        );
     }
 
     return result;

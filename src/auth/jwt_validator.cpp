@@ -263,8 +263,9 @@ nlohmann::json JWTValidator::fetchJWKS() {
         jwks_validator.validateOrThrow(json);
 
         fetched_json = std::move(json);
-        utils::Logger::info("JWKS fetched successfully on attempt " + std::to_string(attempt));
-    } catch (...) {
+        utils::Logger::info("JWKS fetched successfully on attempt " +
+                            std::to_string(attempt));
+    } catch (const std::exception&) {
         fetch_exc = std::current_exception();
     }
 

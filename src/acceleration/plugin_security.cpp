@@ -7,7 +7,11 @@
  */
 
 #include "acceleration/plugin_security.h"
-
+#include <stdexcept>
+#include "utils/logger.h"
+#include <fstream>
+#include <sstream>
+#include <iomanip>
 #include <chrono>
 #include <cstring>
 #include <filesystem>
@@ -189,7 +193,7 @@ static bool decodeHexString(const std::string &hexStr, std::vector<uint8_t> &out
             outBytes.push_back(byte);
         }
         return true;
-    } catch (...) {
+    } catch (const std::exception&) {
         outBytes.clear();
         return false;
     }

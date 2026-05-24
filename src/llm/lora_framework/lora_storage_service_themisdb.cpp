@@ -10,6 +10,7 @@
  */
 
 #include "llm/lora_framework/lora_storage_service.h"
+#include <stdexcept>
 #include "storage/base_entity.h"
 #include "security/mock_key_provider.h"
 #include "security/hsm_provider.h"

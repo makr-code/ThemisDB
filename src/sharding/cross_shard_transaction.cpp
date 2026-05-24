@@ -21,6 +21,7 @@
 // Future work: unify under a single 2PC engine (Target: v2.0.0).
 
 #include "sharding/cross_shard_transaction.h"
+#include <stdexcept>
 #include "sharding/shard_rpc_client.h"
 #include "sharding/truetime.h"
 #include "sharding/transaction_wal.h"
@@ -364,7 +365,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
         bool prepared = false;
         try {
             prepared = sendPrepare(shard_id, transaction_id);
-        } catch (...) {
+        } catch (const std::exception&) {
             lock.lock();
             participant.prepared = false;
             participant.error_message = "sendPrepare threw an exception";
@@ -1007,7 +1008,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
                 spdlog::error("PreCommit callback threw for shard {} txn={}: {} — treating as NACK",
                               shard_id, txn.transaction_id, ex.what());
                 precommitted = false;
-            } catch (...) {
+            } catch (const std::exception&) {
                 spdlog::error("PreCommit callback threw unknown exception for shard {} txn={} — treating as NACK",
                               shard_id, txn.transaction_id);
                 precommitted = false;

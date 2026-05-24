@@ -10,6 +10,7 @@
  */
 
 #include "storage/index_maintenance.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "index/index_manager.h"
 #include "index/vector_index.h"

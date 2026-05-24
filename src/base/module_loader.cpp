@@ -23,6 +23,7 @@
 // This prevents corrupted or malicious DLL loading in modular ThemisDB
 
 #include "themis/base/module_loader.h"
+#include <stdexcept>
 #include "acceleration/plugin_security.h"
 #include <filesystem>
 #include <fstream>
@@ -1293,7 +1294,7 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
     }
     try {
         return std::stoi(content.substr(pos + zoneIdKey.size()));
-    } catch (...) {
+    } catch (const std::exception&) {
         return -1;
     }
 }

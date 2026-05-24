@@ -78,95 +78,21 @@ json makeNotImplemented(const std::string& name) {
     throw std::runtime_error(name + ": function not implemented");
 }
 
-json builtInAdminModelRegistry() {
-    return json::array({
-        {
-            {"id", "bauantrag_standard"},
-            {"name", "Bauantrag Standard"},
-            {"domain", "construction"},
-            {"version", "1.0"},
-            {"description", "Referenzprozess für standardisierte Bauantragsprüfung"},
-            {"nodes", json::array()},
-            {"edges", json::array()}
-        },
-        {
-            {"id", "beschaffung_vergaberecht"},
-            {"name", "Beschaffung Vergaberecht"},
-            {"domain", "procurement"},
-            {"version", "1.0"},
-            {"description", "Referenzprozess für öffentliche Beschaffung nach Vergaberecht"},
-            {"nodes", json::array()},
-            {"edges", json::array()}
-        },
-        {
-            {"id", "personal_einstellung"},
-            {"name", "Personal Einstellung"},
-            {"domain", "hr"},
-            {"version", "1.0"},
-            {"description", "Referenzprozess für Einstellung und Onboarding"},
-            {"nodes", json::array()},
-            {"edges", json::array()}
+json normalizeAdminModels(const json& value) {
+    if (!value.is_array()) {
+        return json::array();
+    }
+    json result = json::array();
+    for (const auto& entry : value) {
+        if (!entry.is_object()) {
+            continue;
         }
-    });
-}
-
-json resolveAdminModelRegistry(const FunctionContext& ctx) {
-    const json configured = ctx.getVariable("pm_admin_models_registry");
-    if (configured.is_array()) {
-        return configured;
-    }
-    if (configured.is_object() && configured.contains("models") && configured["models"].is_array()) {
-        return configured["models"];
-    }
-    return builtInAdminModelRegistry();
-}
-
-std::optional<json> resolvePredictedEnd(
-    const std::string& case_id,
-    const FunctionContext& ctx) {
-
-    const json injected = ctx.getVariable("pm_predicted_end_by_case");
-    if (injected.is_object()) {
-        auto it = injected.find(case_id);
-        if (it != injected.end() && !it->is_null()) {
-            return *it;
+        if (!entry.contains("id") || !entry["id"].is_string()) {
+            continue;
         }
+        result.push_back(entry);
     }
-
-    const json& doc = ctx.currentDocument();
-    if (!doc.is_object()) {
-        return std::nullopt;
-    }
-
-    if (doc.contains("predicted_end_by_case") && doc["predicted_end_by_case"].is_object()) {
-        const auto& by_case = doc["predicted_end_by_case"];
-        auto it = by_case.find(case_id);
-        if (it != by_case.end() && !it->is_null()) {
-            return *it;
-        }
-    }
-
-    const bool case_matches = !doc.contains("case_id") ||
-                              (doc["case_id"].is_string() && doc["case_id"].get<std::string>() == case_id);
-    if (!case_matches) {
-        return std::nullopt;
-    }
-
-    if (doc.contains("predicted_end") && !doc["predicted_end"].is_null()) {
-        return doc["predicted_end"];
-    }
-
-    if (doc.contains("start_time_ms") && doc.contains("expected_duration_ms") &&
-        doc["start_time_ms"].is_number_integer() && doc["expected_duration_ms"].is_number_integer()) {
-        return doc["start_time_ms"].get<int64_t>() + doc["expected_duration_ms"].get<int64_t>();
-    }
-
-    if (doc.contains("timestamp_ms") && doc.contains("remaining_duration_ms") &&
-        doc["timestamp_ms"].is_number_integer() && doc["remaining_duration_ms"].is_number_integer()) {
-        return doc["timestamp_ms"].get<int64_t>() + doc["remaining_duration_ms"].get<int64_t>();
-    }
-
-    return std::nullopt;
+    return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -497,36 +423,23 @@ json PmLoadAdminModelFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
     if (args.empty() || !args[0].is_string()) {
-        return makeError("PM_LOAD_ADMIN_MODEL requires string argument: model_id");
+        return makeError("PM_LOAD_ADMIN_MODEL: model_id must be a string");
     }
 
     const std::string model_id = args[0].get<std::string>();
-    const json models = resolveAdminModelRegistry(ctx);
-
+    const json models = normalizeAdminModels(ctx.getVariable("pm_admin_models"));
     for (const auto& model : models) {
-        if (model.is_object() &&
-            model.contains("id") &&
-            model["id"].is_string() &&
-            model["id"].get<std::string>() == model_id) {
+        if (model.value("id", std::string{}) == model_id) {
             return model;
         }
     }
-
-    json err = makeError("Unknown administrative model: " + model_id);
-    json available = json::array();
-    for (const auto& model : models) {
-        if (model.is_object() && model.contains("id") && model["id"].is_string()) {
-            available.push_back(model["id"]);
-        }
-    }
-    err["available_models"] = std::move(available);
-    return err;
+    return makeError("PM_LOAD_ADMIN_MODEL: model not found: " + model_id);
 }
 
 json PmListAdminModelsFunction::execute(
     const std::vector<json>& /*args*/,
     const FunctionContext& ctx) const {
-    return resolveAdminModelRegistry(ctx);
+    return normalizeAdminModels(ctx.getVariable("pm_admin_models"));
 }
 
 // ============================================================================
@@ -652,17 +565,19 @@ json PmPredictEndFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
     json result;
+    result["predicted_end"] = nullptr;
     if (args.empty() || !args[0].is_string()) {
-        result["error"] = "PM_PREDICT_END requires string argument: case_id";
-        result["predicted_end"] = nullptr;
         return result;
     }
 
     const std::string case_id = args[0].get<std::string>();
-    result["case_id"] = case_id;
-
-    const auto predicted_end = resolvePredictedEnd(case_id, ctx);
-    result["predicted_end"] = predicted_end.has_value() ? *predicted_end : json(nullptr);
+    const json prediction_map = ctx.getVariable("pm_predicted_end_by_case");
+    if (prediction_map.is_object()) {
+        auto it = prediction_map.find(case_id);
+        if (it != prediction_map.end()) {
+            result["predicted_end"] = *it;
+        }
+    }
     return result;
 }
 

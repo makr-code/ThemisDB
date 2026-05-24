@@ -468,7 +468,7 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
     if (impl_->step_callback) {
         try {
             impl_->step_callback(step);
-        } catch (...) {
+        } catch (const std::exception&) {
             // Callbacks must not propagate exceptions.
         }
     }

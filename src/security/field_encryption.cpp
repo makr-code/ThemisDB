@@ -10,6 +10,7 @@
  */
 
 #include "security/encryption.h"
+#include <stdexcept>
 #include "security/mock_key_provider.h"
 #include "themis/runtime_license_gate.h"
 #include <openssl/evp.h>

@@ -80,6 +80,9 @@ private:
                                 const uint8_t* name, size_t namelen,
                                 const uint8_t* value, size_t valuelen,
                                 uint8_t flags, void* user_data);
+    static ssize_t responseDataReadCallback(nghttp2_session* session, int32_t stream_id,
+                                            uint8_t* buf, size_t length, uint32_t* data_flags,
+                                            nghttp2_data_source* source, void* user_data);
     
     // Stream data management
     struct StreamData {
@@ -93,8 +96,6 @@ private:
         uint64_t cdc_last_sequence = 0;
     };
 
-    // RAII response buffer (stub #298 resolution): shared_ptr stored here while
-    // nghttp2 holds a raw pointer in the data source.  Erased on EOF or stream close.
     struct ResponseBuffer {
         std::string data;
         size_t offset = 0;
@@ -130,9 +131,7 @@ private:
     int32_t next_push_stream_id_;
     std::set<int32_t> cdc_subscribed_streams_;
     mutable std::mutex push_mutex_;
-
-    /// Per-stream response buffers kept alive until stream completion (stub #298 resolved).
-    struct ResponseBuffer { std::string data; std::size_t offset = 0; };
+    mutable std::mutex response_mutex_;
     std::unordered_map<int32_t, std::shared_ptr<ResponseBuffer>> response_buffers_;
 };
 

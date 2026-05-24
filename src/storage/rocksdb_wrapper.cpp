@@ -10,6 +10,7 @@
  */
 
 #include "storage/rocksdb_wrapper.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include "utils/expected.h"
 #include "performance/prefetch_hints.h"

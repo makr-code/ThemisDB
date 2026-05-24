@@ -217,7 +217,7 @@ std::vector<uint8_t> ExportEncryption::encrypt(const std::vector<uint8_t> &plain
         if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, static_cast<int>(TAG_LEN), tag.data()) != 1) {
             throw std::runtime_error("ExportEncryption: get tag failed");
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx);
         OPENSSL_cleanse(dek.data(), dek.size());
         throw;
@@ -385,7 +385,7 @@ std::vector<uint8_t> ExportEncryption::decrypt(const std::vector<uint8_t> &conta
             throw std::runtime_error("ExportEncryption: authentication tag mismatch – "
                                      "file may be corrupted or tampered with");
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx);
         OPENSSL_cleanse(dek.data(), dek.size());
         throw;
@@ -700,7 +700,7 @@ size_t ExportEncryptor::encryptFile(const std::string &input_path, const std::st
     std::vector<uint8_t> dek;
     try {
         dek = deriveDataKey(kek, effective_job_id);
-    } catch (...) {
+    } catch (const std::exception&) {
         std::fill(kek.begin(), kek.end(), uint8_t{0});
         throw;
     }
@@ -881,7 +881,7 @@ size_t ExportEncryptor::decryptFile(const std::string &input_path, const std::st
     std::vector<uint8_t> dek;
     try {
         dek = deriveDataKey(kek, job_id);
-    } catch (...) {
+    } catch (const std::exception&) {
         std::fill(kek.begin(), kek.end(), uint8_t{0});
         throw;
     }

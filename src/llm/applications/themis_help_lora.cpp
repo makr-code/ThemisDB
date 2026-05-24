@@ -11,6 +11,7 @@
  */
 
 #include "llm/applications/themis_help_lora.h"
+#include <stdexcept>
 #include "llm/lora_framework/lora_orchestrator.h"
 #include "llm/lora_framework/lora_audit_logger.h"
 #include "llm/lora_framework/lora_training_service.h"
@@ -108,9 +109,16 @@ public:
         
         llama_wrapper = std::make_unique<LlamaWrapper>(llama_config);
 
-        // Initialize LoRA training service
+        // Initialize LoRA training service — resolve model path via injected provider
         LoRATrainingService::Config training_cfg;
-        training_cfg.base_model_path = resolveBaseModelPath();
+        if (cfg.model_path_provider) {
+            training_cfg.base_model_path = (*cfg.model_path_provider)(cfg.base_model_id);
+            if (training_cfg.base_model_path.empty()) {
+                training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+            }
+        } else {
+            training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+        }
         training_cfg.default_hyperparameters = cfg.hyperparameters;
         training_service = std::make_unique<LoRATrainingService>(training_cfg);
         
@@ -165,7 +173,20 @@ public:
                 // Try to load model - this may fail if model file is not available
                 // In that case, we'll fall back to placeholder responses
                 try {
-                    std::string model_path = resolveBaseModelPath();
+                    // Resolve model path: prefer the injected ModelPathProviderFn
+                    // (LLMModelStorage::resolveGGUFPath), fall back to the
+                    // relative convention only when no provider is wired.
+                    std::string model_path;
+                    if (config.model_path_provider) {
+                        model_path = (*config.model_path_provider)(config.base_model_id);
+                        if (model_path.empty()) {
+                            spdlog::warn("ModelPathProviderFn returned empty path for '{}'; "
+                                         "falling back to relative path", config.base_model_id);
+                            model_path = "models/" + config.base_model_id + ".gguf";
+                        }
+                    } else {
+                        model_path = "models/" + config.base_model_id + ".gguf";
+                    }
                     bool loaded = llama_wrapper->loadModel(model_path);
                     
                     if (loaded) {

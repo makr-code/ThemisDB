@@ -7,6 +7,7 @@
  */
 
 #include "index/graph_auto_buffer.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>

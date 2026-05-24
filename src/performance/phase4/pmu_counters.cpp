@@ -10,6 +10,7 @@
  */
 
 #include "performance/phase4/pmu_counters.h"
+#include <stdexcept>
 
 #include <mutex>
 
@@ -755,7 +756,7 @@ bool PmuCounter::open(uint32_t type, uint64_t config) noexcept {
             const bool opened = fn(type, config);
             fd_ = opened ? 1 : -1;
             return opened;
-        } catch (...) {
+        } catch (const std::exception&) {
             fd_ = -1;
             return false;
         }
@@ -774,7 +775,7 @@ uint64_t PmuCounter::read()  const noexcept {
     if (fn) {
         try {
             return fn();
-        } catch (...) {
+        } catch (const std::exception&) {
             return 0;
         }
     }
@@ -795,7 +796,7 @@ CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
             auto metrics = fn();
             metrics.available = true;
             return metrics;
-        } catch (...) {
+        } catch (const std::exception&) {
             return {};
         }
     }
@@ -810,7 +811,7 @@ bool CacheMissAnalyzer::pmu_accessible() noexcept {
     if (fn) {
         try {
             return fn();
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }

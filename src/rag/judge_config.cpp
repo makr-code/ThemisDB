@@ -15,6 +15,7 @@
  */
 
 #include "rag/judge_config.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -184,7 +185,7 @@ double JudgeConfigManager::getDouble(const std::string& key, double default_valu
     if (value) {
         try {
             return std::stod(*value);
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_WARN("Failed to parse '{}' as double, using default: {}", key, default_value);
         }
     }
@@ -196,7 +197,7 @@ int JudgeConfigManager::getInt(const std::string& key, int default_value) const 
     if (value) {
         try {
             return std::stoi(*value);
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_WARN("Failed to parse '{}' as int, using default: {}", key, default_value);
         }
     }

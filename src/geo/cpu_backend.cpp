@@ -1120,7 +1120,7 @@ static void register_builtin_cpu_backend() {
         getGeoRegistryInstance().registerBackend(std::make_unique<CpuExactBackend>());
     } catch (const std::exception &ex) {
         std::cerr << "WARNING: CPU geometry backend registration failed: " << ex.what() << std::endl;
-    } catch (...) {
+    } catch (const std::exception&) {
         std::cerr << "WARNING: CPU geometry backend registration failed with unknown exception" << std::endl;
     }
 #endif

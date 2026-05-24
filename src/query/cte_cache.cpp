@@ -11,6 +11,7 @@
 
 // Phase 4.3: CTE Memory Management Implementation
 #include "query/cte_cache.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
 #include <cstring>

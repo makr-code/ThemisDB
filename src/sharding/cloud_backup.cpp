@@ -10,6 +10,7 @@
  */
 
 #include "sharding/cloud_backup.h"
+#include <stdexcept>
 #include "sharding/cloud_agent.h"
 #include "sharding/shard_topology.h"
 #include "storage/backup_manager.h"
@@ -43,16 +44,16 @@ S3UploadFn g_s3_upload_fn;
 S3DeleteFn g_s3_delete_fn;
 S3ListFn g_s3_list_fn;
 S3ExistsFn g_s3_exists_fn;
-GCSUploadFn g_gcs_upload_fn;
-GCSDownloadFn g_gcs_download_fn;
-GCSDeleteFn g_gcs_delete_fn;
-GCSListFn g_gcs_list_fn;
-GCSExistsFn g_gcs_exists_fn;
 AzureUploadFn g_azure_upload_fn;
 AzureDownloadFn g_azure_download_fn;
 AzureDeleteFn g_azure_delete_fn;
 AzureListFn g_azure_list_fn;
 AzureExistsFn g_azure_exists_fn;
+GCSUploadFn g_gcs_upload_fn;
+GCSDownloadFn g_gcs_download_fn;
+GCSDeleteFn g_gcs_delete_fn;
+GCSListFn g_gcs_list_fn;
+GCSExistsFn g_gcs_exists_fn;
 } // namespace
 
 // Cloud storage provider interface
@@ -228,9 +229,6 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("S3 delete callback failed: {}", e.what());
                 return false;
-            } catch (...) {
-                THEMIS_ERROR("S3 delete callback failed: unknown error");
-                return false;
             }
         }
 
@@ -270,9 +268,6 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("S3 list callback failed: {}", e.what());
                 return {};
-            } catch (...) {
-                THEMIS_ERROR("S3 list callback failed: unknown error");
-                return {};
             }
         }
 
@@ -301,9 +296,6 @@ public:
                 return fn(bucket_, remote_path);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("S3 exists callback failed: {}", e.what());
-                return false;
-            } catch (...) {
-                THEMIS_ERROR("S3 exists callback failed: unknown error");
                 return false;
             }
         }
@@ -357,7 +349,7 @@ public:
     
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
-               [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
         AzureUploadFn fn;
         {
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
@@ -368,9 +360,6 @@ public:
                 return fn(account_name_, container_, local_path, remote_path, metadata);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Azure upload callback failed: {}", e.what());
-                return false;
-            } catch (...) {
-                THEMIS_ERROR("Azure upload callback failed: unknown error");
                 return false;
             }
         }
@@ -431,12 +420,9 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Azure download callback failed: {}", e.what());
                 return false;
-            } catch (...) {
-                THEMIS_ERROR("Azure download callback failed: unknown error");
-                return false;
             }
         }
-         
+        
         THEMIS_INFO("Azure download (placeholder): {}/{}/{} -> {}", 
                    account_name_, container_, remote_path, local_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
@@ -466,9 +452,6 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Azure delete callback failed: {}", e.what());
                 return false;
-            } catch (...) {
-                THEMIS_ERROR("Azure delete callback failed: unknown error");
-                return false;
             }
         }
 
@@ -496,9 +479,6 @@ public:
                 return fn(account_name_, container_, prefix);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Azure list callback failed: {}", e.what());
-                return {};
-            } catch (...) {
-                THEMIS_ERROR("Azure list callback failed: unknown error");
                 return {};
             }
         }
@@ -528,9 +508,6 @@ public:
                 return fn(account_name_, container_, remote_path);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Azure exists callback failed: {}", e.what());
-                return false;
-            } catch (...) {
-                THEMIS_ERROR("Azure exists callback failed: unknown error");
                 return false;
             }
         }
@@ -581,7 +558,7 @@ public:
     
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
-               [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
         GCSUploadFn fn;
         {
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
@@ -592,9 +569,6 @@ public:
                 return fn(bucket_, local_path, remote_path, metadata);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("GCS upload callback failed: {}", e.what());
-                return false;
-            } catch (...) {
-                THEMIS_ERROR("GCS upload callback failed: unknown error");
                 return false;
             }
         }
@@ -639,9 +613,6 @@ public:
                 return fn(bucket_, remote_path, local_path);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("GCS download callback failed: {}", e.what());
-                return false;
-            } catch (...) {
-                THEMIS_ERROR("GCS download callback failed: unknown error");
                 return false;
             }
         }
@@ -723,9 +694,6 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("GCS list callback failed: {}", e.what());
                 return {};
-            } catch (...) {
-                THEMIS_ERROR("GCS list callback failed: unknown error");
-                return {};
             }
         }
 
@@ -754,9 +722,6 @@ public:
                 return fn(bucket_, remote_path);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("GCS exists callback failed: {}", e.what());
-                return false;
-            } catch (...) {
-                THEMIS_ERROR("GCS exists callback failed: unknown error");
                 return false;
             }
         }
@@ -1112,31 +1077,6 @@ void setS3ExistsFn(S3ExistsFn fn) {
     g_s3_exists_fn = std::move(fn);
 }
 
-void setGCSUploadFn(GCSUploadFn fn) {
-    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-    g_gcs_upload_fn = std::move(fn);
-}
-
-void setGCSDownloadFn(GCSDownloadFn fn) {
-    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-    g_gcs_download_fn = std::move(fn);
-}
-
-void setGCSDeleteFn(GCSDeleteFn fn) {
-    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-    g_gcs_delete_fn = std::move(fn);
-}
-
-void setGCSListFn(GCSListFn fn) {
-    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-    g_gcs_list_fn = std::move(fn);
-}
-
-void setGCSExistsFn(GCSExistsFn fn) {
-    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
-    g_gcs_exists_fn = std::move(fn);
-}
-
 void setAzureUploadFn(AzureUploadFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_azure_upload_fn = std::move(fn);
@@ -1160,6 +1100,31 @@ void setAzureListFn(AzureListFn fn) {
 void setAzureExistsFn(AzureExistsFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_azure_exists_fn = std::move(fn);
+}
+
+void setGCSUploadFn(GCSUploadFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_gcs_upload_fn = std::move(fn);
+}
+
+void setGCSDownloadFn(GCSDownloadFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_gcs_download_fn = std::move(fn);
+}
+
+void setGCSDeleteFn(GCSDeleteFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_gcs_delete_fn = std::move(fn);
+}
+
+void setGCSListFn(GCSListFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_gcs_list_fn = std::move(fn);
+}
+
+void setGCSExistsFn(GCSExistsFn fn) {
+    std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+    g_gcs_exists_fn = std::move(fn);
 }
 
 } // namespace sharding

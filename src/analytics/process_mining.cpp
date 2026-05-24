@@ -25,7 +25,8 @@
 //   src/analytics/FUTURE_ENHANCEMENTS.md § "Process Mining Windows Port"
 // Roadmap ref: src/analytics/ROADMAP.md § ProcessMining
 #include "analytics/process_mining.h"
-
+#include <stdexcept>
+#include "utils/logger.h"
 #include <spdlog/spdlog.h>
 
 #include "utils/logger.h"

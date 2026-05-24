@@ -10,6 +10,7 @@
  */
 
 #include "server/import_api_handler.h"
+#include <stdexcept>
 #include "server/import_wizard_builder.h"
 #include "utils/logger.h"
 
@@ -489,10 +490,6 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
 void ImportApiHandler::handleGetSchema(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
-    if (req.matches.size() < 2) {
-        jsonError(res, 400, "Missing required path parameter: job_id");
-        return;
-    }
     const std::string job_id = req.matches[1];
     auto handle = registry_->get(job_id);
     if (!handle) {
@@ -507,11 +504,15 @@ void ImportApiHandler::handleGetSchema(const httplib::Request& req,
         return;
     }
 
-    auto schema_importer = selectSchemaImporter(source_path, importer_, s3_importer_);
+    std::shared_ptr<importers::IImporter> schema_importer = importer_;
+    if (source_path.rfind("s3://", 0) == 0 && s3_importer_) {
+        schema_importer = s3_importer_;
+    }
     if (!schema_importer) {
-        jsonError(res, 503, "No importer available for schema preview");
+        jsonError(res, 503, "No importer is configured for schema preview");
         return;
     }
+
     json schema;
     try {
         schema = schema_importer->getSourceSchema(source_path);
@@ -519,8 +520,8 @@ void ImportApiHandler::handleGetSchema(const httplib::Request& req,
         jsonError(res, 422, std::string("Schema preview failed: ") + e.what());
         return;
     }
-    if (!hasUsableSchemaPayload(schema)) {
-        jsonError(res, 422, "Could not parse schema from source_path: " + source_path);
+    if (!schema.is_object() || !schema.contains("tables") || !schema["tables"].is_array()) {
+        jsonError(res, 422, "Could not parse schema from: " + source_path);
         return;
     }
 
@@ -556,11 +557,15 @@ void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
     }
     const std::string source_path = body["source_path"].get<std::string>();
 
-    auto schema_importer = selectSchemaImporter(source_path, importer_, s3_importer_);
+    std::shared_ptr<importers::IImporter> schema_importer = importer_;
+    if (source_path.rfind("s3://", 0) == 0 && s3_importer_) {
+        schema_importer = s3_importer_;
+    }
     if (!schema_importer) {
-        jsonError(res, 503, "No importer available for schema validation");
+        jsonError(res, 503, "No importer is configured for schema validation");
         return;
     }
+
     json schema;
     try {
         schema = schema_importer->getSourceSchema(source_path);
@@ -568,31 +573,39 @@ void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
         jsonError(res, 422, std::string("Schema validation failed: ") + e.what());
         return;
     }
-    if (!hasUsableSchemaPayload(schema)) {
+
+    if (!schema.is_object() || !schema.contains("tables") || !schema["tables"].is_array()) {
         jsonError(res, 422, "Could not parse schema from: " + source_path);
         return;
     }
 
-    const auto table_count = schema.is_object()
-        ? schema.value("tables", json::array()).size()
-        : (schema.is_array() ? schema.size() : 0U);
-    const auto rel_count = schema.is_object()
-        ? schema.value("relationships", json::array()).size()
-        : 0U;
-    const auto cycles = schema.is_object()
-        ? schema.value("circular_references", json::array())
-        : json::array();
+    size_t table_count = schema["tables"].size();
+    size_t rel_count   = schema.value("relationships", json::array()).size();
+    auto   cycles      = schema.value("circular_references", json::array());
 
     json warn_arr = json::array();
     json err_arr  = json::array();
-    if (schema.is_object() && schema.contains("structured_errors") && schema["structured_errors"].is_array()) {
-        for (const auto& e : schema["structured_errors"]) {
-            const int severity = e.value("severity", static_cast<int>(importers::ImportErrorSeverity::ERROR));
-            const std::string message = e.value("message", std::string{});
-            if (message.empty()) {
-                continue;
+
+    const auto append_strings = [](const json& src, const char* key, json& dst) {
+        if (!src.contains(key) || !src[key].is_array()) {
+            return;
+        }
+        for (const auto& entry : src[key]) {
+            if (entry.is_string()) {
+                dst.push_back(entry.get<std::string>());
             }
-            if (severity <= static_cast<int>(importers::ImportErrorSeverity::WARNING)) {
+        }
+    };
+    append_strings(schema, "warnings", warn_arr);
+    append_strings(schema, "errors", err_arr);
+
+    if (schema.contains("structured_errors") && schema["structured_errors"].is_array()) {
+        for (const auto& entry : schema["structured_errors"]) {
+            if (!entry.is_object()) continue;
+            const std::string message = entry.value("message", std::string{});
+            if (message.empty()) continue;
+            const int severity = entry.value("severity", static_cast<int>(importers::ImportErrorSeverity::ERROR));
+            if (severity == static_cast<int>(importers::ImportErrorSeverity::WARNING)) {
                 warn_arr.push_back(message);
             } else {
                 err_arr.push_back(message);

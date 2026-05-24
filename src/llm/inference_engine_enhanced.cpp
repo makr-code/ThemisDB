@@ -10,6 +10,7 @@
  */
 
 #include "llm/inference_engine_enhanced.h"
+#include <stdexcept>
 #include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
 #include "llm/shared_worker_pool.h"

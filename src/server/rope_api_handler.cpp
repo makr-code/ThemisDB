@@ -10,6 +10,7 @@
  */
 
 #include "server/rope_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/vector_index.h"
@@ -818,13 +819,24 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                     {"normalize_after", config.normalize_after}
                 };
             }
-            
-            if (auto stats_opt = vector_index_->getRotaryEmbeddingStats(); stats_opt.has_value()) {
-                const auto& stats = *stats_opt;
+
+            auto [stats_status, stats] = vector_index_->getStatistics();
+            if (!stats_status.ok) {
                 response["statistics"] = {
-                    {"total_rotated_entities", stats.total_rotated_entities},
-                    {"avg_rotation_time_us", stats.avg_rotation_time_us},
-                    {"relational_rotations", stats.total_relational_rotations}
+                    {"status", "unavailable"},
+                    {"error", stats_status.message}
+                };
+            } else {
+                response["statistics"] = {
+                    {"status", "ok"},
+                    {"vector_count", stats.vector_count},
+                    {"index_dimension", stats.dimension},
+                    {"distance_metric", stats.metric_name},
+                    {"distance_min", stats.min_distance},
+                    {"distance_max", stats.max_distance},
+                    {"distance_mean", stats.mean_distance},
+                    {"distance_stddev", stats.std_dev_distance},
+                    {"rotation_ready", config_opt.has_value()}
                 };
             }
         }
@@ -870,12 +882,15 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)
 {
-    // Basic authentication check - if auth middleware is not configured or not
-    // enabled, allow access (open mode).
+    // Basic authentication check - if auth middleware is not configured or not enabled,
+    // allow access (open mode)
     if (!auth_ || !auth_->isEnabled()) {
         return std::nullopt;
     }
-
+    
+    // Enforce scope-based authorization (mirrors VectorApiHandler RBAC pattern).
+    // Extract Bearer token and verify the required permission scope via
+    // auth_->authorize(); deny with HTTP 403 when the scope is not granted.
     auto auth_header = req.find(http::field::authorization);
     if (auth_header == req.end()) {
         return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
@@ -894,7 +909,7 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
                                  "Insufficient permissions for scope: " + permission, req);
     }
 
-    return std::nullopt;
+    return std::nullopt;  // null = access allowed
 }
 
 std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& path) {

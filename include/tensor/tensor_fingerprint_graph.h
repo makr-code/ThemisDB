@@ -8,13 +8,16 @@
 
 /**
  * @file tensor/tensor_fingerprint_graph.h
- * @brief Fingerprint-based adapter similarity graph (Phase 4 prep).
+ * @brief Adapter similarity graph with TT-exact and fingerprint-approximate lookup.
  *
  * ## Overview (paper §Adapter Sovereignty)
  *
  * When many LoRA/PEFT adapters are stored as TT graphs inside ThemisDB,
- * the `TensorFingerprintGraph` provides fast approximate similarity
- * lookup between adapters.
+ * the `TensorFingerprintGraph` provides two lookup modes:
+ * - `findSimilar()` computes cosine similarity in the TT domain via
+ *   TT inner products (exact ranking in compressed space).
+ * - `findSimilarByFingerprint()` computes cosine similarity on a compact
+ *   first-core fingerprint vector (fast approximate ranking).
  *
  * Each adapter is fingerprinted by the column means of its first
  * TT-core (`G_0`), yielding a compact float32 vector that approximates
@@ -27,10 +30,6 @@
  * the first singular vector scaled by `r₁`, which is equivalent to
  * a rank-1 sketch of the adapter.  This is O(n₁ · r₁) to compute
  * and O(r₁) to store — negligible compared to the full adapter.
- *
- * `findSimilar()` uses exact compressed-domain TT cosine similarity via
- * `TensorTrainDecomposer::cosineSimilarity()`.  `findSimilarByFingerprint()`
- * remains as a fast approximate path for callers that only have a sketch.
  *
  * ## Thread Safety
  * All public methods are thread-safe via shared_mutex.
@@ -152,10 +151,9 @@ public:
     /**
      * @brief Find the top-k adapters most similar to the query adapter.
      *
-     * Similarity is computed as exact compressed-domain TT cosine similarity
-     * (`TensorTrainDecomposer::cosineSimilarity`) when both query and candidate
-     * TT payloads are present. The query adapter itself is excluded from the
-     * result list.
+     * Similarity is computed as cosine similarity in the TT domain using
+     * `TensorTrainDecomposer::innerProduct()`.  The query adapter itself is
+     * excluded from the result list.
      *
      * @param query_key  Storage key of the query adapter (must be registered).
      * @param k          Maximum number of results to return.
@@ -169,6 +167,7 @@ public:
      * @brief Find the top-k adapters most similar to the given raw fingerprint.
      *
      * Useful when the caller holds a fingerprint not yet stored in the graph.
+     * This path is intentionally approximate and does not use TT inner-product.
      *
      * @param fingerprint  Query fingerprint vector.
      * @param k            Maximum number of results to return.
@@ -237,6 +236,7 @@ private:
 
     mutable std::shared_mutex mutex_;
     std::unordered_map<std::string, FingerprintEntry> entries_;
+    std::unordered_map<std::string, storage::TTTrain> trains_;
 
     mutable std::shared_mutex stats_mutex_;
     mutable GraphStats        stats_;

@@ -10,6 +10,7 @@
  */
 
 #include "llm/lora_framework/quantization.h"
+#include <stdexcept>
 
 #include <fmt/format.h>
 #include <exception>

@@ -65,7 +65,7 @@ PromptManager::PromptTemplate templateFromYaml(const YAML::Node& node) {
         try {
             t.metadata = nlohmann::json::parse(
                 node["metadata"].as<std::string>());
-        } catch (...) {
+        } catch (const std::exception&) {
             t.metadata = nlohmann::json::object();
         }
     }
@@ -231,7 +231,7 @@ bool PromptLibraryIO::isYamlPath(const std::string& path) noexcept {
         std::filesystem::path p(path);
         const std::string ext = p.extension().string();
         return ext == ".yaml" || ext == ".yml";
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }
@@ -263,7 +263,7 @@ ExportResult PromptLibraryIO::exportToFile(PromptLibraryBundle bundle,
         result.success = true;
     } catch (const std::exception& e) {
         result.error_message = std::string("exportToFile: ") + e.what();
-    } catch (...) {
+    } catch (const std::exception&) {
         result.error_message = "exportToFile: unknown error";
     }
     return result;
@@ -279,7 +279,7 @@ std::optional<PromptLibraryBundle> PromptLibraryIO::importFromJson(
     try {
         const auto j = nlohmann::json::parse(json_str);
         return PromptLibraryBundle::fromJson(j);
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -307,7 +307,7 @@ std::optional<PromptLibraryBundle> PromptLibraryIO::importFromYaml(
             }
         }
         return b;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -348,7 +348,7 @@ ImportResult PromptLibraryIO::importFromFile(const std::string&   path,
         result.success          = true;
     } catch (const std::exception& e) {
         result.error_message = std::string("importFromFile: ") + e.what();
-    } catch (...) {
+    } catch (const std::exception&) {
         result.error_message = "importFromFile: unknown error";
     }
     return result;

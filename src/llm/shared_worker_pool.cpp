@@ -10,6 +10,7 @@
  */
 
 #include "llm/shared_worker_pool.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 
 namespace themis {

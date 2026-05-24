@@ -10,6 +10,7 @@
  */
 
 #include "utils/lek_manager.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "utils/audit_logger.h"
 #include "utils/hkdf_helper.h"

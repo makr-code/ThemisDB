@@ -172,19 +172,19 @@ std::vector<float> HTTrain::reconstruct() const {
 }
 
 // ============================================================================
-// toTTTrain — compatibility bridge (stub #286 resolved: memoized behind mutex)
+// toTTTrain — compatibility bridge with memoization (stub #286 resolved)
 // ============================================================================
 
 storage::TTTrain HTTrain::toTTTrain() const {
-    // Check cache first (stub #286 resolved: memoize the O(∏ n_k) conversion).
-    {
-        std::lock_guard<std::mutex> lock(tt_mutex_);
+    // Fast path: return cached conversion if available.
+    if (tt_cache_mtx_) {
+        std::lock_guard<std::mutex> lk(*tt_cache_mtx_);
         if (tt_cache_) {
-            return *tt_cache_;  // return copy of cached result
+            return *tt_cache_;  // TTTrain is copyable
         }
     }
 
-    // Compute the TT conversion (expensive: full reconstruction + redecompose).
+    // Slow path: full dense reconstruction + TT decomposition (O(∏ n_k)).
     auto dense = reconstruct();
     storage::TensorTrainConfig cfg;
     cfg.max_rank = max_rank > 0 ? max_rank : 16;
@@ -192,14 +192,14 @@ storage::TTTrain HTTrain::toTTTrain() const {
     storage::TensorTrainDecomposer decomp;
     storage::TTTrain result = decomp.decompose(dense, shape, cfg).first;
 
-    // Store result in cache.
-    {
-        std::lock_guard<std::mutex> lock(tt_mutex_);
+    // Store in cache for future calls.
+    if (tt_cache_mtx_) {
+        std::lock_guard<std::mutex> lk(*tt_cache_mtx_);
         if (!tt_cache_) {
-            tt_cache_ = std::make_shared<storage::TTTrain>(std::move(result));
+            tt_cache_ = std::make_shared<storage::TTTrain>(result);
         }
-        return *tt_cache_;
     }
+    return result;
 }
 
 // ============================================================================
@@ -541,89 +541,6 @@ std::vector<float> HierarchicalTuckerDecomposer::modeKProduct(
     return result;
 }
 
-// ── Symmetric Jacobi EVD (STUB #180) ─────────────────────────────────────────
-
-namespace {
-
-/// Symmetric Jacobi eigendecomposition of an n×n matrix A (passed as flat row-major).
-/// Returns eigenvectors in `V` (columns) and eigenvalues in `lambda`, DESCENDING order.
-/// A is overwritten.
-///
-/// STUB #180: Jacobi EVD O(n³ · iter); max_iter = 50 sweeps.
-[[maybe_unused]] static void jacobiEVD(std::vector<double>& A, std::size_t n,
-                                       std::vector<double>& V, std::vector<double>& lambda)
-{
-    // Initialise V = I
-    V.assign(n * n, 0.0);
-    for (std::size_t i = 0; i < n; ++i) V[i * n + i] = 1.0;
-
-    constexpr int    MAX_SWEEPS = 50;
-    constexpr double TOL        = 1e-13;
-
-    for (int sweep = 0; sweep < MAX_SWEEPS; ++sweep) {
-        double off = 0.0;
-        for (std::size_t i = 0; i < n; ++i)
-            for (std::size_t j = i + 1; j < n; ++j)
-                off += A[i * n + j] * A[i * n + j];
-        if (off < TOL * TOL) break;
-
-        // One full sweep: all off-diagonal (p, q) pairs
-        for (std::size_t p = 0; p < n - 1; ++p) {
-            for (std::size_t q = p + 1; q < n; ++q) {
-                double Apq = A[p * n + q];
-                if (std::abs(Apq) < 1e-15) continue;
-
-                double App = A[p * n + p];
-                double Aqq = A[q * n + q];
-                double tau = (Aqq - App) / (2.0 * Apq);
-                double t   = (tau >= 0.0 ? 1.0 : -1.0)
-                             / (std::abs(tau) + std::sqrt(1.0 + tau * tau));
-                double c   = 1.0 / std::sqrt(1.0 + t * t);
-                double s   = t * c;
-
-                // Update A
-                A[p * n + p] = App - t * Apq;
-                A[q * n + q] = Aqq + t * Apq;
-                A[p * n + q] = A[q * n + p] = 0.0;
-                for (std::size_t i = 0; i < n; ++i) {
-                    if (i == p || i == q) continue;
-                    double Aip = A[i * n + p];
-                    double Aiq = A[i * n + q];
-                    A[i * n + p] = A[p * n + i] = c * Aip - s * Aiq;
-                    A[i * n + q] = A[q * n + i] = s * Aip + c * Aiq;
-                }
-                // Update V
-                for (std::size_t i = 0; i < n; ++i) {
-                    double Vip = V[i * n + p];
-                    double Viq = V[i * n + q];
-                    V[i * n + p] = c * Vip - s * Viq;
-                    V[i * n + q] = s * Vip + c * Viq;
-                }
-            }
-        }
-    }
-
-    // Extract and sort eigenvalues (descending)
-    lambda.resize(n);
-    for (std::size_t i = 0; i < n; ++i) lambda[i] = A[i * n + i];
-
-    std::vector<std::size_t> idx(n);
-    std::iota(idx.begin(), idx.end(), 0);
-    std::sort(idx.begin(), idx.end(),
-              [&](std::size_t a, std::size_t b) { return lambda[a] > lambda[b]; });
-
-    std::vector<double> lam2(n), V2(n * n);
-    for (std::size_t k = 0; k < n; ++k) {
-        lam2[k] = lambda[idx[k]];
-        for (std::size_t i = 0; i < n; ++i)
-            V2[i * n + k] = V[i * n + idx[k]];
-    }
-    lambda = lam2;
-    V      = V2;
-}
-
-} // anonymous namespace
-
 // ── Truncated SVD ─────────────────────────────────────────────────────────────
 
 void HierarchicalTuckerDecomposer::truncatedSVD(
@@ -637,17 +554,16 @@ void HierarchicalTuckerDecomposer::truncatedSVD(
     std::vector<float>&       Vt_out,
     std::size_t&              rank_out)
 {
-    if (m == 0 || n == 0) {
-        rank_out = 0;
-        U_out.clear();
-        S_out.clear();
-        Vt_out.clear();
-        return;
-    }
-
-    TensorTrainDecomposer::truncatedSVDShared(
-        mat, m, n, delta, max_rank_cap,
-        U_out, S_out, Vt_out, rank_out);
+    TensorTrainDecomposer::truncatedSVD(
+        mat,
+        m,
+        n,
+        delta,
+        max_rank_cap,
+        U_out,
+        S_out,
+        Vt_out,
+        rank_out);
 }
 
 // ── buildHTNode — top-down HT construction ────────────────────────────────────
@@ -932,43 +848,56 @@ HierarchicalTuckerDecomposer::decompose(
     // G and G_shape now hold the final Tucker core from the last HOOI iteration.
     // G now has shape [r_0, ..., r_{d-1}]
 
-    // ── Step 2b: HOOI alternating optimization ─────────────────────────────────
-    // Minimizes ‖T − T̃‖_F / ‖T‖_F by alternating SVD updates of each factor.
-    // Convergence check: relative core-norm change between iterations.
-    if (cfg_.max_hooi_iter > 0) {
+    // ── Step 2b: HOOI — alternating optimization (stub #287 resolved) ──────────
+    //
+    // After HOSVD initialization, run Higher-Order Orthogonal Iteration (HOOI)
+    // until convergence.  Each sweep updates every leaf basis U_k by computing the
+    // truncated SVD of the mode-k unfolding of the partially-projected core tensor
+    // G(k) = T ×_{j≠k} U_j^T.  The Tucker core is then recomputed.
+    //
+    // Convergence criterion: relative change in ‖G‖_F < 1e-6 between iterations,
+    // or until max_iter (20) sweeps complete.
+    //
+    // References: Kolda & Bader (2009), §4.2; De Lathauwer et al. (2000b).
+    {
+        constexpr std::size_t max_iter   = 20;
+        constexpr double      tol        = 1e-6;
+
+        // Compute initial core norm for convergence tracking
         double prev_core_norm = 0.0;
         for (float v : G) prev_core_norm += static_cast<double>(v) * v;
         prev_core_norm = std::sqrt(prev_core_norm);
 
-        for (std::size_t iter = 0; iter < cfg_.max_hooi_iter; ++iter) {
-            // Update each factor U_k: project T along all other modes and re-SVD.
+        for (std::size_t iter = 0; iter < max_iter; ++iter) {
+            // One HOOI sweep: update each mode-k basis in turn.
             for (std::size_t k = 0; k < d; ++k) {
-                // Contract T with all factors except k: Y = T ×_{j≠k} U_j^T
-                std::vector<float>       Y      = data;
-                std::vector<std::size_t> Y_shape = shape;
+                // Compute G(k) = T ×_{j≠k} U_j^T  (project all other modes)
+                std::vector<float>       Gk      = data;
+                std::vector<std::size_t> Gk_shape = shape;
                 for (std::size_t j = 0; j < d; ++j) {
                     if (j == k) continue;
-                    Y       = modeKProduct(Y, Y_shape, j, U_cache[j], Y_shape[j], ranks[j]);
-                    Y_shape[j] = ranks[j];
+                    Gk       = modeKProduct(Gk, Gk_shape, j, U_cache[j], Gk_shape[j], ranks[j]);
+                    Gk_shape[j] = ranks[j];
                 }
-                // Unfold Y in mode k: [n_k × (∏_{j≠k} r_j)]
-                std::size_t n_other_Y = 1;
-                for (std::size_t j = 0; j < d; ++j)
-                    if (j != k) n_other_Y *= Y_shape[j];
-                auto Yk = modeKUnfolding(Y, Y_shape, k);
 
-                // SVD to refresh U_k and ranks[k]
+                // Mode-k unfolding of Gk: [n_k × (∏_{j≠k} r_j)]
+                auto Tk_proj = modeKUnfolding(Gk, Gk_shape, k);
+                const std::size_t nk      = shape[k];
+                std::size_t       n_other = 1;
+                for (std::size_t j = 0; j < d; ++j)
+                    if (j != k) n_other *= Gk_shape[j];
+
+                // Truncated SVD → new U_k
                 std::vector<float> U_new, S_new, Vt_new;
-                std::size_t r_new = 0;
-                truncatedSVD(Yk, Y_shape[k], n_other_Y,
-                             leaf_delta, cfg_.max_rank,
+                std::size_t        r_new = 0;
+                truncatedSVD(Tk_proj, nk, n_other, leaf_delta, cfg_.max_rank,
                              U_new, S_new, Vt_new, r_new);
 
                 U_cache[k] = std::move(U_new);
                 ranks[k]   = r_new;
             }
 
-            // Recompute core G with updated factors.
+            // Recompute Tucker core with updated bases
             G       = data;
             G_shape = shape;
             for (std::size_t k = 0; k < d; ++k) {
@@ -976,17 +905,18 @@ HierarchicalTuckerDecomposer::decompose(
                 G_shape[k] = ranks[k];
             }
 
-            // Check convergence via relative core-norm change.
-            double cur_core_norm = 0.0;
-            for (float v : G) cur_core_norm += static_cast<double>(v) * v;
-            cur_core_norm = std::sqrt(cur_core_norm);
+            // Check convergence
+            double core_norm = 0.0;
+            for (float v : G) core_norm += static_cast<double>(v) * v;
+            core_norm = std::sqrt(core_norm);
 
-            double rel_change = (orig_norm > 0.0)
-                ? std::abs(cur_core_norm - prev_core_norm) / orig_norm
-                : 0.0;
-            prev_core_norm = cur_core_norm;
+            const double rel_change =
+                (prev_core_norm > 0.0)
+                    ? std::abs(core_norm - prev_core_norm) / prev_core_norm
+                    : core_norm;
 
-            if (rel_change < cfg_.eps * 1e-2) break;  // converged
+            if (rel_change < tol) break;
+            prev_core_norm = core_norm;
         }
     }
 

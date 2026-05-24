@@ -13,6 +13,7 @@
 
 #define _USE_MATH_DEFINES
 #include <iostream>
+#include <stdexcept>
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
 #include "query/query_plan_visualizer.h"

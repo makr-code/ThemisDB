@@ -10,6 +10,7 @@
  */
 
 #include "llm/prompt_manager.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"
 #include "utils/logger.h"

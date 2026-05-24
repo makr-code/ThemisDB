@@ -7,6 +7,7 @@
  */
 
 #include "themis/gpu/query_accelerator.h"
+#include <stdexcept>
 
 #include <algorithm>
 #include <cstring>
@@ -286,7 +287,7 @@ GPUQueryAccelerator::ScanResult GPUQueryAccelerator::scan(const std::vector<Row>
             // Thrust system_error or std::runtime_error — fall through.
             result.rows.clear();
             gpu_done = false;
-        } catch (...) {
+        } catch (const std::exception&) {
             result.rows.clear();
             gpu_done = false;
         }
@@ -390,7 +391,7 @@ GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows,
         } catch ([[maybe_unused]] const std::exception &ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
             gpu_done = false;
-        } catch (...) {
+        } catch (const std::exception&) {
             gpu_done = false;
         }
         if (gpu_done) {
@@ -500,7 +501,7 @@ GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<
         } catch ([[maybe_unused]] const std::exception &ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
             gpu_done = false;
-        } catch (...) {
+        } catch (const std::exception&) {
             gpu_done = false;
         }
         if (gpu_done) {
@@ -662,7 +663,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
             // Thrust system_error or std::runtime_error — fall through to CPU.
             result.pairs.clear();
             gpu_done = false;
-        } catch (...) {
+        } catch (const std::exception&) {
             result.pairs.clear();
             gpu_done = false;
         }
@@ -855,7 +856,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
         } catch ([[maybe_unused]] const std::exception &ex) {
             // cuBLAS, Thrust, or std::runtime_error — fall through to CPU.
             gpu_done = false;
-        } catch (...) {
+        } catch (const std::exception&) {
             gpu_done = false;
         }
         if (blas_handle)
@@ -951,7 +952,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
         } catch ([[maybe_unused]] const std::exception &ex) {
             // hipBLAS, Thrust, or std::runtime_error — fall through to CPU.
             gpu_done = false;
-        } catch (...) {
+        } catch (const std::exception&) {
             gpu_done = false;
         }
         if (blas_handle)
@@ -1094,7 +1095,7 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
                 }
             }
             gpu_done = true;
-        } catch (...) {
+        } catch (const std::exception&) {
             // cudaMalloc failure or cuVS error — fall through to CPU path.
             gpu_done = false;
         }

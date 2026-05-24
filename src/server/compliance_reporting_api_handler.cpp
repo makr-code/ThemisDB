@@ -10,6 +10,7 @@
  */
 
 #include "server/compliance_reporting_api_handler.h"
+#include <stdexcept>
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
 

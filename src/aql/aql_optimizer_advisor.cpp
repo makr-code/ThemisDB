@@ -7,6 +7,7 @@
  */
 
 #include "aql/aql_optimizer_advisor.h"
+#include <stdexcept>
 
 #include <algorithm>
 #include <cctype>
@@ -37,7 +38,7 @@ bool queryContains(const std::string &upper_query, const std::string &keyword) {
     try {
         std::regex re(pattern);
         return std::regex_search(upper_query, re);
-    } catch (...) {
+    } catch (const std::exception&) {
         return upper_query.find(keyword) != std::string::npos;
     }
 }

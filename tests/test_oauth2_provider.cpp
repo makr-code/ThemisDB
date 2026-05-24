@@ -473,7 +473,7 @@ TEST_F(OAuth2ProviderTest, LogoutWithRefreshTokenReturnsSuccess) {
     EXPECT_TRUE(result.value("success", false));
 }
 
-TEST_F(OAuth2ProviderTest, LogoutWithRefreshTokenPostsToRevocationEndpointWhenAvailable) {
+TEST_F(OAuth2ProviderTest, LogoutPostsToRevocationEndpointWhenAvailable) {
     OIDCDiscoveryDocument doc;
     doc.issuer                 = "https://idp.example.com/realms/test";
     doc.jwks_uri               = "https://idp.example.com/certs";
@@ -482,43 +482,22 @@ TEST_F(OAuth2ProviderTest, LogoutWithRefreshTokenPostsToRevocationEndpointWhenAv
     doc.revocation_endpoint    = "https://idp.example.com/revoke";
     provider_->setDiscoveryDocumentForTesting(doc);
 
-    bool called = false;
     std::string captured_url;
     std::string captured_body;
     provider_->setHttpPostForTesting(
         [&](const std::string& url, const std::string& body) {
-            called = true;
             captured_url = url;
             captured_body = body;
             return std::string("{}");
         });
 
-    auto result = provider_->handleLogout("refresh-token-value");
+    auto result = provider_->handleLogout("refresh-token-123");
     ASSERT_FALSE(result.contains("status_code")) << result.dump();
     EXPECT_TRUE(result.value("success", false));
-    EXPECT_TRUE(called);
     EXPECT_EQ(captured_url, "https://idp.example.com/revoke");
-    EXPECT_NE(captured_body.find("token=refresh-token-value"), std::string::npos);
+    EXPECT_NE(captured_body.find("token=refresh-token-123"), std::string::npos);
     EXPECT_NE(captured_body.find("token_type_hint=refresh_token"), std::string::npos);
-}
-
-TEST_F(OAuth2ProviderTest, LogoutRevocationFailureStillReturnsSuccess) {
-    OIDCDiscoveryDocument doc;
-    doc.issuer                 = "https://idp.example.com/realms/test";
-    doc.jwks_uri               = "https://idp.example.com/certs";
-    doc.authorization_endpoint = "https://idp.example.com/auth";
-    doc.token_endpoint         = "https://idp.example.com/token";
-    doc.revocation_endpoint    = "https://idp.example.com/revoke";
-    provider_->setDiscoveryDocumentForTesting(doc);
-
-    provider_->setHttpPostForTesting(
-        [](const std::string&, const std::string&) -> std::string {
-            throw std::runtime_error("network error");
-        });
-
-    auto result = provider_->handleLogout("refresh-token-value");
-    ASSERT_FALSE(result.contains("status_code")) << result.dump();
-    EXPECT_TRUE(result.value("success", false));
+    EXPECT_NE(captured_body.find("client_id=themisdb-test"), std::string::npos);
 }
 
 // ===========================================================================

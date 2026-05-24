@@ -18,6 +18,7 @@
 #define NOMINMAX
 #endif
 #include <winsock2.h>
+#include <stdexcept>
 #include <windows.h>
 #endif
 
@@ -641,9 +642,12 @@ HttpServer::HttpServer(
         };
         auth_->addToken(cfg);
         THEMIS_INFO("Auth: ADMIN token configured via env");
-        // GAP-011/GAP-532: startup validateToken diagnostic removed — it logged
-        // user_id and reason which adds no operational value and pollutes audit
-        // logs with internal validation state on every server start.
+        try {
+            auto v = auth_->validateToken(cfg.token);
+            // GAP-011 fixed: log only token length, never prefix/suffix bytes.
+            THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
+                       cfg.token.size(), v.authorized, v.user_id, v.reason);
+        } catch (const std::exception&) {}
     }
     // Read-only token
     if (auto t = themis_get_env("THEMIS_TOKEN_READONLY")) {
@@ -8833,8 +8837,25 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.prepare_payload();
             return res;
         }
-        THEMIS_INFO("handlePiiDeleteByUuid: Authorization header present");
+        // Log Authorization header presence for this DELETE request
+        try {
+            std::string auth_hdr = std::string(it->value());
+            auto mask = [](const std::string& s) {
+                if (s.size() <= 8) return s;
+                return s.substr(0,4) + "..." + s.substr(s.size()-4);
+            };
+            THEMIS_INFO("handlePiiDeleteByUuid: Authorization header='{}'", mask(auth_hdr));
+        } catch (const std::exception&) {}
         auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+        // Log presence of Authorization header for debugging (mask token)
+        try {
+            std::string auth_hdr = std::string(it->value());
+            auto mask = [](const std::string& s) {
+                if (s.size() <= 8) return s;
+                return s.substr(0,4) + "..." + s.substr(s.size()-4);
+            };
+            THEMIS_INFO("PII DELETE: Authorization header present: '{}'", mask(auth_hdr));
+        } catch (const std::exception&) {}
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -8845,7 +8866,20 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.prepare_payload();
             return res;
         }
+            // Diagnostic: validate token to see which user_id (if any) is associated
+            try {
+                auto vres = auth_->validateToken(*token);
+                THEMIS_INFO("requireAccess: validateToken -> authorized={} user_id='{}' reason='{}'", vres.authorized, vres.user_id, vres.reason);
+                try {
+                    std::cerr << "[AUTH-DBG] validateToken -> authorized=" << (vres.authorized?"true":"false")
+                              << " user_id='" << vres.user_id << "' reason='" << vres.reason << "'\n";
+                } catch (const std::exception&) {}
+            } catch (const std::exception&) {}
             auto ar = auth_->authorize(*token, required_scope);
+            try {
+                std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
+                          << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
+            } catch (const std::exception&) {}
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -8871,6 +8905,11 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             THEMIS_INFO("Policy check bypass for admin user_id='{}'", user_id);
             return std::nullopt;
         }
+        // Diagnostic: show user_id before policy check
+        try {
+            std::cerr << "[AUTH-DBG] before_policy_check -> user_id='" << user_id << "' action='" << action << "' resource='" << resource << "'\n";
+        } catch (const std::exception&) {}
+
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
         std::optional<std::string> client_ip;
         for (const auto& h : req) {

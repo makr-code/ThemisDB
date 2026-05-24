@@ -10,6 +10,7 @@
  */
 
 #include "server/policy_engine.h"
+#include <stdexcept>
 #include "utils/audit_logger.h"
 #include "observability/metrics_collector.h"
 #include <ctime>

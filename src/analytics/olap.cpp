@@ -7,7 +7,9 @@
  */
 
 #include "analytics/olap.h"
-
+#include <stdexcept>
+#include "analytics/detail/memory_pool.h"
+#include "themis/gpu/query_accelerator.h"
 #include <algorithm>
 #include <atomic>
 #include <chrono>

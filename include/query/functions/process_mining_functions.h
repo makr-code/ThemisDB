@@ -366,6 +366,9 @@ public:
 
 /**
  * @brief PM_LOAD_ADMIN_MODEL - Load predefined administrative model
+ *
+ * Models are resolved from the FunctionContext variable `pm_admin_models`,
+ * expected as an array of objects with at least an `"id"` field.
  * 
  * @code
  * -- Load building permit model
@@ -429,6 +432,8 @@ private:
 
 /**
  * @brief PM_LIST_ADMIN_MODELS - List available administrative models
+ *
+ * Returns the normalized `pm_admin_models` array from FunctionContext.
  * 
  * @code
  * LET models = PM_LIST_ADMIN_MODELS()
@@ -576,17 +581,13 @@ public:
 /**
  * @brief PM_PREDICT_END - Predict process end time
  *
- * Forecast resolution order:
- *  1. FunctionContext variable `pm_predicted_end_by_case` (object map)
- *  2. Current document field `predicted_end_by_case[case_id]`
- *  3. Current document field `predicted_end`
- *  4. Derived fallback `start_time_ms + expected_duration_ms` (if present)
- *  5. Derived fallback `timestamp_ms + remaining_duration_ms` (if present)
+ * Reads predictions from FunctionContext variable `pm_predicted_end_by_case`,
+ * expected as an object map `case_id -> predicted_end` value.
  *
- * If no source provides a forecast, `predicted_end` is `null`.
- *
- * @param case_id  Process case ID whose completion time should be forecast.
- * @return JSON object with fields `case_id` and `predicted_end`.
+ * @param case_id  Process case ID whose completion time should eventually be
+ *                 forecast.
+ * @return JSON object with a `predicted_end` field. The field is currently
+ *         `null` when no prediction is available in the context map.
  */
 class PmPredictEndFunction : public IFunction {
 public:

@@ -10,6 +10,7 @@
  */
 
 #include "server/lora_api_handler.h"
+#include <stdexcept>
 #include "server/auth_middleware.h"
 #include "auth/jwt_validator.h"
 #include "llm/lora_framework/lora_orchestrator.h"

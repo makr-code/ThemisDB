@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <mutex>
 #include <regex>
+#include <mutex>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
 #include <mutex>
@@ -26,26 +27,10 @@
 namespace themis {
 namespace llm {
 
-// ─── SpamKeywordsProviderFn bridge storage (stub #296) ───────────────────────
 namespace {
-    std::mutex s_spam_fn_mutex;
-    FeedbackStore::SpamKeywordsProviderFn s_spam_fn;
-
-    FeedbackStore::SpamKeywordsProviderFn getSpamFn() {
-        std::lock_guard<std::mutex> lk(s_spam_fn_mutex);
-        return s_spam_fn;
-    }
+std::mutex g_spam_keywords_provider_mutex;
+FeedbackStore::SpamKeywordsProviderFn g_spam_keywords_provider;
 } // namespace
-
-void FeedbackStore::setSpamKeywordsProviderFn(SpamKeywordsProviderFn fn) {
-    std::lock_guard<std::mutex> lk(s_spam_fn_mutex);
-    s_spam_fn = std::move(fn);
-}
-
-void FeedbackStore::clearSpamKeywordsProviderFn() {
-    std::lock_guard<std::mutex> lk(s_spam_fn_mutex);
-    s_spam_fn = nullptr;
-}
 
 // ===== Helper function to convert enum to string =====
 
@@ -166,6 +151,11 @@ void FeedbackStore::setValidationPlugin(std::shared_ptr<IFeedbackPlugin> plugin)
 
 std::shared_ptr<IFeedbackPlugin> FeedbackStore::getValidationPlugin() const {
     return validation_plugin_;
+}
+
+void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn provider) {
+    std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+    g_spam_keywords_provider = std::move(provider);
 }
 
 
@@ -548,63 +538,42 @@ void FeedbackStore::clear() {
 
 // ===== Validation Logic =====
 
-// ===== Spam-keywords provider (stub #296 resolution) =====
-
-namespace {
-std::mutex spam_keywords_fn_mutex;
-FeedbackStore::SpamKeywordsProviderFn spam_keywords_fn;
-} // anonymous namespace
-
-void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn fn) {
-    std::lock_guard<std::mutex> lock(spam_keywords_fn_mutex);
-    spam_keywords_fn = std::move(fn);
-}
-
-const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
-    {
-        std::lock_guard<std::mutex> lock(spam_keywords_fn_mutex);
-        if (spam_keywords_fn) {
-            // Thread-local cache updated on each call so the provider can
-            // return different lists without requiring a restart.
-            thread_local std::vector<std::string> dynamic_keywords;
-            try {
-                dynamic_keywords = spam_keywords_fn();
-            } catch (const std::exception& e) {
-                spdlog::warn("FeedbackStore: spam keywords provider failed: {}; "
-                             "using built-in static list", e.what());
-            }
-            if (!dynamic_keywords.empty()) {
-                return dynamic_keywords;
-            }
-        }
-    }
-    // Built-in fallback: static compile-time keyword list.
-    // Inject a provider via setSpamKeywordsProvider() for runtime configurability.
-    static const std::vector<std::string> spam_keywords = {
-        "buy now", "click here", "viagra", "casino", "lottery",
+std::vector<std::string> FeedbackStore::getSpamKeywords() {
+    // Default spam keywords used when no runtime provider is configured.
+    static const std::vector<std::string> default_spam_keywords = {
+        "buy now", "click here", "viagra", "casino", "lottery", 
         "free money", "million dollars", "nigerian prince",
         "weight loss", "work from home", "make money fast"
     };
 
-    // Delegate to the injected runtime provider when available (stub #296 resolved).
-    // Provider may load keywords from a config file or database table without recompilation.
+    SpamKeywordsProviderFn provider;
     {
-        std::lock_guard<std::mutex> lock(s_spam_kw_mutex);
-        if (s_spam_kw_provider) {
-            // Cache per-call result in a thread_local to satisfy the const-ref return type.
-            thread_local std::vector<std::string> cached;
-            try {
-                cached = s_spam_kw_provider();
-            } catch (...) {
-                // Fall back to static list on provider failure.
-                return spam_keywords;
+        std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+        provider = g_spam_keywords_provider;
+    }
+
+    if (provider) {
+        try {
+            auto runtime_keywords = provider();
+            if (!runtime_keywords.empty()) {
+                runtime_keywords.erase(
+                    std::remove_if(runtime_keywords.begin(),
+                                   runtime_keywords.end(),
+                                   [](const auto& keyword) { return keyword.empty(); }),
+                    runtime_keywords.end());
             }
-            if (!cached.empty()) {
-                return cached;
+
+            if (!runtime_keywords.empty()) {
+                return runtime_keywords;
             }
+
+            THEMIS_WARN("Spam keywords provider returned empty list; using built-in defaults");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Spam keywords provider failed: {}; using built-in defaults", e.what());
         }
     }
-    return spam_keywords;
+
+    return default_spam_keywords;
 }
 
 bool FeedbackStore::isLikelySpam(const std::string& text) {
@@ -629,7 +598,7 @@ bool FeedbackStore::isLikelySpam(const std::string& text) {
     }
     
     // Common spam patterns
-    const auto& spam_keywords = getSpamKeywords();
+    const auto spam_keywords = getSpamKeywords();
     
     std::string lower_text = text;
     std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
@@ -705,9 +674,7 @@ ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // Apply plugin-suggested modifications before accepting (stub #297 RESOLVED).
-                // The plugin populates modified_comment / modified_metadata when it
-                // wants to sanitize the content rather than outright reject it.
+                // Apply plugin-provided transformations before storing the feedback.
                 if (result.modified_comment.has_value()) {
                     feedback.comment = *result.modified_comment;
                 }

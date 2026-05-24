@@ -10,6 +10,7 @@
  */
 
 #include "projects/project_lifecycle.h"
+#include <stdexcept>
 
 #include <chrono>
 #include <sstream>
@@ -244,7 +245,7 @@ std::vector<ProjectStateTransition> ProjectLifecycle::getAuditTrail(
             trail.push_back(
                 ProjectStateTransition::fromJson(
                     json::parse(std::string(val))));
-        } catch (...) {}
+        } catch (const std::exception&) {}
         return true;
     });
 

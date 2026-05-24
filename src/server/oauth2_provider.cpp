@@ -543,24 +543,20 @@ nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
         try {
             const auto& doc = oidc_provider_->discoveryDocument();
             if (!doc.revocation_endpoint.empty()) {
-                auto enc = [](const std::string& v) { return urlEncode(v); };
-
-                std::string body;
-                body += "token=" + enc(refresh_token);
-                body += "&token_type_hint=" + enc("refresh_token");
-                body += "&client_id=" + enc(config_.oidc.client_id);
+                std::string body =
+                    "token=" + urlEncode(refresh_token) +
+                    "&token_type_hint=refresh_token" +
+                    "&client_id=" + urlEncode(config_.oidc.client_id);
                 if (!config_.oidc.client_secret.empty()) {
-                    body += "&client_secret=" + enc(config_.oidc.client_secret);
+                    body += "&client_secret=" + urlEncode(config_.oidc.client_secret);
                 }
-
-                THEMIS_INFO("OAuth2Provider::handleLogout – posting RFC7009 revocation to {}",
-                            doc.revocation_endpoint);
                 (void)httpPost(doc.revocation_endpoint, body);
+                THEMIS_INFO("OAuth2Provider::handleLogout – refresh token revocation posted");
             } else {
-                THEMIS_INFO("OAuth2Provider::handleLogout – no revocation endpoint in discovery document");
+                THEMIS_WARN("OAuth2Provider::handleLogout – revocation endpoint unavailable in discovery metadata");
             }
         } catch (const std::exception& e) {
-            THEMIS_WARN("OAuth2Provider::handleLogout – best-effort revocation failed: {}", e.what());
+            THEMIS_WARN("OAuth2Provider::handleLogout – refresh token revocation failed: {}", e.what());
         }
     }
     THEMIS_INFO("OAuth2Provider::handleLogout – session ended");

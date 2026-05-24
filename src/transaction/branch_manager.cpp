@@ -727,7 +727,7 @@ void BranchManager::recordMergeStatus(
     std::vector<uint8_t> sentinel = {1};
     try {
         db_.put(key, sentinel);
-    } catch (...) {}
+    } catch (const std::exception&) {}
 }
 
 // ---- Phase 5: Branch History ----
@@ -766,7 +766,7 @@ BranchManager::deserializeHistory(const std::vector<uint8_t>& data) const {
     try {
         std::string s(data.begin(), data.end());
         return BranchHistoryEntry::fromJson(json::parse(s));
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

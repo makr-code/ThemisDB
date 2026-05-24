@@ -16,6 +16,7 @@
  */
 
 #include "themis/license_info.h"
+#include <stdexcept>
 #include "utils/openssl_deleter.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
@@ -305,7 +306,7 @@ int getDaysUntilExpiry(const LicenseData& license) {
         int diff_days = static_cast<int>(diff_seconds / (60 * 60 * 24));
         
         return diff_days;
-    } catch (...) {
+    } catch (const std::exception&) {
         // Error parsing date, assume expired
         return INVALID_LICENSE_DAYS;
     }

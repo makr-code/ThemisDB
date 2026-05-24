@@ -10,6 +10,7 @@
 // Copyright (c) 2024-2026 ThemisDB Contributors
 
 #include "index/inverted_index.h"
+#include <stdexcept>
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"

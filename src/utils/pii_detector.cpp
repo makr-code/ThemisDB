@@ -10,6 +10,7 @@
  */
 
 #include "utils/pii_detector.h"
+#include <stdexcept>
 #include "utils/pii_detection_engine.h"
 #include "config/config_path_resolver.h"
 #include <algorithm>

@@ -509,7 +509,7 @@ json DocsAssistantFunctions::getPerformanceMetrics() const {
         try {
             auto *assistant           = impl->getAssistant();
             metrics["base_assistant"] = assistant->getStats();
-        } catch (...) {
+        } catch (const std::exception&) {
             metrics["base_assistant"] = nullptr;
         }
     }

@@ -10,6 +10,7 @@
  */
 
 #include "server/transaction_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "transaction/transaction_manager.h"

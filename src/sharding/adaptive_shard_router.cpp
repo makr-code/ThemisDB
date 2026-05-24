@@ -339,8 +339,7 @@ void AdaptiveShardRouter::updateAdaptiveConfig(const AdaptiveConfig& config) {
 }
 
 void AdaptiveShardRouter::setNlpContextFn(NlpContextFn fn) {
-    std::lock_guard<std::mutex> lock(nlp_context_fn_mutex_);
-    nlp_context_fn_ = fn ? std::optional<NlpContextFn>(std::move(fn)) : std::nullopt;
+    nlp_context_fn_ = std::move(fn);
 }
 
 CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
@@ -369,7 +368,14 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     CapabilityMatcher::QueryContext context;
     context.query_text = query;
     context.keywords = matcher_->extractKeywords(query);
-
+    
+    // Prefer injected NLP/ML enrichment when available.
+    if (nlp_context_fn_) {
+        (*nlp_context_fn_)(query, context);
+        return context;
+    }
+    
+    // Fallback heuristic path for deployments without an injected NLP service.
     std::string query_lower = query;
     std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(),
                    [](unsigned char c) { return std::tolower(c); });

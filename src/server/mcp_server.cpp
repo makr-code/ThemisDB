@@ -12,6 +12,7 @@
 #ifdef THEMIS_ENABLE_MCP
 
 #include "server/mcp_server.h"
+#include <stdexcept>
 #include "server/http_server.h"
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"

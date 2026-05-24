@@ -20,6 +20,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <chrono>
+#include <set>
 
 namespace themis {
 namespace server {
@@ -396,19 +397,36 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
-        std::vector<std::string> names;
-        if (aggregates_fn_) {
-            // Delegate to the injected provider for live backend metadata.
-            names = aggregates_fn_();
-        } else {
-            // Built-in enumeration of all supported aggregate functions
-            // (mirrors TimeSeriesAggregates::AggregateFunction enum values).
-            names = {"min", "max", "avg", "sum", "count",
-                     "stddev", "variance", "first", "last",
-                     "percentile_50", "percentile_95", "percentile_99"};
+        std::set<std::string> aggregate_names = {"min", "max", "avg", "sum", "count"};
+
+        nlohmann::json materialized = nlohmann::json::array();
+        if (storage_) {
+            storage_->scanPrefix("wm:cagg:", [&materialized](std::string_view key, std::string_view value) {
+                const std::string key_str(key);
+                constexpr std::string_view kPrefix = "wm:cagg:";
+                if (key_str.rfind(kPrefix, 0) == 0 && key_str.size() > kPrefix.size()) {
+                    materialized.push_back({
+                        {"aggregate_id", key_str.substr(kPrefix.size())},
+                        {"watermark_ms", std::string(value)}
+                    });
+                }
+                return true;
+            });
         }
+
+        if (!materialized.empty()) {
+            aggregate_names.insert("materialized");
+        }
+
+        nlohmann::json functions = nlohmann::json::array();
+        for (const auto& name : aggregate_names) {
+            functions.push_back(name);
+        }
+
         nlohmann::json response = {
-            {"aggregates", nlohmann::json(names)}
+            {"aggregates", functions},
+            {"materialized_aggregates", materialized},
+            {"materialized_count", materialized.size()}
         };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
@@ -424,17 +442,36 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
         nlohmann::json policies = nlohmann::json::array();
-        if (retentions_fn_) {
-            // Delegate to the injected provider for live retention-policy metadata.
-            auto policy_map = retentions_fn_();
-            for (const auto& [metric, seconds] : policy_map) {
+        if (storage_) {
+            auto stored = storage_->get("config:timeseries");
+            if (stored) {
+                std::string serialized(stored->begin(), stored->end());
+                nlohmann::json cfg = nlohmann::json::parse(serialized, nullptr, false);
+                if (!cfg.is_discarded()) {
+                    if (cfg.contains("retention_policies") && cfg["retention_policies"].is_array()) {
+                        policies = cfg["retention_policies"];
+                    } else if (cfg.contains("retention_policy") && cfg["retention_policy"].is_object()) {
+                        policies.push_back(cfg["retention_policy"]);
+                    }
+                }
+            }
+        }
+
+        if (ts_store_) {
+            const auto& config = ts_store_->getConfig();
+            if (config.late_arrival_window_ms > 0) {
                 policies.push_back({
-                    {"metric", metric},
-                    {"retention_seconds", seconds}
+                    {"name", "late_arrival_window"},
+                    {"window_ms", config.late_arrival_window_ms},
+                    {"source", "tsstore_config"}
                 });
             }
         }
-        nlohmann::json response = {{"policies", policies}};
+
+        nlohmann::json response = {
+            {"policies", policies},
+            {"policy_count", policies.size()}
+        };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {
@@ -649,4 +686,3 @@ http::response<http::string_body> TimeSeriesApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
-

@@ -13,6 +13,7 @@
 // Licensed under the MIT License
 
 #include "storage/transaction_retry_manager.h"
+#include <stdexcept>
 #include <algorithm>
 #include <cmath>
 #include <sstream>

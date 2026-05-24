@@ -17,6 +17,7 @@
  */
 
 #include "llm/kv_prefix_transfer_manager.h"
+#include <stdexcept>
 
 #include <spdlog/spdlog.h>
 

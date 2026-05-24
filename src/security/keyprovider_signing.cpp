@@ -10,6 +10,7 @@
  */
 
 #include "security/signing.h"
+#include <stdexcept>
 #include "security/signing_provider.h"
 #include "security/cms_signing.h"
 #include <openssl/pem.h>

@@ -88,20 +88,21 @@ public:
     void unregisterConnection(uint64_t conn_id);
 
     /**
-     * @brief Get pending raw ChangeEvent objects for a connection.
+     * @brief Get pending raw events for a connection (for at-least-once delivery tracking).
      *
-     * Returns the raw ChangeEvent objects corresponding to the events buffered
-     * for this connection, enabling callers to perform at-least-once delivery
-     * tracking via DeliveryTracker::trackDelivery().  The raw-event buffer for
-     * this connection is drained of the returned events (in lock-step with the
-     * formatted-string buffer drained by pollEvents()).
+     * Returns up to `max_events` raw `ChangeEvent` objects that have been
+     * buffered since the last call.  This API is intended for handlers that
+     * need to feed events through a `DeliveryTracker` before formatting them
+     * as SSE lines; callers should not mix calls to `pollEvents()` and
+     * `pollRawEvents()` on the same connection.
      *
-     * @param conn_id    Connection ID returned by registerConnection().
-     * @param max_events Maximum number of events to retrieve.
-     * @return Vector of raw ChangeEvent objects (may be empty).
+     * Rate-limiting (if configured) is applied the same way as in `pollEvents()`.
+     *
+     * @param conn_id    Connection ID.
+     * @param max_events Maximum number of raw events to return.
+     * @return           Raw change events in ascending sequence order.
      */
-    std::vector<Changefeed::ChangeEvent> pollRawEvents(
-        uint64_t conn_id, size_t max_events = 100);
+    std::vector<Changefeed::ChangeEvent> pollRawEvents(uint64_t conn_id, size_t max_events = 100);
 
     /**
      * @brief Get pending events for a connection
@@ -142,8 +143,10 @@ private:
         std::set<Changefeed::ChangeEventType> event_types;
         std::chrono::steady_clock::time_point last_activity;
         std::chrono::steady_clock::time_point last_heartbeat;
+        /// Formatted SSE lines ("id: N\ndata: {...}\n\n") — drained by pollEvents().
         std::vector<std::string> buffered_events;
-        std::vector<Changefeed::ChangeEvent> buffered_raw_events;  ///< Parallel raw-event buffer for at-least-once delivery tracking
+        /// Raw ChangeEvent objects — drained by pollRawEvents() for at-least-once tracking.
+        std::vector<Changefeed::ChangeEvent> raw_buffered_events;
         std::atomic<bool> active{true};
         // Backpressure accounting
         uint64_t dropped_events{0};

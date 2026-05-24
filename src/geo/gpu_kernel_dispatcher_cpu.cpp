@@ -30,6 +30,7 @@
 // return immediately with dispatched=false.
 
 #include "geo/gpu_kernel_dispatcher.h"
+#include <stdexcept>
 
 #include <mutex>
 
@@ -79,7 +80,7 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
         numPolygonVertices >= 3) {
         try {
             return fn(point_lats, point_lons, numPoints, polygon_coords, numPolygonVertices);
-        } catch (...) {
+        } catch (const std::exception&) {
             auto result = ContainmentResult{};
             result.error_code = -1;
             return result;
@@ -104,7 +105,7 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
     if (fn && lats1 && lons1 && lats2 && lons2 && count > 0) {
         try {
             return fn(lats1, lons1, lats2, lons2, count, formula);
-        } catch (...) {
+        } catch (const std::exception&) {
             auto result = DistanceResult{};
             result.error_code = -1;
             return result;

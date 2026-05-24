@@ -246,10 +246,10 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
                     try {
                         forward();
                         promise->set_value();
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         try {
                             promise->set_exception(std::current_exception());
-                        } catch (...) {
+                        } catch (const std::exception&) {
                         }
                     }
                 }).detach();
@@ -264,7 +264,7 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
             return StepState::COMPLETED;
         } catch (const std::exception& ex) {
             journalWrite(saga_id, "step_exception", step.name + ": " + ex.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             journalWrite(saga_id, "step_exception", step.name + ": unknown exception");
         }
 
@@ -309,7 +309,7 @@ void SAGAOrchestrator::compensateStep(const SAGAStep& step,
     } catch (const std::exception& ex) {
         status_rec.failure_reason += " | compensation failed for " + step.name + ": " + ex.what();
         status_rec.step_states[step.name] = StepState::FAILED;
-    } catch (...) {
+    } catch (const std::exception&) {
         status_rec.failure_reason += " | compensation failed for " + step.name + ": unknown exception";
         status_rec.step_states[step.name] = StepState::FAILED;
     }

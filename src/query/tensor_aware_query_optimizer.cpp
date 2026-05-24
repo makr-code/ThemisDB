@@ -13,9 +13,22 @@
  * @file query/tensor_aware_query_optimizer.cpp
  * @brief TensorAwareQueryOptimizer implementation.
  *
- * Detection now supports two paths:
- * - injected `TensorNodeDetectorFn` for AST/IR-aware function resolution
- * - deterministic description scanning fallback for legacy callers
+ * ### Stub log
+ * - TAQO-01  Full AQL AST traversal (not just description-string scan)
+ *            deferred to Phase 3 integration with AQL runner (Q1 2027).
+ *
+ * STUB/SIMULATION NOTE (stub #275): RESOLVED via IRVisitorFn injection bridge.
+ * Purpose: Detection was based on presence of function names in the plan
+ *          node `description` field, which is available from the existing
+ *          `QueryPlanNode` serialization path.  A deeper AST-level rewrite
+ *          (replacing function call nodes in the AQL IR) requires coupling
+ *          to the AQL runner's internal IR and is Phase 3 Phase-C work.
+ * Activation: String-scan fallback is always active; IR visitor is used
+ *             first when registered via setIRVisitorFn().
+ * Production Delta: Phase 3 AQL runner wires a real IRVisitorFn that
+ *                   traverses the AST IR directly, bypassing string scanning.
+ * Removal Plan: String-scan fallback can be removed once all callers supply
+ *               an IR visitor (Phase 3 completion, Q1 2027).
  */
 
 #include "query/tensor_aware_query_optimizer.h"
@@ -68,6 +81,24 @@ const std::unordered_set<std::string> TensorAwareQueryOptimizer::kTensorFunction
     "TENSOR_PROJECT",
     "TENSOR_DECOMPOSE",
 };
+
+// IR visitor bridge — process-wide singleton, guarded by ir_visitor_mutex_.
+TensorAwareQueryOptimizer::IRVisitorFn TensorAwareQueryOptimizer::ir_visitor_fn_;
+std::mutex TensorAwareQueryOptimizer::ir_visitor_mutex_;
+
+// ============================================================================
+// setIRVisitorFn / clearIRVisitorFn
+// ============================================================================
+
+void TensorAwareQueryOptimizer::setIRVisitorFn(IRVisitorFn fn) {
+    std::lock_guard<std::mutex> lock(ir_visitor_mutex_);
+    ir_visitor_fn_ = std::move(fn);
+}
+
+void TensorAwareQueryOptimizer::clearIRVisitorFn() {
+    std::lock_guard<std::mutex> lock(ir_visitor_mutex_);
+    ir_visitor_fn_ = nullptr;
+}
 
 // ============================================================================
 // isTensorFunction
@@ -136,11 +167,42 @@ void TensorAwareQueryOptimizer::clearTensorNodeDetectorFn() {
 void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
     ++last_stats_.nodes_visited;
 
-    TensorNodeDetectorFn detector;
+    // ── Step 1: AQL-IR visitor bridge (stub #275 resolution) ──────────────
+    // If a real AQL-IR visitor is registered, let it detect and rewrite the
+    // node before falling back to the description-string scan.
     {
-        std::shared_lock lock(detector_mutex_);
-        detector = tensor_node_detector_fn_;
+        IRVisitorFn visitor_snap;
+        {
+            std::lock_guard<std::mutex> lock(ir_visitor_mutex_);
+            visitor_snap = ir_visitor_fn_;
+        }
+        if (visitor_snap) {
+            double baseline_cost_out = 0.0;
+            try {
+                if (visitor_snap(node, baseline_cost_out)) {
+                    // Visitor rewrote the node; record stats and skip string scan.
+                    last_stats_.total_baseline_cost  += baseline_cost_out;
+                    last_stats_.total_optimized_cost += node.estimated_cost;
+                    ++last_stats_.nodes_rewritten;
+
+                    // Recurse into children and return early.
+                    for (auto& child : node.children) {
+                        if (child) rewriteNode(*child);
+                    }
+                    return;
+                }
+            } catch (...) {
+                // Visitor threw; fall through to string-scan heuristic.
+            }
+        }
     }
+
+    // ── Step 2: String-scan fallback heuristic ────────────────────────────
+    // Check whether this node's description mentions a tensor function.
+    std::string upper_desc;
+    upper_desc.reserve(node.description.size());
+    for (char c : node.description)
+        upper_desc += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
 
     std::optional<std::string> detected_fn;
     if (detector) {

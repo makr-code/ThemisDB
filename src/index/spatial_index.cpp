@@ -7,6 +7,7 @@
  */
 
 #include "index/spatial_index.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include "utils/geometric_distances.h"
 #include <cmath>

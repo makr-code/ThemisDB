@@ -10,6 +10,7 @@
  */
 
 #include "utils/cron_parser.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>

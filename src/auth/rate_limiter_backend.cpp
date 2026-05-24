@@ -7,6 +7,7 @@
  */
 
 #include "auth/rate_limiter_backend.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #ifdef THEMIS_ENABLE_REDIS
@@ -328,7 +329,7 @@ int64_t RedisRateLimiterBackend::increment(const std::string& key,
     if (fn) {
         try {
             return fn(key, window_seconds);
-        } catch (...) {
+        } catch (const std::exception&) {
         }
     }
     return redisFallbackBackend().increment(key, window_seconds);
@@ -345,7 +346,7 @@ int64_t RedisRateLimiterBackend::getCount(const std::string& key,
     if (fn) {
         try {
             return fn(key, window_seconds);
-        } catch (...) {
+        } catch (const std::exception&) {
         }
     }
     return redisFallbackBackend().getCount(key, window_seconds);
@@ -362,7 +363,7 @@ void RedisRateLimiterBackend::reset(const std::string& key)
         try {
             fn(key);
             return;
-        } catch (...) {
+        } catch (const std::exception&) {
         }
     }
     redisFallbackBackend().reset(key);
@@ -378,7 +379,7 @@ bool RedisRateLimiterBackend::isConnected() const
     if (fn) {
         try {
             return fn();
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }
@@ -395,7 +396,7 @@ bool RedisRateLimiterBackend::reconnect()
     if (fn) {
         try {
             return fn();
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }

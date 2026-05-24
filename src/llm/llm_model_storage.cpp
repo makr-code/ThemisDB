@@ -10,6 +10,7 @@
  */
 
 #include "llm/llm_model_storage.h"
+#include <stdexcept>
 #include "storage/base_entity.h"
 #include "storage/security_signature_manager.h"
 #include "security/mock_key_provider.h"
@@ -571,9 +572,6 @@ public:
             model_ids.push_back(model_id);
             return true;
         });
-
-        std::sort(model_ids.begin(), model_ids.end());
-        model_ids.erase(std::unique(model_ids.begin(), model_ids.end()), model_ids.end());
         
         return model_ids;
     }

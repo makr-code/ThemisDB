@@ -18,6 +18,7 @@
  */
 
 #include "llm/llm_ingestion_bridge.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 
 namespace themis {

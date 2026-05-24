@@ -17,6 +17,7 @@
  */
 
 #include "storage/nlp_metadata_extractor.h"
+#include <stdexcept>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <algorithm>

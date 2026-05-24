@@ -10,6 +10,7 @@
  */
 
 #include "utils/pki_client.h"
+#include <stdexcept>
 #include "utils/expected.h"
 #include "utils/error_registry.h"
 #include "utils/openssl_deleter.h"

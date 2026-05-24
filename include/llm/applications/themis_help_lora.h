@@ -100,16 +100,24 @@ public:
         bool enable_auto_rollback = true;
 
         /**
-         * @brief Optional model path resolver (stub #299).
+         * @brief Optional model-path resolver injected at startup.
          *
-         * When set, the Impl uses this callable to resolve the GGUF path for
-         * a given model_id instead of the hardcoded `"models/<id>.gguf"` fallback.
-         * @param model_id The base model identifier string.
-         * @return Resolved filesystem or URL path for the GGUF file.
+         * When set, the resolver is called with @p base_model_id and must
+         * return the absolute filesystem path to the GGUF model file.
+         * Implement via `LLMModelStorage::resolveGGUFPath(model_id)` and wire
+         * at server startup.
+         *
+         * When not set, the component falls back to the relative path
+         * `"models/" + base_model_id + ".gguf"`, which is only correct when
+         * the server working directory contains a `models/` sub-directory.
+         *
+         * @param model_id The base_model_id string from this Config.
+         * @return Absolute path to the GGUF file, or empty on resolution failure.
          */
-        std::function<std::string(const std::string& model_id)> model_path_provider;
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
+        std::optional<ModelPathProviderFn> model_path_provider;
     };
-    
+
     explicit ThemisHelpLoRA(const Config& config);
     ThemisHelpLoRA();
     ~ThemisHelpLoRA();

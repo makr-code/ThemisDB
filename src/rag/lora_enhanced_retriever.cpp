@@ -10,6 +10,7 @@
  */
 
 #include "rag/lora_enhanced_retriever.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -151,7 +152,7 @@ LoRAEnhancedRetriever::rerank(
                 if (it == d.metadata.end()) return true;
                 try {
                     return std::stod(it->second) >= config_.min_lora_score;
-                } catch (...) {
+                } catch (const std::exception&) {
                     return true;
                 }
             });

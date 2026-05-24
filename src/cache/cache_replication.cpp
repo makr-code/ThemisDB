@@ -14,7 +14,8 @@
  */
 
 #include "cache/cache_replication.h"
-
+#include <stdexcept>
+#include "utils/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <sstream>
@@ -121,7 +122,7 @@ void CacheReplicationManager::probeUnhealthyReplicas() {
             bool alive = false;
             try {
                 alive = state.listener->ping();
-            } catch (...) {
+            } catch (const std::exception&) {
                 alive = false;
             }
 
@@ -245,7 +246,7 @@ void CacheReplicationManager::dispatch(const CacheReplicationEvent &event) {
             THEMIS_WARN("CacheReplicationManager: exception from replica '{}': {}", state.listener->replicaId(),
                         ex.what());
             ok = false;
-        } catch (...) {
+        } catch (const std::exception&) {
             ok = false;
         }
 

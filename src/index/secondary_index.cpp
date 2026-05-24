@@ -7,6 +7,7 @@
  */
 
 #include "utils/normalizer.h"
+#include <stdexcept>
 // Secondary index implementation
 
 #include "index/secondary_index.h"

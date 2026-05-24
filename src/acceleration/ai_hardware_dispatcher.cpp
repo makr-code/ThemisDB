@@ -54,6 +54,9 @@
  */
 
 #include "acceleration/ai_hardware_dispatcher.h"
+#include <stdexcept>
+#include "acceleration/compute_backend.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <cerrno>
@@ -580,9 +583,10 @@ AiInferenceResult AiHardwareDispatcher::dispatchAppleANE([[maybe_unused]] AiInfe
     if (fn) {
         try {
             return fn(req);
-        } catch (const std::exception &e) {
-            return makeError(BackendType::NPU_APPLE, std::string("Injected Apple ANE dispatch failed: ") + e.what());
-        } catch (...) {
+        } catch (const std::exception& e) {
+            return makeError(BackendType::NPU_APPLE,
+                             std::string("Injected Apple ANE dispatch failed: ") + e.what());
+        } catch (const std::exception&) {
             return makeError(BackendType::NPU_APPLE, "Injected Apple ANE dispatch failed");
         }
     }

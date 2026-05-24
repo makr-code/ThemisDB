@@ -608,7 +608,7 @@ bool RCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
     if (auto fn = getRcclAllReduceFn(); fn) {
         try {
             return fn(send, recv, count, op, stream);
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }

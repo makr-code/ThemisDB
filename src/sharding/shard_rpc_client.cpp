@@ -409,7 +409,7 @@ bool ShardRPCClient::ping() {
     try {
         auto response = sendRequest("ping", nlohmann::json::object());
         return response.contains("status") && response["status"] == "ok";
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

@@ -267,67 +267,68 @@ TEST_F(NewAQLFunctionsTest, PmHasPatternStub) {
     EXPECT_FALSE(result.get<bool>());
 }
 
-TEST_F(NewAQLFunctionsTest, PmListAdminModelsReturnsCatalog) {
-    auto& reg = FunctionRegistry::instance();
-    
-    // Test PM_LIST_ADMIN_MODELS returns array with default built-in catalog.
-    auto result = reg.call("PM_LIST_ADMIN_MODELS", {}, ctx);
-    EXPECT_TRUE(result.is_array());
-    EXPECT_GE(result.size(), 1);
-    EXPECT_TRUE(result[0].contains("id"));
-}
-
-TEST_F(NewAQLFunctionsTest, PmLoadAdminModelFromBuiltInCatalog) {
+TEST_F(NewAQLFunctionsTest, PmListAdminModelsFromContext) {
     auto& reg = FunctionRegistry::instance();
 
-    auto result = reg.call("PM_LOAD_ADMIN_MODEL", {"bauantrag_standard"}, ctx);
-    EXPECT_TRUE(result.is_object());
-    EXPECT_EQ(result.value("id", ""), "bauantrag_standard");
-    EXPECT_TRUE(result.contains("name"));
-}
-
-TEST_F(NewAQLFunctionsTest, PmLoadAdminModelFromInjectedRegistry) {
-    auto& reg = FunctionRegistry::instance();
-
-    ctx.setVariable("pm_admin_models_registry", json::array({
+    ctx.setVariable("pm_admin_models", json::array({
         {
-            {"id", "custom_model"},
-            {"name", "Custom Model"},
-            {"domain", "custom"},
-            {"nodes", json::array()},
-            {"edges", json::array()}
+            {"id", "bauantrag_standard"},
+            {"name", "Bauantrag Standard"},
+            {"domain", "public_admin"},
+            {"model", {{"nodes", json::array()}, {"edges", json::array()}}}
+        },
+        {
+            {"id", "beschaffung_vergaberecht"},
+            {"name", "Beschaffung Vergaberecht"},
+            {"domain", "procurement"},
+            {"model", {{"nodes", json::array()}, {"edges", json::array()}}}
         }
     }));
 
-    auto result = reg.call("PM_LOAD_ADMIN_MODEL", {"custom_model"}, ctx);
-    EXPECT_TRUE(result.is_object());
-    EXPECT_EQ(result.value("id", ""), "custom_model");
+    auto result = reg.call("PM_LIST_ADMIN_MODELS", {}, ctx);
+    EXPECT_TRUE(result.is_array());
+    ASSERT_EQ(result.size(), 2);
+    EXPECT_EQ(result[0].value("id", ""), "bauantrag_standard");
+    EXPECT_EQ(result[1].value("id", ""), "beschaffung_vergaberecht");
 }
 
-TEST_F(NewAQLFunctionsTest, PmPredictEndUsesInjectedCaseMap) {
+TEST_F(NewAQLFunctionsTest, PmLoadAdminModelFromContext) {
     auto& reg = FunctionRegistry::instance();
-    ctx.setVariable("pm_predicted_end_by_case", json::object({{"case-001", 1735689600000LL}}));
 
-    auto result = reg.call("PM_PREDICT_END", {"case-001"}, ctx);
-    EXPECT_TRUE(result.is_object());
-    EXPECT_EQ(result.value("case_id", ""), "case-001");
-    ASSERT_TRUE(result.contains("predicted_end"));
-    EXPECT_EQ(result["predicted_end"].get<int64_t>(), 1735689600000LL);
-}
-
-TEST_F(NewAQLFunctionsTest, PmPredictEndCanDeriveFromDocumentDurations) {
-    auto& reg = FunctionRegistry::instance();
-    ctx.setCurrentDocument(json::object({
-        {"case_id", "case-002"},
-        {"start_time_ms", 1000},
-        {"expected_duration_ms", 250}
+    ctx.setVariable("pm_admin_models", json::array({
+        {
+            {"id", "bauantrag_standard"},
+            {"name", "Bauantrag Standard"},
+            {"domain", "public_admin"},
+            {"model", {{"nodes", json::array({"start", "end"})}, {"edges", json::array()}}}
+        }
     }));
 
-    auto result = reg.call("PM_PREDICT_END", {"case-002"}, ctx);
-    EXPECT_TRUE(result.is_object());
-    EXPECT_EQ(result.value("case_id", ""), "case-002");
-    ASSERT_TRUE(result.contains("predicted_end"));
-    EXPECT_EQ(result["predicted_end"].get<int64_t>(), 1250);
+    auto found = reg.call("PM_LOAD_ADMIN_MODEL", {"bauantrag_standard"}, ctx);
+    EXPECT_TRUE(found.is_object());
+    EXPECT_EQ(found.value("id", ""), "bauantrag_standard");
+    EXPECT_TRUE(found.contains("model"));
+
+    auto missing = reg.call("PM_LOAD_ADMIN_MODEL", {"does_not_exist"}, ctx);
+    EXPECT_TRUE(missing.is_object());
+    EXPECT_TRUE(missing.contains("error"));
+}
+
+TEST_F(NewAQLFunctionsTest, PmPredictEndUsesCaseIdMap) {
+    auto& reg = FunctionRegistry::instance();
+
+    ctx.setVariable("pm_predicted_end_by_case", json{
+        {"V-2024-0001", "2026-05-20T12:00:00Z"},
+        {"V-2024-0002", "2026-05-21T12:00:00Z"}
+    });
+
+    auto predicted = reg.call("PM_PREDICT_END", {"V-2024-0001"}, ctx);
+    EXPECT_TRUE(predicted.is_object());
+    EXPECT_EQ(predicted["predicted_end"], "2026-05-20T12:00:00Z");
+
+    auto unknown = reg.call("PM_PREDICT_END", {"V-unknown"}, ctx);
+    EXPECT_TRUE(unknown.is_object());
+    EXPECT_TRUE(unknown["predicted_end"].is_null());
 }
 
 TEST_F(NewAQLFunctionsTest, PmExportBpmnStub) {

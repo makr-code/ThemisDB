@@ -375,6 +375,73 @@ public:
     const std::string& session_id() const { return session_id_; }
     bool is_authenticated() const { return authenticated_; }
     const std::string& username() const { return username_; }
+
+    // ─── Engine injection (stub #281 bridge) ─────────────────────────────
+    // Static callbacks installed at startup to wire Protobuf session handlers
+    // to real engine implementations.  Each handler falls back to a 501 error
+    // when no callback is installed.
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+    /// AQL query executor.
+    /// @param aql  The AQL query string.
+    /// @return     A vector of serialised entity byte-strings (one per row).
+    ///             May be empty for non-SELECT queries.  Throws on engine error.
+    using QueryAqlFn =
+        std::function<std::vector<std::string>(const std::string& aql)>;
+
+    /// Geospatial query executor.
+    /// @param req  Parsed GeoQueryRequest proto.
+    /// @return     Fully populated GeoQueryResponse proto.  Throws on error.
+    using GeoQueryFn =
+        std::function<v1::GeoQueryResponse(const v1::GeoQueryRequest& req)>;
+
+    /// Time-series query executor.
+    /// @param req  Parsed TimeSeriesQueryRequest proto.
+    /// @return     Fully populated TimeSeriesQueryResponse proto.  Throws on error.
+    using TimeseriesQueryFn =
+        std::function<v1::TimeSeriesQueryResponse(
+            const v1::TimeSeriesQueryRequest& req)>;
+
+    /// Graph traversal executor (injection bridge for stub #281).
+    ///
+    /// Called with the raw protobuf payload bytes of the client's OP_GRAPH_TRAVERSE
+    /// frame.  The callback is responsible for parsing the payload as whatever
+    /// schema the client negotiated (e.g. a JSON-encoded traversal request serialised
+    /// into the payload field) and returning the pre-serialised response bytes.
+    ///
+    /// @param raw_payload  Raw bytes from the GRAPH_TRAVERSE wire frame payload.
+    /// @return             Pre-serialised response bytes that will be framed and sent
+    ///                     back to the client verbatim.  Throws on traversal error.
+    using GraphTraverseFn =
+        std::function<std::string(std::string_view raw_payload)>;
+
+    /**
+     * @brief Install the AQL executor callback (thread-safe, process-global).
+     *
+     * Must be called before the first client connection executes a QUERY_AQL
+     * request.  The callback is invoked from session handler threads; it must
+     * be thread-safe.
+     */
+    static void setQueryAqlFn(QueryAqlFn fn);
+
+    /**
+     * @brief Install the geospatial executor callback (thread-safe, process-global).
+     */
+    static void setGeoQueryFn(GeoQueryFn fn);
+
+    /**
+     * @brief Install the time-series executor callback (thread-safe, process-global).
+     */
+    static void setTimeseriesQueryFn(TimeseriesQueryFn fn);
+
+    /**
+     * @brief Install the graph-traversal executor callback (thread-safe, process-global).
+     *
+     * Resolves stub #281: after this call, OP_GRAPH_TRAVERSE frames are dispatched to
+     * the injected callback instead of returning HTTP 501.  The callback receives the
+     * raw payload bytes and must return serialised response bytes.
+     */
+    static void setGraphTraverseFn(GraphTraverseFn fn);
+#endif  // THEMIS_WIRE_V1_PB_HEADER_FOUND
     
 private:
     // Async read/write operations
@@ -397,7 +464,7 @@ private:
     void handle_transaction_commit(const v1::TransactionCommitRequest& req);
     void handle_transaction_abort(const v1::TransactionAbortRequest& req);
     void handle_vector_search(const v1::VectorSearchRequest& req);
-    void handle_graph_traverse();
+    void handle_graph_traverse(std::string_view raw_payload);
     void handle_geo_query(const v1::GeoQueryRequest& req);
     void handle_timeseries_query(const v1::TimeSeriesQueryRequest& req);
     void handle_bpmn_start(const v1::BpmnStartProcessRequest& req);
@@ -440,6 +507,17 @@ private:
     uint64_t messages_sent_;
     uint64_t bytes_received_;
     uint64_t bytes_sent_;
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+    // Per-session AQL cursor state for paginated query results.
+    struct CursorEntry {
+        std::vector<std::string> results; ///< Serialised entity payloads.
+        std::size_t offset = 0;           ///< Next unread result index.
+        int64_t     expires_ms = 0;       ///< Expiry (epoch ms).
+    };
+    mutable std::mutex cursors_mutex_;
+    std::unordered_map<std::string, CursorEntry> cursors_;
+#endif
 };
 
 // =============================================================================

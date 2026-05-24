@@ -13,6 +13,7 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "metadata/catalog_exporter.h"
+#include <stdexcept>
 
 #include <curl/curl.h>
 #include <spdlog/spdlog.h>
@@ -252,7 +253,7 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
                     if (arr.is_array()) count += static_cast<int>(arr.size());
                 }
             }
-        } catch (...) { /* count stays at 0 */ }
+        } catch (const std::exception&) { /* count stays at 0 */ }
 
         // Use entity array size as lower-bound count when response is empty
         const int sent = static_cast<int>(

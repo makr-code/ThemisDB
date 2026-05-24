@@ -10,6 +10,7 @@
  */
 
 #include "query/aql_runner.h"
+#include <stdexcept>
 #include "query/query_compiler.h"
 #include "query/query_plan_visualizer.h"
 #include "query/runtime_reoptimizer.h"

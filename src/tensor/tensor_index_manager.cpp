@@ -51,10 +51,13 @@ namespace themis {
 namespace tensor {
 
 namespace {
-thread_local std::unordered_map<std::string, std::shared_ptr<TensorMmapBridge>>
-    g_ggml_bridge_cache;
-constexpr std::size_t kMaxLegacyBridgeCacheEntries = 128;
-} // namespace
+[[nodiscard]] std::string makeLegacyBridgeKey(const std::string& tenant_id,
+                                              const std::string& collection,
+                                              const std::string& field,
+                                              int64_t id) {
+    return tenant_id + ":" + collection + ":" + field + ":" + std::to_string(id);
+}
+}
 
 // ============================================================================
 // TensorIndexManager — implementation
@@ -175,6 +178,19 @@ bool TensorIndexManager::dropIndex(const std::string& tenant_id,
                         path, ec.message());
         }
     }
+
+    {
+        std::lock_guard<std::mutex> lock(legacy_bridge_mutex_);
+        const std::string prefix = tenant_id + ":" + collection + ":" + field + ":";
+        for (auto it = legacy_bridge_cache_.begin(); it != legacy_bridge_cache_.end();) {
+            if (it->first.rfind(prefix, 0) == 0) {
+                it = legacy_bridge_cache_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
     return true;
 }
 
@@ -209,6 +225,18 @@ void TensorIndexManager::dropTenantIndexes(const std::string& tenant_id) {
         }
         for (const auto& key : to_del) {
             db_->del(key);
+        }
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(legacy_bridge_mutex_);
+        const std::string prefix = tenant_id + ":";
+        for (auto it = legacy_bridge_cache_.begin(); it != legacy_bridge_cache_.end();) {
+            if (it->first.rfind(prefix, 0) == 0) {
+                it = legacy_bridge_cache_.erase(it);
+            } else {
+                ++it;
+            }
         }
     }
 }
@@ -316,36 +344,35 @@ TensorIndexManager::mapCores(const std::string& tenant_id,
 
 // -----------------------------------------------------------------------
 // ggmlCorePtrs() — raw-pointer legacy bridge (kept for backward compat)
-// STUB #277 RESOLVED 2026-05-21: [[deprecated]] attribute added to declaration;
-// all new callers must use mapCores() for mmap-pinned, lifetime-safe access.
-// This implementation is retained for backward compatibility until all callers
-// are migrated and the function can be removed.
+//
+// Legacy compatibility path:
+// preserve raw-pointer API while internally pinning cores through a cached
+// TensorMmapBridge per vector ID.
+// -----------------------------------------------------------------------
 
 std::vector<std::pair<const float*, size_t>>
 TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,
                                   const std::string& collection,
                                   const std::string& field,
                                   int64_t id) const {
-    const std::string cache_key =
-        tenant_id + ":" + collection + ":" + field + ":" + std::to_string(id);
-
     auto bridge = mapCores(tenant_id, collection, field, id);
-    if (!bridge) {
-        g_ggml_bridge_cache.erase(cache_key);
-        return {};
-    }
-
-    if (g_ggml_bridge_cache.size() >= kMaxLegacyBridgeCacheEntries) {
-        g_ggml_bridge_cache.clear();
-    }
-    auto& slot = g_ggml_bridge_cache[cache_key];
-    slot = std::shared_ptr<TensorMmapBridge>(std::move(bridge));
+    if (!bridge) return {};
 
     std::vector<std::pair<const float*, size_t>> ptrs;
-    ptrs.reserve(slot->coreCount());
-    for (const auto& slice : slot->slices()) {
+    ptrs.reserve(bridge->slices().size());
+    for (const auto& slice : bridge->slices()) {
+        if (!slice.data || slice.bytes == 0) {
+            continue;
+        }
         ptrs.emplace_back(slice.data, slice.bytes);
     }
+
+    if (!ptrs.empty()) {
+        std::lock_guard<std::mutex> lock(legacy_bridge_mutex_);
+        legacy_bridge_cache_[makeLegacyBridgeKey(tenant_id, collection, field, id)] =
+            std::shared_ptr<TensorMmapBridge>(std::move(bridge));
+    }
+
     return ptrs;
 }
 

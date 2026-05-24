@@ -14,6 +14,7 @@
 // Phase 2.2: Metadata Shard Durability
 
 #include "sharding/metadata_snapshot.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <filesystem>
 #include <fstream>
@@ -198,7 +199,7 @@ std::vector<uint64_t> MetadataSnapshotManager::listSnapshots() const {
                     try {
                         uint64_t snapshot_id = std::stoull(id_str);
                         snapshot_ids.push_back(snapshot_id);
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // Skip invalid filenames
                     }
                 }

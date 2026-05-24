@@ -829,9 +829,8 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                                                 } catch (...) {
                                                     doc.content = raw_str;
                                                 }
-                                            } else {
-                                                spdlog::warn("RAG: document not found in storage for pk={}", result.pk);
-                                                doc.content = result.pk;
+                                            } catch (const std::exception&) {
+                                                doc.content = raw_str;
                                             }
                                         } else {
                                             doc.content = result.pk;
@@ -1455,22 +1454,25 @@ LLMAQLHandler::translateBatchNLToAQL(const std::vector<BatchNLToAQLRequest> &req
     workers.reserve(num_workers);
 
     for (std::size_t w = 0; w < num_workers; ++w) {
-        workers.push_back(std::async(std::launch::async, [this, &requests, &results, &work_index, n]() {
-            std::size_t idx;
-            while ((idx = work_index.fetch_add(1, std::memory_order_relaxed)) < n) {
-                const BatchNLToAQLRequest &req = requests[idx];
-                BatchNLToAQLResult &result     = results[idx];
-                try {
-                    result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
-                    result.success   = true;
-                } catch (const std::exception &e) {
-                    result.aql_query.clear();
-                    result.error   = e.what();
-                    result.success = false;
-                } catch (...) {
-                    result.aql_query.clear();
-                    result.error   = "Unknown exception during translation";
-                    result.success = false;
+        workers.push_back(std::async(
+            std::launch::async,
+            [this, &requests, &results, &work_index, n]() {
+                std::size_t idx;
+                while ((idx = work_index.fetch_add(1, std::memory_order_relaxed)) < n) {
+                    const BatchNLToAQLRequest& req = requests[idx];
+                    BatchNLToAQLResult& result     = results[idx];
+                    try {
+                        result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
+                        result.success   = true;
+                    } catch (const std::exception& e) {
+                        result.aql_query.clear();
+                        result.error   = e.what();
+                        result.success = false;
+                    } catch (const std::exception&) {
+                        result.aql_query.clear();
+                        result.error   = "Unknown exception during translation";
+                        result.success = false;
+                    }
                 }
             }
         }));
@@ -1738,7 +1740,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
                     result.score = std::stof(line.substr(7));
                     // Clamp to [0, 1]
                     result.score = std::max(0.0f, std::min(1.0f, result.score));
-                } catch (...) {
+                } catch (const std::exception&) {
                     result.score = -1.0f;
                 }
                 in_suggestions = false;

@@ -10,6 +10,7 @@
  */
 
 #include "timeseries/ts_encrypted_key_rotation.h"
+#include <stdexcept>
 
 #include <nlohmann/json.hpp>
 #include <rocksdb/utilities/transaction_db.h>
@@ -98,7 +99,7 @@ void TsEncryptedKeyRotation::rotationLoop()
             }
         } catch (const std::exception& e) {
             spdlog::error("TsEncryptedKeyRotation: error during rotation pass: {}", e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             spdlog::error("TsEncryptedKeyRotation: unknown error during rotation pass");
         }
     }

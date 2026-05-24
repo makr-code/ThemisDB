@@ -84,6 +84,8 @@
  */
 
 #include "analytics/streaming_window.h"
+#include <stdexcept>
+#include "analytics/detail/stats.h"
 
 #include <algorithm>
 #include <cassert>
