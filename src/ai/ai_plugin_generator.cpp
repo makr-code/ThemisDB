@@ -1,4 +1,4 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=1 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
+// THEMIS_GAP_STATS: gaps=0 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 /**
  * @file ai_plugin_generator.cpp
  * @brief Production implementation of AIPluginGenerator with endpoint-backed generation.
@@ -138,6 +138,10 @@ AIPluginGenerator::AIPluginGenerator(const Config& config)
 {}
 
 AIPluginGenerator::~AIPluginGenerator() = default;
+
+void AIPluginGenerator::setLlmHttpPostFn(LlmHttpPostFn fn) {
+    llm_http_post_fn_ = std::move(fn);
+}
 
 Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& prompt)
 {

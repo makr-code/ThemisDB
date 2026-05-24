@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=6 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            json_schema_converter.cpp                          ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     374                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: json_schema_converter.cpp | Version: 0.0.15 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 361
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=83 | delta=80 | status=divergent
+ * External Severity (v3): C=0, H=41, M=42
+ * PR: #2962 feat(llm): Implement JSON schema binding and tool/function calling ... (2026-03-12T06:07:04Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/json_schema_converter.h"

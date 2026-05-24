@@ -1,7 +1,17 @@
+/*
+ * ThemisDB | File: vector_index_backend.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 210
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=32 | delta=29 | status=divergent
+ * External Severity (v3): C=0, H=30, M=2
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // Copyright (c) 2025-2026 ThemisDB Project
 // SPDX-License-Identifier: Apache-2.0
 //
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include "storage/vector_index_backend.h"
 

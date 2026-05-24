@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wisckey.cpp                                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     210                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wisckey.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 196
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=80 | delta=77 | status=divergent
+ * External Severity (v3): C=19, H=52, M=8
+ * PR: #967 [WIP] Implement garbage collection for ValueLog in WiscKey (2026-03-11T21:57:40Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "performance/wisckey.h"
@@ -173,6 +164,7 @@ WiscKeyStorage::WiscKeyStorage(const std::string& value_log_path) {
 }
 
 std::string WiscKeyStorage::put(const std::string& key, const std::string& value) {
+    static_cast<void>(key);
     if (value.size() >= VALUE_SEPARATION_THRESHOLD) {
         // Store value in separate log
         ValueAddress addr = value_log_->append(value);
@@ -186,6 +178,7 @@ std::string WiscKeyStorage::put(const std::string& key, const std::string& value
 }
 
 std::optional<std::string> WiscKeyStorage::get(const std::string& key, const std::string& encoded_value) {
+    static_cast<void>(key);
     if (is_separated(encoded_value)) {
         // Value is in value log
         ValueAddress addr = ValueAddress::decode(encoded_value);

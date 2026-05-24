@@ -1,24 +1,9 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gui_import_wizard.cpp                              ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     391                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gui_import_wizard.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=55, M=14, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "importers/gui_import_wizard.h"
@@ -309,7 +294,7 @@ void ImportWizard::runImport(const std::string& session_id,
     }
 
     std::string cfg = s.connection_params.dump();
-    importer->initialize(cfg);
+    static_cast<void>(importer->initialize(cfg));
 
     size_t batch_counter = 0;
 
@@ -318,7 +303,7 @@ void ImportWizard::runImport(const std::string& session_id,
     ImportOptions import_opts;
     import_opts.dry_run = s.dry_run;
 
-    importer->importDataStreaming(cfg, import_opts,
+    static_cast<void>(importer->importDataStreaming(cfg, import_opts,
             [&](const std::string& /*table*/, const json& /*row*/) -> bool {
         ++s.rows_processed;
         if (!s.dry_run) {
@@ -335,7 +320,7 @@ void ImportWizard::runImport(const std::string& session_id,
             if (on_progress) on_progress(s);
         }
         return true;  // continue
-    });
+    }));
 
     s.progress_pct = 100.0;
     s.current_step = WizardStep::DONE;

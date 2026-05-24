@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_trainer.h                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     277                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_trainer.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -205,6 +194,16 @@ public:
     void barrier();
 
     /**
+     * @brief Function type for CPU AllReduce across training ranks.
+     *
+     * The callable receives the gradient vector in-place and must perform the
+     * collective reduction (sum + divide by world_size) across all ranks.
+     * A real implementation uses MPI_Allreduce, Gloo allreduce, or a shared-
+     * memory ring-reduce.
+     */
+    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
+
+    /**
      * @brief Inject a real barrier implementation (NCCL/MPI/Gloo).
      *
      * When set, barrier() delegates to this function instead of the
@@ -221,6 +220,21 @@ public:
      * @param fn Callable that broadcasts data in-place from rank 0.
      */
     void setBroadcastFn(BroadcastFn fn);
+
+    // ─── AllReduceCpu bridge (stub #290) ─────────────────────────────────────
+
+    /// @brief Type alias for all-reduce collective injection.
+    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Inject a real all-reduce implementation (MPI/Gloo/custom).
+     *
+     * When set, allreduce_cpu() delegates gradient summation to this function
+     * instead of the local-only scale fallback.  Enables true multi-node
+     * gradient averaging without an NCCL/MPI build dependency.
+     * @param fn Callable that all-reduces data in-place across all ranks.
+     */
+    void setAllReduceCpuFn(AllReduceCpuFn fn);
     
     /**
      * @brief Get distributed configuration

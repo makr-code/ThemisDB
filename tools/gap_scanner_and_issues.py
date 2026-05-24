@@ -106,9 +106,9 @@ class GapScannerPipeline:
         # Import scanners
         sys.path.insert(0, str(self.repo_root / 'tools'))
         try:
-            from gap_scanner_v3 import UnifiedGapScannerV3
+            from tools.scanners import UnifiedGapScanner
             
-            scanner = UnifiedGapScannerV3(str(self.repo_root), str(self.output_dir))
+            scanner = UnifiedGapScanner(str(self.repo_root), str(self.output_dir))
             aggregate = scanner.run_complete_scan()
             self.results['aggregate'] = aggregate
             

@@ -1,23 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            maintenance_schedule_store.cpp                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     141                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 5d2cef871d  2026-03-12  fix: address PR review comments for schedule persistence ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: maintenance_schedule_store.cpp | Version: 0.0.13 | Last Modified: 2026-04-15 18:58:58
+ * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 126
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=26 | delta=23 | status=divergent
+ * External Severity (v3): C=0, H=25, M=1
+ * PR: #3901 feat(maintenance): Schedule Persistence (RocksDB) â€” v1.1.0 (2026-03-12T11:39:51Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

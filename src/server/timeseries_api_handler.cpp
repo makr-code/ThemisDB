@@ -1,26 +1,19 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            timeseries_api_handler.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     638                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: timeseries_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 645
+ * Open Issues: TODOs=1, Stubs=7, Gaps=11, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=11 | external_v3=163 | delta=152 | status=divergent
+ * External Severity (v3): C=0, H=110, M=53
+ * PR: #457 REFACTOR: Extract time series operations into TimeSeriesApiHandler (2026-03-11T21:32:06Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/timeseries_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
+#include "timeseries/retention.h"
 #include "timeseries/timeseries_metrics.h"
 #include "timeseries/prometheus_remote_write.h"
 #include "server/auth_middleware.h"
@@ -42,6 +35,11 @@ TimeSeriesApiHandler::TimeSeriesApiHandler(
     , agg_manager_(std::move(agg_manager))
     , auth_(std::move(auth))
 {
+}
+
+void TimeSeriesApiHandler::setRetentionPoliciesProviderFn(RetentionPoliciesProviderFn fn) {
+    std::lock_guard<std::mutex> lock(retentionPoliciesMutex_);
+    retentionPoliciesFn_ = std::move(fn);
 }
 
 http::response<http::string_body> TimeSeriesApiHandler::handlePut(

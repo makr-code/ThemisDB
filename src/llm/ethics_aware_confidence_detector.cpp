@@ -1,24 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ethics_aware_confidence_detector.cpp               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     667                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ethics_aware_confidence_detector.cpp | Version: 0.0.47 | Last Modified: 2026-04-15 18:58:58
+ * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 652
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=180 | delta=177 | status=divergent
+ * External Severity (v3): C=17, H=138, M=25
+ * PR: #3629 [MODULE] llm â€“ build-system audit: register 16 missing sources, 2... (2026-03-12T07:39:34Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -306,7 +294,7 @@ float EthicsAwareConfidenceDetector::evaluateAutonomyRespect(
     auto imperatives = detectImperatives(text);
     
     // Count total violations
-    int violations = patronizing.size() + imperatives.size();
+    const auto violations = static_cast<int>(patronizing.size() + imperatives.size());
     
     // Check if human choice is preserved
     bool preserves_choice = checkChoicePreservation(text);

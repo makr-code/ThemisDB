@@ -1,49 +1,34 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            predictive_prefetcher.cpp                          ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     434                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3b792a6ae0  2026-03-20  Refactor saga orchestrator, add compute types ║
-    • 8041699747  2026-03-17  fix(cache): address all review comments on predictive pre... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: predictive_prefetcher.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=11, H=81, M=5, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
 #include "cache/predictive_prefetcher.h"
-#include "storage/rocksdb_wrapper.h"
-#include "observability/metrics_collector.h"
+
 #include <algorithm>
 #include <utility>
+
+#include "observability/metrics_collector.h"
+#include "storage/rocksdb_wrapper.h"
 
 namespace themis {
 namespace cache {
 
 static constexpr char PREFETCH_MODEL_PREFIX[] = "prefetch_model::";
 
-PredictivePrefetcher::PredictivePrefetcher(const Config& config)
-    : config_(config) {}
+PredictivePrefetcher::PredictivePrefetcher(const Config &config) : config_(config) {}
 
 // ---------------------------------------------------------------------------
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-bool PredictivePrefetcher::useToDWeighting(const std::string& tenant_id) const {
+bool PredictivePrefetcher::useToDWeighting(const std::string &tenant_id) const {
     if (!config_.enable_time_of_day_weighting) {
         return false;
     }
@@ -56,11 +41,11 @@ bool PredictivePrefetcher::useToDWeighting(const std::string& tenant_id) const {
     return (fnv1aHash(tenant_id) % 2) == 0;
 }
 
-uint64_t PredictivePrefetcher::fnv1aHash(const std::string& s) {
+uint64_t PredictivePrefetcher::fnv1aHash(const std::string &s) {
     // FNV-1a 64-bit – portable, stable across all platforms and compiler versions.
     constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
     constexpr uint64_t kFNVPrime       = 1099511628211ULL;
-    uint64_t hash = kFNVOffsetBasis;
+    uint64_t hash                      = kFNVOffsetBasis;
     for (unsigned char c : s) {
         hash ^= static_cast<uint64_t>(c);
         hash *= kFNVPrime;
@@ -76,32 +61,28 @@ int PredictivePrefetcher::currentHour() {
 #else
     localtime_r(&t, &tm_local);
 #endif
-    return tm_local.tm_hour;  // [0, 23]
+    return tm_local.tm_hour; // [0, 23]
 }
 
 void PredictivePrefetcher::emitMetrics() const {
     // Called while mutex_ is held – use the already-computed values.
-    auto& mc = observability::MetricsCollector::getInstance();
+    auto &mc = observability::MetricsCollector::getInstance();
 
     double hit_rate = 0.0;
     if (candidates_generated_ > 0) {
-        hit_rate = static_cast<double>(prefetch_hits_) /
-                   static_cast<double>(candidates_generated_);
+        hit_rate = static_cast<double>(prefetch_hits_) / static_cast<double>(candidates_generated_);
     }
     mc.setGauge("cache.prefetch.hit_rate", hit_rate);
-    mc.setGauge("cache.prefetch.overhead_bytes",
-                static_cast<double>(overhead_bytes_));
+    mc.setGauge("cache.prefetch.overhead_bytes", static_cast<double>(overhead_bytes_));
 
     if (config_.enable_ab_test) {
-        double markov_rate = ab_markov_generated_ > 0
-            ? static_cast<double>(ab_markov_hits_) /
-              static_cast<double>(ab_markov_generated_)
-            : 0.0;
-        double baseline_rate = ab_baseline_generated_ > 0
-            ? static_cast<double>(ab_baseline_hits_) /
-              static_cast<double>(ab_baseline_generated_)
-            : 0.0;
-        mc.setGauge("cache.prefetch.ab.markov_hit_rate",   markov_rate);
+        double markov_rate   = ab_markov_generated_ > 0
+                                   ? static_cast<double>(ab_markov_hits_) / static_cast<double>(ab_markov_generated_)
+                                   : 0.0;
+        double baseline_rate = ab_baseline_generated_ > 0 ? static_cast<double>(ab_baseline_hits_)
+                                                                / static_cast<double>(ab_baseline_generated_)
+                                                          : 0.0;
+        mc.setGauge("cache.prefetch.ab.markov_hit_rate", markov_rate);
         mc.setGauge("cache.prefetch.ab.baseline_hit_rate", baseline_rate);
     }
 }
@@ -110,24 +91,24 @@ void PredictivePrefetcher::emitMetrics() const {
 // Public API
 // ---------------------------------------------------------------------------
 
-void PredictivePrefetcher::recordQueryAccess(const std::string& fingerprint,
-                                              const std::string& tenant_id) {
-    if (fingerprint.empty()) return;
+void PredictivePrefetcher::recordQueryAccess(const std::string &fingerprint, const std::string &tenant_id) {
+    if (fingerprint.empty()) {
+        return;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
 
-    const std::string session_key = tenant_id;  // empty string = global session
+    const std::string session_key = tenant_id; // empty string = global session
 
     auto it = last_fingerprint_.find(session_key);
-    if (it != last_fingerprint_.end() && !it->second.empty() &&
-        it->second != fingerprint) {
-        const std::string& from = it->second;
+    if (it != last_fingerprint_.end() && !it->second.empty() && it->second != fingerprint) {
+        const std::string &from = it->second;
 
         // Ensure source key exists; evict oldest if at capacity
         if (transitions_.find(from) == transitions_.end()) {
             if (ordered_keys_.size() >= config_.max_tracked_keys) {
                 // Evict the oldest tracked source key
-                const std::string& oldest = ordered_keys_.front();
+                const std::string &oldest = ordered_keys_.front();
                 transitions_.erase(oldest);
                 tod_buckets_.erase(oldest);
                 ordered_keys_.erase(ordered_keys_.begin());
@@ -136,11 +117,10 @@ void PredictivePrefetcher::recordQueryAccess(const std::string& fingerprint,
             transitions_[from] = {};
         }
 
-        auto& successors = transitions_[from];
+        auto &successors = transitions_[from];
 
         // Limit successors per key
-        if (successors.size() < config_.max_successors_per_key ||
-            successors.find(fingerprint) != successors.end()) {
+        if (successors.size() < config_.max_successors_per_key || successors.find(fingerprint) != successors.end()) {
             successors[fingerprint]++;
             total_transitions_recorded_++;
 
@@ -155,10 +135,11 @@ void PredictivePrefetcher::recordQueryAccess(const std::string& fingerprint,
     last_fingerprint_[session_key] = fingerprint;
 }
 
-std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(
-    const std::string& fingerprint,
-    const std::string& tenant_id) const {
-    if (fingerprint.empty()) return {};
+std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(const std::string &fingerprint,
+                                                                     const std::string &tenant_id) const {
+    if (fingerprint.empty()) {
+        return {};
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -167,13 +148,13 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(
         return {};
     }
 
-    const auto& successors = it->second;
-    const bool use_tod = useToDWeighting(tenant_id);
+    const auto &successors = it->second;
+    const bool use_tod     = useToDWeighting(tenant_id);
     const int current_hour = use_tod ? currentHour() : 0;
 
     // Calculate total raw transitions from this source key
     uint64_t total = 0;
-    for (const auto& [key, count] : successors) {
+    for (const auto &[key, count] : successors) {
         total += count;
     }
 
@@ -184,11 +165,15 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(
     // Time-of-day bucket lookup (if applicable)
     const auto tod_from_it = tod_buckets_.find(fingerprint);
 
-    for (const auto& [to, count] : successors) {
-        if (count < config_.min_transition_count) continue;
+    for (const auto &[to, count] : successors) {
+        if (count < config_.min_transition_count) {
+            continue;
+        }
         if (total > 0 && config_.min_confidence > 0.0) {
             double confidence = static_cast<double>(count) / static_cast<double>(total);
-            if (confidence < config_.min_confidence) continue;
+            if (confidence < config_.min_confidence) {
+                continue;
+            }
         }
 
         double score = static_cast<double>(count);
@@ -197,14 +182,14 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(
             const auto tod_to_it = tod_from_it->second.find(to);
             if (tod_to_it != tod_from_it->second.end()) {
                 // Laplace-smoothed time-of-day weight
-                uint32_t hour_count =
-                    tod_to_it->second[static_cast<size_t>(current_hour)];
-                uint32_t total_tod = 0;
-                for (uint32_t h : tod_to_it->second) total_tod += h;
+                uint32_t hour_count = tod_to_it->second[static_cast<size_t>(current_hour)];
+                uint32_t total_tod  = 0;
+                for (uint32_t h : tod_to_it->second) {
+                    total_tod += h;
+                }
                 double tod_weight = (total_tod > 0)
-                    ? static_cast<double>(hour_count + 1) /
-                      static_cast<double>(total_tod + 24)
-                    : (1.0 / 24.0);
+                                        ? static_cast<double>(hour_count + 1) / static_cast<double>(total_tod + 24)
+                                        : (1.0 / 24.0);
                 score *= (1.0 + tod_weight);
             }
         }
@@ -212,11 +197,12 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(
         candidates.emplace_back(score, to);
     }
 
-    if (candidates.empty()) return {};
+    if (candidates.empty()) {
+        return {};
+    }
 
     // Sort descending by score
-    std::sort(candidates.begin(), candidates.end(),
-              [](const auto& a, const auto& b) { return a.first > b.first; });
+    std::sort(candidates.begin(), candidates.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
 
     std::vector<std::string> result;
     const size_t limit = std::min(candidates.size(), config_.max_predictions);
@@ -237,7 +223,7 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(
     return result;
 }
 
-void PredictivePrefetcher::recordPrefetchHit(const std::string& tenant_id) {
+void PredictivePrefetcher::recordPrefetchHit(const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     prefetch_hits_++;
     if (config_.enable_ab_test) {
@@ -250,8 +236,7 @@ void PredictivePrefetcher::recordPrefetchHit(const std::string& tenant_id) {
     emitMetrics();
 }
 
-void PredictivePrefetcher::recordCandidatesGenerated(size_t count,
-                                                     const std::string& /*tenant_id*/) {
+void PredictivePrefetcher::recordCandidatesGenerated(size_t count, const std::string & /*tenant_id*/) {
     // Note: tenant_id is accepted for API symmetry with recordPrefetchHit() so
     // callers can always forward it.  Per-group generated counts are tracked
     // directly inside getPrefetchCandidates() where the routing decision is made.
@@ -274,13 +259,13 @@ void PredictivePrefetcher::clear() {
     ordered_keys_.clear();
     last_fingerprint_.clear();
     total_transitions_recorded_ = 0;
-    candidates_generated_ = 0;
-    prefetch_hits_ = 0;
-    overhead_bytes_ = 0;
-    ab_markov_hits_ = 0;
-    ab_markov_generated_ = 0;
-    ab_baseline_hits_ = 0;
-    ab_baseline_generated_ = 0;
+    candidates_generated_       = 0;
+    prefetch_hits_              = 0;
+    overhead_bytes_             = 0;
+    ab_markov_hits_             = 0;
+    ab_markov_generated_        = 0;
+    ab_baseline_hits_           = 0;
+    ab_baseline_generated_      = 0;
 }
 
 nlohmann::json PredictivePrefetcher::getStats() const {
@@ -301,16 +286,15 @@ nlohmann::json PredictivePrefetcher::getStats() const {
 
     double hit_rate = 0.0;
     if (candidates_generated_ > 0) {
-        hit_rate = static_cast<double>(prefetch_hits_) /
-                   static_cast<double>(candidates_generated_);
+        hit_rate = static_cast<double>(prefetch_hits_) / static_cast<double>(candidates_generated_);
     }
     j["hit_rate"] = hit_rate;
 
     if (config_.enable_ab_test) {
-        j["ab"]["markov_hits"]       = ab_markov_hits_;
-        j["ab"]["markov_generated"]  = ab_markov_generated_;
-        j["ab"]["baseline_hits"]     = ab_baseline_hits_;
-        j["ab"]["baseline_generated"]= ab_baseline_generated_;
+        j["ab"]["markov_hits"]        = ab_markov_hits_;
+        j["ab"]["markov_generated"]   = ab_markov_generated_;
+        j["ab"]["baseline_hits"]      = ab_baseline_hits_;
+        j["ab"]["baseline_generated"] = ab_baseline_generated_;
     }
     return j;
 }
@@ -319,34 +303,34 @@ nlohmann::json PredictivePrefetcher::getStats() const {
 // RocksDB persistence
 // ---------------------------------------------------------------------------
 
-void PredictivePrefetcher::saveModel(RocksDBWrapper* db) {
-    if (!db) return;
+void PredictivePrefetcher::saveModel(RocksDBWrapper *db) {
+    if (!db) {
+        return;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Step 1: collect all existing keys under the prefix so we can delete
     //         stale (from,to) entries that are no longer in the in-memory table.
     std::vector<std::string> stale_keys;
-    db->scanPrefix(PREFETCH_MODEL_PREFIX,
-        [&](std::string_view key, std::string_view /*value*/) {
-            stale_keys.emplace_back(key);
-            return true;
-        });
+    db->scanPrefix(PREFETCH_MODEL_PREFIX, [&](std::string_view key, std::string_view /*value*/) {
+        stale_keys.emplace_back(key);
+        return true;
+    });
 
     // Step 2: batch-delete all existing prefix keys
     if (!stale_keys.empty()) {
         auto batch = db->createWriteBatch();
-        for (const auto& k : stale_keys) {
+        for (const auto &k : stale_keys) {
             batch->del(k);
         }
         batch->commit();
     }
 
     // Step 3: write the current in-memory snapshot
-    for (const auto& [from, successors] : transitions_) {
-        for (const auto& [to, count] : successors) {
-            std::string key = std::string(PREFETCH_MODEL_PREFIX)
-                              + from + "::" + to;
+    for (const auto &[from, successors] : transitions_) {
+        for (const auto &[to, count] : successors) {
+            std::string key = std::string(PREFETCH_MODEL_PREFIX) + from + "::" + to;
 
             nlohmann::json val;
             val["count"] = count;
@@ -364,70 +348,74 @@ void PredictivePrefetcher::saveModel(RocksDBWrapper* db) {
     }
 }
 
-void PredictivePrefetcher::loadModel(RocksDBWrapper* db) {
-    if (!db) return;
+void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
+    if (!db) {
+        return;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
 
-    db->scanPrefix(PREFETCH_MODEL_PREFIX,
-        [&](std::string_view raw_key, std::string_view raw_value) {
-            // Strip the prefix to get "from::to"
-            std::string_view pair_view =
-                raw_key.substr(sizeof(PREFETCH_MODEL_PREFIX) - 1);
-            const std::string pair_str(pair_view);
+    db->scanPrefix(PREFETCH_MODEL_PREFIX, [&](std::string_view raw_key, std::string_view raw_value) {
+        // Strip the prefix to get "from::to"
+        std::string_view pair_view = raw_key.substr(sizeof(PREFETCH_MODEL_PREFIX) - 1);
+        const std::string pair_str(pair_view);
 
-            // Split on "::" separator
-            const auto sep_pos = pair_str.find("::");
-            if (sep_pos == std::string::npos) return true;
-
-            std::string from = pair_str.substr(0, sep_pos);
-            std::string to   = pair_str.substr(sep_pos + 2);
-
-            if (from.empty() || to.empty()) return true;
-
-            nlohmann::json val;
-            try {
-                val = nlohmann::json::parse(raw_value);
-            } catch (...) {
-                return true;
-            }
-
-            if (!val.contains("count")) return true;
-            uint32_t count = val["count"].get<uint32_t>();
-
-            // Ensure source key entry exists (no FIFO eviction during load)
-            if (transitions_.find(from) == transitions_.end()) {
-                if (ordered_keys_.size() < config_.max_tracked_keys) {
-                    ordered_keys_.push_back(from);
-                    transitions_[from] = {};
-                } else {
-                    return true;  // Table full; skip
-                }
-            }
-
-            auto& successors = transitions_[from];
-            if (successors.size() < config_.max_successors_per_key ||
-                successors.find(to) != successors.end()) {
-                // Merge: take the max of persisted vs. in-memory count and
-                // update total_transitions_recorded_ only by the delta so that
-                // repeated loadModel() calls don't inflate the counter.
-                auto existing_it = successors.find(to);
-                uint32_t old_val = (existing_it != successors.end()) ? existing_it->second : 0;
-                uint32_t new_val = std::max(old_val, count);
-                successors[to] = new_val;
-                total_transitions_recorded_ += (new_val - old_val);
-            }
-
-            // Restore time-of-day histogram
-            if (val.contains("tod") && val["tod"].is_array() &&
-                val["tod"].size() == 24) {
-                auto& arr = tod_buckets_[from][to];
-                for (size_t h = 0; h < 24; ++h) {
-                    arr[h] = std::max(arr[h], val["tod"][h].get<uint32_t>());
-                }
-            }
+        // Split on "::" separator
+        const auto sep_pos = pair_str.find("::");
+        if (sep_pos == std::string::npos) {
             return true;
-        });
+        }
+
+        std::string from = pair_str.substr(0, sep_pos);
+        std::string to   = pair_str.substr(sep_pos + 2);
+
+        if (from.empty() || to.empty()) {
+            return true;
+        }
+
+        nlohmann::json val;
+        try {
+            val = nlohmann::json::parse(raw_value);
+        } catch (...) {
+            return true;
+        }
+
+        if (!val.contains("count")) {
+            return true;
+        }
+        uint32_t count = val["count"].get<uint32_t>();
+
+        // Ensure source key entry exists (no FIFO eviction during load)
+        if (transitions_.find(from) == transitions_.end()) {
+            if (ordered_keys_.size() < config_.max_tracked_keys) {
+                ordered_keys_.push_back(from);
+                transitions_[from] = {};
+            } else {
+                return true; // Table full; skip
+            }
+        }
+
+        auto &successors = transitions_[from];
+        if (successors.size() < config_.max_successors_per_key || successors.find(to) != successors.end()) {
+            // Merge: take the max of persisted vs. in-memory count and
+            // update total_transitions_recorded_ only by the delta so that
+            // repeated loadModel() calls don't inflate the counter.
+            auto existing_it = successors.find(to);
+            uint32_t old_val = (existing_it != successors.end()) ? existing_it->second : 0;
+            uint32_t new_val = std::max(old_val, count);
+            successors[to]   = new_val;
+            total_transitions_recorded_ += (new_val - old_val);
+        }
+
+        // Restore time-of-day histogram
+        if (val.contains("tod") && val["tod"].is_array() && val["tod"].size() == 24) {
+            auto &arr = tod_buckets_[from][to];
+            for (size_t h = 0; h < 24; ++h) {
+                arr[h] = std::max(arr[h], val["tod"][h].get<uint32_t>());
+            }
+        }
+        return true;
+    });
 }
 
 } // namespace cache

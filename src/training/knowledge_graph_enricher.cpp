@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            knowledge_graph_enricher.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     647                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: knowledge_graph_enricher.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 662
+ * Open Issues: TODOs=1, Stubs=3, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=5 | external_v3=110 | delta=105 | status=divergent
+ * External Severity (v3): C=7, H=80, M=23
+ * PR: #3768 [WIP] Implement vector similarity search in KnowledgeGraphEnricher (2026-03-12T07:52:46Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "training/knowledge_graph_enricher.h"

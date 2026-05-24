@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_graphql_ws_handler.cpp                        ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:54:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     690                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • e442ddfb53  2026-03-17  fix(api): address PR review — CI path, alive-flag tests, ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_graphql_ws_handler.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=8; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -48,14 +33,16 @@
 #include <thread>
 
 using namespace themis::api;
+namespace gql = themis::graphql;
 using json = nlohmann::json;
+namespace graphql = themis::graphql;
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-static graphql::Schema makeDefaultSchema() {
-    return graphql::ThemisSchemaBuilder::build();
+static gql::Schema makeDefaultSchema() {
+    return gql::ThemisSchemaBuilder::build();
 }
 
 // ---------------------------------------------------------------------------
@@ -63,12 +50,12 @@ static graphql::Schema makeDefaultSchema() {
 // ---------------------------------------------------------------------------
 
 TEST(QueryLimitsTest, DefaultMaxSubscriptions) {
-    auto limits = graphql::QueryLimits::defaults();
+    auto limits = gql::QueryLimits::defaults();
     EXPECT_EQ(limits.max_subscriptions, 10u);
 }
 
 TEST(QueryLimitsTest, PermissiveMaxSubscriptions) {
-    auto limits = graphql::QueryLimits::permissive();
+    auto limits = gql::QueryLimits::permissive();
     EXPECT_EQ(limits.max_subscriptions, 50u);
 }
 
@@ -80,7 +67,7 @@ class GraphQLWsHandlerTest : public ::testing::Test {
 protected:
     void SetUp() override {
         auto schema = makeDefaultSchema();
-        graphql::QueryLimits limits;
+        gql::QueryLimits limits;
         limits.max_subscriptions = 3; // small limit for tests
         handler = std::make_unique<GraphQLWsHandler>(std::move(schema), limits);
     }

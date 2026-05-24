@@ -1,3 +1,14 @@
+/*
+ * ThemisDB | File: structured_output.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 429
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=99 | delta=96 | status=divergent
+ * External Severity (v3): C=0, H=69, M=30
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file structured_output.cpp
  * @brief Implementation of StructuredOutputEnforcer (Phase 6, v1.8.0).

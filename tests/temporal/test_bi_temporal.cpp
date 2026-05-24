@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_bi_temporal.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:52:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     386                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 6e698b5dbb  2026-03-12  fix(temporal): address PR review feedback on BiTemporalTable ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_bi_temporal.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -100,6 +86,7 @@ TEST_F(BiTemporalTableTest, Delete_NonExistentKey_ReturnsZero) {
 
 TEST_F(BiTemporalTableTest, QueryBiTemporal_ReturnsRowValidAtBothTimes) {
     Timestamp sys_before = now();
+    static_cast<void>(sys_before);
     table.insertWithValidTime("c1", {{"amount", 5000}}, {1000, 9000});
     Timestamp sys_after = now();
 

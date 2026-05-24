@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_canary_rollout.cpp                            ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 18:52:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  ⚫ DRAFT                                        ║
-    • Quality Score:   0.0/100                                        ║
-    • Total Lines:     1263                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 39                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f96a06748c  2026-03-14  Audit fixes: populate error_count/success_count in metric... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📝 Draft / Stub                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_canary_rollout.cpp | Version: 0.0.18
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0

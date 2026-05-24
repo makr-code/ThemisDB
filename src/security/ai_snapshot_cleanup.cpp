@@ -1,3 +1,14 @@
+/*
+ * ThemisDB | File: ai_snapshot_cleanup.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 169
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=31 | delta=28 | status=divergent
+ * External Severity (v3): C=1, H=29, M=1
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // AI Safety Layer — ASL-11: Snapshot Cleanup Implementation
 // Docs: docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md
 // Roadmap: src/security/ROADMAP.md § Phase 3 (ASL-11)

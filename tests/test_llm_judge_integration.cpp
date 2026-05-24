@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_llm_judge_integration.cpp                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     556                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 883e2e12b5  2026-03-15  feat(rag): replace LLMIntegration stub + add ILLMInferenc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_llm_judge_integration.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=13; TODO=1, Stub=2, Unimpl=0, Mock=9, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -31,6 +17,7 @@
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 #include <algorithm>
+#include <cmath>
 #include <random>
 #include <vector>
 
@@ -90,7 +77,55 @@ TEST_F(LLMJudgeIntegrationMockModeTest, ExplicitMockModeWorks) {
     
     ASSERT_TRUE(result.success);
     ASSERT_TRUE(result.score.has_value());
-    EXPECT_DOUBLE_EQ(*result.score, 4.0);  // Mock returns 4.0
+    EXPECT_GE(*result.score, 1.0);
+    EXPECT_LE(*result.score, 5.0);
+}
+
+TEST_F(LLMJudgeIntegrationMockModeTest, MockModeDeterministicForSamePromptAndVariesAcrossPrompts) {
+    LLMJudgeIntegration::Config config;
+    config.use_mock_mode = true;
+
+    LLMJudgeIntegration integration(config);
+
+    const auto first = integration.evaluateWithLLM(
+        EvaluationDimension::FAITHFULNESS,
+        sample_input,
+        template_manager
+    );
+    const auto second = integration.evaluateWithLLM(
+        EvaluationDimension::FAITHFULNESS,
+        sample_input,
+        template_manager
+    );
+
+    ASSERT_TRUE(first.success);
+    ASSERT_TRUE(second.success);
+    ASSERT_TRUE(first.score.has_value());
+    ASSERT_TRUE(second.score.has_value());
+    ASSERT_TRUE(first.confidence.has_value());
+    ASSERT_TRUE(second.confidence.has_value());
+    EXPECT_DOUBLE_EQ(*first.score, *second.score);
+    EXPECT_DOUBLE_EQ(*first.confidence, *second.confidence);
+
+    auto alternate_input = sample_input;
+    alternate_input.query = "List renewable energy types.";
+    alternate_input.generated_answer = "Solar and wind are renewable sources.";
+    alternate_input.documents = {
+        {"doc2", "Renewable energy includes solar and wind.", 0.92, {}}
+    };
+    const auto alternate = integration.evaluateWithLLM(
+        EvaluationDimension::FAITHFULNESS,
+        alternate_input,
+        template_manager
+    );
+
+    ASSERT_TRUE(alternate.success);
+    ASSERT_TRUE(alternate.score.has_value());
+    ASSERT_TRUE(alternate.confidence.has_value());
+
+    const bool score_changed = std::abs(*first.score - *alternate.score) > 1e-12;
+    const bool confidence_changed = std::abs(*first.confidence - *alternate.confidence) > 1e-12;
+    EXPECT_TRUE(score_changed || confidence_changed);
 }
 
 TEST_F(LLMJudgeIntegrationMockModeTest, MockModeWarningShownOnce) {

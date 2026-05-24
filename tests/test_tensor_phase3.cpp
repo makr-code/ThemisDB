@@ -1,13 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_tensor_phase3.cpp                              ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 3 (Q1-Q2 2027)                      ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_tensor_phase3.cpp | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=26; TODO=1, Stub=24, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -375,6 +371,35 @@ TEST(TensorAwareQueryOptimizerPhase3, TAQO06_rewrite_counter) {
     EXPECT_EQ(stats.nodes_rewritten, 2u);
     EXPECT_EQ(stats.nodes_visited,   3u);
     EXPECT_GT(stats.costReductionFactor(), 1.0);
+}
+
+TEST(TensorAwareQueryOptimizerPhase3, TAQO07_injected_detector_rewrites_without_description_scan) {
+    auto node = std::make_shared<QueryPlanNode>();
+    node->type = PlanNodeType::Filter;
+    node->description = "opaque node payload";
+
+    TensorAwareQueryOptimizer opt;
+    opt.setTensorNodeDetectorFn([](const QueryPlanNode&) -> std::optional<std::string> {
+        return "TENSOR_CONTRACT";
+    });
+
+    auto result = opt.rewrite(node);
+    EXPECT_EQ(result->type, PlanNodeType::TensorContraction);
+    EXPECT_NE(result->description.find("[TT-domain]"), std::string::npos);
+}
+
+TEST(TensorAwareQueryOptimizerPhase3, TAQO08_detector_exception_falls_back_to_description_scan) {
+    auto node = std::make_shared<QueryPlanNode>();
+    node->type = PlanNodeType::Filter;
+    node->description = "TENSOR_SIMILARITY(a, b) > 0.9";
+
+    TensorAwareQueryOptimizer opt;
+    opt.setTensorNodeDetectorFn([](const QueryPlanNode&) -> std::optional<std::string> {
+        throw std::runtime_error("detector unavailable");
+    });
+
+    auto result = opt.rewrite(node);
+    EXPECT_EQ(result->type, PlanNodeType::TensorContraction);
 }
 
 // ─── TARG tests ──────────────────────────────────────────────────────────────

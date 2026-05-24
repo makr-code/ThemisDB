@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            office_processor.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:44:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     270                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a8e6e67906  2026-03-11  feat(content): add focused test targets and fix stale doc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: office_processor.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -75,9 +61,9 @@ struct WordDocumentInfo {
     std::vector<std::string> paragraphs;
     std::vector<std::string> headings;
     std::vector<std::pair<std::string, std::string>> comments;  // author, text
-    int word_count;
-    int paragraph_count;
-    int page_count;
+    int word_count = 0;       ///< CON-021
+    int paragraph_count = 0;  ///< CON-021
+    int page_count = 0;       ///< CON-021
 };
 
 /**
@@ -86,8 +72,8 @@ struct WordDocumentInfo {
 struct ExcelWorkbookInfo {
     struct Sheet {
         std::string name;
-        int row_count;
-        int col_count;
+        int row_count = 0;  ///< CON-021
+        int col_count = 0;  ///< CON-021
         std::vector<std::vector<std::string>> cells;  // row-major
         std::vector<std::string> formulas;
     };
@@ -100,7 +86,7 @@ struct ExcelWorkbookInfo {
  */
 struct PowerPointInfo {
     struct Slide {
-        int slide_number;
+        int slide_number = 0;  ///< 1-based slide index (CON-021)
         std::string title;
         std::string text;
         std::vector<std::string> notes;
@@ -123,8 +109,8 @@ struct OfficeMetadata {
     std::string created_date;      // ISO 8601
     std::string modified_date;     // ISO 8601
     std::string application;       // e.g., "Microsoft Word 2019"
-    int revision;
-    int edit_time_minutes;
+    int revision = 0;              ///< Document revision number (CON-021)
+    int edit_time_minutes = 0;     ///< Total editing time in minutes (CON-021)
 };
 
 /**

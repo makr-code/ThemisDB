@@ -1,28 +1,18 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            consumer_group.cpp                                 ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:48:43                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     631                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: consumer_group.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=20, H=145, M=20, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "cdc/consumer_group.h"
-#include "utils/logger.h"
 
+#include <algorithm>
 #include <rocksdb/utilities/transaction_db.h>
 #include <stdexcept>
-#include <algorithm>
+
+#include "utils/logger.h"
 
 namespace themis {
 namespace cdc {
@@ -31,7 +21,7 @@ namespace cdc {
 // Static helpers
 // ============================================================
 
-uint32_t ConsumerGroupManager::fnv1a32(const std::string& s) {
+uint32_t ConsumerGroupManager::fnv1a32(const std::string &s) {
     // FNV-1a 32-bit: stable, fast, no external dependency
     uint32_t hash = 2166136261u;
     for (unsigned char c : s) {
@@ -41,15 +31,17 @@ uint32_t ConsumerGroupManager::fnv1a32(const std::string& s) {
     return hash;
 }
 
-uint32_t ConsumerGroupManager::partitionForKey(const std::string& key,
-                                                uint32_t partition_count) {
-    if (partition_count == 0) return 0;
+uint32_t ConsumerGroupManager::partitionForKey(const std::string &key, uint32_t partition_count) {
+    if (partition_count == 0) {
+        return 0;
+    }
     return fnv1a32(key) % partition_count;
 }
 
-uint32_t ConsumerGroupManager::partitionForConsumer(const std::string& consumer_id,
-                                                     uint32_t partition_count) {
-    if (partition_count == 0) return 0;
+uint32_t ConsumerGroupManager::partitionForConsumer(const std::string &consumer_id, uint32_t partition_count) {
+    if (partition_count == 0) {
+        return 0;
+    }
     return fnv1a32(consumer_id) % partition_count;
 }
 
@@ -57,8 +49,7 @@ uint32_t ConsumerGroupManager::partitionForConsumer(const std::string& consumer_
 // Construction
 // ============================================================
 
-ConsumerGroupManager::ConsumerGroupManager(rocksdb::TransactionDB* db,
-                                           rocksdb::ColumnFamilyHandle* cf)
+ConsumerGroupManager::ConsumerGroupManager(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf)
     : db_(db), cf_(cf) {
     if (!db_) {
         throw error::invalidArgument("ConsumerGroupManager: db cannot be null");
@@ -69,11 +60,11 @@ ConsumerGroupManager::ConsumerGroupManager(rocksdb::TransactionDB* db,
 // Key helpers
 // ============================================================
 
-std::string ConsumerGroupManager::makeConfigKey(const std::string& group_id) const {
+std::string ConsumerGroupManager::makeConfigKey(const std::string &group_id) const {
     return std::string(GROUP_KEY_PREFIX) + group_id + CONFIG_SUFFIX;
 }
 
-std::string ConsumerGroupManager::makeOffsetKey(const std::string& group_id) const {
+std::string ConsumerGroupManager::makeOffsetKey(const std::string &group_id) const {
     return std::string(GROUP_KEY_PREFIX) + group_id + OFFSET_SUFFIX;
 }
 
@@ -81,8 +72,7 @@ std::string ConsumerGroupManager::makeOffsetKey(const std::string& group_id) con
 // Internal RocksDB helpers (mutex must be held by caller)
 // ============================================================
 
-ConsumerGroupConfig ConsumerGroupManager::readConfigLocked(
-        const std::string& group_id) const {
+ConsumerGroupConfig ConsumerGroupManager::readConfigLocked(const std::string &group_id) const {
     rocksdb::ReadOptions opts;
     std::string value;
     rocksdb::Status s;
@@ -102,13 +92,12 @@ ConsumerGroupConfig ConsumerGroupManager::readConfigLocked(
 
     try {
         return ConsumerGroupConfig::fromJson(nlohmann::json::parse(value));
-    } catch (const std::exception& e) {
-        throw error::internalError("Failed to parse group config for '" +
-                                   group_id + "': " + e.what());
+    } catch (const std::exception &e) {
+        throw error::internalError("Failed to parse group config for '" + group_id + "': " + e.what());
     }
 }
 
-uint64_t ConsumerGroupManager::readOffsetLocked(const std::string& group_id) const {
+uint64_t ConsumerGroupManager::readOffsetLocked(const std::string &group_id) const {
     rocksdb::ReadOptions opts;
     std::string value;
     rocksdb::Status s;
@@ -119,7 +108,9 @@ uint64_t ConsumerGroupManager::readOffsetLocked(const std::string& group_id) con
         s = db_->Get(opts, makeOffsetKey(group_id), &value);
     }
 
-    if (s.IsNotFound() || value.empty()) return 0;
+    if (s.IsNotFound() || value.empty()) {
+        return 0;
+    }
     if (!s.ok()) {
         throw error::dbOperationFailed("Get group offset", s.ToString());
     }
@@ -131,7 +122,7 @@ uint64_t ConsumerGroupManager::readOffsetLocked(const std::string& group_id) con
     }
 }
 
-void ConsumerGroupManager::writeConfigLocked(const ConsumerGroupConfig& config) {
+void ConsumerGroupManager::writeConfigLocked(const ConsumerGroupConfig &config) {
     rocksdb::WriteOptions opts;
     std::string value = config.toJson().dump();
     rocksdb::Status s;
@@ -147,8 +138,7 @@ void ConsumerGroupManager::writeConfigLocked(const ConsumerGroupConfig& config) 
     }
 }
 
-void ConsumerGroupManager::writeOffsetLocked(const std::string& group_id,
-                                              uint64_t sequence) {
+void ConsumerGroupManager::writeOffsetLocked(const std::string &group_id, uint64_t sequence) {
     rocksdb::WriteOptions opts;
     std::string value = std::to_string(sequence);
     rocksdb::Status s;
@@ -160,8 +150,8 @@ void ConsumerGroupManager::writeOffsetLocked(const std::string& group_id,
     }
 
     if (!s.ok()) {
-        throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::ERROR,
-                           "Failed to commit group offset", s.ToString());
+        throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::ERROR, "Failed to commit group offset",
+                           s.ToString());
     }
 }
 
@@ -169,7 +159,7 @@ void ConsumerGroupManager::writeOffsetLocked(const std::string& group_id,
 // Group lifecycle
 // ============================================================
 
-void ConsumerGroupManager::createGroup(const ConsumerGroupConfig& config) {
+void ConsumerGroupManager::createGroup(const ConsumerGroupConfig &config) {
     if (config.group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -179,11 +169,10 @@ void ConsumerGroupManager::createGroup(const ConsumerGroupConfig& config) {
 
     std::lock_guard<std::mutex> lock(mutex_);
     writeConfigLocked(config);
-    THEMIS_INFO("CDC ConsumerGroup created: group={} partitions={}",
-                config.group_id, config.consumer_count);
+    THEMIS_INFO("CDC ConsumerGroup created: group={} partitions={}", config.group_id, config.consumer_count);
 }
 
-void ConsumerGroupManager::deleteGroup(const std::string& group_id) {
+void ConsumerGroupManager::deleteGroup(const std::string &group_id) {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -216,8 +205,10 @@ void ConsumerGroupManager::deleteGroup(const std::string& group_id) {
     THEMIS_INFO("CDC ConsumerGroup deleted: group={}", group_id);
 }
 
-bool ConsumerGroupManager::groupExists(const std::string& group_id) const {
-    if (group_id.empty()) return false;
+bool ConsumerGroupManager::groupExists(const std::string &group_id) const {
+    if (group_id.empty()) {
+        return false;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
     rocksdb::ReadOptions opts;
@@ -233,8 +224,7 @@ bool ConsumerGroupManager::groupExists(const std::string& group_id) const {
     return s.ok();
 }
 
-ConsumerGroupConfig ConsumerGroupManager::getGroupConfig(
-        const std::string& group_id) const {
+ConsumerGroupConfig ConsumerGroupManager::getGroupConfig(const std::string &group_id) const {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -242,8 +232,7 @@ ConsumerGroupConfig ConsumerGroupManager::getGroupConfig(
     return readConfigLocked(group_id);
 }
 
-ConsumerGroupInfo ConsumerGroupManager::getGroupInfo(
-        const std::string& group_id) const {
+ConsumerGroupInfo ConsumerGroupManager::getGroupInfo(const std::string &group_id) const {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -268,21 +257,20 @@ std::vector<std::string> ConsumerGroupManager::listGroups() const {
         it.reset(db_->NewIterator(opts));
     }
 
-    const std::string prefix    = std::string(GROUP_KEY_PREFIX);
+    const std::string prefix     = std::string(GROUP_KEY_PREFIX);
     const std::string config_sfx = CONFIG_SUFFIX;
 
     for (it->Seek(prefix); it->Valid(); it->Next()) {
         std::string key = it->key().ToString();
-        if (key.rfind(prefix, 0) != 0) break; // past prefix
+        if (key.rfind(prefix, 0) != 0) {
+            break; // past prefix
+        }
 
         // Only emit config keys (not offset keys)
-        if (key.size() > config_sfx.size() &&
-            key.compare(key.size() - config_sfx.size(),
-                        config_sfx.size(), config_sfx) == 0) {
+        if (key.size() > config_sfx.size()
+            && key.compare(key.size() - config_sfx.size(), config_sfx.size(), config_sfx) == 0) {
             // Strip prefix and suffix to get group_id
-            std::string gid = key.substr(
-                prefix.size(),
-                key.size() - prefix.size() - config_sfx.size());
+            std::string gid = key.substr(prefix.size(), key.size() - prefix.size() - config_sfx.size());
             if (!gid.empty()) {
                 groups.push_back(std::move(gid));
             }
@@ -296,8 +284,7 @@ std::vector<std::string> ConsumerGroupManager::listGroups() const {
 // Offset tracking
 // ============================================================
 
-uint64_t ConsumerGroupManager::getCommittedOffset(
-        const std::string& group_id) const {
+uint64_t ConsumerGroupManager::getCommittedOffset(const std::string &group_id) const {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -308,8 +295,7 @@ uint64_t ConsumerGroupManager::getCommittedOffset(
     return readOffsetLocked(group_id);
 }
 
-void ConsumerGroupManager::commitOffset(const std::string& group_id,
-                                         uint64_t sequence) {
+void ConsumerGroupManager::commitOffset(const std::string &group_id, uint64_t sequence) {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -327,17 +313,14 @@ void ConsumerGroupManager::commitOffset(const std::string& group_id,
 
     writeOffsetLocked(group_id, sequence);
 
-    THEMIS_DEBUG("CDC ConsumerGroup offset committed: group={} sequence={}",
-                 group_id, sequence);
+    THEMIS_DEBUG("CDC ConsumerGroup offset committed: group={} sequence={}", group_id, sequence);
 }
 
 // ============================================================
 // Partition assignment
 // ============================================================
 
-uint32_t ConsumerGroupManager::getConsumerPartition(
-        const std::string& group_id,
-        const std::string& consumer_id) const {
+uint32_t ConsumerGroupManager::getConsumerPartition(const std::string &group_id, const std::string &consumer_id) const {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -347,9 +330,8 @@ uint32_t ConsumerGroupManager::getConsumerPartition(
     return partitionForConsumer(consumer_id, cfg.consumer_count);
 }
 
-bool ConsumerGroupManager::consumerHandlesKey(const std::string& group_id,
-                                               const std::string& consumer_id,
-                                               const std::string& event_key) const {
+bool ConsumerGroupManager::consumerHandlesKey(const std::string &group_id, const std::string &consumer_id,
+                                              const std::string &event_key) const {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -362,8 +344,7 @@ bool ConsumerGroupManager::consumerHandlesKey(const std::string& group_id,
     return consumer_partition == key_partition;
 }
 
-uint32_t ConsumerGroupManager::getPartitionForKey(const std::string& group_id,
-                                                   const std::string& key) const {
+uint32_t ConsumerGroupManager::getPartitionForKey(const std::string &group_id, const std::string &key) const {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -377,11 +358,10 @@ uint32_t ConsumerGroupManager::getPartitionForKey(const std::string& group_id,
 // Event fetching
 // ============================================================
 
-std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(
-        const std::string& group_id,
-        const std::string& consumer_id,
-        const Changefeed& changefeed,
-        size_t limit) const {
+std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(const std::string &group_id,
+                                                                       const std::string &consumer_id,
+                                                                       const Changefeed &changefeed,
+                                                                       size_t limit) const {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -395,18 +375,16 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(
         committed = readOffsetLocked(group_id);
     }
 
-    const uint32_t consumer_partition =
-        partitionForConsumer(consumer_id, cfg.consumer_count);
+    const uint32_t consumer_partition = partitionForConsumer(consumer_id, cfg.consumer_count);
 
     // Fetch a broader batch from the changefeed; we may need to over-fetch
     // because some events belong to other partitions and are filtered out.
     // We fetch min(limit * consumer_count, 10000) events to bound memory.
     const size_t effective_limit = (limit == 0) ? 100 : limit;
-    const size_t fetch_limit     = std::min<size_t>(
-        effective_limit * static_cast<size_t>(cfg.consumer_count), 10000u);
+    const size_t fetch_limit     = std::min<size_t>(effective_limit * static_cast<size_t>(cfg.consumer_count), 10000u);
 
     Changefeed::ListOptions opts;
-    opts.from_sequence = committed;   // listEvents returns events *after* from_sequence
+    opts.from_sequence = committed; // listEvents returns events *after* from_sequence
     opts.limit         = fetch_limit;
 
     std::vector<Changefeed::ChangeEvent> all_events = changefeed.listEvents(opts);
@@ -415,11 +393,13 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(
     std::vector<Changefeed::ChangeEvent> result;
     result.reserve(effective_limit);
 
-    for (auto& ev : all_events) {
+    for (auto &ev : all_events) {
         uint32_t key_partition = partitionForKey(ev.key, cfg.consumer_count);
         if (key_partition == consumer_partition) {
             result.push_back(std::move(ev));
-            if (result.size() >= effective_limit) break;
+            if (result.size() >= effective_limit) {
+                break;
+            }
         }
     }
 
@@ -430,12 +410,9 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(
 // At-least-once delivery
 // ============================================================
 
-std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEventsAtLeastOnce(
-        const std::string& group_id,
-        const std::string& consumer_id,
-        const Changefeed& changefeed,
-        size_t limit,
-        uint32_t ack_timeout_ms) {
+std::vector<Changefeed::ChangeEvent>
+ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const std::string &consumer_id,
+                                             const Changefeed &changefeed, size_t limit, uint32_t ack_timeout_ms) {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -444,25 +421,25 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEventsAtLeastOnc
     }
 
     const size_t effective_limit = (limit == 0) ? 100 : limit;
-    const auto   timeout         = std::chrono::milliseconds(ack_timeout_ms);
-    const auto   now             = std::chrono::steady_clock::now();
+    const auto timeout           = std::chrono::milliseconds(ack_timeout_ms);
+    const auto now               = std::chrono::steady_clock::now();
 
     // Step 1: Read group config, committed offset, and in-flight state.
     ConsumerGroupConfig cfg;
-    uint64_t committed       = 0;
+    uint64_t committed        = 0;
     uint64_t highest_inflight = 0;
     std::vector<uint64_t> overdue_seqs;
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        cfg       = readConfigLocked(group_id);  // throws if not found
+        cfg       = readConfigLocked(group_id); // throws if not found
         committed = readOffsetLocked(group_id);
 
         auto git = inflight_.find(group_id);
         if (git != inflight_.end()) {
             auto cit = git->second.find(consumer_id);
             if (cit != git->second.end()) {
-                for (const auto& rec : cit->second) {
+                for (const auto &rec : cit->second) {
                     highest_inflight = std::max(highest_inflight, rec.sequence);
                     if (ack_timeout_ms > 0 && (now - rec.delivered_at) >= timeout) {
                         overdue_seqs.push_back(rec.sequence);
@@ -472,20 +449,20 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEventsAtLeastOnc
         }
     }
 
-    const uint32_t consumer_partition =
-        partitionForConsumer(consumer_id, cfg.consumer_count);
+    const uint32_t consumer_partition = partitionForConsumer(consumer_id, cfg.consumer_count);
 
     std::vector<Changefeed::ChangeEvent> result;
     result.reserve(effective_limit);
 
     // Step 2: Re-fetch and return timed-out (overdue) in-flight events.
     for (uint64_t seq : overdue_seqs) {
-        if (result.size() >= effective_limit) break;
+        if (result.size() >= effective_limit) {
+            break;
+        }
         try {
             result.push_back(changefeed.getEvent(seq));
-        } catch (const std::exception& e) {
-            THEMIS_WARN("fetchEventsAtLeastOnce: redelivery failed for seq={}: {}",
-                        seq, e.what());
+        } catch (const std::exception &e) {
+            THEMIS_WARN("fetchEventsAtLeastOnce: redelivery failed for seq={}: {}", seq, e.what());
         }
     }
 
@@ -495,18 +472,19 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEventsAtLeastOnc
     if (result.size() < effective_limit) {
         // Start after the highest in-flight sequence (or committed, whichever is
         // larger) to avoid duplicating events already tracked as in-flight.
-        const uint64_t from_seq   = std::max(committed, highest_inflight);
-        const size_t   remaining  = effective_limit - result.size();
-        const size_t   fetch_limit = std::min<size_t>(
-            remaining * static_cast<size_t>(cfg.consumer_count), 10000u);
+        const uint64_t from_seq  = std::max(committed, highest_inflight);
+        const size_t remaining   = effective_limit - result.size();
+        const size_t fetch_limit = std::min<size_t>(remaining * static_cast<size_t>(cfg.consumer_count), 10000u);
 
         Changefeed::ListOptions opts;
         opts.from_sequence = from_seq;
         opts.limit         = fetch_limit;
 
         auto all_events = changefeed.listEvents(opts);
-        for (auto& ev : all_events) {
-            if (result.size() >= effective_limit) break;
+        for (auto &ev : all_events) {
+            if (result.size() >= effective_limit) {
+                break;
+            }
             if (partitionForKey(ev.key, cfg.consumer_count) != consumer_partition) {
                 continue;
             }
@@ -518,25 +496,23 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEventsAtLeastOnc
     // Step 4: Persist updated in-flight state.
     if (!overdue_seqs.empty() || !new_records.empty()) {
         std::lock_guard<std::mutex> lock(mutex_);
-        auto& consumer_inflight = inflight_[group_id][consumer_id];
+        auto &consumer_inflight = inflight_[group_id][consumer_id];
 
         // Update delivery timestamps and counts for redelivered events.
         if (!overdue_seqs.empty()) {
-            for (auto& rec : consumer_inflight) {
-                if (std::find(overdue_seqs.begin(), overdue_seqs.end(),
-                              rec.sequence) != overdue_seqs.end()) {
+            for (auto &rec : consumer_inflight) {
+                if (std::find(overdue_seqs.begin(), overdue_seqs.end(), rec.sequence) != overdue_seqs.end()) {
                     rec.delivered_at = now;
                     rec.delivery_count++;
                 }
             }
-            THEMIS_DEBUG(
-                "fetchEventsAtLeastOnce: redelivered {} overdue events "
-                "for group={} consumer={}",
-                overdue_seqs.size(), group_id, consumer_id);
+            THEMIS_DEBUG("fetchEventsAtLeastOnce: redelivered {} overdue events "
+                         "for group={} consumer={}",
+                         overdue_seqs.size(), group_id, consumer_id);
         }
 
         // Append newly delivered records.
-        for (auto& rec : new_records) {
+        for (auto &rec : new_records) {
             consumer_inflight.push_back(std::move(rec));
         }
     }
@@ -544,9 +520,8 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEventsAtLeastOnc
     return result;
 }
 
-void ConsumerGroupManager::acknowledgeEvents(const std::string& group_id,
-                                              const std::string& consumer_id,
-                                              uint64_t up_to_sequence) {
+void ConsumerGroupManager::acknowledgeEvents(const std::string &group_id, const std::string &consumer_id,
+                                             uint64_t up_to_sequence) {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
@@ -557,19 +532,17 @@ void ConsumerGroupManager::acknowledgeEvents(const std::string& group_id,
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Validate group exists.
-    readConfigLocked(group_id);  // throws if not found
+    readConfigLocked(group_id); // throws if not found
 
     // Remove acknowledged events from the in-flight set.
     auto git = inflight_.find(group_id);
     if (git != inflight_.end()) {
         auto cit = git->second.find(consumer_id);
         if (cit != git->second.end()) {
-            auto& records = cit->second;
+            auto &records = cit->second;
             records.erase(
                 std::remove_if(records.begin(), records.end(),
-                    [up_to_sequence](const InFlightRecord& r) {
-                        return r.sequence <= up_to_sequence;
-                    }),
+                               [up_to_sequence](const InFlightRecord &r) { return r.sequence <= up_to_sequence; }),
                 records.end());
         }
     }
@@ -578,24 +551,25 @@ void ConsumerGroupManager::acknowledgeEvents(const std::string& group_id,
     uint64_t current = readOffsetLocked(group_id);
     if (up_to_sequence > current) {
         writeOffsetLocked(group_id, up_to_sequence);
-        THEMIS_DEBUG("acknowledgeEvents: group={} consumer={} acked up_to={}",
-                     group_id, consumer_id, up_to_sequence);
+        THEMIS_DEBUG("acknowledgeEvents: group={} consumer={} acked up_to={}", group_id, consumer_id, up_to_sequence);
     }
 }
 
-size_t ConsumerGroupManager::getInFlightCount(const std::string& group_id,
-                                               const std::string& consumer_id) const {
+size_t ConsumerGroupManager::getInFlightCount(const std::string &group_id, const std::string &consumer_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto git = inflight_.find(group_id);
-    if (git == inflight_.end()) return 0;
+    if (git == inflight_.end()) {
+        return 0;
+    }
     auto cit = git->second.find(consumer_id);
-    if (cit == git->second.end()) return 0;
+    if (cit == git->second.end()) {
+        return 0;
+    }
     return cit->second.size();
 }
 
-InFlightStats ConsumerGroupManager::getInFlightStats(const std::string& group_id,
-                                                      const std::string& consumer_id,
-                                                      uint32_t ack_timeout_ms) const {
+InFlightStats ConsumerGroupManager::getInFlightStats(const std::string &group_id, const std::string &consumer_id,
+                                                     uint32_t ack_timeout_ms) const {
     InFlightStats stats;
     stats.group_id    = group_id;
     stats.consumer_id = consumer_id;
@@ -605,15 +579,18 @@ InFlightStats ConsumerGroupManager::getInFlightStats(const std::string& group_id
 
     std::lock_guard<std::mutex> lock(mutex_);
     auto git = inflight_.find(group_id);
-    if (git == inflight_.end()) return stats;
+    if (git == inflight_.end()) {
+        return stats;
+    }
     auto cit = git->second.find(consumer_id);
-    if (cit == git->second.end()) return stats;
+    if (cit == git->second.end()) {
+        return stats;
+    }
 
-    const auto& records = cit->second;
+    const auto &records  = cit->second;
     stats.inflight_count = records.size();
-    for (const auto& rec : records) {
-        if (stats.oldest_inflight_sequence == 0 ||
-            rec.sequence < stats.oldest_inflight_sequence) {
+    for (const auto &rec : records) {
+        if (stats.oldest_inflight_sequence == 0 || rec.sequence < stats.oldest_inflight_sequence) {
             stats.oldest_inflight_sequence = rec.sequence;
         }
         if (ack_timeout_ms > 0 && (now - rec.delivered_at) >= timeout) {

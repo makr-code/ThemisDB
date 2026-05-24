@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_pitr_manager_comprehensive.cpp                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     684                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_pitr_manager_comprehensive.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -132,9 +121,8 @@ protected:
 TEST_F(PITRManagerComprehensiveTest, LargeScaleRestore) {
     // Add 1000 events
     addEvents(1000);
-    
-    uint64_t current_seq = changefeed_->getLatestSequence();
-    ASSERT_EQ(current_seq, 1000);
+
+    ASSERT_EQ(changefeed_->getLatestSequence(), 1000);
     
     // Restore to 500
     PITRManager::RestoreOptions options;
@@ -155,8 +143,7 @@ TEST_F(PITRManagerComprehensiveTest, SelectiveTableRestore) {
     std::vector<std::string> tables = {"users", "products", "orders"};
     addMultiTableEvents(100, tables);
     
-    uint64_t current_seq = changefeed_->getLatestSequence();
-    ASSERT_EQ(current_seq, 300);
+    ASSERT_EQ(changefeed_->getLatestSequence(), 300);
     
     // Preview restore to sequence 150 (middle of the dataset)
     // This should show affected tables from the replay range (151-300)
@@ -359,13 +346,12 @@ TEST_F(PITRManagerComprehensiveTest, ConcurrentRestoreAttempts) {
 // Test: Restore validation
 TEST_F(PITRManagerComprehensiveTest, RestoreValidation) {
     addEvents(10);
-    uint64_t current_seq = changefeed_->getLatestSequence();
     
     PITRManager::RestoreOptions options;
     options.dry_run = true;
     
     // Try to restore to future sequence
-    auto status = pitr_mgr_->restoreToSequence(current_seq + 100, options);
+    auto status = pitr_mgr_->restoreToSequence(changefeed_->getLatestSequence() + 100, options);
     EXPECT_FALSE(status.ok);
     EXPECT_THAT(status.message, ::testing::HasSubstr("must be less than current"));
 }
@@ -384,8 +370,6 @@ TEST_F(PITRManagerComprehensiveTest, RestoreWithDeleteEvents) {
         event.timestamp_ms = 2000 + i;
         changefeed_->recordEvent(event);
     }
-    
-    uint64_t current_seq = changefeed_->getLatestSequence();
     
     PITRManager::RestoreOptions options;
     options.dry_run = true;
@@ -416,6 +400,7 @@ TEST_F(PITRManagerComprehensiveTest, DisasterRecovery_DataCorruption) {
     auto snapshot = snapshot_mgr_->createTag("pre-deployment", "Before risky deployment");
     ASSERT_TRUE(snapshot.has_value());
     uint64_t safe_sequence = snapshot->sequence_number;
+    static_cast<void>(safe_sequence);
     
     // 3. Simulate deployment that corrupts data
     event.key = "users:1";

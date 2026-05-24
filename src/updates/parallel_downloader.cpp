@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            parallel_downloader.cpp                            ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:51:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     487                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: parallel_downloader.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 547
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=108 | delta=105 | status=divergent
+ * External Severity (v3): C=9, H=86, M=13
+ * PR: #5165 Wave A ML Enhancements: Phase 2 Production-Ready Implementation + F... (2026-05-20T15:19:21Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "updates/parallel_downloader.h"
@@ -244,15 +231,24 @@ std::string ParallelDownloader::computeSha256(const std::string& path) {
 // ============================================================================
 
 bool ParallelDownloader::defaultFetch(
-    const std::string& url,
-    const std::string& dest,
-    uint64_t           resume_offset,
-    long               connect_timeout_s,
-    long               transfer_timeout_s,
-    uint64_t*          out_bytes,
-    uint64_t*          out_total,
-    std::string*       out_error)
+    [[maybe_unused]] const std::string& url,
+    [[maybe_unused]] const std::string& dest,
+    [[maybe_unused]] uint64_t          resume_offset,
+    [[maybe_unused]] long               connect_timeout_s,
+    [[maybe_unused]] long               transfer_timeout_s,
+    [[maybe_unused]] uint64_t*          out_bytes,
+    [[maybe_unused]] uint64_t*          out_total,
+    [[maybe_unused]] std::string*       out_error)
 {
+    static_cast<void>(url);
+    static_cast<void>(dest);
+    static_cast<void>(resume_offset);
+    static_cast<void>(connect_timeout_s);
+    static_cast<void>(transfer_timeout_s);
+    static_cast<void>(out_bytes);
+    static_cast<void>(out_total);
+    static_cast<void>(out_error);
+
     if (out_bytes)  *out_bytes  = 0;
     if (out_total)  *out_total  = 0;
 
@@ -317,6 +313,11 @@ bool ParallelDownloader::defaultFetch(
                                            : ctx.written + resume_offset;
     return true;
 #else
+    static_cast<void>(url);
+    static_cast<void>(dest);
+    static_cast<void>(resume_offset);
+    static_cast<void>(connect_timeout_s);
+    static_cast<void>(transfer_timeout_s);
     if (out_error) *out_error = "No HTTP transport: build with -DTHEMIS_ENABLE_CURL=ON "
                                 "or inject a custom FetchFn via setFetchFunction()";
     return false;
@@ -365,9 +366,6 @@ DownloadResult ParallelDownloader::executeTask(
         progress_cb_(task_index, resume_offset, 0, "downloading");
     }
 
-    // Retry loop
-    bool fetch_ok = false;
-    
     // Use centralized exponential backoff policy (Phase 2a consolidation)
     const themis::utils::RetryConfig retry_cfg{
         .max_attempts       = static_cast<uint32_t>(task.max_retries + 1),
@@ -377,6 +375,8 @@ DownloadResult ParallelDownloader::executeTask(
         .jitter_fraction    = 0.0,
     };
     themis::utils::ExponentialBackoff backoff(retry_cfg);
+
+    bool fetch_ok = false;
     
     for (int attempt = 0; attempt <= task.max_retries; ++attempt) {
         if (attempt > 0) {
@@ -560,4 +560,3 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
 
 } // namespace updates
 } // namespace themis
-

@@ -1,25 +1,9 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_scheduled_edge_refresh.cpp                    ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:51:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1230                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
-    • 89945cb4d4  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_scheduled_edge_refresh.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -855,8 +839,6 @@ TEST_F(ScheduledEdgeRefreshTest, Integration_LargeGraph_RefreshCycleCompletes) {
 }
 
 TEST_F(ScheduledEdgeRefreshTest, Integration_LargeGraph_WithEmbeddings_RemovesSomeEdges) {
-    constexpr int N = 20;
-
     // Build graph with two clusters: cluster A (nodes 0-9) and cluster B (nodes 10-19).
     // Cross-cluster edges should score low; intra-cluster edges high.
     for (int i = 0; i < 10; ++i) {

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_kv_cache_buffer.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     349                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_kv_cache_buffer.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -50,6 +39,20 @@ TEST_F(KVCacheBufferTest, BasicAppendToken) {
     auto stats = buffer.getStats();
     EXPECT_EQ(stats.total_appends, 1);
     EXPECT_EQ(stats.current_batch_size, 1);
+}
+
+TEST_F(KVCacheBufferTest, AppendTokenRejectsNullPointers) {
+    KVCacheBuffer buffer(config_);
+
+    std::vector<float> key(config_.embedding_dim, 1.0f);
+    std::vector<float> value(config_.embedding_dim, 2.0f);
+
+    EXPECT_FALSE(buffer.appendToken(1, nullptr, value.data()));
+    EXPECT_FALSE(buffer.appendToken(1, key.data(), nullptr));
+
+    auto stats = buffer.getStats();
+    EXPECT_EQ(stats.total_appends, 0);
+    EXPECT_EQ(stats.current_batch_size, 0);
 }
 
 TEST_F(KVCacheBufferTest, AppendMultipleTokens) {

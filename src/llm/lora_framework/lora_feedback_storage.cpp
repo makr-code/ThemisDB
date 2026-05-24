@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_feedback_storage.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     480                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_feedback_storage.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 486
+ * Open Issues: TODOs=1, Stubs=6, Gaps=10, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=10 | external_v3=119 | delta=109 | status=divergent
+ * External Severity (v3): C=16, H=88, M=15
+ * PR: #367 Add LoRA feedback system with cache-aware training weights, YAML co... (2026-03-11T16:53:19Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_feedback_storage.h"
@@ -95,7 +86,8 @@ std::optional<Feedback> FeedbackStorageService::createFeedback(Feedback feedback
         }
         
         // Create graph link to adapter
-        if (config_.enable_graph_links && config_.graph_index) {
+        if (config_.enable_graph_links &&
+            (config_.graph_index || config_.create_graph_link_fn)) {
             createGraphLink(feedback.id, feedback.adapter_id);
         }
         
@@ -225,7 +217,9 @@ bool FeedbackStorageService::deleteFeedback(const std::string& id) {
         }
         
         // Remove graph link
-        if (config_.enable_graph_links && config_.graph_index && feedback) {
+        if (config_.enable_graph_links &&
+            (config_.graph_index || config_.remove_graph_link_fn) &&
+            feedback) {
             removeGraphLink(id, feedback->adapter_id);
         }
         
@@ -406,7 +400,7 @@ bool FeedbackStorageService::createGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
 ) {
-    if (!config_.graph_index) {
+    if (!config_.graph_index && !config_.create_graph_link_fn) {
         return false;
     }
     
@@ -442,7 +436,7 @@ bool FeedbackStorageService::removeGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
 ) {
-    if (!config_.graph_index) {
+    if (!config_.graph_index && !config_.remove_graph_link_fn) {
         return false;
     }
     
@@ -466,6 +460,16 @@ bool FeedbackStorageService::removeGraphLink(
         spdlog::error("Failed to remove graph link: {}", e.what());
         return false;
     }
+}
+
+void FeedbackStorageService::setCreateGraphLinkFn(CreateGraphLinkFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    create_graph_link_fn_ = std::move(fn);
+}
+
+void FeedbackStorageService::setRemoveGraphLinkFn(RemoveGraphLinkFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    remove_graph_link_fn_ = std::move(fn);
 }
 
 bool FeedbackStorageService::runValidation(const Feedback& feedback) const {

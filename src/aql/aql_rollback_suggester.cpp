@@ -1,25 +1,9 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_rollback_suggester.cpp                         ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:48:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     324                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
-    • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_rollback_suggester.cpp | Version: 0.0.9
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=32, M=42, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "aql/aql_rollback_suggester.h"
@@ -37,34 +21,39 @@ namespace aql {
 // ============================================================================
 namespace {
 
-std::string toUpperTrim(const std::string& s) {
+std::string toUpperTrim(const std::string &s) {
     std::string out;
     out.reserve(s.size());
     bool skip_leading = true;
     for (char c : s) {
-        if (skip_leading && std::isspace(static_cast<unsigned char>(c))) continue;
+        if (skip_leading && std::isspace(static_cast<unsigned char>(c))) {
+            continue;
+        }
         skip_leading = false;
         if (std::isspace(static_cast<unsigned char>(c))) {
-            if (!out.empty() && out.back() != ' ') out += ' ';
+            if (!out.empty() && out.back() != ' ') {
+                out += ' ';
+            }
         } else {
             out += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
         }
     }
-    while (!out.empty() && out.back() == ' ') out.pop_back();
+    while (!out.empty() && out.back() == ' ') {
+        out.pop_back();
+    }
     return out;
 }
 
-bool wordContains(const std::string& upper, const std::string& kw) {
+bool wordContains(const std::string &upper, const std::string &kw) {
     size_t p = 0;
     while ((p = upper.find(kw, p)) != std::string::npos) {
-        bool ok_before = (p == 0 ||
-            (!std::isalnum(static_cast<unsigned char>(upper[p - 1])) &&
-             upper[p - 1] != '_'));
-        size_t after = p + kw.size();
-        bool ok_after = (after >= upper.size() ||
-            (!std::isalnum(static_cast<unsigned char>(upper[after])) &&
-             upper[after] != '_'));
-        if (ok_before && ok_after) return true;
+        bool ok_before = (p == 0 || (!std::isalnum(static_cast<unsigned char>(upper[p - 1])) && upper[p - 1] != '_'));
+        size_t after   = p + kw.size();
+        bool ok_after  = (after >= upper.size()
+                          || (!std::isalnum(static_cast<unsigned char>(upper[after])) && upper[after] != '_'));
+        if (ok_before && ok_after) {
+            return true;
+        }
         ++p;
     }
     return false;
@@ -77,17 +66,19 @@ bool wordContains(const std::string& upper, const std::string& kw) {
  * in the normalised (upper-case, collapsed-whitespace) query.
  * Returns the first word that follows the `in_keyword` token.
  */
-std::string extractCollection(const std::string& upper, const std::string& in_keyword) {
+std::string extractCollection(const std::string &upper, const std::string &in_keyword) {
     size_t p = upper.find(in_keyword);
     while (p != std::string::npos) {
         bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(upper[p - 1])));
-        size_t after = p + in_keyword.size();
-        bool ok_after = (after >= upper.size() || !std::isalnum(static_cast<unsigned char>(upper[after])));
+        size_t after   = p + in_keyword.size();
+        bool ok_after  = (after >= upper.size() || !std::isalnum(static_cast<unsigned char>(upper[after])));
         if (ok_before && ok_after && after < upper.size() && upper[after] == ' ') {
             // Skip space, read word.
             size_t ws = after + 1;
             size_t we = ws;
-            while (we < upper.size() && (std::isalnum(static_cast<unsigned char>(upper[we])) || upper[we] == '_')) ++we;
+            while (we < upper.size() && (std::isalnum(static_cast<unsigned char>(upper[we])) || upper[we] == '_')) {
+                ++we;
+            }
             if (we > ws) {
                 // Return in original case by finding position in lower casing.
                 return upper.substr(ws, we - ws);
@@ -101,13 +92,19 @@ std::string extractCollection(const std::string& upper, const std::string& in_ke
 /**
  * @brief Extract the loop variable name: "FOR <var> IN …"
  */
-std::string extractLoopVar(const std::string& upper) {
+std::string extractLoopVar(const std::string &upper) {
     size_t p = upper.find("FOR ");
-    if (p == std::string::npos) return "doc";
+    if (p == std::string::npos) {
+        return "doc";
+    }
     size_t vs = p + 4;
     size_t ve = vs;
-    while (ve < upper.size() && (std::isalnum(static_cast<unsigned char>(upper[ve])) || upper[ve] == '_')) ++ve;
-    if (ve > vs) return upper.substr(vs, ve - vs);
+    while (ve < upper.size() && (std::isalnum(static_cast<unsigned char>(upper[ve])) || upper[ve] == '_')) {
+        ++ve;
+    }
+    if (ve > vs) {
+        return upper.substr(vs, ve - vs);
+    }
     return "doc";
 }
 
@@ -115,22 +112,28 @@ std::string extractLoopVar(const std::string& upper) {
  * @brief Extract the first FILTER body (everything after "FILTER" until the
  *        next clause keyword).
  */
-std::string extractFilter(const std::string& upper) {
+std::string extractFilter(const std::string &upper) {
     size_t p = upper.find("FILTER ");
-    if (p == std::string::npos) return {};
+    if (p == std::string::npos) {
+        return {};
+    }
     size_t body_start = p + 7;
     // Stop at next clause keyword.
     static const std::vector<std::string> kTerminators = {
-        " FOR ", " LET ", " SORT ", " LIMIT ", " RETURN ", " COLLECT ",
+        " FOR ",    " LET ",    " SORT ",    " LIMIT ",  " RETURN ", " COLLECT ",
         " INSERT ", " UPDATE ", " REPLACE ", " REMOVE ", " UPSERT ",
     };
     size_t body_end = upper.size();
-    for (const auto& term : kTerminators) {
+    for (const auto &term : kTerminators) {
         size_t tp = upper.find(term, body_start);
-        if (tp != std::string::npos && tp < body_end) body_end = tp;
+        if (tp != std::string::npos && tp < body_end) {
+            body_end = tp;
+        }
     }
     std::string body = upper.substr(body_start, body_end - body_start);
-    while (!body.empty() && body.back() == ' ') body.pop_back();
+    while (!body.empty() && body.back() == ' ') {
+        body.pop_back();
+    }
     return body;
 }
 
@@ -140,12 +143,12 @@ std::string extractFilter(const std::string& upper) {
 // AQLRollbackSuggester::suggest
 // ============================================================================
 
-RollbackSuggestion AQLRollbackSuggester::suggest(const std::string& aql_query) const {
+RollbackSuggestion AQLRollbackSuggester::suggest(const std::string &aql_query) const {
     RollbackSuggestion result;
 
     if (aql_query.empty()) {
         result.mutation_type = MutationType::NONE;
-        result.caveat = "Empty query; no rollback possible.";
+        result.caveat        = "Empty query; no rollback possible.";
         return result;
     }
 
@@ -161,7 +164,7 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string& aql_query) c
     if (!has_upsert && !has_insert && !has_replace && !has_update && !has_remove) {
         result.mutation_type = MutationType::NONE;
         result.is_automatic  = false;
-        result.caveat = "Query is read-only; no rollback required.";
+        result.caveat        = "Query is read-only; no rollback required.";
         return result;
     }
 
@@ -186,7 +189,9 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string& aql_query) c
             break;
         case MutationType::REMOVE:
             coll = extractCollection(upper, "IN");
-            if (coll.empty()) coll = extractCollection(upper, "INTO");
+            if (coll.empty()) {
+                coll = extractCollection(upper, "INTO");
+            }
             break;
         case MutationType::UPDATE:
         case MutationType::REPLACE:
@@ -198,14 +203,14 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string& aql_query) c
         default:
             break;
     }
-    if (coll.empty()) coll = "<collection>";
+    if (coll.empty()) {
+        coll = "<collection>";
+    }
     result.collection = coll;
 
     const std::string loop_var = extractLoopVar(upper);
     const std::string filter   = extractFilter(upper);
-    const std::string fvar     = filter.empty()
-        ? (loop_var + "._key == @key")
-        : filter;
+    const std::string fvar     = filter.empty() ? (loop_var + "._key == @key") : filter;
 
     std::ostringstream rq;
 
@@ -221,8 +226,8 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string& aql_query) c
                << "  FILTER " << loop_var << "._key IN @inserted_keys\n"
                << "  REMOVE " << loop_var << " IN " << coll;
             result.is_automatic = true;
-            result.caveat = "Bind parameter @inserted_keys must be populated with "
-                            "the _key values returned by the original INSERT.";
+            result.caveat       = "Bind parameter @inserted_keys must be populated with "
+                                  "the _key values returned by the original INSERT.";
             result.manual_steps = {
                 "Collect _key values from the INSERT result before executing the rollback.",
                 "Pass them as @inserted_keys bind parameter.",
@@ -238,11 +243,10 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string& aql_query) c
                << "FOR doc IN @removed_documents\n"
                << "  INSERT doc INTO " << coll;
             result.is_automatic = true;
-            result.caveat = "Bind parameter @removed_documents must contain the "
-                            "full document objects captured before the REMOVE.";
+            result.caveat       = "Bind parameter @removed_documents must contain the "
+                                  "full document objects captured before the REMOVE.";
             result.manual_steps = {
-                "Execute `FOR d IN " + coll + " FILTER " + fvar +
-                    " RETURN d` before the REMOVE to obtain a snapshot.",
+                "Execute `FOR d IN " + coll + " FILTER " + fvar + " RETURN d` before the REMOVE to obtain a snapshot.",
                 "Pass the snapshot array as @removed_documents bind parameter.",
             };
             break;
@@ -257,11 +261,10 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string& aql_query) c
                << "  FILTER " << fvar << "\n"
                << "  UPDATE " << loop_var << " WITH @old_values IN " << coll;
             result.is_automatic = true;
-            result.caveat = "Bind parameter @old_values must be populated with "
-                            "the original field values before the UPDATE.";
+            result.caveat       = "Bind parameter @old_values must be populated with "
+                                  "the original field values before the UPDATE.";
             result.manual_steps = {
-                "Capture old field values with `FOR d IN " + coll + " FILTER " +
-                    fvar + " RETURN d` before the UPDATE.",
+                "Capture old field values with `FOR d IN " + coll + " FILTER " + fvar + " RETURN d` before the UPDATE.",
                 "Pass the captured values as @old_values bind parameter.",
             };
             break;
@@ -276,11 +279,10 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string& aql_query) c
                << "  FILTER " << fvar << "\n"
                << "  REPLACE " << loop_var << " WITH @old_document IN " << coll;
             result.is_automatic = true;
-            result.caveat = "Bind parameter @old_document must contain the full "
-                            "original document before the REPLACE.";
+            result.caveat       = "Bind parameter @old_document must contain the full "
+                                  "original document before the REPLACE.";
             result.manual_steps = {
-                "Snapshot the document: `FOR d IN " + coll + " FILTER " +
-                    fvar + " RETURN d` before the REPLACE.",
+                "Snapshot the document: `FOR d IN " + coll + " FILTER " + fvar + " RETURN d` before the REPLACE.",
                 "Pass the snapshot as @old_document bind parameter.",
             };
             break;
@@ -300,9 +302,9 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string& aql_query) c
                << "// Documents that were UPDATED (existed before) must be\n"
                << "// restored separately from a pre-mutation snapshot.";
             result.is_automatic = true;
-            result.caveat = "UPSERT rollback is partial: the removal branch covers "
-                            "only inserted documents. Updated documents require a "
-                            "pre-mutation snapshot.";
+            result.caveat       = "UPSERT rollback is partial: the removal branch covers "
+                                  "only inserted documents. Updated documents require a "
+                                  "pre-mutation snapshot.";
             result.manual_steps = {
                 "Before the UPSERT, snapshot matching documents for the UPDATE branch.",
                 "Collect _key values of newly inserted documents into @upserted_keys.",
@@ -313,7 +315,7 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string& aql_query) c
 
         default:
             result.is_automatic = false;
-            result.caveat = "Mutation type not recognised; manual rollback required.";
+            result.caveat       = "Mutation type not recognised; manual rollback required.";
             break;
     }
 

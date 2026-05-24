@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_lora_feedback.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     416                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_lora_feedback.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -149,6 +138,36 @@ TEST_F(LoRAFeedbackTest, DeleteFeedback) {
     // Verify deletion
     auto retrieved = storage_->getFeedback(created->id);
     EXPECT_FALSE(retrieved.has_value());
+}
+
+TEST_F(LoRAFeedbackTest, CreateFeedbackUsesGraphLinkCallbackWhenConfigured) {
+    bool create_link_called = false;
+
+    FeedbackStorageService::Config config;
+    config.db = std::shared_ptr<RocksDBWrapper>(db_.get(), [](RocksDBWrapper*){});
+    config.enable_graph_links = true;
+    config.create_graph_link_fn =
+        [&create_link_called](const std::string& feedback_pk,
+                              const std::string& adapter_pk,
+                              const std::string& edge_type) {
+            create_link_called = true;
+            EXPECT_FALSE(feedback_pk.empty());
+            EXPECT_EQ(adapter_pk, "lora_adapters:adapter-with-graph-link");
+            EXPECT_EQ(edge_type, "belongs_to_adapter");
+            return true;
+        };
+
+    storage_ = std::make_unique<FeedbackStorageService>(config);
+
+    Feedback feedback;
+    feedback.adapter_id = "adapter-with-graph-link";
+    feedback.user_id = "user123";
+    feedback.rating = 5;
+    feedback.feedback_text = "graph-link-callback";
+
+    auto created = storage_->createFeedback(feedback);
+    ASSERT_TRUE(created.has_value());
+    EXPECT_TRUE(create_link_called);
 }
 
 TEST_F(LoRAFeedbackTest, ListFeedback) {

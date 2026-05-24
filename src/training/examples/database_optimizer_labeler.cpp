@@ -1,3 +1,14 @@
+/*
+ * ThemisDB | File: database_optimizer_labeler.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 192
+ * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=1, Sim=3, Debt=0
+ * Gap Correlation: internal=6 | external_v3=77 | delta=71 | status=divergent
+ * External Severity (v3): C=0, H=45, M=32
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // SPDX-License-Identifier: Apache-2.0
 // Example: DATABASE_OPTIMIZER domain labeling + federation gradient export
 //
@@ -21,7 +32,6 @@
 // issues. The code is intentionally pseudocode-style where the API does not
 // yet exist, marked with /* PLANNED */ comments.
 //
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include <iostream>
 #include <vector>

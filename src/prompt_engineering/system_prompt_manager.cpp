@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            system_prompt_manager.cpp                          ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:50:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d135ff3ad9  2026-03-09  feat(prompt_engineering): implement ChainOfThoughtBuilder... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: system_prompt_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 223
+ * Open Issues: TODOs=1, Stubs=4, Gaps=6, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=6 | external_v3=44 | delta=38 | status=divergent
+ * External Severity (v3): C=7, H=33, M=4
+ * PR: #3581 docs(plugins, prompt_engineering): reality-check DoD for issues #35... (2026-03-12T07:36:05Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "prompt_engineering/system_prompt_manager.h"

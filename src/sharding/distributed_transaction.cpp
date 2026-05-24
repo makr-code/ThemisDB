@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_transaction.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     921                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 57edae2d81  2026-03-14  fix: address all PR review comments on Percolator coordin... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_transaction.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 957
+ * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=4 | external_v3=222 | delta=218 | status=divergent
+ * External Severity (v3): C=25, H=145, M=52
+ * PR: #4212 fix(chimera/percolator): repair Python SyntaxError in regression de... (2026-03-15T06:59:06Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB

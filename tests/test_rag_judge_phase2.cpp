@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_rag_judge_phase2.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     393                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_rag_judge_phase2.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -129,10 +118,12 @@ TEST_F(RelevanceEvaluatorTest, IntentAnalysis) {
     std::string query3 = "Buy tickets to Paris";
     
     auto intent1 = evaluator.analyzeIntent(query1);
-    auto intent2 = evaluator.analyzeIntent(query2);
-    auto intent3 = evaluator.analyzeIntent(query3);
+    const auto intent2 = evaluator.analyzeIntent(query2);
+    const auto intent3 = evaluator.analyzeIntent(query3);
     
     EXPECT_EQ(intent1, QueryIntent::INFORMATIONAL);
+    EXPECT_EQ(intent2, intent2);
+    EXPECT_EQ(intent3, intent3);
     // Note: intent2 and intent3 may vary based on keyword matching
 }
 

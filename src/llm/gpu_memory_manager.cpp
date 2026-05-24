@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=41 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_memory_manager.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   48.0/100                                       ║
-    • Total Lines:     1710                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_memory_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 1736
+ * Open Issues: TODOs=1, Stubs=4, Gaps=32, Unimpl=0, Mock=1, Sim=25, Debt=1
+ * Gap Correlation: internal=32 | external_v3=518 | delta=486 | status=divergent
+ * External Severity (v3): C=58, H=406, M=54
+ * PR: #379 Migrate critical error logging to structured error codes (Phase 1) (2026-03-11T21:28:11Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/gpu_memory_manager.h"
@@ -28,6 +16,7 @@
 #include <algorithm>
 #include <cstring>
 #include <unordered_set>
+#include <cmath>
 
 // Include actual CUDA headers when CUDA support is built
 #ifdef THEMIS_ENABLE_CUDA
@@ -229,7 +218,7 @@ void GPUMemoryManager::initializeGPU() {
         }
         
         // Query GPU properties
-        cudaDeviceProp prop;
+        cudaDeviceProp prop{};
         if (cudaGetDeviceProperties(&prop, gpu_device_id_) == cudaSuccess) {
             spdlog::info("GPU detected: {} (Compute {}.{})", 
                          prop.name, prop.major, prop.minor);
@@ -1327,6 +1316,16 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
     return true;
 }
 
+void GPUMemoryManager::setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    temperature_provider_fn_ = std::move(fn);
+}
+
+void GPUMemoryManager::clearGPUTemperatureProviderFn() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    temperature_provider_fn_ = nullptr;
+}
+
 // GPU Health Monitoring Implementation
 
 GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) const {
@@ -1687,6 +1686,11 @@ bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
     return false;
 }
 
+void GPUMemoryManager::setNVMLTemperatureFn(NVMLTemperatureFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    nvml_temperature_fn_ = std::move(fn);
+}
+
 void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     // This would typically query actual GPU hardware
 #ifdef THEMIS_ENABLE_CUDA
@@ -1722,6 +1726,32 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
         size_t used_mem = total_mem - free_mem;
         float utilization = static_cast<float>(used_mem) / total_mem * 100.0f;
         gpu_utilizations_[gpu_device_id] = utilization;
+
+        // Prefer injected runtime telemetry provider (e.g. NVML bridge).
+        float temperature = 45.0f + (utilization * 0.4f);  // Safe fallback estimate
+        GPUTemperatureProviderFn temperature_provider;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            temperature_provider = temperature_provider_fn_;
+        }
+        if (temperature_provider) {
+            try {
+                float provided_temp = temperature_provider(gpu_device_id);
+                if (std::isfinite(provided_temp) && provided_temp >= 0.0f) {
+                    temperature = provided_temp;
+                } else {
+                    spdlog::warn("GPUMemoryManager: Invalid temperature {} for GPU {}, using fallback",
+                                 provided_temp, gpu_device_id);
+                }
+            } catch (const std::exception& e) {
+                spdlog::error("GPUMemoryManager: Temperature provider failed for GPU {}: {}",
+                              gpu_device_id, e.what());
+            } catch (...) {
+                spdlog::error("GPUMemoryManager: Temperature provider failed for GPU {}: unknown error",
+                              gpu_device_id);
+            }
+        }
+        gpu_temperatures_[gpu_device_id] = temperature;
     }
 #else
     // Simulation mode - calculate based on allocations
@@ -1733,7 +1763,22 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     
     float utilization = calculateUtilization(used_vram, config_.max_vram_bytes) * 100.0f;
     gpu_utilizations_[gpu_device_id] = utilization;
-    gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
+    float temperature_celsius = 0.0f;
+    if (config_.temperature_provider_fn) {
+        try {
+            if (config_.temperature_provider_fn(gpu_device_id, temperature_celsius)) {
+                gpu_temperatures_[gpu_device_id] = temperature_celsius;
+            } else {
+                gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
+            }
+        } catch (const std::exception& e) {
+            spdlog::error("GPU temperature callback failed for device {}: {}",
+                          gpu_device_id, e.what());
+            gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
+        }
+    } else {
+        gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
+    }
 #endif
 }
 
@@ -1768,4 +1813,3 @@ void GPUMemoryManager::checkGPUHealth(int gpu_device_id) {
 
 } // namespace llm
 } // namespace themis
-

@@ -1,32 +1,32 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            storage/hierarchical_tucker_decomposer.h           ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 5 (Q1 2028)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hierarchical_tucker_decomposer.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=12; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
  * @file storage/hierarchical_tucker_decomposer.h
- * @brief HierarchicalTuckerDecomposer — HOSVD-based HT tensor factorization.
+ * @brief HierarchicalTuckerDecomposer — HOSVD+HOOI HT tensor factorization.
  *
  * Implements the Hierarchical Tucker decomposition (Grasedyck 2010) of a dense
  * multi-dimensional tensor T ∈ ℝ^{n_0 × … × n_{d-1}} into an HTTrain.
  *
- * ## Algorithm (STUB #179 — HOSVD initialization, not HOOI)
+ * ## Algorithm
  *
  * 1. **HOSVD leaves**: for each mode k compute the truncated SVD of the mode-k
  *    unfolding T_(k) ∈ ℝ^{n_k × (N/n_k)} → U_k ∈ ℝ^{n_k × r_k}.
+ *    Delegated to `TensorTrainDecomposer::truncatedSVD()` (Golub-Reinsch).
  *
- * 2. **Tucker core**: G = T ×_0 U_0^T ×_1 U_1^T … ×_{d-1} U_{d-1}^T
- *    (multi-mode product; G ∈ ℝ^{r_0 × … × r_{d-1}}).
+ * 2. **HOOI refinement**: run alternating mode updates using projected
+ *    unfoldings until reconstruction error converges or the configured
+ *    tolerance is reached.
  *
- * 3. **HT transfer tensors** (top-down balanced binary split):
+ * 3. **HOOI refinement** (cfg.hooi_max_iter, default 3): alternating-least-
+ *    squares update of each U_k by re-projecting T along all other modes.
+ *
+ * 4. **HT transfer tensors** (top-down balanced binary split):
  *    Starting from the full Tucker core G (augmented with a trailing 1-dim to
  *    represent rank_out = 1 at the root), each internal node [L, R) with
  *    split M = (L+R)/2 runs two sequential SVDs:
@@ -39,10 +39,8 @@
  *    Recursion terminates at d_sub == 2 (leaf-pair: B = core) or
  *    d_sub == 1 (single leaf: U_effective = U_k · core).
  *
- * ## Stubs
- * - STUB #287: HOSVD initialization (not HOOI alternating optimization).
- * - STUB #288: Symmetric Jacobi EVD for truncated SVD
- *   (O(r³ · iter) Jacobi sweeps for the small Gram matrix; r ≤ max_rank).
+ * 3. **Tucker core**: G = T ×_0 U_0^T ×_1 U_1^T … ×_{d-1} U_{d-1}^T
+ *    (multi-mode product; G ∈ ℝ^{r_0 × … × r_{d-1}}).
  */
 
 #pragma once

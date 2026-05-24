@@ -1,30 +1,16 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graphics_backends.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:44:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     317                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c1f421bf84  2026-04-13  OpenGL Compute Shader Backend: Complete 5 Remaining Stubs... ║
-    • b75cb7a1ea  2026-04-13  OpenGL Compute Shader Backend: Complete 5 Remaining Stubs... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graphics_backends.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=17; TODO=0, Stub=16, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "acceleration/compute_backend.h"
 #include "acceleration/metrics/backend_metrics.h"
+#include "themis_export.h"
 #include <functional>
 #include <memory>
 #include <mutex>
@@ -590,7 +576,7 @@ using GlslCompilerFn = std::function<
  *
  * Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
  */
-void setVulkanGlslCompilerFn(GlslCompilerFn fn);
+THEMIS_BASE_API void setVulkanGlslCompilerFn(GlslCompilerFn fn);
 
 } // namespace acceleration
 } // namespace themis

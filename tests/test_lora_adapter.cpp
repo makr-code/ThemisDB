@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_lora_adapter.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     757                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_lora_adapter.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -29,6 +18,7 @@
 #include <gtest/gtest.h>
 #include "llm/multi_lora_manager.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/lora_security_validator.h"
 #include <filesystem>
 #include <fstream>
 #include <thread>
@@ -746,6 +736,185 @@ TEST_F(LoRAAdapterUnitTest, QuantizationPreservesLoRAMetadata) {
     EXPECT_EQ(info->id, "meta-lora");
     EXPECT_EQ(info->base_model_id, "specific-model");
     EXPECT_FLOAT_EQ(info->scale, 0.8f);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Security Validator Integration Tests (v1.20.0)
+// ═══════════════════════════════════════════════════════════
+
+/**
+ * @brief Stub LoRASecurityValidator that unconditionally passes metadata checks.
+ *
+ * Used to verify that a passing validator does not block LoRA loading.
+ */
+class AlwaysPassValidator : public themis::llm::LoRASecurityValidator {
+public:
+    AlwaysPassValidator()
+        : themis::llm::LoRASecurityValidator(themis::llm::LoRASecurityConfig{}) {}
+
+    bool validateMetadata(const std::string& /*lora_path*/) {
+        return true;
+    }
+};
+
+/**
+ * @brief Stub LoRASecurityValidator that unconditionally fails metadata checks.
+ *
+ * Used to verify that a failing validator blocks LoRA loading when
+ * enforce_security_validation is true.
+ */
+class AlwaysFailValidator : public themis::llm::LoRASecurityValidator {
+public:
+    AlwaysFailValidator()
+        : themis::llm::LoRASecurityValidator(themis::llm::LoRASecurityConfig{}) {}
+
+    bool validateMetadata(const std::string& /*lora_path*/) {
+        return false;
+    }
+};
+
+class LoRASecurityValidatorIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        test_dir_ = std::filesystem::temp_directory_path() / "themis_sec_validator_test";
+        std::filesystem::create_directories(test_dir_);
+    }
+
+    void TearDown() override {
+        if (std::filesystem::exists(test_dir_)) {
+            std::filesystem::remove_all(test_dir_);
+        }
+    }
+
+    std::string createMockAdapter(const std::string& name, size_t size_bytes = 512) {
+        auto path = test_dir_ / (name + ".bin");
+        std::ofstream file(path, std::ios::binary);
+        for (size_t i = 0; i < size_bytes; ++i) {
+            file.put(static_cast<char>(i % 256));
+        }
+        file.close();
+        return path.string();
+    }
+
+    std::string createMockGGUFWithRank(const std::string& name, int rank) {
+        const auto path = test_dir_ / (name + ".gguf");
+        std::vector<uint8_t> buf;
+        auto append_raw = [&](const void* data, size_t size) {
+            const auto* p = static_cast<const uint8_t*>(data);
+            buf.insert(buf.end(), p, p + size);
+        };
+
+        buf.insert(buf.end(), {'G', 'G', 'U', 'F'});
+        uint32_t version = 3;
+        append_raw(&version, sizeof(version));
+        uint64_t tensor_count = 1;
+        append_raw(&tensor_count, sizeof(tensor_count));
+        uint64_t kv_count = 1;
+        append_raw(&kv_count, sizeof(kv_count));
+
+        const std::string rank_key = "lora.rank";
+        uint64_t rank_key_len = rank_key.size();
+        append_raw(&rank_key_len, sizeof(rank_key_len));
+        append_raw(rank_key.data(), rank_key.size());
+        uint32_t value_type_string = 8;  // GGUFValueType::STRING
+        append_raw(&value_type_string, sizeof(value_type_string));
+        const std::string rank_value = std::to_string(rank);
+        uint64_t rank_value_len = rank_value.size();
+        append_raw(&rank_value_len, sizeof(rank_value_len));
+        append_raw(rank_value.data(), rank_value.size());
+
+        const std::string tensor_name = "w.one";
+        uint64_t tensor_name_len = tensor_name.size();
+        append_raw(&tensor_name_len, sizeof(tensor_name_len));
+        append_raw(tensor_name.data(), tensor_name.size());
+        uint32_t n_dims = 1;
+        append_raw(&n_dims, sizeof(n_dims));
+        uint64_t dim = 1;
+        append_raw(&dim, sizeof(dim));
+        uint32_t tensor_type_f32 = 0;  // GGMLType::F32
+        append_raw(&tensor_type_f32, sizeof(tensor_type_f32));
+        uint64_t tensor_offset = 0;
+        append_raw(&tensor_offset, sizeof(tensor_offset));
+
+        const size_t aligned = ((buf.size() + 31) / 32) * 32;
+        buf.resize(aligned + sizeof(float), 0);
+
+        std::ofstream out(path, std::ios::binary);
+        out.write(reinterpret_cast<const char*>(buf.data()), static_cast<std::streamsize>(buf.size()));
+        out.close();
+        return path.string();
+    }
+
+    std::filesystem::path test_dir_;
+};
+
+/// LSV-01: When no security_validator is configured, loadLoRA succeeds normally.
+TEST_F(LoRASecurityValidatorIntegrationTest, NoValidatorAllowsLoRALoad) {
+    MultiLoRAManager::Config config;
+    config.max_lora_vram_mb = 512;
+    config.lora_base_dir = test_dir_.string();
+    // security_validator left as nullptr (default)
+
+    MultiLoRAManager manager(config);
+    auto adapter_path = createMockAdapter("no-validator-lora");
+    bool loaded = manager.loadLoRA("no-validator-lora", adapter_path, "base-model", 1.0f);
+    EXPECT_TRUE(loaded) << "loadLoRA must succeed when no security validator is configured";
+}
+
+/// LSV-02: When a passing security_validator is configured, loadLoRA succeeds.
+TEST_F(LoRASecurityValidatorIntegrationTest, PassingValidatorAllowsLoRALoad) {
+    MultiLoRAManager::Config config;
+    config.max_lora_vram_mb = 512;
+    config.lora_base_dir = test_dir_.string();
+    config.security_validator = std::make_shared<AlwaysPassValidator>();
+    config.enforce_security_validation = true;
+
+    MultiLoRAManager manager(config);
+    auto adapter_path = createMockAdapter("pass-validator-lora");
+    bool loaded = manager.loadLoRA("pass-validator-lora", adapter_path, "base-model", 1.0f);
+    EXPECT_TRUE(loaded) << "loadLoRA must succeed when security validator approves the adapter";
+}
+
+/// LSV-03: When a failing security_validator is configured and enforcement is enabled,
+///         loadLoRA must be rejected.
+TEST_F(LoRASecurityValidatorIntegrationTest, FailingValidatorEnforcedRejectsLoRALoad) {
+    MultiLoRAManager::Config config;
+    config.max_lora_vram_mb = 512;
+    config.lora_base_dir = test_dir_.string();
+    config.security_validator = std::make_shared<AlwaysFailValidator>();
+    config.enforce_security_validation = true;
+
+    MultiLoRAManager manager(config);
+    auto adapter_path = createMockAdapter("fail-validator-lora");
+    bool loaded = manager.loadLoRA("fail-validator-lora", adapter_path, "base-model", 1.0f);
+    EXPECT_FALSE(loaded) << "loadLoRA must be rejected when security validator fails and enforcement is enabled";
+}
+
+/// LSV-04: When a failing security_validator is configured but enforcement is disabled,
+///         loadLoRA logs a warning and continues (non-blocking).
+TEST_F(LoRASecurityValidatorIntegrationTest, FailingValidatorNotEnforcedAllowsLoRALoad) {
+    MultiLoRAManager::Config config;
+    config.max_lora_vram_mb = 512;
+    config.lora_base_dir = test_dir_.string();
+    config.security_validator = std::make_shared<AlwaysFailValidator>();
+    config.enforce_security_validation = false;  // warn-only mode
+
+    MultiLoRAManager manager(config);
+    auto adapter_path = createMockAdapter("fail-nonenforced-lora");
+    bool loaded = manager.loadLoRA("fail-nonenforced-lora", adapter_path, "base-model", 1.0f);
+    EXPECT_TRUE(loaded) << "loadLoRA must succeed when security validation failure is non-enforced (warn-only)";
+}
+
+/// IVB-01: GGUF rank extracted from metadata must respect bounds in loadLoRAInternal().
+TEST_F(LoRASecurityValidatorIntegrationTest, RejectsOutOfBoundsRankFromGGUFMetadata) {
+    MultiLoRAManager::Config config;
+    config.max_lora_vram_mb = 512;
+    config.lora_base_dir = test_dir_.string();
+
+    MultiLoRAManager manager(config);
+    auto adapter_path = createMockGGUFWithRank("rank-oob-lora", 9999);
+    bool loaded = manager.loadLoRA("rank-oob-lora", adapter_path, "base-model", 1.0f);
+    EXPECT_FALSE(loaded) << "loadLoRA must reject out-of-bounds LoRA rank extracted from GGUF metadata";
 }
 
 // ═══════════════════════════════════════════════════════════

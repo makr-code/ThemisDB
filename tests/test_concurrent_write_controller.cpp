@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_concurrent_write_controller.cpp               ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:53:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     612                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 58364e3a6b  2026-04-09  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_concurrent_write_controller.cpp | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -234,7 +220,10 @@ TEST_F(ConcurrentWriteControllerFocusedTests, QueueDepthLimitThrowsQueueFull) {
     std::this_thread::sleep_for(20ms);
 
     // A second waiter should get queue-full
-    EXPECT_THROW(wc.acquire(), std::runtime_error);
+    EXPECT_THROW({
+        auto guard = wc.acquire();
+        static_cast<void>(guard);
+    }, std::runtime_error);
 
     g1.release(); // unblock the waiting thread
     EXPECT_TRUE(f_ok.get());
@@ -252,7 +241,10 @@ TEST_F(ConcurrentWriteControllerFocusedTests, AcquireTimeoutFires) {
 
     auto g = wc.acquire(); // hold the only slot
 
-    EXPECT_THROW(wc.acquire(), std::runtime_error);
+    EXPECT_THROW({
+        auto guard = wc.acquire();
+        static_cast<void>(guard);
+    }, std::runtime_error);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -292,7 +284,10 @@ TEST_F(ConcurrentWriteControllerFocusedTests, PostShutdownAcquireThrows) {
     cfg.max_concurrent_writes = 2;
     ConcurrentWriteController wc(cfg);
     wc.shutdown();
-    EXPECT_THROW(wc.acquire(), std::runtime_error);
+    EXPECT_THROW({
+        auto guard = wc.acquire();
+        static_cast<void>(guard);
+    }, std::runtime_error);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -405,7 +400,10 @@ TEST_F(ConcurrentWriteControllerFocusedTests, StatsTotalRejectedOnQueueFull) {
     ConcurrentWriteController wc(cfg);
 
     auto g = wc.acquire();
-    EXPECT_THROW(wc.acquire(), std::runtime_error); // times out
+    EXPECT_THROW({
+        auto guard = wc.acquire();
+        static_cast<void>(guard);
+    }, std::runtime_error); // times out
     EXPECT_GE(wc.getStats().total_rejected, 1u);
 }
 

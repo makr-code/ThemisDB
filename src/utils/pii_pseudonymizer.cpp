@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pii_pseudonymizer.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d012eef80c  2026-03-10  feat(cache): implement 4 missing items from cache module ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pii_pseudonymizer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 302
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=99 | delta=96 | status=divergent
+ * External Severity (v3): C=6, H=75, M=18
+ * PR: #4263 PKIClient v1.8.0 + PII Streaming v0.9.0: Replace fallback stub veri... (2026-03-15T15:56:11Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/pii_pseudonymizer.h"
@@ -49,7 +37,8 @@ PIIPseudonymizer::PIIPseudonymizer(std::shared_ptr<themis::RocksDBWrapper> db,
         if (RAND_bytes(key_bytes.data(), static_cast<int>(key_bytes.size())) != 1) {
             throw std::runtime_error("Failed to generate random key for PII mapping");
         }
-        key_provider->createKeyFromBytes(key_id_, key_bytes);
+        [[maybe_unused]] const uint32_t created_version =
+            key_provider->createKeyFromBytes(key_id_, key_bytes);
     }
 }
 
@@ -307,7 +296,7 @@ size_t PIIPseudonymizer::eraseAllPIIForEntity(const std::string& entity_pk) {
     }
     
     // Delete entity index
-    db_->del(entityIndexKey(entity_pk));
+    static_cast<void>(db_->del(entityIndexKey(entity_pk)));
     
     return erased_count;
 }

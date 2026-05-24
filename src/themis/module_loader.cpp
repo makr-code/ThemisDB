@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=33 unimpl=14 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            module_loader.cpp                                  ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:51:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   80.0/100                                       ║
-    • Total Lines:     1981                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • dea1ebd8b3  2026-03-13  fix(base): address PluginBundleLoader review comments (Zi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: module_loader.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1967
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=417 | delta=414 | status=divergent
+ * External Severity (v3): C=9, H=346, M=62
+ * PR: #4746 Add Q2 2026 Waveâ€‘1 quality audit report, findings baseline, and r... (2026-04-21T16:46:30Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Platform-independent ModuleLoader implementation for ThemisDB.

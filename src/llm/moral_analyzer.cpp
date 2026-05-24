@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            moral_analyzer.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1377                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: moral_analyzer.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1363
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=325 | delta=322 | status=divergent
+ * External Severity (v3): C=4, H=187, M=134
+ * PR: #3629 [MODULE] llm â€“ build-system audit: register 16 missing sources, 2... (2026-03-12T07:39:34Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/moral_analyzer.h"
@@ -1293,8 +1280,8 @@ MoralAnalyzer::detectEthicalImplicationsViaLLM(
     InferenceEngineEnhanced::EnhancedInferenceRequest request;
     request.base_request.prompt = prompt.str();
     request.base_request.max_tokens = 500;
-    request.base_request.temperature = 0.3;  // Lower temperature for more focused analysis
-    request.base_request.top_p = 0.9;
+    request.base_request.temperature = 0.3f;  // Lower temperature for more focused analysis
+    request.base_request.top_p = 0.9f;
     request.priority = 5;  // Medium priority
     request.allow_caching = true;  // Cache similar scenario analyses
     

@@ -180,6 +180,77 @@ Audit method:
 - Issue templates: 66 (ready for GitHub import)
 - Categories scanned: Security, Memory, Reliability, Concurrency, RAII, Container Misuse, Platform Portability, Performance
 
+**GitHub Issue Tracking — Module Gap Remediation (2026-05-19):**
+
+Per-module Gap Remediation issues (7-phase workflow model):
+
+| Module | Issue | Gaps |
+|--------|-------|------|
+| acceleration | [#5257](https://github.com/makr-code/ThemisDB/issues/5257) | 6 |
+| ai | [#5267](https://github.com/makr-code/ThemisDB/issues/5267) | 6 |
+| analytics | [#5314](https://github.com/makr-code/ThemisDB/issues/5314) *(Phase 3)* | - |
+| api | [#5258](https://github.com/makr-code/ThemisDB/issues/5258) | 6 |
+| aql | [#5259](https://github.com/makr-code/ThemisDB/issues/5259) | 6 |
+| auth | [#5260](https://github.com/makr-code/ThemisDB/issues/5260) | 6 |
+| base | [#5261](https://github.com/makr-code/ThemisDB/issues/5261) | 6 |
+| cache | [#5262](https://github.com/makr-code/ThemisDB/issues/5262) | 6 |
+| cdc | [#5263](https://github.com/makr-code/ThemisDB/issues/5263) | 6 |
+| chimera | [#5264](https://github.com/makr-code/ThemisDB/issues/5264) | 6 |
+| config | [#5265](https://github.com/makr-code/ThemisDB/issues/5265) | 6 |
+| content | [#5254](https://github.com/makr-code/ThemisDB/issues/5254) *(P0-CRITICAL)* · [#5315](https://github.com/makr-code/ThemisDB/issues/5315) *(Phase 3)* | 4,647 |
+| core | [#5266](https://github.com/makr-code/ThemisDB/issues/5266) | 6 |
+| chaos | [#5268](https://github.com/makr-code/ThemisDB/issues/5268) | 6 |
+| distributed_knowledge | [#5270](https://github.com/makr-code/ThemisDB/issues/5270) | 6 |
+| document | [#5271](https://github.com/makr-code/ThemisDB/issues/5271) | 6 |
+| ethics_ai | [#5272](https://github.com/makr-code/ThemisDB/issues/5272) | 6 |
+| exporters | [#5273](https://github.com/makr-code/ThemisDB/issues/5273) | 6 |
+| failover | [#5274](https://github.com/makr-code/ThemisDB/issues/5274) | 6 |
+| geo | [#5275](https://github.com/makr-code/ThemisDB/issues/5275) | 6 |
+| governance | [#5276](https://github.com/makr-code/ThemisDB/issues/5276) | 6 |
+| gpu | [#5277](https://github.com/makr-code/ThemisDB/issues/5277) | 6 |
+| graph | [#5278](https://github.com/makr-code/ThemisDB/issues/5278) | 6 |
+| importers | [#5279](https://github.com/makr-code/ThemisDB/issues/5279) | 6 |
+| index | [#5249](https://github.com/makr-code/ThemisDB/issues/5249) *(P0-CRITICAL)* · [#5316](https://github.com/makr-code/ThemisDB/issues/5316) *(Phase 3)* | 8,770 |
+| ingestion | [#5280](https://github.com/makr-code/ThemisDB/issues/5280) | 6 |
+| llama_cpp | [#5281](https://github.com/makr-code/ThemisDB/issues/5281) | 6 |
+| llm | [#5245](https://github.com/makr-code/ThemisDB/issues/5245) *(P0-CRITICAL)* · [#5317](https://github.com/makr-code/ThemisDB/issues/5317) *(Phase 3)* | 24,394 |
+| maintenance | [#5284](https://github.com/makr-code/ThemisDB/issues/5284) | 6 |
+| metadata | [#5285](https://github.com/makr-code/ThemisDB/issues/5285) | 6 |
+| network | [#5286](https://github.com/makr-code/ThemisDB/issues/5286) | 6 |
+| observability | [#5287](https://github.com/makr-code/ThemisDB/issues/5287) | 6 |
+| onnx_clip | [#5288](https://github.com/makr-code/ThemisDB/issues/5288) | 6 |
+| performance | [#5289](https://github.com/makr-code/ThemisDB/issues/5289) | 6 |
+| plugins | [#5290](https://github.com/makr-code/ThemisDB/issues/5290) | 6 |
+| process | [#5291](https://github.com/makr-code/ThemisDB/issues/5291) | 6 |
+| projects | [#5292](https://github.com/makr-code/ThemisDB/issues/5292) | 6 |
+| prompt_engineering | [#5293](https://github.com/makr-code/ThemisDB/issues/5293) | 6 |
+| query | [#5247](https://github.com/makr-code/ThemisDB/issues/5247) *(P0-CRITICAL)* · [#5318](https://github.com/makr-code/ThemisDB/issues/5318) *(Phase 3)* | 15,413 |
+| rag | [#5252](https://github.com/makr-code/ThemisDB/issues/5252) *(P0-CRITICAL)* · [#5319](https://github.com/makr-code/ThemisDB/issues/5319) *(Phase 3)* | 6,402 |
+| replication | [#5294](https://github.com/makr-code/ThemisDB/issues/5294) | 6 |
+| rpc_grpc | [#5295](https://github.com/makr-code/ThemisDB/issues/5295) | 6 |
+| scheduler | [#5296](https://github.com/makr-code/ThemisDB/issues/5296) | 6 |
+| scraper | [#5297](https://github.com/makr-code/ThemisDB/issues/5297) | 6 |
+| search | [#5298](https://github.com/makr-code/ThemisDB/issues/5298) | 6 |
+| security | [#5253](https://github.com/makr-code/ThemisDB/issues/5253) *(P0-CRITICAL)* · [#5320](https://github.com/makr-code/ThemisDB/issues/5320) *(Phase 3)* | 5,037 |
+| server | [#5246](https://github.com/makr-code/ThemisDB/issues/5246) *(P0-CRITICAL)* · [#5321](https://github.com/makr-code/ThemisDB/issues/5321) *(Phase 3)* | 19,059 |
+| sharding | [#5248](https://github.com/makr-code/ThemisDB/issues/5248) *(P0-CRITICAL)* · [#5322](https://github.com/makr-code/ThemisDB/issues/5322) *(Phase 3)* | 11,012 |
+| stable_diffusion | [#5299](https://github.com/makr-code/ThemisDB/issues/5299) | 6 |
+| storage | [#5250](https://github.com/makr-code/ThemisDB/issues/5250) *(P0-CRITICAL)* · [#5323](https://github.com/makr-code/ThemisDB/issues/5323) *(Phase 3)* | 7,481 |
+| temporal | [#5300](https://github.com/makr-code/ThemisDB/issues/5300) | 6 |
+| tensor | [#5301](https://github.com/makr-code/ThemisDB/issues/5301) | 6 |
+| themis | [#5302](https://github.com/makr-code/ThemisDB/issues/5302) | 6 |
+| timeseries | [#5303](https://github.com/makr-code/ThemisDB/issues/5303) | 6 |
+| toolbox | [#5304](https://github.com/makr-code/ThemisDB/issues/5304) | 6 |
+| training | [#5305](https://github.com/makr-code/ThemisDB/issues/5305) | 6 |
+| transaction | [#5306](https://github.com/makr-code/ThemisDB/issues/5306) | 6 |
+| updates | [#5307](https://github.com/makr-code/ThemisDB/issues/5307) | 6 |
+| user_storage_encrypted | [#5308](https://github.com/makr-code/ThemisDB/issues/5308) | 6 |
+| utils | [#5309](https://github.com/makr-code/ThemisDB/issues/5309) | 6 |
+| voice | [#5310](https://github.com/makr-code/ThemisDB/issues/5310) | 6 |
+| whisper | [#5311](https://github.com/makr-code/ThemisDB/issues/5311) | 6 |
+
+**Phase 1-5 Meta Scanner Issue:** [#5231](https://github.com/makr-code/ThemisDB/issues/5231) — 193,858 Security & Code Quality Gaps (all 65 modules)
+
 ---
 
 ## ⚠️ CRITICAL RISK AREAS — DO NOT USE IN PRODUCTION
@@ -283,11 +354,11 @@ Audit method:
 - 📂 Location: `ai_working/` + `ai_working/clustered_issues/`
 
 **Next Steps:**
-1. **Phase 6 Planning (Q4 2026):** Design 5 additional scanners (API Contracts, UB Catalog, Templates, Const-Correctness, Macro Safety)
-2. **Scanner Improvements:** Add 12 new patterns to existing Phase 1-4 scanners (Security +5, Memory +4, Concurrency +3)
-3. **GitHub Integration:** Create 66+ issues from templates when approved
-4. **Roadmap Integration:** Map Phase 1-5 gaps to milestone priorities (v1.9.0–v2.1.0+)
-5. **CI/CD Setup:** Automated gap scanning in GitHub Actions
+1. **Review:** ✅ Generated issue templates reviewed in `ai_working/clustered_issues/`
+2. **Validate:** ✅ Categorization and gap accuracy confirmed
+3. **GitHub Import:** ✅ Per-module Gap Remediation issues created (#5257–#5311); P0-CRITICAL module issues created (#5245–#5254); Phase 3 Code Generation issues created (#5314–#5323); 13 clustered META/MOD/GROUP issues pending (run `ai_working/clustered_issues/create_issues.sh`)
+4. **Roadmap Integration:** 🚧 Map gaps to milestone priorities (v1.9.0–v2.1.0) — in progress
+5. **Assignment:** 📋 Distribute issues to team members with effort estimates — pending
 
 **Phase 1-5 Scanner Suite Details:**
 - Phase 1-4 Scanners: Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance (1,680 LOC)

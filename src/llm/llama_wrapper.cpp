@@ -1,27 +1,12 @@
-// THEMIS_GAP_STATS: gaps=24 unimpl=11 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llama_wrapper.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   39.0/100                                       ║
-    • Total Lines:     2924                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • df59ab8148  2026-04-12  feat(llm): promote llama_wrapper, multi_lora_manager, pro... ║
-    • dd98ecc0e0  2026-04-06  Add server crash error log for model loading and tensor i... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llama_wrapper.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 3009
+ * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=4 | external_v3=888 | delta=884 | status=divergent
+ * External Severity (v3): C=84, H=709, M=95
+ * PR: #379 Migrate critical error logging to structured error codes (Phase 1) (2026-03-11T21:28:11Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/llama_wrapper.h"
@@ -91,6 +76,20 @@ extern "C" {
 
 namespace themis {
 namespace llm {
+
+namespace {
+constexpr int DEFAULT_MAX_GENERATION_TOKENS = 512;
+
+int resolveMaxTokensWithContextCap(int requested_max_tokens, int context_limit, bool& was_capped) {
+    int resolved = requested_max_tokens > 0 ? requested_max_tokens : DEFAULT_MAX_GENERATION_TOKENS;
+    was_capped = false;
+    if (context_limit > 0 && resolved > context_limit) {
+        resolved = context_limit;
+        was_capped = true;
+    }
+    return resolved;
+}
+}  // namespace
 
 // ═══════════════════════════════════════════════════════════
 // Configuration Validation
@@ -1038,7 +1037,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         }
         
         // 3. Prepare batch for prompt evaluation
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
         
         // 3. Evaluate prompt (populate KV cache)
         if (llama_decode(lctx, batch) != 0) {
@@ -1047,7 +1046,12 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // 4. Generate tokens
         std::vector<llama_token> generated_tokens;
-        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
+        bool max_tokens_capped = false;
+        int max_tokens = resolveMaxTokensWithContextCap(request.max_tokens, config_.n_ctx, max_tokens_capped);
+        if (max_tokens_capped) {
+            spdlog::warn("Requested max_tokens={} exceeds context limit n_ctx={}, capping generation to {}",
+                         request.max_tokens, config_.n_ctx, max_tokens);
+        }
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
@@ -1250,6 +1254,99 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     }
 }
 
+ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
+    const InferenceRequest& request,
+    size_t k,
+    size_t vocab_size_hint
+) {
+    if (k == 0) {
+        throw std::invalid_argument("generateDraftTokens requires k > 0");
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (current_model_id_.empty() && !configured_model_id_.empty()) {
+        current_model_id_ = configured_model_id_;
+    }
+    if (current_model_path_.empty() && !configured_model_path_.empty()) {
+        current_model_path_ = configured_model_path_;
+    }
+    if (current_model_id_.empty()) {
+        throw std::runtime_error("No model loaded for draft token generation");
+    }
+
+    auto* cached = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
+    if (!cached) {
+        throw std::runtime_error("Model failed to load for draft token generation");
+    }
+
+    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
+    auto* lctx   = reinterpret_cast<llama_context*>(cached->context_handle);
+    if (!lmodel || !lctx) {
+        throw std::runtime_error("Model/context not initialized for draft token generation");
+    }
+
+    auto prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
+
+    llama_memory_t mem = llama_get_memory(lctx);
+    if (mem) {
+        llama_memory_seq_rm(mem, 0, -1, -1);
+    }
+
+    llama_batch prompt_batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
+    if (llama_decode(lctx, prompt_batch) != 0) {
+        throw std::runtime_error("Failed to evaluate prompt for draft token generation");
+    }
+
+    const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+    const int32_t n_vocab = llama_vocab_n_tokens(vocab);
+    const llama_token eos_token = llama_vocab_eos(vocab);
+    const size_t produced_vocab_size = static_cast<size_t>(n_vocab);
+    if (vocab_size_hint > 0 && vocab_size_hint != produced_vocab_size) {
+        spdlog::debug(
+            "generateDraftTokens: vocab_size_hint={} differs from model vocab={} (using model vocab)",
+            vocab_size_hint, produced_vocab_size);
+    }
+
+    const float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
+    const float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
+
+    ILLMPlugin::DraftTokensResult result;
+    result.vocab_size = produced_vocab_size;
+    result.tokens.reserve(k);
+    result.logits.reserve(k);
+
+    for (size_t i = 0; i < k; ++i) {
+        float* logits_ptr = llama_get_logits_ith(lctx, -1);
+        if (!logits_ptr) {
+            throw std::runtime_error("llama_get_logits_ith returned null");
+        }
+
+        std::vector<float> logit_row(produced_vocab_size, 0.0f);
+        for (size_t j = 0; j < produced_vocab_size; ++j) {
+            logit_row[j] = logits_ptr[j];
+        }
+
+        const llama_token next_token = sampleTokenInternal(
+            lctx, lmodel, logits_ptr, n_vocab, temperature, top_p, nullptr);
+
+        result.tokens.push_back(static_cast<int>(next_token));
+        result.logits.push_back(std::move(logit_row));
+
+        llama_token next_token_batch = next_token;
+        llama_batch next_batch = llama_batch_get_one(&next_token_batch, 1);
+        if (llama_decode(lctx, next_batch) != 0) {
+            throw std::runtime_error("Failed to decode draft token");
+        }
+
+        if (next_token == eos_token) {
+            break;
+        }
+    }
+
+    return result;
+}
+
 InferenceResponse LlamaWrapper::generateRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request
@@ -1307,7 +1404,7 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
         std::vector<llama_token> tokens = tokenizeInternal(lmodel, text, true);
         
         // 2. Prepare batch for evaluation
-        llama_batch batch = llama_batch_get_one(tokens.data(), tokens.size());
+        llama_batch batch = llama_batch_get_one(tokens.data(), static_cast<int32_t>(tokens.size()));
         
         // 3. Evaluate to generate embeddings
         if (llama_decode(lctx, batch) != 0) {
@@ -2138,7 +2235,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         }
         
         // 2. Evaluate prompt in both models
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
         if (llama_decode(target_context, batch) != 0) {
             throw std::runtime_error("Failed to evaluate prompt in target model");
         }
@@ -2152,7 +2249,12 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
         llama_token eos_token = llama_vocab_eos(vocab);
         
-        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
+        bool max_tokens_capped = false;
+        int max_tokens = resolveMaxTokensWithContextCap(request.max_tokens, config_.n_ctx, max_tokens_capped);
+        if (max_tokens_capped) {
+            spdlog::warn("Requested max_tokens={} exceeds context limit n_ctx={}, capping generation to {}",
+                         request.max_tokens, config_.n_ctx, max_tokens);
+        }
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
@@ -2386,14 +2488,19 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             llama_memory_seq_rm(mem, 0, -1, -1);
         }
 
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
         
         if (llama_decode(lctx, batch) != 0) {
             throw std::runtime_error("Failed to evaluate prompt");
         }
         
         std::vector<llama_token> generated_tokens;
-        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
+        bool max_tokens_capped = false;
+        int max_tokens = resolveMaxTokensWithContextCap(request.max_tokens, config_.n_ctx, max_tokens_capped);
+        if (max_tokens_capped) {
+            spdlog::warn("Requested max_tokens={} exceeds context limit n_ctx={}, capping generation to {}",
+                         request.max_tokens, config_.n_ctx, max_tokens);
+        }
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
@@ -3022,6 +3129,5 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
 
 } // namespace llm
 } // namespace themis
-
 
 

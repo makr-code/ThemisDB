@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mqtt_client_service.h                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:47:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     581                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8d4df392df  2026-04-11  feat(server): MQTT client TLS support via THEMIS_ENABLE_M... ║
-    • 21fb5b70f6  2026-03-27  Add CMake source coverage audit workflow and baseline script ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mqtt_client_service.h | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -208,13 +193,13 @@ public:
      * @brief Called once the CONNACK is received and the session is live.
      * @param client_id  The effective client ID used for this session.
      */
-    virtual void onConnected(const std::string& client_id) noexcept {}
+    virtual void onConnected([[maybe_unused]] const std::string&) noexcept {}
 
     /**
      * @brief Called when the connection is lost or cleanly closed.
      * @param reason  Human-readable reason string.
      */
-    virtual void onDisconnected(const std::string& reason) noexcept {}
+    virtual void onDisconnected([[maybe_unused]] const std::string&) noexcept {}
 };
 
 // ── CDC → MQTT transport ──────────────────────────────────────────────────────

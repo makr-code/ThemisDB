@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_server.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2342                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c4ae3846c4  2026-03-15  feat(network): implement ProcessGraphVisitLog and getVisi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 81/100 | Lines: 2626
+ * Open Issues: TODOs=2, Stubs=4, Gaps=10, Unimpl=1, Mock=1, Sim=1, Debt=1
+ * Gap Correlation: internal=10 | external_v3=632 | delta=622 | status=divergent
+ * External Severity (v3): C=42, H=455, M=135
+ * PR: #3145 [themis] Move wire protocol server to new location (Phase 3) (2026-03-12T06:24:06Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Wire Protocol Server Implementation
@@ -34,6 +22,7 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 #include "index/process_graph.h"
+#include "index/spatial_index.h"
 #include "transaction/transaction_manager.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
@@ -121,7 +110,18 @@ uint32_t crc32Update(uint32_t crc, const uint8_t* data, size_t len) {
 
 json parsePayloadJson(const std::vector<uint8_t>& payload_buffer);
 
+// ---------------------------------------------------------------------------
+// GEO_QUERY injection bridge globals (stub #284 replacement)
+// ---------------------------------------------------------------------------
+std::mutex         g_network_geo_fn_mutex;
+GeoQueryFn         g_network_geo_query_fn;
+
 } // anonymous namespace
+
+void setNetworkGeoQueryFn(GeoQueryFn fn) {
+    std::lock_guard<std::mutex> lock(g_network_geo_fn_mutex);
+    g_network_geo_query_fn = std::move(fn);
+}
 
 // =============================================================================
 // WireProtocolServer Implementation
@@ -2036,15 +2036,14 @@ void WireProtocolServer::Session::handleGeoQuery() {
 
         // Fallback: geo index not yet integrated with the wire protocol transport.
         json response;
-        response["success"] = false;
+        response["success"]    = false;
         response["error_code"] = "GEO_NOT_INTEGRATED";
-        response["error"] = "Geospatial query execution is not yet integrated in the wire protocol. "
-                            "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.";
+        response["error"]      = "Geospatial query execution is not yet integrated in the wire protocol. "
+                                 "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.";
         response["collection"] = collection;
 
-        std::string response_str = response.dump();
-        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
-        asyncWriteResponse(response_data);
+        const std::string response_str = response.dump();
+        asyncWriteResponse(std::vector<uint8_t>(response_str.begin(), response_str.end()));
     } catch (const json::exception& e) {
         sendError(400, std::string("Invalid JSON in GEO_QUERY payload: ") + e.what());
     } catch (const std::exception& e) {

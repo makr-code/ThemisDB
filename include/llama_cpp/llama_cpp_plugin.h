@@ -1,26 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llama_cpp_plugin.h                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:45:23                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     160                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • df59ab8148  2026-04-12  feat(llm): promote llama_wrapper, multi_lora_manager, pro... ║
-    • f0f3ecebde  2026-04-11  feat(llama_cpp): v2.1.0 — streaming, batch inference, Plu... ║
-    • 7b80a66e02  2026-04-07  fix(llama_cpp): align LlamaCppPlugin with ILLMPlugin inte... ║
-    • 01a86c4f10  2026-04-07  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llama_cpp_plugin.h | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=14; TODO=1, Stub=12, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -85,6 +68,28 @@ public:
     llm::InferenceResponse generateRAG(const llm::RAGContext& rag_context,
                                         const llm::InferenceRequest& request) override;
     std::vector<float> embed(const std::string& text) override;
+    
+    /**
+     * @brief Generate K draft tokens with per-token logit distributions.
+     *
+     * Phase 2 Implementation: Real draft-logit pipeline using llama_get_logits()
+     * from the underlying llama.cpp context. Returns actual logit distributions
+     * for speculative decoding verification.
+     *
+     * When @p k is 0 the function returns an empty result immediately without
+     * acquiring any significant resources.  @p vocab_size_hint values exceeding
+     * 65 536 are capped to bound memory allocation in stub/fallback mode.
+     *
+     * @param request        Inference request (prompt + generation parameters).
+     * @param k              Number of draft tokens to produce (0 is valid).
+     * @param vocab_size_hint Expected vocabulary size; 32000 used as fallback
+     *                       and capped in stub/fallback mode to bound memory usage.
+     * @return DraftTokensResult with k tokens and k logit rows (empty when k==0).
+     */
+    llm::ILLMPlugin::DraftTokensResult generateDraftTokens(
+        const llm::InferenceRequest& request,
+        size_t                       k,
+        size_t                       vocab_size_hint) override;
 
     llm::LLMCapabilities getCapabilities() const override;
     json getMemoryStats() const override;

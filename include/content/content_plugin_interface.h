@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            content_plugin_interface.h                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:44:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     491                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: content_plugin_interface.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -88,7 +77,7 @@ struct GeoExtractionData {
     std::vector<std::pair<double, double>> coordinates;  // lat, lon pairs
     std::string crs;                                      // e.g., "EPSG:4326"
     json properties;
-    std::array<double, 4> bounds;                         // minX, minY, maxX, maxY
+    std::array<double, 4> bounds = {};                    ///< minX, minY, maxX, maxY (zero-initialised; CON-023)
     std::string geometry_type;                            // Point, LineString, Polygon, etc.
 };
 
@@ -120,8 +109,8 @@ struct CADExtractionData {
     std::vector<std::string> part_ids;
     json assembly_tree;
     json bill_of_materials;
-    std::array<double, 3> bounding_box_min;
-    std::array<double, 3> bounding_box_max;
+    std::array<double, 3> bounding_box_min = {};  ///< AABB minimum corner (CON-024)
+    std::array<double, 3> bounding_box_max = {};  ///< AABB maximum corner (CON-024)
     double volume = 0.0;
     double surface_area = 0.0;
     int part_count = 0;
@@ -345,7 +334,7 @@ public:
      * @param text Text to embed
      * @return Embedding vector
      */
-    virtual std::vector<float> generateEmbedding([[maybe_unused]] const std::string& text) {
+    [[nodiscard]] virtual std::vector<float> generateEmbedding([[maybe_unused]] const std::string& text) {
         return {};
     }
     
@@ -363,7 +352,7 @@ public:
      * 
      * Returns statistics about plugin usage (documents processed, errors, etc.)
      */
-    virtual json getStatistics() const {
+    [[nodiscard]] virtual json getStatistics() const {
         return json::object();
     }
 };

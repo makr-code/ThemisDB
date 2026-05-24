@@ -1,28 +1,12 @@
-// THEMIS_GAP_STATS: gaps=14 unimpl=0 stub=4 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            backup_manager.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     1794                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
-    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: backup_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 2438
+ * Open Issues: TODOs=1, Stubs=14, Gaps=20, Unimpl=0, Mock=1, Sim=4, Debt=0
+ * Gap Correlation: internal=20 | external_v3=515 | delta=495 | status=divergent
+ * External Severity (v3): C=21, H=422, M=72
+ * PR: #4746 Add Q2 2026 Waveâ€‘1 quality audit report, findings baseline, and r... (2026-04-21T16:46:30Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/backup_manager.h"
@@ -1392,7 +1376,8 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
 }
 
 bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
-                                const std::string& key, std::error_code& ec) {
+                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
+    static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
     // AES-256-GCM encryption.  File format:
     //   [4 bytes magic "TENC"] [12 bytes IV] [ciphertext] [16 bytes GCM tag]
@@ -1468,6 +1453,7 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
     }
     return true;
 #else
+    static_cast<void>(key);
     static std::once_flag s_encrypt_warn;
     std::call_once(s_encrypt_warn, [] {
         THEMIS_WARN("BackupManager::encryptFile: STUB — files will be copied without "
@@ -1492,7 +1478,8 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
 }
 
 bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
-                                const std::string& key, std::error_code& ec) {
+                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
+    static_cast<void>(key);
 #ifdef THEMIS_ENABLE_OPENSSL
     // AES-256-GCM decryption — mirrors encryptFile() format:
     //   [4 bytes magic "TENC"] [12 bytes IV] [ciphertext] [16 bytes GCM tag]
@@ -1578,6 +1565,7 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
     out.write(reinterpret_cast<const char*>(plain.data()), outl + finl);
     return true;
 #else
+    static_cast<void>(key);
     static std::once_flag s_decrypt_warn;
     std::call_once(s_decrypt_warn, [] {
         THEMIS_WARN("BackupManager::decryptFile: STUB — files will be copied without "
@@ -1852,6 +1840,10 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
 
 void BackupManager::setWalReplayFn(WalReplayFn fn) {
     wal_replay_fn_ = std::move(fn);
+}
+
+void BackupManager::setCfSstIngestFn(CfSstIngestFn fn) {
+    cf_sst_ingest_fn_ = std::move(fn);
 }
 
 bool BackupManager::restoreCollections(const std::string& src_dir,

@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            xdomea_connector.h                                 ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:44:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     547                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • 22632f4ef2  2026-03-24  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: xdomea_connector.h | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -505,8 +490,8 @@ private:
         for (char c : s) {
             switch (c) {
                 case '&':  out += "&amp;";  break;
-                case '<':  out += "<";   break;
-                case '>':  out += ">";   break;
+                case '<':  out += "&lt;";   break;
+                case '>':  out += "&gt;";   break;
                 case '"':  out += "&quot;"; break;
                 case '\'': out += "&apos;"; break;
                 default:   out += c;        break;

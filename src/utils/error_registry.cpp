@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            error_registry.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     1784                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • be815fa144  2026-04-15  feat(document): IDocumentStore, IDocumentManager, lifecyc... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: error_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1770
+ * Open Issues: TODOs=1, Stubs=3, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=5 | external_v3=74 | delta=69 | status=divergent
+ * External Severity (v3): C=2, H=26, M=45
+ * PR: #5152 Research review rewrite: ERROR_AWARENESS_AND_INTROSPECTION (evidenc... (2026-05-14T07:52:37Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/error_registry.h"

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_schema_manager.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1012                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_schema_manager.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -29,6 +18,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
+#include "index/secondary_index_metadata_cache.h"
 
 using namespace themis;
 
@@ -44,6 +34,8 @@ static std::string makeTempDbPath(const std::string& name) {
 class SchemaManagerTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        SecondaryIndexMetadataCache::instance().clear();
+
         // Create temporary database
         RocksDBWrapper::Config cfg;
         cfg.db_path = makeTempDbPath("test_schema_mgr_");
@@ -60,6 +52,8 @@ protected:
         if (db_) {
             db_->close();
         }
+
+        SecondaryIndexMetadataCache::instance().clear();
         
         // Clean up temporary files
         // (filesystem cleanup is automatic on temp directory)
@@ -831,7 +825,6 @@ TEST_F(SchemaManagerTest, CustomSchemaOverridesDiscovered) {
     // Get discovered schema
     auto discovered = schema_mgr.getTable("users");
     ASSERT_TRUE(discovered.has_value());
-    auto discovered_prop_count = discovered->properties.size();
     
     // Create custom schema with different properties
     SchemaManager::TableSchema custom_schema;

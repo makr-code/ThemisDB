@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=42 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            nccl_backend.cpp                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     357                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: nccl_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 342
+ * Open Issues: TODOs=1, Stubs=1, Gaps=7, Unimpl=0, Mock=1, Sim=4, Debt=0
+ * Gap Correlation: internal=7 | external_v3=58 | delta=51 | status=divergent
+ * External Severity (v3): C=0, H=57, M=1
+ * PR: #578 [LoRA Phase 10.5] Implement Multi-GPU Training Support (2026-03-11T18:14:05Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/nccl_backend.h"
@@ -191,7 +178,9 @@ bool NCCLBackend::allreduce(GPUTensor& tensor, bool average) {
     return allreduce(tensors, average);
 }
 
-bool NCCLBackend::broadcast(GPUTensor& tensor, [[maybe_unused]] int root) {
+bool NCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]] int root) {
+    static_cast<void>(tensor);
+    static_cast<void>(root);
     if (!initialized_) {
         spdlog::error("NCCLBackend not initialized");
         return false;
@@ -243,7 +232,7 @@ void NCCLBackend::barrier() {
     float dummy = 0.0f;
     cudaStream_t stream = static_cast<cudaStream_t>(cuda_stream_);
     
-    ncclAllReduce(
+    ncclResult_t result = ncclAllReduce(
         &dummy,
         &dummy,
         1,
@@ -252,6 +241,10 @@ void NCCLBackend::barrier() {
         nccl_comm_,
         stream
     );
+    
+    if (result != ncclSuccess) {
+        spdlog::error("NCCL barrier allreduce failed: {}", ncclGetErrorString(result));
+    }
     
     cudaStreamSynchronize(stream);
 #endif

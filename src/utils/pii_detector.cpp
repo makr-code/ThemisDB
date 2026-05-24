@@ -1,39 +1,74 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pii_detector.cpp                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     535                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pii_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 522
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=154 | delta=151 | status=divergent
+ * External Severity (v3): C=9, H=122, M=23
+ * PR: #2983 fix(auth): redact PII in authentication log statements (2026-03-11T16:34:08Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "utils/pii_detector.h"
 #include "utils/pii_detection_engine.h"
 #include "config/config_path_resolver.h"
 #include <algorithm>
+#include <charconv>
+#include <cctype>
+#include <cstdlib>
 #include <fstream>
 #include <yaml-cpp/yaml.h>
 #include <filesystem>
 #include <spdlog/spdlog.h>
 
-namespace themis {
-namespace utils {
+namespace {
 
-PIIDetector::PIIDetector(const std::string& config_path, 
+bool isBooleanLiteral(const std::string& value, bool& parsed) {
+    std::string normalized;
+    normalized.reserve(value.size());
+    for (const unsigned char ch : value) {
+        normalized.push_back(static_cast<char>(std::tolower(ch)));
+    }
+
+    if (normalized == "true") {
+        parsed = true;
+        return true;
+    }
+
+    if (normalized == "false") {
+        parsed = false;
+        return true;
+    }
+
+    return false;
+}
+
+bool tryParseInt(const std::string& value, int& parsed) {
+    const char* begin = value.data();
+    const char* end = begin + value.size();
+    auto [ptr, ec] = std::from_chars(begin, end, parsed);
+    return ec == std::errc{} && ptr == end;
+}
+
+bool tryParseDouble(const std::string& value, double& parsed) {
+    char* end_ptr = nullptr;
+    const double parsed_value = std::strtod(value.c_str(), &end_ptr);
+    if (end_ptr != value.c_str() + value.size()) {
+        return false;
+    }
+
+    parsed = parsed_value;
+    return true;
+}
+
+} // namespace
+
+namespace themis::utils {
+
+PIIDetector::PIIDetector(std::string config_path,
                          std::shared_ptr<VCCPKIClient> pki_client)
-    : config_path_(config_path)
-    , pki_client_(pki_client)
+    : config_path_(std::move(config_path))
+    , pki_client_(std::move(pki_client))
     , default_redaction_mode_("strict") {
     
     // Try loading from YAML
@@ -47,7 +82,7 @@ PIIDetector::PIIDetector(const std::string& config_path,
 }
 
 bool PIIDetector::reload(const std::string& config_path) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::scoped_lock lock(mutex_);
     
     std::string path = config_path.empty() ? config_path_ : config_path;
     
@@ -73,28 +108,30 @@ bool PIIDetector::reload(const std::string& config_path) {
 }
 
 void PIIDetector::setPKIClient(std::shared_ptr<VCCPKIClient> pki_client) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::scoped_lock lock(mutex_);
     pki_client_ = pki_client;
 }
 
 bool PIIDetector::isPKIVerificationEnabled() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::scoped_lock lock(mutex_);
     return pki_client_ != nullptr;
 }
 
 std::string PIIDetector::getLastError() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::scoped_lock lock(mutex_);
     return last_error_;
 }
 
 std::vector<PIIFinding> PIIDetector::detectInText(const std::string& text) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::scoped_lock lock(mutex_);
     
     std::vector<PIIFinding> all_findings;
     
     // Run all enabled engines
     for (const auto& engine : engines_) {
-        if (!engine->isEnabled()) continue;
+        if (!engine->isEnabled()) {
+            continue;
+        }
         
         try {
             auto engine_findings = engine->detectInText(text);
@@ -119,11 +156,13 @@ std::unordered_map<std::string, std::vector<PIIFinding>> PIIDetector::detectInJs
 }
 
 PIIType PIIDetector::classifyFieldName(const std::string& field_name) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::scoped_lock lock(mutex_);
     
     // Query all engines, return first non-UNKNOWN result
     for (const auto& engine : engines_) {
-        if (!engine->isEnabled()) continue;
+        if (!engine->isEnabled()) {
+            continue;
+        }
         
         PIIType type = engine->classifyFieldName(field_name);
         if (type != PIIType::UNKNOWN) {
@@ -135,11 +174,13 @@ PIIType PIIDetector::classifyFieldName(const std::string& field_name) const {
 }
 
 std::string PIIDetector::getRedactionRecommendation(PIIType type) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::scoped_lock lock(mutex_);
     
     // Query first enabled engine
     for (const auto& engine : engines_) {
-        if (!engine->isEnabled()) continue;
+        if (!engine->isEnabled()) {
+            continue;
+        }
         
         std::string mode = engine->getRedactionRecommendation(type);
         if (mode != "none" && mode != default_redaction_mode_) {
@@ -156,7 +197,7 @@ std::string PIIDetector::maskValue(PIIType type, const std::string& value) const
 }
 
 std::vector<std::string> PIIDetector::getEnabledEngines() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::scoped_lock lock(mutex_);
     
     std::vector<std::string> enabled;
     for (const auto& engine : engines_) {
@@ -169,25 +210,27 @@ std::vector<std::string> PIIDetector::getEnabledEngines() const {
 }
 
 nlohmann::json PIIDetector::getEngineMetadata() const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    nlohmann::json metadata;
-    metadata["total_engines"] = engines_.size();
-    metadata["enabled_engines"] = 0;
-    metadata["pki_verification_enabled"] = (pki_client_ != nullptr);
-    
-    nlohmann::json engines_array = nlohmann::json::array();
+    std::scoped_lock lock(mutex_);
+
+    nlohmann::json metadata = {
+        {"total_engines", engines_.size()},
+        {"enabled_engines", 0},
+        {"pki_verification_enabled", pki_client_ != nullptr},
+        {"engines", nlohmann::json::array()}
+    };
+
+    int enabled_engines = 0;
     
     for (const auto& engine : engines_) {
         if (engine->isEnabled()) {
-            metadata["enabled_engines"] = metadata["enabled_engines"].get<int>() + 1;
+            ++enabled_engines;
         }
-        
-        engines_array.push_back(engine->getMetadata());
+
+        metadata.at("engines").push_back(engine->getMetadata());
     }
-    
-    metadata["engines"] = engines_array;
-    
+
+    metadata.at("enabled_engines") = enabled_engines;
+
     return metadata;
 }
 
@@ -211,7 +254,9 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
                     // Try up to 4 levels up
                     for (int i = 0; i < 4; ++i) {
                         std::filesystem::path candidate = cur;
-                        for (int j = 0; j < i; ++j) candidate = candidate.parent_path();
+                        for (int j = 0; j < i; ++j) {
+                            candidate = candidate.parent_path();
+                        }
                         candidate /= resolved;
                         if (std::filesystem::exists(candidate)) {
                             resolved = candidate.string();
@@ -246,12 +291,14 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
             nlohmann::json engine_config;
             
             // Recursive YAML->JSON conversion
-            std::function<void(const YAML::Node&, nlohmann::json&)> convertYamlToJson = 
+            std::function<void(const YAML::Node&, nlohmann::json&)> convert_yaml_to_json =
                 [&](const YAML::Node& yaml_node, nlohmann::json& json_node) {
                     if (yaml_node.IsScalar()) {
-                        // Try to parse as native types (bool, int, double) before falling back to string
-                        try {
-                            json_node = yaml_node.as<bool>();
+                        const std::string scalar = yaml_node.Scalar();
+
+                        bool bool_value = false;
+                        if (isBooleanLiteral(scalar, bool_value)) {
+                            json_node = bool_value;
                             return;
                         } catch (const std::exception&) {}
                         
@@ -271,25 +318,39 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
                         } catch (const std::exception&) {
                             json_node = nullptr;
                         }
+
+                        int int_value = 0;
+                        if (tryParseInt(scalar, int_value)) {
+                            json_node = int_value;
+                            return;
+                        }
+
+                        double double_value = 0.0;
+                        if (tryParseDouble(scalar, double_value)) {
+                            json_node = double_value;
+                            return;
+                        }
+
+                        json_node = scalar;
                     } else if (yaml_node.IsSequence()) {
                         json_node = nlohmann::json::array();
                         for (const auto& item : yaml_node) {
                             nlohmann::json item_json;
-                            convertYamlToJson(item, item_json);
+                            convert_yaml_to_json(item, item_json);
                             json_node.push_back(item_json);
                         }
                     } else if (yaml_node.IsMap()) {
                         json_node = nlohmann::json::object();
                         for (const auto& kv : yaml_node) {
-                            std::string key = kv.first.as<std::string>();
+                            auto key = kv.first.as<std::string>();
                             nlohmann::json value_json;
-                            convertYamlToJson(kv.second, value_json);
+                            convert_yaml_to_json(kv.second, value_json);
                             json_node[key] = value_json;
                         }
                     }
                 };
             
-            convertYamlToJson(engine_node, engine_config);
+            convert_yaml_to_json(engine_node, engine_config);
             
             // Try to load and verify engine
             if (verifyAndLoadEngine(engine_config)) {
@@ -389,7 +450,13 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
                     auto unsigned_result = PIIDetectionEngineFactory::createUnsigned(engine_type);
                     if (unsigned_result) {
                         engine = std::move(*unsigned_result);
-                        engine->initialize(engine_config);
+                        if (!engine->initialize(engine_config)) {
+                            spdlog::error(
+                                "PIIDetector: Fallback engine '{}' initialization failed: {}",
+                                engine_type,
+                                engine->getLastError());
+                            return false;
+                        }
                     } else {
                         return false;
                     }
@@ -441,7 +508,7 @@ void PIIDetector::scanJsonRecursive(
     
     if (obj.is_object()) {
         for (auto it = obj.begin(); it != obj.end(); ++it) {
-            std::string key = it.key();
+            const auto& key = it.key();
             std::string new_path = path.empty() ? key : path + "." + key;
             
             // Check field name for PII hints
@@ -455,7 +522,8 @@ void PIIDetector::scanJsonRecursive(
                 finding.confidence = 0.85; // Field name heuristic confidence
                 finding.pattern_name = PIITypeUtils::toString(field_type) + "_FIELD_HINT";
                 finding.engine_name = "field_hint";
-                findings[new_path].push_back(finding);
+                auto [path_it, inserted] = findings.try_emplace(new_path);
+                path_it->second.push_back(std::move(finding));
             }
             
             // Recurse for nested content
@@ -466,46 +534,50 @@ void PIIDetector::scanJsonRecursive(
                 std::string value = it.value().get<std::string>();
                 auto text_findings = detectInText(value);
                 if (!text_findings.empty()) {
-                    findings[new_path].insert(findings[new_path].end(), 
-                                             text_findings.begin(), text_findings.end());
+                    auto [path_it, inserted] = findings.try_emplace(new_path);
+                    path_it->second.insert(path_it->second.end(),
+                                           text_findings.begin(),
+                                           text_findings.end());
                 }
             }
         }
     } else if (obj.is_array()) {
         for (size_t i = 0; i < obj.size(); ++i) {
             std::string new_path = path + "[" + std::to_string(i) + "]";
-            scanJsonRecursive(obj[i], new_path, findings);
+            scanJsonRecursive(obj.at(i), new_path, findings);
         }
     } else if (obj.is_string()) {
         std::string value = obj.get<std::string>();
         auto text_findings = detectInText(value);
         if (!text_findings.empty()) {
-            findings[path].insert(findings[path].end(), 
-                                 text_findings.begin(), text_findings.end());
+            auto [path_it, inserted] = findings.try_emplace(path);
+            path_it->second.insert(path_it->second.end(),
+                                   text_findings.begin(),
+                                   text_findings.end());
         }
     }
 }
 
 std::vector<PIIFinding> PIIDetector::deduplicateFindings(
-    std::vector<PIIFinding> findings) const {
+    std::vector<PIIFinding> findings) {
     
     if (findings.size() <= 1) {
         return findings;
     }
     
     // Sort by offset
-    std::sort(findings.begin(), findings.end(), 
-              [](const PIIFinding& a, const PIIFinding& b) {
-                  return a.start_offset < b.start_offset;
-              });
+    std::ranges::sort(findings,
+                      [](const PIIFinding& a, const PIIFinding& b) {
+                          return a.start_offset < b.start_offset;
+                      });
     
     // Remove overlapping findings (keep higher confidence)
     std::vector<PIIFinding> deduplicated;
-    deduplicated.push_back(findings[0]);
+    deduplicated.push_back(findings.front());
     
     for (size_t i = 1; i < findings.size(); ++i) {
         const auto& prev = deduplicated.back();
-        const auto& curr = findings[i];
+        const auto& curr = findings.at(i);
         
         // Check for overlap
         if (curr.start_offset < prev.end_offset) {
@@ -529,6 +601,5 @@ std::vector<PIIFinding> PIIDetector::deduplicateFindings(
     return deduplicated;
 }
 
-} // namespace utils
-} // namespace themis
+} // namespace themis::utils
 

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_voice_assistant.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:58:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1392                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_voice_assistant.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 84/100
+ * Gap Summary: total=9; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -755,6 +744,23 @@ TEST(VoiceAssistantWakeWord, StatisticsIncludesWakeWordKey) {
         << "getStatistics() must expose 'wake_word' sub-object";
     ASSERT_TRUE(stats["wake_word"].contains("total_chunks_processed"));
     EXPECT_EQ(stats["wake_word"]["total_chunks_processed"].get<uint64_t>(), 1u);
+}
+
+TEST(VoiceAssistantSessionLifecycle, DeleteSessionRemovesExistingSession) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+
+    auto created = va.getSession("sess-delete-1");
+    EXPECT_EQ(created.session_id, "sess-delete-1");
+
+    EXPECT_TRUE(va.deleteSession("sess-delete-1"));
+
+    auto stats = va.getStatistics();
+    EXPECT_EQ(stats.value("active_sessions", 0), 0);
+}
+
+TEST(VoiceAssistantSessionLifecycle, DeleteSessionReturnsFalseWhenMissing) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+    EXPECT_FALSE(va.deleteSession("sess-missing"));
 }
 
 // ---------------------------------------------------------------------------
@@ -1550,4 +1556,3 @@ TEST(TTSEncoderInjection, TTS_OGG_03_ClearingFnRevertsToPassthrough) {
     EXPECT_FALSE(fn_called);
     EXPECT_FALSE(result.audio_data.empty());
 }
-

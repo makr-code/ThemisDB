@@ -1,16 +1,16 @@
 {
-  "module": "sharding",
-  "total_gaps": 11012,
+  "module": "whisper",
+  "total_gaps": 6,
   "categories": {
     "Other": {
-      "count": 11012,
+      "count": 6,
       "critical": 0,
-      "high": 11012,
+      "high": 0,
       "medium": 0,
       "samples": [
-        "sharding:0",
-        "sharding:1",
-        "sharding:2"
+        "total",
+        "severity_critical",
+        "severity_high"
       ]
     }
   }

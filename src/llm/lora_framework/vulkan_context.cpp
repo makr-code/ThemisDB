@@ -1,23 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vulkan_context.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     489                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vulkan_context.cpp | Version: 0.0.47 | Last Modified: 2026-05-11 17:38:42
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 476
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=61 | delta=58 | status=divergent
+ * External Severity (v3): C=0, H=50, M=11
+ * PR: #3629 [MODULE] llm â€“ build-system audit: register 16 missing sources, 2... (2026-03-12T07:39:34Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/vulkan_context.h"
@@ -28,24 +17,17 @@
 
 #if THEMIS_HAS_VULKAN_HEADER
 
-namespace themis {
-namespace lora {
-namespace vulkan {
-
-// Validation layers for debugging
-const std::vector<const char*> VulkanContext::validation_layers_ = {
-    "VK_LAYER_KHRONOS_validation"
-};
+namespace themis::lora::vulkan {
 
 // Debug callback for validation layers
-static VKAPI_ATTR VkBool32 VKAPI_CALL debug_callback(
+static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
-    VkDebugUtilsMessageTypeFlagsEXT message_type,
+    [[maybe_unused]] VkDebugUtilsMessageTypeFlagsEXT message_type,
     const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
-    void* user_data) {
+    [[maybe_unused]] void* user_data) {
     
     if (message_severity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
-        std::cerr << "Vulkan validation: " << callback_data->pMessage << std::endl;
+        std::cerr << "Vulkan validation: " << callback_data->pMessage << '\n';
     }
     
     return VK_FALSE;
@@ -115,7 +97,7 @@ bool VulkanContext::initialize(int device_id, bool enable_validation) {
     
     // Check validation layer support if requested
     if (validation_enabled_ && !check_validation_layer_support()) {
-        std::cerr << "Validation layers requested but not available" << std::endl;
+        std::cerr << "Validation layers requested but not available\n";
         validation_enabled_ = false;
     }
     
@@ -182,8 +164,9 @@ void VulkanContext::cleanup() {
     
     // Destroy debug messenger
     if (debug_messenger_ != VK_NULL_HANDLE && validation_enabled_) {
-        auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)
-            vkGetInstanceProcAddr(instance_, "vkDestroyDebugUtilsMessengerEXT");
+        auto func = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(
+            vkGetInstanceProcAddr(instance_, "vkDestroyDebugUtilsMessengerEXT")
+        );
         if (func != nullptr) {
             func(instance_, debug_messenger_, nullptr);
         }
@@ -209,7 +192,7 @@ bool VulkanContext::is_available() {
     create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     create_info.pApplicationInfo = &app_info;
     
-    VkInstance test_instance;
+    VkInstance test_instance = VK_NULL_HANDLE;
     VkResult result = vkCreateInstance(&create_info, nullptr, &test_instance);
     
     if (result == VK_SUCCESS) {
@@ -235,18 +218,19 @@ bool VulkanContext::create_instance(bool enable_validation) {
     
     // Enable validation layers if requested
     if (enable_validation) {
-        create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers_.size());
-        create_info.ppEnabledLayerNames = validation_layers_.data();
+        const auto layers = validation_layers();
+        create_info.enabledLayerCount = static_cast<uint32_t>(layers.size());
+        create_info.ppEnabledLayerNames = layers.data();
         
         // Add debug utils extension
-        std::vector<const char*> extensions = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME };
+        constexpr std::array<const char*, 1> extensions = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME };
         create_info.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         create_info.ppEnabledExtensionNames = extensions.data();
     }
     
     VkResult result = vkCreateInstance(&create_info, nullptr, &instance_);
     if (result != VK_SUCCESS) {
-        std::cerr << "Failed to create Vulkan instance: " << result << std::endl;
+        std::cerr << "Failed to create Vulkan instance: " << result << '\n';
         return false;
     }
     
@@ -255,23 +239,31 @@ bool VulkanContext::create_instance(bool enable_validation) {
 
 bool VulkanContext::select_physical_device(int device_id) {
     uint32_t device_count = 0;
-    vkEnumeratePhysicalDevices(instance_, &device_count, nullptr);
-    
+    VkResult enum_result = vkEnumeratePhysicalDevices(instance_, &device_count, nullptr);
+    if (enum_result != VK_SUCCESS) {
+        std::cerr << "vkEnumeratePhysicalDevices (count) failed: " << enum_result << '\n';
+        return false;
+    }
+
     if (device_count == 0) {
-        std::cerr << "No Vulkan-capable GPU found" << std::endl;
+        std::cerr << "No Vulkan-capable GPU found\n";
         return false;
     }
     
     std::vector<VkPhysicalDevice> devices(device_count);
-    vkEnumeratePhysicalDevices(instance_, &device_count, devices.data());
+    enum_result = vkEnumeratePhysicalDevices(instance_, &device_count, devices.data());
+    if (enum_result != VK_SUCCESS && enum_result != VK_INCOMPLETE) {
+        std::cerr << "vkEnumeratePhysicalDevices (fill) failed: " << enum_result << '\n';
+        return false;
+    }
     
     // If device_id is specified and valid, use it
     if (device_id >= 0 && device_id < static_cast<int>(device_count)) {
-        physical_device_ = devices[device_id];
+        physical_device_ = devices.at(static_cast<size_t>(device_id));
     } else {
         // Otherwise, prefer discrete GPU
         for (const auto& device : devices) {
-            VkPhysicalDeviceProperties props;
+            VkPhysicalDeviceProperties props = {};
             vkGetPhysicalDeviceProperties(device, &props);
             
             if (props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
@@ -282,7 +274,7 @@ bool VulkanContext::select_physical_device(int device_id) {
         
         // If no discrete GPU found, use first device
         if (physical_device_ == VK_NULL_HANDLE) {
-            physical_device_ = devices[0];
+            physical_device_ = devices.at(0);
         }
     }
     
@@ -290,7 +282,7 @@ bool VulkanContext::select_physical_device(int device_id) {
     vkGetPhysicalDeviceProperties(physical_device_, &device_properties_);
     vkGetPhysicalDeviceMemoryProperties(physical_device_, &memory_properties_);
     
-    std::cout << "Selected Vulkan device: " << device_properties_.deviceName << std::endl;
+    std::cout << "Selected Vulkan device: " << device_properties_.deviceName << '\n';
     
     return true;
 }
@@ -304,20 +296,22 @@ bool VulkanContext::find_queue_family() {
                                               queue_families.data());
     
     // Find a queue family that supports compute operations
-    for (uint32_t i = 0; i < queue_family_count; i++) {
-        if (queue_families[i].queueFlags & VK_QUEUE_COMPUTE_BIT) {
+    for (uint32_t i = 0; i < queue_family_count; ++i) {
+        const VkQueueFlags flags = queue_families.at(i).queueFlags;
+        const VkQueueFlags compute_flag = static_cast<VkQueueFlags>(VK_QUEUE_COMPUTE_BIT);
+        if ((flags & compute_flag) != static_cast<VkQueueFlags>(0)) {
             queue_family_index_ = i;
             return true;
         }
     }
     
-    std::cerr << "Failed to find compute queue family" << std::endl;
+    std::cerr << "Failed to find compute queue family\n";
     return false;
 }
 
 bool VulkanContext::create_device() {
     // Specify queue priorities
-    float queue_priority = 1.0f;
+    float queue_priority = 1.0F;
     
     VkDeviceQueueCreateInfo queue_create_info = {};
     queue_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
@@ -336,13 +330,14 @@ bool VulkanContext::create_device() {
     
     // Enable validation layers for device (deprecated but still used in some drivers)
     if (validation_enabled_) {
-        create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers_.size());
-        create_info.ppEnabledLayerNames = validation_layers_.data();
+        const auto layers = validation_layers();
+        create_info.enabledLayerCount = static_cast<uint32_t>(layers.size());
+        create_info.ppEnabledLayerNames = layers.data();
     }
     
     VkResult result = vkCreateDevice(physical_device_, &create_info, nullptr, &device_);
     if (result != VK_SUCCESS) {
-        std::cerr << "Failed to create logical device: " << result << std::endl;
+        std::cerr << "Failed to create logical device: " << result << '\n';
         return false;
     }
     
@@ -360,7 +355,7 @@ bool VulkanContext::create_command_pool() {
     
     VkResult result = vkCreateCommandPool(device_, &pool_info, nullptr, &command_pool_);
     if (result != VK_SUCCESS) {
-        std::cerr << "Failed to create command pool: " << result << std::endl;
+        std::cerr << "Failed to create command pool: " << result << '\n';
         return false;
     }
     
@@ -374,17 +369,20 @@ bool VulkanContext::setup_debug_messenger() {
     
     VkDebugUtilsMessengerCreateInfoEXT create_info = {};
     create_info.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    create_info.messageSeverity = 
-        VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
-        VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-    create_info.messageType = 
-        VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
-        VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
-        VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-    create_info.pfnUserCallback = debug_callback;
+    const uint32_t message_severity_flags =
+        static_cast<uint32_t>(VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) |
+        static_cast<uint32_t>(VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT);
+    const uint32_t message_type_flags =
+        static_cast<uint32_t>(VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT) |
+        static_cast<uint32_t>(VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT) |
+        static_cast<uint32_t>(VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT);
+    create_info.messageSeverity = message_severity_flags;
+    create_info.messageType = message_type_flags;
+    create_info.pfnUserCallback = DebugCallback;
     
-    auto func = (PFN_vkCreateDebugUtilsMessengerEXT)
-        vkGetInstanceProcAddr(instance_, "vkCreateDebugUtilsMessengerEXT");
+    auto func = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(
+        vkGetInstanceProcAddr(instance_, "vkCreateDebugUtilsMessengerEXT")
+    );
     
     if (func != nullptr) {
         VkResult result = func(instance_, &create_info, nullptr, &debug_messenger_);
@@ -401,7 +399,7 @@ VkCommandBuffer VulkanContext::allocate_command_buffer(VkCommandBufferLevel leve
     alloc_info.level = level;
     alloc_info.commandBufferCount = 1;
     
-    VkCommandBuffer command_buffer;
+    VkCommandBuffer command_buffer = VK_NULL_HANDLE;
     VkResult result = vkAllocateCommandBuffers(device_, &alloc_info, &command_buffer);
     
     if (result != VK_SUCCESS) {
@@ -412,6 +410,10 @@ VkCommandBuffer VulkanContext::allocate_command_buffer(VkCommandBufferLevel leve
 }
 
 void VulkanContext::free_command_buffer(VkCommandBuffer command_buffer) {
+    if (device_ == VK_NULL_HANDLE || command_pool_ == VK_NULL_HANDLE ||
+        command_buffer == VK_NULL_HANDLE) {
+        return;
+    }
     vkFreeCommandBuffers(device_, command_pool_, 1, &command_buffer);
 }
 
@@ -422,7 +424,7 @@ VkFence VulkanContext::create_fence(bool signaled) {
         fence_info.flags = VK_FENCE_CREATE_SIGNALED_BIT;
     }
     
-    VkFence fence;
+    VkFence fence = VK_NULL_HANDLE;
     VkResult result = vkCreateFence(device_, &fence_info, nullptr, &fence);
     
     if (result != VK_SUCCESS) {
@@ -433,22 +435,35 @@ VkFence VulkanContext::create_fence(bool signaled) {
 }
 
 void VulkanContext::destroy_fence(VkFence fence) {
+    if (device_ == VK_NULL_HANDLE || fence == VK_NULL_HANDLE) {
+        return;
+    }
     vkDestroyFence(device_, fence, nullptr);
 }
 
 bool VulkanContext::wait_for_fence(VkFence fence, uint64_t timeout_ns) {
+    if (device_ == VK_NULL_HANDLE || fence == VK_NULL_HANDLE) {
+        return false;
+    }
     VkResult result = vkWaitForFences(device_, 1, &fence, VK_TRUE, timeout_ns);
     return result == VK_SUCCESS;
 }
 
 void VulkanContext::reset_fence(VkFence fence) {
-    vkResetFences(device_, 1, &fence);
+    if (device_ == VK_NULL_HANDLE || fence == VK_NULL_HANDLE) {
+        throw std::runtime_error("Cannot reset invalid fence handle");
+    }
+    VkResult result = vkResetFences(device_, 1, &fence);
+    if (result != VK_SUCCESS) {
+        throw std::runtime_error("Failed to reset fence");
+    }
 }
 
 int32_t VulkanContext::find_memory_type(uint32_t type_filter,
                                          VkMemoryPropertyFlags properties) const {
-    for (uint32_t i = 0; i < memory_properties_.memoryTypeCount; i++) {
-        if ((type_filter & (1 << i)) &&
+    for (uint32_t i = 0; i < memory_properties_.memoryTypeCount; ++i) {
+        const uint32_t type_bit = uint32_t{1u} << i;
+        if ((type_filter & type_bit) != 0U &&
             (memory_properties_.memoryTypes[i].propertyFlags & properties) == properties) {
             return static_cast<int32_t>(i);
         }
@@ -457,14 +472,25 @@ int32_t VulkanContext::find_memory_type(uint32_t type_filter,
     return -1;
 }
 
-bool VulkanContext::check_validation_layer_support() const {
-    uint32_t layer_count;
-    vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
+bool VulkanContext::check_validation_layer_support() {
+    uint32_t layer_count = 0;
+    VkResult result = vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
+    if (result != VK_SUCCESS) {
+        std::cerr << "vkEnumerateInstanceLayerProperties (count) failed: "
+              << result << '\n';
+        return false;
+    }
     
     std::vector<VkLayerProperties> available_layers(layer_count);
-    vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
+    result = vkEnumerateInstanceLayerProperties(&layer_count, available_layers.data());
+    if (result != VK_SUCCESS) {
+        std::cerr << "vkEnumerateInstanceLayerProperties (fill) failed: "
+              << result << '\n';
+        return false;
+    }
     
-    for (const char* layer_name : validation_layers_) {
+    const auto layers = validation_layers();
+    for (const char* layer_name : layers) {
         bool layer_found = false;
         
         for (const auto& layer_props : available_layers) {
@@ -482,9 +508,6 @@ bool VulkanContext::check_validation_layer_support() const {
     return true;
 }
 
-} // namespace vulkan
-} // namespace lora
-} // namespace themis
+} // namespace themis::lora::vulkan
 
 #endif // THEMIS_HAS_VULKAN_HEADER
-

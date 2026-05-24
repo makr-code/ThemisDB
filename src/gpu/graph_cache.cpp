@@ -1,21 +1,9 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graph_cache.cpp                                    ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     157                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graph_cache.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=22, M=1, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "themis/gpu/graph_cache.h"
@@ -27,7 +15,7 @@ namespace gpu {
 // lookup
 // ============================================================================
 
-const GraphEntry* GPUGraphCache::lookup(const QueryShape& shape) {
+const GraphEntry *GPUGraphCache::lookup(const QueryShape &shape) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(shape);
@@ -37,7 +25,7 @@ const GraphEntry* GPUGraphCache::lookup(const QueryShape& shape) {
         return nullptr;
     }
 
-    GraphEntry& e = it->second;
+    GraphEntry &e = it->second;
     e.last_access = ++access_counter_;
     ++e.replay_count;
     ++stats_.hits;
@@ -49,7 +37,7 @@ const GraphEntry* GPUGraphCache::lookup(const QueryShape& shape) {
 // capture
 // ============================================================================
 
-void GPUGraphCache::capture(const QueryShape& shape) {
+void GPUGraphCache::capture(const QueryShape &shape) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(shape);
@@ -86,10 +74,12 @@ void GPUGraphCache::capture(const QueryShape& shape) {
 // invalidate
 // ============================================================================
 
-void GPUGraphCache::invalidate(const QueryShape& shape) {
+void GPUGraphCache::invalidate(const QueryShape &shape) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = entries_.find(shape);
-    if (it == entries_.end()) return;
+    if (it == entries_.end()) {
+        return;
+    }
 
     // Production CUDA notes:
     //   if (it->second.exec)  cudaGraphExecDestroy(it->second.exec);
@@ -122,8 +112,8 @@ size_t GPUGraphCache::size() const {
 
 GPUGraphCache::Stats GPUGraphCache::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    Stats s      = stats_;
-    s.entries    = entries_.size();
+    Stats s   = stats_;
+    s.entries = entries_.size();
     return s;
 }
 
@@ -133,7 +123,9 @@ GPUGraphCache::Stats GPUGraphCache::getStats() const {
 
 void GPUGraphCache::evictLRU() {
     // Called with mutex_ already held.  O(n) scan is acceptable since n ≤ 32.
-    if (entries_.empty()) return;
+    if (entries_.empty()) {
+        return;
+    }
 
     auto oldest = entries_.begin();
     for (auto it = entries_.begin(); it != entries_.end(); ++it) {

@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=16 unimpl=14 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            base_entity.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     655                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: base_entity.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 690
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=155 | delta=152 | status=divergent
+ * External Severity (v3): C=4, H=122, M=29
+ * PR: #1131 Fix BaseEntity parsing bugs and document RocksDBWrapper MVCC patterns (2026-03-11T17:51:26Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/base_entity.h"
@@ -750,6 +737,56 @@ std::optional<size_t> BaseEntity::getRotationPosition(std::string_view field_nam
 std::optional<std::string> BaseEntity::getRotationType(std::string_view field_name) const {
     std::string rotation_type_field = std::string(field_name) + "_rotation_type";
     return getFieldAsString(rotation_type_field);
+}
+
+// ── String-array helpers (stub #292) ─────────────────────────────────────────
+
+std::optional<std::vector<std::string>>
+BaseEntity::getFieldAsStringArray(std::string_view field_name) const {
+    auto raw = getFieldAsString(field_name);
+    if (!raw.has_value()) {
+        return std::nullopt;
+    }
+    const std::string& s = *raw;
+    std::vector<std::string> result;
+
+    // Try JSON-array format first (e.g. `["label1","label2"]`).
+    // This is the authoritative format written by setFieldAsStringArray().
+    if (!s.empty() && s.front() == '[') {
+        auto parsed = nlohmann::json::parse(s, nullptr, /*throw_on_error=*/false);
+        if (!parsed.is_discarded() && parsed.is_array()) {
+            result.reserve(parsed.size());
+            for (const auto& elem : parsed) {
+                if (elem.is_string()) {
+                    result.push_back(elem.get<std::string>());
+                }
+            }
+            return result;
+        }
+        // JSON parse failed; fall through to comma-split for resilience.
+    }
+
+    // Fallback: comma-separated string (backward-compatible with legacy data).
+    std::istringstream ss(s);
+    std::string token;
+    while (std::getline(ss, token, ',')) {
+        // Trim leading whitespace.
+        const auto first = token.find_first_not_of(" \t\r\n");
+        if (first == std::string::npos) continue;
+        // Trim trailing whitespace.
+        const auto last = token.find_last_not_of(" \t\r\n");
+        result.push_back(token.substr(first, last - first + 1));
+    }
+    return result;
+}
+
+void BaseEntity::setFieldAsStringArray(std::string_view field_name,
+                                        const std::vector<std::string>& values) {
+    nlohmann::json arr = nlohmann::json::array();
+    for (const auto& v : values) {
+        arr.push_back(v);
+    }
+    setField(field_name, arr.dump());
 }
 
 } // namespace themis

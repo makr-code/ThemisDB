@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/tensor_index_manager.h                      ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 1 (Q3 2026)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_index_manager.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -212,9 +207,9 @@ public:
     /**
      * @brief Raw-pointer variant (kept for backward compatibility).
      *
-     * Prefer `mapCores()` for new code.  This method returns raw
-     * `const float*` pointers that are valid only while the index is
-     * alive; no mmap or mlock is performed.
+     * Prefer `mapCores()` for new code. This method now delegates to
+     * `mapCores()` internally and returns borrowed pointers into a
+     * thread-local `TensorMmapBridge` cache.
      *
      * @deprecated Use mapCores() instead. Raw pointers have no lifetime
      *             protection and are unsafe for concurrent mutation or index
@@ -265,4 +260,3 @@ private:
 
 } // namespace tensor
 } // namespace themis
-

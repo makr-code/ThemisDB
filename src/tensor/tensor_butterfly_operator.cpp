@@ -1,15 +1,12 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=0 stub=5 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/tensor_butterfly_operator.cpp               ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 3 (Q2 2027)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_butterfly_operator.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 85/100 | Lines: 432
+ * Open Issues: TODOs=1, Stubs=20, Gaps=27, Unimpl=2, Mock=1, Sim=3, Debt=0
+ * Gap Correlation: internal=27 | external_v3=106 | delta=79 | status=divergent
+ * External Severity (v3): C=4, H=75, M=27
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

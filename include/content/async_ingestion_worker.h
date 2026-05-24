@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            async_ingestion_worker.h                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:44:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     461                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 787af3dc11  2026-03-16  feat(content): implement YAML config loading and user_con... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: async_ingestion_worker.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -85,13 +70,14 @@ struct IngestionJob {
     json config;       // Job-specific configuration
     std::string user_context;
     
-    // Progress tracking
-    int64_t created_at;
-    int64_t started_at;
-    int64_t completed_at;
-    int total_items;     // Total files to process
-    int processed_items; // Files processed so far
-    float progress;      // 0.0 to 1.0
+    // Progress tracking — explicit zero defaults prevent undefined behaviour when a
+    // creation path sets only a subset of these fields (CON-014).
+    int64_t created_at = 0;      ///< Unix-ms timestamp when the job was enqueued
+    int64_t started_at = 0;      ///< Unix-ms timestamp when a worker picked up the job (0 = not started)
+    int64_t completed_at = 0;    ///< Unix-ms timestamp when the job finished (0 = not completed)
+    int total_items = 0;         ///< Total files to process (−1 = unknown until extracted)
+    int processed_items = 0;     ///< Files processed so far
+    float progress = 0.0f;       ///< Normalised progress in [0.0, 1.0]
     
     // Result
     std::string error_message;
@@ -141,7 +127,7 @@ public:
         AsyncIngestionConfig config = AsyncIngestionConfig{}
     );
     
-    ~AsyncIngestionWorker();
+    ~AsyncIngestionWorker() noexcept;
     
     /**
      * @brief Start the worker threads
@@ -421,15 +407,17 @@ private:
     std::map<IngestionJobType, std::function<void(IngestionJob&)>> job_handlers_;
     std::mutex handlers_mutex_;
     
-    // Statistics
-    std::atomic<uint64_t> total_jobs_processed_;
-    std::atomic<uint64_t> total_jobs_failed_;
-    std::atomic<uint64_t> total_items_processed_;
+    // Statistics — initialised to 0 here for clarity; the constructor's member-
+    // initializer list duplicates these, but in-class defaults guard against any
+    // future delegating constructor that omits the initializer-list entry (CON-016).
+    std::atomic<uint64_t> total_jobs_processed_{0};
+    std::atomic<uint64_t> total_jobs_failed_{0};
+    std::atomic<uint64_t> total_items_processed_{0};
 
     // Back-pressure metrics
-    std::atomic<uint64_t> total_backpressure_events_;   ///< Number of times a caller was blocked by back-pressure
-    std::atomic<uint64_t> queue_depth_high_watermark_;  ///< Peak queue depth observed since start
-        std::atomic<size_t>   inflight_count_{0};           ///< Jobs currently being processed (dequeued but not completed)
+    std::atomic<uint64_t> total_backpressure_events_{0};  ///< Number of times a caller was blocked by back-pressure
+    std::atomic<uint64_t> queue_depth_high_watermark_{0}; ///< Peak queue depth observed since start
+    std::atomic<size_t>   inflight_count_{0};              ///< Jobs currently being processed (dequeued but not completed)
     
     // Plugin registry (NEW)
     std::map<std::string, std::shared_ptr<IngestionPlugin>> plugins_;

@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auto_rebalancer.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     847                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b93d73ee43  2026-03-14  fix(sharding): add non-owning pointer comment in setPredi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auto_rebalancer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 844
+ * Open Issues: TODOs=1, Stubs=4, Gaps=7, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=7 | external_v3=203 | delta=196 | status=divergent
+ * External Severity (v3): C=24, H=126, M=53
+ * PR: #4231 feat(sharding): Adaptive Shard Rebalancer with Load-Based Splitting... (2026-03-14T19:14:59Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/auto_rebalancer.h"
@@ -332,6 +320,11 @@ bool AutoRebalancer::executeRebalance(const LoadImbalanceResult::RebalanceRecomm
     
     // Sign operation
     std::string signature = signOperation(op_id);
+    if (signature.empty()) {
+        THEMIS_ERROR("Failed to sign rebalance operation: {}", op_id);
+        span.recordError("Operation signing failed");
+        return false;
+    }
     
     // Start operation
     bool started = operation->start(signature);
@@ -832,6 +825,10 @@ bool AutoRebalancer::executeSplitProposal(const HotShardSplitPolicy::SplitPropos
     return ok;
 }
 
+void AutoRebalancer::setSignOperationFn(SignOperationFn fn) {
+    std::lock_guard<std::mutex> lock(sign_fn_mutex_);
+    sign_fn_ = std::move(fn);
+}
+
 } // namespace sharding
 } // namespace themis
-

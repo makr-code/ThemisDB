@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_health_checks.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     425                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_health_checks.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -146,7 +135,10 @@ TEST_F(LivenessTest, ResponseBodyIsJson) {
     auto res = handler->handleLiveness(make_get("/health/live"));
 
     EXPECT_EQ(res[http::field::content_type], "application/json");
-    EXPECT_NO_THROW(json::parse(res.body()));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(res.body());
+        static_cast<void>(parsed);
+    });
 }
 
 TEST_F(LivenessTest, ResponseContainsChecksObject) {
@@ -209,7 +201,10 @@ TEST_F(ReadinessTest, ResponseBodyIsJson) {
     auto res = handler->handleReadiness(make_get("/health/ready"));
 
     EXPECT_EQ(res[http::field::content_type], "application/json");
-    EXPECT_NO_THROW(json::parse(res.body()));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(res.body());
+        static_cast<void>(parsed);
+    });
 }
 
 TEST_F(ReadinessTest, ResponseContainsChecksObject) {
@@ -272,7 +267,10 @@ TEST_F(HealthCheckTest, ResponseBodyIsJson) {
     auto res = handler->handleHealthCheck(make_get("/health"));
 
     EXPECT_EQ(res[http::field::content_type], "application/json");
-    EXPECT_NO_THROW(json::parse(res.body()));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(res.body());
+        static_cast<void>(parsed);
+    });
 }
 
 // ---------------------------------------------------------------------------

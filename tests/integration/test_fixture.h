@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_fixture.h                                     ║
-  Version:         0.0.48                                             ║
-  Last Modified:   2026-05-18                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_fixture.h | Version: 0.0.48
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=9; TODO=1, Stub=2, Unimpl=0, Mock=5, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/tensor_fingerprint_graph.h                  ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 4 prep (Q3 2027)                    ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_fingerprint_graph.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=10; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -52,9 +47,11 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <shared_mutex>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -116,6 +113,9 @@ struct SimilarityResult {
  */
 class TensorFingerprintGraph {
 public:
+    using ExactSimilarityFn =
+        std::function<std::optional<float>(std::string_view query_key, std::string_view candidate_key)>;
+
     TensorFingerprintGraph() = default;
 
     // ─── Write API ────────────────────────────────────────────────────────
@@ -203,6 +203,26 @@ public:
 
     [[nodiscard]] GraphStats stats() const noexcept;
 
+    // ─── ExactSimilarity bridge (stub #276) ───────────────────────────────
+
+    /// @brief Type alias for exact-similarity injection.
+    using ExactSimilarityFn = std::function<float(const std::string& key_a,
+                                                   const std::string& key_b)>;
+
+    /**
+     * @brief Install an exact-similarity function replacing cosine fingerprint.
+     *
+     * When set, findSimilarByFingerprint() delegates per-pair scoring to this
+     * function instead of computing cosine similarity on stored fingerprints.
+     * @param fn Callable receiving two adapter keys and returning a score in [0, 1].
+     */
+    static void setExactSimilarityFn(ExactSimilarityFn fn);
+
+    /**
+     * @brief Remove the exact-similarity override (reverts to cosine fingerprint).
+     */
+    static void clearExactSimilarityFn();
+
 private:
     /// Compute column means of a TT-core data block.
     /// data layout: [n_rows × n_cols] row-major.
@@ -220,6 +240,8 @@ private:
 
     mutable std::shared_mutex stats_mutex_;
     mutable GraphStats        stats_;
+    mutable std::shared_mutex exact_similarity_fn_mutex_;
+    ExactSimilarityFn exact_similarity_fn_;
 };
 
 } // namespace tensor

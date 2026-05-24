@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- **Index module — reliability hardening** (`src/index/*.cpp`)
+  - Replaced all remaining `catch (...)` handlers in index implementation files with typed `catch (const std::exception&)`.
+  - Targeted delta in this block: **117 → 0** (`vector_index`: 31→0, `secondary_index`: 20→0, `process_graph`: 19→0, `graph_index`: 11→0, `spatial_index`: 10→0, `advanced_vector_index`: 9→0, plus 7 additional index files).
+
 - Multi-GPU distributed vector index improvements (issue #1878)
 - Multi-tenancy isolation hardening (issue #1872)
 - Extended integration test suite (issue #1883)

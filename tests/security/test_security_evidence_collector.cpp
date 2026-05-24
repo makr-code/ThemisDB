@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_security_evidence_collector.cpp               ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:52:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     455                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_security_evidence_collector.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -365,7 +351,12 @@ TEST_F(SecurityEvidenceCollectorTest, ToJson_CanBeRoundTripped) {
     auto j = bundle.toJson();
     // Verify the JSON can be serialised and re-parsed
     std::string s = j.dump();
-    EXPECT_NO_THROW(nlohmann::json::parse(s));
+    try {
+        auto parsed = nlohmann::json::parse(s);
+        static_cast<void>(parsed);
+    } catch (const std::exception& ex) {
+        FAIL() << "Roundtrip JSON parse failed: " << ex.what();
+    }
 }
 
 // ============================================================================

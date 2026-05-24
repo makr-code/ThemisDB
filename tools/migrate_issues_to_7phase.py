@@ -154,7 +154,7 @@ Phase 7: Merge & Release         [ ] → Waiting for Phase 6
 
 ### Discovery Tasks
 ```
-[ ] Run: python tools/gap_scanner_v3.py . ai_working --module {module}
+[ ] Run: python tools/scanners/orchestrator.py . ai_working --module {module}
 [ ] Generate: artifacts/gap_audit_report_{module}.json
 [ ] Generate: artifacts/gaps_by_category_{module}.json
 [ ] Generate: artifacts/gaps_by_file_{module}.json
@@ -380,7 +380,7 @@ TESTING
 ## 📖 Additional Resources
 
 - **Workflow Template:** [ISSUE_WORKFLOW_TEMPLATE.md](tools/ISSUE_WORKFLOW_TEMPLATE.md)
-- **Gap Scanner:** `tools/gap_scanner_v3.py`
+- **Gap Scanner:** `tools/scanners/orchestrator.py` (compat: `tools/gap_scanner_v3.py`)
 - **Quality Gate:** `scripts/quality-gate.ps1`
 - **Build Commands:** See workspace README
 

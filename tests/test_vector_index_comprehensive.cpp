@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: test_vector_index_comprehensive.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file test_vector_index_comprehensive.cpp
  * @brief Comprehensive unit tests for storage::IVectorIndexBackend and
@@ -163,7 +171,15 @@ TEST(VectorIndexBackend, VIB_07_DimensionMismatch)
     InMemoryVectorIndex idx(cfg);
 
     EXPECT_THROW(idx.add("bad", {1.0f, 2.0f}), std::invalid_argument);
-    EXPECT_THROW(idx.search({1.0f, 2.0f}, 1), std::invalid_argument);
+    try {
+        auto results = idx.search({1.0f, 2.0f}, 1);
+        (void)results;
+        FAIL() << "Expected std::invalid_argument";
+    } catch (const std::invalid_argument&) {
+        SUCCEED();
+    } catch (...) {
+        FAIL() << "Expected std::invalid_argument";
+    }
 }
 
 // ============================================================================
@@ -219,9 +235,12 @@ TEST(VectorIndexBackend, VIB_10_ConcurrentAddSearch)
     }
 
     std::thread reader([&idx]() {
+        size_t sink = 0;
         for (int i = 0; i < 20; ++i) {
-            idx->search({0.0f, 0.0f, 0.0f, 0.0f}, 5);
+            auto results = idx->search({0.0f, 0.0f, 0.0f, 0.0f}, 5);
+            sink += results.size();
         }
+        (void)sink;
     });
 
     for (auto& w : writers) { w.join(); }

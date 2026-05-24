@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            timeseries_api_handler.h                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     173                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: timeseries_api_handler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -23,6 +12,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 #include <boost/beast/http.hpp>
@@ -37,6 +27,8 @@ namespace themis {
 class RocksDBWrapper;
 class TSStore;
 class ContinuousAggregateManager;
+class ContinuousAggMaterializationEngine;
+class RetentionManager;
 
 namespace server {
 
@@ -64,6 +56,19 @@ namespace server {
 class TimeSeriesApiHandler {
 public:
     /**
+     * @brief Provider function type for runtime retention-policy introspection.
+     *
+     * Each returned JSON object should have at least the following keys:
+     *   - "metric"          : string — metric name the policy applies to
+     *                         (empty string means a global / catch-all policy)
+     *   - "retain_seconds"  : number — retention window in seconds (0 = unlimited)
+     *
+     * The function is called once per request to @c handleRetentionGet; it must
+     * be thread-safe.
+     */
+    using RetentionPoliciesProviderFn = std::function<std::vector<nlohmann::json>()>;
+
+    /**
      * @brief Construct a new Time Series API Handler
      * 
      * @param storage Storage backend
@@ -77,6 +82,18 @@ public:
         std::shared_ptr<ContinuousAggregateManager> agg_manager,
         std::shared_ptr<themis::AuthMiddleware> auth
     );
+
+    /**
+     * @brief Inject a runtime retention-policy provider (stub #301 resolved).
+     *
+     * When set, @c handleRetentionGet queries this function for the active
+     * retention policies instead of returning an empty list.  The provider
+     * must be thread-safe; it is called under no internal lock.
+     *
+     * @param fn Callable returning active retention policies as JSON objects.
+     *           Each object must contain at least "metric" and "retain_seconds".
+     */
+    void setRetentionPoliciesProviderFn(RetentionPoliciesProviderFn fn);
 
     /**
      * @brief Handle POST /ts/put request
@@ -126,6 +143,32 @@ public:
      * @return HTTP response with retention policies
      */
     http::response<http::string_body> handleRetentionGet(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Inject a provider for the supported-aggregate-types list.
+     *
+     * When set, `handleAggregatesGet()` calls the provider to obtain the
+     * current aggregate function names from the running TSStore / engine
+     * instead of returning the built-in static list.
+     *
+     * @param fn  Callable returning a JSON array of aggregate name strings.
+     *            Pass `nullptr` to revert to the static default list.
+     */
+    using AggregateTypesProviderFn = std::function<nlohmann::json()>;
+    void setAggregateTypesProvider(AggregateTypesProviderFn fn);
+
+    /**
+     * @brief Inject a provider for the active retention-policy list.
+     *
+     * When set, `handleRetentionGet()` calls the provider to obtain the
+     * persisted retention policies from the backend instead of returning
+     * an empty list.
+     *
+     * @param fn  Callable returning a JSON array of retention-policy objects.
+     *            Pass `nullptr` to revert to the empty-array default.
+     */
+    using RetentionPoliciesProviderFn = std::function<nlohmann::json()>;
+    void setRetentionPoliciesProvider(RetentionPoliciesProviderFn fn);
     
     /**
      * @brief Handle GET /ts/metrics request
@@ -185,6 +228,17 @@ private:
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
+    AggregateTypesProviderFn aggregate_types_provider_;
+    RetentionPoliciesProviderFn retention_policies_provider_;
+
+    /// Optional: exposes listAggregates() for the /aggregates endpoint.
+    std::shared_ptr<ContinuousAggMaterializationEngine> agg_engine_;
+    /// Optional: exposes getPolicy() for the /retention endpoint.
+    std::shared_ptr<RetentionManager> retention_manager_;
+
+    // Retention-policy injection bridge (stub #301)
+    RetentionPoliciesProviderFn retentionPoliciesFn_;
+    mutable std::mutex retentionPoliciesMutex_;
 
     AggregatesFn aggregates_fn_;  ///< Optional live aggregates provider (stub #301)
     RetentionsFn retentions_fn_;  ///< Optional live retention-policy provider (stub #301)

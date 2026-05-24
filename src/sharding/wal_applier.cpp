@@ -1,20 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wal_applier.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:57                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     179                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wal_applier.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 165
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=45 | delta=42 | status=divergent
+ * External Severity (v3): C=16, H=21, M=8
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/wal_applier.h"
@@ -118,7 +110,15 @@ void WALApplier::resetStatistics() {
 }
 
 bool WALApplier::applyEntry(const WALEntry& entry) {
-    // Retry logic
+    // Exponential backoff for transient apply failures.
+    themis::utils::RetryConfig backoff_cfg;
+    backoff_cfg.max_attempts       = static_cast<uint32_t>(config_.max_apply_retries);
+    backoff_cfg.initial_backoff_ms = config_.retry_initial_delay_ms;
+    backoff_cfg.max_backoff_ms     = 30'000u;
+    backoff_cfg.multiplier         = 2.0;
+    backoff_cfg.jitter_fraction    = 0.0;
+    themis::utils::ExponentialBackoff backoff(backoff_cfg);
+
     for (size_t attempt = 0; attempt < config_.max_apply_retries; ++attempt) {
         try {
             // Call apply handler
@@ -126,16 +126,16 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
                 return true;
             }
         } catch (const std::exception& e) {
-            std::cerr << "WALApplier: Exception applying entry at LSN " 
+            std::cerr << "WALApplier: Exception applying entry at LSN "
                       << entry.lsn.toString() << ": " << e.what() << std::endl;
         }
-        
-        // Retry delay
+
+        // Wait before the next attempt (no-op on the last iteration).
         if (attempt < config_.max_apply_retries - 1) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100 * (attempt + 1)));
+            backoff.wait();
         }
     }
-    
+
     return false;
 }
 

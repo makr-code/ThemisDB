@@ -1,17 +1,12 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=4 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/tensor_index_manager.cpp                    ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                     ║
-    • Maturity Level:  🟡 EXPERIMENTAL                                 ║
-    • Open Issues:     Stubs: 1 (TIM-01)                                 ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_index_manager.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 339
+ * Open Issues: TODOs=1, Stubs=5, Gaps=8, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=8 | external_v3=70 | delta=62 | status=divergent
+ * External Severity (v3): C=11, H=44, M=15
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -19,7 +14,7 @@
  * @brief TensorIndexManager implementation.
  *
  * ### Stub log
- * - TIM-01  `ggmlCorePtrs()` — mmap bridge to GGML (Phase 3, Q1 2027)
+ * - TIM-01  `ggmlCorePtrs()` legacy raw-pointer path — resolved 2026-05-20
  * - TIM-02  `dropTenantIndexes()` RocksDB prefix-delete — resolved 2026-05-06
  */
 
@@ -32,6 +27,7 @@
 #include <fstream>
 #include <shared_mutex>
 #include <stdexcept>
+#include <unordered_map>
 
 // The FlatTensorIndex concrete class is defined in tensor_index.cpp and is
 // not exposed in the header.  We forward-create it here via a factory lambda
@@ -53,6 +49,12 @@ class FlatTensorIndex;
 
 namespace themis {
 namespace tensor {
+
+namespace {
+thread_local std::unordered_map<std::string, std::shared_ptr<TensorMmapBridge>>
+    g_ggml_bridge_cache;
+constexpr std::size_t kMaxLegacyBridgeCacheEntries = 128;
+} // namespace
 
 // ============================================================================
 // TensorIndexManager — implementation
@@ -324,17 +326,25 @@ TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,
                                   const std::string& collection,
                                   const std::string& field,
                                   int64_t id) const {
-    auto* idx = getIndex(tenant_id, collection, field);
-    if (!idx) return {};
+    const std::string cache_key =
+        tenant_id + ":" + collection + ":" + field + ":" + std::to_string(id);
 
-    const storage::TTTrain* train = idx->get(id);
-    if (!train) return {};
+    auto bridge = mapCores(tenant_id, collection, field, id);
+    if (!bridge) {
+        g_ggml_bridge_cache.erase(cache_key);
+        return {};
+    }
+
+    if (g_ggml_bridge_cache.size() >= kMaxLegacyBridgeCacheEntries) {
+        g_ggml_bridge_cache.clear();
+    }
+    auto& slot = g_ggml_bridge_cache[cache_key];
+    slot = std::shared_ptr<TensorMmapBridge>(std::move(bridge));
 
     std::vector<std::pair<const float*, size_t>> ptrs;
-    ptrs.reserve(train->cores.size());
-    for (const auto& core : train->cores) {
-        ptrs.emplace_back(core.data.data(),
-                          core.data.size() * sizeof(float));
+    ptrs.reserve(slot->coreCount());
+    for (const auto& slice : slot->slices()) {
+        ptrs.emplace_back(slice.data, slice.bytes);
     }
     return ptrs;
 }

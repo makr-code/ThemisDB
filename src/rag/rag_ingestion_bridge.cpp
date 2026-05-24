@@ -1,15 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rag_ingestion_bridge.cpp                           ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-04-16                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rag_ingestion_bridge.cpp | Version: 0.1.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 267
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=54 | delta=51 | status=divergent
+ * External Severity (v3): C=2, H=39, M=13
+ * PR: #4697 feat(rag,toolbox): RAGIngestionBridge + ingestion workflow profiles... (2026-04-16T06:00:44Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "rag/rag_ingestion_bridge.h"
@@ -112,10 +109,10 @@ IndexResult RAGIngestionBridge::indexDocument(
     // Write graph entities / relations
     if (graph_writer_) {
         if (!entity_set.nodes.empty()) {
-            graph_writer_->writeEntities(entity_set.nodes);
+            static_cast<void>(graph_writer_->writeEntities(entity_set.nodes));
         }
         if (!entity_set.edges.empty()) {
-            graph_writer_->writeRelations(entity_set.edges);
+            static_cast<void>(graph_writer_->writeRelations(entity_set.edges));
         }
     }
 

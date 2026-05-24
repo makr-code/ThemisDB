@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themis_help_lora.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     247                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themis_help_lora.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -95,20 +84,30 @@ public:
         std::string ollama_model_name = "llama2:7b";
         std::string model_config_yaml = "config/llm_remote_models.yaml";
         bool auto_download_model = true;
-        
+
         // Dependencies (to be injected)
         rocksdb::TransactionDB* db = nullptr;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
-        
+
         // Training settings
         lora::LoRAHyperparameters hyperparameters;
         int feedback_batch_size = 100;  // Train after N feedback items
         std::chrono::hours training_interval{24}; // Or train daily
-        
+
         // Quality settings
         float min_accuracy_threshold = 0.80f;
         bool enable_ab_testing = true;
         bool enable_auto_rollback = true;
+
+        /**
+         * @brief Optional model path resolver (stub #299).
+         *
+         * When set, the Impl uses this callable to resolve the GGUF path for
+         * a given model_id instead of the hardcoded `"models/<id>.gguf"` fallback.
+         * @param model_id The base model identifier string.
+         * @return Resolved filesystem or URL path for the GGUF file.
+         */
+        std::function<std::string(const std::string& model_id)> model_path_provider;
     };
     
     explicit ThemisHelpLoRA(const Config& config);

@@ -1,4 +1,14 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+/*
+ * ThemisDB | File: shard_repair_api_handler.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 376
+ * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=4 | external_v3=174 | delta=170 | status=divergent
+ * External Severity (v3): C=7, H=51, M=116
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #include "server/shard_repair_api_handler.h"
 
 #include "sharding/shard_repair_engine.h"

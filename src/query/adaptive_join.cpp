@@ -1,23 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_join.cpp                                  ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:50:18                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     542                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8700b97f42  2026-03-14  fix(query): address review comments on adaptive join stra... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_join.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 527
+ * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=1, Sim=3, Debt=0
+ * Gap Correlation: internal=6 | external_v3=333 | delta=327 | status=divergent
+ * External Severity (v3): C=105, H=191, M=37
+ * PR: #4210 fix(query): Address review comments on AdaptiveJoinExecutor (Issue ... (2026-03-14T18:12:35Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "query/adaptive_join.h"

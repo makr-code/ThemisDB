@@ -1,44 +1,28 @@
-// THEMIS_GAP_STATS: gaps=15 unimpl=11 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ldap_connection_pool.cpp                           ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:48:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     431                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8964e83dc5  2026-03-12  Add updater class integration and GitHub Actions for plug... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ldap_connection_pool.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=13, H=47, M=17, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/ldap_connection_pool.h"
 
-#include <spdlog/spdlog.h>
-
 #include <algorithm>
 #include <cassert>
 #include <chrono>
+#include <spdlog/spdlog.h>
 
 // ---------------------------------------------------------------------------
 // Platform-specific LDAP includes
 // ---------------------------------------------------------------------------
 #ifdef _WIN32
-#  include <windows.h>
-#  include <winldap.h>
-#  define THEMIS_HAS_LDAP 1
+#include <windows.h>
+#include <winldap.h>
+#define THEMIS_HAS_LDAP 1
 #elif defined(THEMIS_HAS_LDAP)
-#  include <ldap.h>
-#  include <lber.h>
+#include <lber.h>
+#include <ldap.h>
 #endif
 
 namespace themis {
@@ -48,37 +32,31 @@ namespace auth {
 // PooledConnection
 // ===========================================================================
 
-PooledConnection::PooledConnection(LDAPConnectionPool& pool, LDAP* handle)
-    : pool_(&pool), handle_(handle), stale_(false)
-{}
+PooledConnection::PooledConnection(LDAPConnectionPool &pool, LDAP *handle)
+    : pool_(&pool), handle_(handle), stale_(false) {}
 
-PooledConnection::PooledConnection(PooledConnection&& other)
-    : pool_(other.pool_)
-    , handle_(other.handle_)
-    , stale_(other.stale_)
-{
+PooledConnection::PooledConnection(PooledConnection &&other)
+    : pool_(other.pool_), handle_(other.handle_), stale_(other.stale_) {
     other.pool_   = nullptr;
     other.handle_ = nullptr;
 }
 
-PooledConnection& PooledConnection::operator=(PooledConnection&& other)
-{
+PooledConnection &PooledConnection::operator=(PooledConnection &&other) {
     if (this != &other) {
         // Return the current handle before stealing the new one.
         if (pool_ && handle_) {
             pool_->returnConnection(handle_, stale_);
         }
-        pool_   = other.pool_;
-        handle_ = other.handle_;
-        stale_  = other.stale_;
+        pool_         = other.pool_;
+        handle_       = other.handle_;
+        stale_        = other.stale_;
         other.pool_   = nullptr;
         other.handle_ = nullptr;
     }
     return *this;
 }
 
-PooledConnection::~PooledConnection()
-{
+PooledConnection::~PooledConnection() {
     if (pool_ && handle_) {
         pool_->returnConnection(handle_, stale_);
     }
@@ -88,14 +66,12 @@ PooledConnection::~PooledConnection()
 // LDAPConnectionPool — constructor / destructor
 // ===========================================================================
 
-LDAPConnectionPool::LDAPConnectionPool(const LDAPPoolConfig& config)
-    : config_(config)
-{
+LDAPConnectionPool::LDAPConnectionPool(const LDAPPoolConfig &config) : config_(config) {
 #ifdef THEMIS_HAS_LDAP
     // Pre-warm the pool with min_idle connections.
     const int initial = std::max(0, std::min(config_.min_idle, config_.max_size));
     for (int i = 0; i < initial; ++i) {
-        LDAP* ld = createConnection();
+        LDAP *ld = createConnection();
         if (ld) {
             idle_.push_back(ld);
             ++total_count_;
@@ -103,20 +79,18 @@ LDAPConnectionPool::LDAPConnectionPool(const LDAPPoolConfig& config)
     }
     spdlog::info("LDAPConnectionPool: initialised pool (server={}, min_idle={}, "
                  "max_size={}, pre-connected={})",
-                 config_.server_url, config_.min_idle, config_.max_size,
-                 static_cast<int>(idle_.size()));
+                 config_.server_url, config_.min_idle, config_.max_size, static_cast<int>(idle_.size()));
 #else
     spdlog::warn("LDAPConnectionPool: LDAP support not compiled in — pool disabled");
 #endif
 }
 
-LDAPConnectionPool::~LDAPConnectionPool()
-{
+LDAPConnectionPool::~LDAPConnectionPool() {
     {
         std::lock_guard<std::mutex> lock(mutex_);
         closing_ = true;
         // Destroy all idle handles immediately.
-        for (LDAP* ld : idle_) {
+        for (LDAP *ld : idle_) {
             destroyHandle(ld);
             --total_count_;
         }
@@ -128,9 +102,7 @@ LDAPConnectionPool::~LDAPConnectionPool()
     // Wait (bounded) for active connections to be returned.
     // This avoids use-after-free when PooledConnection outlives the pool.
     constexpr int kShutdownWaitMs = 5000;
-    const auto deadline =
-        std::chrono::steady_clock::now() +
-        std::chrono::milliseconds(kShutdownWaitMs);
+    const auto deadline           = std::chrono::steady_clock::now() + std::chrono::milliseconds(kShutdownWaitMs);
     std::unique_lock<std::mutex> lock(mutex_);
     while (active_count_.load(std::memory_order_acquire) > 0) {
         if (cv_.wait_until(lock, deadline) == std::cv_status::timeout) {
@@ -146,15 +118,12 @@ LDAPConnectionPool::~LDAPConnectionPool()
 // checkout
 // ===========================================================================
 
-std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout()
-{
+std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
 #ifndef THEMIS_HAS_LDAP
     spdlog::warn("LDAPConnectionPool::checkout: LDAP not compiled in");
     return nullptr;
 #else
-    const auto deadline =
-        std::chrono::steady_clock::now() +
-        std::chrono::milliseconds(config_.checkout_timeout_ms);
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(config_.checkout_timeout_ms);
 
     std::unique_lock<std::mutex> lock(mutex_);
 
@@ -166,7 +135,7 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout()
 
         // --- 1. Try to pop an idle connection --------------------------------
         while (!idle_.empty()) {
-            LDAP* candidate = idle_.front();
+            LDAP *candidate = idle_.front();
             idle_.pop_front();
 
             // Health-check the candidate outside the lock to avoid blocking
@@ -185,8 +154,7 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout()
             if (healthy) {
                 ++active_count_;
                 // total_count_ is unchanged (idle → active)
-                return std::unique_ptr<PooledConnection>(
-                    new PooledConnection(*this, candidate));
+                return std::unique_ptr<PooledConnection>(new PooledConnection(*this, candidate));
             }
 
             // Stale — evict and decrement total.
@@ -198,14 +166,13 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout()
         // --- 2. No idle connection available — create one if capacity permits
         if (total_count_ < config_.max_size) {
             lock.unlock();
-            LDAP* fresh = createConnection();
+            LDAP *fresh = createConnection();
             lock.lock();
 
             if (fresh) {
                 ++total_count_;
                 ++active_count_;
-                return std::unique_ptr<PooledConnection>(
-                    new PooledConnection(*this, fresh));
+                return std::unique_ptr<PooledConnection>(new PooledConnection(*this, fresh));
             }
             // createConnection() failed — fall through to waiting/timeout
         }
@@ -226,9 +193,10 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout()
 // returnConnection (called by ~PooledConnection)
 // ===========================================================================
 
-void LDAPConnectionPool::returnConnection(LDAP* handle, bool stale)
-{
-    if (!handle) return;
+void LDAPConnectionPool::returnConnection(LDAP *handle, bool stale) {
+    if (!handle) {
+        return;
+    }
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -252,23 +220,19 @@ void LDAPConnectionPool::returnConnection(LDAP* handle, bool stale)
 // createConnection
 // ===========================================================================
 
-LDAP* LDAPConnectionPool::createConnection()
-{
+LDAP *LDAPConnectionPool::createConnection() {
 #ifndef THEMIS_HAS_LDAP
     return nullptr;
 #elif defined(_WIN32)
-    LDAP* ld = ldap_init(
-        const_cast<PCHAR>(config_.server_url.c_str()),
-        config_.port > 0 ? static_cast<ULONG>(config_.port) : 389U
-    );
+    LDAP *ld = ldap_init(const_cast<PCHAR>(config_.server_url.c_str()),
+                         config_.port > 0 ? static_cast<ULONG>(config_.port) : 389U);
     if (!ld) {
-        spdlog::error("LDAPConnectionPool: ldap_init failed for server {}",
-                      config_.server_url);
+        spdlog::error("LDAPConnectionPool: ldap_init failed for server {}", config_.server_url);
         return nullptr;
     }
 
     ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
-    ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+    ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void *>(&timelimit));
 
     if (ldap_set_option(ld, LDAP_OPT_REFERRALS, LDAP_OPT_OFF) != LDAP_SUCCESS) {
         spdlog::error("LDAPConnectionPool: failed to disable referrals on new connection");
@@ -278,20 +242,19 @@ LDAP* LDAPConnectionPool::createConnection()
 
     if (config_.use_tls) {
         if (ldap_start_tls_s(ld, nullptr, nullptr, nullptr, nullptr) != LDAP_SUCCESS) {
-            spdlog::error("LDAPConnectionPool: StartTLS failed for server {}",
-                          config_.server_url);
+            spdlog::error("LDAPConnectionPool: StartTLS failed for server {}", config_.server_url);
             ldap_unbind(ld);
             return nullptr;
         }
     }
     return ld;
 
-#else  // POSIX / OpenLDAP
-    LDAP* ld = nullptr;
-    int rc = ldap_initialize(&ld, config_.server_url.c_str());
+#else // POSIX / OpenLDAP
+    LDAP *ld = nullptr;
+    int rc   = ldap_initialize(&ld, config_.server_url.c_str());
     if (rc != LDAP_SUCCESS || !ld) {
-        spdlog::error("LDAPConnectionPool: ldap_initialize failed for server {}: {}",
-                      config_.server_url, ldap_err2string(rc));
+        spdlog::error("LDAPConnectionPool: ldap_initialize failed for server {}: {}", config_.server_url,
+                      ldap_err2string(rc));
         return nullptr;
     }
 
@@ -309,10 +272,9 @@ LDAP* LDAPConnectionPool::createConnection()
     ldap_set_option(ld, LDAP_OPT_TIMEOUT, &srch_tv);
 
     int referrals_off = LDAP_OPT_OFF;
-    rc = ldap_set_option(ld, LDAP_OPT_REFERRALS, &referrals_off);
+    rc                = ldap_set_option(ld, LDAP_OPT_REFERRALS, &referrals_off);
     if (rc != LDAP_SUCCESS) {
-        spdlog::error("LDAPConnectionPool: failed to disable referrals: {}",
-                      ldap_err2string(rc));
+        spdlog::error("LDAPConnectionPool: failed to disable referrals: {}", ldap_err2string(rc));
         ldap_unbind_ext_s(ld, nullptr, nullptr);
         return nullptr;
     }
@@ -320,8 +282,8 @@ LDAP* LDAPConnectionPool::createConnection()
     if (config_.use_tls) {
         rc = ldap_start_tls_s(ld, nullptr, nullptr);
         if (rc != LDAP_SUCCESS) {
-            spdlog::error("LDAPConnectionPool: StartTLS failed for server {}: {}",
-                          config_.server_url, ldap_err2string(rc));
+            spdlog::error("LDAPConnectionPool: StartTLS failed for server {}: {}", config_.server_url,
+                          ldap_err2string(rc));
             ldap_unbind_ext_s(ld, nullptr, nullptr);
             return nullptr;
         }
@@ -334,36 +296,28 @@ LDAP* LDAPConnectionPool::createConnection()
 // isHealthy — rootDSE ping
 // ===========================================================================
 
-bool LDAPConnectionPool::isHealthy(LDAP* handle) const
-{
-    if (!handle) return false;
+bool LDAPConnectionPool::isHealthy(LDAP *handle) const {
+    if (!handle) {
+        return false;
+    }
 
 #ifndef THEMIS_HAS_LDAP
     return false;
 #elif defined(_WIN32)
     // On Windows, do a base-scope search on the rootDSE.
-    PCHAR attrs[] = {
-        const_cast<PCHAR>("supportedLDAPVersion"),
-        nullptr
-    };
-    LDAPMessage* result = nullptr;
-    const ULONG rc = ldap_search_s(
-        handle,
-        const_cast<PCHAR>(""),   // empty base = rootDSE
-        LDAP_SCOPE_BASE,
-        const_cast<PCHAR>("(objectClass=*)"),
-        attrs,
-        0,
-        &result
-    );
+    PCHAR attrs[]       = {const_cast<PCHAR>("supportedLDAPVersion"), nullptr};
+    LDAPMessage *result = nullptr;
+    const ULONG rc      = ldap_search_s(handle,
+                                        const_cast<PCHAR>(""), // empty base = rootDSE
+                                        LDAP_SCOPE_BASE, const_cast<PCHAR>("(objectClass=*)"), attrs, 0, &result);
     if (result) {
         ldap_msgfree(result);
     }
     return rc == LDAP_SUCCESS;
 
-#else  // POSIX / OpenLDAP
-    const char* attrs[] = {"supportedLDAPVersion", nullptr};
-    LDAPMessage* result = nullptr;
+#else // POSIX / OpenLDAP
+    const char *attrs[] = {"supportedLDAPVersion", nullptr};
+    LDAPMessage *result = nullptr;
 
     // Use the configured search timeout for the liveness probe, but cap it at
     // 2 s so that a misconfigured large timeout doesn't stall checkout().
@@ -371,18 +325,10 @@ bool LDAPConnectionPool::isHealthy(LDAP* handle) const
     tv.tv_sec  = std::min(config_.search_timeout_seconds, 2);
     tv.tv_usec = 0;
 
-    const int rc = ldap_search_ext_s(
-        handle,
-        "",                   // empty base = rootDSE
-        LDAP_SCOPE_BASE,
-        "(objectClass=*)",
-        const_cast<char**>(attrs),
-        0,
-        nullptr, nullptr,
-        &tv,
-        LDAP_NO_LIMIT,
-        &result
-    );
+    const int rc = ldap_search_ext_s(handle,
+                                     "", // empty base = rootDSE
+                                     LDAP_SCOPE_BASE, "(objectClass=*)", const_cast<char **>(attrs), 0, nullptr,
+                                     nullptr, &tv, LDAP_NO_LIMIT, &result);
     if (result) {
         ldap_msgfree(result);
     }
@@ -394,15 +340,16 @@ bool LDAPConnectionPool::isHealthy(LDAP* handle) const
 // destroyHandle
 // ===========================================================================
 
-void LDAPConnectionPool::destroyHandle(LDAP* handle) noexcept
-{
-    if (!handle) return;
+void LDAPConnectionPool::destroyHandle(LDAP *handle) noexcept {
+    if (!handle) {
+        return;
+    }
 #ifdef THEMIS_HAS_LDAP
-#  ifdef _WIN32
+#ifdef _WIN32
     ldap_unbind(handle);
-#  else
+#else
     ldap_unbind_ext_s(handle, nullptr, nullptr);
-#  endif
+#endif
 #endif
 }
 
@@ -410,23 +357,19 @@ void LDAPConnectionPool::destroyHandle(LDAP* handle) noexcept
 // Metrics accessors
 // ===========================================================================
 
-int LDAPConnectionPool::poolSize() const noexcept
-{
+int LDAPConnectionPool::poolSize() const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
     return total_count_;
 }
 
-int LDAPConnectionPool::idleConnections() const noexcept
-{
+int LDAPConnectionPool::idleConnections() const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
     return static_cast<int>(idle_.size());
 }
 
-int LDAPConnectionPool::activeConnections() const noexcept
-{
+int LDAPConnectionPool::activeConnections() const noexcept {
     return active_count_.load(std::memory_order_relaxed);
 }
 
 } // namespace auth
 } // namespace themis
-

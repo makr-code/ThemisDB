@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            bench_importer_throughput.cpp                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:43:20                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   82.0/100                                       ║
-    • Total Lines:     1116                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: bench_importer_throughput.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
+ * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=8, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // bench_importer_throughput.cpp

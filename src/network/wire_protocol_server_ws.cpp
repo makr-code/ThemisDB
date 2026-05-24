@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_server_ws.cpp                        ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 18:49:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1016                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 74b4817f77  2026-03-11  fix(network): prevent active_connection_count_ underflow ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_server_ws.cpp | Version: 0.0.18 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1002
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=223 | delta=220 | status=divergent
+ * External Severity (v3): C=12, H=178, M=33
+ * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // WebSocket upgrade session for ThemisDB wire protocol port (8766).
@@ -30,6 +18,7 @@
 #include "network/wire_protocol_websocket.h"
 #include "network/wire_protocol_server.h"
 #include "network/wire_protocol_helpers.h"
+#include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 
 #include <nlohmann/json.hpp>
@@ -378,75 +367,31 @@ static uint32_t crc32Binary(const uint8_t* data, size_t len) {
 
 } // anonymous namespace
 
-// Response OpCodes used on the WebSocket binary path.
-// These complement the request opcodes defined in wire_protocol_server.h.
+// Response opcodes used on the WebSocket binary path.
 namespace {
-    constexpr uint8_t kOpcodeErrorResponse  = 0x00u; ///< Error / NACK
-    constexpr uint8_t kOpcodePong           = 0xFDu; ///< Response to PING (0xFE)
-    constexpr uint8_t kOpcodeGetResponse    = 0x13u; ///< Response to GET (0x10)
-    constexpr uint8_t kOpcodePutResponse    = 0x14u; ///< Response to PUT (0x11)
-    constexpr uint8_t kOpcodeDeleteResponse = 0x15u; ///< Response to DELETE (0x12)
-
-    // Flags field value used in all server-originated response frames.
-    // Setting SKIP_CHECKSUM (bit 2) means the receiver does not need to
-    // read an appended 4-byte CRC32 after the payload.
-    constexpr uint16_t kResponseFlags = 0x0004u;
-
-    // Binary frame header constants
-    constexpr size_t   kFrameHeaderSize    = 12u;
-    constexpr uint8_t  kWireMagic[4]       = {0x54u, 0x4Du, 0x44u, 0x42u}; // "TMDB"
-    constexpr uint16_t kSkipChecksumFlag   = 0x0004u;
-    constexpr uint32_t kMaxBinaryPayload   = 64u * 1024u * 1024u; // 64 MiB
+constexpr uint8_t kOpcodeErrorResponse  = 0x80u;
+constexpr uint8_t kOpcodePongResponse   = 0xFDu;
+constexpr uint8_t kOpcodeGetResponse    = 0x90u;
+constexpr uint8_t kOpcodePutResponse    = 0x91u;
+constexpr uint8_t kOpcodeDeleteResponse = 0x92u;
 } // anonymous namespace
 
-std::vector<uint8_t> WireProtocolWebSocketSession::buildResponseFrame(
-    uint8_t opcode, const std::vector<uint8_t>& payload) const
-{
-    // Wire frame layout: Magic(4) + Version(1) + OpCode(1) + Flags(2) + PayloadSize(4) + Payload
-    std::vector<uint8_t> frame;
-    frame.reserve(kFrameHeaderSize + payload.size());
-
-    // Magic bytes "TMDB"
-// static
 std::vector<uint8_t> WireProtocolWebSocketSession::buildBinaryResponseFrame(
     uint8_t resp_opcode, const std::vector<uint8_t>& payload)
 {
-    // Frame layout: Magic(4) + Version(1) + OpCode(1) + Flags(2) + PayloadSize(4) + Payload
-    // Responses always set SKIP_CHECKSUM_FLAG – WebSocket already provides frame integrity.
     std::vector<uint8_t> frame;
     frame.reserve(kWireHeaderSize + payload.size());
-    frame.push_back(kWireMagic[0]);
-    frame.push_back(kWireMagic[1]);
-    frame.push_back(kWireMagic[2]);
-    frame.push_back(kWireMagic[3]);
-
-    // Version
+    frame.insert(frame.end(), std::begin(kWireMagic), std::end(kWireMagic));
     frame.push_back(0x01u);
-
-    // OpCode
-    frame.push_back(opcode);
-
-    // Flags (big-endian) – SKIP_CHECKSUM so receivers don't expect a trailing CRC32
-    frame.push_back(static_cast<uint8_t>((kResponseFlags >> 8) & 0xFF));
-    frame.push_back(static_cast<uint8_t>( kResponseFlags       & 0xFF));
-
-    // PayloadSize (big-endian)
-    uint32_t ps = static_cast<uint32_t>(payload.size());
-    frame.push_back(static_cast<uint8_t>((ps >> 24) & 0xFF));
-    frame.push_back(static_cast<uint8_t>((ps >> 16) & 0xFF));
-    frame.push_back(static_cast<uint8_t>((ps >>  8) & 0xFF));
-    frame.push_back(static_cast<uint8_t>( ps         & 0xFF));
-
-    // Payload
-    frame.push_back(0x01);           // Version 1
     frame.push_back(resp_opcode);
-    frame.push_back(static_cast<uint8_t>(kWireSkipChecksumFlag >> 8));
+    frame.push_back(static_cast<uint8_t>((kWireSkipChecksumFlag >> 8) & 0xFF));
     frame.push_back(static_cast<uint8_t>(kWireSkipChecksumFlag & 0xFF));
-    const uint32_t ps = static_cast<uint32_t>(payload.size());
-    frame.push_back(static_cast<uint8_t>(ps >> 24));
-    frame.push_back(static_cast<uint8_t>((ps >> 16) & 0xFF));
-    frame.push_back(static_cast<uint8_t>((ps >> 8) & 0xFF));
-    frame.push_back(static_cast<uint8_t>(ps & 0xFF));
+
+    const uint32_t payload_size = static_cast<uint32_t>(payload.size());
+    frame.push_back(static_cast<uint8_t>((payload_size >> 24) & 0xFF));
+    frame.push_back(static_cast<uint8_t>((payload_size >> 16) & 0xFF));
+    frame.push_back(static_cast<uint8_t>((payload_size >> 8) & 0xFF));
+    frame.push_back(static_cast<uint8_t>(payload_size & 0xFF));
     frame.insert(frame.end(), payload.begin(), payload.end());
     return frame;
 }
@@ -455,53 +400,53 @@ void WireProtocolWebSocketSession::sendBinaryError(uint32_t error_code,
                                                     const std::string& message)
 {
     json err;
-    err["error_code"]    = error_code;
+    err["error_code"] = error_code;
     err["error_message"] = message;
-    const std::string s  = err.dump();
-    const std::vector<uint8_t> payload(s.begin(), s.end());
-    sendBinary(buildResponseFrame(kOpcodeErrorResponse, payload));
+    const std::string payload_text = err.dump();
+    const std::vector<uint8_t> payload(payload_text.begin(), payload_text.end());
+    sendBinary(buildBinaryResponseFrame(kOpcodeErrorResponse, payload));
 }
 
-void WireProtocolWebSocketSession::handleBinaryPing() {
+void WireProtocolWebSocketSession::handleBinaryPing()
+{
     json resp;
-    resp["pong"]      = true;
+    resp["pong"] = true;
     resp["timestamp"] = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
-    const std::string s = resp.dump();
-    sendBinary(buildResponseFrame(kOpcodePong, {s.begin(), s.end()}));
+    const std::string payload_text = resp.dump();
+    sendBinary(buildBinaryResponseFrame(kOpcodePongResponse,
+                                        {payload_text.begin(), payload_text.end()}));
 }
 
 void WireProtocolWebSocketSession::handleBinaryGet(const uint8_t* payload_data,
                                                     uint32_t payload_size)
 {
     if (!server_->storage_) {
-        sendBinaryError(0x0004u, "Storage not available");
+        sendBinaryError(0x0005u, "Storage not available");
         return;
     }
+
     try {
-        const std::string payload_str(reinterpret_cast<const char*>(payload_data), payload_size);
-        const auto req = json::parse(payload_str);
+        const std::string payload_text(reinterpret_cast<const char*>(payload_data), payload_size);
+        const auto req = json::parse(payload_text);
         const std::string key = req.value("key", "");
         if (key.empty()) {
-            sendBinaryError(0x000Au, "Missing 'key' in GET payload");
+            sendBinaryError(0x0003u, "GET requires field 1 (key)");
             return;
         }
 
         const auto result = server_->storage_->get(key);
-        json resp;
+        ProtobufSerializer serializer;
         if (result.has_value()) {
-            const auto& bytes = result.value();
-            resp["status"]  = "ok";
-            resp["key"]     = key;
-            resp["value"]   = std::string(bytes.begin(), bytes.end());
+            serializer.writeTag(1, 0);
+            serializer.writeVarint(0u);
+            serializer.writeTag(2, 2);
+            serializer.writeLengthDelimited(result.value());
         } else {
-            resp["status"]  = "not_found";
-            resp["key"]     = key;
-            resp["message"] = "Key not found";
+            serializer.writeTag(1, 0);
+            serializer.writeVarint(1u);
         }
-        const std::string s = resp.dump();
-        sendBinary(buildResponseFrame(kOpcodeGetResponse, {s.begin(), s.end()}));
-
+        sendBinary(buildBinaryResponseFrame(kOpcodeGetResponse, serializer.data()));
     } catch (const json::exception& e) {
         sendBinaryError(0x0009u, std::string("Invalid JSON in GET payload: ") + e.what());
     }
@@ -511,27 +456,29 @@ void WireProtocolWebSocketSession::handleBinaryPut(const uint8_t* payload_data,
                                                     uint32_t payload_size)
 {
     if (!server_->storage_) {
-        sendBinaryError(0x0004u, "Storage not available");
+        sendBinaryError(0x0005u, "Storage not available");
         return;
     }
+
     try {
-        const std::string payload_str(reinterpret_cast<const char*>(payload_data), payload_size);
-        const auto req = json::parse(payload_str);
-        const std::string key   = req.value("key",   "");
+        const std::string payload_text(reinterpret_cast<const char*>(payload_data), payload_size);
+        const auto req = json::parse(payload_text);
+        const std::string key = req.value("key", "");
         const std::string value = req.value("value", "");
         if (key.empty()) {
-            sendBinaryError(0x000Au, "Missing 'key' in PUT payload");
+            sendBinaryError(0x0003u, "PUT requires field 1 (key)");
             return;
         }
 
         const bool ok = server_->storage_->put(key, value);
-        json resp;
-        resp["status"] = ok ? "ok" : "error";
-        resp["key"]    = key;
-        if (!ok) resp["message"] = "PUT operation failed";
-        const std::string s = resp.dump();
-        sendBinary(buildResponseFrame(kOpcodePutResponse, {s.begin(), s.end()}));
-
+        ProtobufSerializer serializer;
+        serializer.writeTag(1, 0);
+        serializer.writeVarint(ok ? 0u : 2u);
+        if (!ok) {
+            serializer.writeTag(2, 2);
+            serializer.writeString("Put operation failed");
+        }
+        sendBinary(buildBinaryResponseFrame(kOpcodePutResponse, serializer.data()));
     } catch (const json::exception& e) {
         sendBinaryError(0x0009u, std::string("Invalid JSON in PUT payload: ") + e.what());
     }
@@ -541,350 +488,102 @@ void WireProtocolWebSocketSession::handleBinaryDelete(const uint8_t* payload_dat
                                                        uint32_t payload_size)
 {
     if (!server_->storage_) {
-        sendBinaryError(0x0004u, "Storage not available");
+        sendBinaryError(0x0005u, "Storage not available");
         return;
     }
+
     try {
-        const std::string payload_str(reinterpret_cast<const char*>(payload_data), payload_size);
-        const auto req = json::parse(payload_str);
+        const std::string payload_text(reinterpret_cast<const char*>(payload_data), payload_size);
+        const auto req = json::parse(payload_text);
         const std::string key = req.value("key", "");
         if (key.empty()) {
-            sendBinaryError(0x000Au, "Missing 'key' in DELETE payload");
+            sendBinaryError(0x0003u, "DELETE requires field 1 (key)");
             return;
         }
 
         const bool ok = server_->storage_->del(key);
-        json resp;
-        resp["status"] = ok ? "ok" : "error";
-        resp["key"]    = key;
-        if (!ok) resp["message"] = "DELETE operation failed";
-        const std::string s = resp.dump();
-        sendBinary(buildResponseFrame(kOpcodeDeleteResponse, {s.begin(), s.end()}));
-
+        ProtobufSerializer serializer;
+        serializer.writeTag(1, 0);
+        serializer.writeVarint(ok ? 0u : 1u);
+        sendBinary(buildBinaryResponseFrame(kOpcodeDeleteResponse, serializer.data()));
     } catch (const json::exception& e) {
         sendBinaryError(0x0009u, std::string("Invalid JSON in DELETE payload: ") + e.what());
     }
-    // Error response opcode: 0x80
-    // Payload: protobuf field 1 = error_code (varint), field 2 = message (string)
-    ProtobufSerializer s;
-    s.writeTag(1, 0);  // field 1, wire_type varint
-    s.writeVarint(error_code);
-    s.writeTag(2, 2);  // field 2, wire_type length-delimited
-    s.writeString(message);
-    sendBinary(buildBinaryResponseFrame(0x80, s.data()));
-    THEMIS_WARN("[WireWS] session {} binary error: [{:#06x}] {}",
-                session_id_, error_code, message);
 }
 
-void WireProtocolWebSocketSession::processBinaryFrame(
-    const std::vector<uint8_t>& data)
+void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>& data)
 {
-    // Binary WebSocket frames carry a raw ThemisDB wire-protocol frame.
-    //
-    // Frame layout (V1):
-    //   Offset  Size  Description
-    //   ------  ----  -----------
-    //     0       4   Magic ("TMDB" = 0x54 0x4D 0x44 0x42)
-    //     4       1   Version (currently 0x01)
-    //     5       1   OpCode
-    //     6       2   Flags (big-endian); bit 2 = SKIP_CHECKSUM
-    //     8       4   PayloadSize (big-endian, in bytes)
-    //    12    [size]  Payload bytes
-    //   12+n     4   Optional CRC32 (big-endian) if SKIP_CHECKSUM flag is NOT set
-    //
-    // Responses are sent back as binary WebSocket frames using the same wire
-    // frame layout with the SKIP_CHECKSUM flag set.
-
-    if (data.size() < kFrameHeaderSize) {
-        THEMIS_WARN("[WireWS] session {} binary frame too short ({} bytes)",
-                    session_id_, data.size());
+    if (data.size() < kWireHeaderSize) {
         sendBinaryError(0x0008u, "Binary frame too short (minimum 12-byte header required)");
         return;
     }
 
-    // Validate magic bytes
     if (data[0] != kWireMagic[0] || data[1] != kWireMagic[1] ||
         data[2] != kWireMagic[2] || data[3] != kWireMagic[3]) {
-        THEMIS_WARN("[WireWS] session {} invalid magic bytes 0x{:02X}{:02X}{:02X}{:02X}",
-                    session_id_, data[0], data[1], data[2], data[3]);
-        sendBinaryError(0x0006u, "Invalid magic bytes – expected 'TMDB'");
+        sendBinaryError(0x0009u, "Invalid magic bytes: expected TMDB");
         return;
     }
 
-    // Parse header fields (version is reserved for future use)
     const uint8_t opcode = data[5];
-    uint16_t flags = (static_cast<uint16_t>(data[6]) << 8) | data[7];
-    uint32_t payload_size = (static_cast<uint32_t>(data[8])  << 24)
-                          | (static_cast<uint32_t>(data[9])  << 16)
-                          | (static_cast<uint32_t>(data[10]) <<  8)
-                          |  static_cast<uint32_t>(data[11]);
+    const uint16_t flags = (static_cast<uint16_t>(data[6]) << 8) | data[7];
+    const uint32_t payload_size =
+        (static_cast<uint32_t>(data[8]) << 24) |
+        (static_cast<uint32_t>(data[9]) << 16) |
+        (static_cast<uint32_t>(data[10]) << 8) |
+         static_cast<uint32_t>(data[11]);
 
-    if (payload_size > kMaxBinaryPayload) {
-        THEMIS_WARN("[WireWS] session {} binary frame payload too large ({} bytes)",
-                    session_id_, payload_size);
+    if (payload_size > kWireMaxPayloadBytes) {
         sendBinaryError(0x0001u, "Payload size exceeds maximum allowed");
         return;
     }
 
-    const bool has_checksum    = !(flags & kSkipChecksumFlag);
-    const size_t expected_size = kFrameHeaderSize + payload_size + (has_checksum ? 4u : 0u);
-
-    if (data.size() < expected_size) {
-        THEMIS_WARN("[WireWS] session {} binary frame incomplete "
-                    "(expected {} bytes, got {})", session_id_, expected_size, data.size());
-        sendBinaryError(0x0008u, "Binary frame incomplete");
-        return;
-    }
-
-    // Optional CRC32 verification
-    if (has_checksum) {
-        uint32_t expected_crc = (static_cast<uint32_t>(data[kFrameHeaderSize + payload_size + 0]) << 24)
-                              | (static_cast<uint32_t>(data[kFrameHeaderSize + payload_size + 1]) << 16)
-                              | (static_cast<uint32_t>(data[kFrameHeaderSize + payload_size + 2]) <<  8)
-                              |  static_cast<uint32_t>(data[kFrameHeaderSize + payload_size + 3]);
-        const uint32_t computed_crc = crc32Binary(data.data(), kFrameHeaderSize + payload_size);
-        if (computed_crc != expected_crc) {
-            THEMIS_WARN("[WireWS] session {} CRC32 mismatch "
-                        "(expected={:#010x}, computed={:#010x})",
-                        session_id_, expected_crc, computed_crc);
-            sendBinaryError(0x000Fu, "Checksum mismatch");
-    // -----------------------------------------------------------------------
-    // 1. Validate minimum frame size (12-byte header required)
-    // -----------------------------------------------------------------------
-    if (data.size() < kWireHeaderSize) {
-        sendBinaryError(0x0008, "Frame too short: header requires 12 bytes");
-        return;
-    }
-
-    // -----------------------------------------------------------------------
-    // 2. Validate magic bytes "TMDB"
-    // -----------------------------------------------------------------------
-    if (data[0] != kWireMagic[0] || data[1] != kWireMagic[1] ||
-        data[2] != kWireMagic[2] || data[3] != kWireMagic[3]) {
-        sendBinaryError(0x0009, "Invalid magic bytes: expected TMDB");
-        return;
-    }
-
-    // -----------------------------------------------------------------------
-    // 3. Parse header fields (big-endian)
-    //    Offset 4: version (ignored – forward-compatible)
-    //    Offset 5: opcode
-    //    Offset 6-7: flags
-    //    Offset 8-11: payload_size
-    // -----------------------------------------------------------------------
-    const uint8_t  opcode       = data[5];
-    const uint16_t flags        = (static_cast<uint16_t>(data[6]) << 8) | data[7];
-    const uint32_t payload_size =
-        (static_cast<uint32_t>(data[8])  << 24) |
-        (static_cast<uint32_t>(data[9])  << 16) |
-        (static_cast<uint32_t>(data[10]) << 8)  |
-         static_cast<uint32_t>(data[11]);
-
-    // -----------------------------------------------------------------------
-    // 4. Validate payload size
-    // -----------------------------------------------------------------------
-    if (payload_size > kWireMaxPayloadBytes) {
-        sendBinaryError(0x0001, "Payload size exceeds maximum allowed");
-        return;
-    }
-
-    // -----------------------------------------------------------------------
-    // 5. Validate total frame size
-    // -----------------------------------------------------------------------
-    const bool   has_checksum  = !(flags & kWireSkipChecksumFlag);
+    const bool has_checksum = !(flags & kWireSkipChecksumFlag);
     const size_t expected_size = kWireHeaderSize + payload_size + (has_checksum ? 4u : 0u);
     if (data.size() < expected_size) {
-        sendBinaryError(0x000A, "Frame truncated");
+        sendBinaryError(0x000Au, "Binary frame incomplete");
         return;
     }
 
-    // -----------------------------------------------------------------------
-    // 6. Extract payload bytes
-    // -----------------------------------------------------------------------
-    const std::vector<uint8_t> payload(
-        data.begin() + static_cast<std::ptrdiff_t>(kWireHeaderSize),
-        data.begin() + static_cast<std::ptrdiff_t>(kWireHeaderSize + payload_size));
-
-    // -----------------------------------------------------------------------
-    // 7. Verify CRC-32 when present
-    // -----------------------------------------------------------------------
     if (has_checksum) {
         const size_t crc_offset = kWireHeaderSize + payload_size;
         const uint32_t expected_crc =
-            (static_cast<uint32_t>(data[crc_offset])     << 24) |
+            (static_cast<uint32_t>(data[crc_offset]) << 24) |
             (static_cast<uint32_t>(data[crc_offset + 1]) << 16) |
-            (static_cast<uint32_t>(data[crc_offset + 2]) << 8)  |
+            (static_cast<uint32_t>(data[crc_offset + 2]) << 8) |
              static_cast<uint32_t>(data[crc_offset + 3]);
-        uint32_t computed_crc = wsCrc32Update(0, data.data(), kWireHeaderSize);
-        if (!payload.empty())
-            computed_crc = wsCrc32Update(computed_crc, payload.data(), payload.size());
+
+        uint32_t computed_crc = wsCrc32Update(0u, data.data(), kWireHeaderSize);
+        if (payload_size > 0) {
+            computed_crc = wsCrc32Update(computed_crc,
+                                         data.data() + kWireHeaderSize,
+                                         payload_size);
+        }
         if (computed_crc != expected_crc) {
-            sendBinaryError(0x000F, "Checksum mismatch");
+            sendBinaryError(0x000Fu, "Checksum mismatch");
             return;
         }
     }
 
-    const uint8_t* payload_ptr = data.data() + kFrameHeaderSize;
-
-    THEMIS_DEBUG("[WireWS] session {} binary frame opcode=0x{:02X} payload_size={}",
-                 session_id_, opcode, payload_size);
-
-    // Dispatch based on OpCode
+    const uint8_t* payload_ptr = data.data() + kWireHeaderSize;
     switch (opcode) {
-        case 0xFEu: // PING
+        case 0xFEu:
             handleBinaryPing();
             break;
-        case 0xFFu: // CLOSE
+        case 0xFFu:
             close();
             break;
-        case 0x10u: // GET
+        case 0x10u:
             handleBinaryGet(payload_ptr, payload_size);
             break;
-        case 0x11u: // PUT
+        case 0x11u:
             handleBinaryPut(payload_ptr, payload_size);
             break;
-        case 0x12u: // DELETE
+        case 0x12u:
             handleBinaryDelete(payload_ptr, payload_size);
             break;
-        default: {
-            char hex_opcode[8];
-            std::snprintf(hex_opcode, sizeof(hex_opcode), "0x%02X", opcode);
-            THEMIS_WARN("[WireWS] session {} unknown binary opcode: {}",
-                        session_id_, hex_opcode);
-            sendBinaryError(0x0002u,
-                            std::string("Unknown OpCode: ") + hex_opcode +
-                            ". Supported binary opcodes: PING(0xFE), CLOSE(0xFF), "
-                            "GET(0x10), PUT(0x11), DELETE(0x12)");
-    THEMIS_DEBUG("[WireWS] session {} binary frame opcode=0x{:02X} payload_size={}",
-                 session_id_, static_cast<unsigned>(opcode), payload_size);
-
-    // -----------------------------------------------------------------------
-    // 8. Dispatch based on opcode
-    // -----------------------------------------------------------------------
-    switch (opcode) {
-
-        // PING (0xFE) – respond with PONG carrying a millisecond timestamp
-        case 0xFE: {
-            ProtobufSerializer s;
-            s.writeTag(1, 0);  // field 1 = timestamp_ms (varint)
-            s.writeVarint(static_cast<uint64_t>(
-                std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::system_clock::now().time_since_epoch()).count()));
-            sendBinary(buildBinaryResponseFrame(0xFE, s.data()));
+        default:
+            sendBinaryError(0x0002u, "Unsupported opcode");
             break;
-        }
-
-        // GET (0x10) – retrieve a value by key
-        // Request payload:  field 1 (string) = key
-        // Response payload: field 1 (varint) = status (0=ok, 1=not_found)
-        //                   field 2 (bytes)  = value (present when status=0)
-        case 0x10: {
-            if (!server_->storage_) {
-                sendBinaryError(0x0005, "Storage not available");
-                return;
-            }
-            ProtobufParser p(payload);
-            std::string key;
-            uint32_t field_number = 0, wire_type = 0;
-            while (!p.atEnd()) {
-                if (!p.readTag(field_number, wire_type)) break;
-                if (field_number == 1 && wire_type == 2)
-                    p.readString(key);
-                else
-                    p.skipField(wire_type);
-            }
-            if (key.empty()) {
-                sendBinaryError(0x0003, "GET requires field 1 (key)");
-                return;
-            }
-            auto result = server_->storage_->get(key);
-            ProtobufSerializer s;
-            if (result.has_value()) {
-                s.writeTag(1, 0); s.writeVarint(0u);  // status = ok
-                s.writeTag(2, 2); s.writeLengthDelimited(result.value());
-            } else {
-                s.writeTag(1, 0); s.writeVarint(1u);  // status = not_found
-            }
-            sendBinary(buildBinaryResponseFrame(0x90, s.data()));
-            break;
-        }
-
-        // PUT (0x11) – store a key-value pair
-        // Request payload:  field 1 (string) = key, field 2 (bytes) = value
-        // Response payload: field 1 (varint) = status (0=ok, 2=error)
-        case 0x11: {
-            if (!server_->storage_) {
-                sendBinaryError(0x0005, "Storage not available");
-                return;
-            }
-            ProtobufParser p(payload);
-            std::string key;
-            std::vector<uint8_t> value;
-            uint32_t field_number = 0, wire_type = 0;
-            while (!p.atEnd()) {
-                if (!p.readTag(field_number, wire_type)) break;
-                if (field_number == 1 && wire_type == 2)
-                    p.readString(key);
-                else if (field_number == 2 && wire_type == 2)
-                    p.readLengthDelimited(value);
-                else
-                    p.skipField(wire_type);
-            }
-            if (key.empty()) {
-                sendBinaryError(0x0003, "PUT requires field 1 (key)");
-                return;
-            }
-            const std::string value_str(value.begin(), value.end());
-            const bool ok = server_->storage_->put(key, value_str);
-            ProtobufSerializer s;
-            s.writeTag(1, 0); s.writeVarint(ok ? 0u : 2u);
-            if (!ok) { s.writeTag(2, 2); s.writeString("Put operation failed"); }
-            sendBinary(buildBinaryResponseFrame(0x91, s.data()));
-            break;
-        }
-
-        // DELETE (0x12) – remove a key
-        // Request payload:  field 1 (string) = key
-        // Response payload: field 1 (varint) = status (0=ok, 1=not_found, 2=error)
-        case 0x12: {
-            if (!server_->storage_) {
-                sendBinaryError(0x0005, "Storage not available");
-                return;
-            }
-            ProtobufParser p(payload);
-            std::string key;
-            uint32_t field_number = 0, wire_type = 0;
-            while (!p.atEnd()) {
-                if (!p.readTag(field_number, wire_type)) break;
-                if (field_number == 1 && wire_type == 2)
-                    p.readString(key);
-                else
-                    p.skipField(wire_type);
-            }
-            if (key.empty()) {
-                sendBinaryError(0x0003, "DELETE requires field 1 (key)");
-                return;
-            }
-            const bool ok = server_->storage_->del(key);
-            ProtobufSerializer s;
-            s.writeTag(1, 0); s.writeVarint(ok ? 0u : 1u);
-            sendBinary(buildBinaryResponseFrame(0x92, s.data()));
-            break;
-        }
-
-        // CLOSE (0xFF) – client requests graceful close
-        case 0xFF:
-            close();
-            break;
-
-        default: {
-            char hex_opcode[8];
-            std::snprintf(hex_opcode, sizeof(hex_opcode), "0x%02X",
-                          static_cast<unsigned>(opcode));
-            sendBinaryError(0x0002,
-                            std::string("Unsupported opcode: ") + hex_opcode);
-            break;
-        }
     }
 }
 
