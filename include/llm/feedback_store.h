@@ -166,6 +166,11 @@ public:
     static void setSpamKeywordsProvider(SpamKeywordsProviderFn provider);
 
     /**
+     * @brief Remove installed spam-keyword provider (fallback to defaults).
+     */
+    static void clearSpamKeywordsProvider();
+
+    /**
      * @brief Store a new feedback entry
      * @param feedback Feedback to store (id will be generated if empty)
      * @return Stored feedback with generated ID
@@ -230,11 +235,6 @@ public:
      * @return ValidationStatus result
      */
     static ValidationStatus validateFeedback(const FeedbackEntry& feedback);
-
-    /**
-     * @brief Type alias for injecting a dynamic spam keyword list.
-     */
-    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
 
     /**
      * @brief Install a runtime spam keywords provider.

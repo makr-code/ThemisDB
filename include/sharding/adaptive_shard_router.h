@@ -253,7 +253,19 @@ public:
         const std::string& query,
         CapabilityMatcher::QueryContext& context
     )>;
+
+    /**
+     * @brief Backward-compatible NLP callback variant.
+     *
+     * The callback may return a fully prepared QueryContext. Returning
+     * std::nullopt keeps the existing heuristic/extracted context.
+     */
+    using LegacyNlpContextFn = std::function<std::optional<CapabilityMatcher::QueryContext>(
+        std::string_view query
+    )>;
+
     void setNlpContextFn(NlpContextFn fn);
+    void setNlpContextFn(LegacyNlpContextFn fn);
     
     /**
      * Get current adaptive configuration

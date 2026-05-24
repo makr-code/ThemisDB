@@ -331,6 +331,27 @@ void AdaptiveShardRouter::setNlpContextFn(NlpContextFn fn) {
     nlp_context_fn_ = std::move(fn);
 }
 
+void AdaptiveShardRouter::setNlpContextFn(LegacyNlpContextFn fn) {
+    setNlpContextFn([fn = std::move(fn)](
+        const std::string& query,
+        CapabilityMatcher::QueryContext& context
+    ) {
+        auto maybe_context = fn(std::string_view{query});
+        if (!maybe_context.has_value()) {
+            return;
+        }
+
+        auto enriched = std::move(*maybe_context);
+        if (enriched.query_text.empty()) {
+            enriched.query_text = query;
+        }
+        if (enriched.keywords.empty()) {
+            enriched.keywords = context.keywords;
+        }
+        context = std::move(enriched);
+    });
+}
+
 CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     const std::string& query
 ) {

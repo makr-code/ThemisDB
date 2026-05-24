@@ -36,7 +36,15 @@ void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn fn) {
     s_spam_kw_provider = std::move(fn);
 }
 
+void FeedbackStore::setSpamKeywordsProviderFn(SpamKeywordsProviderFn fn) {
+    setSpamKeywordsProvider(std::move(fn));
+}
+
 void FeedbackStore::clearSpamKeywordsProvider() {
+    clearSpamKeywordsProviderFn();
+}
+
+void FeedbackStore::clearSpamKeywordsProviderFn() {
     std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
     s_spam_kw_provider = SpamKeywordsProviderFn{};
 }
@@ -542,7 +550,7 @@ void FeedbackStore::clear() {
 
 // ===== Validation Logic =====
 
-const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
+std::vector<std::string> FeedbackStore::getSpamKeywords() {
     // Built-in static keyword list used as fallback when no provider is injected.
     static const std::vector<std::string> spam_keywords = {
         "buy now", "click here", "viagra", "casino", "lottery",
@@ -555,16 +563,14 @@ const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
     {
         std::lock_guard<std::mutex> lock(s_spam_kw_mutex);
         if (s_spam_kw_provider) {
-            // Cache per-call result in a thread_local to satisfy the const-ref return type.
-            thread_local std::vector<std::string> cached;
             try {
-                cached = s_spam_kw_provider();
+                auto cached = s_spam_kw_provider();
+                if (!cached.empty()) {
+                    return cached;
+                }
             } catch (...) {
                 // Fall back to static list on provider failure.
                 return spam_keywords;
-            }
-            if (!cached.empty()) {
-                return cached;
             }
         }
     }
