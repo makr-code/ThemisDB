@@ -1,25 +1,9 @@
-// THEMIS_GAP_STATS: gaps=42 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vector_index.cpp                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:17                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   68.0/100                                       ║
-    • Total Lines:     3034                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vector_index.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=40, H=626, M=174, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Vector ANN index implementation
@@ -67,6 +51,7 @@
 #include <filesystem>
 #include <fstream>
 #include <unordered_set>
+#include <chrono>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 
@@ -705,7 +690,9 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	idToPk_.clear();
 
 	const std::string prefix = objectName_ + ":"; // KeySchema::makeVectorKey(object, pk) = object:pk
+#ifdef THEMIS_HNSW_ENABLED
 	size_t nextId = 0;
+#endif
 	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
 		std::string pk = KeySchema::extractPrimaryKey(key);
 		std::vector<uint8_t> bytes(value.begin(), value.end());
@@ -1085,7 +1072,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		} else {
 			ann_id = static_cast<int64_t>(it->second);
 		}
-		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		const bool added = ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		static_cast<void>(added);
 	}
 	return Status::OK();
 }
@@ -1165,7 +1153,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		} else {
 			ann_id = static_cast<int64_t>(it->second);
 		}
-		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		const bool added = ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		static_cast<void>(added);
 	}
 	return Status::OK();
 }
@@ -2873,6 +2862,10 @@ VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const Ro
 		// Create new rotary embedding instance
 		rotary_embedding_ = std::make_unique<RotaryEmbedding>(config);
 		rotary_enabled_ = true;
+		rotary_positional_rotations_.store(0);
+		rotary_relational_rotations_.store(0);
+		rotary_query_rotations_.store(0);
+		rotary_total_rotation_time_us_.store(0);
 		
 		THEMIS_INFO("VectorIndexManager::setRotaryEmbeddingConfig - Rotary embeddings enabled: "
 		           "dim={}, rotation_pairs={}, base_theta={}, normalize_after={}",
@@ -2896,6 +2889,20 @@ std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() con
 	return rotary_embedding_->getConfig();
 }
 
+VectorIndexManager::RotaryEmbeddingStats VectorIndexManager::getRotaryEmbeddingStats() const {
+	RotaryEmbeddingStats stats;
+	stats.positional_rotations = rotary_positional_rotations_.load();
+	stats.relational_rotations = rotary_relational_rotations_.load();
+	stats.query_rotations = rotary_query_rotations_.load();
+	stats.total_rotations = stats.positional_rotations + stats.relational_rotations + stats.query_rotations;
+	const auto total_rotation_time_us = rotary_total_rotation_time_us_.load();
+	if (stats.total_rotations > 0) {
+		stats.avg_rotation_time_us =
+			static_cast<double>(total_rotation_time_us) / static_cast<double>(stats.total_rotations);
+	}
+	return stats;
+}
+
 VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	const BaseEntity& e,
 	std::string_view vectorField,
@@ -2912,8 +2919,11 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Apply rotation
 		auto rotated = rotary_embedding_->rotate(*vec_opt, position);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Create new entity with rotated embedding and metadata
 		BaseEntity rotated_entity = e;
@@ -2926,6 +2936,8 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_positional_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_rotation", position);
 		}
 		
@@ -2951,8 +2963,11 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Apply relational rotation
 		auto rotated = rotary_embedding_->rotateRelational(*vec_opt, relation_type);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Create new entity with rotated embedding and metadata
 		BaseEntity rotated_entity = e;
@@ -2964,6 +2979,8 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_relational_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", e.getPrimaryKey(), "add_with_relational_rotation", 0);
 		}
 		
@@ -2985,14 +3002,19 @@ VectorIndexManager::searchWithRotation(
 	}
 	
 	try {
+		const auto rotate_start = std::chrono::steady_clock::now();
 		// Rotate query vector
 		auto rotated_query = rotary_embedding_->rotate(query, query_position);
+		const auto rotate_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Perform standard search with rotated query
 		auto [status, results] = searchKnn(rotated_query, k, whitelistPks);
 		
 		// Log audit event if logger is set
 		if (status.ok) {
+			rotary_query_rotations_.fetch_add(1);
+			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
 			logAuditEvent_("vector", "query", "search_with_rotation", results.size());
 		}
 		
@@ -3033,4 +3055,3 @@ std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_
 }
 
 } // namespace themis
-

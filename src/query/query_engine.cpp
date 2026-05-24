@@ -1,26 +1,12 @@
-// THEMIS_GAP_STATS: gaps=30 unimpl=10 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_engine.cpp                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     4538                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9a52ef6bb1  2026-04-13  perf(query): add 1:1 point-lookup benchmarks and pk_eq fa... ║
-    • d8c296b8a5  2026-04-11  feat(query): port v2.0.0 rewrite/profiler/approx-aggregat... ║
-    • a9c8e3f831  2026-03-30  Fix schema migration ODR in modular tests and align query... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: query_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 4587
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=2795 | delta=2792 | status=divergent
+ * External Severity (v3): C=92, H=2284, M=419
+ * PR: #4507 feat(query): v2.0.0 â€“ edge-type filtering, rewrite pipeline, prof... (2026-04-11T12:06:28Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Parallel Query Engine implementation
@@ -3501,11 +3487,17 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			}
 			if (i < kMaxPathLookups) {
 				// Attempt to reconstruct the full path via Dijkstra.
-				bool hasTypeFilter = !q.edge_type.empty();
-				std::string graphId = q.graph_id.empty() ? std::string("default") : q.graph_id;
-				auto [st, pathResult] = hasTypeFilter
-					? graphIdx_->dijkstra(q.start_node, node, q.edge_type, graphId)
-					: graphIdx_->dijkstra(q.start_node, node);
+				GraphIndexManager::PathResult pathResult;
+				if (!q.edge_type.empty()) {
+					std::string graphIdForPath = q.graph_id.empty() ? std::string("default") : q.graph_id;
+					auto dijkstraResult = graphIdx_->dijkstra(q.start_node, node, q.edge_type, graphIdForPath);
+					st = dijkstraResult.first;
+					pathResult = std::move(dijkstraResult.second);
+				} else {
+					auto dijkstraResult = graphIdx_->dijkstra(q.start_node, node);
+					st = dijkstraResult.first;
+					pathResult = std::move(dijkstraResult.second);
+				}
 				if (st.ok && !pathResult.path.empty()) {
 					allPaths.push_back(std::move(pathResult.path));
 				} else {
@@ -3924,6 +3916,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				}
 			} catch (const std::exception&) {
 				// defensiv: bei Fehler keine Composite-Nutzung
+				THEMIS_WARN("VectorGeoQuery: composite prefilter failed, skipping: {}", ex.what());
 			}
 		}
 		// Wende Range-Prädikate an (intersect)

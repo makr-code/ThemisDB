@@ -1,15 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ai_operation_guard.cpp                             ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-28                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ai_operation_guard.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 483
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=74 | delta=71 | status=divergent
+ * External Severity (v3): C=2, H=61, M=11
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // AI Safety Layer — Schichten 1 & 2: Destructive Operation Guard (DOG)
@@ -22,14 +19,14 @@
 #include "utils/uuid.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <ctime>
 #include <fmt/format.h>
 #include <iomanip>
 #include <sstream>
 
-namespace themis {
-namespace security {
+namespace themis::security {
 
 // ---------------------------------------------------------------------------
 // Free functions
@@ -53,7 +50,7 @@ namespace {
 
 /// Worst-case estimated affected rows for a CRITICAL (full-scope) AQL operation.
 /// Used in operation previews when no query plan is available.
-constexpr uint64_t kCriticalOpMaxAffected = 9'999'999;
+constexpr uint64_t k_critical_op_max_affected = 9'999'999;
 
 /// Case-insensitive uppercase conversion.
 std::string toUpper(const std::string& s) {
@@ -66,22 +63,22 @@ std::string toUpper(const std::string& s) {
 }
 
 /// System collections that must never be touched by AI agents.
-static const char* kSystemCollections[] = {
+constexpr std::array<std::string_view, 8> k_system_collections = {
     "_system", "_graphs", "_analyzers", "_jobs",
-    "_users", "_queues", "_wal", "_snapshots",
+    "_users", "_queues", "_wal", "_snapshots"
 };
 
 bool isSystemCollection(const std::string& col) {
     const std::string lower = [&] {
         std::string s = col;
-        std::transform(s.begin(), s.end(), s.begin(),
-                       [](unsigned char c) { return std::tolower(c); });
+        std::ranges::transform(s, s.begin(),
+                               [](unsigned char c) {
+                                   return static_cast<char>(std::tolower(c));
+                               });
         return s;
     }();
-    for (const auto* sc : kSystemCollections) {
-        if (lower == sc) { return true; }
-    }
-    return false;
+    return std::ranges::any_of(k_system_collections,
+                               [&](std::string_view sc) { return lower == sc; });
 }
 
 } // anonymous namespace
@@ -100,7 +97,7 @@ AiOperationGuard::AiOperationGuard(Config cfg)
 GuardDecision AiOperationGuard::evaluate(
     const std::string& tool_name,
     const json&        args,
-    const std::string& ai_session_id,
+    const std::string&,
     const std::string& caller_role
 ) const {
     (void)ai_session_id;
@@ -122,7 +119,7 @@ GuardDecision AiOperationGuard::evaluate(
     }
 
     // --- Step 1: Classify by tool name (and AQL content for "query") -------
-    OperationClass op_class;
+    OperationClass op_class = OperationClass::READ_ONLY;
     if (tool_name == "query") {
         const std::string aql = args.value("query", "");
         op_class = classifyAql(aql);
@@ -338,7 +335,7 @@ OperationPreview AiOperationGuard::buildPreview(
             "AQL-Query klassifiziert als {} — Ziel-Collection: '{}'",
             riskLabel, collection.empty() ? "(unbekannt)" : collection);
         if (op_class == OperationClass::CRITICAL) {
-            p.estimated_affected = kCriticalOpMaxAffected;
+            p.estimated_affected = k_critical_op_max_affected;
         } else if (op_class == OperationClass::DESTRUCTIVE) {
             p.estimated_affected = 1;
         }
@@ -405,10 +402,9 @@ bool AiOperationGuard::isCollectionDenied(
         if (denied == collection) { return true; }
     }
     if (!config_.allowed_collections.empty()) {
-        const bool found = std::find(
-            config_.allowed_collections.begin(),
-            config_.allowed_collections.end(),
-            collection) != config_.allowed_collections.end();
+        const bool found =
+            std::ranges::find(config_.allowed_collections, collection) !=
+            config_.allowed_collections.end();
         if (!found) { return true; }
     }
     return false;
@@ -487,5 +483,4 @@ std::string AiOperationGuard::toIso8601(
     return oss.str();
 }
 
-} // namespace security
-} // namespace themis
+} // namespace themis::security

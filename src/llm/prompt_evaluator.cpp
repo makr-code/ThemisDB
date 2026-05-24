@@ -1,24 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_evaluator.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     345                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prompt_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-04-15 18:58:58
+ * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 330
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=62 | delta=59 | status=divergent
+ * External Severity (v3): C=2, H=47, M=13
+ * PR: #835 Implement Production-Ready Prompt Engineering & Optimization Framew... (2026-03-11T18:03:22Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -273,12 +261,17 @@ std::string PromptEvaluator::normalizeString(const std::string& s) {
     result.reserve(s.length());
     
     for (char c : s) {
-        if (std::isspace(c)) {
+        const bool is_space = (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
+        if (is_space) {
             if (!result.empty() && result.back() != ' ') {
-                result += ' ';
+                result.push_back(' ');
             }
         } else {
-            result += std::tolower(c);
+            if (c >= 'A' && c <= 'Z') {
+                result.push_back(static_cast<char>(c - 'A' + 'a'));
+            } else {
+                result.push_back(c);
+            }
         }
     }
     

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_serverless_function_api_handler.cpp           ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:57:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     617                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_serverless_function_api_handler.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2026 ThemisDB
@@ -198,6 +187,21 @@ TEST_F(ServerlessFunctionApiHandlerTest, ListFilterByInvalidTenantId_Returns400)
     EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
+TEST_F(ServerlessFunctionApiHandlerTest, ListIgnoresPartialTenantParameterName) {
+    auto reg = [&](const std::string& name, const std::string& tid) {
+        json b = {{"name", name}, {"tenant_id", tid}, {"code", passthroughCode()}};
+        handler.handleRegister(makeRequest(http::verb::post, "/api/v1/functions", b.dump()));
+    };
+    reg("fn-a", "tenant-1");
+    reg("fn-b", "tenant-2");
+
+    auto res = handler.handleList(
+        makeRequest(http::verb::get, "/api/v1/functions?xtenant_id=tenant-1"));
+    ASSERT_EQ(res.result(), http::status::ok);
+    auto resp = parseBody(res);
+    EXPECT_EQ(resp["functions"].size(), 2u);
+}
+
 // ---------------------------------------------------------------------------
 // Get tests
 // ---------------------------------------------------------------------------
@@ -220,6 +224,13 @@ TEST_F(ServerlessFunctionApiHandlerTest, GetNonExistingFunction_Returns404) {
         makeRequest(http::verb::get, "/api/v1/functions/does-not-exist"),
         "does-not-exist");
     EXPECT_EQ(res.result(), http::status::not_found);
+}
+
+TEST_F(ServerlessFunctionApiHandlerTest, GetInvalidFunctionId_Returns400) {
+    auto res = handler.handleGet(
+        makeRequest(http::verb::get, "/api/v1/functions/../bad"),
+        "../bad");
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 // ---------------------------------------------------------------------------
@@ -305,6 +316,12 @@ TEST_F(ServerlessFunctionApiHandlerTest, DeleteNonExisting_Returns404) {
     auto res = handler.handleDelete(
         makeRequest(http::verb::delete_, "/api/v1/functions/ghost"), "ghost");
     EXPECT_EQ(res.result(), http::status::not_found);
+}
+
+TEST_F(ServerlessFunctionApiHandlerTest, DeleteInvalidFunctionId_Returns400) {
+    auto res = handler.handleDelete(
+        makeRequest(http::verb::delete_, "/api/v1/functions/../bad"), "../bad");
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 // ---------------------------------------------------------------------------
@@ -535,6 +552,13 @@ TEST_F(ServerlessFunctionApiHandlerTest, VersionsNonExisting_Returns404) {
         makeRequest(http::verb::get, "/api/v1/functions/ghost/versions"),
         "ghost");
     EXPECT_EQ(res.result(), http::status::not_found);
+}
+
+TEST_F(ServerlessFunctionApiHandlerTest, VersionsInvalidFunctionId_Returns400) {
+    auto res = handler.handleVersions(
+        makeRequest(http::verb::get, "/api/v1/functions/../bad/versions"),
+        "../bad");
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 // ---------------------------------------------------------------------------

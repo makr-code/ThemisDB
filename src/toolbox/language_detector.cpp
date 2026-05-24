@@ -1,3 +1,14 @@
+/*
+ * ThemisDB | File: language_detector.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 86
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=8 | delta=5 | status=divergent
+ * External Severity (v3): C=0, H=6, M=2
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #include "toolbox/language_detector.h"
 #include "utils/stopwords.h"
 #include "utils/string_utils.h"

@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_themisdb_grpc_service.cpp                     ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:57:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   32.0/100                                       ║
-    • Total Lines:     240                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 17                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 02a975f292  2026-04-07  fix(api): AQL identifier injection, BatchWrite partial-fa... ║
-    • 6a26e097b8  2026-03-25  fix(api): address code review – AQL injection escaping, t... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_themisdb_grpc_service.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=8; TODO=1, Stub=4, Unimpl=1, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>

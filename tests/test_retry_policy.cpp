@@ -1,13 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_retry_policy.cpp                              ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-27                                         ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_retry_policy.cpp | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit tests for include/utils/retry_policy.h and storage/codec_tags.h bridge
@@ -168,9 +164,96 @@ TEST(ExponentialBackoff, InitialDelayExposed) {
     EXPECT_EQ(bo.current_delay_ms(), 500u);
 }
 
-// ---------------------------------------------------------------------------
-// codec_tags.h smoke test
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+// Consolidation-Tier-1 regression tests
+//
+// Verify that ExponentialBackoff produces the same delay sequence that the
+// old hand-rolled loops used in huggingface_hub_client and
+// parallel_downloader:
+//   - HuggingFace: initial=retry_delay_ms, multiplier=2.0, jitter=0
+//     → retry_delay_ms, retry_delay_ms*2, retry_delay_ms*4 ...
+//   - ParallelDownloader: initial=1000 ms, multiplier=2.0, jitter=0
+//     → 1 000, 2 000, 4 000 ...
+// -------------------------------------------------------------------------
+
+TEST(ExponentialBackoff, HubClientDelaySequenceMatchesOldImpl) {
+    // Mirrors the RetryConfig used in huggingface_hub_client.cpp for
+    // max_retries=3 and retry_delay_ms=200.
+    RetryConfig cfg;
+    cfg.max_attempts       = 4u;   // max_retries + 1
+    cfg.initial_backoff_ms = 200u; // retry_delay_ms
+    cfg.max_backoff_ms     = 30'000u;
+    cfg.multiplier         = 2.0;
+    cfg.jitter_fraction    = 0.0;  // no jitter → deterministic
+
+    ExponentialBackoff bo(cfg);
+
+    // First wait (attempt=1 in the outer loop): delay = 200 ms
+    EXPECT_EQ(bo.current_delay_ms(), 200u);
+    bo.wait();  // sleeps 200 ms (in test: 0 ms because initial_backoff_ms is small — purely structural)
+
+    // After first wait: delay advances to 200 * 2 = 400 ms
+    EXPECT_EQ(bo.current_delay_ms(), 400u);
+    bo.wait();
+
+    // After second wait: 400 * 2 = 800 ms
+    EXPECT_EQ(bo.current_delay_ms(), 800u);
+}
+
+TEST(ExponentialBackoff, ParallelDownloaderDelaySequenceMatchesOldImpl) {
+    // Mirrors the RetryConfig used in parallel_downloader.cpp for
+    // max_retries=2.
+    RetryConfig cfg;
+    cfg.max_attempts       = 3u;      // max_retries + 1
+    cfg.initial_backoff_ms = 1000u;   // 1 s — same as old code
+    cfg.max_backoff_ms     = 30'000u;
+    cfg.multiplier         = 2.0;
+    cfg.jitter_fraction    = 0.0;
+
+    ExponentialBackoff bo(cfg);
+
+    // Delay starts at 1 000 ms — matches 1000 * (1 << 0)
+    EXPECT_EQ(bo.current_delay_ms(), 1000u);
+    bo.wait();
+
+    // After first wait: 1 000 * 2 = 2 000 ms — matches 1000 * (1 << 1)
+    EXPECT_EQ(bo.current_delay_ms(), 2000u);
+    bo.wait();
+
+    // After second wait: returns false (max_attempts reached)
+    const bool more = bo.wait();
+    EXPECT_FALSE(more);
+}
+
+TEST(ExponentialBackoff, WALApplierDelaySequenceIsExponential) {
+    // Mirrors WALApplierConfig defaults: max_apply_retries=3,
+    // retry_initial_delay_ms=100.  The old linear sequence was 100 ms, 200 ms;
+    // the new exponential sequence is identical for 2 waits: 100 ms, 200 ms.
+    // For larger max_apply_retries the sequences diverge (200 ms vs 300 ms, etc.).
+    themis::utils::RetryConfig cfg;
+    cfg.max_attempts       = 3u;   // max_apply_retries
+    cfg.initial_backoff_ms = 100u; // retry_initial_delay_ms
+    cfg.max_backoff_ms     = 30'000u;
+    cfg.multiplier         = 2.0;
+    cfg.jitter_fraction    = 0.0;  // no jitter → deterministic
+
+    themis::utils::ExponentialBackoff bo(cfg);
+
+    // First retry delay: 100 ms
+    EXPECT_EQ(bo.current_delay_ms(), 100u);
+    bool more = bo.wait();  // attempt_=1 < max_attempts=3 → returns true
+    EXPECT_TRUE(more);
+
+    // Second retry delay: 100 * 2 = 200 ms
+    EXPECT_EQ(bo.current_delay_ms(), 200u);
+    more = bo.wait();       // attempt_=2 < max_attempts=3 → returns true
+    EXPECT_TRUE(more);
+
+    // Third call (attempt_=3 >= max_attempts=3) → returns false without sleeping
+    more = bo.wait();
+    EXPECT_FALSE(more);
+}
+
 
 TEST(CodecTags, KnownTagValues) {
     EXPECT_EQ(themis::compression::kTagPassthrough, uint8_t(0x00));

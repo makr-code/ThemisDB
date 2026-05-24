@@ -1,7 +1,14 @@
+/*
+ * ThemisDB | File: federated_distillation_coordinator.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=3, Debt=0, C=15, H=55, M=3, L=1
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // SPDX-License-Identifier: MIT
 // Copyright 2026 ThemisDB — Licensed under MIT License
 //
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 /**
  * @file federated_distillation_coordinator.cpp
@@ -15,8 +22,8 @@
 #include <limits>
 #include <numeric>
 #include <random>
-#include <stdexcept>
 #include <sstream>
+#include <stdexcept>
 
 namespace themis {
 namespace distributed_knowledge {
@@ -34,17 +41,20 @@ double gaussianSigma(double epsilon, double delta, double sensitivity) {
 }
 
 /// Clamp to [lo, hi].
-template <typename T>
-T clamp(T val, T lo, T hi) {
+template <typename T> T clamp(T val, T lo, T hi) {
     return val < lo ? lo : (val > hi ? hi : val);
 }
 
 /// Normalise a non-negative vector to sum 1; no-op when sum == 0.
-void normalise(std::vector<double>& v) {
+void normalise(std::vector<double> &v) {
     double sum = 0.0;
-    for (auto x : v) sum += x;
+    for (auto x : v) {
+        sum += x;
+    }
     if (sum > 0.0) {
-        for (auto& x : v) x /= sum;
+        for (auto &x : v) {
+            x /= sum;
+        }
     }
 }
 
@@ -54,13 +64,9 @@ void normalise(std::vector<double>& v) {
 // Construction / destruction
 // ─────────────────────────────────────────────────────────────────────────────
 
-FederatedDistillationCoordinator::FederatedDistillationCoordinator(
-    DistillationConfig cfg)
-    : config_(std::move(cfg))
-{
+FederatedDistillationCoordinator::FederatedDistillationCoordinator(DistillationConfig cfg) : config_(std::move(cfg)) {
     if (!config_.isValid()) {
-        throw std::invalid_argument(
-            "FederatedDistillationCoordinator: invalid DistillationConfig");
+        throw std::invalid_argument("FederatedDistillationCoordinator: invalid DistillationConfig");
     }
 }
 
@@ -70,10 +76,7 @@ FederatedDistillationCoordinator::~FederatedDistillationCoordinator() = default;
 // IFederatedDistillationCoordinator — submitSoftLabels
 // ─────────────────────────────────────────────────────────────────────────────
 
-void FederatedDistillationCoordinator::submitSoftLabels(
-    const std::string& teacher_id,
-    std::vector<SoftLabel> labels)
-{
+void FederatedDistillationCoordinator::submitSoftLabels(const std::string &teacher_id, std::vector<SoftLabel> labels) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (labels.empty()) {
@@ -83,8 +86,7 @@ void FederatedDistillationCoordinator::submitSoftLabels(
         throw std::invalid_argument("submitSoftLabels: teacher_id must not be empty");
     }
     if (!verifyPrivacyBudget()) {
-        throw std::runtime_error(
-            "FederatedDistillationCoordinator: DP privacy budget exhausted");
+        throw std::runtime_error("FederatedDistillationCoordinator: DP privacy budget exhausted");
     }
 
     pending_teacher_id_ = teacher_id;
@@ -101,29 +103,24 @@ void FederatedDistillationCoordinator::submitSoftLabels(
 // broadcastToStudents
 // ─────────────────────────────────────────────────────────────────────────────
 
-DistillationRound FederatedDistillationCoordinator::broadcastToStudents()
-{
+DistillationRound FederatedDistillationCoordinator::broadcastToStudents() {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!has_pending_) {
-        throw std::runtime_error(
-            "broadcastToStudents: no soft labels submitted for this round");
+        throw std::runtime_error("broadcastToStudents: no soft labels submitted for this round");
     }
     if (!verifyPrivacyBudget()) {
-        throw std::runtime_error(
-            "FederatedDistillationCoordinator: DP privacy budget exhausted");
+        throw std::runtime_error("FederatedDistillationCoordinator: DP privacy budget exhausted");
     }
 
     // ── Policy gate ───────────────────────────────────────────────────────────
-    if (policy_gate_ &&
-        !policy_gate_(current_round_, pending_teacher_id_)) {
+    if (policy_gate_ && !policy_gate_(current_round_, pending_teacher_id_)) {
         ++policy_block_count_;
-        throw std::runtime_error(
-            "Policy gate rejected distillation broadcast");
+        throw std::runtime_error("Policy gate rejected distillation broadcast");
     }
 
     // ── Apply DP noise ───────────────────────────────────────────────────────
-    auto labels = pending_labels_;
+    auto labels     = pending_labels_;
     bool dp_applied = false;
     if (config_.require_dp) {
         applyDPNoise(labels);
@@ -143,22 +140,20 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents()
     ++broadcast_count_;
 
     // ── Dispatch to students ──────────────────────────────────────────────────
-    for (const auto& [sid, cb] : students_) {
+    for (const auto &[sid, cb] : students_) {
         cb(round);
     }
 
     // ── Audit ─────────────────────────────────────────────────────────────────
     if (audit_cb_) {
-        audit_cb_(nlohmann::json{
-            {"event",           "distillation_broadcast"},
-            {"round",           round.round},
-            {"teacher_id",      round.teacher_id},
-            {"label_count",     round.label_count},
-            {"epsilon_spent",   round.epsilon_spent},
-            {"total_epsilon",   total_epsilon_spent_},
-            {"dp_applied",      round.dp_applied},
-            {"student_count",   students_.size()}
-        });
+        audit_cb_(nlohmann::json{{"event", "distillation_broadcast"},
+                                 {"round", round.round},
+                                 {"teacher_id", round.teacher_id},
+                                 {"label_count", round.label_count},
+                                 {"epsilon_spent", round.epsilon_spent},
+                                 {"total_epsilon", total_epsilon_spent_},
+                                 {"dp_applied", round.dp_applied},
+                                 {"student_count", students_.size()}});
     }
 
     last_round_  = round;
@@ -171,53 +166,45 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents()
 // Accessors
 // ─────────────────────────────────────────────────────────────────────────────
 
-uint64_t FederatedDistillationCoordinator::currentRound() const
-{
+uint64_t FederatedDistillationCoordinator::currentRound() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return current_round_;
 }
 
-size_t FederatedDistillationCoordinator::submittedCount() const
-{
+size_t FederatedDistillationCoordinator::submittedCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return has_pending_ ? 1u : 0u;
 }
 
-std::optional<DistillationRound>
-FederatedDistillationCoordinator::lastRound() const
-{
+std::optional<DistillationRound> FederatedDistillationCoordinator::lastRound() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return last_round_;
 }
 
-nlohmann::json FederatedDistillationCoordinator::getStats() const
-{
+nlohmann::json FederatedDistillationCoordinator::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return {{"current_round",     current_round_},
-            {"broadcast_count",   broadcast_count_},
-            {"rollback_count",    rollback_count_},
-            {"total_epsilon",     total_epsilon_spent_},
-            {"budget_remaining",  privacyBudgetRemaining()},
-            {"student_count",     students_.size()},
-            {"has_pending",       has_pending_},
-            {"config", {
-                {"dp_epsilon",    config_.dp_epsilon},
-                {"dp_delta",      config_.dp_delta},
-                {"temperature",   config_.temperature},
-                {"alpha",         config_.alpha},
-                {"max_rounds",    config_.max_rounds},
-                {"require_dp",    config_.require_dp}
-            }}};
+    return {{"current_round", current_round_},
+            {"broadcast_count", broadcast_count_},
+            {"rollback_count", rollback_count_},
+            {"total_epsilon", total_epsilon_spent_},
+            {"budget_remaining", privacyBudgetRemaining()},
+            {"student_count", students_.size()},
+            {"has_pending", has_pending_},
+            {"config",
+             {{"dp_epsilon", config_.dp_epsilon},
+              {"dp_delta", config_.dp_delta},
+              {"temperature", config_.temperature},
+              {"alpha", config_.alpha},
+              {"max_rounds", config_.max_rounds},
+              {"require_dp", config_.require_dp}}}};
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Student registration
 // ─────────────────────────────────────────────────────────────────────────────
 
-void FederatedDistillationCoordinator::registerStudent(
-    const std::string& student_id,
-    std::function<void(const DistillationRound&)> cb)
-{
+void FederatedDistillationCoordinator::registerStudent(const std::string &student_id,
+                                                       std::function<void(const DistillationRound &)> cb) {
     if (student_id.empty()) {
         throw std::invalid_argument("registerStudent: student_id must not be empty");
     }
@@ -232,28 +219,22 @@ void FederatedDistillationCoordinator::registerStudent(
 // DI setters
 // ─────────────────────────────────────────────────────────────────────────────
 
-void FederatedDistillationCoordinator::setPolicyGate(PolicyGate gate)
-{
+void FederatedDistillationCoordinator::setPolicyGate(PolicyGate gate) {
     std::lock_guard<std::mutex> lock(mutex_);
     policy_gate_ = std::move(gate);
 }
 
-void FederatedDistillationCoordinator::setAuditCallback(
-    std::function<void(const nlohmann::json&)> cb)
-{
+void FederatedDistillationCoordinator::setAuditCallback(std::function<void(const nlohmann::json &)> cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     audit_cb_ = std::move(cb);
 }
 
-void FederatedDistillationCoordinator::setRollbackTrigger(
-    std::function<void(uint64_t, double)> cb)
-{
+void FederatedDistillationCoordinator::setRollbackTrigger(std::function<void(uint64_t, double)> cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_trigger_ = std::move(cb);
 }
 
-void FederatedDistillationCoordinator::setNoiseGeneratorFn(NoiseGeneratorFn fn)
-{
+void FederatedDistillationCoordinator::setNoiseGeneratorFn(NoiseGeneratorFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     noise_generator_fn_ = std::move(fn);
 }
@@ -262,9 +243,7 @@ void FederatedDistillationCoordinator::setNoiseGeneratorFn(NoiseGeneratorFn fn)
 // Utility reporting
 // ─────────────────────────────────────────────────────────────────────────────
 
-void FederatedDistillationCoordinator::reportStudentUtility(
-    const std::string& /*student_id*/, double utility)
-{
+void FederatedDistillationCoordinator::reportStudentUtility(const std::string & /*student_id*/, double utility) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (utility < config_.min_utility_threshold && rollback_trigger_) {
@@ -278,8 +257,10 @@ void FederatedDistillationCoordinator::reportStudentUtility(
         max_utility_reported_ = utility;
         any_utility_reported_ = true;
     } else {
-        if (utility < min_utility_reported_) min_utility_reported_ = utility;
-        if (utility > max_utility_reported_) max_utility_reported_ = utility;
+        if (utility < min_utility_reported_)
+            min_utility_reported_ = utility;
+        if (utility > max_utility_reported_)
+            max_utility_reported_ = utility;
     }
 }
 
@@ -287,18 +268,17 @@ void FederatedDistillationCoordinator::reportStudentUtility(
 // Budget observability
 // ─────────────────────────────────────────────────────────────────────────────
 
-double FederatedDistillationCoordinator::privacyBudgetRemaining() const
-{
+double FederatedDistillationCoordinator::privacyBudgetRemaining() const {
     if (config_.max_rounds == 0) {
         return std::numeric_limits<double>::max();
     }
-    return static_cast<double>(config_.max_rounds) * config_.dp_epsilon
-           - total_epsilon_spent_;
+    return static_cast<double>(config_.max_rounds) * config_.dp_epsilon - total_epsilon_spent_;
 }
 
-bool FederatedDistillationCoordinator::verifyPrivacyBudget() const
-{
-    if (config_.max_rounds == 0) return true;
+bool FederatedDistillationCoordinator::verifyPrivacyBudget() const {
+    if (config_.max_rounds == 0) {
+        return true;
+    }
     return current_round_ <= config_.max_rounds;
 }
 
@@ -306,18 +286,17 @@ bool FederatedDistillationCoordinator::verifyPrivacyBudget() const
 // Reset (for tests / admin)
 // ─────────────────────────────────────────────────────────────────────────────
 
-void FederatedDistillationCoordinator::reset()
-{
+void FederatedDistillationCoordinator::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
-    current_round_          = 0;
-    total_epsilon_spent_    = 0.0;
-    broadcast_count_        = 0;
-    rollback_count_         = 0;
-    policy_block_count_     = 0;
-    min_utility_reported_   = 1.0;
-    max_utility_reported_   = 1.0;
-    any_utility_reported_   = false;
-    has_pending_            = false;
+    current_round_        = 0;
+    total_epsilon_spent_  = 0.0;
+    broadcast_count_      = 0;
+    rollback_count_       = 0;
+    policy_block_count_   = 0;
+    min_utility_reported_ = 1.0;
+    max_utility_reported_ = 1.0;
+    any_utility_reported_ = false;
+    has_pending_          = false;
     pending_labels_.clear();
     pending_teacher_id_.clear();
     last_round_.reset();
@@ -328,11 +307,8 @@ void FederatedDistillationCoordinator::reset()
 // DP noise injection
 // ─────────────────────────────────────────────────────────────────────────────
 
-void FederatedDistillationCoordinator::applyDPNoise(
-    std::vector<SoftLabel>& labels) const
-{
-    const double sigma = gaussianSigma(
-        config_.dp_epsilon, config_.dp_delta, config_.dp_sensitivity);
+void FederatedDistillationCoordinator::applyDPNoise(std::vector<SoftLabel> &labels) const {
+    const double sigma = gaussianSigma(config_.dp_epsilon, config_.dp_delta, config_.dp_sensitivity);
 
     if (noise_generator_fn_) {
         // Delegate to the injected noise generator (e.g. GPU-backed cuRAND).
@@ -354,8 +330,8 @@ void FederatedDistillationCoordinator::applyDPNoise(
     std::mt19937_64 rng(rd());
     std::normal_distribution<double> noise_dist(0.0, sigma);
 
-    for (auto& label : labels) {
-        for (auto& p : label.probabilities) {
+    for (auto &label : labels) {
+        for (auto &p : label.probabilities) {
             p = clamp(p + noise_dist(rng), 0.0, 1.0);
         }
         normalise(label.probabilities);
@@ -366,16 +342,12 @@ void FederatedDistillationCoordinator::applyDPNoise(
 // generateModelCard
 // ─────────────────────────────────────────────────────────────────────────────
 
-DistillationModelCard FederatedDistillationCoordinator::generateModelCard(
-    const std::string& coordinator_id) const
-{
+DistillationModelCard FederatedDistillationCoordinator::generateModelCard(const std::string &coordinator_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     DistillationModelCard card;
     card.coordinator_id       = coordinator_id;
-    card.teacher_id           = last_round_.has_value()
-                                    ? last_round_->teacher_id
-                                    : pending_teacher_id_;
+    card.teacher_id           = last_round_.has_value() ? last_round_->teacher_id : pending_teacher_id_;
     card.rounds_completed     = broadcast_count_;
     card.total_epsilon        = total_epsilon_spent_;
     card.dp_epsilon_per_round = config_.dp_epsilon;

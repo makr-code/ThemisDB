@@ -1,21 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            markdown_utils.h                                   ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-18 17:54:00                                ║
-  Author:          Copilot Agent                                      ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   N/A (New)                                      ║
-    • Total Lines:     80                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-  Purpose: Centralized markdown processing utilities (Phase 1 consolidation)
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: markdown_utils.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

@@ -1,20 +1,50 @@
 {
   "ai": {
-    "total": 9,
-    "severity_critical": 0,
-    "severity_high": 9,
-    "severity_medium": 0,
+    "total": 21,
+    "severity_critical": 3,
+    "severity_high": 17,
+    "severity_medium": 1,
     "by_category": {
+      "reliability": 3,
       "uninitialized": 1,
-      "oop_design": 8
+      "oop_design": 10,
+      "audit_logging": 2,
+      "llm_ai_safety": 5
     },
     "by_file": {
       "src\\ai\\ai_plugin_generator.cpp": [
         {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 5,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "* Status: Production Ready",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 53,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(llm_fn_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 86,
+          "type": "no_timeout",
+          "severity": "CRITICAL",
+          "snippet": "std::lock_guard<std::mutex> lock(llm_fn_mutex_);",
+          "description": "mutex_lock without timeout \u2014 can block indefinitely",
+          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
+        },
+        {
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 65,
+          "line_number": 77,
           "var_name": "vr",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -23,7 +53,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 39,
+          "line_number": 46,
           "class_name": "Unknown",
           "function_name": "AIPluginGenerator",
           "issue": "Virtual function called in constructor",
@@ -33,7 +63,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 45,
+          "line_number": 52,
           "class_name": "Unknown",
           "function_name": "AIPluginGenerator",
           "issue": "Virtual function called in constructor",
@@ -43,7 +73,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 48,
+          "line_number": 54,
           "class_name": "Unknown",
           "function_name": "AIPluginGenerator",
           "issue": "Virtual function called in constructor",
@@ -53,9 +83,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 53,
+          "line_number": 57,
           "class_name": "Unknown",
-          "function_name": "AIPluginGenerator",
+          "function_name": "config_",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -65,6 +95,26 @@
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
           "line_number": 60,
           "class_name": "Unknown",
+          "function_name": "AIPluginGenerator",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 65,
+          "class_name": "Unknown",
+          "function_name": "validatePrompt",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\ai\\ai_plugin_generator.cpp",
+          "line_number": 72,
+          "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
@@ -73,7 +123,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 66,
+          "line_number": 78,
           "class_name": "Unknown",
           "function_name": "generatePlugin",
           "issue": "Virtual function called in constructor",
@@ -83,7 +133,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 69,
+          "line_number": 81,
           "class_name": "Unknown",
           "function_name": "generatePlugin",
           "issue": "Virtual function called in constructor",
@@ -93,11 +143,74 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\ai\\ai_plugin_generator.cpp",
-          "line_number": 79,
+          "line_number": 94,
           "class_name": "Unknown",
-          "function_name": "debug",
+          "function_name": "available",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 28,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "*   - generatePlugin()  validates inputs, then returns ERR_PLUGIN_LOAD_FAILED."
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 75,
+          "category": "audit_logging",
+          "severity": "HIGH",
+          "pattern": "hardcoded_output",
+          "description": "Hardcoded std::cout/printf instead of structured logging",
+          "context": "// 1. Validate inputs first."
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 14,
+          "category": "llm_ai_safety",
+          "severity": "CRITICAL",
+          "pattern": "prompt_injection",
+          "description": "User input in prompt without sanitization (injection risk)",
+          "context": "* Purpose: Provide structurally-valid input validation for AI plugin generation"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 14,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "* Purpose: Provide structurally-valid input validation for AI plugin generation"
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 28,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "*   - generatePlugin()  validates inputs, then returns ERR_PLUGIN_LOAD_FAILED."
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 75,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unsanitized_llm_input",
+          "description": "User input passed to LLM without normalization/sanitization",
+          "context": "// 1. Validate inputs first."
+        },
+        {
+          "file": "src\\ai\\ai_plugin_generator.cpp",
+          "line": 30,
+          "category": "llm_ai_safety",
+          "severity": "HIGH",
+          "pattern": "unvalidated_llm_output",
+          "description": "LLM output used without validation (hallucination/bias risk)",
+          "context": "* Phase 2 (Target v1.6.0): wire a real ILLMInferenceEngine for code generation."
         }
       ]
     }

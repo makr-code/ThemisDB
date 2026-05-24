@@ -1,7 +1,0 @@
-### Description
-
-This issue proposes enabling the already-implemented FLARE active retrieval feature that is currently disabled by default in `KnowledgeGapConfig`.
-
-### Rationale
-
-With the completion of Phase 2, which includes 37 tests and full integration with `llama.cpp` token probability tracking, enabling this feature is crucial. It will facilitate semantic search with token perplexity threshold gating, providing adaptive retrieval capabilities for the upcoming release.

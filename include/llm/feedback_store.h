@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_store.h                                   ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     308                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feedback_store.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -167,6 +152,24 @@ public:
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
 
     /**
+     * @brief Inject a runtime spam-keywords provider.
+     *
+     * When set, `getSpamKeywords()` delegates to the injected function instead
+     * of returning the compile-time static keyword list.  The function receives
+     * no arguments and must return a non-empty vector of lowercase keyword
+     * strings to match against feedback text.
+     *
+     * @param fn  Callable that returns the current spam keyword list, or
+     *            `nullptr` to revert to the built-in static list.
+     *
+     * Thread-safety: the provider function pointer is stored atomically; it is
+     * safe to call `setSpamKeywordsProvider()` from any thread.
+     */
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+    static void setSpamKeywordsProvider(SpamKeywordsProviderFn fn);
+    static void clearSpamKeywordsProvider();
+
+    /**
      * @brief Store a new feedback entry
      * @param feedback Feedback to store (id will be generated if empty)
      * @return Stored feedback with generated ID
@@ -306,6 +309,16 @@ public:
         const std::string& feedback_id,
         const std::string& adapter_id) const;
 
+    /**
+     * @brief Get the active spam-keyword list.
+     *
+     * Returns the injected provider output when one is configured and
+     * produces a non-empty list; otherwise returns the built-in static list.
+     *
+     * @return Active spam-keyword list used by feedback validation.
+     */
+    static const std::vector<std::string>& getSpamKeywords();
+
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_; // nullptr = default CF
@@ -319,8 +332,6 @@ private:
                                   const std::string& adapter_id) const;
     std::string generateId() const;
     
-    // Spam detection configuration (deprecated, use plugin instead)
-    static const std::vector<std::string>& getSpamKeywords();
     static bool isLikelySpam(const std::string& text);
 
     // Helper: Apply plugin validation if available; may sanitize feedback.

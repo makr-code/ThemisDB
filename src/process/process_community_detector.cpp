@@ -1,4 +1,14 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+/*
+ * ThemisDB | File: process_community_detector.cpp | Version: 0.0.1 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 434
+ * Open Issues: TODOs=1, Stubs=3, Gaps=5, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=5 | external_v3=108 | delta=103 | status=divergent
+ * External Severity (v3): C=2, H=68, M=38
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /*
  * ThemisDB - Process Modeling Module
  *

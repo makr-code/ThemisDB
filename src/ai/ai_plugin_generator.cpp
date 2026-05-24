@@ -1,27 +1,24 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=1 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
+// THEMIS_GAP_STATS: gaps=0 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 /**
  * @file ai_plugin_generator.cpp
- * @brief Minimal production implementation of AIPluginGenerator.
+ * @brief Production implementation of AIPluginGenerator — Phase 2 wired via LlmHttpPostFn.
  *
- * STUB/SIMULATION NOTE (stub #282):
- * Purpose: Provide structurally-valid input validation for AI plugin generation
- *          while the LLM endpoint HTTP call and security sandbox pipeline are
- *          not yet wired (Phase 1 only).
- * Activation: Always active — generatePlugin() always returns
- *             ERR_PLUGIN_LOAD_FAILED with "LLM endpoint not yet wired".
- * Production Delta: No plugin code is generated; the configured llm_endpoint
- *                   is logged but never called. No GeneratedPlugin is returned.
- * Removal Plan: Implement Phase 2 (Target v1.6.0): perform an HTTP POST to
- *               config_.llm_endpoint, parse the JSON response, populate
- *               GeneratedPlugin, and run the security sandbox pipeline.
- *               (tracked in STUB_INVENTORY #282)
+ * Stub #282 resolved: generatePlugin() now performs an HTTP POST to
+ * config_.llm_endpoint via an injected LlmHttpPostFn when one is registered.
+ * Without an injected function the call returns ERR_PLUGIN_LOAD_FAILED, making
+ * the "Phase 2 not available" state explicit instead of silent.
  *
- * Phase 1 implementation:
- *   - validatePrompt()  validates the description and required_capabilities fields.
- *   - generatePlugin()  validates inputs, then returns ERR_PLUGIN_LOAD_FAILED.
+ * Phase 2 flow:
+ *   1. validatePrompt() — input validation (unchanged from Phase 1).
+ *   2. Build a JSON request from the PluginGenerationPrompt.
+ *   3. POST to config_.llm_endpoint via the injected LlmHttpPostFn.
+ *   4. Parse the JSON response; populate GeneratedPlugin.
+ *   5. Return ERR_PLUGIN_LOAD_FAILED on network or parse errors.
  *
- * Phase 2 (Target v1.6.0): wire a real ILLMInferenceEngine for code generation.
- * See include/plugins/ai/ai_plugin_generator.h and src/plugins/ai/FUTURE_ENHANCEMENTS.md.
+ * To enable code generation, inject a transport at startup:
+ *   generator.setLlmHttpPostFn([](const std::string& url, const std::string& body) {
+ *       return myHttpClient.post(url, body);
+ *   });
  */
 
 #include "ai/ai_plugin_generator.h"
@@ -66,6 +63,10 @@ AIPluginGenerator::AIPluginGenerator(const Config& config)
 {}
 
 AIPluginGenerator::~AIPluginGenerator() = default;
+
+void AIPluginGenerator::setLlmHttpPostFn(LlmHttpPostFn fn) {
+    llm_http_post_fn_ = std::move(fn);
+}
 
 Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& prompt)
 {

@@ -1,28 +1,12 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            database_maintenance_orchestrator.cpp              ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1498                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • a6a7a1adc4  2026-04-13  feat(maintenance): Distributed Maintenance Coordination v... ║
-    • f1b8c76ed7  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 53b0c36537  2026-04-13  feat(maintenance): Distributed Maintenance Coordination v... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: database_maintenance_orchestrator.cpp | Version: 0.0.13 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1481
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=416 | delta=413 | status=divergent
+ * External Severity (v3): C=33, H=315, M=68
+ * PR: #4125 feat(maintenance): upgrade schedules_mutex_ and jobs_mutex_ to std:... (2026-03-12T17:53:35Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

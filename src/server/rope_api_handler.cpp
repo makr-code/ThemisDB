@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rope_api_handler.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     909                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rope_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 913
+ * Open Issues: TODOs=1, Stubs=5, Gaps=9, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=9 | external_v3=221 | delta=212 | status=divergent
+ * External Severity (v3): C=3, H=132, M=86
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/rope_api_handler.h"
@@ -893,17 +880,13 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 }
 
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
-    [[maybe_unused]] const http::request<http::string_body>& req,
-    [[maybe_unused]] const std::string& permission,
+    const http::request<http::string_body>& req,
+    const std::string& permission,
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)
 {
-    // Suppress unused parameter warnings for parameters reserved for future use
-    
-    // Basic authentication check - if auth middleware is not configured or not enabled,
-    // allow access (open mode)
     if (!auth_ || !auth_->isEnabled()) {
-        return std::nullopt;  // null = access allowed
+        return std::nullopt; // Open mode — allow all
     }
     
     // STUB/SIMULATION NOTE (stub #280):

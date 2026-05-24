@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_transaction_manager.cpp                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:51:22                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     823                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • ff299c514b  2026-04-09  feat(transaction): PERF-D4 batched prepare + lock-free 2P... ║
-    • 0f0c408c2f  2026-03-15  feat(transaction): implement Distributed Transaction Coor... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_transaction_manager.cpp | Version: 0.0.12 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 895
+ * Open Issues: TODOs=1, Stubs=3, Gaps=6, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=6 | external_v3=221 | delta=215 | status=divergent
+ * External Severity (v3): C=29, H=159, M=33
+ * PR: #5125 docs(research): ACID_CONSTRAINED_RAG_DRAFT â€” publication-ready v0.2 (2026-05-14T05:24:14Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB

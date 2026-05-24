@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=32 unimpl=0 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_utilization_monitor.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     424                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_utilization_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 421
+ * Open Issues: TODOs=1, Stubs=3, Gaps=8, Unimpl=1, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=8 | external_v3=71 | delta=63 | status=divergent
+ * External Severity (v3): C=0, H=57, M=14
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/gpu_utilization_monitor.h"

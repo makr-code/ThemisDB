@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vulkan_pipeline.h                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     224                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vulkan_pipeline.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -92,10 +81,17 @@ public:
     void set_push_constants(const void* data, size_t size, size_t offset = 0);
     
     /**
-     * @brief Dispatch compute shader
+     * @brief Dispatch compute shader.
+     *
+     * Records the compute workload into a one-time-submit command buffer and
+     * submits it to the Vulkan compute queue.
+     *
      * @param group_x Number of workgroups in X dimension
      * @param group_y Number of workgroups in Y dimension
      * @param group_z Number of workgroups in Z dimension
+     *
+     * @throws std::runtime_error if vkBeginCommandBuffer, vkEndCommandBuffer,
+     *         or vkQueueSubmit returns a non-VK_SUCCESS code.
      */
     void dispatch(uint32_t group_x, uint32_t group_y = 1, uint32_t group_z = 1);
     

@@ -1,25 +1,9 @@
-// THEMIS_GAP_STATS: gaps=23 unimpl=12 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cep_engine.cpp                                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2473                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 248ee0806f  2026-03-19  Changes before error encountered        ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cep_engine.cpp | Version: 0.0.32
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=20, H=586, M=226, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -40,7 +24,6 @@
  */
 
 #include "analytics/cep_engine.h"
-#include "analytics/detail/stats.h"
 
 #include <algorithm>
 #include <cassert>
@@ -53,11 +36,12 @@
 #include <numeric>
 #include <random>
 #include <regex>
+#include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 
-#include <spdlog/spdlog.h>
+#include "analytics/detail/stats.h"
 
 namespace themisdb {
 namespace analytics {
@@ -75,36 +59,49 @@ std::string generateId() {
     uint64_t a = dist(rng);
     uint64_t b = dist(rng);
     char buf[37];
-    std::snprintf(buf, sizeof(buf),
-        "%08x-%04x-%04x-%04x-%012llx",
-        static_cast<unsigned>(a >> 32),
-        static_cast<unsigned>((a >> 16) & 0xFFFF),
-        static_cast<unsigned>(a & 0xFFFF),
-        static_cast<unsigned>((b >> 48) & 0xFFFF),
-        static_cast<unsigned long long>(b & 0x0000'FFFF'FFFF'FFFFUL));
+    std::snprintf(buf, sizeof(buf), "%08x-%04x-%04x-%04x-%012llx", static_cast<unsigned>(a >> 32),
+                  static_cast<unsigned>((a >> 16) & 0xFFFF), static_cast<unsigned>(a & 0xFFFF),
+                  static_cast<unsigned>((b >> 48) & 0xFFFF),
+                  static_cast<unsigned long long>(b & 0x0000'FFFF'FFFF'FFFFUL));
     return std::string(buf);
 }
 
 /** Convert CepFieldValue to double for numeric aggregations (returns 0.0 on failure) */
-double toDouble(const CepFieldValue& v) {
-    if (auto* d = std::get_if<double>(&v)) return *d;
-    if (auto* i = std::get_if<int64_t>(&v)) return static_cast<double>(*i);
-    if (auto* b = std::get_if<bool>(&v)) return *b ? 1.0 : 0.0;
+double toDouble(const CepFieldValue &v) {
+    if (auto *d = std::get_if<double>(&v)) {
+        return *d;
+    }
+    if (auto *i = std::get_if<int64_t>(&v)) {
+        return static_cast<double>(*i);
+    }
+    if (auto *b = std::get_if<bool>(&v)) {
+        return *b ? 1.0 : 0.0;
+    }
     return 0.0;
 }
 
 /** Convert CepFieldValue to string for distinct counting and set operations */
-std::string fieldValueToString(const CepFieldValue& v) {
-    if (std::holds_alternative<std::monostate>(v)) return "";
-    if (auto* s = std::get_if<std::string>(&v)) return *s;
-    if (auto* i = std::get_if<int64_t>(&v)) return std::to_string(*i);
-    if (auto* d = std::get_if<double>(&v)) return std::to_string(*d);
-    if (auto* b = std::get_if<bool>(&v)) return *b ? "true" : "false";
+std::string fieldValueToString(const CepFieldValue &v) {
+    if (std::holds_alternative<std::monostate>(v)) {
+        return "";
+    }
+    if (auto *s = std::get_if<std::string>(&v)) {
+        return *s;
+    }
+    if (auto *i = std::get_if<int64_t>(&v)) {
+        return std::to_string(*i);
+    }
+    if (auto *d = std::get_if<double>(&v)) {
+        return std::to_string(*d);
+    }
+    if (auto *b = std::get_if<bool>(&v)) {
+        return *b ? "true" : "false";
+    }
     return "<complex>";
 }
 
 /** Hex-encode a byte string */
-std::string hexEncode(const std::string& s) {
+std::string hexEncode(const std::string &s) {
     static const char hex[] = "0123456789abcdef";
     std::string out;
     out.reserve(s.size() * 2);
@@ -116,13 +113,19 @@ std::string hexEncode(const std::string& s) {
 }
 
 /** Hex-decode a hex string; silently skips pairs with non-hex characters */
-std::string hexDecode(const std::string& hex) {
+std::string hexDecode(const std::string &hex) {
     std::string out;
     out.reserve(hex.size() / 2);
     auto nibble = [](char c) -> int {
-        if (c >= '0' && c <= '9') return c - '0';
-        if (c >= 'a' && c <= 'f') return c - 'a' + 10;
-        if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+        if (c >= '0' && c <= '9') {
+            return c - '0';
+        }
+        if (c >= 'a' && c <= 'f') {
+            return c - 'a' + 10;
+        }
+        if (c >= 'A' && c <= 'F') {
+            return c - 'A' + 10;
+        }
         return -1;
     };
     for (size_t i = 0; i + 1 < hex.size(); i += 2) {
@@ -140,7 +143,7 @@ std::string hexDecode(const std::string& hex) {
  *  the implementation is shared with streaming_window.cpp — fixes the
  *  pass-by-value O(N) copy that previously occurred on every call-site.
  */
-double computePercentile(const std::vector<double>& vals, double p) {
+double computePercentile(const std::vector<double> &vals, double p) {
     return themis::analytics::detail::computePercentile(vals, p);
 }
 
@@ -153,52 +156,94 @@ struct Token {
     double num = 0.0;
 };
 
-std::vector<Token> tokenize(const std::string& expr) {
+std::vector<Token> tokenize(const std::string &expr) {
     std::vector<Token> tokens;
     size_t i = 0;
     while (i < expr.size()) {
         char c = expr[i];
-        if (std::isspace(static_cast<unsigned char>(c))) { ++i; continue; }
+        if (std::isspace(static_cast<unsigned char>(c))) {
+            ++i;
+            continue;
+        }
         if (std::isalpha(static_cast<unsigned char>(c)) || c == '_') {
             size_t start = i;
-            while (i < expr.size() && (std::isalnum(static_cast<unsigned char>(expr[i])) || expr[i] == '_' || expr[i] == '.')) ++i;
+            while (i < expr.size()
+                   && (std::isalnum(static_cast<unsigned char>(expr[i])) || expr[i] == '_' || expr[i] == '.')) {
+                ++i;
+            }
             std::string word = expr.substr(start, i - start);
-            TokType t = TokType::IDENT;
-            if (word == "AND" || word == "and") t = TokType::AND;
-            else if (word == "OR" || word == "or") t = TokType::OR;
-            else if (word == "NOT" || word == "not") t = TokType::NOT;
+            TokType t        = TokType::IDENT;
+            if (word == "AND" || word == "and") {
+                t = TokType::AND;
+            } else if (word == "OR" || word == "or") {
+                t = TokType::OR;
+            } else if (word == "NOT" || word == "not") {
+                t = TokType::NOT;
+            }
             tokens.push_back({t, word});
-        } else if (std::isdigit(static_cast<unsigned char>(c)) || (c == '-' && i + 1 < expr.size() && std::isdigit(static_cast<unsigned char>(expr[i+1])))) {
+        } else if (std::isdigit(static_cast<unsigned char>(c))
+                   || (c == '-' && i + 1 < expr.size() && std::isdigit(static_cast<unsigned char>(expr[i + 1])))) {
             size_t start = i;
-            if (c == '-') ++i;
-            while (i < expr.size() && (std::isdigit(static_cast<unsigned char>(expr[i])) || expr[i] == '.')) ++i;
+            if (c == '-') {
+                ++i;
+            }
+            while (i < expr.size() && (std::isdigit(static_cast<unsigned char>(expr[i])) || expr[i] == '.')) {
+                ++i;
+            }
             std::string ns = expr.substr(start, i - start);
             double num_val = 0.0;
             try { num_val = std::stod(ns); } catch (const std::exception&) {}
             tokens.push_back({TokType::NUMBER, ns, num_val});
         } else if (c == '"' || c == '\'') {
-            char quote = c; ++i;
+            char quote = c;
+            ++i;
             size_t start = i;
-            while (i < expr.size() && expr[i] != quote) ++i;
+            while (i < expr.size() && expr[i] != quote) {
+                ++i;
+            }
             tokens.push_back({TokType::STRING, expr.substr(start, i - start)});
-            if (i < expr.size()) ++i;
-        } else if (c == '(' ) { tokens.push_back({TokType::LPAREN, "("}); ++i; }
-        else if (c == ')') { tokens.push_back({TokType::RPAREN, ")"}); ++i; }
-        else if (c == '=' && i + 1 < expr.size() && expr[i+1] == '=') { tokens.push_back({TokType::EQ, "=="}); i+=2; }
-        else if (c == '!') {
-            if (i + 1 < expr.size() && expr[i+1] == '=') { tokens.push_back({TokType::NEQ, "!="}); i+=2; }
-            else { tokens.push_back({TokType::NOT, "!"}); ++i; }
+            if (i < expr.size()) {
+                ++i;
+            }
+        } else if (c == '(') {
+            tokens.push_back({TokType::LPAREN, "("});
+            ++i;
+        } else if (c == ')') {
+            tokens.push_back({TokType::RPAREN, ")"});
+            ++i;
+        } else if (c == '=' && i + 1 < expr.size() && expr[i + 1] == '=') {
+            tokens.push_back({TokType::EQ, "=="});
+            i += 2;
+        } else if (c == '!') {
+            if (i + 1 < expr.size() && expr[i + 1] == '=') {
+                tokens.push_back({TokType::NEQ, "!="});
+                i += 2;
+            } else {
+                tokens.push_back({TokType::NOT, "!"});
+                ++i;
+            }
+        } else if (c == '<') {
+            if (i + 1 < expr.size() && expr[i + 1] == '=') {
+                tokens.push_back({TokType::LEQ, "<="});
+                i += 2;
+            } else {
+                tokens.push_back({TokType::LT, "<"});
+                ++i;
+            }
+        } else if (c == '>') {
+            if (i + 1 < expr.size() && expr[i + 1] == '=') {
+                tokens.push_back({TokType::GEQ, ">="});
+                i += 2;
+            } else {
+                tokens.push_back({TokType::GT, ">"});
+                ++i;
+            }
+        } else if (c == '=') {
+            tokens.push_back({TokType::EQ, "="});
+            ++i;
+        } else {
+            ++i;
         }
-        else if (c == '<') {
-            if (i + 1 < expr.size() && expr[i+1] == '=') { tokens.push_back({TokType::LEQ, "<="}); i+=2; }
-            else { tokens.push_back({TokType::LT, "<"}); ++i; }
-        }
-        else if (c == '>') {
-            if (i + 1 < expr.size() && expr[i+1] == '=') { tokens.push_back({TokType::GEQ, ">="}); i+=2; }
-            else { tokens.push_back({TokType::GT, ">"}); ++i; }
-        }
-        else if (c == '=') { tokens.push_back({TokType::EQ, "="}); ++i; }
-        else { ++i; }
     }
     tokens.push_back({TokType::END, ""});
     return tokens;
@@ -210,21 +255,29 @@ std::vector<Token> tokenize(const std::string& expr) {
  * Context is provided as a flat map of field -> string value.
  */
 struct ExprEvaluator {
-    const std::vector<Token>& tokens;
-    const std::map<std::string, std::string>& ctx;
+    const std::vector<Token> &tokens;
+    const std::map<std::string, std::string> &ctx;
     size_t pos = 0;
 
-    const Token& cur() const { return tokens[pos]; }
-    void advance() { if (pos + 1 < tokens.size()) ++pos; }
+    const Token &cur() const {
+        return tokens[pos];
+    }
+    void advance() {
+        if (pos + 1 < tokens.size()) {
+            ++pos;
+        }
+    }
 
-    bool evaluate() { return parseOr(); }
+    bool evaluate() {
+        return parseOr();
+    }
 
     bool parseOr() {
         bool left = parseAnd();
         while (cur().type == TokType::OR) {
             advance();
             bool right = parseAnd();
-            left = left || right;
+            left       = left || right;
         }
         return left;
     }
@@ -234,7 +287,7 @@ struct ExprEvaluator {
         while (cur().type == TokType::AND) {
             advance();
             bool right = parseNot();
-            left = left && right;
+            left       = left && right;
         }
         return left;
     }
@@ -251,37 +304,53 @@ struct ExprEvaluator {
         if (cur().type == TokType::LPAREN) {
             advance();
             bool val = parseOr();
-            if (cur().type == TokType::RPAREN) advance();
+            if (cur().type == TokType::RPAREN) {
+                advance();
+            }
             return val;
         }
         if (cur().type == TokType::IDENT) {
-            std::string lhs_name = cur().text; advance();
-            TokType op = cur().type; std::string op_text = cur().text; advance();
+            std::string lhs_name = cur().text;
+            advance();
+            TokType op          = cur().type;
+            std::string op_text = cur().text;
+            advance();
             std::string rhs;
-            double rhs_num = 0.0;
+            double rhs_num  = 0.0;
             bool rhs_is_num = false;
             if (cur().type == TokType::STRING) {
-                rhs = cur().text; advance();
+                rhs = cur().text;
+                advance();
             } else if (cur().type == TokType::NUMBER) {
-                rhs = cur().text; rhs_num = cur().num; rhs_is_num = true; advance();
+                rhs        = cur().text;
+                rhs_num    = cur().num;
+                rhs_is_num = true;
+                advance();
             } else if (cur().type == TokType::IDENT) {
                 auto it = ctx.find(cur().text);
-                rhs = (it != ctx.end()) ? it->second : cur().text;
+                rhs     = (it != ctx.end()) ? it->second : cur().text;
                 advance();
             }
-            auto it = ctx.find(lhs_name);
+            auto it         = ctx.find(lhs_name);
             std::string lhs = (it != ctx.end()) ? it->second : "";
-            double lhs_num = 0.0;
+            double lhs_num  = 0.0;
             bool lhs_is_num = false;
             try { lhs_num = std::stod(lhs); lhs_is_num = true; } catch (const std::exception&) {}
             switch (op) {
-                case TokType::EQ:  return lhs == rhs;
-                case TokType::NEQ: return lhs != rhs;
-                case TokType::LT:  return (lhs_is_num && rhs_is_num) ? lhs_num < rhs_num : lhs < rhs;
-                case TokType::GT:  return (lhs_is_num && rhs_is_num) ? lhs_num > rhs_num : lhs > rhs;
-                case TokType::LEQ: return (lhs_is_num && rhs_is_num) ? lhs_num <= rhs_num : lhs <= rhs;
-                case TokType::GEQ: return (lhs_is_num && rhs_is_num) ? lhs_num >= rhs_num : lhs >= rhs;
-                default: return false;
+                case TokType::EQ:
+                    return lhs == rhs;
+                case TokType::NEQ:
+                    return lhs != rhs;
+                case TokType::LT:
+                    return (lhs_is_num && rhs_is_num) ? lhs_num < rhs_num : lhs < rhs;
+                case TokType::GT:
+                    return (lhs_is_num && rhs_is_num) ? lhs_num > rhs_num : lhs > rhs;
+                case TokType::LEQ:
+                    return (lhs_is_num && rhs_is_num) ? lhs_num <= rhs_num : lhs <= rhs;
+                case TokType::GEQ:
+                    return (lhs_is_num && rhs_is_num) ? lhs_num >= rhs_num : lhs >= rhs;
+                default:
+                    return false;
             }
         }
         return true;
@@ -289,9 +358,10 @@ struct ExprEvaluator {
 };
 
 /** Evaluate a simple filter/HAVING expression against a field map */
-bool evalExpression(const std::string& expr,
-                    const std::map<std::string, std::string>& ctx) {
-    if (expr.empty()) return true;
+bool evalExpression(const std::string &expr, const std::map<std::string, std::string> &ctx) {
+    if (expr.empty()) {
+        return true;
+    }
     try {
         auto tokens = tokenize(expr);
         ExprEvaluator ev{tokens, ctx};
@@ -311,20 +381,17 @@ bool evalExpression(const std::string& expr,
 std::vector<uint8_t> Event::serialize() const {
     // Simple length-prefixed text serialization: id|type|name|fields...
     std::ostringstream oss;
-    oss << event_id << "|" << static_cast<uint16_t>(type) << "|" << event_name
-        << "|" << static_cast<uint8_t>(priority) << "|"
-        << std::chrono::duration_cast<std::chrono::microseconds>(
-               timestamp.time_since_epoch()).count()
-        << "|" << sequence_number << "|" << partition_key
-        << "|" << collection_name << "|" << document_id;
-    for (const auto& [k, v] : fields) {
+    oss << event_id << "|" << static_cast<uint16_t>(type) << "|" << event_name << "|" << static_cast<uint8_t>(priority)
+        << "|" << std::chrono::duration_cast<std::chrono::microseconds>(timestamp.time_since_epoch()).count() << "|"
+        << sequence_number << "|" << partition_key << "|" << collection_name << "|" << document_id;
+    for (const auto &[k, v] : fields) {
         oss << "|F:" << k << "=" << fieldValueToString(v);
     }
     std::string s = oss.str();
     return std::vector<uint8_t>(s.begin(), s.end());
 }
 
-std::optional<Event> Event::deserialize(const std::vector<uint8_t>& data) {
+std::optional<Event> Event::deserialize(const std::vector<uint8_t> &data) {
     std::string s(data.begin(), data.end());
     std::istringstream iss(s);
     Event ev;
@@ -332,27 +399,23 @@ std::optional<Event> Event::deserialize(const std::vector<uint8_t>& data) {
     int idx = 0;
     while (std::getline(iss, part, '|')) {
         try {
-        switch (idx++) {
-            case 0: ev.event_id = part; break;
-            case 1: ev.type = static_cast<EventType>(std::stoul(part)); break;
-            case 2: ev.event_name = part; break;
-            case 3: ev.priority = static_cast<EventPriority>(std::stoul(part)); break;
-            case 4: {
-                int64_t us = std::stoll(part);
-                ev.timestamp = std::chrono::system_clock::time_point(
-                    std::chrono::microseconds(us));
-                break;
-            }
-            case 5: ev.sequence_number = std::stoull(part); break;
-            case 6: ev.partition_key = part; break;
-            case 7: ev.collection_name = part; break;
-            case 8: ev.document_id = part; break;
-            default:
-                if (part.size() > 2 && part.substr(0, 2) == "F:") {
-                    auto eq = part.find('=', 2);
-                    if (eq != std::string::npos) {
-                        ev.fields[part.substr(2, eq - 2)] = part.substr(eq + 1);
-                    }
+            switch (idx++) {
+                case 0:
+                    ev.event_id = part;
+                    break;
+                case 1:
+                    ev.type = static_cast<EventType>(std::stoul(part));
+                    break;
+                case 2:
+                    ev.event_name = part;
+                    break;
+                case 3:
+                    ev.priority = static_cast<EventPriority>(std::stoul(part));
+                    break;
+                case 4: {
+                    int64_t us   = std::stoll(part);
+                    ev.timestamp = std::chrono::system_clock::time_point(std::chrono::microseconds(us));
+                    break;
                 }
                 break;
         }
@@ -360,7 +423,9 @@ std::optional<Event> Event::deserialize(const std::vector<uint8_t>& data) {
             // Silently ignore malformed fields during deserialization
         }
     }
-    if (ev.event_id.empty()) return std::nullopt;
+    if (ev.event_id.empty()) {
+        return std::nullopt;
+    }
     return ev;
 }
 
@@ -368,7 +433,7 @@ std::optional<Event> Event::deserialize(const std::vector<uint8_t>& data) {
 // EventStream
 // ============================================================================
 
-EventStream::EventStream(const StreamConfig& config) : config_(config) {
+EventStream::EventStream(const StreamConfig &config) : config_(config) {
     uint32_t n = std::max(1u, config_.partitions);
     partitions_.reserve(n);
     for (uint32_t i = 0; i < n; ++i) {
@@ -378,7 +443,7 @@ EventStream::EventStream(const StreamConfig& config) : config_(config) {
 
 EventStream::~EventStream() = default;
 
-uint32_t EventStream::getPartitionId(const Event& event) const {
+uint32_t EventStream::getPartitionId(const Event &event) const {
     if (config_.partition_key_field.empty() || event.partition_key.empty()) {
         return event.partition_id % static_cast<uint32_t>(partitions_.size());
     }
@@ -386,7 +451,7 @@ uint32_t EventStream::getPartitionId(const Event& event) const {
     return static_cast<uint32_t>(h(event.partition_key) % partitions_.size());
 }
 
-void EventStream::notifySubscribers(const Event& event) {
+void EventStream::notifySubscribers(const Event &event) {
     std::shared_lock lock(subscribers_mutex_);
     for (const auto& [id, cb] : subscribers_) {
         try { cb(event); } catch (const std::exception&) {}
@@ -395,7 +460,7 @@ void EventStream::notifySubscribers(const Event& event) {
 
 EventStream::PushResult EventStream::push(Event event) {
     uint32_t pid = getPartitionId(event);
-    auto& part = *partitions_[pid];
+    auto &part   = *partitions_[pid];
 
     // Backpressure check
     size_t max_per_partition = config_.buffer_size / partitions_.size();
@@ -429,10 +494,14 @@ EventStream::PushResult EventStream::push(Event event) {
 }
 
 std::optional<Event> EventStream::pull(uint32_t partition_id) {
-    if (partition_id >= partitions_.size()) return std::nullopt;
-    auto& part = *partitions_[partition_id];
+    if (partition_id >= partitions_.size()) {
+        return std::nullopt;
+    }
+    auto &part = *partitions_[partition_id];
     std::lock_guard lk(part.mutex);
-    if (part.buffer.empty()) return std::nullopt;
+    if (part.buffer.empty()) {
+        return std::nullopt;
+    }
     Event ev = std::move(part.buffer.front());
     part.buffer.pop_front();
     --part.size;
@@ -441,24 +510,36 @@ std::optional<Event> EventStream::pull(uint32_t partition_id) {
 }
 
 std::optional<Event> EventStream::peek(uint32_t partition_id) const {
-    if (partition_id >= partitions_.size()) return std::nullopt;
-    auto& part = *partitions_[partition_id];
+    if (partition_id >= partitions_.size()) {
+        return std::nullopt;
+    }
+    auto &part = *partitions_[partition_id];
     std::lock_guard lk(part.mutex);
-    if (part.buffer.empty()) return std::nullopt;
+    if (part.buffer.empty()) {
+        return std::nullopt;
+    }
     return part.buffer.front();
 }
 
 float EventStream::getFillLevel(uint32_t partition_id) const {
-    if (partition_id >= partitions_.size()) return 0.0f;
+    if (partition_id >= partitions_.size()) {
+        return 0.0f;
+    }
     size_t max_pp = config_.buffer_size / partitions_.size();
-    if (max_pp == 0) return 0.0f;
+    if (max_pp == 0) {
+        return 0.0f;
+    }
     return static_cast<float>(partitions_[partition_id]->size.load()) / static_cast<float>(max_pp);
 }
 
 float EventStream::getOverallFillLevel() const {
     size_t total = 0;
-    for (const auto& p : partitions_) total += p->size.load();
-    if (config_.buffer_size == 0) return 0.0f;
+    for (const auto &p : partitions_) {
+        total += p->size.load();
+    }
+    if (config_.buffer_size == 0) {
+        return 0.0f;
+    }
     return static_cast<float>(total) / static_cast<float>(config_.buffer_size);
 }
 
@@ -468,15 +549,12 @@ bool EventStream::isUnderBackpressure() const {
 
 EventStream::Stats EventStream::getStats() const {
     size_t total = 0;
-    for (const auto& p : partitions_) total += p->size.load();
+    for (const auto &p : partitions_) {
+        total += p->size.load();
+    }
     return Stats{
-        events_pushed_.load(),
-        events_pulled_.load(),
-        events_dropped_.load(),
-        backpressure_count_.load(),
-        total,
-        getOverallFillLevel()
-    };
+        events_pushed_.load(), events_pulled_.load(), events_dropped_.load(), backpressure_count_.load(), total,
+        getOverallFillLevel()};
 }
 
 uint64_t EventStream::subscribe(EventCallback callback) {
@@ -495,7 +573,7 @@ void EventStream::unsubscribe(uint64_t subscription_id) {
 // PatternMatcher
 // ============================================================================
 
-PatternMatcher::PatternMatcher(const PatternConfig& config) : config_(config) {
+PatternMatcher::PatternMatcher(const PatternConfig &config) : config_(config) {
     buildNFA();
 }
 
@@ -504,82 +582,98 @@ PatternMatcher::~PatternMatcher() = default;
 void PatternMatcher::buildNFA() {
     // Build a linear NFA for SEQUENCE; other patterns treated as simplified variations.
     nfa_states_.clear();
-    const auto& ev_types = config_.event_types;
-    if (ev_types.empty()) return;
+    const auto &ev_types = config_.event_types;
+    if (ev_types.empty()) {
+        return;
+    }
 
     for (uint32_t i = 0; i < ev_types.size(); ++i) {
         NFAState s;
-        s.state_id = i;
+        s.state_id            = i;
         s.expected_event_type = ev_types[i];
-        s.is_accepting = (i + 1 == ev_types.size());
-        if (i + 1 < ev_types.size()) s.transitions.push_back(i + 1);
+        s.is_accepting        = (i + 1 == ev_types.size());
+        if (i + 1 < ev_types.size()) {
+            s.transitions.push_back(i + 1);
+        }
         nfa_states_.push_back(std::move(s));
     }
 
     // KLEENE_STAR / KLEENE_PLUS: allow self-loops on accepting state
     if (config_.type == PatternType::KLEENE_STAR || config_.type == PatternType::KLEENE_PLUS) {
         if (!nfa_states_.empty()) {
-            auto& last = nfa_states_.back();
+            auto &last = nfa_states_.back();
             last.transitions.push_back(last.state_id); // self-loop
         }
     }
 }
 
-bool PatternMatcher::matchesEventType(const Event& event,
-                                       const std::string& expected) const {
-    if (expected.empty() || expected == "*") return true;
-    if (!event.event_name.empty() && event.event_name == expected) return true;
+bool PatternMatcher::matchesEventType(const Event &event, const std::string &expected) const {
+    if (expected.empty() || expected == "*") {
+        return true;
+    }
+    if (!event.event_name.empty() && event.event_name == expected) {
+        return true;
+    }
     // Match by EventType string representation
-    const char* type_str = eventTypeToString(event.type);
-    if (type_str && expected == type_str) return true;
+    const char *type_str = eventTypeToString(event.type);
+    if (type_str && expected == type_str)
+        return true;
     return false;
 }
 
-bool PatternMatcher::evaluateCondition(const Event& event) const {
-    if (config_.condition.empty()) return true;
+bool PatternMatcher::evaluateCondition(const Event &event) const {
+    if (config_.condition.empty()) {
+        return true;
+    }
     std::map<std::string, std::string> ctx;
-    ctx["event_name"] = event.event_name;
-    ctx["collection"] = event.collection_name;
-    ctx["document_id"] = event.document_id;
+    ctx["event_name"]    = event.event_name;
+    ctx["collection"]    = event.collection_name;
+    ctx["document_id"]   = event.document_id;
     ctx["partition_key"] = event.partition_key;
-    for (const auto& [k, v] : event.fields) {
+    for (const auto &[k, v] : event.fields) {
         ctx[k] = fieldValueToString(v);
     }
     return evalExpression(config_.condition, ctx);
 }
 
 void PatternMatcher::pruneExpiredMatches() {
-    if (config_.within.count() <= 0) return;
+    if (config_.within.count() <= 0) {
+        return;
+    }
     auto now = std::chrono::steady_clock::now();
-    for (auto& [key, matches] : partial_matches_) {
-        auto& vec = matches;
-        vec.erase(std::remove_if(vec.begin(), vec.end(), [&](const PartialMatch& pm) {
-            return std::chrono::duration_cast<std::chrono::milliseconds>(
-                now - pm.start_time) > config_.within;
-        }), vec.end());
+    for (auto &[key, matches] : partial_matches_) {
+        auto &vec = matches;
+        vec.erase(std::remove_if(vec.begin(), vec.end(),
+                                 [&](const PartialMatch &pm) {
+                                     return std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time)
+                                            > config_.within;
+                                 }),
+                  vec.end());
     }
 }
 
-std::vector<PatternMatch> PatternMatcher::processEvent(const Event& event) {
-    if (nfa_states_.empty()) return {};
+std::vector<PatternMatch> PatternMatcher::processEvent(const Event &event) {
+    if (nfa_states_.empty()) {
+        return {};
+    }
 
     std::lock_guard lk(state_mutex_);
     pruneExpiredMatches();
 
     std::string group_key;
     if (!config_.group_by.empty()) {
-        for (const auto& field : config_.group_by) {
+        for (const auto &field : config_.group_by) {
             auto it = event.fields.find(field);
             group_key += (it != event.fields.end() ? fieldValueToString(it->second) : "") + ":";
         }
     }
 
-    auto& active = partial_matches_[group_key];
+    auto &active = partial_matches_[group_key];
     std::vector<PatternMatch> completed;
 
     // DISJUNCTION: match if any event type matches
     if (config_.type == PatternType::DISJUNCTION) {
-        for (const auto& et : config_.event_types) {
+        for (const auto &et : config_.event_types) {
             if (matchesEventType(event, et) && evaluateCondition(event)) {
                 ++match_count_;
                 PatternMatch pm;
@@ -610,14 +704,13 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event& event) {
         auto now = std::chrono::steady_clock::now();
         if (config_.within.count() > 0) {
             std::vector<PartialMatch> remaining;
-            for (auto& pm : active) {
-                auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    now - pm.start_time);
+            for (auto &pm : active) {
+                auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time);
                 if (elapsed > config_.within) {
                     ++match_count_;
                     PatternMatch result;
-                    result.pattern_id = config_.pattern_id;
-                    result.match_time = std::chrono::system_clock::now();
+                    result.pattern_id     = config_.pattern_id;
+                    result.match_time     = std::chrono::system_clock::now();
                     result.matched_events = pm.matched_events;
                     completed.push_back(std::move(result));
                 } else {
@@ -631,9 +724,9 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event& event) {
 
     // CONJUNCTION: collect all expected types within tolerance window
     if (config_.type == PatternType::CONJUNCTION) {
-        const auto now = std::chrono::steady_clock::now();
+        const auto now      = std::chrono::steady_clock::now();
         bool event_relevant = false;
-        for (const auto& et : config_.event_types) {
+        for (const auto &et : config_.event_types) {
             if (matchesEventType(event, et)) {
                 event_relevant = true;
                 break;
@@ -642,11 +735,11 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event& event) {
 
         if (event_relevant && evaluateCondition(event)) {
             // Extend currently active conjunction candidates.
-            for (auto& pm : active) {
-                const bool within_tolerance =
-                    (config_.tolerance.count() <= 0) ||
-                    (std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time) <=
-                     config_.tolerance);
+            for (auto &pm : active) {
+                const bool within_tolerance
+                    = (config_.tolerance.count() <= 0)
+                      || (std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time)
+                          <= config_.tolerance);
                 if (within_tolerance) {
                     pm.matched_events.push_back(event);
                 }
@@ -662,22 +755,27 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event& event) {
 
         // Check if any candidate has collected all required event types.
         std::vector<PartialMatch> remaining;
-        for (auto& pm : active) {
+        for (auto &pm : active) {
             std::set<std::string> seen;
-            for (const auto& ev : pm.matched_events) {
-                for (const auto& et : config_.event_types) {
-                    if (matchesEventType(ev, et)) seen.insert(et);
+            for (const auto &ev : pm.matched_events) {
+                for (const auto &et : config_.event_types) {
+                    if (matchesEventType(ev, et)) {
+                        seen.insert(et);
+                    }
                 }
             }
             bool all_seen = true;
-            for (const auto& et : config_.event_types) {
-                if (seen.find(et) == seen.end()) { all_seen = false; break; }
+            for (const auto &et : config_.event_types) {
+                if (seen.find(et) == seen.end()) {
+                    all_seen = false;
+                    break;
+                }
             }
             if (all_seen) {
                 ++match_count_;
                 PatternMatch result;
-                result.pattern_id = config_.pattern_id;
-                result.match_time = std::chrono::system_clock::now();
+                result.pattern_id     = config_.pattern_id;
+                result.match_time     = std::chrono::system_clock::now();
                 result.matched_events = pm.matched_events;
                 completed.push_back(std::move(result));
             } else {
@@ -691,9 +789,11 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event& event) {
     // SEQUENCE (and REPETITION / KLEENE_*): advance NFA states
     // Try to extend existing partial matches
     std::vector<PartialMatch> next_active;
-    for (auto& pm : active) {
-        if (pm.current_state >= nfa_states_.size()) continue;
-        const auto& state = nfa_states_[pm.current_state];
+    for (auto &pm : active) {
+        if (pm.current_state >= nfa_states_.size()) {
+            continue;
+        }
+        const auto &state = nfa_states_[pm.current_state];
         if (matchesEventType(event, state.expected_event_type) && evaluateCondition(event)) {
             PartialMatch extended = pm;
             extended.matched_events.push_back(event);
@@ -702,10 +802,10 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event& event) {
                 if (count >= config_.min_occurrences && count <= config_.max_occurrences) {
                     ++match_count_;
                     PatternMatch result;
-                    result.pattern_id = config_.pattern_id;
-                    result.match_time = std::chrono::system_clock::now();
+                    result.pattern_id     = config_.pattern_id;
+                    result.match_time     = std::chrono::system_clock::now();
                     result.matched_events = extended.matched_events;
-                    result.bindings = extended.bindings;
+                    result.bindings       = extended.bindings;
                     completed.push_back(std::move(result));
                 }
                 // For KLEENE_PLUS/KLEENE_STAR: keep the match going via self-loop
@@ -718,7 +818,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event& event) {
                 }
             } else {
                 for (uint32_t next : state.transitions) {
-                    PartialMatch advanced = extended;
+                    PartialMatch advanced  = extended;
                     advanced.current_state = next;
                     next_active.push_back(std::move(advanced));
                 }
@@ -730,9 +830,8 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event& event) {
     active = std::move(next_active);
 
     // Start a new partial match from state 0 (SEQUENCE can start on any event)
-    if (!nfa_states_.empty() &&
-        matchesEventType(event, nfa_states_[0].expected_event_type) &&
-        evaluateCondition(event)) {
+    if (!nfa_states_.empty() && matchesEventType(event, nfa_states_[0].expected_event_type)
+        && evaluateCondition(event)) {
         PartialMatch pm;
         pm.start_time = std::chrono::steady_clock::now();
         if (nfa_states_[0].is_accepting) {
@@ -775,7 +874,9 @@ void PatternMatcher::reset() {
 size_t PatternMatcher::getPendingMatchCount() const {
     std::lock_guard lk(state_mutex_);
     size_t total = 0;
-    for (const auto& [k, v] : partial_matches_) total += v.size();
+    for (const auto &[k, v] : partial_matches_) {
+        total += v.size();
+    }
     return total;
 }
 
@@ -783,15 +884,15 @@ std::string PatternMatcher::serializeState() const {
     std::lock_guard lk(state_mutex_);
     auto now = std::chrono::steady_clock::now();
     std::ostringstream oss;
-    for (const auto& [group_key, matches] : partial_matches_) {
-        if (matches.empty()) continue;
+    for (const auto &[group_key, matches] : partial_matches_) {
+        if (matches.empty()) {
+            continue;
+        }
         std::string gk_hex = hexEncode(group_key);
-        for (const auto& pm : matches) {
-            int64_t age_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                now - pm.start_time).count();
-            oss << "pm_match=" << gk_hex << "|" << pm.current_state
-                << "|" << age_ms << "\n";
-            for (const auto& ev : pm.matched_events) {
+        for (const auto &pm : matches) {
+            int64_t age_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time).count();
+            oss << "pm_match=" << gk_hex << "|" << pm.current_state << "|" << age_ms << "\n";
+            for (const auto &ev : pm.matched_events) {
                 auto bytes = ev.serialize();
                 oss << "pm_ev=" << hexEncode(std::string(bytes.begin(), bytes.end())) << "\n";
             }
@@ -800,33 +901,37 @@ std::string PatternMatcher::serializeState() const {
     return oss.str();
 }
 
-void PatternMatcher::restoreState(const std::string& data) {
+void PatternMatcher::restoreState(const std::string &data) {
     std::lock_guard lk(state_mutex_);
     partial_matches_.clear();
-    if (data.empty()) return;
+    if (data.empty()) {
+        return;
+    }
 
     auto now = std::chrono::steady_clock::now();
     std::istringstream iss(data);
     std::string line;
-    PartialMatch* current_pm = nullptr;
+    PartialMatch *current_pm = nullptr;
     std::string current_group_key;
 
     while (std::getline(iss, line)) {
         if (line.rfind("pm_match=", 0) == 0) {
             std::string rest = line.substr(9);
-            auto p1 = rest.find('|');
-            auto p2 = rest.find('|', p1 + 1);
-            if (p1 == std::string::npos || p2 == std::string::npos) continue;
+            auto p1          = rest.find('|');
+            auto p2          = rest.find('|', p1 + 1);
+            if (p1 == std::string::npos || p2 == std::string::npos) {
+                continue;
+            }
             current_group_key = hexDecode(rest.substr(0, p1));
-            uint32_t state = 0;
-            int64_t age_ms = 0;
+            uint32_t state    = 0;
+            int64_t age_ms    = 0;
             try {
-                state = static_cast<uint32_t>(std::stoul(rest.substr(p1 + 1, p2 - p1 - 1)));
+                state  = static_cast<uint32_t>(std::stoul(rest.substr(p1 + 1, p2 - p1 - 1)));
                 age_ms = std::stoll(rest.substr(p2 + 1));
             } catch (const std::exception&) { continue; }
             PartialMatch pm;
             pm.current_state = state;
-            pm.start_time = now - std::chrono::milliseconds(age_ms);
+            pm.start_time    = now - std::chrono::milliseconds(age_ms);
             partial_matches_[current_group_key].push_back(std::move(pm));
             current_pm = &partial_matches_[current_group_key].back();
         } else if (line.rfind("pm_ev=", 0) == 0 && current_pm != nullptr) {
@@ -840,20 +945,21 @@ void PatternMatcher::restoreState(const std::string& data) {
     }
 }
 
-
-WindowManager::WindowManager(const WindowConfig& config)
+WindowManager::WindowManager(const WindowConfig &config)
     : config_(config), watermark_(std::chrono::system_clock::time_point{}) {
-    running_ = true;
+    running_         = true;
     windows_created_ = 0;
-    windows_closed_ = 0;
-    late_events_ = 0;
-    timer_thread_ = std::thread([this] { timerLoop(); });
+    windows_closed_  = 0;
+    late_events_     = 0;
+    timer_thread_    = std::thread([this] { timerLoop(); });
 }
 
 WindowManager::~WindowManager() {
     running_ = false;
     timer_cv_.notify_all();
-    if (timer_thread_.joinable()) timer_thread_.join();
+    if (timer_thread_.joinable()) {
+        timer_thread_.join();
+    }
 }
 
 void WindowManager::setWindowCallback(WindowCallback callback) {
@@ -861,22 +967,34 @@ void WindowManager::setWindowCallback(WindowCallback callback) {
 }
 
 void WindowManager::advanceWatermark(std::chrono::system_clock::time_point wm) {
-    if (wm > watermark_) watermark_ = wm;
+    if (wm > watermark_) {
+        watermark_ = wm;
+    }
 }
 
-void WindowManager::addEvent(const Event& event) {
+void WindowManager::addEvent(const Event &event) {
     switch (config_.type) {
-        case WindowType::TUMBLING: handleTumblingWindow(event); break;
-        case WindowType::SLIDING:  handleSlidingWindow(event); break;
-        case WindowType::SESSION:  handleSessionWindow(event); break;
-        case WindowType::HOPPING:  handleSlidingWindow(event); break; // same logic
-        case WindowType::COUNT:    handleCountWindow(event); break;
+        case WindowType::TUMBLING:
+            handleTumblingWindow(event);
+            break;
+        case WindowType::SLIDING:
+            handleSlidingWindow(event);
+            break;
+        case WindowType::SESSION:
+            handleSessionWindow(event);
+            break;
+        case WindowType::HOPPING:
+            handleSlidingWindow(event);
+            break; // same logic
+        case WindowType::COUNT:
+            handleCountWindow(event);
+            break;
         case WindowType::GLOBAL: {
             std::lock_guard lk(windows_mutex_);
             if (windows_.empty()) {
                 Window w;
                 w.start = event.timestamp;
-                w.end = std::chrono::system_clock::time_point::max();
+                w.end   = std::chrono::system_clock::time_point::max();
                 windows_.push_back(std::move(w));
                 ++windows_created_;
             }
@@ -886,7 +1004,7 @@ void WindowManager::addEvent(const Event& event) {
     }
 }
 
-void WindowManager::handleTumblingWindow(const Event& event) {
+void WindowManager::handleTumblingWindow(const Event &event) {
     std::optional<WindowCallbackBatch> batch;
     {
         std::lock_guard lk(windows_mutex_);
@@ -894,16 +1012,16 @@ void WindowManager::handleTumblingWindow(const Event& event) {
         if (windows_.empty()) {
             Window w;
             w.start = ts;
-            w.end = ts + config_.size;
+            w.end   = ts + config_.size;
             windows_.push_back(std::move(w));
             ++windows_created_;
         }
-        Window& current = windows_.back();
+        Window &current = windows_.back();
         if (ts >= current.end) {
             batch = closeWindow(current);
             Window nw;
             nw.start = current.end;
-            nw.end = current.end + config_.size;
+            nw.end   = current.end + config_.size;
             windows_.push_back(std::move(nw));
             ++windows_created_;
             windows_.back().events.push_back(event);
@@ -920,34 +1038,36 @@ void WindowManager::handleTumblingWindow(const Event& event) {
     }
 }
 
-void WindowManager::handleSlidingWindow(const Event& event) {
+void WindowManager::handleSlidingWindow(const Event &event) {
     std::vector<WindowCallbackBatch> batches;
     {
         std::lock_guard lk(windows_mutex_);
-        auto ts = event.timestamp;
+        auto ts  = event.timestamp;
         auto hop = (config_.slide.count() > 0) ? config_.slide : config_.size;
 
         // Create a new window starting at ts if needed
         if (windows_.empty() || ts >= windows_.back().start + hop) {
             Window w;
             w.start = ts;
-            w.end = ts + config_.size;
+            w.end   = ts + config_.size;
             windows_.push_back(std::move(w));
             ++windows_created_;
         }
 
         // Add event to all open windows that contain this timestamp
-        for (auto& w : windows_) {
+        for (auto &w : windows_) {
             if (!w.closed && ts >= w.start && ts < w.end) {
                 w.events.push_back(event);
             }
         }
 
         // Close expired windows
-        for (auto& w : windows_) {
+        for (auto &w : windows_) {
             if (!w.closed && ts >= w.end + config_.allowed_lateness) {
                 auto b = closeWindow(w);
-                if (b) batches.push_back(std::move(*b));
+                if (b) {
+                    batches.push_back(std::move(*b));
+                }
             }
         }
 
@@ -962,29 +1082,29 @@ void WindowManager::handleSlidingWindow(const Event& event) {
     }
 }
 
-void WindowManager::handleSessionWindow(const Event& event) {
+void WindowManager::handleSessionWindow(const Event &event) {
     std::optional<WindowCallbackBatch> batch;
     {
         std::lock_guard lk(windows_mutex_);
         std::string key = event.partition_key;
-        auto ts = event.timestamp;
+        auto ts         = event.timestamp;
 
         auto it = session_windows_.find(key);
         if (it == session_windows_.end()) {
             Window w;
             w.start = ts;
-            w.end = ts + config_.gap;
+            w.end   = ts + config_.gap;
             w.events.push_back(event);
             session_windows_[key] = std::move(w);
             ++windows_created_;
         } else {
-            auto& w = it->second;
+            auto &w = it->second;
             if (ts > w.end) {
                 // Gap exceeded: close old, start new
                 batch = closeWindow(w);
                 Window nw;
                 nw.start = ts;
-                nw.end = ts + config_.gap;
+                nw.end   = ts + config_.gap;
                 nw.events.push_back(event);
                 it->second = std::move(nw);
                 ++windows_created_;
@@ -1000,25 +1120,25 @@ void WindowManager::handleSessionWindow(const Event& event) {
     }
 }
 
-void WindowManager::handleCountWindow(const Event& event) {
+void WindowManager::handleCountWindow(const Event &event) {
     std::optional<WindowCallbackBatch> batch;
     {
         std::lock_guard lk(windows_mutex_);
         if (windows_.empty()) {
             Window w;
             w.start = event.timestamp;
-            w.end = event.timestamp;
+            w.end   = event.timestamp;
             windows_.push_back(std::move(w));
             ++windows_created_;
         }
-        Window& current = windows_.back();
+        Window &current = windows_.back();
         current.events.push_back(event);
         current.end = event.timestamp;
         if (config_.count > 0 && current.events.size() >= config_.count) {
             batch = closeWindow(current);
             Window nw;
             nw.start = event.timestamp;
-            nw.end = event.timestamp;
+            nw.end   = event.timestamp;
             windows_.push_back(std::move(nw));
             ++windows_created_;
         }
@@ -1029,8 +1149,10 @@ void WindowManager::handleCountWindow(const Event& event) {
     }
 }
 
-std::optional<WindowManager::WindowCallbackBatch> WindowManager::closeWindow(Window& w) {
-    if (w.closed) return std::nullopt;
+std::optional<WindowManager::WindowCallbackBatch> WindowManager::closeWindow(Window &w) {
+    if (w.closed) {
+        return std::nullopt;
+    }
     w.closed = true;
     ++windows_closed_;
     if (callback_ && config_.emit_on_close && !w.events.empty()) {
@@ -1041,29 +1163,32 @@ std::optional<WindowManager::WindowCallbackBatch> WindowManager::closeWindow(Win
 
 std::vector<Event> WindowManager::getWindowEvents() const {
     std::lock_guard lk(windows_mutex_);
-    if (windows_.empty()) return {};
+    if (windows_.empty()) {
+        return {};
+    }
     // Return events from the most recent open window
     for (auto it = windows_.rbegin(); it != windows_.rend(); ++it) {
-        if (!it->closed) return it->events;
+        if (!it->closed) {
+            return it->events;
+        }
     }
     return windows_.back().events;
 }
 
-std::vector<Event> WindowManager::getEvents(
-    std::chrono::system_clock::time_point start,
-    std::chrono::system_clock::time_point end) const {
+std::vector<Event> WindowManager::getEvents(std::chrono::system_clock::time_point start,
+                                            std::chrono::system_clock::time_point end) const {
     std::lock_guard lk(windows_mutex_);
     std::vector<Event> result;
-    for (const auto& w : windows_) {
-        for (const auto& ev : w.events) {
+    for (const auto &w : windows_) {
+        for (const auto &ev : w.events) {
             if (ev.timestamp >= start && ev.timestamp < end) {
                 result.push_back(ev);
             }
         }
     }
     // Also check session windows
-    for (const auto& [key, w] : session_windows_) {
-        for (const auto& ev : w.events) {
+    for (const auto &[key, w] : session_windows_) {
+        for (const auto &ev : w.events) {
             if (ev.timestamp >= start && ev.timestamp < end) {
                 result.push_back(ev);
             }
@@ -1076,27 +1201,27 @@ WindowManager::Stats WindowManager::getStats() const {
     size_t in_window = 0;
     {
         std::lock_guard lk(windows_mutex_);
-        for (const auto& w : windows_) {
-            if (!w.closed) in_window += w.events.size();
+        for (const auto &w : windows_) {
+            if (!w.closed) {
+                in_window += w.events.size();
+            }
         }
-        for (const auto& [k, w] : session_windows_) {
-            if (!w.closed) in_window += w.events.size();
+        for (const auto &[k, w] : session_windows_) {
+            if (!w.closed) {
+                in_window += w.events.size();
+            }
         }
     }
-    return Stats{
-        windows_created_.load(),
-        windows_closed_.load(),
-        in_window,
-        late_events_.load()
-    };
+    return Stats{windows_created_.load(), windows_closed_.load(), in_window, late_events_.load()};
 }
 
 void WindowManager::timerLoop() {
     while (running_) {
         std::unique_lock lk(timer_mutex_);
-        timer_cv_.wait_for(lk, config_.global_window_emit_interval_ms,
-                           [this] { return !running_.load(); });
-        if (!running_) break;
+        timer_cv_.wait_for(lk, config_.global_window_emit_interval_ms, [this] { return !running_.load(); });
+        if (!running_) {
+            break;
+        }
 
         // Emit on_event for GLOBAL windows periodically.
         // Snapshot event vectors under the lock, then dispatch outside so the
@@ -1106,7 +1231,7 @@ void WindowManager::timerLoop() {
             auto now = std::chrono::system_clock::now();
             {
                 std::lock_guard wlk(windows_mutex_);
-                for (auto& w : windows_) {
+                for (auto &w : windows_) {
                     if (!w.closed && !w.events.empty()) {
                         // Copy (not move): the window stays open; events must
                         // remain in the window for future emissions.
@@ -1127,10 +1252,12 @@ void WindowManager::timerLoop() {
             std::vector<WindowCallbackBatch> batches;
             {
                 std::lock_guard wlk(windows_mutex_);
-                for (auto& [key, w] : session_windows_) {
+                for (auto &[key, w] : session_windows_) {
                     if (!w.closed && now > w.end + config_.allowed_lateness) {
                         auto b = closeWindow(w);
-                        if (b) batches.push_back(std::move(*b));
+                        if (b) {
+                            batches.push_back(std::move(*b));
+                        }
                     }
                 }
             }
@@ -1146,62 +1273,67 @@ void WindowManager::timerLoop() {
 // Aggregator
 // ============================================================================
 
-Aggregator::Aggregator() = default;
+Aggregator::Aggregator()  = default;
 Aggregator::~Aggregator() = default;
 
-void Aggregator::addAggregation(const std::string& name,
-                                 AggregationType type,
-                                 const std::string& field) {
+void Aggregator::addAggregation(const std::string &name, AggregationType type, const std::string &field) {
     std::lock_guard lk(mutex_);
     AggregationState s;
-    s.name = name;
-    s.type = type;
-    s.field = field;
+    s.name              = name;
+    s.type              = type;
+    s.field             = field;
     aggregations_[name] = std::move(s);
 }
 
-void Aggregator::setGroupBy(const std::vector<std::string>& fields) {
+void Aggregator::setGroupBy(const std::vector<std::string> &fields) {
     std::lock_guard lk(mutex_);
     group_by_fields_ = fields;
 }
 
 void Aggregator::reset() {
     std::lock_guard lk(mutex_);
-    for (auto& [n, s] : aggregations_) {
+    for (auto &[n, s] : aggregations_) {
         s.count = 0;
-        s.sum = 0.0;
-        s.min = std::numeric_limits<double>::max();
-        s.max = std::numeric_limits<double>::lowest();
+        s.sum   = 0.0;
+        s.min   = std::numeric_limits<double>::max();
+        s.max   = std::numeric_limits<double>::lowest();
         s.values.clear();
         s.distinct_values.clear();
         s.first_value = std::monostate{};
-        s.last_value = std::monostate{};
-        s.has_first = false;
+        s.last_value  = std::monostate{};
+        s.has_first   = false;
     }
     grouped_aggregations_.clear();
 }
 
-std::string Aggregator::getGroupKey(const Event& event) const {
-    if (group_by_fields_.empty()) return "";
+std::string Aggregator::getGroupKey(const Event &event) const {
+    if (group_by_fields_.empty()) {
+        return "";
+    }
     std::string key;
-    for (const auto& f : group_by_fields_) {
+    for (const auto &f : group_by_fields_) {
         auto it = event.fields.find(f);
         key += (it != event.fields.end() ? fieldValueToString(it->second) : "") + "|";
     }
     return key;
 }
 
-void Aggregator::updateAggregation(AggregationState& s, const Event& event) {
-    auto it = event.fields.find(s.field);
+void Aggregator::updateAggregation(AggregationState &s, const Event &event) {
+    auto it          = event.fields.find(s.field);
     CepFieldValue fv = (it != event.fields.end()) ? it->second : CepFieldValue{std::monostate{}};
-    double dval = toDouble(fv);
+    double dval      = toDouble(fv);
 
     ++s.count;
     s.sum += dval;
-    if (dval < s.min) s.min = dval;
-    if (dval > s.max) s.max = dval;
+    if (dval < s.min)
+        s.min = dval;
+    if (dval > s.max)
+        s.max = dval;
     s.last_value = fv;
-    if (!s.has_first) { s.first_value = fv; s.has_first = true; }
+    if (!s.has_first) {
+        s.first_value = fv;
+        s.has_first   = true;
+    }
 
     switch (s.type) {
         case AggregationType::STDDEV:
@@ -1219,31 +1351,48 @@ void Aggregator::updateAggregation(AggregationState& s, const Event& event) {
     }
 }
 
-CepFieldValue Aggregator::computeResult(const AggregationState& s) const {
+CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
     // COUNT returns 0 even for empty sets; other aggregations return null
-    if (s.count == 0 && s.type != AggregationType::COUNT) return std::monostate{};
+    if (s.count == 0 && s.type != AggregationType::COUNT) {
+        return std::monostate{};
+    }
     switch (s.type) {
-        case AggregationType::COUNT:         return static_cast<int64_t>(s.count);
-        case AggregationType::SUM:           return s.sum;
-        case AggregationType::AVG:           return s.sum / static_cast<double>(s.count);
-        case AggregationType::MIN:           return s.min;
-        case AggregationType::MAX:           return s.max;
-        case AggregationType::FIRST:         return s.first_value;
-        case AggregationType::LAST:          return s.last_value;
+        case AggregationType::COUNT:
+            return static_cast<int64_t>(s.count);
+        case AggregationType::SUM:
+            return s.sum;
+        case AggregationType::AVG:
+            return s.sum / static_cast<double>(s.count);
+        case AggregationType::MIN:
+            return s.min;
+        case AggregationType::MAX:
+            return s.max;
+        case AggregationType::FIRST:
+            return s.first_value;
+        case AggregationType::LAST:
+            return s.last_value;
         case AggregationType::DISTINCT_COUNT:
             return static_cast<int64_t>(s.distinct_values.size());
         case AggregationType::VARIANCE: {
-            if (s.values.size() < 2) return 0.0;
+            if (s.values.size() < 2) {
+                return 0.0;
+            }
             double mean = s.sum / static_cast<double>(s.count);
-            double var = 0.0;
-            for (double v : s.values) var += (v - mean) * (v - mean);
+            double var  = 0.0;
+            for (double v : s.values) {
+                var += (v - mean) * (v - mean);
+            }
             return var / static_cast<double>(s.count - 1);
         }
         case AggregationType::STDDEV: {
-            if (s.values.size() < 2) return 0.0;
+            if (s.values.size() < 2) {
+                return 0.0;
+            }
             double mean = s.sum / static_cast<double>(s.count);
-            double var = 0.0;
-            for (double v : s.values) var += (v - mean) * (v - mean);
+            double var  = 0.0;
+            for (double v : s.values) {
+                var += (v - mean) * (v - mean);
+            }
             return std::sqrt(var / static_cast<double>(s.count - 1));
         }
         case AggregationType::PERCENTILE:
@@ -1251,37 +1400,44 @@ CepFieldValue Aggregator::computeResult(const AggregationState& s) const {
         case AggregationType::COLLECT: {
             std::vector<std::string> strs;
             strs.reserve(s.values.size());
-            for (double v : s.values) strs.push_back(std::to_string(v));
+            for (double v : s.values) {
+                strs.push_back(std::to_string(v));
+            }
             return strs;
         }
         case AggregationType::TOPN: {
             auto sorted = s.values;
             std::sort(sorted.rbegin(), sorted.rend());
-            if (sorted.size() > 10) sorted.resize(10);
+            if (sorted.size() > 10) {
+                sorted.resize(10);
+            }
             std::vector<std::string> strs;
-            for (double v : sorted) strs.push_back(std::to_string(v));
+            for (double v : sorted) {
+                strs.push_back(std::to_string(v));
+            }
             return strs;
         }
-        default: return std::monostate{};
+        default:
+            return std::monostate{};
     }
 }
 
-void Aggregator::processEvent(const Event& event) {
+void Aggregator::processEvent(const Event &event) {
     std::lock_guard lk(mutex_);
     if (group_by_fields_.empty()) {
-        for (auto& [n, s] : aggregations_) {
+        for (auto &[n, s] : aggregations_) {
             updateAggregation(s, event);
         }
     } else {
         std::string gkey = getGroupKey(event);
-        for (auto& [n, s] : aggregations_) {
-            auto& grouped = grouped_aggregations_[gkey];
+        for (auto &[n, s] : aggregations_) {
+            auto &grouped = grouped_aggregations_[gkey];
             if (grouped.find(n) == grouped.end()) {
-                grouped[n] = s; // copy template
+                grouped[n]       = s; // copy template
                 grouped[n].count = 0;
-                grouped[n].sum = 0.0;
-                grouped[n].min = std::numeric_limits<double>::max();
-                grouped[n].max = std::numeric_limits<double>::lowest();
+                grouped[n].sum   = 0.0;
+                grouped[n].min   = std::numeric_limits<double>::max();
+                grouped[n].max   = std::numeric_limits<double>::lowest();
                 grouped[n].values.clear();
                 grouped[n].distinct_values.clear();
                 grouped[n].has_first = false;
@@ -1297,25 +1453,25 @@ std::map<std::string, AggregationResult> Aggregator::getResults() const {
     auto now = std::chrono::system_clock::now();
 
     if (group_by_fields_.empty()) {
-        for (const auto& [n, s] : aggregations_) {
+        for (const auto &[n, s] : aggregations_) {
             AggregationResult r;
             r.aggregation_id = n;
-            r.type = s.type;
-            r.result = computeResult(s);
-            r.count = static_cast<uint64_t>(s.count);
-            r.window_end = now;
-            results[n] = std::move(r);
+            r.type           = s.type;
+            r.result         = computeResult(s);
+            r.count          = static_cast<uint64_t>(s.count);
+            r.window_end     = now;
+            results[n]       = std::move(r);
         }
     } else {
-        for (const auto& [gkey, group] : grouped_aggregations_) {
-            for (const auto& [n, s] : group) {
+        for (const auto &[gkey, group] : grouped_aggregations_) {
+            for (const auto &[n, s] : group) {
                 std::string result_key = n + "@" + gkey;
                 AggregationResult r;
                 r.aggregation_id = result_key;
-                r.type = s.type;
-                r.result = computeResult(s);
-                r.count = static_cast<uint64_t>(s.count);
-                r.window_end = now;
+                r.type           = s.type;
+                r.result         = computeResult(s);
+                r.count          = static_cast<uint64_t>(s.count);
+                r.window_end     = now;
                 // Decode group by values
                 if (!group_by_fields_.empty()) {
                     std::istringstream iss(gkey);
@@ -1332,10 +1488,12 @@ std::map<std::string, AggregationResult> Aggregator::getResults() const {
     return results;
 }
 
-std::optional<AggregationResult> Aggregator::getResult(const std::string& name) const {
+std::optional<AggregationResult> Aggregator::getResult(const std::string &name) const {
     auto all = getResults();
-    auto it = all.find(name);
-    if (it == all.end()) return std::nullopt;
+    auto it  = all.find(name);
+    if (it == all.end()) {
+        return std::nullopt;
+    }
     return it->second;
 }
 
@@ -1343,10 +1501,10 @@ std::optional<AggregationResult> Aggregator::getResult(const std::string& name) 
 // RuleEngine
 // ============================================================================
 
-RuleEngine::RuleEngine(CEPEngine* engine) : engine_(engine) {}
+RuleEngine::RuleEngine(CEPEngine *engine) : engine_(engine) {}
 RuleEngine::~RuleEngine() = default;
 
-bool RuleEngine::addRule(const RuleConfig& config) {
+bool RuleEngine::addRule(const RuleConfig &config) {
     std::unique_lock lk(rules_mutex_);
     if (rules_.find(config.rule_id) != rules_.end()) {
         spdlog::warn("CEP RuleEngine: rule '{}' already exists, replacing", config.rule_id);
@@ -1360,7 +1518,7 @@ bool RuleEngine::addRule(const RuleConfig& config) {
         state.window_manager = std::make_unique<WindowManager>(*config.window);
     }
     state.aggregator = std::make_unique<Aggregator>();
-    for (const auto& [name, type] : config.aggregations) {
+    for (const auto &[name, type] : config.aggregations) {
         state.aggregator->addAggregation(name, type, name);
     }
     if (!config.group_by.empty()) {
@@ -1371,21 +1529,25 @@ bool RuleEngine::addRule(const RuleConfig& config) {
     return true;
 }
 
-bool RuleEngine::removeRule(const std::string& rule_id) {
+bool RuleEngine::removeRule(const std::string &rule_id) {
     std::unique_lock lk(rules_mutex_);
     return rules_.erase(rule_id) > 0;
 }
 
-void RuleEngine::setRuleEnabled(const std::string& rule_id, bool enabled) {
+void RuleEngine::setRuleEnabled(const std::string &rule_id, bool enabled) {
     std::unique_lock lk(rules_mutex_);
     auto it = rules_.find(rule_id);
-    if (it != rules_.end()) it->second.config.enabled = enabled;
+    if (it != rules_.end()) {
+        it->second.config.enabled = enabled;
+    }
 }
 
-std::optional<RuleConfig> RuleEngine::getRule(const std::string& rule_id) const {
+std::optional<RuleConfig> RuleEngine::getRule(const std::string &rule_id) const {
     std::shared_lock lk(rules_mutex_);
     auto it = rules_.find(rule_id);
-    if (it == rules_.end()) return std::nullopt;
+    if (it == rules_.end()) {
+        return std::nullopt;
+    }
     return it->second.config;
 }
 
@@ -1393,39 +1555,42 @@ std::vector<RuleConfig> RuleEngine::getRules() const {
     std::shared_lock lk(rules_mutex_);
     std::vector<RuleConfig> result;
     result.reserve(rules_.size());
-    for (const auto& [id, s] : rules_) result.push_back(s.config);
+    for (const auto &[id, s] : rules_) {
+        result.push_back(s.config);
+    }
     return result;
 }
 
-bool RuleEngine::evaluateFilter(const Event& event, const std::string& filter) const {
-    if (filter.empty()) return true;
+bool RuleEngine::evaluateFilter(const Event &event, const std::string &filter) const {
+    if (filter.empty()) {
+        return true;
+    }
     std::map<std::string, std::string> ctx;
-    ctx["event_name"] = event.event_name;
-    ctx["collection"] = event.collection_name;
-    ctx["document_id"] = event.document_id;
+    ctx["event_name"]    = event.event_name;
+    ctx["collection"]    = event.collection_name;
+    ctx["document_id"]   = event.document_id;
     ctx["partition_key"] = event.partition_key;
-    ctx["priority"] = std::to_string(static_cast<int>(event.priority));
-    for (const auto& [k, v] : event.fields) {
+    ctx["priority"]      = std::to_string(static_cast<int>(event.priority));
+    for (const auto &[k, v] : event.fields) {
         ctx[k] = fieldValueToString(v);
     }
     return evalExpression(filter, ctx);
 }
 
-bool RuleEngine::evaluateHaving(
-    const std::map<std::string, AggregationResult>& results,
-    const std::string& having) const {
-    if (having.empty()) return true;
+bool RuleEngine::evaluateHaving(const std::map<std::string, AggregationResult> &results,
+                                const std::string &having) const {
+    if (having.empty()) {
+        return true;
+    }
     std::map<std::string, std::string> ctx;
-    for (const auto& [name, res] : results) {
-        ctx[name] = fieldValueToString(res.result);
+    for (const auto &[name, res] : results) {
+        ctx[name]            = fieldValueToString(res.result);
         ctx["count_" + name] = std::to_string(res.count);
     }
     return evalExpression(having, ctx);
 }
 
-void RuleEngine::executeAction(const ActionConfig& action,
-                                const PatternMatch& match,
-                                const RuleConfig& rule) {
+void RuleEngine::executeAction(const ActionConfig &action, const PatternMatch &match, const RuleConfig &rule) {
     switch (action.type) {
         case ActionType::ALERT: {
             // Alerts are handled by the CEPEngine via executeActions
@@ -1433,62 +1598,68 @@ void RuleEngine::executeAction(const ActionConfig& action,
         }
         case ActionType::LOG: {
             std::string msg = action.template_str;
-            if (msg.empty()) msg = "CEP rule '{}' matched";
-            spdlog::info("CEP ACTION LOG: rule='{}' pattern='{}' events={}",
-                rule.rule_id, match.pattern_id, match.matched_events.size());
+            if (msg.empty()) {
+                msg = "CEP rule '{}' matched";
+            }
+            spdlog::info("CEP ACTION LOG: rule='{}' pattern='{}' events={}", rule.rule_id, match.pattern_id,
+                         match.matched_events.size());
             break;
         }
         case ActionType::WEBHOOK: {
             // Webhook dispatch (logged; actual HTTP requires external HTTP client)
-            spdlog::info("CEP ACTION WEBHOOK: rule='{}' target='{}'",
-                rule.rule_id, action.target);
+            spdlog::info("CEP ACTION WEBHOOK: rule='{}' target='{}'", rule.rule_id, action.target);
             break;
         }
         case ActionType::DB_WRITE: {
-            spdlog::info("CEP ACTION DB_WRITE: rule='{}' collection='{}'",
-                rule.rule_id, action.target);
+            spdlog::info("CEP ACTION DB_WRITE: rule='{}' collection='{}'", rule.rule_id, action.target);
             break;
         }
         default:
-            spdlog::debug("CEP ACTION type={} rule='{}'",
-                static_cast<int>(action.type), rule.rule_id);
+            spdlog::debug("CEP ACTION type={} rule='{}'", static_cast<int>(action.type), rule.rule_id);
             break;
     }
 }
 
-void RuleEngine::executeActions(const RuleConfig& config, const PatternMatch& match) {
-    for (const auto& action : config.actions) {
-        if (action.type == ActionType::ALERT) continue; // handled by caller
+void RuleEngine::executeActions(const RuleConfig &config, const PatternMatch &match) {
+    for (const auto &action : config.actions) {
+        if (action.type == ActionType::ALERT) {
+            continue; // handled by caller
+        }
         if (action.async) {
-            std::thread([this, action, match, config] {
-                executeAction(action, match, config);
-            }).detach();
+            std::thread([this, action, match, config] { executeAction(action, match, config); }).detach();
         } else {
             executeAction(action, match, config);
         }
     }
 }
 
-std::vector<Alert> RuleEngine::processEvent(const Event& event) {
+std::vector<Alert> RuleEngine::processEvent(const Event &event) {
     std::vector<Alert> alerts;
 
     std::shared_lock lk(rules_mutex_);
-    for (auto& [rule_id, state] : rules_) {
-        if (!state.config.enabled) continue;
+    for (auto &[rule_id, state] : rules_) {
+        if (!state.config.enabled) {
+            continue;
+        }
 
         // Priority check
-        if (event.priority > state.config.min_priority) continue;
+        if (event.priority > state.config.min_priority) {
+            continue;
+        }
 
         // Stream filter
         if (!state.config.streams.empty()) {
-            bool in_stream = std::any_of(
-                state.config.streams.begin(), state.config.streams.end(),
-                [&](const std::string& s) { return s == event.partition_key || s == "*"; });
-            if (!in_stream) continue;
+            bool in_stream = std::any_of(state.config.streams.begin(), state.config.streams.end(),
+                                         [&](const std::string &s) { return s == event.partition_key || s == "*"; });
+            if (!in_stream) {
+                continue;
+            }
         }
 
         // WHERE filter
-        if (!evaluateFilter(event, state.config.filter)) continue;
+        if (!evaluateFilter(event, state.config.filter)) {
+            continue;
+        }
 
         // Update stats
         ++state.stats.events_processed;
@@ -1518,36 +1689,37 @@ std::vector<Alert> RuleEngine::processEvent(const Event& event) {
             // No pattern: create a synthetic match for every event
             PatternMatch pm;
             pm.pattern_id = "";
-            pm.rule_id = rule_id;
+            pm.rule_id    = rule_id;
             pm.match_time = std::chrono::system_clock::now();
             pm.matched_events.push_back(event);
             matches.push_back(std::move(pm));
         }
 
-        for (auto& match : matches) {
+        for (auto &match : matches) {
             match.rule_id = rule_id;
             ++state.stats.matches;
 
             // Check HAVING after pattern match
             auto agg_results = state.aggregator->getResults();
-            if (!evaluateHaving(agg_results, state.config.having)) continue;
+            if (!evaluateHaving(agg_results, state.config.having)) {
+                continue;
+            }
 
             // Build alert for ALERT actions
-            for (const auto& action : state.config.actions) {
+            for (const auto &action : state.config.actions) {
                 if (action.type == ActionType::ALERT) {
                     Alert alert;
-                    alert.alert_id = generateId();
-                    alert.rule_id = rule_id;
+                    alert.alert_id  = generateId();
+                    alert.rule_id   = rule_id;
                     alert.rule_name = state.config.rule_name;
                     alert.timestamp = std::chrono::system_clock::now();
-                    alert.match = match;
+                    alert.match     = match;
                     // Determine severity from tags
-                    auto sit = state.config.tags.find("severity");
+                    auto sit       = state.config.tags.find("severity");
                     alert.severity = (sit != state.config.tags.end()) ? sit->second : "info";
                     // Use template if provided
-                    alert.message = action.template_str.empty()
-                        ? ("Rule '" + state.config.rule_name + "' triggered")
-                        : action.template_str;
+                    alert.message = action.template_str.empty() ? ("Rule '" + state.config.rule_name + "' triggered")
+                                                                : action.template_str;
                     alerts.push_back(std::move(alert));
                     ++state.stats.actions_triggered;
                     break;
@@ -1558,17 +1730,16 @@ std::vector<Alert> RuleEngine::processEvent(const Event& event) {
             executeActions(state.config, match);
         }
 
-        auto t_end = std::chrono::steady_clock::now();
+        auto t_end   = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start);
         // Running average of processing time
-        state.stats.avg_processing_time =
-            std::chrono::milliseconds((state.stats.avg_processing_time.count() +
-                                       elapsed.count()) / 2);
+        state.stats.avg_processing_time
+            = std::chrono::milliseconds((state.stats.avg_processing_time.count() + elapsed.count()) / 2);
     }
     return alerts;
 }
 
-std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
+std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
     // EPL parser: supports
     //   [CREATE RULE <name> AS | NAME <name>]
     //   SELECT [<aggregations>] FROM <stream> [WHERE <filter>]
@@ -1578,7 +1749,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
     //   [HAVING <having>]
     //   [ACTION alert(...) | webhook(...) | db_write(...) | ON MATCH ALERT ...]
     RuleConfig cfg;
-    cfg.rule_id = generateId();
+    cfg.rule_id    = generateId();
     cfg.created_at = std::chrono::system_clock::now();
     cfg.updated_at = cfg.created_at;
 
@@ -1588,26 +1759,41 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
     bool in_ws = false;
     for (char c : epl) {
         if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
-            if (!in_ws) { norm += ' '; in_ws = true; }
+            if (!in_ws) {
+                norm += ' ';
+                in_ws = true;
+            }
         } else {
             norm += c;
             in_ws = false;
         }
     }
     // Trim leading/trailing space
-    if (!norm.empty() && norm.front() == ' ') norm.erase(norm.begin());
-    if (!norm.empty() && norm.back()  == ' ') norm.pop_back();
+    if (!norm.empty() && norm.front() == ' ') {
+        norm.erase(norm.begin());
+    }
+    if (!norm.empty() && norm.back() == ' ') {
+        norm.pop_back();
+    }
 
     // Helper: convert (value_str, unit_str) to milliseconds
-    auto timeToMs = [](const std::string& val_str, const std::string& unit_str) -> uint64_t {
+    auto timeToMs = [](const std::string &val_str, const std::string &unit_str) -> uint64_t {
         uint64_t val = 0;
         try { val = std::stoull(val_str); } catch (const std::exception&) { return 0; }
         std::string u = unit_str;
         std::transform(u.begin(), u.end(), u.begin(), ::tolower);
-        if (u == "s" || u == "second" || u == "seconds") return val * 1000;
-        if (u == "min" || u == "minute" || u == "minutes") return val * 60000;
-        if (u == "h" || u == "hour" || u == "hours") return val * 3600000;
-        if (u == "d" || u == "day" || u == "days") return val * 86400000ULL;
+        if (u == "s" || u == "second" || u == "seconds") {
+            return val * 1000;
+        }
+        if (u == "min" || u == "minute" || u == "minutes") {
+            return val * 60000;
+        }
+        if (u == "h" || u == "hour" || u == "hours") {
+            return val * 3600000;
+        }
+        if (u == "d" || u == "day" || u == "days") {
+            return val * 86400000ULL;
+        }
         return val; // default: ms
     };
 
@@ -1648,29 +1834,45 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
             auto it = std::sregex_iterator(proj.begin(), proj.end(), agg_re);
             for (; it != std::sregex_iterator(); ++it) {
                 std::smatch am = *it;
-                std::string fn = am[1]; std::transform(fn.begin(), fn.end(), fn.begin(), ::toupper);
+                std::string fn = am[1];
+                std::transform(fn.begin(), fn.end(), fn.begin(), ::toupper);
                 std::string field = am[2];
                 field.erase(0, field.find_first_not_of(" \t"));
-                if (!field.empty()) field.erase(field.find_last_not_of(" \t") + 1);
+                if (!field.empty()) {
+                    field.erase(field.find_last_not_of(" \t") + 1);
+                }
 
                 AggregationType at = AggregationType::COUNT;
-                if      (fn == "COUNT")          at = AggregationType::COUNT;
-                else if (fn == "SUM")            at = AggregationType::SUM;
-                else if (fn == "AVG")            at = AggregationType::AVG;
-                else if (fn == "MIN")            at = AggregationType::MIN;
-                else if (fn == "MAX")            at = AggregationType::MAX;
-                else if (fn == "FIRST")          at = AggregationType::FIRST;
-                else if (fn == "LAST")           at = AggregationType::LAST;
-                else if (fn == "STDDEV")         at = AggregationType::STDDEV;
-                else if (fn == "VARIANCE")       at = AggregationType::VARIANCE;
-                else if (fn == "PERCENTILE")     at = AggregationType::PERCENTILE;
-                else if (fn == "DISTINCT_COUNT") at = AggregationType::DISTINCT_COUNT;
-                else if (fn == "COLLECT")        at = AggregationType::COLLECT;
-                else if (fn == "TOPN")           at = AggregationType::TOPN;
+                if (fn == "COUNT") {
+                    at = AggregationType::COUNT;
+                } else if (fn == "SUM") {
+                    at = AggregationType::SUM;
+                } else if (fn == "AVG") {
+                    at = AggregationType::AVG;
+                } else if (fn == "MIN") {
+                    at = AggregationType::MIN;
+                } else if (fn == "MAX") {
+                    at = AggregationType::MAX;
+                } else if (fn == "FIRST") {
+                    at = AggregationType::FIRST;
+                } else if (fn == "LAST") {
+                    at = AggregationType::LAST;
+                } else if (fn == "STDDEV") {
+                    at = AggregationType::STDDEV;
+                } else if (fn == "VARIANCE") {
+                    at = AggregationType::VARIANCE;
+                } else if (fn == "PERCENTILE") {
+                    at = AggregationType::PERCENTILE;
+                } else if (fn == "DISTINCT_COUNT") {
+                    at = AggregationType::DISTINCT_COUNT;
+                } else if (fn == "COLLECT") {
+                    at = AggregationType::COLLECT;
+                } else if (fn == "TOPN") {
+                    at = AggregationType::TOPN;
+                }
 
                 // Use AS alias if present, otherwise use field name (or "*" for COUNT(*))
-                std::string alias = am[3].matched ? am[3].str()
-                                  : (field.empty() || field == "*" ? fn : field);
+                std::string alias = am[3].matched ? am[3].str() : (field.empty() || field == "*" ? fn : field);
                 cfg.aggregations.emplace_back(alias, at);
             }
         }
@@ -1695,12 +1897,18 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
         std::smatch m;
         if (std::regex_search(norm, m, pat_re)) {
             PatternConfig pc;
-            pc.pattern_id = generateId();
-            std::string pt = m[1]; std::transform(pt.begin(), pt.end(), pt.begin(), ::toupper);
-            if      (pt == "SEQUENCE" || pt == "SEQ") pc.type = PatternType::SEQUENCE;
-            else if (pt == "AND") pc.type = PatternType::CONJUNCTION;
-            else if (pt == "OR")  pc.type = PatternType::DISJUNCTION;
-            else if (pt == "NOT") pc.type = PatternType::NEGATION;
+            pc.pattern_id  = generateId();
+            std::string pt = m[1];
+            std::transform(pt.begin(), pt.end(), pt.begin(), ::toupper);
+            if (pt == "SEQUENCE" || pt == "SEQ") {
+                pc.type = PatternType::SEQUENCE;
+            } else if (pt == "AND") {
+                pc.type = PatternType::CONJUNCTION;
+            } else if (pt == "OR") {
+                pc.type = PatternType::DISJUNCTION;
+            } else if (pt == "NOT") {
+                pc.type = PatternType::NEGATION;
+            }
 
             std::string events_str = m[2];
             std::istringstream iss(events_str);
@@ -1708,7 +1916,9 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
             while (std::getline(iss, token, ',')) {
                 token.erase(0, token.find_first_not_of(" \t"));
                 token.erase(token.find_last_not_of(" \t") + 1);
-                if (!token.empty()) pc.event_types.push_back(token);
+                if (!token.empty()) {
+                    pc.event_types.push_back(token);
+                }
             }
 
             if (m[3].matched) {
@@ -1729,25 +1939,35 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
         std::smatch m;
         if (std::regex_search(norm, m, win_paren_re)) {
             WindowConfig wc;
-            std::string wt = m[1]; std::transform(wt.begin(), wt.end(), wt.begin(), ::toupper);
-            if      (wt == "TUMBLING") wc.type = WindowType::TUMBLING;
-            else if (wt == "SLIDING")  wc.type = WindowType::SLIDING;
-            else if (wt == "SESSION")  wc.type = WindowType::SESSION;
-            else if (wt == "HOPPING")  wc.type = WindowType::HOPPING;
-            else if (wt == "COUNT")    wc.type = WindowType::COUNT;
+            std::string wt = m[1];
+            std::transform(wt.begin(), wt.end(), wt.begin(), ::toupper);
+            if (wt == "TUMBLING") {
+                wc.type = WindowType::TUMBLING;
+            } else if (wt == "SLIDING") {
+                wc.type = WindowType::SLIDING;
+            } else if (wt == "SESSION") {
+                wc.type = WindowType::SESSION;
+            } else if (wt == "HOPPING") {
+                wc.type = WindowType::HOPPING;
+            } else if (wt == "COUNT") {
+                wc.type = WindowType::COUNT;
+            }
 
             if (wt == "COUNT") {
                 try { wc.count = std::stoull(m[2]); } catch (const std::exception&) {}
             } else {
                 std::string unit = m[3].matched ? m[3].str() : "ms";
-                wc.size = std::chrono::milliseconds(timeToMs(m[2], unit));
+                wc.size          = std::chrono::milliseconds(timeToMs(m[2], unit));
             }
 
             if (m[4].matched) {
                 std::string unit2 = m[5].matched ? m[5].str() : "ms";
-                uint64_t ms2 = timeToMs(m[4], unit2);
-                if (wt == "SLIDING" || wt == "HOPPING") wc.slide = std::chrono::milliseconds(ms2);
-                else if (wt == "SESSION")               wc.gap   = std::chrono::milliseconds(ms2);
+                uint64_t ms2      = timeToMs(m[4], unit2);
+                if (wt == "SLIDING" || wt == "HOPPING") {
+                    wc.slide = std::chrono::milliseconds(ms2);
+                } else if (wt == "SESSION") {
+                    wc.gap = std::chrono::milliseconds(ms2);
+                }
             }
             cfg.window = std::move(wc);
         } else {
@@ -1757,12 +1977,19 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
                 std::regex::icase);
             if (std::regex_search(norm, m, win_re)) {
                 WindowConfig wc;
-                std::string wt = m[1]; std::transform(wt.begin(), wt.end(), wt.begin(), ::toupper);
-                if      (wt == "TUMBLING") wc.type = WindowType::TUMBLING;
-                else if (wt == "SLIDING")  wc.type = WindowType::SLIDING;
-                else if (wt == "SESSION")  wc.type = WindowType::SESSION;
-                else if (wt == "HOPPING")  wc.type = WindowType::HOPPING;
-                else if (wt == "COUNT")    wc.type = WindowType::COUNT;
+                std::string wt = m[1];
+                std::transform(wt.begin(), wt.end(), wt.begin(), ::toupper);
+                if (wt == "TUMBLING") {
+                    wc.type = WindowType::TUMBLING;
+                } else if (wt == "SLIDING") {
+                    wc.type = WindowType::SLIDING;
+                } else if (wt == "SESSION") {
+                    wc.type = WindowType::SESSION;
+                } else if (wt == "HOPPING") {
+                    wc.type = WindowType::HOPPING;
+                } else if (wt == "COUNT") {
+                    wc.type = WindowType::COUNT;
+                }
 
                 if (wt == "COUNT") {
                     try { wc.count = std::stoull(m[2]); } catch (const std::exception&) {}
@@ -1799,9 +2026,8 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
 
     // Extract GROUP BY
     {
-        std::regex group_re(
-            R"(\bGROUP\s+BY\s+(.+?)(?:\s+HAVING\b|\s+WINDOW\b|\s+ON\s+MATCH\b|\s+ACTION\b|;|$))",
-            std::regex::icase);
+        std::regex group_re(R"(\bGROUP\s+BY\s+(.+?)(?:\s+HAVING\b|\s+WINDOW\b|\s+ON\s+MATCH\b|\s+ACTION\b|;|$))",
+                            std::regex::icase);
         std::smatch m;
         if (std::regex_search(norm, m, group_re)) {
             std::string fields_str = m[1];
@@ -1810,16 +2036,17 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
             while (std::getline(iss, token, ',')) {
                 token.erase(0, token.find_first_not_of(" \t"));
                 token.erase(token.find_last_not_of(" \t") + 1);
-                if (!token.empty()) cfg.group_by.push_back(token);
+                if (!token.empty()) {
+                    cfg.group_by.push_back(token);
+                }
             }
         }
     }
 
     // Extract HAVING (stops before ON MATCH / ACTION)
     {
-        std::regex having_re(
-            R"(\bHAVING\s+(.+?)(?:\s+PATTERN\b|\s+WINDOW\b|\s+ON\s+MATCH\b|\s+ACTION\b|;|$))",
-            std::regex::icase);
+        std::regex having_re(R"(\bHAVING\s+(.+?)(?:\s+PATTERN\b|\s+WINDOW\b|\s+ON\s+MATCH\b|\s+ACTION\b|;|$))",
+                             std::regex::icase);
         std::smatch m;
         if (std::regex_search(norm, m, having_re)) {
             cfg.having = m[1];
@@ -1828,23 +2055,31 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
 
     // Extract ACTION <type>(<params>) - new syntax; falls back to ON MATCH ALERT
     {
-        std::regex action_re(
-            R"(\bACTION\s+(alert|webhook|db_write|log|slack|kafka|email)\s*\(([^)]*)\))",
-            std::regex::icase);
+        std::regex action_re(R"(\bACTION\s+(alert|webhook|db_write|log|slack|kafka|email)\s*\(([^)]*)\))",
+                             std::regex::icase);
         std::smatch m;
         std::string search = norm;
-        bool found_action = false;
+        bool found_action  = false;
         while (std::regex_search(search, m, action_re)) {
             found_action = true;
             ActionConfig ac;
-            std::string at_str = m[1]; std::transform(at_str.begin(), at_str.end(), at_str.begin(), ::toupper);
-            if      (at_str == "ALERT")    ac.type = ActionType::ALERT;
-            else if (at_str == "WEBHOOK")  ac.type = ActionType::WEBHOOK;
-            else if (at_str == "DB_WRITE") ac.type = ActionType::DB_WRITE;
-            else if (at_str == "LOG")      ac.type = ActionType::LOG;
-            else if (at_str == "SLACK")    ac.type = ActionType::SLACK;
-            else if (at_str == "KAFKA")    ac.type = ActionType::KAFKA;
-            else if (at_str == "EMAIL")    ac.type = ActionType::EMAIL;
+            std::string at_str = m[1];
+            std::transform(at_str.begin(), at_str.end(), at_str.begin(), ::toupper);
+            if (at_str == "ALERT") {
+                ac.type = ActionType::ALERT;
+            } else if (at_str == "WEBHOOK") {
+                ac.type = ActionType::WEBHOOK;
+            } else if (at_str == "DB_WRITE") {
+                ac.type = ActionType::DB_WRITE;
+            } else if (at_str == "LOG") {
+                ac.type = ActionType::LOG;
+            } else if (at_str == "SLACK") {
+                ac.type = ActionType::SLACK;
+            } else if (at_str == "KAFKA") {
+                ac.type = ActionType::KAFKA;
+            } else if (at_str == "EMAIL") {
+                ac.type = ActionType::EMAIL;
+            }
 
             // Parse parameters: quoted strings ('...') or plain tokens
             std::vector<std::string> params;
@@ -1852,24 +2087,38 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
             std::regex param_re(R"x('([^']*)'|"([^"]*)"|([^,\s]+))x");
             auto pit = std::sregex_iterator(params_str.begin(), params_str.end(), param_re);
             for (; pit != std::sregex_iterator(); ++pit) {
-                std::smatch pm = *pit;
-                std::string val = pm[1].matched ? pm[1].str()
-                                : pm[2].matched ? pm[2].str()
-                                                : pm[3].str();
-                if (!val.empty()) params.push_back(val);
+                std::smatch pm  = *pit;
+                std::string val = pm[1].matched ? pm[1].str() : pm[2].matched ? pm[2].str() : pm[3].str();
+                if (!val.empty()) {
+                    params.push_back(val);
+                }
             }
 
             if (ac.type == ActionType::WEBHOOK || ac.type == ActionType::DB_WRITE) {
-                if (!params.empty()) ac.target = params[0];
-                if (params.size() > 1) ac.template_str = params[1];
+                if (!params.empty()) {
+                    ac.target = params[0];
+                }
+                if (params.size() > 1) {
+                    ac.template_str = params[1];
+                }
             } else if (ac.type == ActionType::ALERT) {
                 // alert('channel', 'severity', 'message')
-                if (!params.empty()) ac.target = params[0];
-                if (params.size() > 1) cfg.tags["severity"] = params[1];
-                if (params.size() > 2) ac.template_str = params[2];
+                if (!params.empty()) {
+                    ac.target = params[0];
+                }
+                if (params.size() > 1) {
+                    cfg.tags["severity"] = params[1];
+                }
+                if (params.size() > 2) {
+                    ac.template_str = params[2];
+                }
             } else {
-                if (!params.empty()) ac.target = params[0];
-                if (params.size() > 1) ac.template_str = params[1];
+                if (!params.empty()) {
+                    ac.target = params[0];
+                }
+                if (params.size() > 1) {
+                    ac.template_str = params[1];
+                }
             }
             cfg.actions.push_back(std::move(ac));
             search = m.suffix().str();
@@ -1882,8 +2131,12 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
             if (std::regex_search(norm, m, alert_re)) {
                 ActionConfig ac;
                 ac.type = ActionType::ALERT;
-                if (m[1].matched) cfg.tags["severity"] = m[1];
-                if (m[2].matched) ac.template_str = m[2];
+                if (m[1].matched) {
+                    cfg.tags["severity"] = m[1];
+                }
+                if (m[2].matched) {
+                    ac.template_str = m[2];
+                }
                 cfg.actions.push_back(std::move(ac));
             } else {
                 ActionConfig ac;
@@ -1897,27 +2150,35 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
     return cfg;
 }
 
-RuleEngine::RuleStats RuleEngine::getRuleStats(const std::string& rule_id) const {
+RuleEngine::RuleStats RuleEngine::getRuleStats(const std::string &rule_id) const {
     std::shared_lock lk(rules_mutex_);
     auto it = rules_.find(rule_id);
-    if (it == rules_.end()) return RuleStats{rule_id};
+    if (it == rules_.end()) {
+        return RuleStats{rule_id};
+    }
     return it->second.stats;
 }
 
 std::string RuleEngine::serializeMatcherStates() const {
     std::shared_lock lk(rules_mutex_);
     std::ostringstream oss;
-    for (const auto& [rule_id, state] : rules_) {
-        if (!state.pattern_matcher) continue;
+    for (const auto &[rule_id, state] : rules_) {
+        if (!state.pattern_matcher) {
+            continue;
+        }
         std::string matcher_state = state.pattern_matcher->serializeState();
-        if (matcher_state.empty()) continue;
+        if (matcher_state.empty()) {
+            continue;
+        }
         oss << "pm_rule=" << rule_id << "\n" << matcher_state << "pm_rule_end\n";
     }
     return oss.str();
 }
 
-void RuleEngine::restoreMatcherStates(const std::string& data) {
-    if (data.empty()) return;
+void RuleEngine::restoreMatcherStates(const std::string &data) {
+    if (data.empty()) {
+        return;
+    }
     std::unique_lock lk(rules_mutex_);
     std::string current_rule_id;
     std::ostringstream current_block;
@@ -1935,8 +2196,7 @@ void RuleEngine::restoreMatcherStates(const std::string& data) {
             auto it = rules_.find(current_rule_id);
             if (it != rules_.end() && it->second.pattern_matcher) {
                 it->second.pattern_matcher->restoreState(current_block.str());
-                spdlog::debug("CEP RuleEngine: restored matcher state for rule '{}'",
-                              current_rule_id);
+                spdlog::debug("CEP RuleEngine: restored matcher state for rule '{}'", current_rule_id);
             }
             in_rule = false;
         } else if (in_rule) {
@@ -1945,13 +2205,12 @@ void RuleEngine::restoreMatcherStates(const std::string& data) {
     }
 }
 
-
-CEPEngine& CEPEngine::getInstance() {
+CEPEngine &CEPEngine::getInstance() {
     static CEPEngine instance;
     return instance;
 }
 
-void CEPEngine::initialize(const CEPConfig& config) {
+void CEPEngine::initialize(const CEPConfig &config) {
     if (initialized_.load()) {
         spdlog::warn("CEPEngine::initialize() called while already initialized");
         return;
@@ -1962,19 +2221,18 @@ void CEPEngine::initialize(const CEPConfig& config) {
     // Reset runtime state so repeated initialize()/shutdown() cycles in tests
     // always start from a clean slate.  Create a fresh ring buffer sized to
     // the configured max_queue_depth (default 65536).
-    event_queue_ = std::make_unique<
-        themis::analytics::detail::EventRingBuffer<std::pair<std::string, Event>>>(
-            config.max_queue_depth > 0 ? config.max_queue_depth : 65536);
+    event_queue_ = std::make_unique<themis::analytics::detail::EventRingBuffer<std::pair<std::string, Event>>>(
+        config.max_queue_depth > 0 ? config.max_queue_depth : 65536);
     {
         std::lock_guard lk(alerts_mutex_);
         alerts_.clear();
     }
-    events_received_ = 0;
-    events_processed_ = 0;
-    events_dropped_ = 0;
+    events_received_     = 0;
+    events_processed_    = 0;
+    events_dropped_      = 0;
     backpressure_events_ = 0;
-    pattern_matches_ = 0;
-    alerts_generated_ = 0;
+    pattern_matches_     = 0;
+    alerts_generated_    = 0;
 
     rule_engine_ = std::make_unique<RuleEngine>(this);
 
@@ -1983,11 +2241,11 @@ void CEPEngine::initialize(const CEPConfig& config) {
 
         // Create default stream
         StreamConfig default_sc;
-        default_sc.stream_id = "default";
+        default_sc.stream_id   = "default";
         default_sc.stream_name = "default";
         default_sc.buffer_size = DEFAULT_STREAM_BUFFER_SIZE;
-        default_sc.partitions = config_.worker_threads;
-        default_stream_ = std::make_shared<EventStream>(default_sc);
+        default_sc.partitions  = config_.worker_threads;
+        default_stream_        = std::make_shared<EventStream>(default_sc);
         {
             std::unique_lock lk(streams_mutex_);
             streams_["default"] = default_stream_;
@@ -2006,20 +2264,26 @@ void CEPEngine::initialize(const CEPConfig& config) {
     }
 
     initialized_ = true;
-    spdlog::info("CEPEngine initialized: workers={} checkpointing={}",
-        config_.worker_threads, config_.checkpointing_enabled);
+    spdlog::info("CEPEngine initialized: workers={} checkpointing={}", config_.worker_threads,
+                 config_.checkpointing_enabled);
 }
 
 void CEPEngine::shutdown() {
-    if (!initialized_.load()) return;
+    if (!initialized_.load()) {
+        return;
+    }
     running_ = false;
     cv_.notify_all();
     metrics_cv_.notify_all();
-    for (auto& t : worker_threads_) {
-        if (t.joinable()) t.join();
+    for (auto &t : worker_threads_) {
+        if (t.joinable()) {
+            t.join();
+        }
     }
     worker_threads_.clear();
-    if (metrics_thread_.joinable()) metrics_thread_.join();
+    if (metrics_thread_.joinable()) {
+        metrics_thread_.join();
+    }
     rule_engine_.reset();
     {
         std::unique_lock lk(streams_mutex_);
@@ -2031,7 +2295,7 @@ void CEPEngine::shutdown() {
     spdlog::info("CEPEngine shut down");
 }
 
-std::shared_ptr<EventStream> CEPEngine::createStream(const StreamConfig& config) {
+std::shared_ptr<EventStream> CEPEngine::createStream(const StreamConfig &config) {
     auto stream = std::make_shared<EventStream>(config);
     std::unique_lock lk(streams_mutex_);
     streams_[config.stream_id] = stream;
@@ -2039,7 +2303,7 @@ std::shared_ptr<EventStream> CEPEngine::createStream(const StreamConfig& config)
     return stream;
 }
 
-std::shared_ptr<EventStream> CEPEngine::getStream(const std::string& stream_id) const {
+std::shared_ptr<EventStream> CEPEngine::getStream(const std::string &stream_id) const {
     std::shared_lock lk(streams_mutex_);
     auto it = streams_.find(stream_id);
     return (it != streams_.end()) ? it->second : nullptr;
@@ -2049,11 +2313,13 @@ std::vector<std::shared_ptr<EventStream>> CEPEngine::getStreams() const {
     std::shared_lock lk(streams_mutex_);
     std::vector<std::shared_ptr<EventStream>> result;
     result.reserve(streams_.size());
-    for (const auto& [id, s] : streams_) result.push_back(s);
+    for (const auto &[id, s] : streams_) {
+        result.push_back(s);
+    }
     return result;
 }
 
-bool CEPEngine::removeStream(const std::string& stream_id) {
+bool CEPEngine::removeStream(const std::string &stream_id) {
     std::unique_lock lk(streams_mutex_);
     return streams_.erase(stream_id) > 0;
 }
@@ -2062,35 +2328,38 @@ bool CEPEngine::submitEvent(Event event) {
     return submitEvent("default", std::move(event));
 }
 
-bool CEPEngine::submitEvent(const std::string& stream_id, Event event) {
-    if (!initialized_.load() || !running_.load()) return false;
+bool CEPEngine::submitEvent(const std::string &stream_id, Event event) {
+    if (!initialized_.load() || !running_.load()) {
+        return false;
+    }
     ++events_received_;
 
     // Assign sequence number and processing time
     event.sequence_number = events_received_.load();
     event.processing_time = std::chrono::system_clock::now();
-    if (event.event_id.empty()) event.event_id = generateId();
+    if (event.event_id.empty()) {
+        event.event_id = generateId();
+    }
 
-    if (!event_queue_) return false;
+    if (!event_queue_) {
+        return false;
+    }
 
     if (config_.backpressure_enabled && config_.max_queue_depth > 0) {
         size_t current_depth = event_queue_->size_approx();
         // Use the ring buffer's effective capacity (rounded to next power-of-two)
         // so the fill ratio is consistent with the actual queue limit.
         const size_t effective_capacity = event_queue_->capacity();
-        float fill = static_cast<float>(current_depth) /
-                     static_cast<float>(effective_capacity);
+        float fill                      = static_cast<float>(current_depth) / static_cast<float>(effective_capacity);
         if (fill >= config_.global_backpressure_threshold) {
             ++backpressure_events_;
-            spdlog::debug("CEPEngine: backpressure active ({:.0f}% full)",
-                          fill * 100.0f);
+            spdlog::debug("CEPEngine: backpressure active ({:.0f}% full)", fill * 100.0f);
         }
         // Try a lock-free push; drop if ring buffer is full.
         if (!event_queue_->push({stream_id, std::move(event)})) {
             ++events_dropped_;
             ++backpressure_events_;
-            spdlog::warn("CEPEngine: event dropped (ring buffer full, ~{}/{})",
-                         current_depth, effective_capacity);
+            spdlog::warn("CEPEngine: event dropped (ring buffer full, ~{}/{})", current_depth, effective_capacity);
             return false;
         }
         cv_.notify_one();
@@ -2104,37 +2373,35 @@ bool CEPEngine::submitEvent(const std::string& stream_id, Event event) {
     // large enough for the expected burst.
     if (!event_queue_->push({stream_id, std::move(event)})) {
         ++events_dropped_;
-        spdlog::warn("CEPEngine: event dropped (ring buffer full, capacity={})",
-                     event_queue_->capacity());
+        spdlog::warn("CEPEngine: event dropped (ring buffer full, capacity={})", event_queue_->capacity());
         return false;
     }
     cv_.notify_one();
     return true;
 }
 
-Event CEPEngine::createCDCEvent(
-    EventType type,
-    const std::string& collection,
-    const std::string& document_id,
-    const std::map<std::string, CepFieldValue>& fields) {
+Event CEPEngine::createCDCEvent(EventType type, const std::string &collection, const std::string &document_id,
+                                const std::map<std::string, CepFieldValue> &fields) {
     Event ev;
-    ev.event_id = generateId();
-    ev.type = type;
-    ev.event_name = eventTypeToString(type);
+    ev.event_id        = generateId();
+    ev.type            = type;
+    ev.event_name      = eventTypeToString(type);
     ev.collection_name = collection;
-    ev.document_id = document_id;
-    ev.timestamp = std::chrono::system_clock::now();
+    ev.document_id     = document_id;
+    ev.timestamp       = std::chrono::system_clock::now();
     ev.processing_time = ev.timestamp;
-    ev.fields = fields;
+    ev.fields          = fields;
     return ev;
 }
 
-bool CEPEngine::addRule(const RuleConfig& config) {
-    if (!rule_engine_) return false;
+bool CEPEngine::addRule(const RuleConfig &config) {
+    if (!rule_engine_) {
+        return false;
+    }
     return rule_engine_->addRule(config);
 }
 
-bool CEPEngine::addRuleFromEPL(const std::string& epl) {
+bool CEPEngine::addRuleFromEPL(const std::string &epl) {
     auto cfg = RuleEngine::parseEPL(epl);
     if (!cfg) {
         spdlog::error("CEPEngine: failed to parse EPL: '{}'", epl);
@@ -2143,17 +2410,21 @@ bool CEPEngine::addRuleFromEPL(const std::string& epl) {
     return addRule(*cfg);
 }
 
-bool CEPEngine::removeRule(const std::string& rule_id) {
-    if (!rule_engine_) return false;
+bool CEPEngine::removeRule(const std::string &rule_id) {
+    if (!rule_engine_) {
+        return false;
+    }
     return rule_engine_->removeRule(rule_id);
 }
 
-std::optional<RuleConfig> CEPEngine::getRule(const std::string& rule_id) const {
-    if (!rule_engine_) return std::nullopt;
+std::optional<RuleConfig> CEPEngine::getRule(const std::string &rule_id) const {
+    if (!rule_engine_) {
+        return std::nullopt;
+    }
     return rule_engine_->getRule(rule_id);
 }
 
-bool CEPEngine::loadRulesFromFile(const std::string& path) {
+bool CEPEngine::loadRulesFromFile(const std::string &path) {
     std::ifstream f(path);
     if (!f.is_open()) {
         spdlog::error("CEPEngine: cannot open rules file '{}'", path);
@@ -2164,14 +2435,18 @@ bool CEPEngine::loadRulesFromFile(const std::string& path) {
     while (std::getline(f, line)) {
         if (line.empty() || line[0] == '#') {
             if (!epl.empty()) {
-                if (addRuleFromEPL(epl)) ++loaded;
+                if (addRuleFromEPL(epl)) {
+                    ++loaded;
+                }
                 epl.clear();
             }
             continue;
         }
         epl += line + " ";
     }
-    if (!epl.empty() && addRuleFromEPL(epl)) ++loaded;
+    if (!epl.empty() && addRuleFromEPL(epl)) {
+        ++loaded;
+    }
     spdlog::info("CEPEngine: loaded {} rules from '{}'", loaded, path);
     return loaded > 0;
 }
@@ -2181,15 +2456,17 @@ std::vector<Alert> CEPEngine::getAlerts(size_t limit, bool unacknowledged_only) 
     std::vector<Alert> result;
     result.reserve(std::min(limit, alerts_.size()));
     for (auto it = alerts_.rbegin(); it != alerts_.rend() && result.size() < limit; ++it) {
-        if (unacknowledged_only && it->acknowledged) continue;
+        if (unacknowledged_only && it->acknowledged) {
+            continue;
+        }
         result.push_back(*it);
     }
     return result;
 }
 
-bool CEPEngine::acknowledgeAlert(const std::string& alert_id) {
+bool CEPEngine::acknowledgeAlert(const std::string &alert_id) {
     std::lock_guard lk(alerts_mutex_);
-    for (auto& a : alerts_) {
+    for (auto &a : alerts_) {
         if (a.alert_id == alert_id) {
             a.acknowledged = true;
             return true;
@@ -2208,7 +2485,9 @@ void CEPEngine::addAlert(Alert alert) {
         std::lock_guard lk(alerts_mutex_);
         alerts_.push_back(alert);
         // Keep at most 10000 alerts
-        while (alerts_.size() > 10000) alerts_.pop_front();
+        while (alerts_.size() > 10000) {
+            alerts_.pop_front();
+        }
         ++alerts_generated_;
     }
     if (alert_callback_) {
@@ -2218,12 +2497,12 @@ void CEPEngine::addAlert(Alert alert) {
 
 CEPEngine::Stats CEPEngine::getStats() const {
     Stats s;
-    s.events_received   = events_received_.load();
-    s.events_processed  = events_processed_.load();
-    s.events_dropped    = events_dropped_.load();
+    s.events_received     = events_received_.load();
+    s.events_processed    = events_processed_.load();
+    s.events_dropped      = events_dropped_.load();
     s.backpressure_events = backpressure_events_.load();
-    s.pattern_matches   = pattern_matches_.load();
-    s.alerts_generated  = alerts_generated_.load();
+    s.pattern_matches     = pattern_matches_.load();
+    s.alerts_generated    = alerts_generated_.load();
     {
         s.queue_depth = event_queue_ ? event_queue_->size_approx() : 0;
     }
@@ -2271,19 +2550,21 @@ std::string CEPEngine::toPrometheusFormat() const {
 }
 
 bool CEPEngine::createCheckpoint() {
-    if (!config_.checkpointing_enabled) return false;
+    if (!config_.checkpointing_enabled) {
+        return false;
+    }
     std::filesystem::path cp_dir(config_.checkpoint_path);
     std::error_code ec;
     std::filesystem::create_directories(cp_dir, ec);
     if (ec) {
-        spdlog::error("CEPEngine: cannot create checkpoint dir '{}': {}",
-                      config_.checkpoint_path, ec.message());
+        spdlog::error("CEPEngine: cannot create checkpoint dir '{}': {}", config_.checkpoint_path, ec.message());
         return false;
     }
 
-    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count();
-    std::string cp_id = "cp_" + std::to_string(now_ms);
+    auto now_ms
+        = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
+              .count();
+    std::string cp_id             = "cp_" + std::to_string(now_ms);
     std::filesystem::path cp_file = cp_dir / (cp_id + ".txt");
 
     std::ofstream f(cp_file);
@@ -2300,9 +2581,8 @@ bool CEPEngine::createCheckpoint() {
 
     // Write rule IDs
     if (rule_engine_) {
-        for (const auto& rule : rule_engine_->getRules()) {
-            f << "rule=" << rule.rule_id << ":" << rule.rule_name
-              << ":" << (rule.enabled ? "1" : "0") << "\n";
+        for (const auto &rule : rule_engine_->getRules()) {
+            f << "rule=" << rule.rule_id << ":" << rule.rule_name << ":" << (rule.enabled ? "1" : "0") << "\n";
         }
         // Write stateful NFA partial match states for all pattern matchers
         std::string matcher_states = rule_engine_->serializeMatcherStates();
@@ -2323,9 +2603,8 @@ bool CEPEngine::createCheckpoint() {
 // Counter lines (events_received=, etc.) are intentionally skipped because
 // they are cumulative since engine initialisation and cannot be meaningfully
 // restored.
-bool CEPEngine::restoreFromCheckpoint(const std::string& checkpoint_id) {
-    std::filesystem::path cp_file =
-        std::filesystem::path(config_.checkpoint_path) / (checkpoint_id + ".txt");
+bool CEPEngine::restoreFromCheckpoint(const std::string &checkpoint_id) {
+    std::filesystem::path cp_file = std::filesystem::path(config_.checkpoint_path) / (checkpoint_id + ".txt");
     if (!std::filesystem::exists(cp_file)) {
         spdlog::error("CEPEngine: checkpoint '{}' not found", cp_file.string());
         return false;
@@ -2347,8 +2626,8 @@ bool CEPEngine::restoreFromCheckpoint(const std::string& checkpoint_id) {
         if (in_pm_rule) {
             if (line == "pm_rule_end") {
                 if (rule_engine_) {
-                    rule_engine_->restoreMatcherStates(
-                        "pm_rule=" + pm_rule_id + "\n" + pm_state_block.str() + "pm_rule_end\n");
+                    rule_engine_->restoreMatcherStates("pm_rule=" + pm_rule_id + "\n" + pm_state_block.str()
+                                                       + "pm_rule_end\n");
                 }
                 in_pm_rule = false;
             } else {
@@ -2362,23 +2641,23 @@ bool CEPEngine::restoreFromCheckpoint(const std::string& checkpoint_id) {
         } else if (line.rfind("rule=", 0) == 0) {
             // Format: rule=<rule_id>:<rule_name>:<enabled>
             std::string rest = line.substr(5);
-            auto colon1 = rest.find(':');
+            auto colon1      = rest.find(':');
             if (colon1 == std::string::npos) {
-                spdlog::warn("CEPEngine: malformed rule line in checkpoint '{}': '{}'",
-                             checkpoint_id, line);
+                spdlog::warn("CEPEngine: malformed rule line in checkpoint '{}': '{}'", checkpoint_id, line);
                 continue;
             }
             auto colon2 = rest.find(':', colon1 + 1);
             if (colon2 == std::string::npos) {
-                spdlog::warn("CEPEngine: malformed rule line in checkpoint '{}': '{}'",
-                             checkpoint_id, line);
+                spdlog::warn("CEPEngine: malformed rule line in checkpoint '{}': '{}'", checkpoint_id, line);
                 continue;
             }
             std::string rule_id  = rest.substr(0, colon1);
             std::string flag_str = rest.substr(colon2 + 1);
             // Trim trailing whitespace
             auto trim_end = flag_str.find_last_not_of(" \t\r\n");
-            if (trim_end != std::string::npos) flag_str = flag_str.substr(0, trim_end + 1);
+            if (trim_end != std::string::npos) {
+                flag_str = flag_str.substr(0, trim_end + 1);
+            }
             bool enabled = (flag_str == "1");
             if (rule_engine_) {
                 rule_engine_->setRuleEnabled(rule_id, enabled);
@@ -2393,8 +2672,10 @@ bool CEPEngine::restoreFromCheckpoint(const std::string& checkpoint_id) {
 std::vector<std::string> CEPEngine::listCheckpoints() const {
     std::vector<std::string> result;
     std::filesystem::path cp_dir(config_.checkpoint_path);
-    if (!std::filesystem::exists(cp_dir)) return result;
-    for (const auto& entry : std::filesystem::directory_iterator(cp_dir)) {
+    if (!std::filesystem::exists(cp_dir)) {
+        return result;
+    }
+    for (const auto &entry : std::filesystem::directory_iterator(cp_dir)) {
         if (entry.path().extension() == ".txt") {
             result.push_back(entry.path().stem().string());
         }
@@ -2411,17 +2692,18 @@ void CEPEngine::workerLoop() {
         if (!got) {
             // Nothing in the queue — sleep briefly to avoid busy-wait.
             std::unique_lock lk(mutex_);
-            cv_.wait_for(lk, std::chrono::milliseconds(100), [this] {
-                return (event_queue_ && !event_queue_->empty()) || !running_.load();
-            });
+            cv_.wait_for(lk, std::chrono::milliseconds(100),
+                         [this] { return (event_queue_ && !event_queue_->empty()) || !running_.load(); });
             // Re-try the pop after waking.
-            if (!event_queue_ || !event_queue_->pop(item)) continue;
+            if (!event_queue_ || !event_queue_->pop(item)) {
+                continue;
+            }
         }
         processEvent(item.first, item.second);
     }
 }
 
-void CEPEngine::processEvent(const std::string& stream_id, const Event& event) {
+void CEPEngine::processEvent(const std::string &stream_id, const Event &event) {
     // Push to the named stream if it exists
     {
         std::shared_lock lk(streams_mutex_);
@@ -2436,13 +2718,15 @@ void CEPEngine::processEvent(const std::string& stream_id, const Event& event) {
     }
 
     // Process through rule engine
-    if (!rule_engine_) return;
+    if (!rule_engine_) {
+        return;
+    }
     auto new_alerts = rule_engine_->processEvent(event);
     ++events_processed_;
 
     pattern_matches_ += new_alerts.size();
 
-    for (auto& alert : new_alerts) {
+    for (auto &alert : new_alerts) {
         addAlert(std::move(alert));
     }
 }
@@ -2451,18 +2735,17 @@ void CEPEngine::metricsLoop() {
     while (running_) {
         {
             std::unique_lock lk(metrics_mutex_);
-            metrics_cv_.wait_for(lk, config_.metrics_interval,
-                                 [this] { return !running_.load(); });
+            metrics_cv_.wait_for(lk, config_.metrics_interval, [this] { return !running_.load(); });
         }
-        if (!running_) break;
+        if (!running_) {
+            break;
+        }
         auto s = getStats();
         spdlog::debug("CEP metrics: recv={} proc={} drop={} bp={} queue={} alerts={} streams={} rules={}",
-            s.events_received, s.events_processed, s.events_dropped,
-            s.backpressure_events, s.queue_depth,
-            s.alerts_generated, s.active_streams, s.active_rules);
+                      s.events_received, s.events_processed, s.events_dropped, s.backpressure_events, s.queue_depth,
+                      s.alerts_generated, s.active_streams, s.active_rules);
     }
 }
 
 } // namespace analytics
 } // namespace themisdb
-

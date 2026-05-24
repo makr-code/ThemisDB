@@ -1,0 +1,226 @@
+{
+  "timestamp": "2026-05-19T08:44:51.505672",
+  "remaining_count": 55,
+  "modules": [
+    {
+      "name": "acceleration",
+      "gaps": 6
+    },
+    {
+      "name": "ai",
+      "gaps": 6
+    },
+    {
+      "name": "api",
+      "gaps": 6
+    },
+    {
+      "name": "aql",
+      "gaps": 6
+    },
+    {
+      "name": "auth",
+      "gaps": 6
+    },
+    {
+      "name": "base",
+      "gaps": 6
+    },
+    {
+      "name": "cache",
+      "gaps": 6
+    },
+    {
+      "name": "cdc",
+      "gaps": 6
+    },
+    {
+      "name": "chaos",
+      "gaps": 6
+    },
+    {
+      "name": "chimera",
+      "gaps": 6
+    },
+    {
+      "name": "config",
+      "gaps": 6
+    },
+    {
+      "name": "core",
+      "gaps": 6
+    },
+    {
+      "name": "demo_encryption.cpp",
+      "gaps": 6
+    },
+    {
+      "name": "distributed_knowledge",
+      "gaps": 6
+    },
+    {
+      "name": "document",
+      "gaps": 6
+    },
+    {
+      "name": "ethics_ai",
+      "gaps": 6
+    },
+    {
+      "name": "exporters",
+      "gaps": 6
+    },
+    {
+      "name": "failover",
+      "gaps": 6
+    },
+    {
+      "name": "geo",
+      "gaps": 6
+    },
+    {
+      "name": "governance",
+      "gaps": 6
+    },
+    {
+      "name": "gpu",
+      "gaps": 6
+    },
+    {
+      "name": "graph",
+      "gaps": 6
+    },
+    {
+      "name": "importers",
+      "gaps": 6
+    },
+    {
+      "name": "ingestion",
+      "gaps": 6
+    },
+    {
+      "name": "llama_cpp",
+      "gaps": 6
+    },
+    {
+      "name": "main.cpp",
+      "gaps": 6
+    },
+    {
+      "name": "main_server.cpp",
+      "gaps": 6
+    },
+    {
+      "name": "maintenance",
+      "gaps": 6
+    },
+    {
+      "name": "metadata",
+      "gaps": 6
+    },
+    {
+      "name": "network",
+      "gaps": 6
+    },
+    {
+      "name": "observability",
+      "gaps": 6
+    },
+    {
+      "name": "onnx_clip",
+      "gaps": 6
+    },
+    {
+      "name": "performance",
+      "gaps": 6
+    },
+    {
+      "name": "plugins",
+      "gaps": 6
+    },
+    {
+      "name": "process",
+      "gaps": 6
+    },
+    {
+      "name": "projects",
+      "gaps": 6
+    },
+    {
+      "name": "prompt_engineering",
+      "gaps": 6
+    },
+    {
+      "name": "replication",
+      "gaps": 6
+    },
+    {
+      "name": "rpc_grpc",
+      "gaps": 6
+    },
+    {
+      "name": "scheduler",
+      "gaps": 6
+    },
+    {
+      "name": "scraper",
+      "gaps": 6
+    },
+    {
+      "name": "search",
+      "gaps": 6
+    },
+    {
+      "name": "stable_diffusion",
+      "gaps": 6
+    },
+    {
+      "name": "temporal",
+      "gaps": 6
+    },
+    {
+      "name": "tensor",
+      "gaps": 6
+    },
+    {
+      "name": "themis",
+      "gaps": 6
+    },
+    {
+      "name": "timeseries",
+      "gaps": 6
+    },
+    {
+      "name": "toolbox",
+      "gaps": 6
+    },
+    {
+      "name": "training",
+      "gaps": 6
+    },
+    {
+      "name": "transaction",
+      "gaps": 6
+    },
+    {
+      "name": "updates",
+      "gaps": 6
+    },
+    {
+      "name": "user_storage_encrypted",
+      "gaps": 6
+    },
+    {
+      "name": "utils",
+      "gaps": 6
+    },
+    {
+      "name": "voice",
+      "gaps": 6
+    },
+    {
+      "name": "whisper",
+      "gaps": 6
+    }
+  ]
+}

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_lora_framework.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:06                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     891                                            ║
-    • Open Issues:     TODOs: 3, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_lora_framework.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
+ * Gap Summary: total=7; TODO=4, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -797,6 +786,25 @@ TEST_F(LoRAFrameworkTest, ThemisHelpLoRA_Training) {
     EXPECT_FALSE(version.empty());
 }
 
+TEST_F(LoRAFrameworkTest, ThemisHelpLoRA_ModelPathProviderIsUsed) {
+    ThemisHelpLoRA::Config help_config;
+    help_config.adapter_id = "themis_help_lora";
+    help_config.base_model_id = "llama-2-7b";
+
+    bool provider_called = false;
+    help_config.model_path_provider = [&](std::string_view model_id) {
+        provider_called = true;
+        EXPECT_EQ(model_id, "llama-2-7b");
+        return std::string("/tmp/nonexistent-model-for-provider-test.gguf");
+    };
+
+    ThemisHelpLoRA help(help_config);
+    auto response = help.query("How do I enable sharding?");
+
+    EXPECT_TRUE(provider_called);
+    EXPECT_FALSE(response.empty());
+}
+
 // ============================================================================
 // Integration Tests
 // ============================================================================
@@ -884,5 +892,4 @@ TEST_F(LoRAFrameworkTest, Performance_HotSwapping) {
 // ============================================================================
 // Main
 // ============================================================================
-
 

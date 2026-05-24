@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: test_knowledge_graph_retriever_reasoning.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // Test suite: KGRetrieverReasoningTests
 //
 // KGR-RAG-01  setReasoner(nullptr) is safe and disables reasoning
@@ -7,7 +15,6 @@
 // KGR-RAG-05  Reasoning chain is stored in metadata["reasoning_chain"] when flag set
 // KGR-RAG-06  max_inference_hops = 0 disables inference even with a reasoner attached
 //
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include <gtest/gtest.h>
 
@@ -35,9 +42,10 @@ static KnowledgeGraph makeGraph() {
 
 static void configureReasoner(KnowledgeGraphReasoner& kgr) {
     // Rule: if A reports_to B and B reports_to C then A indirectly_reports_to C
-    kgr.addRule({ "transitive_reports_to",
-                  {{"?A","reports_to","?B"}, {"?B","reports_to","?C"}},
-                  {{"?A","indirectly_reports_to","?C"}} });
+    const bool added_rule = kgr.addRule({ "transitive_reports_to",
+                                          {{"?A","reports_to","?B"}, {"?B","reports_to","?C"}},
+                                          {{"?A","indirectly_reports_to","?C"}} });
+    EXPECT_TRUE(added_rule);
     kgr.addFact({"alice", "reports_to", "bob"});
     kgr.addFact({"bob",   "reports_to", "carol"});
 }
@@ -225,11 +233,12 @@ TEST(KGRetrieverReasoningTests, KGRRAG08_InjectedLoraScoreFnCalled) {
 TEST(KGRetrieverReasoningTests, KGRRAG09_LoraScoreFilterApplied) {
     KnowledgeGraphReasoner kgr;
     // Rule with min_lora_score = 0.9 — injected backend returns 0.5 → filtered
-    kgr.addRule({ "strict_rule",
-                  {{"?A","likes","?B"}},
-                  {{"?A","loves","?B"}},
-                  /*lora_adapter=*/"test-adapter",
-                  /*min_lora_score=*/0.9 });
+    const bool added_rule = kgr.addRule({ "strict_rule",
+                                          {{"?A","likes","?B"}},
+                                          {{"?A","loves","?B"}},
+                                          /*lora_adapter=*/"test-adapter",
+                                          /*min_lora_score=*/0.9 });
+    EXPECT_TRUE(added_rule);
     kgr.addFact({"alice", "likes", "bob"});
 
     kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) -> double {

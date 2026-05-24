@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            base_entity.h                                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     251                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: base_entity.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -128,7 +117,32 @@ public:
     
     /// Get field as float vector (for embeddings)
     std::optional<std::vector<float>> getFieldAsVector(std::string_view field_name) const;
-    
+
+    /**
+     * @brief Retrieve a field as a vector of strings (resolves stub #292).
+     *
+     * Tries JSON-array format first (e.g. `["label1","label2"]`), then falls
+     * back to comma-splitting for backward compatibility with legacy data.
+     * Leading/trailing whitespace is trimmed from each element; empty elements
+     * are discarded.
+     *
+     * @param field_name  Field to read.
+     * @return Vector of string values, or nullopt if the field is absent.
+     */
+    std::optional<std::vector<std::string>> getFieldAsStringArray(std::string_view field_name) const;
+
+    /**
+     * @brief Store a vector of strings as a JSON-array string (resolves stub #292).
+     *
+     * Values are serialised as `["a","b","c"]` and stored via the standard
+     * `setField()` path so that `getFieldAsStringArray()` can round-trip them
+     * correctly without ambiguity from commas inside label names.
+     *
+     * @param field_name  Field to write.
+     * @param values      Strings to store.
+     */
+    void setFieldAsStringArray(std::string_view field_name, const std::vector<std::string>& values);
+
     /// Set field value (modifies blob)
     void setField(std::string_view field_name, const Value& value);
     

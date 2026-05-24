@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_training_coordinator.h                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     470                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_training_coordinator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -261,6 +250,8 @@ public:
 // All-Reduce: Average gradients from all shards
 class AllReduceAggregator : public GradientAggregator {
 public:
+    ~AllReduceAggregator() override = default;
+
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
     ) override;
@@ -273,6 +264,7 @@ class ParameterServerAggregator : public GradientAggregator {
 public:
     ParameterServerAggregator(const std::map<std::string, float>& shard_weights)
         : shard_weights_(shard_weights) {}
+    ~ParameterServerAggregator() override = default;
     
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
@@ -287,6 +279,8 @@ private:
 // Ring All-Reduce: Communication-efficient ring pattern
 class RingAllReduceAggregator : public GradientAggregator {
 public:
+    ~RingAllReduceAggregator() override = default;
+
     std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
     ) override;

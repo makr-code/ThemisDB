@@ -9,6 +9,7 @@ Three-stage process:
 """
 
 import json
+import subprocess
 import sys
 from pathlib import Path
 from datetime import datetime
@@ -102,17 +103,28 @@ def run_pipeline(repo_root: str = '.', output_dir: str = 'ai_working',
     
     # Stage 3: Update file headers
     if update_headers:
-        print(f"\n[...] STAGE 3: Updating file headers with gap statistics...")
-        from file_header_updater import FileHeaderUpdater
-        
-        updater = FileHeaderUpdater()
-        result = updater.batch_update_files(gap_reports, repo_root, detailed_headers)
-        
-        print(f"[OK] File headers updated:")
-        print(f"   Total Files Processed: {result['total_files']}")
-        print(f"   Files Updated: {result['files_updated']}")
-        print(f"   Files with Gaps: {result['files_updated']}")
-        print(f"   Files without Gaps: {result['files_no_gaps']}")
+        print(f"\n[...] STAGE 3: Updating headers via canonical writer (.github/scripts/analyze_code_maturity.py)...")
+
+        maturity_cmd = [
+            sys.executable,
+            str(Path(repo_root) / '.github' / 'scripts' / 'code_maturity_header_writer.py'),
+            '--root', str(repo_root),
+        ]
+
+        result = subprocess.run(
+            maturity_cmd,
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+        )
+
+        if result.returncode != 0:
+            print("[FAIL] Canonical header writer failed")
+            if result.stderr:
+                print(result.stderr[:500])
+            raise RuntimeError('Canonical header writer failed')
+
+        print("[OK] Canonical header writer completed")
     
     # Stage 4: Generate module documentation
     print(f"\n[...] STAGE 4: Generating module gap documentation...")

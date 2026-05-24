@@ -561,6 +561,11 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/synopsis_store.cpp
+    ../src/query/incremental_agg.cpp
+    ../src/query/cq_watermark.cpp
+    ../src/query/continuous_query_engine.cpp
+    ../src/query/continuous_query_planner.cpp
     ../src/query/query_rewrite_rule.cpp
     ../src/query/query_profiler.cpp
     ../src/query/workload_cache_strategy.cpp
@@ -718,6 +723,8 @@ set(THEMIS_QUERY_SOURCES
 )
 
 set(THEMIS_SECURITY_SOURCES
+    # Input validation and sanitization
+    ../src/security/input_validator.cpp
     # Encryption and key management
     ../src/security/ai_operation_guard.cpp
     ../src/security/ai_snapshot_cleanup.cpp
@@ -1136,6 +1143,9 @@ set(THEMIS_LLM_SOURCES
     # Feedback & Security
     ../src/llm/feedback_plugin_basic.cpp
     ../src/llm/llm_security_utils.cpp
+    ../src/llm/lora_security_validator.cpp
+    ../src/llm/lora_certificate_store.cpp
+    ../src/llm/security/signature_verifier.cpp
     # Vision resource monitoring
     ../src/llm/vision_resource_monitor.cpp
     # LoRA framework additions (unconditional)
@@ -1230,6 +1240,9 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/batch_evaluator.cpp
     ../src/rag/bias_detector.cpp
     ../src/rag/adversarial_tester.cpp
+    # DPR vectorizer and fairness detector (RAG retrieval and bias evaluation)
+    ../src/rag/dpr_vectorizer.cpp
+    ../src/rag/fairness_detector.cpp
 
     # LLM-owned AQL support files
     ../src/aql/llm_aql_handler.cpp
@@ -1863,6 +1876,9 @@ function(themis_build_modular)
     if(TARGET TBB::tbb)
         list(APPEND _themis_base_deps TBB::tbb)
     endif()
+    if(THEMIS_ENABLE_VULKAN AND TARGET Vulkan::Vulkan)
+        list(APPEND _themis_base_deps Vulkan::Vulkan)
+    endif()
     if(TARGET libzip::zip)
         list(APPEND _themis_base_deps libzip::zip)
         list(APPEND _themis_base_compile_defs THEMIS_HAVE_LIBZIP)
@@ -1878,6 +1894,9 @@ function(themis_build_modular)
 
     if(_themis_base_compile_defs)
         target_compile_definitions(themis_base PRIVATE ${_themis_base_compile_defs})
+    endif()
+    if(THEMIS_ENABLE_VULKAN)
+        target_compile_definitions(themis_base PUBLIC THEMIS_ENABLE_VULKAN)
     endif()
 
     if(THEMIS_ENABLE_TRACING)
@@ -2221,6 +2240,12 @@ function(themis_build_modular)
         endif()
         if(THEMIS_MODULE_GRAPH)
             target_link_libraries(themis_llm PUBLIC themis_graph)
+        endif()
+        if(onnxruntime_FOUND)
+            target_link_libraries(themis_llm PUBLIC onnxruntime::onnxruntime)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC onnxruntime::onnxruntime)
+            endif()
         endif()
         if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
             target_link_libraries(themis_llm PUBLIC mimalloc)

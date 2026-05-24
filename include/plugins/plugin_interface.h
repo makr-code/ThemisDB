@@ -1,27 +1,13 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            plugin_interface.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:03                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     825                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
-    • 4e040a88ae  2026-04-07  chore: update checklist – add llama_cpp to plugin plan ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: plugin_interface.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-#pragma once
+#ifndef THEMISDB_PLUGIN_INTERFACE_H
+#define THEMISDB_PLUGIN_INTERFACE_H
 
 #include <string>
 #include <memory>
@@ -823,4 +809,6 @@ private:
             delete plugin; \
         } \
     }
+
+#endif  // THEMISDB_PLUGIN_INTERFACE_H
 

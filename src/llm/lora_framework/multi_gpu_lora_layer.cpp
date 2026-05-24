@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_gpu_lora_layer.cpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     306                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_gpu_lora_layer.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 293
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=136 | delta=133 | status=divergent
+ * External Severity (v3): C=9, H=101, M=26
+ * PR: #578 [LoRA Phase 10.5] Implement Multi-GPU Training Support (2026-03-11T18:14:05Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/multi_gpu_lora_layer.h"
@@ -135,10 +126,12 @@ std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& 
     outputs.reserve(inputs.size());
     
     // Forward pass on each GPU independently
-    for (size_t i = 0; i < inputs.size(); ++i) {
+    for (int device_index = 0; device_index < ctx_.num_gpus(); ++device_index) {
+        const size_t i = static_cast<size_t>(device_index);
+        const Device expected_device = ctx_.get_device(device_index);
         // Verify input is on correct device
-        if (inputs[i].device().device_id != ctx_.get_device(i).device_id ||
-            inputs[i].device().type != ctx_.get_device(i).type) {
+        if (inputs[i].device().device_id != expected_device.device_id ||
+            inputs[i].device().type != expected_device.type) {
             throw std::invalid_argument(
                 "Input tensor " + std::to_string(i) + " is not on correct device");
         }

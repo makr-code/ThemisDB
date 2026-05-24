@@ -1,35 +1,18 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=2 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            config_encrypted_store.cpp                         ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:48:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     460                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • fd5694677a  2026-03-16  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: config_encrypted_store.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=14, H=122, M=26, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "config/config_encrypted_store.h"
 
+#include <algorithm>
+#include <cstring>
 #include <nlohmann/json.hpp>
 #include <openssl/evp.h>
 #include <openssl/rand.h>
-
-#include <algorithm>
-#include <cstring>
 #include <sstream>
 #include <stdexcept>
 
@@ -42,10 +25,9 @@ namespace config {
 
 namespace {
 
-static const char kB64Chars[] =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+static const char kB64Chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-std::string base64Encode(const std::vector<uint8_t>& data) {
+std::string base64Encode(const std::vector<uint8_t> &data) {
     std::string out;
     out.reserve(((data.size() + 2) / 3) * 4);
 
@@ -54,26 +36,36 @@ std::string base64Encode(const std::vector<uint8_t>& data) {
         const bool have2 = (i + 1) < len;
         const bool have3 = (i + 2) < len;
 
-        const uint32_t b0 = data[i];
-        const uint32_t b1 = have2 ? data[i + 1] : 0u;
-        const uint32_t b2 = have3 ? data[i + 2] : 0u;
+        const uint32_t b0     = data[i];
+        const uint32_t b1     = have2 ? data[i + 1] : 0u;
+        const uint32_t b2     = have3 ? data[i + 2] : 0u;
         const uint32_t triple = (b0 << 16) | (b1 << 8) | b2;
 
         out += kB64Chars[(triple >> 18) & 0x3F];
         out += kB64Chars[(triple >> 12) & 0x3F];
         out += have2 ? kB64Chars[(triple >> 6) & 0x3F] : '=';
-        out += have3 ? kB64Chars[(triple     ) & 0x3F] : '=';
+        out += have3 ? kB64Chars[(triple) & 0x3F] : '=';
     }
     return out;
 }
 
-std::vector<uint8_t> base64Decode(const std::string& encoded) {
+std::vector<uint8_t> base64Decode(const std::string &encoded) {
     auto decodeChar = [](char c) -> int {
-        if (c >= 'A' && c <= 'Z') return c - 'A';
-        if (c >= 'a' && c <= 'z') return c - 'a' + 26;
-        if (c >= '0' && c <= '9') return c - '0' + 52;
-        if (c == '+') return 62;
-        if (c == '/') return 63;
+        if (c >= 'A' && c <= 'Z') {
+            return c - 'A';
+        }
+        if (c >= 'a' && c <= 'z') {
+            return c - 'a' + 26;
+        }
+        if (c >= '0' && c <= '9') {
+            return c - '0' + 52;
+        }
+        if (c == '+') {
+            return 62;
+        }
+        if (c == '/') {
+            return 63;
+        }
         return -1; // padding ('=') or invalid
     };
 
@@ -87,10 +79,16 @@ std::vector<uint8_t> base64Decode(const std::string& encoded) {
         const int c = decodeChar(encoded[i + 2]);
         const int d = decodeChar(encoded[i + 3]);
 
-        if (a < 0 || b < 0) break;
+        if (a < 0 || b < 0) {
+            break;
+        }
         out.push_back(static_cast<uint8_t>((a << 2) | (b >> 4)));
-        if (c >= 0) out.push_back(static_cast<uint8_t>(((b & 0x0F) << 4) | (c >> 2)));
-        if (d >= 0) out.push_back(static_cast<uint8_t>(((c & 0x03) << 6) | d));
+        if (c >= 0) {
+            out.push_back(static_cast<uint8_t>(((b & 0x0F) << 4) | (c >> 2)));
+        }
+        if (d >= 0) {
+            out.push_back(static_cast<uint8_t>(((c & 0x03) << 6) | d));
+        }
     }
     return out;
 }
@@ -110,7 +108,7 @@ std::string ConfigEncryptedBlob::toJson() const {
     return j.dump();
 }
 
-ConfigEncryptedBlob ConfigEncryptedBlob::fromJson(const std::string& json_str) {
+ConfigEncryptedBlob ConfigEncryptedBlob::fromJson(const std::string &json_str) {
     try {
         auto j = nlohmann::json::parse(json_str);
         ConfigEncryptedBlob blob;
@@ -119,9 +117,8 @@ ConfigEncryptedBlob ConfigEncryptedBlob::fromJson(const std::string& json_str) {
         blob.ciphertext  = base64Decode(j.at("ct").get<std::string>());
         blob.tag         = base64Decode(j.at("tag").get<std::string>());
         return blob;
-    } catch (const nlohmann::json::exception& ex) {
-        throw ConfigEncryptionException(
-            std::string("malformed blob JSON: ") + ex.what());
+    } catch (const nlohmann::json::exception &ex) {
+        throw ConfigEncryptionException(std::string("malformed blob JSON: ") + ex.what());
     }
 }
 
@@ -138,8 +135,7 @@ ConfigEncryptedStore::ConfigEncryptedStore() {
 // CRUD
 // ---------------------------------------------------------------------------
 
-void ConfigEncryptedStore::set(const std::string& config_key,
-                               const std::string& plaintext) {
+void ConfigEncryptedStore::set(const std::string &config_key, const std::string &plaintext) {
     if (config_key.empty()) {
         throw std::invalid_argument("ConfigEncryptedStore::set: config_key must not be empty");
     }
@@ -147,7 +143,7 @@ void ConfigEncryptedStore::set(const std::string& config_key,
     store_[config_key] = encryptValue(plaintext);
 }
 
-std::string ConfigEncryptedStore::get(const std::string& config_key) const {
+std::string ConfigEncryptedStore::get(const std::string &config_key) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = store_.find(config_key);
     if (it == store_.end()) {
@@ -156,8 +152,7 @@ std::string ConfigEncryptedStore::get(const std::string& config_key) const {
     return decryptBlob(it->second);
 }
 
-std::optional<std::string> ConfigEncryptedStore::tryGet(
-    const std::string& config_key) const {
+std::optional<std::string> ConfigEncryptedStore::tryGet(const std::string &config_key) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = store_.find(config_key);
     if (it == store_.end()) {
@@ -170,12 +165,12 @@ std::optional<std::string> ConfigEncryptedStore::tryGet(
     }
 }
 
-bool ConfigEncryptedStore::remove(const std::string& config_key) {
+bool ConfigEncryptedStore::remove(const std::string &config_key) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     return store_.erase(config_key) > 0;
 }
 
-bool ConfigEncryptedStore::contains(const std::string& config_key) const {
+bool ConfigEncryptedStore::contains(const std::string &config_key) const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return store_.count(config_key) > 0;
 }
@@ -184,7 +179,7 @@ std::vector<std::string> ConfigEncryptedStore::keys() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     std::vector<std::string> result;
     result.reserve(store_.size());
-    for (const auto& kv : store_) {
+    for (const auto &kv : store_) {
         result.push_back(kv.first);
     }
     return result;
@@ -218,14 +213,14 @@ uint32_t ConfigEncryptedStore::rotateKey() {
     std::unordered_map<std::string, ConfigEncryptedBlob> new_store;
     new_store.reserve(store_.size());
 
-    for (const auto& kv : store_) {
+    for (const auto &kv : store_) {
         // Decrypt with current (old) key.
         std::string plaintext = decryptBlob(kv.second);
 
         // Encrypt with new key (temporarily swap for encryptValue helper).
         ConfigEncryptedBlob new_blob;
         std::vector<uint8_t> out_iv, out_tag;
-        auto ct = aesGcmEncrypt(plaintext, new_key.key_bytes, out_iv, out_tag);
+        auto ct              = aesGcmEncrypt(plaintext, new_key.key_bytes, out_iv, out_tag);
         new_blob.key_version = new_key.version;
         new_blob.iv          = std::move(out_iv);
         new_blob.ciphertext  = std::move(ct);
@@ -235,10 +230,9 @@ uint32_t ConfigEncryptedStore::rotateKey() {
     }
 
     // Securely zero old key bytes before replacement.
-    std::fill(key_.key_bytes.begin(), key_.key_bytes.end(),
-              static_cast<uint8_t>(0));
+    std::fill(key_.key_bytes.begin(), key_.key_bytes.end(), static_cast<uint8_t>(0));
 
-    key_  = std::move(new_key);
+    key_   = std::move(new_key);
     store_ = std::move(new_store);
 
     return key_.version;
@@ -257,11 +251,11 @@ std::string ConfigEncryptedStore::serialize() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     nlohmann::json j;
-    j["key_version"]  = key_.version;
-    j["key_bytes"]    = base64Encode(key_.key_bytes);
+    j["key_version"] = key_.version;
+    j["key_bytes"]   = base64Encode(key_.key_bytes);
 
     nlohmann::json entries = nlohmann::json::object();
-    for (const auto& kv : store_) {
+    for (const auto &kv : store_) {
         entries[kv.first] = kv.second.toJson();
     }
     j["entries"] = entries;
@@ -269,7 +263,7 @@ std::string ConfigEncryptedStore::serialize() const {
     return j.dump();
 }
 
-void ConfigEncryptedStore::deserialize(const std::string& json_str) {
+void ConfigEncryptedStore::deserialize(const std::string &json_str) {
     try {
         auto j = nlohmann::json::parse(json_str);
 
@@ -277,29 +271,25 @@ void ConfigEncryptedStore::deserialize(const std::string& json_str) {
         km.version   = j.at("key_version").get<uint32_t>();
         km.key_bytes = base64Decode(j.at("key_bytes").get<std::string>());
         if (km.key_bytes.size() != 32) {
-            throw ConfigEncryptionException(
-                "deserialize: key_bytes must be exactly 32 bytes, got " +
-                std::to_string(km.key_bytes.size()));
+            throw ConfigEncryptionException("deserialize: key_bytes must be exactly 32 bytes, got "
+                                            + std::to_string(km.key_bytes.size()));
         }
 
         std::unordered_map<std::string, ConfigEncryptedBlob> new_store;
-        auto& entries = j.at("entries");
+        auto &entries = j.at("entries");
         for (auto it = entries.begin(); it != entries.end(); ++it) {
-            new_store[it.key()] =
-                ConfigEncryptedBlob::fromJson(it.value().get<std::string>());
+            new_store[it.key()] = ConfigEncryptedBlob::fromJson(it.value().get<std::string>());
         }
 
         std::unique_lock<std::shared_mutex> lock(mutex_);
         // Zero out old key before replacing.
-        std::fill(key_.key_bytes.begin(), key_.key_bytes.end(),
-                  static_cast<uint8_t>(0));
+        std::fill(key_.key_bytes.begin(), key_.key_bytes.end(), static_cast<uint8_t>(0));
         key_   = std::move(km);
         store_ = std::move(new_store);
-    } catch (const ConfigEncryptionException&) {
+    } catch (const ConfigEncryptionException &) {
         throw;
-    } catch (const nlohmann::json::exception& ex) {
-        throw ConfigEncryptionException(
-            std::string("deserialize: JSON parse error: ") + ex.what());
+    } catch (const nlohmann::json::exception &ex) {
+        throw ConfigEncryptionException(std::string("deserialize: JSON parse error: ") + ex.what());
     }
 }
 
@@ -323,23 +313,21 @@ std::vector<uint8_t> ConfigEncryptedStore::generateIV() {
     return iv;
 }
 
-std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(
-    const std::string&        plaintext,
-    const std::vector<uint8_t>& key,
-    std::vector<uint8_t>&     out_iv,
-    std::vector<uint8_t>&     out_tag) {
-
+std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(const std::string &plaintext, const std::vector<uint8_t> &key,
+                                                         std::vector<uint8_t> &out_iv, std::vector<uint8_t> &out_tag) {
     out_iv = generateIV();
     out_tag.resize(16);
 
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
     if (!ctx) {
         throw ConfigEncryptionException("aesGcmEncrypt: EVP_CIPHER_CTX_new failed");
     }
 
     struct CtxGuard {
-        EVP_CIPHER_CTX* p;
-        ~CtxGuard() { EVP_CIPHER_CTX_free(p); }
+        EVP_CIPHER_CTX *p;
+        ~CtxGuard() {
+            EVP_CIPHER_CTX_free(p);
+        }
     } guard{ctx};
 
     if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
@@ -352,8 +340,8 @@ std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(
         throw ConfigEncryptionException("aesGcmEncrypt: EVP_EncryptInit_ex (key/iv) failed");
     }
 
-    const auto* pt = reinterpret_cast<const unsigned char*>(plaintext.data());
-    const int   pt_len = static_cast<int>(plaintext.size());
+    const auto *pt   = reinterpret_cast<const unsigned char *>(plaintext.data());
+    const int pt_len = static_cast<int>(plaintext.size());
 
     std::vector<uint8_t> ciphertext(plaintext.size());
     int len = 0;
@@ -374,12 +362,8 @@ std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(
     return ciphertext;
 }
 
-std::string ConfigEncryptedStore::aesGcmDecrypt(
-    const std::vector<uint8_t>& ciphertext,
-    const std::vector<uint8_t>& key,
-    const std::vector<uint8_t>& iv,
-    const std::vector<uint8_t>& tag) {
-
+std::string ConfigEncryptedStore::aesGcmDecrypt(const std::vector<uint8_t> &ciphertext, const std::vector<uint8_t> &key,
+                                                const std::vector<uint8_t> &iv, const std::vector<uint8_t> &tag) {
     if (iv.size() != 12) {
         throw ConfigEncryptionException("aesGcmDecrypt: IV must be 12 bytes");
     }
@@ -387,14 +371,16 @@ std::string ConfigEncryptedStore::aesGcmDecrypt(
         throw ConfigEncryptionException("aesGcmDecrypt: tag must be 16 bytes");
     }
 
-    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
     if (!ctx) {
         throw ConfigEncryptionException("aesGcmDecrypt: EVP_CIPHER_CTX_new failed");
     }
 
     struct CtxGuard {
-        EVP_CIPHER_CTX* p;
-        ~CtxGuard() { EVP_CIPHER_CTX_free(p); }
+        EVP_CIPHER_CTX *p;
+        ~CtxGuard() {
+            EVP_CIPHER_CTX_free(p);
+        }
     } guard{ctx};
 
     if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1) {
@@ -409,9 +395,8 @@ std::string ConfigEncryptedStore::aesGcmDecrypt(
 
     std::vector<uint8_t> plaintext_buf(ciphertext.size());
     int len = 0;
-    if (EVP_DecryptUpdate(ctx, plaintext_buf.data(), &len,
-                          ciphertext.data(),
-                          static_cast<int>(ciphertext.size())) != 1) {
+    if (EVP_DecryptUpdate(ctx, plaintext_buf.data(), &len, ciphertext.data(), static_cast<int>(ciphertext.size()))
+        != 1) {
         throw ConfigEncryptionException("aesGcmDecrypt: EVP_DecryptUpdate failed");
     }
 
@@ -433,30 +418,23 @@ std::string ConfigEncryptedStore::aesGcmDecrypt(
     return std::string(plaintext_buf.begin(), plaintext_buf.end());
 }
 
-ConfigEncryptedBlob ConfigEncryptedStore::encryptValue(
-    const std::string& plaintext) const {
+ConfigEncryptedBlob ConfigEncryptedStore::encryptValue(const std::string &plaintext) const {
     // Caller holds mutex_.
     ConfigEncryptedBlob blob;
     blob.key_version = key_.version;
-    blob.ciphertext  = aesGcmEncrypt(plaintext, key_.key_bytes,
-                                     blob.iv, blob.tag);
+    blob.ciphertext  = aesGcmEncrypt(plaintext, key_.key_bytes, blob.iv, blob.tag);
     return blob;
 }
 
-std::string ConfigEncryptedStore::decryptBlob(
-    const ConfigEncryptedBlob& blob) const {
+std::string ConfigEncryptedStore::decryptBlob(const ConfigEncryptedBlob &blob) const {
     // Caller holds mutex_.
     if (blob.key_version != key_.version) {
         // Guard against stale blobs after a rotation if deserialize is misused.
-        throw ConfigEncryptionException(
-            "decryptBlob: blob key version " +
-            std::to_string(blob.key_version) +
-            " does not match current key version " +
-            std::to_string(key_.version));
+        throw ConfigEncryptionException("decryptBlob: blob key version " + std::to_string(blob.key_version)
+                                        + " does not match current key version " + std::to_string(key_.version));
     }
     return aesGcmDecrypt(blob.ciphertext, key_.key_bytes, blob.iv, blob.tag);
 }
 
 } // namespace config
 } // namespace themis
-

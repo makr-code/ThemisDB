@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_oauth2_provider.cpp                           ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:55:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     611                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1364ca87e9  2026-03-11  fix: address code review – duplicate heading, curl overfl... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_oauth2_provider.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=7, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -483,6 +469,32 @@ TEST_F(OAuth2ProviderTest, LogoutAlwaysReturnsSuccess) {
 
 TEST_F(OAuth2ProviderTest, LogoutWithRefreshTokenReturnsSuccess) {
     auto result = provider_->handleLogout("some-refresh-token");
+    ASSERT_FALSE(result.contains("status_code")) << result.dump();
+    EXPECT_TRUE(result.value("success", false));
+}
+
+TEST_F(OAuth2ProviderTest, LogoutUsesRefreshTokenRevocationCallback) {
+    bool called = false;
+    provider_->setRefreshTokenRevocationFn(
+        [&called](const std::string& refresh_token) {
+            called = true;
+            EXPECT_EQ(refresh_token, "refresh-token-for-revoke");
+            return true;
+        });
+
+    auto result = provider_->handleLogout("refresh-token-for-revoke");
+    ASSERT_FALSE(result.contains("status_code")) << result.dump();
+    EXPECT_TRUE(result.value("success", false));
+    EXPECT_TRUE(called);
+}
+
+TEST_F(OAuth2ProviderTest, LogoutRevocationCallbackExceptionStillReturnsSuccess) {
+    provider_->setRefreshTokenRevocationFn(
+        [](const std::string&) -> bool {
+            throw std::runtime_error("simulated revocation failure");
+        });
+
+    auto result = provider_->handleLogout("refresh-token-for-exception");
     ASSERT_FALSE(result.contains("status_code")) << result.dump();
     EXPECT_TRUE(result.value("success", false));
 }

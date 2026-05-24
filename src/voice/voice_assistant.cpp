@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=3 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_assistant.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     681                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b3d8aa4a55  2026-03-15  refactor: streamline performance statistics retrieval and... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_assistant.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 723
+ * Open Issues: TODOs=1, Stubs=2, Gaps=5, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=5 | external_v3=142 | delta=137 | status=divergent
+ * External Severity (v3): C=11, H=117, M=14
+ * PR: #2588 feat(voice): add POST /api/v1/voice/command/stream endpoint for rea... (2026-03-12T05:52:27Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -62,12 +50,13 @@ bool VoiceAssistant::initialize() {
         // Initialize STT processor
         stt_processor_ = std::make_unique<content::STTProcessor>();
         content::PluginConfig stt_config;
-        json stt_settings;
-        stt_settings["model_path"] = config_.stt_model_path;
-        stt_settings["model_size"] = config_.stt_model_size;
-        stt_settings["language"] = config_.stt_language;
-        stt_settings["timestamps"] = true;
-        stt_settings["speaker_diarization"] = true;
+        json stt_settings = json::object({
+            {"model_path", config_.stt_model_path},
+            {"model_size", config_.stt_model_size},
+            {"language", config_.stt_language},
+            {"timestamps", true},
+            {"speaker_diarization", true}
+        });
         stt_config = content::PluginConfig(stt_settings);
         
         if (!stt_processor_->initialize(stt_config)) {
@@ -77,10 +66,11 @@ bool VoiceAssistant::initialize() {
         // Initialize TTS processor
         tts_processor_ = std::make_unique<content::TTSProcessor>();
         content::PluginConfig tts_config;
-        json tts_settings;
-        tts_settings["model_path"] = config_.tts_model_path;
-        tts_settings["default_voice"] = config_.tts_voice;
-        tts_settings["default_speed"] = config_.tts_speed;
+        json tts_settings = json::object({
+            {"model_path", config_.tts_model_path},
+            {"default_voice", config_.tts_voice},
+            {"default_speed", config_.tts_speed}
+        });
         tts_config = content::PluginConfig(tts_settings);
         
         if (!tts_processor_->initialize(tts_config)) {
@@ -108,7 +98,7 @@ bool VoiceAssistant::initialize() {
         initialized_ = true;
         return true;
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         return false;
     }
 }

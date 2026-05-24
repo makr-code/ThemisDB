@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            function_registry.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:26                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     516                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: function_registry.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -226,6 +215,103 @@ public:
     void setProcessMining(themis::ProcessMining* pm) { process_mining_ = pm; }
     themis::ProcessMining* getProcessMining() const { return process_mining_; }
 
+    // ── Administrative process-model registry (stub #283) ─────────────────────
+
+    /**
+     * @brief Function type for loading a named administrative process model.
+     *
+     * The callable receives a model_id string and returns the model as a JSON
+     * object, or throws on error.  Callers inject a YAML-backed or database-backed
+     * registry at startup.
+     */
+    using AdminModelLoadFn = std::function<nlohmann::json(const std::string& model_id)>;
+
+    /**
+     * @brief Function type for listing all registered administrative process models.
+     *
+     * Returns a JSON array of model descriptor objects.  Throws on error.
+     */
+    using AdminModelListFn = std::function<nlohmann::json()>;
+
+    /**
+     * @brief Inject a load function for PM_LOAD_ADMIN_MODEL (resolves stub #283).
+     *
+     * @param fn  Callable that loads and returns a process model by ID.
+     */
+    void setAdminModelLoadFn(AdminModelLoadFn fn) { admin_model_load_fn_ = std::move(fn); }
+
+    /**
+     * @brief Inject a list function for PM_LIST_ADMIN_MODELS (resolves stub #283).
+     *
+     * @param fn  Callable that returns a JSON array of model descriptors.
+     */
+    void setAdminModelListFn(AdminModelListFn fn) { admin_model_list_fn_ = std::move(fn); }
+
+    /// @brief Access the injected admin-model load function (may be empty).
+    const AdminModelLoadFn& adminModelLoadFn() const { return admin_model_load_fn_; }
+
+    /// @brief Access the injected admin-model list function (may be empty).
+    const AdminModelListFn& adminModelListFn() const { return admin_model_list_fn_; }
+
+    // ── Task scheduler injection bridge ───────────────────────────────────────
+
+    /**
+     * @brief Function type for registering a scheduled AQL task.
+     *
+     * Receives a JSON task configuration object with fields:
+     *   - "name"  (string)  — human-readable task name
+     *   - "type"  (string)  — "aql" or "function"
+     *   - "query" (string)  — AQL query or function name
+     *   - "interval_ms" (number) — scheduling interval in milliseconds
+     *
+     * Returns the opaque task ID on success, or throws on error.
+     */
+    using RegisterTaskFn = std::function<std::string(const nlohmann::json& task_config)>;
+
+    /**
+     * @brief Function type for listing all registered scheduled tasks.
+     *
+     * Returns a JSON array of task descriptor objects, or throws on error.
+     */
+    using ListTasksFn = std::function<nlohmann::json()>;
+
+    /**
+     * @brief Function type for cancelling a scheduled task by ID.
+     *
+     * Returns true when the task was found and cancelled, false otherwise.
+     */
+    using CancelTaskFn = std::function<bool(const std::string& task_id)>;
+
+    /**
+     * @brief Inject a task-registration function for SCHEDULE_TASK.
+     *
+     * @param fn  Callable that registers a task and returns its ID.
+     */
+    void setRegisterTaskFn(RegisterTaskFn fn) { register_task_fn_ = std::move(fn); }
+
+    /**
+     * @brief Inject a task-list function for LIST_SCHEDULED_TASKS.
+     *
+     * @param fn  Callable that returns a JSON array of task descriptors.
+     */
+    void setListTasksFn(ListTasksFn fn) { list_tasks_fn_ = std::move(fn); }
+
+    /**
+     * @brief Inject a task-cancellation function for CANCEL_TASK.
+     *
+     * @param fn  Callable that cancels a task by ID.
+     */
+    void setCancelTaskFn(CancelTaskFn fn) { cancel_task_fn_ = std::move(fn); }
+
+    /// @brief Access the injected task-registration function (may be empty).
+    const RegisterTaskFn& registerTaskFn() const { return register_task_fn_; }
+
+    /// @brief Access the injected task-list function (may be empty).
+    const ListTasksFn& listTasksFn() const { return list_tasks_fn_; }
+
+    /// @brief Access the injected task-cancellation function (may be empty).
+    const CancelTaskFn& cancelTaskFn() const { return cancel_task_fn_; }
+
 private:
     nlohmann::json current_doc_;
     std::unordered_map<std::string, nlohmann::json> variables_;
@@ -235,6 +321,11 @@ private:
     themis::GraphAnalytics* graph_analytics_ = nullptr;
     themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
     themis::ProcessMining* process_mining_ = nullptr;
+    AdminModelLoadFn admin_model_load_fn_;
+    AdminModelListFn admin_model_list_fn_;
+    RegisterTaskFn register_task_fn_;
+    ListTasksFn    list_tasks_fn_;
+    CancelTaskFn   cancel_task_fn_;
 };
 
 // ============================================================================

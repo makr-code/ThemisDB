@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_transaction_distributed_2pc.cpp               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:57:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1000                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • ff299c514b  2026-04-09  feat(transaction): PERF-D4 batched prepare + lock-free 2P... ║
-    • 0f0c408c2f  2026-03-15  feat(transaction): implement Distributed Transaction Coor... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_transaction_distributed_2pc.cpp | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Tests for DistributedTransactionManager (2PC) – v1.9.0
@@ -1093,4 +1078,68 @@ TEST_F(DistributedTxnManagerTest, CC1_SuccessfulWALWriteDoesNotSuppressPhase2) {
     // Both participants must have received onCommit.
     EXPECT_GE(p1->commitCount(), 1);
     EXPECT_GE(p2->commitCount(), 1);
+}
+
+// ============================================================================
+// DTM-RPC bridge tests (stub #279)
+// ============================================================================
+
+// DTM-RPC-01: when RemotePhase2Fn is set, it is called for callback-less
+// participants during phase 2 (commit path).
+TEST_F(DistributedTxnManagerTest, DTM_RPC01_RemotePhase2FnCalledOnCommit) {
+    std::atomic<int> rpc_calls{0};
+    std::string last_txn;
+    bool last_decision = false;
+
+    mgr->setRemotePhase2Fn([&](const std::string& /*endpoint*/,
+                               const std::string& txn_id,
+                               bool do_commit) {
+        ++rpc_calls;
+        last_txn      = txn_id;
+        last_decision = do_commit;
+    });
+
+    const auto tid = mgr->beginDistributed({
+        makeParticipant("local-n1", p1.get()),
+        makeRemoteParticipant("remote-rpc-1"),
+    });
+    ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
+    ASSERT_TRUE(mgr->commitDistributed(tid).ok);
+
+    EXPECT_GE(rpc_calls.load(), 1) << "RemotePhase2Fn must be called for callback-less participant";
+    EXPECT_EQ(last_txn, tid);
+    EXPECT_TRUE(last_decision) << "Commit path must pass do_commit=true";
+}
+
+// DTM-RPC-02: when RemotePhase2Fn is set, it is called for callback-less
+// participants during phase 2 (abort path).
+TEST_F(DistributedTxnManagerTest, DTM_RPC02_RemotePhase2FnCalledOnAbort) {
+    std::atomic<int> rpc_calls{0};
+    bool last_decision = true;
+
+    mgr->setRemotePhase2Fn([&](const std::string&, const std::string&, bool do_commit) {
+        ++rpc_calls;
+        last_decision = do_commit;
+    });
+
+    const auto tid = mgr->beginDistributed({
+        makeRemoteParticipant("remote-rpc-2"),
+    });
+    mgr->abortDistributed(tid);
+
+    EXPECT_GE(rpc_calls.load(), 1) << "RemotePhase2Fn must be called on abort for callback-less participant";
+    EXPECT_FALSE(last_decision) << "Abort path must pass do_commit=false";
+}
+
+// DTM-RPC-03: when no RemotePhase2Fn is set, callback-less participants are
+// skipped silently (no crash, no delivered decision).
+TEST_F(DistributedTxnManagerTest, DTM_RPC03_NoFnSkipsRemoteParticipantGracefully) {
+    const auto tid = mgr->beginDistributed({
+        makeParticipant("local-only", p1.get()),
+        makeRemoteParticipant("remote-no-fn"),
+    });
+    ASSERT_TRUE(mgr->prepareDistributed(tid).ok);
+    // Must not throw or crash when no RemotePhase2Fn is set.
+    EXPECT_NO_THROW(mgr->commitDistributed(tid));
+    EXPECT_GE(p1->commitCount(), 1) << "Local participant still receives COMMIT";
 }

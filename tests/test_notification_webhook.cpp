@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_notification_webhook.cpp                      ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:55:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     489                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_notification_webhook.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -210,7 +199,10 @@ protected:
 
 TEST_F(SlackPayloadTest, SuccessPayload_IsValidJson) {
     const std::string body = webhook_.buildSlackPayload(makeSuccessPayload());
-    EXPECT_NO_THROW(json::parse(body));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(body);
+        static_cast<void>(parsed);
+    });
 }
 
 TEST_F(SlackPayloadTest, SuccessPayload_ContainsVersion) {
@@ -309,7 +301,10 @@ protected:
 TEST_F(PagerDutyPayloadTest, SuccessPayload_IsValidJson) {
     const std::string body =
         webhook_.buildPagerDutyPayload(makeSuccessPayload());
-    EXPECT_NO_THROW(json::parse(body));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(body);
+        static_cast<void>(parsed);
+    });
 }
 
 TEST_F(PagerDutyPayloadTest, RoutingKeyInPayload) {
@@ -475,12 +470,18 @@ TEST_F(MinimalPayloadTest, MinimalPayload_SlackPayloadValid) {
     UpdateEventPayload p;
     p.event   = UpdateEvent::UPDATE_SUCCESS;
     p.version = "1.0.0";
-    EXPECT_NO_THROW(json::parse(webhook_.buildSlackPayload(p)));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(webhook_.buildSlackPayload(p));
+        static_cast<void>(parsed);
+    });
 }
 
 TEST_F(MinimalPayloadTest, MinimalPayload_PagerDutyPayloadValid) {
     UpdateEventPayload p;
     p.event   = UpdateEvent::UPDATE_FAILED;
     p.version = "1.0.0";
-    EXPECT_NO_THROW(json::parse(webhook_.buildPagerDutyPayload(p)));
+    EXPECT_NO_THROW({
+        auto parsed = json::parse(webhook_.buildPagerDutyPayload(p));
+        static_cast<void>(parsed);
+    });
 }

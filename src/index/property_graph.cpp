@@ -1,21 +1,9 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            property_graph.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1273                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: property_graph.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 85/100
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=248, M=80, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Property Graph Manager Implementation
@@ -318,12 +306,7 @@ PropertyGraphManager::Status PropertyGraphManager::addNodeLabel(std::string_view
 
     // Add label to node
     labels.push_back(std::string(label));
-    std::string labelsStr;
-    for (size_t i = 0; i < labels.size(); ++i) {
-        if (i > 0) labelsStr += ",";
-        labelsStr += labels[i];
-    }
-    node.setField("_labels", labelsStr);
+    node.setFieldAsStringArray("_labels", labels);
 
     auto batch = db_.createWriteBatch();
     if (!batch) {
@@ -359,20 +342,13 @@ PropertyGraphManager::Status PropertyGraphManager::removeNodeLabel(std::string_v
     BaseEntity node = BaseEntity::deserialize(std::string(pk), *blob);
     std::vector<std::string> labels = extractLabels_(node);
 
-    // Remove label
-    auto it = std::find(labels.begin(), labels.end(), label);
+    // Update labels
+    const auto it = std::find(labels.begin(), labels.end(), label);
     if (it == labels.end()) {
-        return Status::OK();  // Label doesn't exist (idempotent)
+        return Status::OK();  // Label not present (idempotent)
     }
     labels.erase(it);
-
-    // Update labels string
-    std::string labelsStr;
-    for (size_t i = 0; i < labels.size(); ++i) {
-        if (i > 0) labelsStr += ",";
-        labelsStr += labels[i];
-    }
-    node.setField("_labels", labelsStr);
+    node.setFieldAsStringArray("_labels", labels);
 
     auto batch = db_.createWriteBatch();
     if (!batch) {

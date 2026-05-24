@@ -1,7 +1,14 @@
+/*
+ * ThemisDB | File: raster_query_interface.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=36, M=2, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 //
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include "geo/raster_query_interface.h"
 
@@ -20,29 +27,25 @@ namespace {
 
 /// Convert a slippy-map tile (zoom/x/y) to WGS-84 lon/lat bounds.
 /// Reference: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
-MBR tileToWGS84(const TileCoord& tile) {
-    constexpr double kPi = 3.14159265358979323846;
-    const double n = static_cast<double>(1u << tile.zoom);
-    const double lon_min = static_cast<double>(tile.x) / n * 360.0 - 180.0;
-    const double lon_max = static_cast<double>(tile.x + 1) / n * 360.0 - 180.0;
-    const double lat_min_rad = std::atan(std::sinh(
-        kPi * (1.0 - 2.0 * static_cast<double>(tile.y + 1) / n)));
-    const double lat_max_rad = std::atan(std::sinh(
-        kPi * (1.0 - 2.0 * static_cast<double>(tile.y) / n)));
-    return MBR{lon_min,
-               lat_min_rad * 180.0 / kPi,
-               lon_max,
-               lat_max_rad * 180.0 / kPi};
+MBR tileToWGS84(const TileCoord &tile) {
+    constexpr double kPi     = 3.14159265358979323846;
+    const double n           = static_cast<double>(1u << tile.zoom);
+    const double lon_min     = static_cast<double>(tile.x) / n * 360.0 - 180.0;
+    const double lon_max     = static_cast<double>(tile.x + 1) / n * 360.0 - 180.0;
+    const double lat_min_rad = std::atan(std::sinh(kPi * (1.0 - 2.0 * static_cast<double>(tile.y + 1) / n)));
+    const double lat_max_rad = std::atan(std::sinh(kPi * (1.0 - 2.0 * static_cast<double>(tile.y) / n)));
+    return MBR{lon_min, lat_min_rad * 180.0 / kPi, lon_max, lat_max_rad * 180.0 / kPi};
 }
 
-bool isValidBBox(const MBR& bbox) noexcept {
-    return bbox.minx < bbox.maxx && bbox.miny < bbox.maxy &&
-           bbox.minx >= -180.0 && bbox.maxx <= 180.0 &&
-           bbox.miny >=  -90.0 && bbox.maxy <=  90.0;
+bool isValidBBox(const MBR &bbox) noexcept {
+    return bbox.minx < bbox.maxx && bbox.miny < bbox.maxy && bbox.minx >= -180.0 && bbox.maxx <= 180.0
+           && bbox.miny >= -90.0 && bbox.maxy <= 90.0;
 }
 
-bool isValidTile(const TileCoord& tile) noexcept {
-    if (tile.zoom > 22) return false;
+bool isValidTile(const TileCoord &tile) noexcept {
+    if (tile.zoom > 22) {
+        return false;
+    }
     const uint32_t max_xy = 1u << tile.zoom;
     return tile.x < max_xy && tile.y < max_xy;
 }
@@ -53,17 +56,10 @@ bool isValidTile(const TileCoord& tile) noexcept {
 // RasterGridQueryImpl
 // ---------------------------------------------------------------------------
 
-RasterGridQueryImpl::RasterGridQueryImpl(RasterGrid grid,
-                                          std::string crs_wkt,
-                                          std::size_t band_count)
-    : grid_(std::move(grid))
-    , crs_wkt_(std::move(crs_wkt))
-    , band_count_(band_count) {}
+RasterGridQueryImpl::RasterGridQueryImpl(RasterGrid grid, std::string crs_wkt, std::size_t band_count)
+    : grid_(std::move(grid)), crs_wkt_(std::move(crs_wkt)), band_count_(band_count) {}
 
-RasterResult RasterGridQueryImpl::queryBBox(
-        const MBR& bbox,
-        double resolution,
-        const RasterConfig& config) const {
+RasterResult RasterGridQueryImpl::queryBBox(const MBR &bbox, double resolution, const RasterConfig &config) const {
     RasterResult result;
 
     if (!isValidBBox(bbox)) {
@@ -79,18 +75,16 @@ RasterResult RasterGridQueryImpl::queryBBox(
     }
 
     // Estimate the resulting grid size and check against the size limit.
-    const double lon_span = bbox.maxx - bbox.minx;
-    const double lat_span = bbox.maxy - bbox.miny;
-    const auto   width    = static_cast<std::size_t>(std::ceil(lon_span / resolution));
-    const auto   height   = static_cast<std::size_t>(std::ceil(lat_span / resolution));
-    const std::size_t estimated_bytes =
-        width * height * sizeof(float) * band_count_;
+    const double lon_span             = bbox.maxx - bbox.minx;
+    const double lat_span             = bbox.maxy - bbox.miny;
+    const auto width                  = static_cast<std::size_t>(std::ceil(lon_span / resolution));
+    const auto height                 = static_cast<std::size_t>(std::ceil(lat_span / resolution));
+    const std::size_t estimated_bytes = width * height * sizeof(float) * band_count_;
 
     if (estimated_bytes > config.maxTileSizeBytes()) {
-        result.status = RasterStatus::TILE_TOO_LARGE;
-        result.error_message =
-            "queryBBox: estimated tile size " + std::to_string(estimated_bytes) +
-            " bytes exceeds limit " + std::to_string(config.maxTileSizeBytes());
+        result.status        = RasterStatus::TILE_TOO_LARGE;
+        result.error_message = "queryBBox: estimated tile size " + std::to_string(estimated_bytes)
+                               + " bytes exceeds limit " + std::to_string(config.maxTileSizeBytes());
         return result;
     }
 
@@ -104,9 +98,7 @@ RasterResult RasterGridQueryImpl::queryBBox(
     return result;
 }
 
-RasterResult RasterGridQueryImpl::queryTile(
-        const TileCoord& tile,
-        const RasterConfig& config) const {
+RasterResult RasterGridQueryImpl::queryTile(const TileCoord &tile, const RasterConfig &config) const {
     if (!isValidTile(tile)) {
         RasterResult r;
         r.status        = RasterStatus::INVALID_KEY;
@@ -124,9 +116,7 @@ RasterResult RasterGridQueryImpl::queryTile(
 // Factory
 // ---------------------------------------------------------------------------
 
-std::unique_ptr<IRasterQueryInterface> makeRasterQueryInterface(
-        RasterGrid grid,
-        const std::string& crs_wkt) {
+std::unique_ptr<IRasterQueryInterface> makeRasterQueryInterface(RasterGrid grid, const std::string &crs_wkt) {
     if (grid.empty()) {
         return std::make_unique<NoOpRasterQueryImpl>();
     }

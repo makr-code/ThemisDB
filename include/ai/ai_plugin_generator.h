@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            ai_plugin_generator.h                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     126                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ai_plugin_generator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=2; TODO=0, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -25,6 +14,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <functional>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 /**
@@ -107,10 +98,57 @@ public:
         std::string sandbox_dir = "/tmp/themis_plugin_sandbox";
         std::string output_dir = "./generated_plugins";
     };
+
+    /**
+     * @brief Injectable bridge for LLM-based plugin code generation.
+     *
+     * @param prompt  The validated generation prompt.
+     * @return Expected<GeneratedPlugin, Error> produced by the LLM back-end.
+     *
+     * Set via setLLMGenerateFn() to wire a real HTTP POST to `config_.llm_endpoint`
+     * (or any other generation strategy) without recompiling the generator.
+     * When not set, generatePlugin() returns ERR_PLUGIN_LOAD_FAILED to signal
+     * that no LLM back-end is available (stub #282 resolution).
+     */
+    using LLMGenerateFn = std::function<Result<GeneratedPlugin>(const PluginGenerationPrompt&)>;
+
+    /**
+     * @brief Install the LLM generation bridge (thread-safe).
+     * @param fn  Callable invoked by generatePlugin() after input validation.
+     *            Pass nullptr to revert to the not-wired error response.
+     */
+    void setLLMGenerateFn(LLMGenerateFn fn);
     
     explicit AIPluginGenerator(const Config& config);
     ~AIPluginGenerator();
     
+    /**
+     * @brief Function type for delivering an HTTP POST to the LLM endpoint.
+     *
+     * Parameters:
+     *   - endpoint : Full URL of the LLM code-generation endpoint.
+     *   - body     : JSON request body (serialised PluginGenerationPrompt fields).
+     *
+     * Returns the raw HTTP response body as a string.
+     * Must throw on network or HTTP errors.
+     */
+    using LlmHttpPostFn = std::function<std::string(
+        const std::string& endpoint,
+        const std::string& body
+    )>;
+
+    /**
+     * @brief Inject a real HTTP transport for LLM endpoint calls (resolves stub #282).
+     *
+     * When set, `generatePlugin()` performs an HTTP POST to `config_.llm_endpoint`
+     * via this function and parses the JSON response into a `GeneratedPlugin`.
+     * Without an injected function the call returns an error indicating that
+     * Phase 2 is not available in this build.
+     *
+     * @param fn  Callable that performs the HTTP POST and returns the response body.
+     */
+    void setLlmHttpPostFn(LlmHttpPostFn fn);
+
     Result<GeneratedPlugin> generatePlugin(const PluginGenerationPrompt& prompt);
     Result<void> validatePrompt(const PluginGenerationPrompt& prompt);
     
@@ -138,6 +176,7 @@ public:
 
 private:
     Config config_;
+    std::optional<LlmHttpPostFn> llm_http_post_fn_;
 };
 
 } // namespace ai

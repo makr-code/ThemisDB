@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mqtt_session.h                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     316                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 21fb5b70f6  2026-03-27  Add CMake source coverage audit workflow and baseline script ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mqtt_session.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -169,7 +155,7 @@ public:
     
     explicit MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion = 4, 
                         TransportType transport = TransportType::TCP);
-    ~MqttSession();
+    ~MqttSession() noexcept;
 
     void start();
     void stop();
@@ -222,7 +208,7 @@ private:
     void doWebSocketRead();
     void doWebSocketWrite();
     void processQos2Timeouts();
-    void triggerWillMessage();
+    void triggerWillMessage() const;
     void updateRateLimiter();
     
     asio::ip::tcp::socket socket_;

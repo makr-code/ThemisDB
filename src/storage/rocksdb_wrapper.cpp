@@ -1,27 +1,12 @@
-// THEMIS_GAP_STATS: gaps=19 unimpl=13 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rocksdb_wrapper.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     2574                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 35e7ecae2c  2026-04-13  perf(storage): fix sustained write throughput - decouple ... ║
-    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
-    • df501a1b55  2026-04-09  fix(storage): address code review feedback on blob stream... ║
-    • c1205d6286  2026-04-09  feat(storage): streaming blob write path – putBlob/getBlo... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rocksdb_wrapper.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 2755
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=922 | delta=919 | status=divergent
+ * External Severity (v3): C=63, H=721, M=138
+ * PR: #4596 perf(storage): fix ~79x sustained write throughput regression â€” d... (2026-04-13T07:29:25Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/rocksdb_wrapper.h"
@@ -1138,7 +1123,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         // Decode manifest using explicit little-endian helpers (R-6).
         const auto* raw = reinterpret_cast<const uint8_t*>(manifest_raw.data());
         uint32_t num_chunks = readLE32(raw);
-        uint64_t chunk_size = readLE64(raw + 4);
+        [[maybe_unused]] uint64_t chunk_size = readLE64(raw + 4);
         uint64_t total_size = readLE64(raw + 12);
 
         if (num_chunks == 0 || total_size == 0) {

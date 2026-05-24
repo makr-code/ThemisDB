@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_training_service.h                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     367                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_training_service.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -185,6 +174,21 @@ public:
         // Phase 2: Base model integration settings
         std::vector<std::string> target_modules = {"attention.wq", "attention.wv"};  // Layers to adapt
         bool use_base_model = false;         // Enable base model integration (Phase 2b)
+
+        /**
+         * @brief Optional model-path resolver.
+         *
+         * When set, this function is called with a model identifier (e.g. the
+         * base_model_path stem) to return the actual filesystem path of the GGUF
+         * file.  Implement with LLMModelStorage::resolveGGUFPath() or any other
+         * model registry.  When nullptr the raw @p base_model_path string is used
+         * directly, preserving backward-compatible behaviour.
+         *
+         * @param model_id  Model identifier string.
+         * @return Absolute or relative path to the GGUF file.
+         */
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
+        ModelPathProviderFn model_path_provider;
         
         // QLoRA configuration
         QLoRAConfig qlora;

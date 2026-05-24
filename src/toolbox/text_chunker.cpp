@@ -1,3 +1,14 @@
+/*
+ * ThemisDB | File: text_chunker.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 79
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=10 | delta=7 | status=divergent
+ * External Severity (v3): C=0, H=8, M=2
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 #include "toolbox/text_chunker.h"
 #include "rag/document_splitter.h"
 

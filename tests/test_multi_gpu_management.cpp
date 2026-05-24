@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_multi_gpu_management.cpp                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:55:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     415                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_multi_gpu_management.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -89,6 +78,25 @@ TEST_F(GPUMemoryManagerMultiGPUTest, GPUHealthMonitoring) {
     EXPECT_LT(health.temperature_celsius, 100.0f);
     EXPECT_GE(health.utilization_percent, 0.0f);
     EXPECT_LE(health.utilization_percent, 100.0f);
+}
+
+TEST_F(GPUMemoryManagerMultiGPUTest, UsesConfiguredTemperatureProvider) {
+    GPUMemoryManager::Config config;
+    config.enable_multi_gpu = true;
+    config.gpu_devices = {0, 1};
+    config.max_vram_bytes = 24 * GB;
+    config.temperature_provider_fn =
+        [](int gpu_device_id, float& temperature_celsius) {
+            temperature_celsius = 60.0f + static_cast<float>(gpu_device_id);
+            return true;
+        };
+
+    auto manager = std::make_shared<GPUMemoryManager>(config);
+    auto health0 = manager->getGPUHealth(0);
+    auto health1 = manager->getGPUHealth(1);
+
+    EXPECT_FLOAT_EQ(health0.temperature_celsius, 60.0f);
+    EXPECT_FLOAT_EQ(health1.temperature_celsius, 61.0f);
 }
 
 TEST_F(GPUMemoryManagerMultiGPUTest, MarkGPUUnhealthy) {
@@ -408,5 +416,4 @@ TEST(MultiGPUIntegrationTest, HealthMonitoringWithFailover) {
     memory_manager->markGPUHealthy(0);
     EXPECT_TRUE(memory_manager->isGPUHealthy(0));
 }
-
 

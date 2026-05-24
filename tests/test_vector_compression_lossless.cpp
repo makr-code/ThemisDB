@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_vector_compression_lossless.cpp               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:57:58                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     621                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 64a9ae4eb6  2026-03-31  feat: enhance cache warmup logic and improve replication ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_vector_compression_lossless.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Unit tests for lossless vector compression methods
@@ -106,7 +92,8 @@ public:
     }
     
     static int32_t zigzag_decode(uint32_t n) {
-        return static_cast<int32_t>((n >> 1) ^ -(n & 1));
+        const int32_t sign = (n & 1u) != 0u ? -1 : 0;
+        return static_cast<int32_t>((n >> 1) ^ static_cast<uint32_t>(sign));
     }
     
     static void encode(std::vector<uint8_t>& output, uint32_t value) {
@@ -196,7 +183,10 @@ public:
         for (const auto& val : vec) {
             auto it = value_to_index.find(val);
             if (it == value_to_index.end()) {
-                uint32_t idx = result.dictionary.size();
+                if (result.dictionary.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+                    throw std::overflow_error("Dictionary size exceeds uint32_t index range");
+                }
+                uint32_t idx = static_cast<uint32_t>(result.dictionary.size());
                 result.dictionary.push_back(val);
                 value_to_index[val] = idx;
                 result.indices.push_back(idx);

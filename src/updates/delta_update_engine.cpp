@@ -1,27 +1,12 @@
-// THEMIS_GAP_STATS: gaps=22 unimpl=5 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            delta_update_engine.cpp                            ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 18:51:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     881                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: delta_update_engine.cpp | Version: 0.0.43 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 866
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=162 | delta=159 | status=divergent
+ * External Severity (v3): C=5, H=111, M=46
+ * PR: #3661 feat(updates): build system audit â€“ register all sources in Modul... (2026-03-12T07:45:25Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "updates/delta_update_engine.h"
@@ -574,6 +559,7 @@ bool DeltaUpdateEngine::generatePatchZstdDict(
 
     return pf.good();
 #else
+    static_cast<void>(base);
     // Fallback without zstd: store raw target (no compression).
     // Still uses the ZSTD_DICT magic so the reader knows the format.
     // This path should never be hit in production builds.
@@ -646,6 +632,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
     }
     target.resize(result);
 #else
+    static_cast<void>(base);
     // Non-zstd fallback: the generator stored the raw target bytes
     target = std::move(compressed);
 #endif

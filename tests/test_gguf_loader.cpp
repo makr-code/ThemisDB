@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_gguf_loader.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     513                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_gguf_loader.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=16; TODO=1, Stub=2, Unimpl=0, Mock=13, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -461,6 +450,22 @@ TEST_F(GGUFLoaderTest, ParseFile_AcceptsQ4_K_M) {
     EXPECT_EQ(loader.getLastError().find("Unsupported quantization format"), std::string::npos);
 }
 
+TEST_F(GGUFLoaderTest, GetTensorDataRejectsOutOfBoundsRange) {
+    // makeMockGGUF(Q4_K) intentionally writes only a tiny placeholder data area.
+    // The tensor metadata still advertises a Q4_K payload that is larger than
+    // the available bytes, so getTensorData() must reject the copy safely.
+    ScopedTempFile tmp("q4km_oob_tensor_data.gguf");
+    tmp.write(makeMockGGUF(GGMLType::Q4_K));
+
+    GGUFLoader loader;
+    if (!loader.parseFile(tmp.str())) {
+        GTEST_SKIP() << "Mock GGUF did not parse on this platform: " << loader.getLastError();
+    }
+
+    auto data = loader.getTensorData("w.one");
+    EXPECT_TRUE(data.empty()) << "Out-of-bounds tensor payload must be rejected";
+}
+
 TEST_F(GGUFLoaderTest, GetLastError_ClearedBetweenCalls) {
     // Error state should reset between parseFile() calls
     ScopedTempFile tmp_bad("q4_0_clear.gguf");
@@ -507,4 +512,3 @@ TEST(GrammarTest, ModelAwareConstructor_NullModel_SetsError) {
 }
 
 // Main test runner
-

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_adaptive_shard_router.cpp                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:52:09                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     405                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_adaptive_shard_router.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -27,6 +16,7 @@
 #include "sharding/remote_executor.h"
 #include "sharding/consistent_hash.h"
 #include <memory>
+#include <stdexcept>
 
 using namespace themis::sharding;
 
@@ -297,6 +287,35 @@ TEST_F(AdaptiveShardRouterTest, DisabledAdaptiveRouting) {
     
     // Result should still be valid JSON payload from base router
     EXPECT_TRUE(result.is_array() || result.is_object());
+}
+
+TEST_F(AdaptiveShardRouterTest, UsesInjectedNlpContextForRouting) {
+    router->setNlpContextFn([](std::string_view query) -> std::optional<CapabilityMatcher::QueryContext> {
+        CapabilityMatcher::QueryContext context;
+        context.query_text = std::string(query);
+        context.domains = {"law"};
+        context.regions = {"hamburg"};
+        context.organizations = {"bauamt"};
+        return context;
+    });
+
+    AdaptiveShardRouter::AdaptiveStats stats;
+    router->executeAdaptiveQuery("What are permit requirements?", stats);
+
+    EXPECT_TRUE(stats.used_adaptive_routing);
+    EXPECT_FALSE(stats.iteration_details.empty());
+}
+
+TEST_F(AdaptiveShardRouterTest, NlpContextFallbacksToKeywordHeuristicsOnException) {
+    router->setNlpContextFn([]([[maybe_unused]] std::string_view query)
+                                -> std::optional<CapabilityMatcher::QueryContext> {
+        throw std::runtime_error("mock nlp failure");
+    });
+
+    AdaptiveShardRouter::AdaptiveStats stats;
+    router->executeAdaptiveQuery("Baurechtsakten Hamburg", stats);
+
+    EXPECT_TRUE(stats.used_adaptive_routing);
 }
 
 TEST_F(AdaptiveShardRouterTest, GetStatistics) {

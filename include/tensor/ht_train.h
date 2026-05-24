@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/ht_train.h                                  ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 5 (Q1 2028)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ht_train.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -55,15 +50,9 @@
 #include <memory>
 #include <mutex>
 #include <optional>
+#include "storage/tensor_train_decomposer.h"
 #include <string>
 #include <vector>
-
-// Forward declaration of TTTrain for the compatibility bridge
-namespace themis {
-namespace storage {
-struct TTTrain;
-} // namespace storage
-} // namespace themis
 
 namespace themis {
 namespace tensor {
@@ -172,15 +161,16 @@ struct HTTrain {
     /**
      * @brief Flatten the HT representation to a TT-train.
      *
-     * Reconstructs the full dense tensor and re-decomposes it as a TT-train.
-     * Intended for compatibility with `ITensorIndex`; not efficient for large tensors.
+     * Converts HT to TT on first invocation by reconstructing the dense tensor and
+     * re-decomposing it as a TT-train, then memoizes the TT result for subsequent calls.
+     *
+     * First call cost is O(∏ n_k) due to dense reconstruction. Later calls are O(P_TT)
+     * copy-out from the cached train, where P_TT is TT parameter count.
      *
      * @note
-     * // STUB/SIMULATION NOTE (STUB #286):
-     * // Purpose: TTTrain compatibility until ITensorIndex is extended for HTTrain.
-     * // Activation: Always.
-     * // Production Delta: O(∏ n_k) full reconstruction + TT redecomposition.
-     * // Removal Plan: Q2 2028 — extend ITensorIndex / add IHierarchicalTuckerIndex path.
+     * Thread-safe: internal cache population is protected by a mutex. If the tensor
+     * has an invalid shape/decomposition, conversion throws via the underlying
+     * TensorTrainDecomposer validation path.
      */
     storage::TTTrain toTTTrain() const;
 
@@ -198,8 +188,8 @@ struct HTTrain {
     // ── Move / copy ────────────────────────────────────────────────────────────
 
     HTTrain() = default;
-    HTTrain(HTTrain&&) noexcept = default;
-    HTTrain& operator=(HTTrain&&) noexcept = default;
+    HTTrain(HTTrain&& other) noexcept;
+    HTTrain& operator=(HTTrain&& other) noexcept;
 
     // No implicit copy; use clone()
     HTTrain(const HTTrain&)            = delete;

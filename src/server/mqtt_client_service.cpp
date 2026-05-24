@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=28 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            mqtt_client_service.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:50:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     861                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8d4df392df  2026-04-11  feat(server): MQTT client TLS support via THEMIS_ENABLE_M... ║
-    • 21fb5b70f6  2026-03-27  Add CMake source coverage audit workflow and baseline script ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: mqtt_client_service.cpp | Version: 0.0.12 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 856
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=270 | delta=267 | status=divergent
+ * External Severity (v3): C=10, H=205, M=55
+ * PR: #4746 Add Q2 2026 Waveâ€‘1 quality audit report, findings baseline, and r... (2026-04-21T16:46:30Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/mqtt_client_service.h"
@@ -583,14 +570,14 @@ void MqttClientService::onPublishReceived(const std::string& topic,
     }
 }
 
-void MqttClientService::enqueuePacket(std::vector<uint8_t> pkt) {
+void MqttClientService::enqueuePacket(std::vector<uint8_t> packet) {
     {
         std::lock_guard<std::mutex> lk(outbound_mutex_);
         if (outbound_queue_.size() >= config_.max_outbound_queue) {
             ++stats_.publish_errors;
             return;
         }
-        outbound_queue_.push_back(std::move(pkt));
+        outbound_queue_.push_back(std::move(packet));
     }
     asio::post(asio_->io_ctx, [this] { doWrite(); });
 }

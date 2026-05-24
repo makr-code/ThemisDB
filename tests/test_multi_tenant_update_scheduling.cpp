@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_multi_tenant_update_scheduling.cpp            ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:55:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   42.0/100                                       ║
-    • Total Lines:     795                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 17                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • bcd8bdb1e3  2026-03-14  fix(updates): address all PR review comments for TenantUp... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_multi_tenant_update_scheduling.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0

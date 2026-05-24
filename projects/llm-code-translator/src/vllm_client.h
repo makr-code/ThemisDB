@@ -39,9 +39,9 @@ struct VLLMConfig {
     bool use_streaming = false;                      // Enable streaming responses
     
     // Generation parameters
-    float temperature = 0.7;
+    float temperature = 0.7f;
     int max_tokens = 2048;
-    float top_p = 0.95;
+    float top_p = 0.95f;
     int top_k = 50;
     std::vector<std::string> stop_sequences = {};
 };
@@ -98,7 +98,7 @@ public:
     std::vector<VLLMResponse> generateMultiple(
         const std::string& prompt,
         int n = 10,
-        float temperature = 0.8
+        float temperature = 0.8f
     );
     
     /**

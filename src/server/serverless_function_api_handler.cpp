@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            serverless_function_api_handler.cpp                ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:51                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     534                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: serverless_function_api_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 606
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=89 | delta=86 | status=divergent
+ * External Severity (v3): C=9, H=71, M=9
+ * PR: #2636 feat(server): Serverless function hosting â€“ in-process user funct... (2026-03-12T05:53:31Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/serverless_function_api_handler.h"
@@ -346,17 +334,31 @@ ServerlessFunctionApiHandler::handleList(
     const std::string target{req.target()};
     auto qpos = target.find('?');
     if (qpos != std::string::npos) {
-        const std::string qs = target.substr(qpos + 1);
-        const std::string key = "tenant_id=";
-        auto kpos = qs.find(key);
-        if (kpos != std::string::npos) {
-            tenant_filter = qs.substr(kpos + key.size());
-            auto amp = tenant_filter.find('&');
-            if (amp != std::string::npos) tenant_filter = tenant_filter.substr(0, amp);
-            if (!tenant_filter.empty() && !isValidServerlessIdentifier(tenant_filter, true)) {
-                return makeErrorResponse(http::status::bad_request,
-                                         "invalid tenant_id filter", req);
+        std::string_view query{target};
+        query.remove_prefix(qpos + 1);
+        while (!query.empty()) {
+            const auto amp = query.find('&');
+            const auto token = query.substr(0, amp);
+            const auto eq = token.find('=');
+            const auto key = token.substr(0, eq);
+            if (key == "tenant_id") {
+                if (eq == std::string_view::npos) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "invalid tenant_id filter", req);
+                }
+
+                tenant_filter = std::string(token.substr(eq + 1));
+                if (!tenant_filter.empty() && !isValidServerlessIdentifier(tenant_filter, true)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "invalid tenant_id filter", req);
+                }
+                break;
             }
+
+            if (amp == std::string_view::npos) {
+                break;
+            }
+            query.remove_prefix(amp + 1);
         }
     }
 

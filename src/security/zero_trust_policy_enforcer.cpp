@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            zero_trust_policy_enforcer.cpp                     ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     285                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: zero_trust_policy_enforcer.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 422
+ * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=5 | external_v3=79 | delta=74 | status=divergent
+ * External Severity (v3): C=8, H=62, M=9
+ * PR: #4747 security/docs: add reproducible sourcecode security audit artifact ... (2026-04-21T04:27:26Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/zero_trust_policy_enforcer.h"

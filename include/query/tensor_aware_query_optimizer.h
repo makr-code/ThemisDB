@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query/tensor_aware_query_optimizer.h               ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 3 (Q1 2027)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_aware_query_optimizer.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -55,7 +50,10 @@
 
 #include "query/query_plan_visualizer.h"
 
+#include <functional>
 #include <memory>
+#include <optional>
+#include <shared_mutex>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -113,6 +111,8 @@ struct TensorContractionPlanNode {
  */
 class TensorAwareQueryOptimizer {
 public:
+    using TensorNodeDetectorFn = std::function<std::optional<std::string>(const QueryPlanNode&)>;
+
     TensorAwareQueryOptimizer() = default;
 
     // ─── Plan rewriting ───────────────────────────────────────────────────
@@ -120,8 +120,8 @@ public:
     /**
      * @brief Rewrite a QueryPlanNode tree, replacing tensor function nodes.
      *
-     * Traverses the tree depth-first.  Any node whose `description` contains
-     * a recognized tensor function call is:
+ * Traverses the tree depth-first.  Any node resolved to a recognized tensor
+ * function call (via injected detector or description fallback) is:
      *  1. Classified as `PlanNodeType::TensorContraction`.
      *  2. Given an updated `estimated_cost` reflecting TT-domain complexity.
      *  3. Annotated in `description` with "[TT-domain]" prefix.
@@ -201,6 +201,8 @@ private:
     void rewriteNode(QueryPlanNode& node);
 
     RewriteStats last_stats_;
+    mutable std::shared_mutex detector_mutex_;
+    TensorNodeDetectorFn tensor_node_detector_fn_;
 
     // Set of function names routed to TensorContractionEngine.
     static const std::unordered_set<std::string> kTensorFunctions;

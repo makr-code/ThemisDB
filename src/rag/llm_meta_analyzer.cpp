@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_meta_analyzer.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     290                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_meta_analyzer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 276
+ * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=1
+ * Gap Correlation: internal=4 | external_v3=101 | delta=97 | status=divergent
+ * External Severity (v3): C=15, H=61, M=25
+ * PR: #1297 RAG module: replace all stubs with real implementations; expand tes... (2026-03-11T17:45:15Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -238,7 +229,7 @@ std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
             request.base_request.prompt    = prompt;
             request.base_request.max_tokens = 512;
             // Low temperature (0.1) for deterministic analytical tasks; valid range 0.0-1.0
-            request.base_request.temperature = 0.1;
+            request.base_request.temperature = 0.1f;
             request.allow_caching = true;
             request.priority      = 0;
 

@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_transaction_manager.h                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:47:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     568                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • ff299c514b  2026-04-09  feat(transaction): PERF-D4 batched prepare + lock-free 2P... ║
-    • 0f0c408c2f  2026-03-15  feat(transaction): implement Distributed Transaction Coor... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_transaction_manager.h | Version: 0.0.12
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -430,6 +415,34 @@ public:
      */
     size_t checkTimeouts();
 
+    // ── Remote phase-2 transport bridge ──────────────────────────────────────
+
+    /**
+     * @brief Function type for delivering a phase-2 decision to a remote participant.
+     *
+     * Parameters:
+     *   - endpoint  : The network address of the participant (from Participant::endpoint).
+     *   - txn_id    : The transaction identifier.
+     *   - do_commit : true → send COMMIT; false → send ABORT.
+     *
+     * The function must be non-throwing; internal transport errors should be
+     * logged or signalled via out-of-band mechanisms.
+     */
+    using RemotePhase2Fn = std::function<void(
+        const std::string& endpoint,
+        const TransactionId& txn_id,
+        bool do_commit
+    )>;
+
+    // ── Remote phase-2 transport bridge ──────────────────────────────────────
+
+    /// Inject a transport function for delivering phase-2 decisions to remote
+    /// participants (resolves stub #279).
+    void setRemotePhase2Fn(RemotePhase2Fn fn) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        remote_phase2_fn_ = std::move(fn);
+    }
+
     // ── Failure detection ─────────────────────────────────────────────────────
 
     /**
@@ -585,6 +598,9 @@ private:
     std::vector<BatchPrepareEntry>        batch_queue_;
     std::thread                           batch_flush_thread_;
     std::atomic<bool>                     batch_stop_{false};
+
+    // ── Remote phase-2 bridge (stub #279) ─────────────────────────────────────
+    std::optional<RemotePhase2Fn>         remote_phase2_fn_;
 };
 
 } // namespace themis::transaction

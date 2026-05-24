@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_huggingface_exporter.cpp                      ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:51:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     555                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_huggingface_exporter.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -212,7 +198,10 @@ TEST_F(HuggingFaceExporterTest, DataFileContainsValidJsonl) {
     EXPECT_GT(lines.size(), 0);
 
     for (const auto& line : lines) {
-        EXPECT_NO_THROW(json::parse(line));
+        EXPECT_NO_THROW({
+            auto parsed = json::parse(line);
+            static_cast<void>(parsed);
+        });
     }
 }
 
@@ -229,7 +218,7 @@ TEST_F(HuggingFaceExporterTest, InfersFeatureTypesFromEntities) {
     ExportOptions options;
     options.output_path = test_dir_ + "/infer_features";
 
-    exporter.exportEntities(test_entities_, options);
+    static_cast<void>(exporter.exportEntities(test_entities_, options));
 
     auto j = json::parse(readFile(options.output_path + "/dataset_info.json"));
     EXPECT_TRUE(j.contains("features"));

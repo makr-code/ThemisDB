@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            quality_control_pipeline.h                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:46:40                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     338                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: quality_control_pipeline.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -78,6 +67,23 @@ struct DimensionScore {
  * @brief Quality check result
  */
 struct QualityCheckResult {
+    QualityCheckResult()
+        : status(QualityGateStatus::FAILED)
+        , overall_score(0.0)
+        , confidence(0.0)
+        , dimension_scores()
+        , fast_stage_time(0)
+        , balanced_stage_time(0)
+        , thorough_stage_time(0)
+        , total_time(0)
+        , failure_reasons()
+        , should_retry(false)
+        , improvement_suggestions()
+        , sent_to_learning_system(false)
+        , learning_feedback_id()
+        , citation_coverage(0.0) {
+    }
+
     QualityGateStatus status;
     double overall_score;      ///< Aggregate score (0-1)
     double confidence;         ///< Aggregate confidence (0-1)
@@ -298,7 +304,6 @@ private:
     
     void sendLearningFeedback(
         const std::string& query,
-        const std::string& answer,
         const QualityCheckResult& result
     );
     

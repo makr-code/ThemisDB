@@ -1,25 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_replication_ha.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   39.0/100                                       ║
-    • Total Lines:     5815                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • fc77bc508d  2026-04-12  [MODULE] replication — perf tests for design constraints,... ║
-    • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_replication_ha.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 85/100
+ * Gap Summary: total=38; TODO=1, Stub=3, Unimpl=0, Mock=17, Sim=17, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -43,6 +27,7 @@
 #include "replication/multi_tier_replication.h"
 
 #include <algorithm>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <future>
@@ -274,9 +259,12 @@ TEST_F(WALChecksumTest, CorruptChecksumEntryIsDropped) {
         std::fstream fs(seg_path, std::ios::in | std::ios::out | std::ios::binary);
         ASSERT_TRUE(fs.is_open());
         // Seek close to end and flip a byte to corrupt the checksum field
-        fs.seekp(-4, std::ios::end);
-        char dummy = 0xFF;
-        fs.write(&dummy, 1);
+        fs.seekg(static_cast<std::streamoff>(-4), std::ios::end);
+        std::uint8_t dummy{};
+        fs.read(reinterpret_cast<char*>(&dummy), 1);
+        dummy ^= static_cast<std::uint8_t>(0x1u);
+        fs.seekp(static_cast<std::streamoff>(-4), std::ios::end);
+        fs.write(reinterpret_cast<const char*>(&dummy), 1);
     }
 
     // readFrom should skip the corrupted entry

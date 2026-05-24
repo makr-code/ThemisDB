@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_columnar_cache.cpp                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:53:01                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     258                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 29ac1cf537  2026-04-14  fix                                     ║
-    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_columnar_cache.cpp | Version: 0.0.10
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -50,19 +35,6 @@ static ColumnSegment makeInt64Segment(const std::string& table,
     seg.key         = {table, col, seg_id};
     seg.dtype       = SegmentDType::Int64;
     seg.int64_data  = values;
-    seg.null_bitmap.assign(values.size(), false);
-    seg.row_count   = values.size();
-    return seg;
-}
-
-static ColumnSegment makeStrSegment(const std::string& table,
-                                    const std::string& col,
-                                    uint64_t seg_id,
-                                    const std::vector<std::string>& values) {
-    ColumnSegment seg;
-    seg.key         = {table, col, seg_id};
-    seg.dtype       = SegmentDType::String;
-    seg.string_data = values;
     seg.null_bitmap.assign(values.size(), false);
     seg.row_count   = values.size();
     return seg;

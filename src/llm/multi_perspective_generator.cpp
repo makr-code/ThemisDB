@@ -1,24 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_perspective_generator.cpp                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     938                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_perspective_generator.cpp | Version: 0.0.47 | Last Modified: 2026-04-15 18:58:58
+ * Author: ThemisDB Version Bot | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 923
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=275 | delta=272 | status=divergent
+ * External Severity (v3): C=26, H=147, M=102
+ * PR: #3629 [MODULE] llm â€“ build-system audit: register 16 missing sources, 2... (2026-03-12T07:39:34Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -34,6 +22,7 @@
 #include <unordered_set>
 #include <cmath>
 #include <chrono>
+#include <limits>
 
 namespace themis {
 namespace llm {
@@ -43,14 +32,20 @@ namespace llm {
 // ═══════════════════════════════════════════════════════════
 
 namespace {
+int clampSizeToInt(const size_t value) {
+    const size_t int_max = static_cast<size_t>(std::numeric_limits<int>::max());
+    return static_cast<int>(std::min(value, int_max));
+}
+
 // Extract unique words from text (words longer than 3 characters)
 std::unordered_set<std::string> extractWords(const std::string& text) {
     std::unordered_set<std::string> words;
     std::string current;
     
     for (char c : text) {
-        if (std::isalpha(c)) {
-            current += std::tolower(c);
+        const auto uc = static_cast<unsigned char>(c);
+        if (std::isalpha(uc) != 0) {
+            current.push_back(static_cast<char>(std::tolower(uc)));
         } else if (!current.empty()) {
             if (current.length() > 3) {
                 words.insert(current);
@@ -166,7 +161,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     }
     
     // Calculate diversity metrics
-    result.unique_perspectives_count = result.perspectives.size();
+    result.unique_perspectives_count = clampSizeToInt(result.perspectives.size());
     result.perspective_diversity_score = calculateDiversityScore(result.perspectives);
     
     // Check if diversity requirements are met
@@ -649,7 +644,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findCommonThemes(
     }
     
     // Find themes that appear in multiple perspectives
-    int threshold = perspectives.size() >= 3 ? 2 : perspectives.size();
+    const int threshold = (perspectives.size() >= 3) ? 2 : static_cast<int>(perspectives.size());
     
     for (const auto& [theme, count] : theme_counts) {
         if (count >= threshold) {
@@ -923,8 +918,8 @@ std::unique_ptr<MultiPerspectiveGenerator> MultiPerspectiveGeneratorFactory::cre
     MultiPerspectiveConfig config;
     config.required_perspectives = required_perspectives;
     config.auto_select_perspectives = false;
-    config.min_perspectives = required_perspectives.size();
-    config.max_perspectives = required_perspectives.size();
+    config.min_perspectives = clampSizeToInt(required_perspectives.size());
+    config.max_perspectives = clampSizeToInt(required_perspectives.size());
     return std::make_unique<MultiPerspectiveGenerator>(config);
 }
 

@@ -1,34 +1,21 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query/tensor_aware_query_optimizer.cpp             ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 3 (Q1 2027)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_aware_query_optimizer.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 165
+ * Open Issues: TODOs=1, Stubs=4, Gaps=7, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=7 | external_v3=38 | delta=31 | status=divergent
+ * External Severity (v3): C=5, H=31, M=2
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
  * @file query/tensor_aware_query_optimizer.cpp
  * @brief TensorAwareQueryOptimizer implementation.
  *
- * ### Stub log
- * - TAQO-01  Full AQL AST traversal (not just description-string scan)
- *            deferred to Phase 3 integration with AQL runner (Q1 2027).
- *
- * STUB/SIMULATION NOTE (stub #275):
- * Purpose: Detection is based on presence of function names in the plan
- *          node `description` field, which is available from the existing
- *          `QueryPlanNode` serialization path.  A deeper AST-level rewrite
- *          (replacing function call nodes in the AQL IR) requires coupling
- *          to the AQL runner's internal IR and is Phase 3 Phase-C work.
- * Activation: Always active; used by any caller with a QueryPlanNode tree.
- * Production Delta: Phase 3 will wire directly into AQL AST nodes so that
- *                   the rewrite bypasses string scanning entirely.
- * Removal Plan: Replace description-scan with AQL IR visitor in Q1 2027.
+ * Detection now supports two paths:
+ * - injected `TensorNodeDetectorFn` for AST/IR-aware function resolution
+ * - deterministic description scanning fallback for legacy callers
  */
 
 #include "query/tensor_aware_query_optimizer.h"
@@ -132,6 +119,16 @@ double TensorAwareQueryOptimizer::estimateTTCost(
     return d * n * r;
 }
 
+void TensorAwareQueryOptimizer::setTensorNodeDetectorFn(TensorNodeDetectorFn fn) {
+    std::unique_lock lock(detector_mutex_);
+    tensor_node_detector_fn_ = std::move(fn);
+}
+
+void TensorAwareQueryOptimizer::clearTensorNodeDetectorFn() {
+    std::unique_lock lock(detector_mutex_);
+    tensor_node_detector_fn_ = nullptr;
+}
+
 // ============================================================================
 // rewriteNode — depth-first DFS
 // ============================================================================
@@ -139,39 +136,64 @@ double TensorAwareQueryOptimizer::estimateTTCost(
 void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
     ++last_stats_.nodes_visited;
 
-    // Check whether this node's description mentions a tensor function.
-    std::string upper_desc;
-    upper_desc.reserve(node.description.size());
-    for (char c : node.description)
-        upper_desc += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    TensorNodeDetectorFn detector;
+    {
+        std::shared_lock lock(detector_mutex_);
+        detector = tensor_node_detector_fn_;
+    }
 
-    for (const auto& fn : kTensorFunctions) {
-        if (upper_desc.find(fn) != std::string::npos) {
-            // Estimate costs.
-            // Use heuristic parameters; in Phase 3 these will be derived from
-            // the AQL IR's actual tensor operand metadata.
-            constexpr std::size_t kDefaultOrder    = 4;
-            constexpr std::size_t kDefaultModeSize = 16;
-            constexpr std::size_t kDefaultRank     = 8;
-
-            const double tt_cost = estimateTTCost(fn,
-                                                   kDefaultOrder,
-                                                   kDefaultModeSize,
-                                                   kDefaultRank);
-            // Baseline: dense reconstruction cost O(n^d)
-            const double dense_cost = std::pow(
-                static_cast<double>(kDefaultModeSize),
-                static_cast<double>(kDefaultOrder));
-
-            last_stats_.total_baseline_cost  += dense_cost;
-            last_stats_.total_optimized_cost += tt_cost;
-
-            node.type          = PlanNodeType::TensorContraction;
-            node.estimated_cost = tt_cost;
-            node.description   = "[TT-domain] " + node.description;
-            ++last_stats_.nodes_rewritten;
-            break;  // only rewrite once per node
+    std::optional<std::string> detected_fn;
+    if (detector) {
+        try {
+            detected_fn = detector(node);
+        } catch (const std::exception&) {
+            // Fail closed to deterministic description scan below.
+            detected_fn.reset();
         }
+    }
+
+    std::string matched_function;
+    if (detected_fn.has_value() && isTensorFunction(*detected_fn)) {
+        matched_function = *detected_fn;
+    } else {
+        // Check whether this node's description mentions a tensor function.
+        std::string upper_desc;
+        upper_desc.reserve(node.description.size());
+        for (char c : node.description)
+            upper_desc += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+
+        for (const auto& fn : kTensorFunctions) {
+            if (upper_desc.find(fn) != std::string::npos) {
+                matched_function = fn;
+                break;
+            }
+        }
+    }
+
+    if (!matched_function.empty()) {
+        // Estimate costs.
+        // Use heuristic parameters; in Phase 3 these will be derived from
+        // the AQL IR's actual tensor operand metadata.
+        constexpr std::size_t kDefaultOrder    = 4;
+        constexpr std::size_t kDefaultModeSize = 16;
+        constexpr std::size_t kDefaultRank     = 8;
+
+        const double tt_cost = estimateTTCost(matched_function,
+                                              kDefaultOrder,
+                                              kDefaultModeSize,
+                                              kDefaultRank);
+        // Baseline: dense reconstruction cost O(n^d)
+        const double dense_cost = std::pow(
+            static_cast<double>(kDefaultModeSize),
+            static_cast<double>(kDefaultOrder));
+
+        last_stats_.total_baseline_cost  += dense_cost;
+        last_stats_.total_optimized_cost += tt_cost;
+
+        node.type          = PlanNodeType::TensorContraction;
+        node.estimated_cost = tt_cost;
+        node.description   = "[TT-domain] " + node.description;
+        ++last_stats_.nodes_rewritten;
     }
 
     // Recurse into children.

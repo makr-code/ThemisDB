@@ -1,28 +1,20 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            content_fs.cpp                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     300                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 0d8e07c708  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
-    • 2e85cfe4c1  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: content_fs.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=64, M=31, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "content/content_fs.h"
+
+#include <algorithm>
+#include <fmt/format.h>
+#include <iomanip>
+#include <nlohmann/json.hpp>
+#include <openssl/evp.h>
+#include <sstream>
+
 #include "storage/key_schema.h"
 #include "utils/expected.h"
 #include <fmt/format.h>
@@ -37,7 +29,7 @@
 
 namespace themis {
 
-static std::string toHex(const uint8_t* data, size_t len) {
+static std::string toHex(const uint8_t *data, size_t len) {
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
     for (size_t i = 0; i < len; ++i) {
@@ -46,7 +38,7 @@ static std::string toHex(const uint8_t* data, size_t len) {
     return oss.str();
 }
 
-std::string ContentFS::sha256Hex(const std::vector<uint8_t>& data) {
+std::string ContentFS::sha256Hex(const std::vector<uint8_t> &data) {
     unsigned char md[EVP_MAX_MD_SIZE];
     unsigned int mdLen = 0;
 
@@ -66,39 +58,37 @@ std::string ContentFS::sha256Hex(const std::vector<uint8_t>& data) {
     return toHex(md, mdLen);
 }
 
-Result<void> ContentFS::put(const std::string& pk,
-                                 const std::vector<uint8_t>& data,
-                                 const std::string& mime,
-                                 const std::optional<std::string>& sha256_expected_hex) {
+Result<void> ContentFS::put(const std::string &pk, const std::vector<uint8_t> &data, const std::string &mime,
+                            const std::optional<std::string> &sha256_expected_hex) {
     if (pk.empty()) {
-        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, 
-                       "put: pk must not be empty");
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "put: pk must not be empty");
     }
-    
+
     // Compute checksum
     std::string hex = sha256Hex(data);
     if (sha256_expected_hex && !sha256_expected_hex->empty() && *sha256_expected_hex != hex) {
-        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                       fmt::format("put: checksum mismatch for '{}': expected {}, got {}", 
-                                   pk, *sha256_expected_hex, hex));
+        return ErrVoid(
+            errors::ErrorCode::ERR_API_INVALID_REQUEST,
+            fmt::format("put: checksum mismatch for '{}': expected {}, got {}", pk, *sha256_expected_hex, hex));
     }
 
     // Decide storage layout: chunked for large payloads
     const uint64_t total_size = static_cast<uint64_t>(data.size());
-    const bool use_chunked = total_size > chunk_size_bytes_;
+    const bool use_chunked    = total_size > chunk_size_bytes_;
 
     // Write payload
     uint64_t chunk_sz = 0;
-    uint64_t chunks = 0;
+    uint64_t chunks   = 0;
     if (use_chunked) {
         chunk_sz = chunk_size_bytes_;
-        chunks = (total_size + chunk_sz - 1) / chunk_sz;
+        chunks   = (total_size + chunk_sz - 1) / chunk_sz;
         // Write chunks sequentially
         for (uint64_t i = 0; i < chunks; ++i) {
             uint64_t off = i * chunk_sz;
             uint64_t end = std::min<uint64_t>(total_size, off + chunk_sz);
             std::vector<uint8_t> part;
-            part.insert(part.end(), data.begin() + static_cast<ptrdiff_t>(off), data.begin() + static_cast<ptrdiff_t>(end));
+            part.insert(part.end(), data.begin() + static_cast<ptrdiff_t>(off),
+                        data.begin() + static_cast<ptrdiff_t>(end));
             if (!db_.put(chunkKey(pk, i), part)) {
                 return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                                fmt::format("put: failed to write chunk {} for '{}'", i, pk));
@@ -116,7 +106,7 @@ Result<void> ContentFS::put(const std::string& pk,
         auto oldMeta = db_.get(metaKey(pk));
         if (oldMeta) {
             try {
-                auto jm = nlohmann::json::from_cbor(*oldMeta);
+                auto jm             = nlohmann::json::from_cbor(*oldMeta);
                 uint64_t old_chunks = jm.value("chunks", static_cast<uint64_t>(0));
                 for (uint64_t i = 0; i < old_chunks; ++i) db_.del(chunkKey(pk, i));
             } catch (const std::exception&) {}
@@ -125,13 +115,13 @@ Result<void> ContentFS::put(const std::string& pk,
 
     // Serialize metadata as CBOR JSON
     nlohmann::json j;
-    j["pk"] = pk;
-    j["mime"] = mime;
-    j["size"] = total_size;
+    j["pk"]         = pk;
+    j["mime"]       = mime;
+    j["size"]       = total_size;
     j["sha256_hex"] = hex;
     j["chunk_size"] = use_chunked ? chunk_sz : 0;
-    j["chunks"] = use_chunked ? chunks : 0;
-    auto metaBytes = nlohmann::json::to_cbor(j);
+    j["chunks"]     = use_chunked ? chunks : 0;
+    auto metaBytes  = nlohmann::json::to_cbor(j);
 
     if (!db_.put(metaKey(pk), metaBytes)) {
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
@@ -140,26 +130,26 @@ Result<void> ContentFS::put(const std::string& pk,
     return OkVoid();
 }
 
-Result<std::vector<uint8_t>> ContentFS::get(const std::string& pk) const {
+Result<std::vector<uint8_t>> ContentFS::get(const std::string &pk) const {
     // Read meta first to decide storage format
     auto meta = db_.get(metaKey(pk));
     if (!meta) {
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
-                                          fmt::format("get: content '{}' not found", pk));
+                                         fmt::format("get: content '{}' not found", pk));
     }
-    
+
     try {
-        auto j = nlohmann::json::from_cbor(*meta);
+        auto j          = nlohmann::json::from_cbor(*meta);
         uint64_t chunks = j.value("chunks", static_cast<uint64_t>(0));
         if (chunks == 0) {
             auto blob = db_.get(blobKey(pk));
             if (!blob) {
                 return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
-                                                   fmt::format("get: blob for '{}' not found", pk));
+                                                 fmt::format("get: blob for '{}' not found", pk));
             }
             return Ok(std::move(*blob));
         } else {
-            uint64_t total = j.value("size", static_cast<uint64_t>(0));
+            uint64_t total                     = j.value("size", static_cast<uint64_t>(0));
             [[maybe_unused]] uint64_t chunk_sz = j.value("chunk_size", chunk_size_bytes_);
             std::vector<uint8_t> out;
             out.reserve(static_cast<size_t>(total));
@@ -167,7 +157,7 @@ Result<std::vector<uint8_t>> ContentFS::get(const std::string& pk) const {
                 auto part = db_.get(chunkKey(pk, i));
                 if (!part) {
                     return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                                                       fmt::format("get: missing chunk {} for '{}'", i, pk));
+                                                     fmt::format("get: missing chunk {} for '{}'", i, pk));
                 }
                 out.insert(out.end(), part->begin(), part->end());
             }
@@ -179,60 +169,67 @@ Result<std::vector<uint8_t>> ContentFS::get(const std::string& pk) const {
     }
 }
 
-Result<std::vector<uint8_t>> ContentFS::getRange(const std::string& pk, uint64_t offset, uint64_t length) const {
+Result<std::vector<uint8_t>> ContentFS::getRange(const std::string &pk, uint64_t offset, uint64_t length) const {
     auto meta = db_.get(metaKey(pk));
     if (!meta) {
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
-                                          fmt::format("getRange: content '{}' not found", pk));
+                                         fmt::format("getRange: content '{}' not found", pk));
     }
-    
+
     try {
-        auto j = nlohmann::json::from_cbor(*meta);
-        uint64_t total = j.value("size", static_cast<uint64_t>(0));
+        auto j          = nlohmann::json::from_cbor(*meta);
+        uint64_t total  = j.value("size", static_cast<uint64_t>(0));
         uint64_t chunks = j.value("chunks", static_cast<uint64_t>(0));
-        
+
         if (offset > total) {
-            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                              fmt::format("getRange: offset {} beyond end {} for '{}'", offset, total, pk));
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                fmt::format("getRange: offset {} beyond end {} for '{}'", offset, total, pk));
         }
-        
+
         uint64_t end = (length == 0) ? total : std::min(total, offset + length);
-        if (end < offset) end = offset;
+        if (end < offset)
+            end = offset;
         std::vector<uint8_t> out;
         out.reserve(static_cast<size_t>(end - offset));
-        
+
         if (chunks == 0) {
             // Unchunked: slice from full blob (fallback)
             auto blob = db_.get(blobKey(pk));
             if (!blob) {
                 return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
-                                                   fmt::format("getRange: blob for '{}' not found", pk));
+                                                 fmt::format("getRange: blob for '{}' not found", pk));
             }
-            out.insert(out.end(), blob->begin() + static_cast<ptrdiff_t>(offset), blob->begin() + static_cast<ptrdiff_t>(end));
+            out.insert(out.end(), blob->begin() + static_cast<ptrdiff_t>(offset),
+                       blob->begin() + static_cast<ptrdiff_t>(end));
             return Ok(std::move(out));
         } else {
-            uint64_t chunk_sz = j.value("chunk_size", chunk_size_bytes_);
+            uint64_t chunk_sz  = j.value("chunk_size", chunk_size_bytes_);
             uint64_t start_idx = offset / chunk_sz;
-            uint64_t end_idx = (end == 0) ? 0 : ((end - 1) / chunk_sz);
-            
+            uint64_t end_idx   = (end == 0) ? 0 : ((end - 1) / chunk_sz);
+
             if (start_idx >= chunks) {
                 return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
-                                                  fmt::format("getRange: offset beyond end for '{}'", pk));
+                                                 fmt::format("getRange: offset beyond end for '{}'", pk));
             }
-            if (end_idx >= chunks) end_idx = chunks - 1;
-            
+            if (end_idx >= chunks)
+                end_idx = chunks - 1;
+
             for (uint64_t i = start_idx; i <= end_idx; ++i) {
                 auto part = db_.get(chunkKey(pk, i));
                 if (!part) {
                     return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                                                       fmt::format("getRange: missing chunk {} for '{}'", i, pk));
+                                                     fmt::format("getRange: missing chunk {} for '{}'", i, pk));
                 }
-                uint64_t chunk_off = i * chunk_sz;
+                uint64_t chunk_off  = i * chunk_sz;
                 uint64_t part_start = (i == start_idx) ? (offset - chunk_off) : 0;
-                uint64_t part_end = (i == end_idx) ? (end - chunk_off) : static_cast<uint64_t>(part->size());
-                if (part_end > part->size()) part_end = static_cast<uint64_t>(part->size());
-                if (part_start > part_end) part_start = part_end;
-                out.insert(out.end(), part->begin() + static_cast<ptrdiff_t>(part_start), part->begin() + static_cast<ptrdiff_t>(part_end));
+                uint64_t part_end   = (i == end_idx) ? (end - chunk_off) : static_cast<uint64_t>(part->size());
+                if (part_end > part->size())
+                    part_end = static_cast<uint64_t>(part->size());
+                if (part_start > part_end)
+                    part_start = part_end;
+                out.insert(out.end(), part->begin() + static_cast<ptrdiff_t>(part_start),
+                           part->begin() + static_cast<ptrdiff_t>(part_end));
             }
             return Ok(std::move(out));
         }
@@ -242,22 +239,22 @@ Result<std::vector<uint8_t>> ContentFS::getRange(const std::string& pk, uint64_t
     }
 }
 
-Result<ContentMeta> ContentFS::head(const std::string& pk) const {
+Result<ContentMeta> ContentFS::head(const std::string &pk) const {
     auto meta = db_.get(metaKey(pk));
     if (!meta) {
         return Err<ContentMeta>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
-                                 fmt::format("head: content '{}' not found", pk));
+                                fmt::format("head: content '{}' not found", pk));
     }
-    
+
     try {
         auto j = nlohmann::json::from_cbor(*meta);
         ContentMeta m;
-        m.pk = j.value("pk", pk);
-        m.mime = j.value("mime", std::string{});
-        m.size = j.value("size", static_cast<uint64_t>(0));
+        m.pk         = j.value("pk", pk);
+        m.mime       = j.value("mime", std::string{});
+        m.size       = j.value("size", static_cast<uint64_t>(0));
         m.sha256_hex = j.value("sha256_hex", std::string{});
         m.chunk_size = j.value("chunk_size", static_cast<uint64_t>(0));
-        m.chunks = j.value("chunks", static_cast<uint64_t>(0));
+        m.chunks     = j.value("chunks", static_cast<uint64_t>(0));
         return Ok(std::move(m));
     } catch (const std::exception&) {
         return Err<ContentMeta>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
@@ -265,7 +262,7 @@ Result<ContentMeta> ContentFS::head(const std::string& pk) const {
     }
 }
 
-Result<void> ContentFS::remove(const std::string& pk) {
+Result<void> ContentFS::remove(const std::string &pk) {
     // Read meta to know if chunked
     uint64_t chunks = 0;
     if (auto meta = db_.get(metaKey(pk))) {
@@ -274,18 +271,18 @@ Result<void> ContentFS::remove(const std::string& pk) {
             chunks = j.value("chunks", static_cast<uint64_t>(0));
         } catch (const std::exception&) {}
     }
-    
+
     [[maybe_unused]] bool ok1 = db_.del(metaKey(pk));
     [[maybe_unused]] bool ok2 = db_.del(blobKey(pk));
-    bool ok3 = false;
+    bool ok3                  = false;
     if (chunks > 0) {
         ok3 = true;
         for (uint64_t i = 0; i < chunks; ++i) {
             bool r = db_.del(chunkKey(pk, i));
-            ok3 = ok3 && r;
+            ok3    = ok3 && r;
         }
     }
-    
+
     // Note: delete operations are best-effort, we succeed even if nothing was found
     // This makes remove() idempotent
     return OkVoid();

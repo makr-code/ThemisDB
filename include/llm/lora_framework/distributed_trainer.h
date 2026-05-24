@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            distributed_trainer.h                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     277                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: distributed_trainer.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -136,6 +125,16 @@ public:
      * are expected to overwrite their copy with rank-0's values.
      */
     using BroadcastFn = std::function<void(std::vector<float>&)>;
+
+    /**
+     * @brief Function type for CPU-side gradient AllReduce.
+     *
+     * Inject a real MPI_Allreduce / Gloo allreduce via setAllReduceCpuFn().
+     * The function must perform the sum-and-divide-by-world-size reduction
+     * in-place across all ranks.  It must not throw; exceptions are caught
+     * and logged as errors.
+     */
+    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
     explicit DistributedTrainer(const DistributedConfig& config);
     ~DistributedTrainer();
     
@@ -180,6 +179,16 @@ public:
      * @brief Barrier synchronization (wait for all processes)
      */
     void barrier();
+
+    /**
+     * @brief Function type for CPU AllReduce across training ranks.
+     *
+     * The callable receives the gradient vector in-place and must perform the
+     * collective reduction (sum + divide by world_size) across all ranks.
+     * A real implementation uses MPI_Allreduce, Gloo allreduce, or a shared-
+     * memory ring-reduce.
+     */
+    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
 
     /**
      * @brief Inject a real barrier implementation (NCCL/MPI/Gloo).

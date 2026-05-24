@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            subscription_multiplexer.h                         ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-07-01 00:00:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 INTERFACE-ONLY (Q3 2026)                     ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     95                                              ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📋 Interface Header — Implementation Target Q3 2026         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: subscription_multiplexer.h | Version: 0.1.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

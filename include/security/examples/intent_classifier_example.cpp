@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: intent_classifier_example.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=0, H=0, M=1, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // SPDX-License-Identifier: Apache-2.0
 // Example: IntentClassifier — semantic query-intent analysis
 //
@@ -13,7 +21,6 @@
 //
 // NOTE: IntentClassifier (IMPL-B7) is not yet implemented.
 //
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include <iostream>
 #include <string>

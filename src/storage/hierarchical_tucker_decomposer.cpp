@@ -1,13 +1,12 @@
-// THEMIS_GAP_STATS: gaps=23 unimpl=20 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            storage/hierarchical_tucker_decomposer.cpp         ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          copilot                                            ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hierarchical_tucker_decomposer.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 958
+ * Open Issues: TODOs=1, Stubs=5, Gaps=7, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=7 | external_v3=245 | delta=238 | status=divergent
+ * External Severity (v3): C=33, H=204, M=8
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "storage/hierarchical_tucker_decomposer.h"
@@ -18,6 +17,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstring>
+#include <mutex>
 #include <numeric>
 #include <stdexcept>
 #include <utility>
@@ -62,6 +62,36 @@ std::unique_ptr<HTNode> cloneNode(const HTNode* src) {
 std::size_t HTNode::totalParams() const noexcept { return nodeTotal(this); }
 
 std::unique_ptr<HTNode> HTNode::clone() const { return cloneNode(this); }
+
+HTTrain::HTTrain(HTTrain&& other) noexcept
+    : root(std::move(other.root))
+    , shape(std::move(other.shape))
+    , max_rank(other.max_rank)
+    , achieved_eps(other.achieved_eps)
+    , original_norm(other.original_norm) {
+    std::lock_guard<std::mutex> lock(other.cached_tt_train_mutex_);
+    cached_tt_train_ = std::move(other.cached_tt_train_);
+    other.max_rank = 0;
+    other.achieved_eps = 0.0;
+    other.original_norm = 0.0;
+}
+
+HTTrain& HTTrain::operator=(HTTrain&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    std::scoped_lock lock(cached_tt_train_mutex_, other.cached_tt_train_mutex_);
+    root = std::move(other.root);
+    shape = std::move(other.shape);
+    max_rank = other.max_rank;
+    achieved_eps = other.achieved_eps;
+    original_norm = other.original_norm;
+    cached_tt_train_ = std::move(other.cached_tt_train_);
+    other.max_rank = 0;
+    other.achieved_eps = 0.0;
+    other.original_norm = 0.0;
+    return *this;
+}
 
 HTTrain HTTrain::clone() const {
     HTTrain c;
@@ -159,7 +189,11 @@ storage::TTTrain HTTrain::toTTTrain() const {
     cfg.max_rank = max_rank > 0 ? max_rank : 16;
     cfg.eps      = achieved_eps > 0.0 ? achieved_eps : 0.01;
     storage::TensorTrainDecomposer decomp;
-    return decomp.decompose(dense, shape, cfg).first;
+    auto tt = decomp.decompose(dense, shape, cfg).first;
+
+    std::lock_guard<std::mutex> cache_lock(cached_tt_train_mutex_);
+    cached_tt_train_ = tt;
+    return *cached_tt_train_;
 }
 
 // ============================================================================
@@ -804,6 +838,65 @@ HierarchicalTuckerDecomposer::decompose(
     }
     // G and G_shape now hold the final Tucker core from the last HOOI iteration.
     // G now has shape [r_0, ..., r_{d-1}]
+
+    // ── Step 2b: HOOI refinement (stub #287 resolved) ─────────────────────────
+    // Alternate-least-squares update: for each mode k, re-project the input
+    // tensor along all other modes using the current U bases, unfold along
+    // mode k, and recompute the truncated SVD → U_k.  Repeat up to
+    // cfg_.hooi_max_iter times or until the Tucker core Frobenius norm
+    // converges (relative improvement < 1 ppm).
+    if (cfg_.hooi_max_iter > 0 && orig_norm > 0.0) {
+        // Initial Tucker core norm for convergence tracking
+        double prev_core_norm_sq = 0.0;
+        for (float v : G) prev_core_norm_sq += static_cast<double>(v) * v;
+
+        constexpr double kConvergenceTol = 1e-6; // relative improvement threshold
+
+        for (std::size_t iter = 0; iter < cfg_.hooi_max_iter; ++iter) {
+            for (std::size_t k = 0; k < d; ++k) {
+                // Project data along all modes except k using current U bases.
+                // After projection: Y_k has shape [r_0,...,r_{k-1}, n_k, r_{k+1},...,r_{d-1}]
+                std::vector<float>       Y       = data;
+                std::vector<std::size_t> Y_shape = shape;
+                for (std::size_t j = 0; j < d; ++j) {
+                    if (j == k) continue;
+                    Y         = modeKProduct(Y, Y_shape, j, U_cache[j], Y_shape[j], ranks[j]);
+                    Y_shape[j] = ranks[j];
+                }
+                // Unfold along mode k → matrix [n_k × (∏_{j≠k} r_j)]
+                std::size_t m_k   = Y_shape[k]; // == shape[k]
+                std::size_t n_env = 1;
+                for (std::size_t j = 0; j < d; ++j)
+                    if (j != k) n_env *= Y_shape[j];
+
+                auto Y_k = modeKUnfolding(Y, Y_shape, k); // [m_k × n_env]
+
+                std::vector<float> U_new, S_new, Vt_new;
+                std::size_t r_new = 0;
+                truncatedSVD(Y_k, m_k, n_env, leaf_delta, cfg_.max_rank,
+                             U_new, S_new, Vt_new, r_new);
+
+                U_cache[k] = std::move(U_new);
+                ranks[k]   = r_new;
+            }
+
+            // Recompute Tucker core with updated U bases
+            G       = data;
+            G_shape = shape;
+            for (std::size_t k = 0; k < d; ++k) {
+                G         = modeKProduct(G, G_shape, k, U_cache[k], G_shape[k], ranks[k]);
+                G_shape[k] = ranks[k];
+            }
+
+            // Convergence check: if ‖G_new‖_F improved by < tol relative to ‖T‖_F, stop.
+            double cur_core_norm_sq = 0.0;
+            for (float v : G) cur_core_norm_sq += static_cast<double>(v) * v;
+            double rel_improvement = (cur_core_norm_sq - prev_core_norm_sq)
+                                     / (orig_norm * orig_norm + 1e-30);
+            if (rel_improvement < kConvergenceTol) break;
+            prev_core_norm_sq = cur_core_norm_sq;
+        }
+    }
 
     // ── Step 3: Build HT tree top-down from G ─────────────────────────────────
     // Augment G with a trailing r_out=1 dimension

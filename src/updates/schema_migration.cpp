@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            schema_migration.cpp                               ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:51:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     699                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d331f64d17  2026-04-01  feat: add support for merge operator detection in Changef... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: schema_migration.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 685
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=106 | delta=103 | status=divergent
+ * External Severity (v3): C=0, H=92, M=14
+ * PR: #4218 fix(updates): Address code review feedback on Automatic Schema Migr... (2026-03-14T19:07:04Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -116,7 +104,10 @@ public:
         {
             if (!valid()) return "";
             std::string v;
-            store_->get(keys_[pos_], v);
+            const bool found = store_->get(keys_[pos_], v);
+            if (!found) {
+                return "";
+            }
             return v;
         }
         void next() override

@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            prompt_injection_detector.cpp                      ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 18:50:10                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     285                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: prompt_injection_detector.cpp | Version: 0.0.18 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 268
+ * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=1, Sim=3, Debt=0
+ * Gap Correlation: internal=6 | external_v3=68 | delta=62 | status=divergent
+ * External Severity (v3): C=0, H=48, M=20
+ * PR: #2534 Add prompt injection attack detection layer to prompt_engineering m... (2026-03-11T21:42:56Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "prompt_engineering/prompt_injection_detector.h"

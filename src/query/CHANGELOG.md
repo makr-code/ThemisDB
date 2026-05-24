@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Security audit: injection prevention hardening and resource exhaustion edge cases
 - AQL parser thread-safety refactor (per-thread instances or mutex protection)
+- Enabled fulltext AQL function registration in `registerBuiltinFunctions()` (`registerFulltextFunctions(registry)`), so FULLTEXT/PHRASE/FUZZY/NGRAM_MATCH/TOKENS/SOUNDEX/METAPHONE/DOUBLE_METAPHONE are now available at startup.
 
 ### Fixed
 - **QUERY-REL-001 — Catch-all cleanup in `query_engine.cpp`**

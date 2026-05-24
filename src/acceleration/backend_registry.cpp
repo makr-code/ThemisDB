@@ -1,26 +1,9 @@
-// THEMIS_GAP_STATS: gaps=33 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            backend_registry.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     530                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
-    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
-    • b5921c3ced  2026-04-13  feat(acceleration): BackendRegistry O(n²) → O(k) backend ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: backend_registry.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=21, H=78, M=14, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -57,10 +40,10 @@
  *   src/acceleration/ARCHITECTURE.md           — component diagram and startup flow
  */
 #include "acceleration/compute_backend.h"
-#include "acceleration/plugin_loader.h"
 #include "acceleration/cpu_backend.h"
-#include "acceleration/multi_gpu_backend.h"
 #include "acceleration/device_manager.h"
+#include "acceleration/multi_gpu_backend.h"
+#include "acceleration/plugin_loader.h"
 #include "utils/logger.h"
 #ifdef THEMIS_ENABLE_VULKAN
 #include "acceleration/graphics_backends.h"
@@ -90,19 +73,9 @@ namespace acceleration {
 // The canonical fallback chain: highest priority first, CPU always last.
 // All getBestXBackend() methods traverse this list in order.
 static const std::vector<BackendType> kFallbackOrder = {
-    BackendType::MULTI_GPU,
-    BackendType::CUDA,
-    BackendType::HIP,
-    BackendType::ZLUDA,
-    BackendType::VULKAN,
-    BackendType::DIRECTX,
-    BackendType::ROCM,
-    BackendType::ONEAPI,
-    BackendType::METAL,
-    BackendType::OPENCL,
-    BackendType::OPENGL,
-    BackendType::WEBGPU,
-    BackendType::CPU,
+    BackendType::MULTI_GPU, BackendType::CUDA,   BackendType::HIP,    BackendType::ZLUDA, BackendType::VULKAN,
+    BackendType::DIRECTX,   BackendType::ROCM,   BackendType::ONEAPI, BackendType::METAL, BackendType::OPENCL,
+    BackendType::OPENGL,    BackendType::WEBGPU, BackendType::CPU,
 };
 
 // Singleton instance
@@ -159,7 +132,7 @@ BackendRegistry::~BackendRegistry() {
     shutdownAll();
 }
 
-BackendRegistry& BackendRegistry::instance() {
+BackendRegistry &BackendRegistry::instance() {
     static BackendRegistry instance;
     return instance;
 }
@@ -171,87 +144,97 @@ void BackendRegistry::registerBackend(std::unique_ptr<IComputeBackend> backend) 
 
         // Perform all dynamic_casts once at registration time so the hot
         // query path (selectTyped / getBestXBackend) never needs to cast.
-        const BackendType bt = backend->type();
-        RegisteredBackend& rb = typeIndex_[bt]; // creates default entry if absent
-        if (!rb.base)       rb.base      = backend.get();
-        if (!rb.vectorPtr)  rb.vectorPtr = dynamic_cast<IVectorBackend*>(backend.get());
-        if (!rb.graphPtr)   rb.graphPtr  = dynamic_cast<IGraphBackend*>(backend.get());
-        if (!rb.geoPtr)     rb.geoPtr    = dynamic_cast<IGeoBackend*>(backend.get());
-        if (!rb.matrixPtr)  rb.matrixPtr = dynamic_cast<IMatrixBackend*>(backend.get());
+        const BackendType bt  = backend->type();
+        RegisteredBackend &rb = typeIndex_[bt]; // creates default entry if absent
+        if (!rb.base) {
+            rb.base = backend.get();
+        }
+        if (!rb.vectorPtr) {
+            rb.vectorPtr = dynamic_cast<IVectorBackend *>(backend.get());
+        }
+        if (!rb.graphPtr) {
+            rb.graphPtr = dynamic_cast<IGraphBackend *>(backend.get());
+        }
+        if (!rb.geoPtr) {
+            rb.geoPtr = dynamic_cast<IGeoBackend *>(backend.get());
+        }
+        if (!rb.matrixPtr) {
+            rb.matrixPtr = dynamic_cast<IMatrixBackend *>(backend.get());
+        }
 
         backends_.push_back(std::move(backend));
     }
 }
 
-size_t BackendRegistry::loadPlugins(const std::string& pluginDirectory) {
+size_t BackendRegistry::loadPlugins(const std::string &pluginDirectory) {
     THEMIS_INFO("Loading acceleration plugins from: {}", pluginDirectory);
-    
+
     size_t count = pluginLoader_->loadPluginsFromDirectory(pluginDirectory);
-    
+
     // Register backends from loaded plugins
-    for (auto* plugin : pluginLoader_->getLoadedPlugins()) {
+    for (auto *plugin : pluginLoader_->getLoadedPlugins()) {
         // Try to create each type of backend
         if (auto vectorBackend = plugin->createVectorBackend()) {
             registerBackend(std::move(vectorBackend));
         }
-        
+
         if (auto graphBackend = plugin->createGraphBackend()) {
             registerBackend(std::move(graphBackend));
         }
-        
+
         if (auto geoBackend = plugin->createGeoBackend()) {
             registerBackend(std::move(geoBackend));
         }
     }
-    
+
     return count;
 }
 
-bool BackendRegistry::loadPlugin(const std::string& pluginPath) {
+bool BackendRegistry::loadPlugin(const std::string &pluginPath) {
     THEMIS_INFO("Loading acceleration plugin: {}", pluginPath);
-    
+
     if (!pluginLoader_->loadPlugin(pluginPath)) {
         return false;
     }
-    
+
     // Get the newly loaded plugin
     auto plugins = pluginLoader_->getLoadedPlugins();
     if (!plugins.empty()) {
-        auto* plugin = plugins.back();
-        
+        auto *plugin = plugins.back();
+
         // Null-safety: Validate plugin pointer before use
         if (!plugin) {
             THEMIS_ERROR("Plugin pointer is null after loading");
             return false;
         }
-        
+
         // Register backends
         if (auto vectorBackend = plugin->createVectorBackend()) {
             registerBackend(std::move(vectorBackend));
         }
-        
+
         if (auto graphBackend = plugin->createGraphBackend()) {
             registerBackend(std::move(graphBackend));
         }
-        
+
         if (auto geoBackend = plugin->createGeoBackend()) {
             registerBackend(std::move(geoBackend));
         }
-        
+
         return true;
     }
-    
+
     return false;
 }
 
-IComputeBackend* BackendRegistry::getBackend(BackendType type) const {
+IComputeBackend *BackendRegistry::getBackend(BackendType type) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     auto it = typeIndex_.find(type);
     return (it != typeIndex_.end()) ? it->second.base : nullptr;
 }
 
 // static
-const std::vector<BackendType>& BackendRegistry::getFallbackOrder() noexcept {
+const std::vector<BackendType> &BackendRegistry::getFallbackOrder() noexcept {
     return kFallbackOrder;
 }
 
@@ -259,18 +242,22 @@ const std::vector<BackendType>& BackendRegistry::getFallbackOrder() noexcept {
 // a RegisteredBackend entry.  Specialisations cover all four typed interfaces
 // plus the base IComputeBackend (for selectBackendFor).  The primary template
 // returns nullptr so that an unknown T compiles but produces no result.
-template <typename T>
-static T* getTypedPtr(const RegisteredBackend&) noexcept = delete;
-template <>
-[[maybe_unused]] IComputeBackend* getTypedPtr<IComputeBackend>(const RegisteredBackend& rb) noexcept { return rb.base; }
-template <>
-IVectorBackend*  getTypedPtr<IVectorBackend>(const RegisteredBackend& rb) noexcept  { return rb.vectorPtr; }
-template <>
-IGraphBackend*   getTypedPtr<IGraphBackend>(const RegisteredBackend& rb) noexcept   { return rb.graphPtr; }
-template <>
-IGeoBackend*     getTypedPtr<IGeoBackend>(const RegisteredBackend& rb) noexcept     { return rb.geoPtr; }
-template <>
-IMatrixBackend*  getTypedPtr<IMatrixBackend>(const RegisteredBackend& rb) noexcept  { return rb.matrixPtr; }
+template <typename T> static T *getTypedPtr(const RegisteredBackend &) noexcept = delete;
+template <> [[maybe_unused]] IComputeBackend *getTypedPtr<IComputeBackend>(const RegisteredBackend &rb) noexcept {
+    return rb.base;
+}
+template <> IVectorBackend *getTypedPtr<IVectorBackend>(const RegisteredBackend &rb) noexcept {
+    return rb.vectorPtr;
+}
+template <> IGraphBackend *getTypedPtr<IGraphBackend>(const RegisteredBackend &rb) noexcept {
+    return rb.graphPtr;
+}
+template <> IGeoBackend *getTypedPtr<IGeoBackend>(const RegisteredBackend &rb) noexcept {
+    return rb.geoPtr;
+}
+template <> IMatrixBackend *getTypedPtr<IMatrixBackend>(const RegisteredBackend &rb) noexcept {
+    return rb.matrixPtr;
+}
 
 // Internal helper: traverse kFallbackOrder and return the first backend that
 // satisfies reqs and exposes the typed interface T.  Uses the pre-built
@@ -283,26 +270,32 @@ IMatrixBackend*  getTypedPtr<IMatrixBackend>(const RegisteredBackend& rb) noexce
 // before calling this function.  The lock is NOT acquired here to allow both
 // shared (read-only) and exclusive (write) callers to reuse the same helper.
 template <typename T>
-static T* selectTyped(const std::unordered_map<BackendType, RegisteredBackend>& index,
-                      const BackendRegistry::CapabilityRequirements& reqs) noexcept {
+static T *selectTyped(const std::unordered_map<BackendType, RegisteredBackend> &index,
+                      const BackendRegistry::CapabilityRequirements &reqs) noexcept {
     for (auto type : kFallbackOrder) {
         auto it = index.find(type);
-        if (it == index.end()) continue;
-        T* typed = getTypedPtr<T>(it->second);
-        if (!typed) continue;
-        if (!BackendRegistry::satisfies(typed->getCapabilities(), reqs)) continue;
+        if (it == index.end()) {
+            continue;
+        }
+        T *typed = getTypedPtr<T>(it->second);
+        if (!typed) {
+            continue;
+        }
+        if (!BackendRegistry::satisfies(typed->getCapabilities(), reqs)) {
+            continue;
+        }
         return typed;
     }
     return nullptr;
 }
 
-IComputeBackend* BackendRegistry::selectBackendFor(const CapabilityRequirements& reqs) const {
+IComputeBackend *BackendRegistry::selectBackendFor(const CapabilityRequirements &reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     // Uses the full backends_ list so that all registered IComputeBackend
     // instances (including specialised backends that share a BackendType) are
     // considered.  No dynamic_cast is needed — all backends are IComputeBackend.
     for (auto type : kFallbackOrder) {
-        for (const auto& backend : backends_) {
+        for (const auto &backend : backends_) {
             if (backend->type() == type && satisfies(backend->getCapabilities(), reqs)) {
                 return backend.get();
             }
@@ -311,27 +304,27 @@ IComputeBackend* BackendRegistry::selectBackendFor(const CapabilityRequirements&
     return nullptr;
 }
 
-IVectorBackend* BackendRegistry::selectVectorBackendFor(const CapabilityRequirements& reqs) const {
+IVectorBackend *BackendRegistry::selectVectorBackendFor(const CapabilityRequirements &reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return selectTyped<IVectorBackend>(typeIndex_, reqs);
 }
 
-IGraphBackend* BackendRegistry::selectGraphBackendFor(const CapabilityRequirements& reqs) const {
+IGraphBackend *BackendRegistry::selectGraphBackendFor(const CapabilityRequirements &reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return selectTyped<IGraphBackend>(typeIndex_, reqs);
 }
 
-IGeoBackend* BackendRegistry::selectGeoBackendFor(const CapabilityRequirements& reqs) const {
+IGeoBackend *BackendRegistry::selectGeoBackendFor(const CapabilityRequirements &reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return selectTyped<IGeoBackend>(typeIndex_, reqs);
 }
 
-IMatrixBackend* BackendRegistry::selectMatrixBackendFor(const CapabilityRequirements& reqs) const {
+IMatrixBackend *BackendRegistry::selectMatrixBackendFor(const CapabilityRequirements &reqs) const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return selectTyped<IMatrixBackend>(typeIndex_, reqs);
 }
 
-IVectorBackend* BackendRegistry::getBestVectorBackend() const {
+IVectorBackend *BackendRegistry::getBestVectorBackend() const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     for (auto type : kFallbackOrder) {
         auto it = typeIndex_.find(type);
@@ -342,7 +335,7 @@ IVectorBackend* BackendRegistry::getBestVectorBackend() const {
     return nullptr;
 }
 
-IGraphBackend* BackendRegistry::getBestGraphBackend() const {
+IGraphBackend *BackendRegistry::getBestGraphBackend() const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     for (auto type : kFallbackOrder) {
         auto it = typeIndex_.find(type);
@@ -353,7 +346,7 @@ IGraphBackend* BackendRegistry::getBestGraphBackend() const {
     return nullptr;
 }
 
-IGeoBackend* BackendRegistry::getBestGeoBackend() const {
+IGeoBackend *BackendRegistry::getBestGeoBackend() const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     for (auto type : kFallbackOrder) {
         auto it = typeIndex_.find(type);
@@ -364,7 +357,7 @@ IGeoBackend* BackendRegistry::getBestGeoBackend() const {
     return nullptr;
 }
 
-IMatrixBackend* BackendRegistry::getBestMatrixBackend() const {
+IMatrixBackend *BackendRegistry::getBestMatrixBackend() const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     for (auto type : kFallbackOrder) {
         auto it = typeIndex_.find(type);
@@ -385,33 +378,31 @@ void BackendRegistry::autoDetect() {
     if (MultiGPUVectorBackend::detectGPUCount() >= 2) {
         registerBackend(std::make_unique<MultiGPUVectorBackend>());
     }
-    
+
     // Try to load plugins from standard locations
     std::vector<std::string> pluginPaths = {
-        "./plugins",                    // Current directory
-        "./lib/themis/plugins",         // Relative to binary
+        "./plugins",                     // Current directory
+        "./lib/themis/plugins",          // Relative to binary
         "/usr/local/lib/themis/plugins", // System-wide (Linux)
-        "/opt/themis/plugins",          // Alternative system location
+        "/opt/themis/plugins",           // Alternative system location
 #ifdef _WIN32
         "C:/Program Files/ThemisDB/plugins",
 #endif
     };
-    
-    for (const auto& path : pluginPaths) {
+
+    for (const auto &path : pluginPaths) {
         loadPlugins(path);
     }
-    
+
     // Acquire shared lock only for the read-only logging pass.
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     THEMIS_INFO("Total backends available: {}", backends_.size());
-    
+
     // Print available backends
-    for (const auto& backend : backends_) {
+    for (const auto &backend : backends_) {
         auto caps = backend->getCapabilities();
-        THEMIS_DEBUG("  - {} (Vector:{} Graph:{} Geo:{})", backend->name(),
-                     (caps.supportsVectorOps ? "Yes" : "No"),
-                     (caps.supportsGraphOps  ? "Yes" : "No"),
-                     (caps.supportsGeoOps    ? "Yes" : "No"));
+        THEMIS_DEBUG("  - {} (Vector:{} Graph:{} Geo:{})", backend->name(), (caps.supportsVectorOps ? "Yes" : "No"),
+                     (caps.supportsGraphOps ? "Yes" : "No"), (caps.supportsGeoOps ? "Yes" : "No"));
     }
 }
 
@@ -419,11 +410,11 @@ std::vector<BackendType> BackendRegistry::getAvailableBackends() const {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     std::vector<BackendType> types;
     types.reserve(backends_.size());
-    
-    for (const auto& backend : backends_) {
+
+    for (const auto &backend : backends_) {
         types.push_back(backend->type());
     }
-    
+
     return types;
 }
 
@@ -432,8 +423,8 @@ void BackendRegistry::shutdownAll() {
 
     // Acquire exclusive lock for the full shutdown + clear sequence.
     std::unique_lock<std::shared_mutex> lock(registryMutex_);
-    
-    for (auto& backend : backends_) {
+
+    for (auto &backend : backends_) {
         backend->shutdown();
     }
     backends_.clear();
@@ -445,7 +436,7 @@ void BackendRegistry::shutdownAll() {
     selectedGeoBackend_    = nullptr;
     runtimeInitialized_.store(false, std::memory_order_release);
     cachedDeviceInfo_.clear();
-    
+
     if (pluginLoader_) {
         // Unlock before calling into pluginLoader_ to prevent potential
         // deadlock if a plugin destructor calls back into the registry.
@@ -461,11 +452,10 @@ void BackendRegistry::shutdownAll() {
 // static
 BackendRegistry::CapabilityRequirements BackendRegistry::defaultVectorRequirements() noexcept {
     CapabilityRequirements reqs;
-    reqs.needsVectorOps      = true;
-    reqs.requiredPrecisions  = PrecisionMode::FP32;
-    reqs.requiredMetrics     = metricBit(DistanceMetric::L2)
-                             | metricBit(DistanceMetric::COSINE)
-                             | metricBit(DistanceMetric::INNER_PRODUCT);
+    reqs.needsVectorOps     = true;
+    reqs.requiredPrecisions = PrecisionMode::FP32;
+    reqs.requiredMetrics
+        = metricBit(DistanceMetric::L2) | metricBit(DistanceMetric::COSINE) | metricBit(DistanceMetric::INNER_PRODUCT);
     return reqs;
 }
 
@@ -479,8 +469,8 @@ BackendRegistry::CapabilityRequirements BackendRegistry::defaultGraphRequirement
 // static
 BackendRegistry::CapabilityRequirements BackendRegistry::defaultGeoRequirements() noexcept {
     CapabilityRequirements reqs;
-    reqs.needsGeoOps         = true;
-    reqs.requiredPrecisions  = PrecisionMode::FP32;
+    reqs.needsGeoOps        = true;
+    reqs.requiredPrecisions = PrecisionMode::FP32;
     return reqs;
 }
 
@@ -488,11 +478,9 @@ BackendRegistry::CapabilityRequirements BackendRegistry::defaultGeoRequirements(
 // Runtime startup initialization
 // ---------------------------------------------------------------------------
 
-void BackendRegistry::initializeRuntime(
-    const CapabilityRequirements& vectorReqs,
-    const CapabilityRequirements& graphReqs,
-    const CapabilityRequirements& geoReqs)
-{
+void BackendRegistry::initializeRuntime(const CapabilityRequirements &vectorReqs,
+                                        const CapabilityRequirements &graphReqs,
+                                        const CapabilityRequirements &geoReqs) {
     THEMIS_INFO("Initializing acceleration runtime with capability-driven backend selection...");
 
     // Hardware probing and plugin loading are done without the registry lock
@@ -521,32 +509,31 @@ void BackendRegistry::initializeRuntime(
     // Log the selected backends so operators can confirm the startup choice.
     // Acquire a shared lock for the read-only log pass.
     std::shared_lock<std::shared_mutex> rlock(registryMutex_);
-    auto logSelection = [](const char* category, const IComputeBackend* b) {
+    auto logSelection = [](const char *category, const IComputeBackend *b) {
         if (b) {
-            THEMIS_INFO("[acceleration] Selected {} backend: {} (type={})",
-                        category, b->name(), static_cast<int>(b->type()));
+            THEMIS_INFO("[acceleration] Selected {} backend: {} (type={})", category, b->name(),
+                        static_cast<int>(b->type()));
         } else {
-            THEMIS_WARN("[acceleration] No suitable {} backend found — operation category unavailable.",
-                        category);
+            THEMIS_WARN("[acceleration] No suitable {} backend found — operation category unavailable.", category);
         }
     };
 
     logSelection("vector", selectedVectorBackend_);
-    logSelection("graph",  selectedGraphBackend_);
-    logSelection("geo",    selectedGeoBackend_);
+    logSelection("graph", selectedGraphBackend_);
+    logSelection("geo", selectedGeoBackend_);
 }
 
-IVectorBackend* BackendRegistry::getSelectedVectorBackend() const noexcept {
+IVectorBackend *BackendRegistry::getSelectedVectorBackend() const noexcept {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return selectedVectorBackend_;
 }
 
-IGraphBackend* BackendRegistry::getSelectedGraphBackend() const noexcept {
+IGraphBackend *BackendRegistry::getSelectedGraphBackend() const noexcept {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return selectedGraphBackend_;
 }
 
-IGeoBackend* BackendRegistry::getSelectedGeoBackend() const noexcept {
+IGeoBackend *BackendRegistry::getSelectedGeoBackend() const noexcept {
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return selectedGeoBackend_;
 }
@@ -562,4 +549,3 @@ std::vector<DeviceCapabilityInfo> BackendRegistry::deviceInfo() const noexcept {
 
 } // namespace acceleration
 } // namespace themis
-

@@ -1,24 +1,9 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_server.hpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e7af44ad0c  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_server.hpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=7, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Wire Protocol Server
@@ -99,6 +84,13 @@ class CloseRequest;
 #endif
 
 namespace themis {
+
+// Forward declarations for injectable engine types (stub #281)
+class QueryEngine;
+class TSStore;
+class ProcessGraphManager;
+namespace index { class SpatialIndexManager; }
+
 namespace wire {
 
 // =============================================================================
@@ -188,6 +180,30 @@ struct WireFrameHeader {
 #pragma pack(pop)
 
 static_assert(sizeof(WireFrameHeader) == HEADER_SIZE, "Header must be 12 bytes");
+
+// =============================================================================
+// Engine injection configuration (stub #281)
+// Declared before WireProtocolSession so the session can reference it.
+// =============================================================================
+
+/**
+ * @brief Engine references for the Protobuf wire protocol handlers.
+ *
+ * Passed to WireProtocolServer at construction time and forwarded to each
+ * new WireProtocolSession.  All fields are optional shared_ptrs; a null
+ * pointer keeps the corresponding handler returning a redirect error.
+ */
+struct WireEngineConfig {
+    /// @brief AQL query engine (enables QUERY_AQL, CURSOR_NEXT, CURSOR_CLOSE)
+    std::shared_ptr<QueryEngine> query_engine;
+    /// @brief Spatial index for GEO_QUERY dispatch
+    std::shared_ptr<index::SpatialIndexManager> spatial_index;
+    /// @brief Time-series store for TIMESERIES_QUERY dispatch
+    std::shared_ptr<TSStore> ts_store;
+    /// @brief BPMN process graph manager (enables BPMN_START, BPMN_TASK_COMPLETE,
+    ///        BPMN_QUERY_INSTANCE)
+    std::shared_ptr<ProcessGraphManager> process_graph;
+};
 
 // =============================================================================
 // Wire Protocol Session
@@ -306,12 +322,23 @@ public:
     using socket_t = boost::asio::ip::tcp::socket;
     using error_code = boost::system::error_code;
     
-    WireProtocolSession(socket_t socket);
+    explicit WireProtocolSession(socket_t socket);
     ~WireProtocolSession();
     
     void start();
     void close(const std::string& reason = "");
     void set_disconnect_callback(std::function<void(const std::string&)> callback);
+
+    /**
+     * @brief Inject engine references for stub #281.
+     *
+     * Called by WireProtocolServer immediately after session construction.
+     * The pointer is non-owning (the WireProtocolServer's engines_ field owns
+     * the WireEngineConfig).
+     */
+    void set_engines(const WireEngineConfig* engines) noexcept {
+        engines_ = engines;
+    }
     
     const std::string& session_id() const { return session_id_; }
     bool is_authenticated() const { return authenticated_; }
@@ -367,6 +394,11 @@ private:
     std::function<void(const std::string&)> disconnect_callback_;
     bool disconnect_notified_;
     mutable std::mutex session_mutex_;
+
+    // Non-owning pointer to server-level engine config (stub #281).
+    // Set by WireProtocolServer::handle_accept via set_engines().
+    // Null when no engines have been injected (handlers redirect to REST API).
+    const WireEngineConfig* engines_ = nullptr;
     
     // Statistics
     uint64_t messages_received_;
@@ -383,8 +415,20 @@ class WireProtocolServer {
 public:
     using acceptor_t = boost::asio::ip::tcp::acceptor;
     using endpoint_t = boost::asio::ip::tcp::endpoint;
-    
+
+    /// @brief Minimal constructor (no engine injection; all advanced handlers return redirect errors).
     WireProtocolServer(boost::asio::io_context& io_context, uint16_t port);
+
+    /**
+     * @brief Engine-injected constructor.
+     *
+     * @param io_context Boost.Asio I/O context for async network operations.
+     * @param port        TCP port to listen on.
+     * @param engines     Engine references to wire into session handlers.
+     */
+    WireProtocolServer(boost::asio::io_context& io_context, uint16_t port,
+                       WireEngineConfig engines);
+
     ~WireProtocolServer();
     
     void start();
@@ -408,6 +452,8 @@ private:
     uint64_t total_connections_;
     uint64_t total_messages_;
     bool running_;
+
+    WireEngineConfig engines_;
 };
 
 // =============================================================================

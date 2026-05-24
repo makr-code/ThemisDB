@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_shard_router.h                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     297                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_shard_router.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -29,6 +18,9 @@
 #include <memory>
 #include <mutex>
 #include <chrono>
+#include <functional>
+#include <optional>
+#include <string_view>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
@@ -49,6 +41,8 @@ namespace themis::sharding {
  */
 class AdaptiveShardRouter : public ShardRouter {
 public:
+    using NlpContextFn = std::function<std::optional<CapabilityMatcher::QueryContext>(std::string_view)>;
+
     /**
      * Configuration for adaptive routing
      */
@@ -254,10 +248,25 @@ public:
         return adaptive_config_;
     }
 
+    /**
+     * Inject an NLP context builder that can provide domain/organization/region hints
+     * for adaptive shard routing.
+     *
+     * @param fn Callback that returns enriched query context metadata. Returning
+     *           std::nullopt falls back to keyword-based heuristics.
+     */
+    void setNlpContextFn(NlpContextFn fn);
+
+    /**
+     * Clear a previously injected NLP context builder.
+     */
+    void clearNlpContextFn();
+
 private:
     std::shared_ptr<ShardTopology> topology_;
     std::shared_ptr<CapabilityMatcher> matcher_;
     AdaptiveConfig adaptive_config_;
+    NlpContextFn nlp_context_fn_;
 
     // ─── NlpContextFn bridge (stub #291) ─────────────────────────────────────
 

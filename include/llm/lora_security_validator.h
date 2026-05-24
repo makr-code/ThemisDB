@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_security_validator.h                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     405                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f34b955773  2026-03-15  feat: implement LoRACertificateStore and fail-closed cert... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_security_validator.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -107,7 +93,9 @@ struct LoRASecurityConfig {
 class LoRASecurityValidator {
 public:
     explicit LoRASecurityValidator(const LoRASecurityConfig& config);
-    ~LoRASecurityValidator() = default;
+    /// @brief Virtual destructor to allow safe polymorphic use in tests and
+    ///        custom validator implementations injected via Config::security_validator.
+    virtual ~LoRASecurityValidator() = default;
     
     /**
      * @brief Verify signature of a LoRa adapter file
@@ -155,10 +143,14 @@ public:
      * - Size constraints
      * - Format version
      * 
+     * Virtual to allow test doubles and custom validators to be injected via
+     * MultiLoRAManager::Config::security_validator without subclassing the
+     * full implementation.
+     *
      * @param lora_path Path to LoRa adapter file
      * @return true if metadata is valid
      */
-    bool validateMetadata(const std::string& lora_path);
+    virtual bool validateMetadata(const std::string& lora_path);
     
     /**
      * @brief Detect anomalies in LoRa weights

@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            storage/hierarchical_tucker_decomposer.h           ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 5 (Q1 2028)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hierarchical_tucker_decomposer.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=12; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -22,12 +17,16 @@
  *
  * 1. **HOSVD leaves**: for each mode k compute the truncated SVD of the mode-k
  *    unfolding T_(k) ∈ ℝ^{n_k × (N/n_k)} → U_k ∈ ℝ^{n_k × r_k}.
+ *    Delegated to `TensorTrainDecomposer::truncatedSVD()` (Golub-Reinsch).
  *
  * 2. **HOOI refinement**: run alternating mode updates using projected
  *    unfoldings until reconstruction error converges or the configured
  *    tolerance is reached.
  *
- * 3. **HT transfer tensors** (top-down balanced binary split):
+ * 3. **HOOI refinement** (cfg.hooi_max_iter, default 3): alternating-least-
+ *    squares update of each U_k by re-projecting T along all other modes.
+ *
+ * 4. **HT transfer tensors** (top-down balanced binary split):
  *    Starting from the full Tucker core G (augmented with a trailing 1-dim to
  *    represent rank_out = 1 at the root), each internal node [L, R) with
  *    split M = (L+R)/2 runs two sequential SVDs:
@@ -63,8 +62,10 @@ namespace storage {
  * @brief Configuration for HierarchicalTuckerDecomposer.
  */
 struct HTConfig {
-    std::size_t max_rank = 16;  ///< Maximum rank per node (clamped to min(n_k, N/n_k))
-    double      eps      = 0.01; ///< Relative reconstruction error tolerance
+    std::size_t max_rank      = 16;  ///< Maximum rank per node (clamped to min(n_k, N/n_k))
+    double      eps           = 0.01; ///< Relative reconstruction error tolerance
+    std::size_t hooi_max_iter = 3;   ///< HOOI refinement iterations after HOSVD initialisation
+                                     ///< (0 = HOSVD-only, no alternating optimisation)
 };
 
 // ============================================================================

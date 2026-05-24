@@ -407,7 +407,7 @@ cudaError_t launch_quantize_nf4_kernel(
     cudaStream_t stream
 ) {
     size_t num_blocks = (num_elements + block_size - 1) / block_size;
-    int threads_per_block = min((int)block_size, 256);
+    int threads_per_block = min(static_cast<int>(block_size), 256);
     
     // Initialize output to zero
     if (stream) {
@@ -436,7 +436,7 @@ cudaError_t launch_quantize_int8_kernel(
     cudaStream_t stream
 ) {
     size_t num_blocks = (num_elements + block_size - 1) / block_size;
-    int threads_per_block = min((int)block_size, 256);
+    int threads_per_block = min(static_cast<int>(block_size), 256);
     
     if (stream) {
         quantize_int8_kernel<<<num_blocks, threads_per_block, 0, stream>>>(

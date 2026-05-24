@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=3 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            feedback_store.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     863                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: feedback_store.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 85/100 | Lines: 884
+ * Open Issues: TODOs=3, Stubs=5, Gaps=11, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=11 | external_v3=182 | delta=171 | status=divergent
+ * External Severity (v3): C=1, H=144, M=37
+ * PR: #1214 Add null-pointer safety utilities and fix RocksDB iterator crashes (2026-03-11T17:48:21Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/feedback_store.h"
@@ -26,6 +17,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <mutex>
 #include <regex>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
@@ -568,10 +560,29 @@ const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
     // Production Delta: Keyword set is fixed at compile time.
     // Removal Plan: Inject via setSpamKeywordsProviderFn(). Target: v2.0.0.
     static const std::vector<std::string> spam_keywords = {
-        "buy now", "click here", "viagra", "casino", "lottery", 
+        "buy now", "click here", "viagra", "casino", "lottery",
         "free money", "million dollars", "nigerian prince",
         "weight loss", "work from home", "make money fast"
     };
+
+    // Delegate to the injected runtime provider when available (stub #296 resolved).
+    // Provider may load keywords from a config file or database table without recompilation.
+    {
+        std::lock_guard<std::mutex> lock(s_spam_kw_mutex);
+        if (s_spam_kw_provider) {
+            // Cache per-call result in a thread_local to satisfy the const-ref return type.
+            thread_local std::vector<std::string> cached;
+            try {
+                cached = s_spam_kw_provider();
+            } catch (...) {
+                // Fall back to static list on provider failure.
+                return spam_keywords;
+            }
+            if (!cached.empty()) {
+                return cached;
+            }
+        }
+    }
     return spam_keywords;
 }
 

@@ -1,4 +1,3 @@
-// THEMIS_GAP_STATS: gaps=44 unimpl=20 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -327,6 +326,7 @@ static std::vector<std::string> buildChunkWhitelist(
             }
         } catch (const std::exception&) {
             // ignore parsing errors
+            THEMIS_DEBUG("content meta parse failed in whitelist scan: {}", e.what());
         }
         return true;
     });
@@ -641,8 +641,8 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
 
             std::vector<uint8_t> to_store;
             size_t original_size = bb.size();
-            size_t compressed_size = original_size;
-            float compression_ratio = 1.0f;
+            [[maybe_unused]] size_t compressed_size = original_size;
+            [[maybe_unused]] float compression_ratio = 1.0f;
             
             if (should_compress(meta.mime_type, bb.size())) {
 #ifdef THEMIS_HAS_ZSTD
@@ -778,7 +778,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     }
                 }
             }
-        } catch (const std::exception& e) {
+        } catch (const nlohmann::json::exception& e) {
             // Config parsing failed - continue with defaults (auto_fulltext_index = false)
             // This is acceptable as the feature is opt-in
             THEMIS_DEBUG("Failed to parse content config for fulltext index: {}", e.what());

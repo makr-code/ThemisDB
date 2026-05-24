@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_api_handler.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     267                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_api_handler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -34,6 +23,7 @@
 
 #pragma once
 
+#include "server/auth_middleware.h"
 #include <boost/beast.hpp>
 #include <memory>
 #include <string>
@@ -50,6 +40,13 @@ class VoiceAssistant;
 namespace utils {
 class HTTPClientPool;
 }
+class AuthMiddleware;
+}
+
+// Forward-declare AuthMiddleware so callers can pass it without pulling in the
+// full header in most translation units.
+namespace themis {
+class AuthMiddleware;
 }
 
 namespace themis::server {
@@ -98,11 +95,25 @@ using json = nlohmann::json;
 class VoiceApiHandler {
 public:
     /**
-     * @brief Construct Voice API handler
-     * 
-     * @param voice_assistant Voice assistant instance
+     * @brief Construct Voice API handler.
+     *
+     * @param voice_assistant  Voice assistant instance (required).
+     * @param auth             Optional authentication middleware.  When non-null
+     *                         and enabled, every request is validated via the
+     *                         repository-wide JWT/OIDC stack.  When null the
+     *                         handler operates in open mode (non-empty bearer
+     *                         token check only) for backward compatibility.
      */
     explicit VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant);
+
+    /**
+     * @brief Construct Voice API handler with authentication middleware.
+     *
+     * @param voice_assistant Voice assistant instance
+     * @param auth            Authentication middleware for JWT/OIDC bearer-token validation
+     */
+    VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant,
+                    std::shared_ptr<::themis::AuthMiddleware> auth);
     
     /**
      * @brief Configure JWT Bearer Token validation.

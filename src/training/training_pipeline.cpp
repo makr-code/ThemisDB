@@ -1,24 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            training_pipeline.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     743                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: training_pipeline.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 727
+ * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=1, Sim=3, Debt=0
+ * Gap Correlation: internal=6 | external_v3=161 | delta=155 | status=divergent
+ * External Severity (v3): C=8, H=114, M=39
+ * PR: #4349 Implement training module: abstract interfaces, HyperparamSearch, a... (2026-03-20T17:57:00Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -230,7 +218,7 @@ public:
             if (callback) callback("training", 0, "Starting LoRA training stage");
 
             TrainingResult tr = trainer_->train(TrainingMode::INITIAL,
-                [&]([[maybe_unused]] size_t epoch, size_t step, double loss, const std::string& msg) {
+                [&]([[maybe_unused]] size_t epoch, size_t step, [[maybe_unused]] double loss, const std::string& msg) {
                     if (callback) callback("training", step, msg);
                 });
 

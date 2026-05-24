@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themis_help_lora.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     247                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themis_help_lora.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -27,6 +16,8 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <functional>
+#include <string_view>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -73,6 +64,18 @@ public:
      * @brief Configuration for ThemisHelpLoRA
      */
     struct Config {
+        /**
+         * @brief Callback used to resolve a GGUF base-model path for a model id.
+         *
+         * @param model_id Logical model identifier (for example "llama-2-7b")
+         * @return Absolute or relative filesystem path to the GGUF model file.
+         *         Return an empty string when no path is available.
+         *
+         * @note When unset, ThemisHelpLoRA falls back to the local convention
+         *       `models/<model_id>.gguf`.
+         */
+        using ModelPathProviderFn = std::function<std::string(std::string_view model_id)>;
+
         std::string adapter_id = "themis_help_lora";
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";

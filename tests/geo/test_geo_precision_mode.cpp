@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_geo_precision_mode.cpp                        ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:51:48                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     262                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_geo_precision_mode.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -334,7 +323,7 @@ TEST(GeoCpuContainmentFn, GEO_CF_04_InjectedFnReceivesCorrectArgs) {
     ISpatialComputeBackend* backend = getCpuExactBackend();
     const GeometryInfo pt  = makePoint(0.5, 0.5);
     const GeometryInfo box = makeBox(0.0, 0.0, 1.0, 1.0);
-    backend->exactIntersects(pt, box);
+    static_cast<void>(backend->exactIntersects(pt, box));
 
     EXPECT_TRUE(fn_called) << "GEO-CF-04: injected fn must be called";
     EXPECT_NEAR(last_px, 0.5, 1e-12) << "GEO-CF-04: px must match point x coordinate";

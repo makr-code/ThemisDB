@@ -1,23 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            usb_volume_hardening.cpp                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:50:45                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     346                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 864799dac9  2026-03-24  feat(security): USB Volume Hardening against FAT manipula... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: usb_volume_hardening.cpp | Version: 0.0.12 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 333
+ * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=2, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=5 | external_v3=63 | delta=58 | status=divergent
+ * External Severity (v3): C=5, H=47, M=11
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/usb_volume_hardening.h"

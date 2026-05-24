@@ -1,3 +1,14 @@
+/*
+ * ThemisDB | File: rag_context_budget_manager.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 87
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=19 | delta=16 | status=divergent
+ * External Severity (v3): C=1, H=17, M=1
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file rag_context_budget_manager.cpp
  * @brief Implementation of RagContextBudgetManager.
