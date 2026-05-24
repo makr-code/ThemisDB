@@ -72,7 +72,7 @@ SelfAwareness::Config SelfAwareness::Config::loadFromYAML(const std::string& yam
             }
         }
         
-    } catch (const std::exception&) {
+    } catch (...) {
         // Use defaults if config fails to load
     }
     
@@ -568,7 +568,7 @@ void SelfAwareness::persistSnapshot(const Snapshot& snapshot) {
         if (ofs) {
             ofs << snapshot.toJSON().dump(2) << "\n";
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Snapshot persistence is best-effort; do not propagate errors
     }
 }
@@ -616,16 +616,16 @@ void SelfAwareness::loadSnapshots() {
                             auto epoch_ms = std::stoll(fname.substr(sep + 1));
                             s.timestamp = std::chrono::system_clock::time_point(
                                 std::chrono::milliseconds(epoch_ms));
-                        } catch (const std::exception&) {}
+                        } catch (...) {}
                     }
                 }
                 s.triggered_by = j.value("triggered_by", "loaded");
                 snapshots_.push_back(std::move(s));
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Skip malformed files
             }
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Snapshot loading is best-effort
     }
 }

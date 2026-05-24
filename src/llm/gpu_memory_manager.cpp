@@ -98,7 +98,7 @@ public:
             }
         } catch (const std::exception& e) {
             spdlog::error("Exception during memory cleanup: {}", e.what());
-        } catch (const std::exception&) {
+        } catch (...) {
             spdlog::error("Unknown exception during memory cleanup");
         }
     }
@@ -1784,12 +1784,7 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     gpu_utilizations_[gpu_device_id] = utilization;
     if (config_.temperature_provider_fn) {
         try {
-            float temperature_celsius = 0.0f;
-            if (config_.temperature_provider_fn(gpu_device_id, temperature_celsius)) {
-                gpu_temperatures_[gpu_device_id] = temperature_celsius;
-            } else {
-                gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
-            }
+            gpu_temperatures_[gpu_device_id] = config_.temperature_provider_fn(gpu_device_id);
         } catch (const std::exception& e) {
             spdlog::error("GPU temperature callback failed for device {}: {}",
                           gpu_device_id, e.what());

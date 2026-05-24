@@ -46,7 +46,7 @@ bool SDPluginAdapter::initialize(const char* config_json) {
             }
         }
         return false;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

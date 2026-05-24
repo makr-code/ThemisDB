@@ -105,7 +105,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
                         outdated_count++;
                     }
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Ignore parsing errors
             }
         }

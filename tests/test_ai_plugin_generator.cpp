@@ -30,14 +30,25 @@ namespace {
 AIPluginGenerator makeGenerator() {
     AIPluginGenerator::Config cfg;
     cfg.llm_endpoint = "http://test.invalid:18080";  // unreachable, clearly-named test fixture
-    cfg.endpoint_invoker = [](const std::string& endpoint, const nlohmann::json& request) -> Result<nlohmann::json> {
+    cfg.endpoint_invoke_fn = [](const std::string& endpoint,
+                                const std::string& request_body,
+                                long) -> themis::Result<std::string> {
+        json request;
+        try {
+            request = json::parse(request_body);
+        } catch (const std::exception& e) {
+            return tl::unexpected(themis::Error(
+                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                std::string("Invalid test request JSON: ") + e.what()));
+        }
+
         if (endpoint.empty() || !request.contains("description")) {
-            return tl::unexpected(Error(
+            return tl::unexpected(themis::Error(
                 themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                 "Invalid test request"));
         }
-        return nlohmann::json{
-            {"plugin", {
+        return json{
+            {"generated_plugin", {
                 {"name", "generated_test_plugin"},
                 {"version", "1.0.0"},
                 {"description", request.value("description", std::string{})},
@@ -50,7 +61,7 @@ AIPluginGenerator makeGenerator() {
                 {"passed_security_checks", true},
                 {"security_report", "ok"}
             }}
-        };
+        }.dump();
     };
     return AIPluginGenerator(cfg);
 }
@@ -121,10 +132,11 @@ TEST(AIPluginGeneratorTest, APG05_GeneratePluginPropagatesValidationError) {
 TEST(AIPluginGeneratorTest, APG06_GeneratePluginReturnsGeneratedPlugin) {
     auto gen = makeGenerator();
     auto result = gen.generatePlugin(validPrompt());
-    // Unreachable endpoint without a test callback should fail with a structured error.
-    EXPECT_FALSE(result.has_value())
-        << "generatePlugin should return error when endpoint cannot be reached";
-    EXPECT_FALSE(result.error().message().empty());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_EQ(result->manifest.name, "generated_test_plugin");
+    EXPECT_EQ(result->manifest.version, "1.0.0");
+    EXPECT_EQ(result->build_dependencies.size(), 1u);
+    EXPECT_TRUE(result->passed_security_checks);
 }
 
 // APG-07: generatePlugin returns a parsed GeneratedPlugin when endpoint callback succeeds.

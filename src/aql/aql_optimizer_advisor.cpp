@@ -38,7 +38,7 @@ bool queryContains(const std::string &upper_query, const std::string &keyword) {
     try {
         std::regex re(pattern);
         return std::regex_search(upper_query, re);
-    } catch (const std::exception&) {
+    } catch (...) {
         return upper_query.find(keyword) != std::string::npos;
     }
 }

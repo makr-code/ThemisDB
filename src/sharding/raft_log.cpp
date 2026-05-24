@@ -519,7 +519,7 @@ std::vector<uint64_t> RaftSnapshotManager::listSnapshots() const {
                 const std::string id_str = name.substr(14, name.size() - 18);
                 try {
                     ids.push_back(std::stoull(id_str));
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
         }
         std::sort(ids.begin(), ids.end(), std::greater<uint64_t>());
@@ -607,7 +607,7 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
                     const std::string id_str = name.substr(14, name.size() - 18);
                     try {
                         ids.push_back(std::stoull(id_str));
-                    } catch (const std::exception&) {}
+                    } catch (...) {}
                 }
             }
         }

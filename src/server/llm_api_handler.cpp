@@ -453,7 +453,7 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
             try {
                 int n = std::stoi(max_tokens_str);
                 if (n > 0 && n <= kMaxTokensLimit) max_tokens = n;
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
     }
 
@@ -1036,7 +1036,7 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
         auto claims = jwt_validator_->parseAndValidate(*token);
         // Token is valid
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         // Token validation failed (expired, invalid signature, etc.)
         return false;
     }
@@ -1084,7 +1084,7 @@ std::optional<json> LLMApiHandler::parseRequestBody(
         if (parsed.is_object()) {
             return parsed;
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
     
@@ -1450,7 +1450,7 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
             try {
                 limit = std::stoul(limit_str);
                 if (limit > 1000) limit = 1000; // Cap at 1000
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
         
         // Parse type filter
@@ -1702,7 +1702,7 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
                 {"owned_by", "themisdb"}
             });
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // If listing fails, return an empty list rather than an error
     }
 

@@ -937,7 +937,7 @@ bool EWKBParser::validate(const std::vector<uint8_t>& ewkb) {
     try {
         parse(ewkb);
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

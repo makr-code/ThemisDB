@@ -218,7 +218,7 @@ ContentExtractionResult AudioProcessor::extract(const std::vector<uint8_t> &blob
                     transcriptions_performed_++;
                     populated = true;
                 }
-            } catch (const std::exception &) {
+            } catch (...) {
                 // Fall through to placeholder transcription below.
             }
 

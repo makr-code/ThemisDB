@@ -96,7 +96,7 @@ bool RLSPredicate::evaluate(const nlohmann::json& row, const SecurityContext& ct
         // Static: parse the stored value string.
         try {
             rhs_json = nlohmann::json::parse(value);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Treat value as plain string if not valid JSON.
             rhs_json = value;
         }

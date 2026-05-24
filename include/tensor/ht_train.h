@@ -206,8 +206,8 @@ struct HTTrain {
         , max_rank(other.max_rank)
         , achieved_eps(other.achieved_eps)
         , original_norm(other.original_norm)
+        , tt_cache_mtx_(std::move(other.tt_cache_mtx_))
         , tt_cache_(std::move(other.tt_cache_))
-        // tt_mutex_ default-constructed
     {}
 
     // Explicit move assignment.
@@ -218,7 +218,7 @@ struct HTTrain {
             max_rank     = other.max_rank;
             achieved_eps = other.achieved_eps;
             original_norm = other.original_norm;
-            std::lock_guard<std::mutex> lock(tt_mutex_);
+            tt_cache_mtx_ = std::move(other.tt_cache_mtx_);
             tt_cache_    = std::move(other.tt_cache_);
         }
         return *this;
@@ -231,11 +231,6 @@ struct HTTrain {
     /// Deep-copy the entire HT tree.
     HTTrain clone() const;
 
-private:
-    // Memoised TT-train conversion cache (stub #286 resolved).
-    // guarded by tt_mutex_; std::shared_ptr allows the cache to outlive a move.
-    mutable std::shared_ptr<storage::TTTrain> tt_cache_;
-    mutable std::mutex                         tt_mutex_;
 };
 
 // ============================================================================

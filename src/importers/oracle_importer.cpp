@@ -249,7 +249,7 @@ std::shared_ptr<ImportHandle> OracleImporter::importDataAsync(
             err.message  = std::string("Unhandled exception in async Oracle import: ") + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (const std::exception&) {
+        } catch (...) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;

@@ -83,7 +83,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
                         for (const auto& ua : n["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.as<std::string>());
                     }
                     return p;
-                } catch (const std::exception&) {
+                } catch (...) {
                     return std::nullopt;
                 }
             };
@@ -133,7 +133,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
             auto mtime = std::filesystem::last_write_time(path);
             last_loaded_mtime_ = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
                 mtime - decltype(mtime)::clock::now() + std::chrono::system_clock::now());
-        } catch (const std::exception&) {
+        } catch (...) {
             last_loaded_mtime_ = std::chrono::system_clock::now();
         }
         return true;
@@ -397,7 +397,7 @@ std::optional<PolicyEngine::Policy> PolicyEngine::fromJson(const json& j) {
         p.time_window_utc_hours_end   = j.value("time_window_utc_hours_end",   -1);
         if (j.contains("allowed_user_agent_patterns")) for (const auto& ua : j["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.get<std::string>());
         return p;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }

@@ -255,7 +255,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
             try {
                 result.steps.push_back(f.get());
                 ++result.steps_executed;
-            } catch (const std::exception&) {
+            } catch (...) {
                 if (!first_exc) first_exc = std::current_exception();
             }
         }

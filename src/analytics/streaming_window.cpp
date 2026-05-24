@@ -471,7 +471,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
     // BUG 3 FIX: fire callbacks outside the lock to prevent re-entrant deadlock.
     if (cb) {
         for (auto& r : pending) {
-            try { cb(r); } catch (const std::exception&) {}
+            try { cb(r); } catch (...) {}
         }
     }
     return true;
@@ -487,7 +487,7 @@ void TumblingWindow::flush() {
     } // mutex_ released
     if (cb) {
         for (auto& r : pending) {
-            try { cb(r); } catch (const std::exception&) {}
+            try { cb(r); } catch (...) {}
         }
     }
 }
@@ -532,7 +532,7 @@ void TumblingWindow::idleTimeoutLoop() {
         }
         if (cb) {
             for (auto& r : pending) {
-                try { cb(r); } catch (const std::exception&) {}
+                try { cb(r); } catch (...) {}
             }
         }
     }
@@ -713,7 +713,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
     // BUG 3 FIX: fire callbacks outside the lock.
     if (cb) {
         for (auto& r : pending) {
-            try { cb(r); } catch (const std::exception&) {}
+            try { cb(r); } catch (...) {}
         }
     }
     return true;
@@ -729,7 +729,7 @@ void SlidingWindow::flush() {
     }
     if (cb) {
         for (auto& r : pending) {
-            try { cb(r); } catch (const std::exception&) {}
+            try { cb(r); } catch (...) {}
         }
     }
 }
@@ -774,7 +774,7 @@ void SlidingWindow::idleTimeoutLoop() {
         }
         if (cb) {
             for (auto& r : pending) {
-                try { cb(r); } catch (const std::exception&) {}
+                try { cb(r); } catch (...) {}
             }
         }
     }
@@ -919,7 +919,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
 
     // BUG 3 FIX: invoke callback outside the mutex to prevent re-entrant deadlock.
     if (has_pending && cb) {
-        try { cb(pending_result); } catch (const std::exception&) {}
+        try { cb(pending_result); } catch (...) {}
     }
     return true;
 }
@@ -942,7 +942,7 @@ void SessionWindow::flush() {
     // BUG 3 FIX: invoke callbacks outside the mutex.
     if (cb) {
         for (auto& r : pending) {
-            try { cb(r); } catch (const std::exception&) {}
+            try { cb(r); } catch (...) {}
         }
     }
 }
@@ -987,7 +987,7 @@ void SessionWindow::expiryLoop() {
         } // mutex_ released before callback (BUG 3 FIX)
         if (cb) {
             for (auto& r : pending) {
-                try { cb(r); } catch (const std::exception&) {}
+                try { cb(r); } catch (...) {}
             }
         }
     }
@@ -1136,7 +1136,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
     // BUG 3 FIX: fire callbacks outside the lock.
     if (cb) {
         for (auto& r : pending) {
-            try { cb(r); } catch (const std::exception&) {}
+            try { cb(r); } catch (...) {}
         }
     }
     return true;
@@ -1152,7 +1152,7 @@ void HoppingWindow::flush() {
     }
     if (cb) {
         for (auto& r : pending) {
-            try { cb(r); } catch (const std::exception&) {}
+            try { cb(r); } catch (...) {}
         }
     }
 }

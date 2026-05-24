@@ -558,7 +558,7 @@ int TenantUpdateScheduler::parseMinutes(const std::string& hhmm)
             return -1;
         }
         return hh * 60 + mm;
-    } catch (const std::exception&) {
+    } catch (...) {
         return -1;
     }
 }

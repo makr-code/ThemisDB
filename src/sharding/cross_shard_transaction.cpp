@@ -365,7 +365,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
         bool prepared = false;
         try {
             prepared = sendPrepare(shard_id, transaction_id);
-        } catch (const std::exception&) {
+        } catch (...) {
             lock.lock();
             participant.prepared = false;
             participant.error_message = "sendPrepare threw an exception";
@@ -1008,7 +1008,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
                 spdlog::error("PreCommit callback threw for shard {} txn={}: {} — treating as NACK",
                               shard_id, txn.transaction_id, ex.what());
                 precommitted = false;
-            } catch (const std::exception&) {
+            } catch (...) {
                 spdlog::error("PreCommit callback threw unknown exception for shard {} txn={} — treating as NACK",
                               shard_id, txn.transaction_id);
                 precommitted = false;

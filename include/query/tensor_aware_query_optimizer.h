@@ -53,6 +53,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -207,6 +208,32 @@ public:
                                                std::size_t order,
                                                std::size_t mode_size,
                                                std::size_t max_rank) noexcept;
+
+    // ─── Detector bridge ──────────────────────────────────────────────────
+
+    /**
+     * @brief Register a node detector that can classify tensor plan nodes
+     *        without relying on description-string scanning.
+     *
+     * The detector receives the current plan node and may return the matched
+     * tensor function name. Returning std::nullopt falls back to the normal
+     * description-scan heuristic. Exceptions are caught and also fall back.
+     *
+     * Thread-safe.
+     *
+     * @param fn Detector callable, or empty to clear.
+     */
+    void setTensorNodeDetectorFn(TensorNodeDetectorFn fn);
+
+    /**
+     * @brief Clear the custom tensor node detector.
+     *
+     * After this call, rewrite() uses only the IR visitor bridge and the
+     * description-scan heuristic.
+     *
+     * Thread-safe.
+     */
+    void clearTensorNodeDetectorFn();
 
     // ─── Statistics ───────────────────────────────────────────────────────
 

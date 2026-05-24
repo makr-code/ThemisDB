@@ -43,7 +43,7 @@ ErrorRegistry::ErrorRegistry() {
         // Avoid throwing from constructor during static initialization
         // Log to stderr directly to avoid logger initialization issues
         std::cerr << "ERROR: ErrorRegistry initialization failed: " << ex.what() << std::endl;
-    } catch (const std::exception&) {
+    } catch (...) {
         std::cerr << "ERROR: ErrorRegistry initialization failed with unknown exception" << std::endl;
     }
 }

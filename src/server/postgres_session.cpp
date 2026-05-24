@@ -602,7 +602,7 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
                 // Non-SELECT query - send NoData
                 sendNoData();
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // If parsing fails, send generic row description
             std::vector<FieldDescription> fields = {
                 {"?column?", 0, 0, 25, -1, -1, 0}
@@ -653,7 +653,7 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             } else {
                 sendNoData();
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             std::vector<FieldDescription> fields = {
                 {"?column?", 0, 0, 25, -1, -1, 0}
             };
@@ -1470,7 +1470,7 @@ void PostgresSession::handleSchemaQuery(const std::string& query) {
                             }
                         }
                     }
-                } catch (const std::exception&) {}
+                } catch (...) {}
                 ++oid;
             }
             sendCommandComplete("SELECT " + std::to_string(total_cols));

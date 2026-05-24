@@ -120,7 +120,7 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
             {"result", result}
         };
         bool ok = false;
-        try { ok = fn(channel, payload.dump()); } catch (const std::exception&) { ok = false; }
+        try { ok = fn(channel, payload.dump()); } catch (...) { ok = false; }
         std::lock_guard<std::mutex> lk(stats_mutex_);
         if (ok) {
             ++messages_published_;
@@ -145,7 +145,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
             {"type", "INVALIDATE"}, {"key", pattern}, {"tenant_id", tenant_id}
         };
         bool ok = false;
-        try { ok = fn(channel, payload.dump()); } catch (const std::exception&) { ok = false; }
+        try { ok = fn(channel, payload.dump()); } catch (...) { ok = false; }
         std::lock_guard<std::mutex> lk(stats_mutex_);
         if (ok) {
             ++messages_published_;
@@ -591,7 +591,7 @@ void RedisCacheCoordinator::subscriberLoop() {
             mc.addCounter("cache.redis.reconnect", 1);
         } catch (const std::exception &ex) {
             THEMIS_DEBUG("RedisCacheCoordinator: metric emit failed: {}", ex.what());
-        } catch (const std::exception&) {}
+        } catch (...) {}
         THEMIS_WARN("RedisCacheCoordinator: {} – retrying in {} ms (back-off)",
                     reason, delay_ms);
     };

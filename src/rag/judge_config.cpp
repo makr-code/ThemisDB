@@ -185,7 +185,7 @@ double JudgeConfigManager::getDouble(const std::string& key, double default_valu
     if (value) {
         try {
             return std::stod(*value);
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_WARN("Failed to parse '{}' as double, using default: {}", key, default_value);
         }
     }
@@ -197,7 +197,7 @@ int JudgeConfigManager::getInt(const std::string& key, int default_value) const 
     if (value) {
         try {
             return std::stoi(*value);
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_WARN("Failed to parse '{}' as int, using default: {}", key, default_value);
         }
     }

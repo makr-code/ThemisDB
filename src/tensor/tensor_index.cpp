@@ -90,7 +90,7 @@ public:
             auto [train, stats] = decomposer.decompose(data, shape, cfg);
             (void)stats;
             return add(id, train);
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
     }
@@ -160,7 +160,7 @@ public:
             auto [train, stats] = decomposer.decompose(data, shape, cfg);
             (void)stats;
             return search(train, k);
-        } catch (const std::exception&) {
+        } catch (...) {
             return {};
         }
     }

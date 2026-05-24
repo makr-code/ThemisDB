@@ -156,7 +156,7 @@ void ConcurrentCompactor::worker_loop() {
         
         try {
             task.fn();
-        } catch (const std::exception&) {
+        } catch (...) {
             // In production, log error
         }
         

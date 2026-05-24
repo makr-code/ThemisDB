@@ -239,7 +239,7 @@ ClassifyResult AQLFunctionClassifyBridge::classify(const std::string &text,
                 }
             }
         }
-    } catch (const std::exception &) {
+    } catch (...) {
         // Registry call failed – fall through to local classifier.
     }
 

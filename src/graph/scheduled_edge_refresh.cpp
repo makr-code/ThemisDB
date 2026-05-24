@@ -569,7 +569,7 @@ std::vector<BaseEntity> ScheduledGraphEdgeRefreshEngine::collectEdges() const {
             if (auto ts = graph_mgr_.getEdgeField(info.edgeId, "_created_at"); ts) {
                 try {
                     e.setField("_created_at", static_cast<int64_t>(std::stoll(*ts)));
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Unparseable timestamp – leave absent.
                 }
             }
@@ -612,7 +612,7 @@ std::vector<BaseEntity> ScheduledGraphEdgeRefreshEngine::collectEdges() const {
             if (auto ts = graph_mgr_.getEdgeField(info.edgeId, "_created_at"); ts) {
                 try {
                     e.setField("_created_at", static_cast<int64_t>(std::stoll(*ts)));
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Unparseable timestamp – leave field absent (no decay applied).
                 }
             }

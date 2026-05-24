@@ -53,7 +53,7 @@ class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
                 try {
                     base = std::stoull(std::string(existing_value->data(),
                                                    existing_value->size()));
-                } catch (const std::exception&) {
+                } catch (...) {
                     base = 0;
                 }
             }
@@ -195,7 +195,7 @@ uint64_t Changefeed::loadInitialSequence() const {
         // Legacy decimal-string format (backward compatibility)
         try {
             return std::stoull(seq_value);
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     if (s.IsNotFound()) {
@@ -232,7 +232,7 @@ uint64_t Changefeed::scanMaxSequence() const {
             if (seq > max_seq) {
                 max_seq = seq;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip unparseable entries
         }
     }
@@ -268,7 +268,7 @@ Changefeed::Changefeed(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *
                 ? db_->GetOptions(cf_)
                 : db_->GetOptions();
             merge_available = (opts.merge_operator != nullptr);
-        } catch (const std::exception&) {
+        } catch (...) {
             // If introspection fails, default to disabled (safe — prevents error state).
             merge_available = false;
         }
@@ -1153,7 +1153,7 @@ void Changefeed::notifySubscribers(const ChangeEvent &event) {
         if (entry.filter.matches(event)) {
             try {
                 entry.callback(event);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Callbacks must not throw; log and continue.
                 THEMIS_WARN("Changefeed: subscriber callback threw an exception — ignored");
             }

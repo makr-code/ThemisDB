@@ -181,7 +181,7 @@ static uint16_t parsePort(const std::string& s) {
     try {
         const long v = std::stol(s);
         if (v > 0 && v <= 65535) return static_cast<uint16_t>(v);
-    } catch (const std::exception&) {}
+    } catch (...) {}
     return 0;
 }
 
@@ -191,7 +191,7 @@ static uint32_t parseWeight(const std::string& s, uint32_t default_val = 100) {
     try {
         const unsigned long v = std::stoul(s);
         if (v <= UINT32_MAX) return static_cast<uint32_t>(v);
-    } catch (const std::exception&) {}
+    } catch (...) {}
     return default_val;
 }
 
@@ -586,7 +586,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
                                 }
                                 route.timeout_ms = static_cast<uint32_t>(
                                     std::stof(numeric) * 1000.0f);
-                            } catch (const std::exception&) {}
+                            } catch (...) {}
                         }
                     }
 

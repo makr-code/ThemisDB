@@ -49,13 +49,13 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
                 std::size_t pos = 0;
                 long long i = std::stoll(s, &pos);
                 if (pos == s.size()) return i;
-            } catch (const std::exception&) {}
+            } catch (...) {}
             // Float
             try {
                 std::size_t pos = 0;
                 double d = std::stod(s, &pos);
                 if (pos == s.size()) return d;
-            } catch (const std::exception&) {}
+            } catch (...) {}
             return s;
         }
 
@@ -299,7 +299,7 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
                     return nullptr;
                 }
                 node = &((*node)[idx]);
-            } catch (const std::exception&) {
+            } catch (...) {
                 return nullptr;
             }
         } else {

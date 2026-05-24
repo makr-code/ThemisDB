@@ -362,61 +362,14 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
         std::string_view pair_view = raw_key.substr(sizeof(PREFETCH_MODEL_PREFIX) - 1);
         const std::string pair_str(pair_view);
 
-            // Split on "::" separator
-            const auto sep_pos = pair_str.find("::");
-            if (sep_pos == std::string::npos) return true;
-
-            std::string from = pair_str.substr(0, sep_pos);
-            std::string to   = pair_str.substr(sep_pos + 2);
-
-            if (from.empty() || to.empty()) return true;
-
-            nlohmann::json val;
-            try {
-                val = nlohmann::json::parse(raw_value);
-            } catch (const std::exception&) {
-                return true;
-            }
-
-            if (!val.contains("count")) return true;
-            uint32_t count = val["count"].get<uint32_t>();
-
-            // Ensure source key entry exists (no FIFO eviction during load)
-            if (transitions_.find(from) == transitions_.end()) {
-                if (ordered_keys_.size() < config_.max_tracked_keys) {
-                    ordered_keys_.push_back(from);
-                    transitions_[from] = {};
-                } else {
-                    return true;  // Table full; skip
-                }
-            }
-
-            auto& successors = transitions_[from];
-            if (successors.size() < config_.max_successors_per_key ||
-                successors.find(to) != successors.end()) {
-                // Merge: take the max of persisted vs. in-memory count and
-                // update total_transitions_recorded_ only by the delta so that
-                // repeated loadModel() calls don't inflate the counter.
-                auto existing_it = successors.find(to);
-                uint32_t old_val = (existing_it != successors.end()) ? existing_it->second : 0;
-                uint32_t new_val = std::max(old_val, count);
-                successors[to] = new_val;
-                total_transitions_recorded_ += (new_val - old_val);
-            }
-
-            // Restore time-of-day histogram
-            if (val.contains("tod") && val["tod"].is_array() &&
-                val["tod"].size() == 24) {
-                auto& arr = tod_buckets_[from][to];
-                for (size_t h = 0; h < 24; ++h) {
-                    arr[h] = std::max(arr[h], val["tod"][h].get<uint32_t>());
-                }
-            }
+        // Split on "::" separator
+        const auto sep_pos = pair_str.find("::");
+        if (sep_pos == std::string::npos) {
             return true;
         }
 
         std::string from = pair_str.substr(0, sep_pos);
-        std::string to   = pair_str.substr(sep_pos + 2);
+        std::string to = pair_str.substr(sep_pos + 2);
 
         if (from.empty() || to.empty()) {
             return true;
@@ -444,7 +397,7 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
             }
         }
 
-        auto &successors = transitions_[from];
+        auto& successors = transitions_[from];
         if (successors.size() < config_.max_successors_per_key || successors.find(to) != successors.end()) {
             // Merge: take the max of persisted vs. in-memory count and
             // update total_transitions_recorded_ only by the delta so that
@@ -452,13 +405,13 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
             auto existing_it = successors.find(to);
             uint32_t old_val = (existing_it != successors.end()) ? existing_it->second : 0;
             uint32_t new_val = std::max(old_val, count);
-            successors[to]   = new_val;
+            successors[to] = new_val;
             total_transitions_recorded_ += (new_val - old_val);
         }
 
         // Restore time-of-day histogram
         if (val.contains("tod") && val["tod"].is_array() && val["tod"].size() == 24) {
-            auto &arr = tod_buckets_[from][to];
+            auto& arr = tod_buckets_[from][to];
             for (size_t h = 0; h < 24; ++h) {
                 arr[h] = std::max(arr[h], val["tod"][h].get<uint32_t>());
             }

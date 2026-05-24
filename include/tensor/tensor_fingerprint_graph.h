@@ -112,9 +112,6 @@ struct SimilarityResult {
  */
 class TensorFingerprintGraph {
 public:
-    using ExactSimilarityFn =
-        std::function<std::optional<float>(std::string_view query_key, std::string_view candidate_key)>;
-
     TensorFingerprintGraph() = default;
 
     // ─── Write API ────────────────────────────────────────────────────────
@@ -240,8 +237,6 @@ private:
 
     mutable std::shared_mutex stats_mutex_;
     mutable GraphStats        stats_;
-    mutable std::shared_mutex exact_similarity_fn_mutex_;
-    ExactSimilarityFn exact_similarity_fn_;
 };
 
 } // namespace tensor

@@ -50,7 +50,7 @@ bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
         }
 
         return db_->put(key, value);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -73,7 +73,7 @@ std::optional<SecuritySignature> SecuritySignatureManager::getSignature(const st
         }
         
         return SecuritySignature::deserialize(value);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -85,7 +85,7 @@ bool SecuritySignatureManager::deleteSignature(const std::string& resource_id) {
             return mem_store_.erase(key) > 0;
         }
         return db_->del(key);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -143,7 +143,7 @@ std::string SecuritySignatureManager::computeFileHash(const std::string& file_pa
         hex_output[SHA256_DIGEST_LENGTH * 2] = '\0';
         
         return std::string(hex_output);
-    } catch (const std::exception&) {
+    } catch (...) {
         return "";
     }
 }
@@ -166,7 +166,7 @@ std::string SecuritySignatureManager::normalizeResourceId(const std::string& pat
         }
         
         return normalized;
-    } catch (const std::exception&) {
+    } catch (...) {
         return path; // Return original if normalization fails
     }
 }
@@ -193,7 +193,7 @@ bool SecuritySignatureManager::verifyFile(const std::string& file_path,
         
         // Compare hashes
         return (current_hash == sig->hash);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

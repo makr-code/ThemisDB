@@ -503,7 +503,7 @@ RecoveryResult PluginHealthMonitor::attemptRecoveryWithBackoff(MonitoredPlugin& 
                 auto post_diag = plugin.plugin->performHealthCheck();
                 plugin.last_diagnostics = post_diag;
                 result.status_after_recovery = post_diag.status;
-            } catch (const std::exception&) {
+            } catch (...) {
                 result.status_after_recovery = PluginHealthStatus::DEGRADED;
             }
 
@@ -648,7 +648,7 @@ void PluginHealthMonitor::publishHealthScore(const MonitoredPlugin& plugin) noex
     try {
         const double score = computeHealthScore(plugin.last_diagnostics);
         metrics_sink_->setGauge("plugin_health_score", score, {{"plugin", plugin.name}});
-    } catch (const std::exception&) {
+    } catch (...) {
         // noexcept: swallow any exception from the metrics backend
     }
 }

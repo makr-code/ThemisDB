@@ -155,7 +155,7 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
                 
                 break;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             continue;
         }
     }
@@ -234,7 +234,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
                         }
                         break;
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     continue;
                 }
             }

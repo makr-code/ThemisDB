@@ -168,7 +168,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					if (j.is_array()) {
 						for (const auto& v : j) if (v.is_string()) encryptList.push_back(v.get<std::string>());
 					}
-				} catch (const std::exception&) {
+				} catch (...) {
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
@@ -752,18 +752,18 @@ double GraphIndexManager::getEdgeWeight_(std::string_view graphId, std::string_v
 				std::string dec = field_encryption_->decryptToString(eb);
 				try {
 					return std::stod(dec);
-				} catch (const std::exception&) {
+				} catch (...) {
 					// fallthrough
 				}
 			}
-		} catch (const std::exception&) {
+		} catch (...) {
 			// not an encrypted blob
 		}
 
 		// Fallback: attempt to parse as number
 		try {
 			return std::stod(wstr);
-		} catch (const std::exception&) {
+		} catch (...) {
 			return 1.0;
 		}
 	}
@@ -799,18 +799,18 @@ double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_vi
 				std::string dec = field_encryption_->decryptToString(eb);
 				try {
 					return std::stod(dec);
-				} catch (const std::exception&) {
+				} catch (...) {
 					// fallthrough
 				}
 			}
-		} catch (const std::exception&) {
+		} catch (...) {
 			// not an encrypted blob
 		}
 
 		// Fallback: attempt to parse as number
 		try {
 			return std::stod(wstr);
-		} catch (const std::exception&) {
+		} catch (...) {
 			return 1.0;
 		}
 	}
@@ -874,7 +874,7 @@ std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::strin
 			if (field_encryption_) {
 				return field_encryption_->decryptToString(eb);
 			}
-		} catch (const std::exception&) {
+		} catch (...) {
 			// not an encrypted blob
 		}
 		return t;
@@ -1283,7 +1283,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					if (j.is_array()) {
 						for (const auto& v : j) if (v.is_string()) encryptList.push_back(v.get<std::string>());
 					}
-				} catch (const std::exception&) {
+				} catch (...) {
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
@@ -1587,7 +1587,7 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 				size_t pos = 0;
 				int64_t parsed = std::stoll(*as_str, &pos, 10);
 				if (pos == as_str->size()) return parsed;
-			} catch (const std::exception&) {
+			} catch (...) {
 			}
 			return std::nullopt;
 		};
@@ -1646,7 +1646,7 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 				size_t pos = 0;
 				int64_t parsed = std::stoll(*as_str, &pos, 10);
 				if (pos == as_str->size()) return parsed;
-			} catch (const std::exception&) {
+			} catch (...) {
 			}
 			return std::nullopt;
 		};

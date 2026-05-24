@@ -344,7 +344,7 @@ json TaskSchedulerApiHandler::getExecutionHistory(
         }
         if (v.is_string()) {
             try { auto iv = std::stoll(v.get<std::string>()); return iv > 0 ? static_cast<size_t>(iv) : def; }
-            catch (const std::exception&) { return def; }
+            catch (...) { return def; }
         }
         return def;
     };
@@ -376,14 +376,14 @@ json TaskSchedulerApiHandler::getExecutionHistory(
         int64_t ms = 0;
         const auto& v = query_params["start_time_ms"];
         if (v.is_number_integer()) ms = v.get<int64_t>();
-        else if (v.is_string()) { try { ms = std::stoll(v.get<std::string>()); } catch (const std::exception&) {} }
+        else if (v.is_string()) { try { ms = std::stoll(v.get<std::string>()); } catch (...) {} }
         if (ms > 0) params.start_time = std::chrono::system_clock::time_point(std::chrono::milliseconds(ms));
     }
     if (query_params.contains("end_time_ms") && !query_params["end_time_ms"].is_null()) {
         int64_t ms = 0;
         const auto& v = query_params["end_time_ms"];
         if (v.is_number_integer()) ms = v.get<int64_t>();
-        else if (v.is_string()) { try { ms = std::stoll(v.get<std::string>()); } catch (const std::exception&) {} }
+        else if (v.is_string()) { try { ms = std::stoll(v.get<std::string>()); } catch (...) {} }
         if (ms > 0) params.end_time = std::chrono::system_clock::time_point(std::chrono::milliseconds(ms));
     }
 

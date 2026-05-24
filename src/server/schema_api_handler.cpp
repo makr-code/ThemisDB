@@ -904,7 +904,7 @@ http::response<http::string_body> SchemaApiHandler::handleCreateVersion(
                 json body = json::parse(req.body());
                 author      = body.value("author",      std::string{});
                 description = body.value("description", std::string{});
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
 
         auto result = version_mgr_->createSchemaVersion(table_name, author, description);
@@ -965,7 +965,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetDiff(
             std::string val = (end == std::string::npos)
                 ? query.substr(pos)
                 : query.substr(pos, end - pos);
-            try { return std::stoull(val); } catch (const std::exception&) { return 0; }
+            try { return std::stoull(val); } catch (...) { return 0; }
         };
 
         version_a = parse_param("from");

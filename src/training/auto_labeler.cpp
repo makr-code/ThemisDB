@@ -149,7 +149,7 @@ public:
                     callback(processed, document_ids.size(),
                              "Processing document " + doc_id);
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 total_errors_++;
                 // Continue processing remaining documents (error recovery, Phase 2)
             }
@@ -261,7 +261,7 @@ public:
                 config_.language_code,
                 config_.modal_verbs_config
             );
-        } catch (const std::exception&) {
+        } catch (...) {
             modalities = extractFallbackModalities(document_text);
         }
 
@@ -327,7 +327,7 @@ public:
                     callback(processed, document_ids.size(),
                              "Labeled document " + doc_id);
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 total_errors_++;
             }
         }

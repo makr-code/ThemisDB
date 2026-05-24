@@ -94,13 +94,13 @@ public:
         schema_reg_url_   = opt("schema_registry_url", "");
 
         try { poll_timeout_ms_   = std::stoi(opt("poll_timeout_ms",   "1000")); }
-        catch (const std::exception&) { poll_timeout_ms_ = 1000; }
+        catch (...) { poll_timeout_ms_ = 1000; }
 
         try { max_messages_ = static_cast<size_t>(std::stoull(opt("max_messages","0"))); }
-        catch (const std::exception&) { max_messages_ = 0; }
+        catch (...) { max_messages_ = 0; }
 
         try { session_timeout_ms_ = std::stoi(opt("session_timeout_ms","10000")); }
-        catch (const std::exception&) { session_timeout_ms_ = 10000; }
+        catch (...) { session_timeout_ms_ = 10000; }
 
         security_protocol_ = opt("security_protocol", "plaintext");
         sasl_mechanism_    = opt("sasl_mechanism",    "");

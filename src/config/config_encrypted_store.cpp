@@ -160,7 +160,7 @@ std::optional<std::string> ConfigEncryptedStore::tryGet(const std::string &confi
     }
     try {
         return decryptBlob(it->second);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }

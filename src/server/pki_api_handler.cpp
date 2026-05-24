@@ -523,7 +523,7 @@ nlohmann::json PkiApiHandler::getStatus() {
                 auto keys = hsm_provider_->listKeys();
                 status["hsm_keys_count"] = keys.size();
                 status["hsm_status"] = "connected";
-            } catch (const std::exception&) {
+            } catch (...) {
                 status["hsm_status"] = "error";
             }
         }

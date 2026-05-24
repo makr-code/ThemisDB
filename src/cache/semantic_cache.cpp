@@ -31,7 +31,7 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::CacheEntry::fromJson(con
         entry.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
         entry.ttl_seconds  = j.at("ttl_seconds").get<int>();
         return entry;
-    } catch (const std::exception &) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -157,7 +157,7 @@ std::optional<SemanticCache::CacheEntry> SemanticCache::query(const std::string 
     nlohmann::json j;
     try {
         j = nlohmann::json::parse(value);
-    } catch (const std::exception &) {
+    } catch (...) {
         miss_count_.fetch_add(1, std::memory_order_relaxed);
         return std::nullopt;
     }
@@ -222,7 +222,7 @@ uint64_t SemanticCache::clearExpired() {
                 }
                 removed++;
             }
-        } catch (const std::exception &) {
+        } catch (...) {
             // Invalid entry, remove it
             if (cf_handle_) {
                 batch.Delete(cf_handle_, it->key());

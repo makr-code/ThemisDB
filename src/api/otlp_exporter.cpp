@@ -164,7 +164,7 @@ void OtlpExporter::start() {
     stop_.store(false, std::memory_order_relaxed);
     try {
         flush_thread_ = std::thread(&OtlpExporter::flushLoop, this);
-    } catch (const std::exception&) {
+    } catch (...) {
         // Thread creation failed; clean up curl resources and re-throw.
         if (curl_headers_) {
             curl_slist_free_all(curl_headers_);

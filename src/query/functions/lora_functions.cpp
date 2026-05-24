@@ -409,7 +409,7 @@ nlohmann::json LoraSimilarFunction::execute(
         
         return results;
         
-    } catch (const std::exception&) {
+    } catch (...) {
         json error = json::array();
         return error;
     }
@@ -488,7 +488,7 @@ nlohmann::json LoraPathFunction::execute(
         
         return path;
         
-    } catch (const std::exception&) {
+    } catch (...) {
         json error = json::array();
         return error;
     }
@@ -755,7 +755,7 @@ nlohmann::json LoraLineageFunction::execute(
         
         return lineage;
         
-    } catch (const std::exception&) {
+    } catch (...) {
         json error = json::array();
         return error;
     }
@@ -801,7 +801,7 @@ nlohmann::json LoraProvenanceFunction::execute(
             return nullptr;
         }
         return prov_opt->toJSON();
-    } catch (const std::exception&) {
+    } catch (...) {
         return nullptr;
     }
 }
@@ -854,7 +854,7 @@ nlohmann::json LoraAuditLogFunction::execute(
             ++count;
         }
         return result;
-    } catch (const std::exception&) {
+    } catch (...) {
         return json::array();
     }
 }
@@ -901,7 +901,7 @@ nlohmann::json LoraSnapshotsFunction::execute(
             result.push_back(s.toJSON());
         }
         return result;
-    } catch (const std::exception&) {
+    } catch (...) {
         return json::array();
     }
 }

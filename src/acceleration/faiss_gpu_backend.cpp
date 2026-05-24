@@ -803,7 +803,7 @@ FaissGPUVectorBackend::IndexStats FaissGPUVectorBackend::getIndexStats() const {
             stats.memoryUsageBytes = stats.numVectors * stats.dimension * sizeof(float);
         }
 
-    } catch (const std::exception&) {
+    } catch (...) {
         // Return partial stats on error — do not propagate exceptions from a const getter
     }
 

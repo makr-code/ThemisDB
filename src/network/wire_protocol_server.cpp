@@ -315,12 +315,7 @@ WireProtocolServer::getAllTenantBandwidthStats() const {
 // Geospatial query injection bridge (stub #284)
 // -------------------------------------------------------------------------
 
-void WireProtocolServer::setGeoQueryFn(GeoQueryFn fn) {
-    std::lock_guard<std::mutex> lock(geo_query_fn_mutex_);
-    geo_query_fn_ = std::move(fn);
-}
-
-
+bool WireProtocolServer::checkConnectionLimit(const std::string& remote_ip) {
     // Global connection limit – fast path via atomic counter.
     if (config_.max_connections > 0 &&
         active_connection_count_.load(std::memory_order_relaxed) >= config_.max_connections) {
@@ -430,7 +425,7 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
         std::string remote_ip = "unknown";
         try {
             remote_ip = session->socket_.remote_endpoint().address().to_string();
-        } catch (const std::exception&) {
+        } catch (...) {
             // Fall back to unknown if we can't get the endpoint
         }
 
@@ -1209,7 +1204,7 @@ void WireProtocolServer::Session::handleGet() {
             std::string value_str(value_bytes.begin(), value_bytes.end());
             try {
                 response["value"] = json::parse(value_str);
-            } catch (const std::exception&) {
+            } catch (...) {
                 response["value"] = value_str;
             }
             response["found"] = true;
@@ -1383,7 +1378,7 @@ void WireProtocolServer::Session::handleBatchGet() {
                 std::string value_str(value_bytes.begin(), value_bytes.end());
                 try {
                     item["value"] = json::parse(value_str);
-                } catch (const std::exception&) {
+                } catch (...) {
                     item["value"] = value_str;
                 }
                 item["found"] = true;
@@ -2222,7 +2217,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     std::string error_msg = "Time-series query failed";
                     try {
                         error_msg = std::string("Time-series query failed: ") + result.error().message();
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         // Fallback if error() access fails
                     }
                     sendError(0x0005, error_msg);
@@ -2313,7 +2308,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     std::string error_msg = "Time-series aggregation failed";
                     try {
                         error_msg = std::string("Time-series aggregation failed: ") + agg_result.error().message();
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         // Fallback if error() access fails
                     }
                     sendError(0x0005, error_msg);
@@ -2363,7 +2358,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 std::string error_msg = "Time-series query failed";
                 try {
                     error_msg = std::string("Time-series query failed: ") + result.error().message();
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Fallback if error() access fails
                 }
                 sendError(0x0005, error_msg);

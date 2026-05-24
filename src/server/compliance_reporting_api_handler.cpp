@@ -55,7 +55,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
                 if (body.contains("resources") && body["resources"].is_array()) {
                     resources = body["resources"].get<std::vector<std::string>>();
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // If parsing fails, analyze with empty resource list
             }
         }

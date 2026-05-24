@@ -153,7 +153,7 @@ std::optional<PolicyDecision> OpaAdapter::parseOpaResponse(const std::string &re
             }
             return d;
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Parse failure → treat as unavailable
     }
     return std::nullopt;

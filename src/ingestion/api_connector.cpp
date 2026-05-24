@@ -272,11 +272,11 @@ public:
 
         std::string ps = opt("page_size", "100");
         try { page_size_ = static_cast<size_t>(std::stoul(ps)); }
-        catch (const std::exception&) { page_size_ = 100; }
+        catch (...) { page_size_ = 100; }
 
         std::string mp = opt("max_pages", "0");
         try { max_pages_ = static_cast<size_t>(std::stoul(mp)); }
-        catch (const std::exception&) { max_pages_ = 0; }
+        catch (...) { max_pages_ = 0; }
 
         // Pagination mode: "offset" (default) or "cursor"
         std::string pm = opt("pagination_mode", "offset");
@@ -329,7 +329,7 @@ public:
         try {
             auto r = httpGet(endpoint_, buildAuthHeader(), retry_config_.timeout_ms);
             return r.status_code == 200;
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
     }
@@ -345,7 +345,7 @@ public:
                 if (total == 0) total = jsonExtractSizeT(r.body, "totalResults");
                 return total;
             }
-        } catch (const std::exception&) {}
+        } catch (...) {}
         return 0;
     }
 

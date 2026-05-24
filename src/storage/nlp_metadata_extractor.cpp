@@ -185,7 +185,7 @@ bool NlpMetadataExtractor::enrichEntity(
         entity.setField("nlp_lexical_diversity", std::to_string(meta.lexical_diversity));
         
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -362,7 +362,7 @@ NlpMetadataExtractor::ExtractedMetadata::fromJson(const std::string& json_str) {
         if (j.contains("total_sentences")) meta.total_sentences = j["total_sentences"];
         if (j.contains("avg_sentence_length")) meta.avg_sentence_length = j["avg_sentence_length"];
         if (j.contains("avg_word_length")) meta.avg_word_length = j["avg_word_length"];
-    } catch (const std::exception&) {
+    } catch (...) {
         // Return empty metadata on parse error
     }
     

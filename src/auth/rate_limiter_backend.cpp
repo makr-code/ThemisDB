@@ -329,7 +329,7 @@ int64_t RedisRateLimiterBackend::increment(const std::string& key,
     if (fn) {
         try {
             return fn(key, window_seconds);
-        } catch (const std::exception&) {
+        } catch (...) {
         }
     }
     return redisFallbackBackend().increment(key, window_seconds);
@@ -346,7 +346,7 @@ int64_t RedisRateLimiterBackend::getCount(const std::string& key,
     if (fn) {
         try {
             return fn(key, window_seconds);
-        } catch (const std::exception&) {
+        } catch (...) {
         }
     }
     return redisFallbackBackend().getCount(key, window_seconds);
@@ -363,7 +363,7 @@ void RedisRateLimiterBackend::reset(const std::string& key)
         try {
             fn(key);
             return;
-        } catch (const std::exception&) {
+        } catch (...) {
         }
     }
     redisFallbackBackend().reset(key);
@@ -379,7 +379,7 @@ bool RedisRateLimiterBackend::isConnected() const
     if (fn) {
         try {
             return fn();
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
     }
@@ -396,7 +396,7 @@ bool RedisRateLimiterBackend::reconnect()
     if (fn) {
         try {
             return fn();
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
     }

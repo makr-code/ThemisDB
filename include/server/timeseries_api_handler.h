@@ -163,12 +163,7 @@ public:
      * When set, `handleRetentionGet()` calls the provider to obtain the
      * persisted retention policies from the backend instead of returning
      * an empty list.
-     *
-     * @param fn  Callable returning a JSON array of retention-policy objects.
-     *            Pass `nullptr` to revert to the empty-array default.
      */
-    using RetentionPoliciesProviderFn = std::function<nlohmann::json()>;
-    void setRetentionPoliciesProvider(RetentionPoliciesProviderFn fn);
     
     /**
      * @brief Handle GET /ts/metrics request

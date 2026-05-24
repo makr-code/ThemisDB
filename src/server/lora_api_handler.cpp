@@ -246,7 +246,7 @@ http::response<http::string_body> LoRAApiHandler::handleListModels(
                     limit_end == std::string_view::npos ? std::string_view::npos : limit_end - limit_pos - 6)};
                 try {
                     limit = std::stoul(limit_str);
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
             
             // Parse offset
@@ -257,7 +257,7 @@ http::response<http::string_body> LoRAApiHandler::handleListModels(
                     offset_end == std::string_view::npos ? std::string_view::npos : offset_end - offset_pos - 7)};
                 try {
                     offset = std::stoul(offset_str);
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
         }
         
@@ -541,7 +541,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
                     limit_end == std::string_view::npos ? std::string_view::npos : limit_end - limit_pos - 6)};
                 try {
                     limit = std::stoul(limit_str);
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
             
             // Parse offset
@@ -552,7 +552,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
                     offset_end == std::string_view::npos ? std::string_view::npos : offset_end - offset_pos - 7)};
                 try {
                     offset = std::stoul(offset_str);
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
             
             // Parse base_model filter
@@ -1000,7 +1000,7 @@ bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>&
         auto claims = jwt_validator_->parseAndValidate(*token);
         // Token is valid
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         // Token validation failed (expired, invalid signature, etc.)
         return false;
     }
@@ -1048,7 +1048,7 @@ std::optional<json> LoRAApiHandler::parseRequestBody(
         if (parsed.is_object()) {
             return parsed;
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
     

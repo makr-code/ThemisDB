@@ -309,7 +309,7 @@ void TransactionRetryManager::transitionCircuitState(CircuitState new_state) con
     if (alert_callback_) {
         try {
             alert_callback_(new_state, oss.str());
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore callback exceptions
         }
     }

@@ -1620,7 +1620,7 @@ json ThemisRPCService::handleStats([[maybe_unused]] const json& params) {
             if (!rocksdb_stats.empty()) {
                 stats["rocksdb_stats"] = rocksdb_stats;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore errors getting stats
         }
         

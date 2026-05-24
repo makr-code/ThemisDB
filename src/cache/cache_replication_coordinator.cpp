@@ -338,7 +338,7 @@ void CacheReplicationCoordinator::fanoutWorker() {
                 THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed: {}",
                             peer->address(), e.what());
                 failed_peers.push_back(peer);
-            } catch (const std::exception&) {
+            } catch (...) {
                 THEMIS_WARN("[CacheReplicationCoordinator] fanout to peer '{}' failed "
                             "(unknown exception)", peer->address());
                 failed_peers.push_back(peer);

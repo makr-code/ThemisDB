@@ -366,7 +366,7 @@ void GossipProtocol::sendHeartbeat(const PeerInfo& peer) {
                 handleMessage(response_msg);
             }
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Log error, mark peer as potentially unhealthy
         std::lock_guard<std::mutex> lock(peers_mutex_);
         auto it = peers_.find(peer.peer_id);
@@ -398,7 +398,7 @@ void GossipProtocol::sendPeerList(const PeerInfo& peer) {
                 handleMessage(response_msg);
             }
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Log error
     }
 }
@@ -426,7 +426,7 @@ void GossipProtocol::sendLeaveMessage() {
                 message.toJson()
             );
             messages_sent_++;
-        } catch (const std::exception&) {
+        } catch (...) {
             // Best effort, ignore errors
         }
     }

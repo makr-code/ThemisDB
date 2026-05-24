@@ -193,7 +193,7 @@ struct TensorRouter::Impl {
                 double denom = 2.0 * log_r + log_n;
                 res.kappa = (denom > 1e-9) ? (2.0 * log_n / denom) : 0.0;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             res = {1.0, 1, 0.0, 0.0};
         }
         return res;

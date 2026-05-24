@@ -69,7 +69,7 @@ public:
             // Try to create GPU queue
             try {
                 queue_ = new sycl::queue(sycl::gpu_selector_v);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Fallback to default device
                 std::cerr << "OneAPI: GPU selector failed, trying default device\n";
                 queue_ = new sycl::queue(sycl::default_selector_v);
@@ -281,7 +281,7 @@ std::vector<float> OneAPIVectorBackend::computeDistances(
     if (fn) [[unlikely]] {
         try {
             return fn(queries, numQueries, dimension, vectors, numVectors, useL2);
-        } catch (const std::exception&) {
+        } catch (...) {
             return {};
         }
     }

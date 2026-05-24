@@ -291,7 +291,7 @@ std::shared_ptr<ImportHandle> KafkaImporter::importDataAsync(
                            + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (const std::exception&) {
+        } catch (...) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;
@@ -637,14 +637,14 @@ json KafkaImporter::extractEntity(const std::string& payload) const {
             if (content.empty()) return json(nullptr);
             try {
                 return json::parse(content);
-            } catch (const std::exception&) {
+            } catch (...) {
                 return json{{"content", content}};
             }
         }
         // Bare Avro (no magic byte) – treat as JSON.
         try {
             return json::parse(payload);
-        } catch (const std::exception&) {
+        } catch (...) {
             return json{{"content", payload}};
         }
     }
@@ -661,7 +661,7 @@ json KafkaImporter::extractEntity(const std::string& payload) const {
         }
         // Scalar JSON value – wrap it.
         return json{{text_field_, parsed}};
-    } catch (const std::exception&) {
+    } catch (...) {
         // Not valid JSON – wrap the raw payload.
         return json{{text_field_, payload}};
     }

@@ -122,7 +122,7 @@ void MvccApiHandler::handleGetKey(const httplib::Request& req,
             uint64_t ts_val = 0;
             try {
                 ts_val = std::stoull(req.get_param_value("timestamp"));
-            } catch (const std::exception&) {
+            } catch (...) {
                 sendError(res, 400, "Invalid timestamp parameter (must be uint64)");
                 return;
             }

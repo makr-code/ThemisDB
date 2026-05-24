@@ -369,7 +369,7 @@ SearchResultPage HtmlSearchEngine::parseResults(
         try {
             items = doc.select_nodes(xp.c_str());
             if (!items.empty()) break;
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     int rank = 1;
@@ -435,7 +435,7 @@ SearchResultPage HtmlSearchEngine::parseResults(
                     break;
                 }
             }
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     // Total results: look for a result count element
@@ -451,7 +451,7 @@ SearchResultPage HtmlSearchEngine::parseResults(
             }
             if (!num.empty()) page.total_results = std::stoi(num);
         }
-    } catch (const std::exception&) {}
+    } catch (...) {}
 
 #else
     // Fallback: scan for <a> tags as result items

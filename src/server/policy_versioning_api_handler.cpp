@@ -258,7 +258,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             }
             try {
                 start_time = std::stoll(*start_str);
-            } catch (const std::exception&) {
+            } catch (...) {
                 return makeErrorResponse(http::status::bad_request, "Invalid start_time query parameter", req);
             }
         }
@@ -270,7 +270,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
             }
             try {
                 end_time = std::stoll(*end_str);
-            } catch (const std::exception&) {
+            } catch (...) {
                 return makeErrorResponse(http::status::bad_request, "Invalid end_time query parameter", req);
             }
         }

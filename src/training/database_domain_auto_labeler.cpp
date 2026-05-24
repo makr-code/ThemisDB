@@ -55,7 +55,7 @@ static double extractDoubleField(const std::string& json, const std::string& key
         size_t consumed = 0;
         double val = std::stod(json.substr(pos), &consumed);
         return consumed > 0 ? val : std::numeric_limits<double>::quiet_NaN();
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::numeric_limits<double>::quiet_NaN();
     }
 }

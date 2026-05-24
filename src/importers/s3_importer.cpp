@@ -346,7 +346,7 @@ std::shared_ptr<ImportHandle> S3Importer::importDataAsync(
                 "Unhandled exception in async S3 import: ") + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (const std::exception&) {
+        } catch (...) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;

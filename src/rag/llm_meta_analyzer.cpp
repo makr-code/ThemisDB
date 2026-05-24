@@ -180,7 +180,7 @@ double LLMMetaAnalyzer::parseScore(
                     score /= 100.0;
                 }
                 return std::clamp(score, 0.0, 1.0);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Continue to next pattern
             }
         }

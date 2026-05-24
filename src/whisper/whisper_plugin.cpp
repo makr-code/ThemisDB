@@ -48,7 +48,7 @@ WhisperPlugin::WhisperPlugin() {
     if (factory) {
         try {
             transcriber_ = factory();
-        } catch (const std::exception&) {
+        } catch (...) {
             transcriber_.reset();
         }
     }

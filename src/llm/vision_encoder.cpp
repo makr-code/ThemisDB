@@ -349,7 +349,7 @@ std::vector<float> VisionEncoder::encodeImageData(const std::vector<uint8_t>& im
         auto embeddings = encodeImage(temp_path);
         std::filesystem::remove(temp_path);
         return embeddings;
-    } catch (const std::exception&) {
+    } catch (...) {
         std::filesystem::remove(temp_path);
         throw;
     }

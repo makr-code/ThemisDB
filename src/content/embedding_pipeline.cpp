@@ -102,7 +102,7 @@ std::vector<float> EmbeddingPipeline::embedWithTimeout(const std::string& text)
         }
 
         return embedding;
-    } catch (const std::exception&) {
+    } catch (...) {
         notifyFailure();
         return {};
     }

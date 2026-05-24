@@ -128,7 +128,7 @@ std::variant<SnapshotId, Status> ProjectVersioning::createSnapshot(
         std::string val;
         if (storage_->get(key, val)) {
             try { content_array.push_back(json::parse(val)); }
-            catch (const std::exception&) { content_array.push_back(val); }
+            catch (...) { content_array.push_back(val); }
         }
     }
     const std::string content_str = content_array.dump();
@@ -181,7 +181,7 @@ std::optional<SnapshotMeta> ProjectVersioning::getSnapshot(
         return std::nullopt;
     try {
         return SnapshotMeta::fromJson(json::parse(val));
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -201,7 +201,7 @@ std::vector<SnapshotMeta> ProjectVersioning::listSnapshots(
         std::string val;
         if (storage_->get(snap_id, val)) {
             try { result.push_back(SnapshotMeta::fromJson(json::parse(val))); }
-            catch (const std::exception&) {}
+            catch (...) {}
         }
         return true;
     });
@@ -224,7 +224,7 @@ Status ProjectVersioning::deleteSnapshot(const SnapshotId& snap_id) {
     SnapshotMeta meta;
     try {
         meta = SnapshotMeta::fromJson(json::parse(val));
-    } catch (const std::exception&) {
+    } catch (...) {
         return Status::Error("Failed to parse snapshot metadata");
     }
 
@@ -249,7 +249,7 @@ Status ProjectVersioning::restoreSnapshot(
     SnapshotMeta meta;
     try {
         meta = SnapshotMeta::fromJson(json::parse(meta_str));
-    } catch (const std::exception&) {
+    } catch (...) {
         return Status::Error("Failed to parse snapshot metadata");
     }
 
@@ -296,7 +296,7 @@ bool ProjectVersioning::verifySnapshot(const SnapshotId& snap_id) const {
     SnapshotMeta meta;
     try {
         meta = SnapshotMeta::fromJson(json::parse(meta_str));
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 

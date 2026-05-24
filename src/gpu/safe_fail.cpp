@@ -58,7 +58,7 @@ bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op, std::functio
         bool gpu_ok = false;
         try {
             gpu_ok = gpu_op();
-        } catch (const std::exception&) {
+        } catch (...) {
             gpu_ok = false;
         }
 
@@ -84,7 +84,7 @@ bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op, std::functio
     bool cpu_ok = false;
     try {
         cpu_ok = cpu_fallback();
-    } catch (const std::exception&) {
+    } catch (...) {
         cpu_ok = false;
     }
 

@@ -748,7 +748,7 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
                     ++errors;
                 }
                 
-            } catch (const std::exception&) {
+            } catch (...) {
                 ++errors;
             }
         }

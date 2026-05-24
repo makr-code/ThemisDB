@@ -118,11 +118,11 @@ public:
     static void critical(FormatString&& fmt, Args&&... args);
 
 private:
-    static std::shared_ptr<spdlog::logger> logger_;
-    static LogMetrics metrics_;
-    static std::string trace_context_;
-    static std::mutex trace_context_mu_;
-    static bool json_mode_;
+    inline static std::shared_ptr<spdlog::logger> logger_{};
+    inline static LogMetrics metrics_{};
+    inline static std::string trace_context_{};
+    inline static std::mutex trace_context_mu_{};
+    inline static bool json_mode_ = false;
 
     static spdlog::level::level_enum toSpdlogLevel(Level level);
 };

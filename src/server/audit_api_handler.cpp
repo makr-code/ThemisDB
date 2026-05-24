@@ -116,7 +116,7 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
         if (!event_data.empty()) {
             event = nlohmann::json::parse(event_data);
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // If parsing fails, treat as raw string
     }
     
@@ -182,7 +182,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
             
             entries.push_back(entry);
             
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip malformed lines
             continue;
         }

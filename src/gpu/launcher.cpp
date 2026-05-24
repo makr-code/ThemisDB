@@ -56,7 +56,7 @@ GPULauncher::WorkResult GPULauncher::executeOne(WorkItem item) {
                 ok = exec_fut.get();
             } catch (const std::exception& e) {
                 result.error_message = e.what();
-            } catch (const std::exception&) {
+            } catch (...) {
                 result.error_message = "unknown exception in GPU backend";
             }
         }
@@ -66,7 +66,7 @@ GPULauncher::WorkResult GPULauncher::executeOne(WorkItem item) {
         } catch (const std::exception& e) {
             result.error_message = e.what();
             ok = false;
-        } catch (const std::exception&) {
+        } catch (...) {
             result.error_message = "unknown exception in GPU backend";
             ok = false;
         }

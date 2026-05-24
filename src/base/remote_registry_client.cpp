@@ -430,7 +430,7 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(cons
         } catch (const std::exception &ex) {
             spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher error: {}", ex.what());
             throw;
-        } catch (const std::exception&) {
+        } catch (...) {
             spdlog::error("RemoteRegistryClient::asyncBackoffSleep: dispatcher threw "
                           "unknown exception");
             throw;

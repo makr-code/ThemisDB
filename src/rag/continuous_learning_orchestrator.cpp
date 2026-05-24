@@ -660,7 +660,7 @@ void ContinuousLearningOrchestrator::loadMetrics() {
                 case 4: impl_->stats.lora_retraining_count   = static_cast<size_t>(std::stoull(field)); break;
                 default: break;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Ignore parse errors for individual fields
         }
         col++;

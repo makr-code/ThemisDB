@@ -169,7 +169,7 @@ bool DocsAssistant::loadDatabase(const std::string& path) {
         file.close();
         
         return parseDatabase(db_json);
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -312,7 +312,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
         impl_->database_loaded = !impl_->documents.empty();
         return impl_->database_loaded;
         
-    } catch (const std::exception&) {
+    } catch (...) {
         impl_->database_loaded = false;
         return false;
     }

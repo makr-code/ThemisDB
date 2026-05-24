@@ -2441,7 +2441,7 @@ bool AdaptiveQueryCache::contains(const std::string &fingerprint) const {
         try {
             std::lock_guard<std::mutex> lock(l3_mutex_);
             return l3_db_->get(QUERY_CACHE_PREFIX + fingerprint).has_value();
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     return false;

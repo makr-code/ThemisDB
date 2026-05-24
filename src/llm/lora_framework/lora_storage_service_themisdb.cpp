@@ -265,7 +265,7 @@ public:
                 try {
                     int num = std::stoi(v.substr(1));
                     max_version = std::max(max_version, num);
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
         }
         

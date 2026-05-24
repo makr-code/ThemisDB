@@ -87,7 +87,7 @@ bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config
                 if (info && info->context_length > 0)
                     context_length_ = info->context_length;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Fallback to stub mode; wrapper_ remains null.
             wrapper_.reset();
         }
@@ -245,7 +245,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
                 } catch (const std::exception& e) {
                     ++error_count_;
                     spdlog::warn("LlamaCppPlugin stream callback failed: {}", e.what());
-                } catch (const std::exception&) {
+                } catch (...) {
                     ++error_count_;
                     spdlog::warn("LlamaCppPlugin stream callback failed with unknown exception");
                 }
@@ -259,7 +259,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
             response.trace_id = request.trace_id;
             response.span_id = request.span_id;
             return response;
-        } catch (const std::exception&) {
+        } catch (...) {
             ++error_count_;
             response.success = false;
             response.error_message = "LlamaCppPlugin generate bridge failed";
@@ -294,7 +294,7 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
             } catch (const std::exception& e) {
                 ++error_count_;
                 spdlog::warn("LlamaCppPlugin stub stream callback failed: {}", e.what());
-            } catch (const std::exception&) {
+            } catch (...) {
                 ++error_count_;
                 spdlog::warn("LlamaCppPlugin stub stream callback failed with unknown exception");
             }
@@ -376,7 +376,7 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
         if (wrapper_) {
             try {
                 return wrapper_->embed(text);
-            } catch (const std::exception&) {
+            } catch (...) {
                 // Fallback to stub zero-vector on error.
             }
         }
@@ -389,7 +389,7 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
             try {
                 auto result = embed_fn_(text);
                 if (!result.empty()) return result;
-            } catch (const std::exception&) {
+            } catch (...) {
                 // fn must not throw; fall through to zero-vector stub
             }
         }

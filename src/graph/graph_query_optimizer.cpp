@@ -2598,7 +2598,7 @@ bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
             algo_cost_models_[it->second] = m;
         }
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

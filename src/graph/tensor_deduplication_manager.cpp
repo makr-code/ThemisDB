@@ -1280,7 +1280,7 @@ bool TensorDeduplicationManager::restoreGraph(const std::string &snapshot_key) {
         THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: exception while restoring '{}': {}", snapshot_key,
                     ex.what());
         return false;
-    } catch (const std::exception&) {
+    } catch (...) {
         THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: unknown exception while restoring '{}'",
                     snapshot_key);
         return false;
@@ -1303,7 +1303,7 @@ bool TensorDeduplicationManager::replayMutationJournal(const std::string &snapsh
                             entries.push_back(std::move(one[0]));
                         }
                     });
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
         // Per-entry journals are already compacted (one entry per tensor_id).
         // Compact again to handle duplicate tensor_ids from concurrent writes.
@@ -1399,7 +1399,7 @@ void TensorDeduplicationManager::clearMutationJournal(const std::string &snapsho
         std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
         if (journal_entry_clear_fn_) {
             try { journal_entry_clear_fn_(snapshot_key); }
-            catch (const std::exception&) {}
+            catch (...) {}
         }
         // Also clear the legacy blob keys so they don't confuse future restores.
         storage_->putRawMetadata(mutationJournalKeyForSnapshot(snapshot_key), {});
@@ -1446,7 +1446,7 @@ void TensorDeduplicationManager::persistUpsertJournalEntry(const StoredTensorRec
             catch (const std::exception& ex) {
                 THEMIS_WARN("[TensorDeduplicationManager] persistUpsertJournalEntry: persist_fn threw exception: {}", ex.what());
             }
-            catch (const std::exception&) {
+            catch (...) {
                 THEMIS_WARN("[TensorDeduplicationManager] persistUpsertJournalEntry: persist_fn threw unknown exception");
             }
         }
@@ -1479,7 +1479,7 @@ void TensorDeduplicationManager::persistDeleteJournalEntry(const std::string &te
         std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
         if (journal_entry_persist_fn_) {
             try { journal_entry_persist_fn_(*snapshot_key, tensor_id, payload); }
-            catch (const std::exception&) {}
+            catch (...) {}
         }
         return;
     }

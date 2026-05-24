@@ -94,7 +94,7 @@ std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_
     auto span = Tracer::startSpan("getMapping");
         json j = json::parse(value);
         return PiiMapping::fromJson(j);
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -145,7 +145,7 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
             }
             ++index;
             ++total;
-        } catch (const std::exception&) {
+        } catch (...) {
             // skip malformed entries
         }
     }

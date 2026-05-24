@@ -412,7 +412,7 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                     if (!legacy.name.empty()) {
                         manifest = legacy;
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Fallback parsing failed; keep manifest as nullopt
                 }
             }
@@ -1100,7 +1100,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
             nlohmann::json cfg;
             cfg["restored_state"] = saved_state;
             init_config = cfg.dump();
-        } catch (const std::exception&) {
+        } catch (...) {
             init_config = "{}";
         }
     }

@@ -103,7 +103,7 @@ TSStore::parseKeyInternal(const std::string& key) const {
     
     try {
         comp.timestamp_ms = std::stoll(key.substr(pos3 + 1));
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
     

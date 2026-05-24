@@ -580,7 +580,7 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
         avformat_close_input(&fmt_ctx);
         std::filesystem::remove(temp_path);
         
-    } catch (const std::exception&) {
+    } catch (...) {
         // Ensure temp file is cleaned up
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
@@ -785,7 +785,7 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
         avformat_close_input(&fmt_ctx);
         std::filesystem::remove(temp_path);
         
-    } catch (const std::exception&) {
+    } catch (...) {
         // Ensure temp file is cleaned up
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
@@ -861,7 +861,7 @@ std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<ui
         av_packet_free(&packet);
         avformat_close_input(&fmt_ctx);
         std::filesystem::remove(temp_path);
-    } catch (const std::exception&) {
+    } catch (...) {
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
         }
@@ -1008,7 +1008,7 @@ std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_
         avcodec_free_context(&codec_ctx);
         avformat_close_input(&fmt_ctx);
         std::filesystem::remove(temp_path);
-    } catch (const std::exception&) {
+    } catch (...) {
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
         }

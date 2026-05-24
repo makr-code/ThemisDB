@@ -197,7 +197,7 @@ bool is_directx_available() {
         DirectXContext test_context(0);
         return test_context.initialize();
     }
-    catch (const std::exception&) {
+    catch (...) {
         return false;
     }
 #else

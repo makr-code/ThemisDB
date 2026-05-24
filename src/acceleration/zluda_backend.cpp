@@ -211,7 +211,7 @@ public:
                 std::cerr << "ZLUDA: computeDistances callback failed: " << e.what()
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
-            } catch (const std::exception&) {
+            } catch (...) {
                 std::cerr << "ZLUDA: computeDistances callback failed"
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
@@ -262,7 +262,7 @@ public:
                 std::cerr << "ZLUDA: batchKnnSearch callback failed: " << e.what()
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};
-            } catch (const std::exception&) {
+            } catch (...) {
                 std::cerr << "ZLUDA: batchKnnSearch callback failed"
                           << " (fail-closed -> returning empty result)" << std::endl;
                 return {};

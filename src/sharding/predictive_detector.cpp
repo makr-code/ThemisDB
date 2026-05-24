@@ -204,7 +204,7 @@ void PredictiveFailureDetector::checkAllShards() {
                 stats_.predictions_made++;
             }
             
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip this shard and continue
             continue;
         }

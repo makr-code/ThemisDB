@@ -211,7 +211,7 @@ StepResult executeStep(int index,
         case StepType::WAIT: {
             // action stores the delay in ms as a string
             int delay_ms = 0;
-            try { delay_ms = std::stoi(step.action); } catch (const std::exception&) {}
+            try { delay_ms = std::stoi(step.action); } catch (...) {}
             if (delay_ms > 0 && delay_ms <= 60000) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
             }
@@ -456,7 +456,7 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
     json arr;
     try {
         arr = json::parse(json_str);
-    } catch (const std::exception&) {
+    } catch (...) {
         return imported_ids;
     }
 
@@ -474,7 +474,7 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
             MacroID id = m.macro_id;
             impl_->macros[id] = std::move(m);
             imported_ids.push_back(id);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip malformed entries
         }
     }

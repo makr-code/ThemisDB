@@ -145,7 +145,7 @@ VoiceStreamingSession::VoiceStreamingSession(Config config)
 
 VoiceStreamingSession::~VoiceStreamingSession() {
     if (impl_ && impl_->active) {
-        try { end(); } catch (const std::exception&) {}
+        try { end(); } catch (...) {}
     }
 }
 

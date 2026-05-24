@@ -193,7 +193,7 @@ static bool decodeHexString(const std::string &hexStr, std::vector<uint8_t> &out
             outBytes.push_back(byte);
         }
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         outBytes.clear();
         return false;
     }
@@ -1157,7 +1157,7 @@ bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
 
         return true;
 
-    } catch (const std::exception &) {
+    } catch (...) {
         return false;
     }
 }

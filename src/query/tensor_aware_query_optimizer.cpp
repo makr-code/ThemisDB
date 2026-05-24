@@ -197,18 +197,17 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
         }
     }
 
-    // ── Step 2: String-scan fallback heuristic ────────────────────────────
-    // Check whether this node's description mentions a tensor function.
-    std::string upper_desc;
-    upper_desc.reserve(node.description.size());
-    for (char c : node.description)
-        upper_desc += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    TensorNodeDetectorFn detector;
+    {
+        std::shared_lock lock(detector_mutex_);
+        detector = tensor_node_detector_fn_;
+    }
 
     std::optional<std::string> detected_fn;
     if (detector) {
         try {
             detected_fn = detector(node);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Fail closed to deterministic description scan below.
             detected_fn.reset();
         }

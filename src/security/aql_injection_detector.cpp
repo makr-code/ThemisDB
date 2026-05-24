@@ -203,7 +203,7 @@ bool AQLInjectionDetector::isValidAQLTemplate(const std::string& template_str) {
     try {
         auto result = parseAQL(template_str);
         return result.has_value();
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

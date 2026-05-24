@@ -244,7 +244,7 @@ bool DataMigrator::verifyIntegrity(
         
         return source_hash == target_hash;
         
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -373,7 +373,7 @@ bool DataMigrator::retryOperation(Func func) {
             if (func()) {
                 return true;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Continue to retry
         }
         

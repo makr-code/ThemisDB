@@ -643,7 +643,7 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
         if (doc_list_provider_) {
             try {
                 doc_ids = doc_list_provider_(shard_info.shard_id);
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
 
         for (const auto& doc_id : doc_ids) {

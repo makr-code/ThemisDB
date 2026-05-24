@@ -53,7 +53,7 @@ static bool validateGeoJSONBasic(const json& geojson) {
         }
         
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -75,7 +75,7 @@ static bool validateGeoJSONBasic(const json& geojson) {
         }
         
         return true;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -108,7 +108,7 @@ void GeoIndexHooks::onEntityPut(
             try {
                 std::string blob_str(reinterpret_cast<const char*>(blob.data()), blob.size());
                 j = nlohmann::json::parse(blob_str);
-            } catch (const std::exception&) {
+            } catch (...) {
                 throw;
             }
         } else {

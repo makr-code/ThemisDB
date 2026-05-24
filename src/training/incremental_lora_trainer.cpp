@@ -790,7 +790,7 @@ public:
                 gpu_training_    = true;
                 lora_initialized_ = true;
                 return;
-            } catch (const std::exception&) {
+            } catch (...) {
                 // GPU init failed – fall through to CPU path
                 gpu_lora_layer_.reset();
                 gpu_optimizer_.reset();
@@ -808,7 +808,7 @@ public:
                 gpu_training_    = true;
                 lora_initialized_ = true;
                 return;
-            } catch (const std::exception&) {
+            } catch (...) {
                 // GPU init failed – fall through to CPU path
                 gpu_lora_layer_.reset();
                 gpu_optimizer_.reset();
@@ -1194,7 +1194,7 @@ public:
                     lora_layer_->set_weights(B, A);
                 }
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // Weight file exists but is corrupt or wrong format;
             // start with fresh Kaiming/zero initialization.
 #ifndef THEMIS_NO_SPDLOG
@@ -1390,7 +1390,7 @@ public:
             int major = std::stoi(version_part.substr(0, dot_pos));
             int minor = std::stoi(version_part.substr(dot_pos + 1));
             return prefix + std::to_string(major) + "." + std::to_string(minor + 1);
-        } catch (const std::exception&) {
+        } catch (...) {
             return base_version + ".1";
         }
     }

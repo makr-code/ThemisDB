@@ -188,7 +188,7 @@ InferenceHandle AsyncInferenceEngine::submit(
                     try {
                         promise->set_exception(std::make_exception_ptr(
                             std::runtime_error("Request cancelled")));
-                    } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
+                    } catch (...) { /* Promise already satisfied; ignore. */ }
                     std::lock_guard<std::mutex> lock(tracking_mutex_);
                     active_requests_.erase(async_req->request_id);
                     return;
@@ -199,9 +199,9 @@ InferenceHandle AsyncInferenceEngine::submit(
                     if (async_req->callback) {
                         async_req->callback(response);
                     }
-                    try { promise->set_value(response); } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
-                } catch (const std::exception&) {
-                    try { promise->set_exception(std::current_exception()); } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
+                    try { promise->set_value(response); } catch (...) { /* Promise already satisfied; ignore. */ }
+                } catch (...) {
+                    try { promise->set_exception(std::current_exception()); } catch (...) { /* Promise already satisfied; ignore. */ }
                 }
                 std::lock_guard<std::mutex> lock(tracking_mutex_);
                 active_requests_.erase(async_req->request_id);
@@ -410,7 +410,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
                     try {
                         promise->set_exception(std::make_exception_ptr(
                             std::runtime_error("Request cancelled")));
-                    } catch (const std::exception&) {}
+                    } catch (...) {}
                     std::lock_guard<std::mutex> lock(tracking_mutex_);
                     active_requests_.erase(async_req->request_id);
                     return;
@@ -419,9 +419,9 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
                     auto response = processRequest(*async_req, submit_time);
                     stats_.total_completed++;
                     if (async_req->callback) async_req->callback(response);
-                    try { promise->set_value(response); } catch (const std::exception&) {}
-                } catch (const std::exception&) {
-                    try { promise->set_exception(std::current_exception()); } catch (const std::exception&) {}
+                    try { promise->set_value(response); } catch (...) {}
+                } catch (...) {
+                    try { promise->set_exception(std::current_exception()); } catch (...) {}
                 }
                 std::lock_guard<std::mutex> lock(tracking_mutex_);
                 active_requests_.erase(async_req->request_id);
@@ -694,7 +694,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             // receive the is_final=true sentinel even when the request is
             // cancelled while still queued (never dispatched to a plugin).
             if (item.request->callback) {
-                try { item.request->callback(InferenceResponse{}); } catch (const std::exception&) {}
+                try { item.request->callback(InferenceResponse{}); } catch (...) {}
             }
 
             // Set exception in promise — guard against double-resolve (timeout
@@ -704,7 +704,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
                     item.promise->set_exception(
                         std::make_exception_ptr(std::runtime_error("Request cancelled"))
                     );
-                } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
+                } catch (...) { /* Promise already satisfied; ignore. */ }
             }
             
             // Remove from tracking
@@ -737,7 +737,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             // Guard against double-resolve: timeout monitor may have already
             // resolved the promise while the plugin was still running.
             if (item.promise) {
-                try { item.promise->set_value(response); } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
+                try { item.promise->set_value(response); } catch (...) { /* Promise already satisfied; ignore. */ }
             }
             
             spdlog::debug("Worker {} completed request {} in {:.1f}ms",
@@ -750,7 +750,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             
             // Set exception in promise — guard against double-resolve.
             if (item.promise) {
-                try { item.promise->set_exception(std::current_exception()); } catch (const std::exception&) { /* Promise already satisfied; ignore. */ }
+                try { item.promise->set_exception(std::current_exception()); } catch (...) { /* Promise already satisfied; ignore. */ }
             }
         }
         
@@ -960,7 +960,7 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
                             std::make_exception_ptr(
                                 std::runtime_error("Request dropped: queue full")));
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Promise may already be satisfied; ignore.
                 }
 
@@ -1030,7 +1030,7 @@ void AsyncInferenceEngine::checkAndHandleTimeouts() {
                     req->shared_promise->set_exception(
                         std::make_exception_ptr(
                             std::runtime_error("Request timed out")));
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Promise already satisfied; ignore.
                 }
             }

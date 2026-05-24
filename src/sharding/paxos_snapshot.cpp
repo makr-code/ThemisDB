@@ -362,7 +362,7 @@ std::vector<uint64_t> PaxosSnapshotManager::listSnapshots() const {
                     try {
                         uint64_t snapshot_id = std::stoull(id_str);
                         snapshots.push_back(snapshot_id);
-                    } catch (const std::exception&) {
+                    } catch (...) {
                         // Skip invalid filenames
                     }
                 }

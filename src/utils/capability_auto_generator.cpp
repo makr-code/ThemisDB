@@ -315,7 +315,7 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
                 }
             }
             
-        } catch (const std::exception&) {
+        } catch (...) {
             // Skip documents that can't be parsed
         }
     }
@@ -540,7 +540,7 @@ void CapabilityAutoGenerator::auditLog(const std::string& shard_id, const nlohma
             // Trigger self-awareness snapshot on audit signing
             self_awareness_->onAuditSigning(log_entry);
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Ignore logging errors
     }
 }

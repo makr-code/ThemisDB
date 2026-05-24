@@ -555,7 +555,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
         uint64_t txn_id = 0;
         try {
             txn_id = std::stoull(id_str);
-        } catch (const std::exception&) {
+        } catch (...) {
             span.setStatus(false, "Invalid transaction ID");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid transaction ID: '" + id_str + "'", req);

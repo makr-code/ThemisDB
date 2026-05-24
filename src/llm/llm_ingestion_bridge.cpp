@@ -52,7 +52,7 @@ bool LlmIngestionBridge::isAvailable() const {
     try {
         const auto plugins = LLMPluginManager::instance().listPlugins();
         return !plugins.empty();
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }
@@ -64,7 +64,7 @@ std::string LlmIngestionBridge::description() const {
             return "LlmIngestionBridge (no plugin loaded)";
         }
         return "LlmIngestionBridge → LLMPluginManager/" + plugins.front();
-    } catch (const std::exception&) {
+    } catch (...) {
         return "LlmIngestionBridge (unavailable)";
     }
 }

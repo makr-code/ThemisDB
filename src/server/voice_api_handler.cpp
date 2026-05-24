@@ -73,7 +73,7 @@ namespace {
                 }
                 octets[i] = octet;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             // std::stoi can throw invalid_argument or out_of_range
             return false;
         }
@@ -191,10 +191,6 @@ VoiceApiHandler::VoiceApiHandler(
             THEMIS_WARN("VoiceApiHandler: failed to enable JWT validation: {}", e.what());
         }
     }
-}
-
-void VoiceApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
-    jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
 http::response<http::string_body> VoiceApiHandler::handleRequest(
@@ -1580,7 +1576,7 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
         try {
             int v = std::stoi(limit_str);
             if (v > 0) limit = static_cast<size_t>(v);
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     auto records = voice_assistant_->audioStorage().listRecords(tier, limit);
@@ -1666,7 +1662,7 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
         try {
             int v = std::stoi(limit_str);
             if (v > 0) limit = static_cast<size_t>(v);
-        } catch (const std::exception&) {}
+        } catch (...) {}
     }
 
     auto records = voice_assistant_->audioStorage().searchTranscripts(query, limit);
@@ -1782,7 +1778,7 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
 ) {
     try {
         return json::parse(req.body());
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -1894,7 +1890,7 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     utils::URLComponents components;
     try {
         components = utils::parseURL(url);
-    } catch (const std::exception&) {
+    } catch (...) {
         throw std::invalid_argument("Invalid URL format");
     }
     

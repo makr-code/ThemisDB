@@ -56,7 +56,7 @@ NlpTextAnalyzer::NlpTextAnalyzer(const Config &config) : config_(config) {
             initializeSentimentLexicon();
             initializeEntityPatterns();
             initializeLemmatizationData();
-        } catch (const std::exception&) {
+        } catch (...) {
             std::cerr << "CRITICAL: NlpTextAnalyzer minimal initialization also failed!" << std::endl;
         }
     }
@@ -2045,7 +2045,7 @@ bool NlpTextAnalyzer::loadLegalModalityConfig(const std::string &config_path) co
             if (!(val = parse_value(stripped, "deontic:")).empty()) {
                 current.deontic_logic = val;
             } else if (!(val = parse_value(stripped, "strength:")).empty()) {
-                try { current.strength = std::stof(val); } catch (const std::exception&) {
+                try { current.strength = std::stof(val); } catch (...) {
                     std::cerr << "WARNING: NlpTextAnalyzer: failed to parse strength value '" 
                               << val << "' in " << config_path << std::endl;
                 }

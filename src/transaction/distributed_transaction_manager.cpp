@@ -125,7 +125,7 @@ DistributedTransactionManager::~DistributedTransactionManager() {
     {
         std::lock_guard<std::mutex> lock(batch_mutex_);
         for (auto& entry : batch_queue_) {
-            try { entry.result.set_value(false); } catch (const std::exception&) {}
+            try { entry.result.set_value(false); } catch (...) {}
         }
         batch_queue_.clear();
     }
@@ -920,12 +920,12 @@ void DistributedTransactionManager::batchFlushLoop() {
             bool result = false;
             try {
                 result = phase1_futures[i].get();
-            } catch (const std::exception&) {
+            } catch (...) {
                 result = false;
             }
             try {
                 batch[i].result.set_value(result);
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
     }
 }

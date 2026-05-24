@@ -43,7 +43,7 @@ std::optional<nlohmann::json> InputValidator::loadSchema(const std::string& sche
         buf << in.rdbuf();
         auto j = nlohmann::json::parse(buf.str());
         return j;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -237,7 +237,7 @@ std::optional<std::string> InputValidator::validateJson(
         }
 
         return std::nullopt;
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::string("schema validation error");
     }
 }

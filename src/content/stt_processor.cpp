@@ -341,7 +341,7 @@ bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
     try {
         auto wav_data = convertToWav16kHz(audio_stream);
         pcm_data      = extractPCMData(wav_data);
-    } catch (const std::exception &) {
+    } catch (...) {
         errors_++;
         return false;
     }

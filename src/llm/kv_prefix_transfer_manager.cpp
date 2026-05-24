@@ -59,7 +59,7 @@ KVPrefixTransferManager::KVPrefixTransferManager(
                 if (custom) {
                     return custom;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 // fail-closed: default back to NullKVStateSerializer
             }
         }

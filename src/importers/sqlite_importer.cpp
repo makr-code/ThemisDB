@@ -200,7 +200,7 @@ std::shared_ptr<ImportHandle> SQLiteImporter::importDataAsync(
                 "Unhandled exception in async SQLite import: ") + e.what();
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
-        } catch (const std::exception&) {
+        } catch (...) {
             ImportError err;
             err.code     = ImportErrorCode::UNKNOWN;
             err.severity = ImportErrorSeverity::CRITICAL;

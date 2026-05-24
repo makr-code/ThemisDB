@@ -734,7 +734,7 @@ private:
 
     void notifyOOM(const OOMEvent& ev) {
         if (oom_cb_) {
-            try { oom_cb_(ev); } catch (const std::exception&) {}
+            try { oom_cb_(ev); } catch (...) {}
         }
     }
 

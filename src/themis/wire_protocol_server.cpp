@@ -232,11 +232,52 @@ static std::string makeSessionId(const tcp::socket& socket) {
         ss << socket.remote_endpoint().address().to_string()
            << ':' << socket.remote_endpoint().port()
            << '@' << std::chrono::steady_clock::now().time_since_epoch().count();
-    } catch (const std::exception&) {
+    } catch (...) {
         ss << "unknown@"
            << std::chrono::steady_clock::now().time_since_epoch().count();
     }
     return ss.str();
+}
+
+json protoValueToJson(const v1::Value& value) {
+    switch (value.kind_case()) {
+        case v1::Value::kStringValue:
+            return value.string_value();
+        case v1::Value::kIntValue:
+            return value.int_value();
+        case v1::Value::kDoubleValue:
+            return value.double_value();
+        case v1::Value::kBoolValue:
+            return value.bool_value();
+        case v1::Value::kBytesValue:
+            return value.bytes_value();
+        case v1::Value::kListValue: {
+            json result = json::array();
+            for (const auto& entry : value.list_value().values()) {
+                result.push_back(protoValueToJson(entry));
+            }
+            return result;
+        }
+        case v1::Value::kMapValue: {
+            json result = json::object();
+            for (const auto& [key, entry] : value.map_value().fields()) {
+                result[key] = protoValueToJson(entry);
+            }
+            return result;
+        }
+        case v1::Value::KIND_NOT_SET:
+        default:
+            return nullptr;
+    }
+}
+
+template <typename MapLike>
+json protoMapToJson(const MapLike& values) {
+    json result = json::object();
+    for (const auto& [key, value] : values) {
+        result[key] = protoValueToJson(value);
+    }
+    return result;
 }
 
 /// Sanitize a user-supplied string for safe inclusion in error messages.
@@ -264,13 +305,13 @@ static std::string sanitizeForMessage(const std::string& s) {
 #if THEMIS_WIRE_V1_PB_HEADER_FOUND
 namespace {
 std::mutex        s_bridge_mutex;
-WireProtocolSession::QueryAqlFn      s_query_aql_fn;
+WireProtocolSession::AqlQueryFn      s_query_aql_fn;
 WireProtocolSession::GeoQueryFn      s_geo_query_fn;
 WireProtocolSession::TimeseriesQueryFn s_timeseries_query_fn;
 WireProtocolSession::GraphTraverseFn   s_graph_traverse_fn;
 } // anonymous namespace
 
-void WireProtocolSession::setQueryAqlFn(QueryAqlFn fn) {
+void WireProtocolSession::setQueryAqlFn(AqlQueryFn fn) {
     std::lock_guard<std::mutex> lock(s_bridge_mutex);
     s_query_aql_fn = std::move(fn);
 }
@@ -870,7 +911,7 @@ void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
 
 void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     // QUERY_AQL: execute an AQL query string.
-    // Uses the injectable QueryAqlFn when available; falls back to 501
+    // Uses the injectable AqlQueryFn when available; falls back to 501
     // when no callback has been installed via setQueryAqlFn().
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
@@ -882,7 +923,7 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     }
 
 #if THEMIS_WIRE_V1_PB_HEADER_FOUND
-    QueryAqlFn fn;
+    AqlQueryFn fn;
     {
         std::lock_guard<std::mutex> lock(s_bridge_mutex);
         fn = s_query_aql_fn;

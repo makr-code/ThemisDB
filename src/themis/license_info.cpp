@@ -306,7 +306,7 @@ int getDaysUntilExpiry(const LicenseData& license) {
         int diff_days = static_cast<int>(diff_seconds / (60 * 60 * 24));
         
         return diff_days;
-    } catch (const std::exception&) {
+    } catch (...) {
         // Error parsing date, assume expired
         return INVALID_LICENSE_DAYS;
     }

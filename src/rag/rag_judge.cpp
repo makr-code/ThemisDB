@@ -282,7 +282,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
         } catch (const std::exception& e) {
             THEMIS_WARN("RAGJudge {} evaluation failed: {}", name, e.what());
             return fallback;
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_WARN("RAGJudge {} evaluation failed with unknown exception", name);
             return fallback;
         }
@@ -369,7 +369,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
                     }
                 } catch (const std::exception& e) {
                     THEMIS_WARN("RAGJudge claim verification pipeline failed: {}", e.what());
-                } catch (const std::exception&) {
+                } catch (...) {
                     THEMIS_WARN("RAGJudge claim verification pipeline failed with unknown exception");
                 }
             }

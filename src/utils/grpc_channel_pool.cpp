@@ -273,7 +273,7 @@ void GrpcChannelPool::warmup(
             
             total_channels_.fetch_add(1);
             channels_created_.fetch_add(1);
-        } catch (const std::exception&) {
+        } catch (...) {
             // Continue best-effort warmup on individual channel creation failures.
         }
     }
@@ -374,7 +374,7 @@ bool GrpcChannelPool::healthCheck(const std::string& target,
             return state == GRPC_CHANNEL_READY;
         }
         return false;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

@@ -379,9 +379,9 @@ public:
         };
 
         try { max_depth_ = std::stoi(opt("max_depth", "3")); }
-        catch (const std::exception&) { max_depth_ = 3; }
+        catch (...) { max_depth_ = 3; }
         try { max_pages_ = std::stoul(opt("max_pages", "0")); }
-        catch (const std::exception&) { max_pages_ = 0; }
+        catch (...) { max_pages_ = 0; }
 
         user_agent_       = opt("user_agent",       "ThemisDB-Crawler/1.0");
         follow_sitemaps_  = (opt("follow_sitemaps",  "true") != "false");

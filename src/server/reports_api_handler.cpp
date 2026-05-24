@@ -66,7 +66,7 @@ nlohmann::json ReportsApiHandler::generateComplianceReport(const std::string& re
                         if (first_ts.empty()) first_ts = ts;
                         last_ts = ts;
                     }
-                } catch (const std::exception&) {
+                } catch (...) {
                     // Ignore parse errors for robustness
                 }
             }

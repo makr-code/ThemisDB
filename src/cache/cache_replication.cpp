@@ -122,7 +122,7 @@ void CacheReplicationManager::probeUnhealthyReplicas() {
             bool alive = false;
             try {
                 alive = state.listener->ping();
-            } catch (const std::exception&) {
+            } catch (...) {
                 alive = false;
             }
 
@@ -246,7 +246,7 @@ void CacheReplicationManager::dispatch(const CacheReplicationEvent &event) {
             THEMIS_WARN("CacheReplicationManager: exception from replica '{}': {}", state.listener->replicaId(),
                         ex.what());
             ok = false;
-        } catch (const std::exception&) {
+        } catch (...) {
             ok = false;
         }
 

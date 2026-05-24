@@ -170,7 +170,7 @@ AnomalyExplanation MLAnomalyDetector::buildExplanation(const Anomaly& anomaly) c
                 double v = std::stod(factor.substr(pos + 1));
                 e.feature_importance.push_back({factor.substr(0, pos), v});
                 continue;
-            } catch (const std::exception&) {
+            } catch (...) {
                 // fallthrough
             }
         }

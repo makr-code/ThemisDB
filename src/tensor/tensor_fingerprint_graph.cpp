@@ -329,15 +329,5 @@ TensorFingerprintGraph::stats() const noexcept {
     return stats_;
 }
 
-void TensorFingerprintGraph::setExactSimilarityFn(ExactSimilarityFn fn) {
-    std::unique_lock lock(exact_similarity_fn_mutex_);
-    exact_similarity_fn_ = std::move(fn);
-}
-
-void TensorFingerprintGraph::clearExactSimilarityFn() {
-    std::unique_lock lock(exact_similarity_fn_mutex_);
-    exact_similarity_fn_ = nullptr;
-}
-
 } // namespace tensor
 } // namespace themis

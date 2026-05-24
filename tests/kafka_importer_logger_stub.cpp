@@ -33,15 +33,6 @@ namespace themis {
 namespace utils {
 
 // ---------------------------------------------------------------------------
-// Static member definitions
-// ---------------------------------------------------------------------------
-std::shared_ptr<spdlog::logger> Logger::logger_;          // null → log calls are no-ops
-LogMetrics                      Logger::metrics_;          // default-initialized (atomic counters = 0)
-std::string                     Logger::trace_context_;
-std::mutex                      Logger::trace_context_mu_;
-bool                            Logger::json_mode_   = false;
-
-// ---------------------------------------------------------------------------
 // Stub implementations of non-template Logger methods
 // ---------------------------------------------------------------------------
 spdlog::level::level_enum Logger::toSpdlogLevel(Level) {

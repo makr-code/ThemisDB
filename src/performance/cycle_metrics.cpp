@@ -180,7 +180,7 @@ void* HardwareCycleCounter::gpu_cycles_start() noexcept {
     if (fn) {
         try {
             return fn();
-        } catch (const std::exception&) {
+        } catch (...) {
             return nullptr;
         }
     }
@@ -196,7 +196,7 @@ uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
     if (fn) {
         try {
             return fn(event);
-        } catch (const std::exception&) {
+        } catch (...) {
             return 0;
         }
     }

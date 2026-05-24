@@ -1027,7 +1027,7 @@ std::vector<uint8_t> SphincsPlus::sign(const std::vector<uint8_t>& message,
     if (fn) [[unlikely]] {
         try {
             return fn(message, secret_key);
-        } catch (const std::exception&) {
+        } catch (...) {
             return {};
         }
     }
@@ -1074,7 +1074,7 @@ bool SphincsPlus::verify(const std::vector<uint8_t>& message,
     if (fn) [[unlikely]] {
         try {
             return fn(message, signature, public_key);
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
     }

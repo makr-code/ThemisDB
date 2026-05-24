@@ -330,29 +330,31 @@ public:
     // returns a serialised JSON response string (ready to wrap in send_ok/send_error).
     // -------------------------------------------------------------------------
 
-    /// AQL query executor: (aql_string, db_namespace) → JSON response string.
-    using AqlQueryFn = std::function<std::string(const std::string& aql,
-                                                  const std::string& ns)>;
-
-    /// Cursor-next executor: (cursor_id) → JSON response string.
+    /// Cursor-next executor: (cursor_id) -> JSON response string.
     using CursorNextFn = std::function<std::string(const std::string& cursor_id)>;
 
-    /// Cursor-close executor: (cursor_id) → JSON response string.
+    /// Cursor-close executor: (cursor_id) -> JSON response string.
     using CursorCloseFn = std::function<std::string(const std::string& cursor_id)>;
 
-    /// Geospatial query executor: (collection, lat, lon, radius_m, limit) → JSON response string.
+#if !THEMIS_WIRE_V1_PB_HEADER_FOUND
+    /// AQL query executor: (aql_string, db_namespace) -> JSON response string.
+    using AqlQueryFn = std::function<std::string(const std::string& aql,
+                                                 const std::string& ns)>;
+
+    /// Geospatial query executor: (collection, lat, lon, radius_m, limit) -> JSON response string.
     using GeoQueryFn = std::function<std::string(const std::string& collection,
-                                                  double lat, double lon,
-                                                  double radius_m, int limit)>;
+                                                 double lat, double lon,
+                                                 double radius_m, int limit)>;
 
-    /// Time-series query executor: (collection, start_ns, end_ns, aggregation) → JSON string.
+    /// Time-series query executor: (collection, start_ns, end_ns, aggregation) -> JSON string.
     using TimeseriesQueryFn = std::function<std::string(const std::string& collection,
-                                                         int64_t start_ns,
-                                                         int64_t end_ns,
-                                                         const std::string& aggregation)>;
+                                                        int64_t start_ns,
+                                                        int64_t end_ns,
+                                                        const std::string& aggregation)>;
 
-    /// Graph traversal executor: () → JSON response string.
+    /// Graph traversal executor: () -> JSON response string.
     using GraphTraverseFn = std::function<std::string()>;
+#endif
     
     explicit WireProtocolSession(socket_t socket);
     ~WireProtocolSession();
@@ -385,7 +387,7 @@ public:
     /// @param aql  The AQL query string.
     /// @return     A vector of serialised entity byte-strings (one per row).
     ///             May be empty for non-SELECT queries.  Throws on engine error.
-    using QueryAqlFn =
+    using AqlQueryFn =
         std::function<std::vector<std::string>(const std::string& aql)>;
 
     /// Geospatial query executor.
@@ -421,7 +423,7 @@ public:
      * request.  The callback is invoked from session handler threads; it must
      * be thread-safe.
      */
-    static void setQueryAqlFn(QueryAqlFn fn);
+    static void setQueryAqlFn(AqlQueryFn fn);
 
     /**
      * @brief Install the geospatial executor callback (thread-safe, process-global).
@@ -444,6 +446,8 @@ public:
 #endif  // THEMIS_WIRE_V1_PB_HEADER_FOUND
     
 private:
+    friend class WireProtocolServer;
+
     // Async read/write operations
     void async_read_header();
     void async_read_payload(const WireFrameHeader& header);
@@ -493,6 +497,7 @@ private:
     std::function<void(const std::string&)> disconnect_callback_;
     bool disconnect_notified_;
     mutable std::mutex session_mutex_;
+    const WireEngineConfig* engines_ = nullptr;
 
     // Engine injection bridges stored per-session (stub #281)
     AqlQueryFn        aql_query_fn_;
@@ -584,6 +589,7 @@ private:
     uint64_t total_connections_;
     uint64_t total_messages_;
     bool running_;
+    WireEngineConfig engines_{};
 
     // Engine fn storage — guarded by state_mutex_ (same lock used for sessions_)
     WireProtocolSession::AqlQueryFn        aql_query_fn_;

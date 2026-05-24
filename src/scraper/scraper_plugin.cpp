@@ -178,7 +178,7 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
     // Injected function takes priority (tests)
     if (http_fn_) {
         try { return http_fn_(url, config_.crawl_options.user_agent); }
-        catch (const std::exception&) { return {}; }
+        catch (...) { return {}; }
     }
 
 #ifdef THEMIS_ENABLE_CURL

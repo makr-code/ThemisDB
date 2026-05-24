@@ -1679,7 +1679,7 @@ int64_t LWWConflictResolver::extractTimestamp(const std::string& json_doc) {
         size_t consumed = 0;
         int64_t ts = std::stoll(json_doc.substr(pos), &consumed);
         return (consumed > 0) ? ts : -1;
-    } catch (const std::exception&) {
+    } catch (...) {
         return -1;
     }
 }
@@ -1761,7 +1761,7 @@ std::string CRDTConflictResolver::resolve(
                     if (consumed > 0) {
                         fields[key] = val;
                     }
-                } catch (const std::exception&) {}
+                } catch (...) {}
             }
             
             p = kend + 1;
@@ -2010,7 +2010,7 @@ VectorClock VectorClock::fromJson(const std::string& json) {
                     p = vp + consumed;
                     continue;
                 }
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
         p = kend + 1;
     }
@@ -2129,7 +2129,7 @@ static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
                 size_t consumed = 0;
                 int64_t val = std::stoll(doc.substr(vp), &consumed);
                 if (consumed > 0) { fields[key] = val; p = vp + consumed; continue; }
-            } catch (const std::exception&) {}
+            } catch (...) {}
         }
         p = ke + 1;
     }
@@ -3723,7 +3723,7 @@ uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
                     THEMIS_WARN("QuorumRead: session token expired");
                     return 0;
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 return 0;
             }
         }
@@ -3737,7 +3737,7 @@ uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
         (semi == std::string::npos) ? std::string::npos : semi - seq_pos - 4);
     try {
         return std::stoull(seq_str);
-    } catch (const std::exception&) {
+    } catch (...) {
         return 0;
     }
 }
@@ -3857,7 +3857,7 @@ PersistentReplicationState::State PersistentReplicationState::load() const {
                     state.persisted_at = std::chrono::system_clock::time_point(
                         std::chrono::milliseconds(ms));
                 }
-            } catch (const std::exception&) {
+            } catch (...) {
                 THEMIS_WARN("PersistentReplicationState: failed to parse key={}", key);
             }
         }
@@ -4621,7 +4621,7 @@ void CDCManager::onWALEntryApplied(const WALEntry& entry) {
                 sub.callback(entry);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("CDCManager: subscriber {} threw: {}", sub.id, e.what());
-            } catch (const std::exception&) {
+            } catch (...) {
                 THEMIS_ERROR("CDCManager: subscriber {} threw unknown exception", sub.id);
             }
         }
@@ -4712,7 +4712,7 @@ void CrossClusterPublication::publish(const WALEntry& entry) {
         } catch (const std::exception& e) {
             THEMIS_ERROR("CrossClusterPublication[{}]: subscriber {} threw: {}",
                          name_, sub.id, e.what());
-        } catch (const std::exception&) {
+        } catch (...) {
             THEMIS_ERROR("CrossClusterPublication[{}]: subscriber {} threw unknown exception",
                          name_, sub.id);
         }
@@ -4764,7 +4764,7 @@ void CrossClusterSubscription::enable() {
                 if (last_applied_seq_.compare_exchange_weak(expected, e.sequence_number))
                     break;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             error_count_.fetch_add(1);
         }
     });
@@ -5032,7 +5032,7 @@ uint32_t WALArchivalManager::archiveSegments(
                     std::all_of(num_str.begin(), num_str.end(), ::isdigit);
                 if (all_digits) {
                     try { segment_id = std::stoull(num_str); }
-                    catch (const std::exception&) { segment_id = 0; }
+                    catch (...) { segment_id = 0; }
                 }
             }
         }
@@ -5358,7 +5358,7 @@ uint64_t MultiRegionActiveActiveManager::parseSessionToken(
         seq_pos + 4, (semi == std::string::npos) ? std::string::npos : semi - seq_pos - 4);
     try {
         return std::stoull(seq_str);
-    } catch (const std::exception&) {
+    } catch (...) {
         return 0;
     }
 }
@@ -5497,7 +5497,7 @@ bool MultiRegionActiveActiveManager::validateSessionToken(
             if (now_ms > expiry_ms) {
                 return false;  // Token expired
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             return false;
         }
     }
@@ -6066,7 +6066,7 @@ uint64_t GeoReplicationManager::parseSessionToken(const std::string& token) cons
             auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
             if (now_ms > expiry_ms) return 0;  // expired
-        } catch (const std::exception&) {
+        } catch (...) {
             return 0;
         }
     }
@@ -6074,7 +6074,7 @@ uint64_t GeoReplicationManager::parseSessionToken(const std::string& token) cons
     if (seq_pos == std::string::npos) return 0;
     try {
         return std::stoull(token.substr(seq_pos + 4));
-    } catch (const std::exception&) {
+    } catch (...) {
         return 0;
     }
 }

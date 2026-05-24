@@ -210,7 +210,7 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::encrypt(const std::s
 
         EVP_CIPHER_CTX_free(ctx);
         
-    } catch (const std::exception&) {
+    } catch (...) {
         EVP_CIPHER_CTX_free(ctx);
         throw;
     }
@@ -265,7 +265,7 @@ std::string TOTPSecretEncryption::decrypt(const EncryptedSecret &encrypted) {
 
         return std::string(plaintext.begin(), plaintext.end());
         
-    } catch (const std::exception&) {
+    } catch (...) {
         EVP_CIPHER_CTX_free(ctx);
         throw;
     }

@@ -489,7 +489,7 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
         // Docker Hub returns "token"; ECR/GHCR return "access_token"
         if (tj.contains("token"))        return Ok(tj["token"].get<std::string>());
         if (tj.contains("access_token")) return Ok(tj["access_token"].get<std::string>());
-    } catch (const std::exception&) {}
+    } catch (...) {}
 
     return Err<std::string>(ErrorCode::ERR_PLUGIN_OCI_PULL_FAILED,
                             "Cannot parse token from registry response");

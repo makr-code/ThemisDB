@@ -754,7 +754,7 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     if (fn) {
         try {
             return fn(username, dn, password);
-        } catch (const std::exception&) {
+        } catch (...) {
             return LDAPAuthResult::Failed("LdapBindFn threw an exception");
         }
     if (auto bind_fn = getLdapBindFn(); bind_fn) {

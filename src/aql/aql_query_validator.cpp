@@ -95,7 +95,7 @@ bool containsKeyword(const std::string &text, const std::string &kw) {
     try {
         std::regex re(pattern);
         return std::regex_search(upper_text, re);
-    } catch (const std::exception&) {
+    } catch (...) {
         // Fallback: simple substring search
         return upper_text.find(upper_kw) != std::string::npos;
     }

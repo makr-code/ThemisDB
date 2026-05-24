@@ -580,7 +580,7 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryUnregis
     themis::graph::GraphQueryOptimizer::IncrementalQueryHandle handle = 0;
     try {
         handle = std::stoull(handle_str);
-    } catch (const std::exception&) {
+    } catch (...) {
         span.setStatus(false, "invalid handle");
         return makeErrorResponse(http::status::bad_request,
             "Invalid handle: not a valid integer", req);

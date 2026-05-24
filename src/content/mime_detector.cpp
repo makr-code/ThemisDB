@@ -215,7 +215,7 @@ bool MimeDetector::loadYamlConfig(const std::string& config_path) {
         
     } catch (const YAML::Exception&) {
         return false;
-    } catch (const std::exception&) {
+    } catch (...) {
         return false;
     }
 }

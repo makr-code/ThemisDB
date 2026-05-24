@@ -908,7 +908,7 @@ TEST(WhisperPluginFocusedTests, R1_ConcurrentVadSetAndTranscribeStream) {
             try {
                 auto res = p.transcribeStream(speech, 16000.f, nullptr);
                 if (res.ingestion_source_type != "WHISPER") ++errors;
-            } catch (const std::exception&) {
+            } catch (...) {
                 ++errors;
             }
         }
@@ -990,30 +990,33 @@ static std::vector<uint8_t> buildWav(uint16_t num_channels,
 } // anonymous namespace
 
 TEST(WhisperPluginFocusedTests, S1_ParseWavRejectsZeroChannels) {
-    // A WAV file with num_channels=0 must throw, not divide by zero.
+    // A WAV file with num_channels=0 must fail when read through the public API.
     WavAudioChunkReader reader;
-    // Build a WAV with manually overridden num_channels = 0 by manipulating the bytes.
-    // Start from a valid 1-channel WAV then zero out the channel count bytes.
     auto wav = buildWav(1, 1, 16);
-    wav[22] = 0; wav[23] = 0;  // num_channels = 0
+    wav[22] = 0;
+    wav[23] = 0;  // num_channels = 0
+    const std::string path = writeTmpFile("wav_zero_channels.wav", wav);
     float sr = 0.f;
-    EXPECT_THROW(reader.parseWav(wav, sr), std::runtime_error);
+    EXPECT_THROW(reader.readFile(path, sr), std::runtime_error);
 }
 
 TEST(WhisperPluginFocusedTests, S2_ParseWavRejectsExcessiveChannelCount) {
     // A WAV file claiming 65 channels should be rejected (unreasonable for audio).
     WavAudioChunkReader reader;
     auto wav = buildWav(1, 1, 16);
-    wav[22] = 65; wav[23] = 0;  // num_channels = 65
+    wav[22] = 65;
+    wav[23] = 0;  // num_channels = 65
+    const std::string path = writeTmpFile("wav_too_many_channels.wav", wav);
     float sr = 0.f;
-    EXPECT_THROW(reader.parseWav(wav, sr), std::runtime_error);
+    EXPECT_THROW(reader.readFile(path, sr), std::runtime_error);
 }
 
 TEST(WhisperPluginFocusedTests, S3_ParseWavAcceptsMaxValidChannelCount) {
     // 64 channels should still be accepted (boundary value).
     WavAudioChunkReader reader;
     auto wav = buildWav(64, 1, 16, 16000);
+    const std::string path = writeTmpFile("wav_max_valid_channels.wav", wav);
     float sr = 0.f;
     // Must not throw; may return an empty or valid vector of samples
-    EXPECT_NO_THROW(reader.parseWav(wav, sr));
+    EXPECT_NO_THROW(reader.readFile(path, sr));
 }

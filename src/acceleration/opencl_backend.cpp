@@ -392,7 +392,7 @@ std::vector<float> OpenCLVectorBackend::computeDistances(
     if (fn) [[unlikely]] {
         try {
             return fn(queries, numQueries, dimension, vectors, numVectors, useL2);
-        } catch (const std::exception&) {
+        } catch (...) {
             return {};
         }
     }
