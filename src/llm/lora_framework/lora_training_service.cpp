@@ -46,6 +46,7 @@
 #include <thread>
 #include <atomic>
 #include <cmath>
+#include <limits>
 #include <mutex>
 #include <condition_variable>
 #include <fstream>
@@ -249,9 +250,9 @@ public:
                 // Adjust default hyperparameters for Phi-3 if using defaults
                 if (!hyperparameters.has_value()) {
                     params.rank = 16;
-                    params.alpha = 32.0;
-                    params.learning_rate = 2e-4;
-                    params.dropout = 0.05;
+                    params.alpha = 32.0f;
+                    params.learning_rate = 2e-4f;
+                    params.dropout = 0.05f;
                     spdlog::info("  Hyperparameters optimized for Phi-3");
                 }
             }
@@ -267,8 +268,11 @@ public:
             
             // Initialize metrics
             current_metrics_.status = "training";
-            current_metrics_.total_epochs = params.num_epochs;
-            current_metrics_.total_steps = (data.size() / params.batch_size) * params.num_epochs;
+            current_metrics_.total_epochs = static_cast<int>(params.num_epochs);
+            const size_t dataset_total_steps =
+                (data.size() / static_cast<size_t>(params.batch_size)) * static_cast<size_t>(params.num_epochs);
+            current_metrics_.total_steps = static_cast<int>(
+                std::min(dataset_total_steps, static_cast<size_t>(std::numeric_limits<int>::max())));
             current_metrics_.learning_rate = params.learning_rate;
             
             // Store current training context for checkpointing
@@ -515,7 +519,10 @@ public:
             // Create learning rate scheduler using factory (more comprehensive than params-based)
             // Use config_ scheduler if available, otherwise fall back to params
             std::unique_ptr<LRScheduler> lr_scheduler;
-            int total_steps = (data.size() / params.batch_size) * params.num_epochs;
+            const size_t scheduler_total_steps =
+                (data.size() / static_cast<size_t>(params.batch_size)) * static_cast<size_t>(params.num_epochs);
+            const int total_steps = static_cast<int>(
+                std::min(scheduler_total_steps, static_cast<size_t>(std::numeric_limits<int>::max())));
             
             // Use production LR scheduler factory with full configuration support
             if (config_.lr_scheduler.type != SchedulerType::CONSTANT || config_.lr_scheduler.base_lr != 1e-4f) {
@@ -593,6 +600,7 @@ public:
                 current_metrics_.current_epoch = epoch + 1;
                 float epoch_loss = 0.0f;
                 int num_batches = 0;
+                const int batches_per_epoch = static_cast<int>(data_loader.num_batches());
                 
                 // Reset data loader for new epoch
                 data_loader.reset();
@@ -608,7 +616,7 @@ public:
                         break;
                     }
                     
-                    current_metrics_.current_step = epoch * data_loader.num_batches() + step;
+                    current_metrics_.current_step = epoch * batches_per_epoch + step;
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
                     
@@ -723,7 +731,7 @@ public:
                             }
                         }
                     }
-                    int global_step = epoch * data_loader.num_batches() + step;
+                    int global_step = epoch * batches_per_epoch + step;
                     current_metrics_.current_step = global_step;
                     current_metrics_.progress = static_cast<float>(current_metrics_.current_step) / 
                                                static_cast<float>(current_metrics_.total_steps);
@@ -772,6 +780,7 @@ public:
                     
                     // Scale loss for mixed precision
                     float scaled_loss = mixed_precision->scale_loss(batch_loss);
+                    (void)scaled_loss;
                     
                     epoch_loss += batch_loss;
                     num_batches++;
@@ -1650,7 +1659,7 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         spdlog::info("GGUF KV pairs: {}", kv_count);
         
         // Parse metadata KV pairs to extract model info
-        size_t model_param_count = 0;
+        [[maybe_unused]] size_t model_param_count = 0;
         std::vector<std::string> layer_names;
         
         for (uint64_t i = 0; i < kv_count; ++i) {

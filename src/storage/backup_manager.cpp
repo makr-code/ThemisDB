@@ -1464,6 +1464,7 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
     }
     return true;
 #else
+    (void)key;
     static std::once_flag s_encrypt_warn;
     std::call_once(s_encrypt_warn, [] {
         THEMIS_WARN("BackupManager::encryptFile: STUB — files will be copied without "
@@ -1574,6 +1575,7 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
     out.write(reinterpret_cast<const char*>(plain.data()), outl + finl);
     return true;
 #else
+    (void)key;
     static std::once_flag s_decrypt_warn;
     std::call_once(s_decrypt_warn, [] {
         THEMIS_WARN("BackupManager::decryptFile: STUB — files will be copied without "

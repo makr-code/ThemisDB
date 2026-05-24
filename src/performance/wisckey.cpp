@@ -173,6 +173,7 @@ WiscKeyStorage::WiscKeyStorage(const std::string& value_log_path) {
 }
 
 std::string WiscKeyStorage::put(const std::string& key, const std::string& value) {
+    (void)key;
     if (value.size() >= VALUE_SEPARATION_THRESHOLD) {
         // Store value in separate log
         ValueAddress addr = value_log_->append(value);
@@ -186,6 +187,7 @@ std::string WiscKeyStorage::put(const std::string& key, const std::string& value
 }
 
 std::optional<std::string> WiscKeyStorage::get(const std::string& key, const std::string& encoded_value) {
+    (void)key;
     if (is_separated(encoded_value)) {
         // Value is in value log
         ValueAddress addr = ValueAddress::decode(encoded_value);

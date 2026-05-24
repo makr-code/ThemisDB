@@ -5787,10 +5787,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::EncryptionSchemaGet:
             // Check access control before delegating
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) {
+                std::string route_path = std::string(req.target());
+                auto qpos = route_path.find('?');
+                if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:read", "config.read", route_path)) {
                     response = *resp;
                     break;
                 }
@@ -5800,10 +5800,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::EncryptionSchemaPut:
             // Check access control before delegating
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) {
+                std::string route_path = std::string(req.target());
+                auto qpos = route_path.find('?');
+                if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:write", "config.write", route_path)) {
                     response = *resp;
                     break;
                 }
@@ -5937,10 +5937,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::PoliciesImportRangerPost: {
             // Require admin scope + policy action
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                std::string route_path = std::string(req.target());
+                auto qpos = route_path.find('?');
+                if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", route_path)) {
                     response = *resp;
                     break;
                 }
@@ -5956,10 +5956,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::PoliciesExportRangerGet: {
             // Require admin scope + policy action
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                std::string route_path = std::string(req.target());
+                auto qpos = route_path.find('?');
+                if (qpos != std::string::npos) route_path = route_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", route_path)) {
                     response = *resp;
                     break;
                 }
@@ -6077,11 +6077,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             // Extract gRPC method path from /grpc-web/<method>
             const std::string target_str{req.target()};
             const auto qpos = target_str.find('?');
-            const std::string path_only = (qpos != std::string::npos)
+            const std::string grpc_path = (qpos != std::string::npos)
                 ? target_str.substr(0, qpos) : target_str;
             // Strip /grpc-web prefix - resulting path is "/<package>.<Service>/<Method>"
             static constexpr std::string_view kGrpcWebPrefix{"/grpc-web"};
-            const std::string method_path = path_only.substr(kGrpcWebPrefix.size());
+            const std::string method_path = grpc_path.substr(kGrpcWebPrefix.size());
             response = grpc_web_proxy_->handlePost(req, method_path);
             break;
         }
@@ -6109,9 +6109,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             static constexpr std::string_view kFnPrefix{"/api/v1/functions/"};
             const std::string target_str{req.target()};
             const auto qpos = target_str.find('?');
-            const std::string path_only = (qpos != std::string::npos)
+            const std::string fn_path = (qpos != std::string::npos)
                 ? target_str.substr(0, qpos) : target_str;
-            std::string id = path_only.substr(kFnPrefix.size());
+            std::string id = fn_path.substr(kFnPrefix.size());
             // Strip trailing sub-resource segment if present
             for (const auto* suffix : {"/invoke", "/versions"}) {
                 const std::string_view sv{suffix};
@@ -6122,10 +6122,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
             }
             const auto route_method = req.method();
-            const bool has_invoke  = path_only.size() > 7 &&
-                path_only.substr(path_only.size() - 7) == "/invoke";
-            const bool has_versions = path_only.size() > 9 &&
-                path_only.substr(path_only.size() - 9) == "/versions";
+            const bool has_invoke  = fn_path.size() > 7 &&
+                fn_path.substr(fn_path.size() - 7) == "/invoke";
+            const bool has_versions = fn_path.size() > 9 &&
+                fn_path.substr(fn_path.size() - 9) == "/versions";
             if (has_invoke)
                 response = serverless_fn_handler_->handleInvoke(req, id);
             else if (has_versions)
@@ -6226,19 +6226,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::UdfGet: {
             static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
-            std::string path_only = std::string(req.target());
-            if (auto qp = path_only.find('?'); qp != std::string::npos)
-                path_only = path_only.substr(0, qp);
-            std::string udf_name = path_only.substr(kUdfPfx.size());
+            std::string udf_path = std::string(req.target());
+            if (auto qp = udf_path.find('?'); qp != std::string::npos)
+                udf_path = udf_path.substr(0, qp);
+            std::string udf_name = udf_path.substr(kUdfPfx.size());
             response = udf_api_handler_->handleGet(req, udf_name);
             break;
         }
         case Route::UdfDelete: {
             static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
-            std::string path_only = std::string(req.target());
-            if (auto qp = path_only.find('?'); qp != std::string::npos)
-                path_only = path_only.substr(0, qp);
-            std::string udf_name = path_only.substr(kUdfPfx.size());
+            std::string udf_path = std::string(req.target());
+            if (auto qp = udf_path.find('?'); qp != std::string::npos)
+                udf_path = udf_path.substr(0, qp);
+            std::string udf_name = udf_path.substr(kUdfPfx.size());
             response = udf_api_handler_->handleDelete(req, udf_name);
             break;
         }
@@ -6925,8 +6925,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
-            std::string target = std::string(req.target());
-            std::string policy_name = target.substr(target.rfind('/') + 1);
+            std::string request_target = std::string(req.target());
+            std::string policy_name = request_target.substr(request_target.rfind('/') + 1);
             auto qpos = policy_name.find('?');
             if (qpos != std::string::npos) policy_name = policy_name.substr(0, qpos);
             if (policy_name.empty()) {
@@ -6989,9 +6989,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
-            std::string target = std::string(req.target());
+            std::string request_target = std::string(req.target());
             static constexpr std::string_view kPrefix = "/api/saga/batches/";
-            std::string batch_id = target.substr(kPrefix.size());
+            std::string batch_id = request_target.substr(kPrefix.size());
             auto qpos = batch_id.find('?');
             if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
             if (batch_id.empty()) {
@@ -7015,9 +7015,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             // Extract batch_id from path /api/saga/batches/{id}/verify
-            std::string target = std::string(req.target());
+            std::string request_target = std::string(req.target());
             static constexpr std::string_view kVPrefix = "/api/saga/batches/";
-            std::string rest = target.substr(kVPrefix.size());
+            std::string rest = request_target.substr(kVPrefix.size());
             auto slash_pos = rest.find('/');
             std::string batch_id = (slash_pos != std::string::npos)
                 ? rest.substr(0, slash_pos) : rest;

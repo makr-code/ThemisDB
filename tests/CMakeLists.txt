@@ -22540,6 +22540,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_security.cpp")
 
     add_executable(test_lora_certificate_store_focused
         test_lora_security.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/lora_certificate_store.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/lora_security_validator.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
     )
 
     target_include_directories(test_lora_certificate_store_focused PRIVATE
@@ -22554,6 +22557,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_security.cpp")
         OpenSSL::Crypto
         Threads::Threads
     )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_lora_certificate_store_focused PRIVATE themis_llm)
+    endif()
 
     target_compile_definitions(test_lora_certificate_store_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -24511,11 +24518,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
     add_executable(test_llama_cpp_plugin
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plugin.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_plugin.cpp"
-        # Registrar (groups N1-N6) and its transitive dependencies compiled
-        # directly into the test so no shared library is needed.
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/llama_cpp_registrar.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../src/llm/llm_plugin_manager.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/error_registry.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/rag/rag_context_assembler.cpp"
     )
     target_include_directories(test_llama_cpp_plugin PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../include"
@@ -24524,6 +24528,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         GTest::gtest
         GTest::gtest_main
         nlohmann_json::nlohmann_json
+        themis_llm
+        themis_query
+        themis_sharding
+        themis_graph
+        themis_ingestion
+        themis_content
+        themis_storage
+        themis_base
         spdlog::spdlog
         fmt::fmt
         Threads::Threads
@@ -25769,32 +25781,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_routing.cpp")
 
     add_executable(test_llm_raid_routing_focused
         test_llm_raid_routing.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/adaptive_shard_router.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/urn_resolver.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/capability_matcher.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/distributed_transaction.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/prometheus_metrics.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/urn.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/wal_manager.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/remote_executor.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/mtls_client.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/shard_rpc_client.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/circuit_breaker.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/mtls_connection_pool.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/signed_request.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/operational_metrics.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/tracing.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_llm_raid_routing_focused
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_llm_raid_routing_focused
-        PRIVATE ${TEST_LIBS} spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
+        PRIVATE ${TEST_LIBS} themis_sharding themis_base spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
                 $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
                 Threads::Threads)
 
@@ -25823,26 +25816,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
 
     add_executable(test_llm_raid_integration_focused
         test_llm_raid_integration.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/adaptive_shard_router.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/urn_resolver.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/sharding_manager_edition.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/circuit_breaker.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/mtls_connection_pool.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/signed_request.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/operational_metrics.cpp
-        ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/tracing.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_llm_raid_integration_focused
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_llm_raid_integration_focused
-        PRIVATE ${TEST_LIBS} spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
+        PRIVATE ${TEST_LIBS} themis_sharding themis_llm themis_base spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
                 $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
                 Threads::Threads)
 
@@ -25902,20 +25882,13 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_speculative_draft_fn_bridge.cpp")
     add_executable(test_speculative_draft_fn_bridge_focused
         test_speculative_draft_fn_bridge.cpp
-        ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
-        ${THEMIS_ROOT_DIR}/src/llm/inference_engine_enhanced.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/llm_prefix_cache.cpp
-        ${THEMIS_ROOT_DIR}/src/llm/kv_prefix_transfer_manager.cpp
-        ${THEMIS_ROOT_DIR}/src/llm/continuous_batch_scheduler.cpp
-        ${THEMIS_ROOT_DIR}/src/llm/lookup_decoder.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_speculative_draft_fn_bridge_focused
         PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
 
     target_link_libraries(test_speculative_draft_fn_bridge_focused
-        PRIVATE ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json
+        PRIVATE ${TEST_LIBS} themis_llm themis_base spdlog::spdlog nlohmann_json::nlohmann_json
                 Threads::Threads)
 
     target_compile_definitions(test_speculative_draft_fn_bridge_focused

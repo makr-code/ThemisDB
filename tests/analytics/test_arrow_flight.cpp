@@ -284,26 +284,26 @@ TEST(ArrowFlightClientTest, CloseDisconnects) {
     server->start();
     auto client = ArrowFlightClient::connect(makeClientOpts(18842));
     EXPECT_TRUE(client->isConnected());
-    client->close();
+    (void)client->close();
     EXPECT_FALSE(client->isConnected());
-    server->stop();
+    (void)server->stop();
 }
 
 TEST(ArrowFlightClientTest, OperationsAfterCloseThrow) {
     auto server = ArrowFlightServer::create(makeServerOpts(18843));
     server->start();
     auto client = ArrowFlightClient::connect(makeClientOpts(18843));
-    client->close();
+    (void)client->close();
 
-    EXPECT_THROW(client->listFlights(), std::runtime_error);
+    EXPECT_THROW((void)client->listFlights(), std::runtime_error);
     EXPECT_THROW(
-        client->doGet(FlightDescriptor::fromPath({"x"})),
+        (void)client->doGet(FlightDescriptor::fromPath({"x"})),
         std::runtime_error);
     auto empty = makeBatch(0);
     EXPECT_THROW(
-        client->doPut(empty, FlightDescriptor::fromPath({"x"})),
+        (void)client->doPut(empty, FlightDescriptor::fromPath({"x"})),
         std::runtime_error);
-    server->stop();
+    (void)server->stop();
 }
 
 // ===========================================================================
@@ -358,10 +358,10 @@ TEST(ArrowFlightClientTest, DoGetUnknownPathThrows) {
     server->start();
     auto client = ArrowFlightClient::connect(makeClientOpts(18861));
     EXPECT_THROW(
-        client->doGet(FlightDescriptor::fromPath({"does_not_exist"})),
+        (void)client->doGet(FlightDescriptor::fromPath({"does_not_exist"})),
         std::runtime_error);
-    client->close();
-    server->stop();
+    (void)client->close();
+    (void)server->stop();
 }
 
 TEST(ArrowFlightClientTest, DoGetEmptyBatch) {
@@ -565,11 +565,11 @@ TEST(ArrowFlightServerTest, CrossServerClientIsolation) {
     auto c1 = ArrowFlightClient::connect(makeClientOpts(18892));
     // s2_only is on server 2; client 1 must not find it
     EXPECT_THROW(
-        c1->doGet(FlightDescriptor::fromPath({"s2_only"})),
+        (void)c1->doGet(FlightDescriptor::fromPath({"s2_only"})),
         std::runtime_error);
 
-    c1->close();
-    s1->stop();
+    (void)c1->close();
+    (void)s1->stop();
     s2->stop();
 }
 

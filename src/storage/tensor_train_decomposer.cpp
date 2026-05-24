@@ -226,6 +226,7 @@ static void applyHouseholderLeft(std::vector<double>& A, std::size_t m,
                                   std::size_t n, std::size_t row_start,
                                   std::size_t col_start,
                                   const std::vector<double>& v) {
+    (void)m;
     // For each column c in [col_start, n): A[:,c] -= 2*(v^T A[:,c])*v
     for (std::size_t c = col_start; c < n; ++c) {
         double dot = 0.0;
@@ -598,8 +599,6 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
     // Working copy of tensor (as row-major matrix: current_r × (rest))
     std::vector<float> C = data;
     std::size_t r_left = 1;
-
-    double sq_err_sum = 0.0;
 
     for (std::size_t k = 0; k < d - 1; ++k) {
         std::size_t nk = mode_sizes[k];

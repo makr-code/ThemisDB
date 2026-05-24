@@ -1141,7 +1141,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         uint64_t chunk_size = readLE64(raw + 4);
         uint64_t total_size = readLE64(raw + 12);
 
-        if (num_chunks == 0 || total_size == 0) {
+        if (num_chunks == 0 || chunk_size == 0 || total_size == 0) {
             THEMIS_WARN("getBlob: corrupt manifest for key '{}'",
                         std::string(key));
             return std::nullopt;

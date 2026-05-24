@@ -116,7 +116,7 @@ public:
         {
             if (!valid()) return "";
             std::string v;
-            store_->get(keys_[pos_], v);
+            (void)store_->get(keys_[pos_], v);
             return v;
         }
         void next() override

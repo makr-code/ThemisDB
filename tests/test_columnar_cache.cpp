@@ -55,7 +55,7 @@ static ColumnSegment makeInt64Segment(const std::string& table,
     return seg;
 }
 
-static ColumnSegment makeStrSegment(const std::string& table,
+[[maybe_unused]] static ColumnSegment makeStrSegment(const std::string& table,
                                     const std::string& col,
                                     uint64_t seg_id,
                                     const std::vector<std::string>& values) {

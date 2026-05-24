@@ -512,6 +512,8 @@ bool HotReloadEngine::downloadFile(const ReleaseFile& file, const std::string& d
     
     return true;
 #else
+    (void)file;
+    (void)dest;
     LOG_ERROR("CURL support not enabled - cannot download files");
     return false;
 #endif

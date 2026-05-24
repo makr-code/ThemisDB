@@ -589,7 +589,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/cache/cache_replication.cpp
     ../src/cache/cache_replication_coordinator.cpp
     ../src/cache/grpc_remote_cache_peer.cpp
-    ../src/cache/redis_cache_coordinator.cpp
+    # ../src/cache/redis_cache_coordinator.cpp  # Legacy hiredis impl; conflicts with distributed_cache_coordinator
     ../src/cache/distributed_cache_coordinator.cpp
     ../src/cache/adaptive_query_cache.cpp
     ../src/cache/warmup.cpp
@@ -2058,7 +2058,6 @@ function(themis_build_modular)
             ${CMAKE_SOURCE_DIR}/src/process/cmmn_serializer.cpp
             ${CMAKE_SOURCE_DIR}/src/process/fim_importer.cpp
             ${CMAKE_SOURCE_DIR}/src/cache/distributed_cache_coordinator.cpp
-            ${CMAKE_SOURCE_DIR}/src/cache/redis_cache_coordinator.cpp
             PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
         )
     endif()

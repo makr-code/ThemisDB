@@ -1635,15 +1635,16 @@ void InferenceEngineEnhanced::recordCacheMiss() {
 
 void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
+    const double batch_size_d = static_cast<double>(batch_size);
     
     stats_.total_batches++;
     
     // Update moving average
     if (stats_.avg_batch_size == 0.0) {
-        stats_.avg_batch_size = batch_size;
+        stats_.avg_batch_size = batch_size_d;
     } else {
         stats_.avg_batch_size = 
-            0.95 * stats_.avg_batch_size + 0.05 * batch_size;
+            0.95 * stats_.avg_batch_size + 0.05 * batch_size_d;
     }
     
     if (batch_size > stats_.max_batch_size_seen) {

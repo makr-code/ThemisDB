@@ -162,7 +162,9 @@ TEST(VectorIndexBackend, VIB_07_DimensionMismatch)
 
     InMemoryVectorIndex idx(cfg);
 
-    EXPECT_THROW(idx.add("bad", {1.0f, 2.0f}), std::invalid_argument);
+    EXPECT_THROW(([&idx] {
+        idx.add("bad", {1.0f, 2.0f});
+    }()), std::invalid_argument);
     try {
         auto results = idx.search({1.0f, 2.0f}, 1);
         (void)results;

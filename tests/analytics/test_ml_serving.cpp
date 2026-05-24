@@ -439,7 +439,9 @@ TEST(BackendInterfaceTest, PolymorphicCallDoesNotCrash) {
         req.inputs.push_back(MLTensor{"input", {1, 2}, {1.f, 2.f}});
 
         // Must not throw – status can be anything
-        EXPECT_NO_THROW(b->infer(req));
+        EXPECT_NO_THROW({
+            [[maybe_unused]] const auto response = b->infer(req);
+        });
     }
 }
 

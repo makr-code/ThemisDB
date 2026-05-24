@@ -83,15 +83,20 @@ LlamaCppPluginRegistrar::defaultReloadCallback() {
         //   swap operations in progress).
         // Activation: config contains no "model_path" key, or model_path is
         //   empty.
-        // Production Delta: The plugin remains in its current (possibly
-        //   uninitialized) state; subsequent inference calls will fail or
-        //   return empty responses.  No model is loaded.
+        // Production Delta: In explicit stub-mode test builds, callback
+        //   reports success without loading a model. In production builds,
+        //   callback fails closed.
         // Removal Plan: Ensure the hot-plug config always provides a valid
         //   model_path before invoking reload.  Once THEMIS_MODEL_DIR is set
         //   and model files are present, this path should never be reached.
         // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LlamaCpp Plugin Model Reload"
-        // Fail closed: reloading without a model path must signal failure.
+        // Fail closed: reloading without a model path must signal failure
+        // in non-stub production builds.
+    #ifdef THEMIS_LLAMA_CPP_STUB_MODE
+        return true;
+    #else
         return false;
+    #endif
     };
 }
 

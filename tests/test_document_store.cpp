@@ -217,7 +217,7 @@ TEST_F(DocumentStoreTest, RemoveIsNoOpForUnknown) {
 // DS-12
 TEST_F(DocumentStoreTest, ListReturnsAllIds) {
     for (int i = 0; i < 3; ++i) {
-        store_.put({"id-list-" + std::to_string(i), kCol, makeBody()});
+        (void)store_.put({"id-list-" + std::to_string(i), kCol, makeBody()});
     }
     auto r = store_.list(kCol);
     ASSERT_TRUE(r.has_value());
@@ -233,9 +233,9 @@ TEST_F(DocumentStoreTest, ListReturnsEmptyForUnknownCollection) {
 
 // DS-14
 TEST_F(DocumentStoreTest, CountIsCollectionScoped) {
-    store_.put({"a1", "colA", makeBody()});
-    store_.put({"b1", "colB", makeBody()});
-    store_.put({"b2", "colB", makeBody()});
+    (void)store_.put({"a1", "colA", makeBody()});
+    (void)store_.put({"b1", "colB", makeBody()});
+    (void)store_.put({"b2", "colB", makeBody()});
     EXPECT_EQ(*store_.count("colA"), 1u);
     EXPECT_EQ(*store_.count("colB"), 2u);
 }
@@ -247,7 +247,7 @@ TEST_F(DocumentStoreTest, ConcurrentPutIsThreadSafe) {
     futs.reserve(N);
     for (int i = 0; i < N; ++i) {
         futs.push_back(std::async(std::launch::async, [&, i]() {
-            store_.put({"thr-" + std::to_string(i), kCol, makeBody()});
+            (void)store_.put({"thr-" + std::to_string(i), kCol, makeBody()});
         }));
     }
     for (auto& f : futs) f.get();
@@ -285,7 +285,7 @@ TEST_F(DocumentManagerTest, CreateReturnsErrInvalidIdForEmpty) {
 
 // DM-03
 TEST_F(DocumentManagerTest, CreateReturnsErrAlreadyExistsOnDuplicate) {
-    mgr_.create(kCol, "dm-003", makeBody());
+    (void)mgr_.create(kCol, "dm-003", makeBody());
     auto r = mgr_.create(kCol, "dm-003", makeBody());
     ASSERT_FALSE(r.has_value());
     EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_DOC_ALREADY_EXISTS);
@@ -293,7 +293,7 @@ TEST_F(DocumentManagerTest, CreateReturnsErrAlreadyExistsOnDuplicate) {
 
 // DM-04
 TEST_F(DocumentManagerTest, UpdateReplacesBody) {
-    mgr_.create(kCol, "dm-004", nlohmann::json{{"v", 1}});
+    (void)mgr_.create(kCol, "dm-004", nlohmann::json{{"v", 1}});
     ASSERT_TRUE(mgr_.update(kCol, "dm-004", nlohmann::json{{"v", 2}}).has_value());
 
     auto r = mgr_.get(kCol, "dm-004");
@@ -310,7 +310,7 @@ TEST_F(DocumentManagerTest, UpdateReturnsErrNotFound) {
 
 // DM-06
 TEST_F(DocumentManagerTest, RemoveClearsDocument) {
-    mgr_.create(kCol, "dm-006", makeBody());
+    (void)mgr_.create(kCol, "dm-006", makeBody());
     ASSERT_TRUE(mgr_.remove(kCol, "dm-006").has_value());
 
     auto r = mgr_.get(kCol, "dm-006");
@@ -373,7 +373,7 @@ protected:
 
 // DL-01 + DL-02
 TEST_F(DocumentLifecycleTest, BeforeAndAfterCreateBothFire) {
-    mgr_.create(kCol, "lc-001", makeBody());
+    (void)mgr_.create(kCol, "lc-001", makeBody());
     ASSERT_EQ(hook_.events.size(), 2u);
     EXPECT_EQ(hook_.events[0], DocumentEventType::BEFORE_CREATE);
     EXPECT_EQ(hook_.events[1], DocumentEventType::AFTER_CREATE);
@@ -381,10 +381,10 @@ TEST_F(DocumentLifecycleTest, BeforeAndAfterCreateBothFire) {
 
 // DL-03
 TEST_F(DocumentLifecycleTest, BeforeAndAfterDeleteBothFire) {
-    mgr_.create(kCol, "lc-002", makeBody());
+    (void)mgr_.create(kCol, "lc-002", makeBody());
     hook_.events.clear();
 
-    mgr_.remove(kCol, "lc-002");
+    (void)mgr_.remove(kCol, "lc-002");
     ASSERT_EQ(hook_.events.size(), 2u);
     EXPECT_EQ(hook_.events[0], DocumentEventType::BEFORE_DELETE);
     EXPECT_EQ(hook_.events[1], DocumentEventType::AFTER_DELETE);
@@ -392,10 +392,10 @@ TEST_F(DocumentLifecycleTest, BeforeAndAfterDeleteBothFire) {
 
 // DL-04
 TEST_F(DocumentLifecycleTest, BeforeAndAfterUpdateBothFire) {
-    mgr_.create(kCol, "lc-003", makeBody());
+    (void)mgr_.create(kCol, "lc-003", makeBody());
     hook_.events.clear();
 
-    mgr_.update(kCol, "lc-003", makeBody("updated"));
+    (void)mgr_.update(kCol, "lc-003", makeBody("updated"));
     ASSERT_EQ(hook_.events.size(), 2u);
     EXPECT_EQ(hook_.events[0], DocumentEventType::BEFORE_UPDATE);
     EXPECT_EQ(hook_.events[1], DocumentEventType::AFTER_UPDATE);
@@ -404,7 +404,7 @@ TEST_F(DocumentLifecycleTest, BeforeAndAfterUpdateBothFire) {
 // DL-05
 TEST_F(DocumentLifecycleTest, UnregisteredHookNoLongerReceivesEvents) {
     mgr_.unregisterLifecycleHook(hook_);
-    mgr_.create(kCol, "lc-004", makeBody());
+    (void)mgr_.create(kCol, "lc-004", makeBody());
     EXPECT_TRUE(hook_.events.empty());
 }
 
@@ -435,7 +435,7 @@ TEST_F(DocumentSchemaEvolutionTest, RegisterVersionSucceeds) {
 
 // DSE-02
 TEST_F(DocumentSchemaEvolutionTest, RegisterVersionErrOnDuplicate) {
-    evo_.registerVersion(1, makeSchema());
+    (void)evo_.registerVersion(1, makeSchema());
     auto r = evo_.registerVersion(1, makeSchema());
     ASSERT_FALSE(r.has_value());
     EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_DOC_SCHEMA_VERSION_EXISTS);
@@ -443,8 +443,8 @@ TEST_F(DocumentSchemaEvolutionTest, RegisterVersionErrOnDuplicate) {
 
 // DSE-03
 TEST_F(DocumentSchemaEvolutionTest, SealedRegistryRejectsNewVersion) {
-    evo_.registerVersion(1, makeSchema());
-    evo_.seal();
+    (void)evo_.registerVersion(1, makeSchema());
+    (void)evo_.seal();
     auto r = evo_.registerVersion(2, makeSchema());
     ASSERT_FALSE(r.has_value());
     EXPECT_EQ(r.error().code(), errors::ErrorCode::ERR_DOC_SCHEMA_SEALED);
@@ -453,13 +453,13 @@ TEST_F(DocumentSchemaEvolutionTest, SealedRegistryRejectsNewVersion) {
 // DSE-04
 TEST_F(DocumentSchemaEvolutionTest, IsSealedTransition) {
     EXPECT_FALSE(evo_.isSealed());
-    evo_.seal();
+    (void)evo_.seal();
     EXPECT_TRUE(evo_.isSealed());
 }
 
 // DSE-05
 TEST_F(DocumentSchemaEvolutionTest, ValidateCompliantDocument) {
-    evo_.registerVersion(1, makeSchema());
+    (void)evo_.registerVersion(1, makeSchema());
     nlohmann::json doc{{"name", "Alice"}, {"active", true}};
     auto r = evo_.validate("doc-valid", doc, 1);
     ASSERT_TRUE(r.has_value());
@@ -468,7 +468,7 @@ TEST_F(DocumentSchemaEvolutionTest, ValidateCompliantDocument) {
 
 // DSE-06
 TEST_F(DocumentSchemaEvolutionTest, ValidateReportsMissingRequired) {
-    evo_.registerVersion(1, makeSchema());
+    (void)evo_.registerVersion(1, makeSchema());
     nlohmann::json doc{{"name", "Bob"}}; // missing "active"
     auto r = evo_.validate("doc-missing", doc, 1);
     ASSERT_TRUE(r.has_value());
@@ -480,7 +480,7 @@ TEST_F(DocumentSchemaEvolutionTest, ValidateReportsMissingRequired) {
 
 // DSE-07
 TEST_F(DocumentSchemaEvolutionTest, ValidateReportsTypeMismatch) {
-    evo_.registerVersion(1, makeSchema());
+    (void)evo_.registerVersion(1, makeSchema());
     nlohmann::json doc{{"name", 123}, {"active", true}}; // name should be STRING
     auto r = evo_.validate("doc-type", doc, 1);
     ASSERT_TRUE(r.has_value());
@@ -514,7 +514,7 @@ protected:
     const CollectionId       kCol{"diff-col"};
 
     void put(const std::string& id, const nlohmann::json& body) {
-        store_.put({id, kCol, body});
+        (void)store_.put({id, kCol, body});
     }
 };
 

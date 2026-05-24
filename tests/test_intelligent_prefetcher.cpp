@@ -50,7 +50,7 @@ using namespace themis::performance;
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-static uint64_t now_ns() {
+[[maybe_unused]] static uint64_t now_ns() {
     return static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::nanoseconds>(
             std::chrono::steady_clock::now().time_since_epoch())

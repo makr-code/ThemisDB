@@ -27,19 +27,19 @@ using namespace themis::graph;
 
 static KnowledgeGraph makeGraph() {
     KnowledgeGraph g;
-    g.addNode({"alice", "alice", {}, EntityType::PERSON});
-    g.addNode({"bob",   "bob",   {}, EntityType::PERSON});
-    g.addEdge({"alice", "bob", RelationType::RELATED_TO, 0.9});
+    (void)g.addNode({"alice", "alice", {}, EntityType::PERSON});
+    (void)g.addNode({"bob",   "bob",   {}, EntityType::PERSON});
+    (void)g.addEdge({"alice", "bob", RelationType::RELATED_TO, 0.9});
     return g;
 }
 
 static void configureReasoner(KnowledgeGraphReasoner& kgr) {
     // Rule: if A reports_to B and B reports_to C then A indirectly_reports_to C
-    kgr.addRule({ "transitive_reports_to",
-                  {{"?A","reports_to","?B"}, {"?B","reports_to","?C"}},
-                  {{"?A","indirectly_reports_to","?C"}} });
-    kgr.addFact({"alice", "reports_to", "bob"});
-    kgr.addFact({"bob",   "reports_to", "carol"});
+    (void)kgr.addRule({ "transitive_reports_to",
+                        {{"?A","reports_to","?B"}, {"?B","reports_to","?C"}},
+                        {{"?A","indirectly_reports_to","?C"}} });
+    (void)kgr.addFact({"alice", "reports_to", "bob"});
+    (void)kgr.addFact({"bob",   "reports_to", "carol"});
 }
 
 static RetrievedDocument makeDoc(const std::string& id,
@@ -225,12 +225,12 @@ TEST(KGRetrieverReasoningTests, KGRRAG08_InjectedLoraScoreFnCalled) {
 TEST(KGRetrieverReasoningTests, KGRRAG09_LoraScoreFilterApplied) {
     KnowledgeGraphReasoner kgr;
     // Rule with min_lora_score = 0.9 — injected backend returns 0.5 → filtered
-    kgr.addRule({ "strict_rule",
-                  {{"?A","likes","?B"}},
-                  {{"?A","loves","?B"}},
-                  /*lora_adapter=*/"test-adapter",
-                  /*min_lora_score=*/0.9 });
-    kgr.addFact({"alice", "likes", "bob"});
+    (void)kgr.addRule({ "strict_rule",
+                        {{"?A","likes","?B"}},
+                        {{"?A","loves","?B"}},
+                        /*lora_adapter=*/"test-adapter",
+                        /*min_lora_score=*/0.9 });
+    (void)kgr.addFact({"alice", "likes", "bob"});
 
     kgr.setLoraScoreFn([](std::string_view, const InferenceEdge&) -> double {
         return 0.5; // below threshold

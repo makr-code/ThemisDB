@@ -372,7 +372,7 @@ TEST_F(EIDAuthenticatorTest, ConcurrentCompleteIsThreadSafe) {
 
 TEST_F(EIDAuthenticatorTest, PolymorphicUsageViaInterface) {
     IEIDAuthenticator* auth = &auth_;
-    auth->beginAuthSession("POLY-SESS");
+    (void)auth->beginAuthSession("POLY-SESS");
     auto r = auth->completeAuthSession("POLY-SESS", "<saml>ok</saml>");
     EXPECT_TRUE(r.success);
 }

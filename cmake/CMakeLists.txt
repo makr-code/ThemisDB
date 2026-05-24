@@ -114,6 +114,16 @@ endif()
 # Prefer CONFIG packages (vcpkg) over FindXXX modules
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 
+# Some imported dependency graphs still emit bare library names (e.g. lz4.lib,
+# snappy.lib) for selected focused test targets. Ensure the vcpkg lib dir is in
+# the global linker search path on Windows so those names resolve reliably.
+if(WIN32 AND DEFINED VCPKG_TARGET_TRIPLET AND NOT "${VCPKG_TARGET_TRIPLET}" STREQUAL "")
+    set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/lib")
+    if(EXISTS "${_themis_vcpkg_lib_dir}")
+        link_directories("${_themis_vcpkg_lib_dir}")
+    endif()
+endif()
+
 # Dependencies
 find_package(OpenSSL CONFIG)
 if(NOT OpenSSL_FOUND)
@@ -1307,6 +1317,22 @@ else()
     endif()
     if(NOT THEMIS_SNAPPY_TARGET)
         message(WARNING "Snappy not found – Prometheus remote-write snappy decompression will be unavailable. Install with: vcpkg install snappy")
+    endif()
+endif()
+
+# Windows/MSVC hardening: some discovered lz4/snappy targets resolve to bare
+# linker names (lz4.lib/snappy.lib) without a matching LIBPATH in focused test
+# targets, which can trigger sporadic LNK1181. Prefer absolute vcpkg paths when
+# available.
+if(WIN32 AND DEFINED VCPKG_TARGET_TRIPLET AND NOT "${VCPKG_TARGET_TRIPLET}" STREQUAL "")
+    set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/lib")
+
+    if(EXISTS "${_themis_vcpkg_lib_dir}/lz4.lib")
+        set(THEMIS_LZ4_TARGET "${_themis_vcpkg_lib_dir}/lz4.lib")
+    endif()
+
+    if(EXISTS "${_themis_vcpkg_lib_dir}/snappy.lib")
+        set(THEMIS_SNAPPY_TARGET "${_themis_vcpkg_lib_dir}/snappy.lib")
     endif()
 endif()
 
@@ -3209,7 +3235,7 @@ if(MSVC)
         ../src/process/cmmn_serializer.cpp
         ../src/process/fim_importer.cpp
         ../src/cache/distributed_cache_coordinator.cpp
-        ../src/cache/redis_cache_coordinator.cpp
+        # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
         PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
     )
 endif()

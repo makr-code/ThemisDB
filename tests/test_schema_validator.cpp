@@ -92,7 +92,7 @@ public:
         // Double check
         try {
             size_t pos = 0;
-            std::stod(value, &pos);
+            (void)std::stod(value, &pos);
             if (pos == value.size()) return DetectedFieldType::DOUBLE;
         } catch (...) {}
         return DetectedFieldType::STRING;

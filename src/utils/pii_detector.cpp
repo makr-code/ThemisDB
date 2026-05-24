@@ -389,7 +389,11 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
                     auto unsigned_result = PIIDetectionEngineFactory::createUnsigned(engine_type);
                     if (unsigned_result) {
                         engine = std::move(*unsigned_result);
-                        engine->initialize(engine_config);
+                        if (!engine->initialize(engine_config)) {
+                            spdlog::error("PIIDetector: Fallback regex engine initialization failed: {}",
+                                         engine->getLastError());
+                            return false;
+                        }
                     } else {
                         return false;
                     }

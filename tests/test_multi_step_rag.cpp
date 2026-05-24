@@ -43,7 +43,7 @@ static InferenceFn echoInfer(const std::string& prefix = "ANSWER") {
     };
 }
 
-static InferenceFn noneGapInfer() {
+[[maybe_unused]] static InferenceFn noneGapInfer() {
     // Always says "NONE" when called (no open aspects).
     return [](const std::string& /*prompt*/, int /*max_tokens*/) -> std::string {
         return "NONE";
