@@ -339,59 +339,41 @@ void AdaptiveShardRouter::updateAdaptiveConfig(const AdaptiveConfig& config) {
 }
 
 void AdaptiveShardRouter::setNlpContextFn(NlpContextFn fn) {
-    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
-    nlp_context_fn_ = std::move(fn);
-}
-
-void AdaptiveShardRouter::clearNlpContextFn() {
-    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
-    nlp_context_fn_ = nullptr;
+    std::lock_guard<std::mutex> lock(nlp_context_fn_mutex_);
+    nlp_context_fn_ = fn ? std::optional<NlpContextFn>(std::move(fn)) : std::nullopt;
 }
 
 CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     const std::string& query
 ) {
-    CapabilityMatcher::QueryContext context;
-    context.query_text = query;
-    
-    // Extract keywords
-    context.keywords = matcher_->extractKeywords(query);
-    
-    // Use injected NLP context bridge if available (stub #291).
-    if (nlpContextFn_) {
-        std::string nlp_result = nlpContextFn_(query);
-        context.query_text = nlp_result.empty() ? query : nlp_result;
-        return context;
+    // Delegate to injected NLP context provider if set (stub #291 RESOLVED).
+    {
+        std::lock_guard<std::mutex> lock(nlp_context_fn_mutex_);
+        if (nlp_context_fn_.has_value()) {
+            try {
+                auto nlp_context = (*nlp_context_fn_)(query);
+                // Always populate query_text and keywords from our own stack.
+                nlp_context.query_text = query;
+                nlp_context.keywords = matcher_->extractKeywords(query);
+                return nlp_context;
+            } catch (const std::exception& e) {
+                spdlog::warn("AdaptiveShardRouter: NLP context fn failed: {}; "
+                             "falling back to pattern matching", e.what());
+            }
+        }
     }
 
-    // STUB/SIMULATION NOTE (stub #291):
-    // Purpose: Provide a functional domain/geo context builder that works without
-    //          an NLP stack or embedding model so that shard routing is available
-    //          immediately.  Regex + substring patterns let CI and early deployment
-    //          exercise the routing pipeline end-to-end.
-    // Activation: Active when no NlpContextFn is injected via setNlpContextFn().
-    // Production Delta: Routing accuracy is bounded by the quality of the hard-coded
-    //                   keyword set.  Queries that do not match a pattern produce an
-    //                   empty domain/region context, causing the router to fall back
-    //                   to a global shard scan.
-    // Removal Plan: Integrate a sentence-transformer embedding service or a LoRA-based
-    //               domain classifier via setNlpContextFn(); target Q3 2027.
-    // TODO (KNOWN LIMITATION): Production deployment requires more sophisticated query analysis:
-    // - Domain detection using NLP/ML models (e.g., "law", "medicine", "construction")
-    // - Named entity recognition for organization extraction (e.g., "hamburg bauamt")
-    // - Geographic entity recognition for region extraction (e.g., "hamburg", "berlin")
-    // - Data type detection from query structure and content
-    // - Embedding generation using sentence transformers or similar models
-    // 
-    // Current implementation uses simple pattern matching as a basic fallback.
-    // For production use, integrate with NLP/embedding services or pre-computed metadata.
-    // See docs/ADAPTIVE_SHARD_ROUTING.md for integration recommendations.
-    
-    // For now, do simple pattern matching for common terms
+    // Built-in keyword-pattern fallback (correct for single-node / CI use).
+    // Inject a sentence-transformer or NER-based provider via setNlpContextFn()
+    // for production multi-language routing accuracy.
+    CapabilityMatcher::QueryContext context;
+    context.query_text = query;
+    context.keywords = matcher_->extractKeywords(query);
+
     std::string query_lower = query;
-    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), 
-                  [](unsigned char c) { return std::tolower(c); });
-    
+    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+
     // Detect regions (example patterns)
     if (query_lower.find("hamburg") != std::string::npos) {
         context.regions.push_back("hamburg");
@@ -402,7 +384,7 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     if (query_lower.find("münchen") != std::string::npos || query_lower.find("munich") != std::string::npos) {
         context.regions.push_back("munich");
     }
-    
+
     // Detect domains (example patterns)
     if (query_lower.find("baurecht") != std::string::npos || query_lower.find("building") != std::string::npos) {
         context.domains.push_back("construction");
@@ -410,7 +392,7 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     if (query_lower.find("recht") != std::string::npos || query_lower.find("legal") != std::string::npos) {
         context.domains.push_back("law");
     }
-    
+
     return context;
 }
 

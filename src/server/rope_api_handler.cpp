@@ -819,27 +819,12 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                 };
             }
             
-            // Prefer injected stats query bridge (stub #307).
-            if (statsQueryFn_) {
-                response["statistics"] = statsQueryFn_();
-            } else {
-                // STUB/SIMULATION NOTE (stub #307):
-                // Purpose: Keep the RoPE stats endpoint contract stable before
-                //          VectorIndexManager/RotaryEmbedding expose runtime counters.
-                // Activation: Always when RoPE is enabled, stats are requested,
-                //             and no StatsQueryFn is injected.
-                // Production Delta: Statistics fields are synthetic `N/A` placeholders;
-                //                   operators cannot observe real rotation volume/latency
-                //                   from this endpoint.
-                // Removal Plan: Add counter/timer instrumentation in RotaryEmbedding and
-                //               surface it through VectorIndexManager to this handler.
-                //               See src/index/ROADMAP.md §GNN embeddings, temporal graphs, rotary embeddings.
-                //               Target: v2.2.0.
+            if (auto stats_opt = vector_index_->getRotaryEmbeddingStats(); stats_opt.has_value()) {
+                const auto& stats = *stats_opt;
                 response["statistics"] = {
-                    {"note", "Detailed statistics not yet available"},
-                    {"total_rotated_entities", "N/A"},
-                    {"avg_rotation_time_us", "N/A"},
-                    {"relational_rotations", "N/A"}
+                    {"total_rotated_entities", stats.total_rotated_entities},
+                    {"avg_rotation_time_us", stats.avg_rotation_time_us},
+                    {"relational_rotations", stats.total_relational_rotations}
                 };
             }
         }
@@ -885,46 +870,31 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)
 {
+    // Basic authentication check - if auth middleware is not configured or not
+    // enabled, allow access (open mode).
     if (!auth_ || !auth_->isEnabled()) {
-        return std::nullopt; // Open mode — allow all
-    }
-    
-    // STUB/SIMULATION NOTE (stub #280):
-    // Purpose: Keep ROPE endpoints reachable behind authentication while the
-    //          handler is still missing the same scope-based RBAC enforcement
-    //          already implemented in VectorApiHandler.
-    // Activation: Always active whenever auth middleware is enabled for ROPE
-    //             and no AuthorizeFn has been injected.
-    // Production Delta: After authentication succeeds, all ROPE operations are
-    //                   allowed regardless of the requested `permission`
-    //                   (`vector:read`, `vector:write`, `data:read`,
-    //                   `data:write`). The handler therefore does not enforce
-    //                   per-operation authorization boundaries unless AuthorizeFn
-    //                   is injected via setAuthorizeFn().
-    // Removal Plan: Reuse token extraction + auth_->authorize(token,
-    //               permission) from VectorApiHandler and fail with HTTP 403 on
-    //               denied scopes (tracked in STUB_INVENTORY #280).
-
-    if (authorizeFn_) {
-        // Extract bearer token from Authorization header.
-        std::string token;
-        if (req.count(http::field::authorization)) {
-            std::string auth_header{req[http::field::authorization]};
-            const std::string prefix = "Bearer ";
-            if (auth_header.size() > prefix.size() &&
-                auth_header.substr(0, prefix.size()) == prefix) {
-                token = auth_header.substr(prefix.size());
-            }
-        }
-        if (!authorizeFn_(token, permission)) {
-            json body;
-            body["error"] = "Forbidden";
-            body["permission"] = permission;
-            return makeErrorResponse(http::status::forbidden, body.dump(), req);
-        }
+        return std::nullopt;
     }
 
-    return std::nullopt;  // null = access allowed
+    auto auth_header = req.find(http::field::authorization);
+    if (auth_header == req.end()) {
+        return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
+    }
+
+    auto token = themis::AuthMiddleware::extractBearerToken(
+        std::string_view(auth_header->value().data(), auth_header->value().size())
+    );
+    if (!token) {
+        return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
+    }
+
+    auto ar = auth_->authorize(*token, permission);
+    if (!ar.authorized) {
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + permission, req);
+    }
+
+    return std::nullopt;
 }
 
 std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& path) {

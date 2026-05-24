@@ -11,8 +11,7 @@
 
 #include "query/functions/process_mining_functions.h"
 #include <nlohmann/json.hpp>
-#include <chrono>
-#include <cstdint>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -79,112 +78,95 @@ json makeNotImplemented(const std::string& name) {
     throw std::runtime_error(name + ": function not implemented");
 }
 
-struct AdminModelDefinition {
-    std::string id;
-    std::string name;
-    std::string domain;
-    std::string version;
-    std::vector<std::string> activities;
-    std::vector<std::pair<std::string, std::string>> edges;
-};
-
-const std::vector<AdminModelDefinition>& administrativeModelCatalog() {
-    static const std::vector<AdminModelDefinition> kCatalog = {
+json builtInAdminModelRegistry() {
+    return json::array({
         {
-            "bauantrag_standard",
-            "Bauantragsverfahren Standard",
-            "building_permit",
-            "1.0",
-            {
-                "Antragstellung", "Eingangsbestätigung", "Vollständigkeitsprüfung",
-                "Fachbehörden-Beteiligung", "Prüfung", "Bescheidserstellung", "Zustellung"
-            },
-            {
-                {"Antragstellung","Eingangsbestätigung"},
-                {"Eingangsbestätigung","Vollständigkeitsprüfung"},
-                {"Vollständigkeitsprüfung","Fachbehörden-Beteiligung"},
-                {"Fachbehörden-Beteiligung","Prüfung"},
-                {"Prüfung","Bescheidserstellung"},
-                {"Bescheidserstellung","Zustellung"}
-            }
+            {"id", "bauantrag_standard"},
+            {"name", "Bauantrag Standard"},
+            {"domain", "construction"},
+            {"version", "1.0"},
+            {"description", "Referenzprozess für standardisierte Bauantragsprüfung"},
+            {"nodes", json::array()},
+            {"edges", json::array()}
         },
         {
-            "beschaffung_vergaberecht",
-            "Beschaffungsprozess Vergaberecht",
-            "procurement",
-            "1.0",
-            {
-                "Bedarfsermittlung", "Marktrecherche", "Ausschreibung",
-                "Angebotsprüfung", "Vergabe", "Bestellung", "Wareneingang", "Zahlung"
-            },
-            {
-                {"Bedarfsermittlung","Marktrecherche"},
-                {"Marktrecherche","Ausschreibung"},
-                {"Ausschreibung","Angebotsprüfung"},
-                {"Angebotsprüfung","Vergabe"},
-                {"Vergabe","Bestellung"},
-                {"Bestellung","Wareneingang"},
-                {"Wareneingang","Zahlung"}
-            }
+            {"id", "beschaffung_vergaberecht"},
+            {"name", "Beschaffung Vergaberecht"},
+            {"domain", "procurement"},
+            {"version", "1.0"},
+            {"description", "Referenzprozess für öffentliche Beschaffung nach Vergaberecht"},
+            {"nodes", json::array()},
+            {"edges", json::array()}
         },
         {
-            "personal_einstellung",
-            "Personalverwaltung Neueinstellung",
-            "hr",
-            "1.0",
-            {
-                "Stellenausschreibung", "Bewerbungseingang", "Vorauswahl",
-                "Vorstellungsgespräch", "Eignungstest", "Einstellungsentscheidung",
-                "Vertragsunterzeichnung", "Onboarding"
-            },
-            {
-                {"Stellenausschreibung","Bewerbungseingang"},
-                {"Bewerbungseingang","Vorauswahl"},
-                {"Vorauswahl","Vorstellungsgespräch"},
-                {"Vorstellungsgespräch","Eignungstest"},
-                {"Eignungstest","Einstellungsentscheidung"},
-                {"Einstellungsentscheidung","Vertragsunterzeichnung"},
-                {"Vertragsunterzeichnung","Onboarding"}
-            }
-        },
-        {
-            "haushaltsplanung_standard",
-            "Haushaltsplanung Standard",
-            "budget",
-            "1.0",
-            {
-                "Bedarfsabfrage", "Mittelanmeldung", "Konsolidierung",
-                "Politische-Beratung", "Beschlussfassung", "Haushaltssatzung", "Bekanntmachung"
-            },
-            {
-                {"Bedarfsabfrage","Mittelanmeldung"},
-                {"Mittelanmeldung","Konsolidierung"},
-                {"Konsolidierung","Politische-Beratung"},
-                {"Politische-Beratung","Beschlussfassung"},
-                {"Beschlussfassung","Haushaltssatzung"},
-                {"Haushaltssatzung","Bekanntmachung"}
-            }
+            {"id", "personal_einstellung"},
+            {"name", "Personal Einstellung"},
+            {"domain", "hr"},
+            {"version", "1.0"},
+            {"description", "Referenzprozess für Einstellung und Onboarding"},
+            {"nodes", json::array()},
+            {"edges", json::array()}
         }
-    };
-    return kCatalog;
+    });
 }
 
-json adminModelToJson(const AdminModelDefinition& model) {
-    json out;
-    out["id"] = model.id;
-    out["name"] = model.name;
-    out["domain"] = model.domain;
-    out["version"] = model.version;
-    out["activities"] = model.activities;
-
-    json edges = json::array();
-    for (const auto& [from, to] : model.edges) {
-        edges.push_back({{"from", from}, {"to", to}});
+json resolveAdminModelRegistry(const FunctionContext& ctx) {
+    const json configured = ctx.getVariable("pm_admin_models_registry");
+    if (configured.is_array()) {
+        return configured;
     }
-    out["edges"] = std::move(edges);
-    out["activities_count"] = model.activities.size();
-    out["edges_count"] = model.edges.size();
-    return out;
+    if (configured.is_object() && configured.contains("models") && configured["models"].is_array()) {
+        return configured["models"];
+    }
+    return builtInAdminModelRegistry();
+}
+
+std::optional<json> resolvePredictedEnd(
+    const std::string& case_id,
+    const FunctionContext& ctx) {
+
+    const json injected = ctx.getVariable("pm_predicted_end_by_case");
+    if (injected.is_object()) {
+        auto it = injected.find(case_id);
+        if (it != injected.end() && !it->is_null()) {
+            return *it;
+        }
+    }
+
+    const json& doc = ctx.currentDocument();
+    if (!doc.is_object()) {
+        return std::nullopt;
+    }
+
+    if (doc.contains("predicted_end_by_case") && doc["predicted_end_by_case"].is_object()) {
+        const auto& by_case = doc["predicted_end_by_case"];
+        auto it = by_case.find(case_id);
+        if (it != by_case.end() && !it->is_null()) {
+            return *it;
+        }
+    }
+
+    const bool case_matches = !doc.contains("case_id") ||
+                              (doc["case_id"].is_string() && doc["case_id"].get<std::string>() == case_id);
+    if (!case_matches) {
+        return std::nullopt;
+    }
+
+    if (doc.contains("predicted_end") && !doc["predicted_end"].is_null()) {
+        return doc["predicted_end"];
+    }
+
+    if (doc.contains("start_time_ms") && doc.contains("expected_duration_ms") &&
+        doc["start_time_ms"].is_number_integer() && doc["expected_duration_ms"].is_number_integer()) {
+        return doc["start_time_ms"].get<int64_t>() + doc["expected_duration_ms"].get<int64_t>();
+    }
+
+    if (doc.contains("timestamp_ms") && doc.contains("remaining_duration_ms") &&
+        doc["timestamp_ms"].is_number_integer() && doc["remaining_duration_ms"].is_number_integer()) {
+        return doc["timestamp_ms"].get<int64_t>() + doc["remaining_duration_ms"].get<int64_t>();
+    }
+
+    return std::nullopt;
 }
 
 // ---------------------------------------------------------------------------
@@ -511,41 +493,40 @@ json PmVariantsFunction::execute(
 // ============================================================================
 // Administrative model management
 // ============================================================================
-// Administrative model catalog fallback.
-// The built-in catalog keeps PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS
-// operational even when no external YAML/model-registry backend is injected.
-
 json PmLoadAdminModelFunction::execute(
     const std::vector<json>& args,
-    const FunctionContext& /*ctx*/) const {
+    const FunctionContext& ctx) const {
     if (args.empty() || !args[0].is_string()) {
-        return makeError("PM_LOAD_ADMIN_MODEL requires a string model_id");
+        return makeError("PM_LOAD_ADMIN_MODEL requires string argument: model_id");
     }
 
     const std::string model_id = args[0].get<std::string>();
-    for (const auto& model : administrativeModelCatalog()) {
-        if (model.id == model_id) {
-            return adminModelToJson(model);
+    const json models = resolveAdminModelRegistry(ctx);
+
+    for (const auto& model : models) {
+        if (model.is_object() &&
+            model.contains("id") &&
+            model["id"].is_string() &&
+            model["id"].get<std::string>() == model_id) {
+            return model;
         }
     }
-    return makeError("Unknown administrative model: " + model_id);
+
+    json err = makeError("Unknown administrative model: " + model_id);
+    json available = json::array();
+    for (const auto& model : models) {
+        if (model.is_object() && model.contains("id") && model["id"].is_string()) {
+            available.push_back(model["id"]);
+        }
+    }
+    err["available_models"] = std::move(available);
+    return err;
 }
 
 json PmListAdminModelsFunction::execute(
     const std::vector<json>& /*args*/,
-    const FunctionContext& /*ctx*/) const {
-    json result = json::array();
-    for (const auto& model : administrativeModelCatalog()) {
-        result.push_back({
-            {"id", model.id},
-            {"name", model.name},
-            {"domain", model.domain},
-            {"version", model.version},
-            {"activities_count", model.activities.size()},
-            {"edges_count", model.edges.size()}
-        });
-    }
-    return result;
+    const FunctionContext& ctx) const {
+    return resolveAdminModelRegistry(ctx);
 }
 
 // ============================================================================
@@ -667,39 +648,21 @@ json PmBottlenecksFunction::execute(
 // ============================================================================
 // PM_PREDICT_END
 // ============================================================================
-// Deterministic ETA fallback.
-// The function returns a stable, case-id-based estimate so callers always
-// receive a forecast payload even without a predictive model backend.
-
 json PmPredictEndFunction::execute(
     const std::vector<json>& args,
-    const FunctionContext& /*ctx*/) const {
+    const FunctionContext& ctx) const {
+    json result;
     if (args.empty() || !args[0].is_string()) {
-        return makeError("PM_PREDICT_END requires a string case_id");
+        result["error"] = "PM_PREDICT_END requires string argument: case_id";
+        result["predicted_end"] = nullptr;
+        return result;
     }
 
     const std::string case_id = args[0].get<std::string>();
-    const std::uint64_t seed = std::hash<std::string>{}(case_id);
-    const double remaining_hours = 24.0 + static_cast<double>(seed % 145); // 24h..168h
-    const double optimistic_hours = remaining_hours * 0.75;
-    const double pessimistic_hours = remaining_hours * 1.25;
-
-    const auto now = std::chrono::system_clock::now();
-    const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        now.time_since_epoch()).count();
-    const auto predicted_end = now_ms + static_cast<std::int64_t>(remaining_hours * 3600000.0);
-
-    static constexpr const char* kConfidenceByBucket[3] = {"low", "medium", "high"};
-    const char* confidence = kConfidenceByBucket[seed % 3];
-
-    json result;
     result["case_id"] = case_id;
-    result["predicted_end"] = predicted_end;
-    result["remaining_hours"] = remaining_hours;
-    result["optimistic_hours"] = optimistic_hours;
-    result["pessimistic_hours"] = pessimistic_hours;
-    result["confidence"] = confidence;
-    result["prediction_source"] = "deterministic_fallback";
+
+    const auto predicted_end = resolvePredictedEnd(case_id, ctx);
+    result["predicted_end"] = predicted_end.has_value() ? *predicted_end : json(nullptr);
     return result;
 }
 

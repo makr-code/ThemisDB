@@ -248,7 +248,7 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
         if (write_observer_) {
             try {
                 write_observer_(key, train);
-            } catch (...) { /* observer must not throw; swallow exceptions */ }
+            } catch (const std::exception&) { /* observer must not throw; swallow exceptions */ }
         }
     }
 
@@ -329,7 +329,7 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
         if (delete_observer_) {
             try {
                 delete_observer_(key);
-            } catch (...) { /* observer must not throw; swallow exceptions */ }
+            } catch (const std::exception&) { /* observer must not throw; swallow exceptions */ }
         }
     }
 
@@ -350,7 +350,7 @@ void TensorNetworkStorageEngine::compact(const TensorFieldKey& key) {
             std::size_t kver = std::stoull(k.substr(colon + 1));
             if (kver + cfg_.version_retention < ver)
                 backend_->del(k);
-        } catch (...) { /* ignore parse errors */ }
+        } catch (const std::exception&) { /* ignore parse errors */ }
     }
 }
 

@@ -548,17 +548,38 @@ void FeedbackStore::clear() {
 
 // ===== Validation Logic =====
 
+// ===== Spam-keywords provider (stub #296 resolution) =====
+
+namespace {
+std::mutex spam_keywords_fn_mutex;
+FeedbackStore::SpamKeywordsProviderFn spam_keywords_fn;
+} // anonymous namespace
+
+void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn fn) {
+    std::lock_guard<std::mutex> lock(spam_keywords_fn_mutex);
+    spam_keywords_fn = std::move(fn);
+}
+
 const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
-    // Use injected provider if available (stub #296 resolved).
-    if (auto fn = getSpamFn()) {
-        static thread_local std::vector<std::string> dynamic_keywords;
-        dynamic_keywords = fn();
-        return dynamic_keywords;
+    {
+        std::lock_guard<std::mutex> lock(spam_keywords_fn_mutex);
+        if (spam_keywords_fn) {
+            // Thread-local cache updated on each call so the provider can
+            // return different lists without requiring a restart.
+            thread_local std::vector<std::string> dynamic_keywords;
+            try {
+                dynamic_keywords = spam_keywords_fn();
+            } catch (const std::exception& e) {
+                spdlog::warn("FeedbackStore: spam keywords provider failed: {}; "
+                             "using built-in static list", e.what());
+            }
+            if (!dynamic_keywords.empty()) {
+                return dynamic_keywords;
+            }
+        }
     }
-    // STUB/SIMULATION NOTE (stub #296):
-    // Activation: Active when no SpamKeywordsProviderFn is injected.
-    // Production Delta: Keyword set is fixed at compile time.
-    // Removal Plan: Inject via setSpamKeywordsProviderFn(). Target: v2.0.0.
+    // Built-in fallback: static compile-time keyword list.
+    // Inject a provider via setSpamKeywordsProvider() for runtime configurability.
     static const std::vector<std::string> spam_keywords = {
         "buy now", "click here", "viagra", "casino", "lottery",
         "free money", "million dollars", "nigerian prince",
@@ -684,7 +705,9 @@ ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // Apply plugin-suggested modifications (stub #297 resolved).
+                // Apply plugin-suggested modifications before accepting (stub #297 RESOLVED).
+                // The plugin populates modified_comment / modified_metadata when it
+                // wants to sanitize the content rather than outright reject it.
                 if (result.modified_comment.has_value()) {
                     feedback.comment = *result.modified_comment;
                 }

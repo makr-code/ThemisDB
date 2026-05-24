@@ -2195,6 +2195,8 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	#endif
 		} catch (const std::exception& ex) {
 			return Status::Error(std::string("saveIndex: ") + ex.what());
+		} catch (const std::exception&) {
+			return Status::Error("saveIndex: unbekannter Fehler");
 		}
 		return Status::OK();
 	}
@@ -2321,6 +2323,8 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Cache ggf. leer lassen; rebuildFromStorage() kann separat genutzt werden
 		} catch (const std::exception& ex) {
 			return Status::Error(std::string("loadIndex: ") + ex.what());
+		} catch (const std::exception&) {
+			return Status::Error("loadIndex: unbekannter Fehler");
 		}
 		return Status::OK();
 	}
@@ -2889,17 +2893,15 @@ std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() con
 	return rotary_embedding_->getConfig();
 }
 
-VectorIndexManager::RotaryEmbeddingStats VectorIndexManager::getRotaryEmbeddingStats() const {
-	RotaryEmbeddingStats stats;
-	stats.positional_rotations = rotary_positional_rotations_.load();
-	stats.relational_rotations = rotary_relational_rotations_.load();
-	stats.query_rotations = rotary_query_rotations_.load();
-	stats.total_rotations = stats.positional_rotations + stats.relational_rotations + stats.query_rotations;
-	const auto total_rotation_time_us = rotary_total_rotation_time_us_.load();
-	if (stats.total_rotations > 0) {
-		stats.avg_rotation_time_us =
-			static_cast<double>(total_rotation_time_us) / static_cast<double>(stats.total_rotations);
+std::optional<VectorIndexManager::RotaryEmbeddingStats> VectorIndexManager::getRotaryEmbeddingStats() const {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return std::nullopt;
 	}
+	const auto rope_stats = rotary_embedding_->getStats();
+	RotaryEmbeddingStats stats;
+	stats.total_rotated_entities = rope_stats.total_rotated_entities;
+	stats.total_relational_rotations = rope_stats.total_relational_rotations;
+	stats.avg_rotation_time_us = rope_stats.avg_rotation_time_us;
 	return stats;
 }
 

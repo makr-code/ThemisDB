@@ -376,14 +376,13 @@ public:
     void updateSession(const std::string& session_id, const json& context);
 
     /**
-     * @brief Hard-delete a session and all associated state.
+     * @brief Hard-delete a voice session (stub #308 resolution).
      *
-     * Removes the session entry from the internal session map. If the session
-     * does not exist the call is a no-op (idempotent). Use this instead of
-     * soft-clearing via updateSession() when the DELETE /voice/session/{id}
-     * endpoint is invoked.
+     * Removes the session from storage.  Throws std::out_of_range if no session
+     * with the given ID exists, allowing the caller to return HTTP 404.
      *
-     * @param session_id Session identifier to delete.
+     * @param session_id Session to delete.
+     * @throws std::out_of_range if session_id is not found.
      */
     void deleteSession(const std::string& session_id);
 

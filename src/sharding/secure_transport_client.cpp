@@ -95,19 +95,16 @@ bool SecureTransportClient::compressData(const std::string& data,
                 return true;
             }
         }
-        // Use injected LZ4 compress bridge if available (stub #295 resolved).
-        if (lz4CompressFn_ && lz4CompressFn_(data, compressed)) {
-            return true;
+        if (config_.compression == Config::CompressionType::LZ4) {
+            auto compressed_bytes = utils::lz4_compress(data, config_.compression_level);
+            if (!compressed_bytes.empty() && compressed_bytes.size() < data.size()) {
+                compressed = std::string(compressed_bytes.begin(), compressed_bytes.end());
+                spdlog::debug("SecureTransportClient: LZ4 compressed {} -> {} bytes (ratio: {:.2f}x)",
+                             data.size(), compressed.size(),
+                             static_cast<double>(data.size()) / compressed.size());
+                return true;
+            }
         }
-        // STUB/SIMULATION NOTE (stub #295):
-        // Purpose: Reserve the LZ4 compression slot in the negotiation chain so
-        //          that future LZ4 support can be added without changing callers.
-        // Activation: Active when no Lz4CompressFn is injected via setLz4CompressFn()
-        //             and THEMIS_HAS_LZ4 is not defined.
-        // Production Delta: Sharding payloads that prefer LZ4 fall through to the
-        //                   uncompressed transfer path, increasing inter-shard bandwidth.
-        // Removal Plan: Link the lz4 vcpkg package and add a #ifdef THEMIS_HAS_LZ4
-        //               branch; or inject via setLz4CompressFn(). Target: v2.1.0.
     } catch (const std::exception& e) {
         spdlog::warn("SecureTransportClient: Compression failed: {}", e.what());
     }
@@ -149,6 +146,7 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         if (compressData(payload.data, compressed_data, &compression_codec)) {
             transfer_data = compressed_data;
             compressed = true;
+            compression_codec = (config_.compression == Config::CompressionType::LZ4) ? "lz4" : "zstd";
             result.bytes_compressed = compressed_data.size();
             result.compression_ratio = static_cast<double>(original_size) / compressed_data.size();
         } else {

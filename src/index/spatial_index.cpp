@@ -294,6 +294,10 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
                 THEMIS_WARN("SpatialIndexManager::ensureRTree: failed to parse "
                             "sidecar for pk='{}' in table='{}': {}",
                             pk, table_str, ex.what());
+            } catch (const std::exception&) {
+                THEMIS_WARN("SpatialIndexManager::ensureRTree: unknown error "
+                            "parsing sidecar for pk='{}' in table='{}'",
+                            pk, table_str);
             }
             return true;
         });

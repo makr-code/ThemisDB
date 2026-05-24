@@ -15,7 +15,6 @@
 #include <vector>
 #include <memory>
 #include <functional>
-#include <mutex>
 #include <nlohmann/json.hpp>
 
 /**
@@ -93,10 +92,20 @@ struct GeneratedPlugin {
  */
 class AIPluginGenerator {
 public:
+    using EndpointInvokerFn = std::function<Result<json>(const std::string& endpoint, const json& request_payload)>;
+
     struct Config {
         std::string llm_endpoint = "http://localhost:8080";
         std::string sandbox_dir = "/tmp/themis_plugin_sandbox";
         std::string output_dir = "./generated_plugins";
+        /**
+         * @brief Optional HTTP endpoint invoker for plugin generation.
+         *
+         * When set, @ref generatePlugin delegates the outbound LLM request to this callback.
+         * This is useful for injecting authenticated transports in production and deterministic
+         * responses in tests.
+         */
+        EndpointInvokerFn endpoint_invoker;
     };
 
     /**

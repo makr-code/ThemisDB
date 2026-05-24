@@ -79,7 +79,7 @@ collectGeometries(QueryEngine& engine,
                 continue;
             }
             out.emplace_back(e.getPrimaryKey(), std::move(geom));
-        } catch (...) {
+        } catch (const std::exception&) {
             ++skipped;
             // Skip documents with unparseable geometry
         }

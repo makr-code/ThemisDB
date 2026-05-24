@@ -92,6 +92,13 @@ private:
         bool cdc_subscribed = false;
         uint64_t cdc_last_sequence = 0;
     };
+
+    // RAII response buffer (stub #298 resolution): shared_ptr stored here while
+    // nghttp2 holds a raw pointer in the data source.  Erased on EOF or stream close.
+    struct ResponseBuffer {
+        std::string data;
+        size_t offset = 0;
+    };
     
     void processStream(int32_t stream_id);
     void sendResponse(int32_t stream_id, int status, 
@@ -113,7 +120,9 @@ private:
     std::array<uint8_t, 16384> read_buffer_;
     std::vector<uint8_t> write_buffer_;
     std::unordered_map<int32_t, StreamData> streams_;
-
+    // Per-stream response buffers for RAII lifetime management (stub #298).
+    std::unordered_map<int32_t, std::shared_ptr<ResponseBuffer>> response_buffers_;
+    
     uint32_t max_concurrent_streams_;
     uint32_t initial_window_size_;
 

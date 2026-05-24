@@ -312,31 +312,30 @@ public:
     static double cosineSimilarity(const TTTrain& a, const TTTrain& b);
 
     /**
-     * @brief Shared truncated SVD utility for tensor decomposers.
+     * @brief Shared truncated-SVD helper for cross-decomposer reuse.
      *
-     * Exposes the Golub-Reinsch-based TT truncated-SVD implementation for reuse
-     * by other decomposers (e.g. HierarchicalTuckerDecomposer) so all
-     * decomposers use one consistent truncation backend.
+     * Exposes the production Golub-Reinsch truncated SVD implementation used
+     * internally by TT-SVD so other decomposers (for example HT) can avoid
+     * maintaining duplicate low-level SVD code paths.
      *
-     * @param mat          Input matrix in row-major layout (m × n).
-     * @param m            Number of rows.
-     * @param n            Number of columns.
-     * @param delta        Truncation threshold.
-     * @param max_rank_cap Optional hard rank cap (0 = no additional cap).
-     * @param U            Output left singular vectors (m × rank_out).
-     * @param S            Output singular values (rank_out).
-     * @param Vt           Output right singular vectors transposed (rank_out × n).
-     * @param rank_out     Effective retained rank.
+     * @param mat           Input matrix in row-major layout (m×n).
+     * @param m             Number of rows.
+     * @param n             Number of columns.
+     * @param delta         Truncation threshold for singular values.
+     * @param max_rank_cap  Hard cap for retained rank (0 = no extra cap).
+     * @param U             Output left singular vectors (m×rank_out).
+     * @param S             Output singular values (rank_out).
+     * @param Vt            Output right singular vectors transposed (rank_out×n).
+     * @param rank_out      Chosen truncated rank (>= 1 for non-empty matrices).
      */
-    static void sharedTruncatedSVD(const std::vector<float>& mat,
-                                   std::size_t               m,
-                                   std::size_t               n,
-                                   double                    delta,
-                                   std::size_t               max_rank_cap,
-                                   std::vector<float>&       U,
-                                   std::vector<float>&       S,
-                                   std::vector<float>&       Vt,
-                                   std::size_t&              rank_out);
+    static void truncatedSVDShared(const std::vector<float>& mat,
+                                   std::size_t m, std::size_t n,
+                                   double delta,
+                                   std::size_t max_rank_cap,
+                                   std::vector<float>& U,
+                                   std::vector<float>& S,
+                                   std::vector<float>& Vt,
+                                   std::size_t& rank_out);
 
 private:
     /// Perform truncated SVD of an m×n matrix.  Returns U, S, Vt truncated to

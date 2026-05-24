@@ -540,30 +540,27 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
 nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
 {
     if (!refresh_token.empty()) {
-        // RFC 7009 – POST refresh token to the upstream revocation endpoint when
-        // the OIDC discovery document advertises one.
         try {
             const auto& doc = oidc_provider_->discoveryDocument();
             if (!doc.revocation_endpoint.empty()) {
                 auto enc = [](const std::string& v) { return urlEncode(v); };
-                std::string body =
-                    "token="              + enc(refresh_token)       +
-                    "&token_type_hint=refresh_token"                 +
-                    "&client_id="         + enc(config_.oidc.client_id);
+
+                std::string body;
+                body += "token=" + enc(refresh_token);
+                body += "&token_type_hint=" + enc("refresh_token");
+                body += "&client_id=" + enc(config_.oidc.client_id);
                 if (!config_.oidc.client_secret.empty()) {
                     body += "&client_secret=" + enc(config_.oidc.client_secret);
                 }
-                const std::string response = httpPost(doc.revocation_endpoint, body);
-                THEMIS_INFO("OAuth2Provider::handleLogout – revocation POST sent "
-                            "(endpoint={})", doc.revocation_endpoint);
-                (void)response; // RFC 7009 §2.2: 200 OK means success; we do best-effort
+
+                THEMIS_INFO("OAuth2Provider::handleLogout – posting RFC7009 revocation to {}",
+                            doc.revocation_endpoint);
+                (void)httpPost(doc.revocation_endpoint, body);
             } else {
-                THEMIS_INFO("OAuth2Provider::handleLogout – no revocation_endpoint "
-                            "in discovery document; skipping upstream revocation");
+                THEMIS_INFO("OAuth2Provider::handleLogout – no revocation endpoint in discovery document");
             }
         } catch (const std::exception& e) {
-            // Best-effort: log but do not block logout on revocation failure.
-            THEMIS_WARN("OAuth2Provider::handleLogout – revocation POST failed: {}", e.what());
+            THEMIS_WARN("OAuth2Provider::handleLogout – best-effort revocation failed: {}", e.what());
         }
     }
     THEMIS_INFO("OAuth2Provider::handleLogout – session ended");

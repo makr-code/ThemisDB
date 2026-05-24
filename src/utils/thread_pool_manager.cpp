@@ -64,7 +64,7 @@ void ThreadPool::workerLoop() {
             } catch (const std::exception& e) {
                 spdlog::error("Task {} failed with exception: {}", task->getName(), e.what());
                 total_failed_++;
-            } catch (...) {
+            } catch (const std::exception&) {
                 spdlog::error("Task {} failed with unknown exception", task->getName());
                 total_failed_++;
             }

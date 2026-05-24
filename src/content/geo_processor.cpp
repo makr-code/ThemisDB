@@ -21,10 +21,12 @@
 #include <exception>
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <sstream>
 #include <chrono>
 #include <fstream>
 #include <filesystem>
+#include <stdexcept>
 
 #ifdef THEMIS_ENABLE_GDAL
 #include <gdal/gdal.h>

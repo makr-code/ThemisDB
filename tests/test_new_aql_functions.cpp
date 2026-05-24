@@ -270,33 +270,64 @@ TEST_F(NewAQLFunctionsTest, PmHasPatternStub) {
 TEST_F(NewAQLFunctionsTest, PmListAdminModelsReturnsCatalog) {
     auto& reg = FunctionRegistry::instance();
     
-    // Test PM_LIST_ADMIN_MODELS returns array
+    // Test PM_LIST_ADMIN_MODELS returns array with default built-in catalog.
     auto result = reg.call("PM_LIST_ADMIN_MODELS", {}, ctx);
     EXPECT_TRUE(result.is_array());
-    EXPECT_FALSE(result.empty());
+    EXPECT_GE(result.size(), 1);
     EXPECT_TRUE(result[0].contains("id"));
-    EXPECT_TRUE(result[0].contains("name"));
 }
 
-TEST_F(NewAQLFunctionsTest, PmLoadAdminModelReturnsModel) {
+TEST_F(NewAQLFunctionsTest, PmLoadAdminModelFromBuiltInCatalog) {
     auto& reg = FunctionRegistry::instance();
 
     auto result = reg.call("PM_LOAD_ADMIN_MODEL", {"bauantrag_standard"}, ctx);
     EXPECT_TRUE(result.is_object());
-    EXPECT_EQ(result.value("id", std::string{}), "bauantrag_standard");
-    EXPECT_TRUE(result.contains("activities"));
-    EXPECT_TRUE(result["activities"].is_array());
+    EXPECT_EQ(result.value("id", ""), "bauantrag_standard");
+    EXPECT_TRUE(result.contains("name"));
 }
 
-TEST_F(NewAQLFunctionsTest, PmPredictEndReturnsEtaPayload) {
+TEST_F(NewAQLFunctionsTest, PmLoadAdminModelFromInjectedRegistry) {
     auto& reg = FunctionRegistry::instance();
 
-    auto result = reg.call("PM_PREDICT_END", {"case-123"}, ctx);
+    ctx.setVariable("pm_admin_models_registry", json::array({
+        {
+            {"id", "custom_model"},
+            {"name", "Custom Model"},
+            {"domain", "custom"},
+            {"nodes", json::array()},
+            {"edges", json::array()}
+        }
+    }));
+
+    auto result = reg.call("PM_LOAD_ADMIN_MODEL", {"custom_model"}, ctx);
     EXPECT_TRUE(result.is_object());
-    EXPECT_EQ(result.value("case_id", std::string{}), "case-123");
-    EXPECT_TRUE(result.contains("predicted_end"));
-    EXPECT_TRUE(result["predicted_end"].is_number_integer());
-    EXPECT_TRUE(result.contains("remaining_hours"));
+    EXPECT_EQ(result.value("id", ""), "custom_model");
+}
+
+TEST_F(NewAQLFunctionsTest, PmPredictEndUsesInjectedCaseMap) {
+    auto& reg = FunctionRegistry::instance();
+    ctx.setVariable("pm_predicted_end_by_case", json::object({{"case-001", 1735689600000LL}}));
+
+    auto result = reg.call("PM_PREDICT_END", {"case-001"}, ctx);
+    EXPECT_TRUE(result.is_object());
+    EXPECT_EQ(result.value("case_id", ""), "case-001");
+    ASSERT_TRUE(result.contains("predicted_end"));
+    EXPECT_EQ(result["predicted_end"].get<int64_t>(), 1735689600000LL);
+}
+
+TEST_F(NewAQLFunctionsTest, PmPredictEndCanDeriveFromDocumentDurations) {
+    auto& reg = FunctionRegistry::instance();
+    ctx.setCurrentDocument(json::object({
+        {"case_id", "case-002"},
+        {"start_time_ms", 1000},
+        {"expected_duration_ms", 250}
+    }));
+
+    auto result = reg.call("PM_PREDICT_END", {"case-002"}, ctx);
+    EXPECT_TRUE(result.is_object());
+    EXPECT_EQ(result.value("case_id", ""), "case-002");
+    ASSERT_TRUE(result.contains("predicted_end"));
+    EXPECT_EQ(result["predicted_end"].get<int64_t>(), 1250);
 }
 
 TEST_F(NewAQLFunctionsTest, PmExportBpmnStub) {

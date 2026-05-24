@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Query catch-all hardening (Phase 22, 2026-05-19): replaced all remaining 51 `catch(...)`
+  handlers with typed `catch (const std::exception&)` across 7 files; zero catch-all handlers
+  remain in `src/query/*.cpp`.
 - Security audit: injection prevention hardening and resource exhaustion edge cases
 - AQL parser thread-safety refactor (per-thread instances or mutex protection)
 - Enabled fulltext AQL function registration in `registerBuiltinFunctions()` (`registerFulltextFunctions(registry)`), so FULLTEXT/PHRASE/FUZZY/NGRAM_MATCH/TOKENS/SOUNDEX/METAPHONE/DOUBLE_METAPHONE are now available at startup.

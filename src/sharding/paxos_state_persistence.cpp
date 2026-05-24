@@ -232,17 +232,18 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
     s.accepted_round = ballot_round;
     s.accepted_value = value;
 
-    // Build a structured ConsensusLogEntry for the ACCEPT WAL record.
-    // Populate index/term/operation/data/timestamp so WAL replay tooling and
-    // downstream inspection can reconstruct the full consensus command context.
+    // Build a structured ConsensusLogEntry (stub #311 RESOLVED).
+    // Populate all available metadata so WAL replay and inspection tooling
+    // can reconstruct the full ACCEPT state without additional lookups.
     ConsensusLogEntry entry;
-    entry.index     = slot;
-    entry.term      = ballot_round;
-    entry.operation = "ACCEPT";
-    entry.data      = nlohmann::json{
-        {"value",        value},
-        {"slot",         slot},
-        {"ballot_round", ballot_round}
+    entry.index   = slot;
+    entry.term    = ballot_round;
+    entry.operation = value;
+    entry.data    = {
+        {"slot",          slot},
+        {"ballot_round",  ballot_round},
+        {"proposer_node", node_state_.node_id},
+        {"value",         value}
     };
     entry.timestamp = std::chrono::system_clock::now();
 

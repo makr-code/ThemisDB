@@ -576,13 +576,17 @@ public:
 /**
  * @brief PM_PREDICT_END - Predict process end time
  *
- * Current status: deterministic fallback. Until a predictive backend is wired,
- * the function returns a case-id-based ETA estimate and confidence envelope.
+ * Forecast resolution order:
+ *  1. FunctionContext variable `pm_predicted_end_by_case` (object map)
+ *  2. Current document field `predicted_end_by_case[case_id]`
+ *  3. Current document field `predicted_end`
+ *  4. Derived fallback `start_time_ms + expected_duration_ms` (if present)
+ *  5. Derived fallback `timestamp_ms + remaining_duration_ms` (if present)
  *
- * @param case_id  Process case ID whose completion time should eventually be
- *                 forecast once the predictive model is integrated.
- * @return JSON object with `predicted_end`, `remaining_hours`,
- *         `optimistic_hours`, `pessimistic_hours`, and `confidence`.
+ * If no source provides a forecast, `predicted_end` is `null`.
+ *
+ * @param case_id  Process case ID whose completion time should be forecast.
+ * @return JSON object with fields `case_id` and `predicted_end`.
  */
 class PmPredictEndFunction : public IFunction {
 public:

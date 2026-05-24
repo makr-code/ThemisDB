@@ -249,18 +249,24 @@ public:
     }
 
     /**
-     * Inject an NLP context builder that can provide domain/organization/region hints
-     * for adaptive shard routing.
+     * @brief Function type for NLP-based query-context extraction (stub #291).
      *
-     * @param fn Callback that returns enriched query context metadata. Returning
-     *           std::nullopt falls back to keyword-based heuristics.
+     * When injected via setNlpContextFn(), prepareQueryContext() delegates to
+     * this function instead of the built-in keyword-pattern fallback.  The
+     * function receives the raw query string and must return a fully populated
+     * CapabilityMatcher::QueryContext (domains, regions, keywords, etc.).
      */
-    void setNlpContextFn(NlpContextFn fn);
+    using NlpContextFn = std::function<CapabilityMatcher::QueryContext(const std::string&)>;
 
     /**
-     * Clear a previously injected NLP context builder.
+     * @brief Inject an NLP context provider.
+     *
+     * Thread-safe.  Passing nullptr reverts to the built-in pattern-matching
+     * fallback.
+     *
+     * @param fn NLP context extraction callback.
      */
-    void clearNlpContextFn();
+    void setNlpContextFn(NlpContextFn fn);
 
 private:
     std::shared_ptr<ShardTopology> topology_;
@@ -305,6 +311,11 @@ private:
     std::map<std::string, ShardLLMLoad> shard_llm_load_;
 
     mutable std::mutex domain_scores_mutex_;
+
+    // NLP context provider (stub #291 resolution): when set, prepareQueryContext()
+    // delegates to this function instead of the built-in pattern-matching fallback.
+    std::optional<NlpContextFn> nlp_context_fn_;
+    mutable std::mutex nlp_context_fn_mutex_;
     
     // Statistics
     mutable std::atomic<uint64_t> total_adaptive_queries_{0};

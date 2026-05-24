@@ -373,81 +373,78 @@ std::string AutoRebalancer::generateOperationId() const {
 }
 
 std::string AutoRebalancer::signOperation(const std::string& operation_id) const {
-    // RSA-SHA256 signing using operator certificate
-
-    // Load private key from operator certificate
+    // RSA-SHA256 signing using operator certificate (stub #310 RESOLVED: fail-closed).
+    // All UNSIGNED fallbacks removed; missing or unreadable key is a hard error.
     if (config_.operator_key_path.empty()) {
-        THEMIS_ERROR("AutoRebalancer: No operator key configured; refusing unsigned operation");
-        return {};
+        throw std::runtime_error(
+            "AutoRebalancer::signOperation: operator_key_path is not configured; "
+            "key provisioning is mandatory before rebalancing operations can proceed");
     }
-    
+
     // Open and read private key file
     FILE* key_file = fopen(config_.operator_key_path.c_str(), "r");
     if (!key_file) {
-        THEMIS_ERROR("AutoRebalancer: Cannot open operator key file: {}", config_.operator_key_path);
-        return {};
+        throw std::runtime_error(
+            "AutoRebalancer::signOperation: cannot open operator key file: " +
+            config_.operator_key_path);
     }
-    
+
     EVP_PKEY* pkey = PEM_read_PrivateKey(key_file, nullptr, nullptr, nullptr);
     fclose(key_file);
-    
+
     if (!pkey) {
-        THEMIS_ERROR("AutoRebalancer: Failed to parse operator private key");
-        return {};
+        throw std::runtime_error(
+            "AutoRebalancer::signOperation: failed to parse operator private key from: " +
+            config_.operator_key_path);
     }
-    
+
     // Create canonical message to sign: "REBALANCE:{operation_id}:{timestamp}"
     auto now = std::chrono::system_clock::now();
     auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(
         now.time_since_epoch()
     ).count();
-    
+
     std::ostringstream msg_oss;
     msg_oss << "REBALANCE:" << operation_id << ":" << timestamp;
     std::string message = msg_oss.str();
-    
+
     // Compute SHA-256 hash of the message
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(message.c_str()), 
+    SHA256(reinterpret_cast<const unsigned char*>(message.c_str()),
            message.size(), hash);
-    
+
     // Sign the hash using RSA-SHA256 via EVP API
     EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(pkey, nullptr);
     if (!ctx) {
         EVP_PKEY_free(pkey);
-        THEMIS_ERROR("AutoRebalancer: Failed to create signing context");
-        return {};
+        throw std::runtime_error("AutoRebalancer::signOperation: failed to create signing context");
     }
-    
+
     if (EVP_PKEY_sign_init(ctx) <= 0) {
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
-        THEMIS_ERROR("AutoRebalancer: Failed to initialize signing");
-        return {};
+        throw std::runtime_error("AutoRebalancer::signOperation: failed to initialize signing");
     }
-    
+
     // Set padding mode to PKCS#1 v1.5
     if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING) <= 0) {
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
-        THEMIS_ERROR("AutoRebalancer: Failed to set RSA padding");
-        return {};
+        throw std::runtime_error("AutoRebalancer::signOperation: failed to set RSA padding");
     }
-    
+
     if (EVP_PKEY_CTX_set_signature_md(ctx, EVP_sha256()) <= 0) {
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
-        THEMIS_ERROR("AutoRebalancer: Failed to set signature digest");
-        return {};
+        throw std::runtime_error("AutoRebalancer::signOperation: failed to set signature digest");
     }
-    
+
     // Determine signature buffer size
     size_t sig_len = 0;
     if (EVP_PKEY_sign(ctx, nullptr, &sig_len, hash, SHA256_DIGEST_LENGTH) <= 0) {
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
-        THEMIS_ERROR("AutoRebalancer: Failed to determine signature size");
-        return {};
+        throw std::runtime_error("AutoRebalancer::signOperation: failed to determine signature size");
     }
     
     // Allocate buffer and perform signing
@@ -455,8 +452,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     if (EVP_PKEY_sign(ctx, signature.data(), &sig_len, hash, SHA256_DIGEST_LENGTH) <= 0) {
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
-        THEMIS_ERROR("AutoRebalancer: Signing operation failed");
-        return {};
+        throw std::runtime_error("AutoRebalancer::signOperation: signing operation failed");
     }
     signature.resize(sig_len);
     
@@ -473,11 +469,10 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     
     std::string sig_b64;
     if (encoded_len > 0) {
-        sig_b64 = std::string(reinterpret_cast<char*>(b64_buf.data()), 
-                             static_cast<size_t>(encoded_len));
+        sig_b64 = std::string(reinterpret_cast<char*>(b64_buf.data()),
+                              static_cast<size_t>(encoded_len));
     } else {
-        THEMIS_ERROR("AutoRebalancer: Base64 encoding failed");
-        return {};
+        throw std::runtime_error("AutoRebalancer::signOperation: Base64 encoding failed");
     }
     
     // Return formatted signature: SIGNATURE:{sig_b64}:{timestamp}

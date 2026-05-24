@@ -152,22 +152,22 @@ public:
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
 
     /**
-     * @brief Inject a runtime spam-keywords provider.
+     * @brief Function type for runtime spam-keyword provider (stub #296).
      *
-     * When set, `getSpamKeywords()` delegates to the injected function instead
-     * of returning the compile-time static keyword list.  The function receives
-     * no arguments and must return a non-empty vector of lowercase keyword
-     * strings to match against feedback text.
-     *
-     * @param fn  Callable that returns the current spam keyword list, or
-     *            `nullptr` to revert to the built-in static list.
-     *
-     * Thread-safety: the provider function pointer is stored atomically; it is
-     * safe to call `setSpamKeywordsProvider()` from any thread.
+     * When injected via setSpamKeywordsProvider(), getSpamKeywords() returns
+     * the provider's list instead of the compile-time hardcoded set, enabling
+     * runtime updates without a binary rebuild.
      */
     using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+
+    /**
+     * @brief Inject a runtime spam-keyword provider.
+     *
+     * Thread-safe.  Passing nullptr reverts to the built-in static keyword list.
+     *
+     * @param fn Provider callback; must return a list of lower-case keyword phrases.
+     */
     static void setSpamKeywordsProvider(SpamKeywordsProviderFn fn);
-    static void clearSpamKeywordsProvider();
 
     /**
      * @brief Store a new feedback entry
@@ -334,7 +334,8 @@ private:
     
     static bool isLikelySpam(const std::string& text);
 
-    // Helper: Apply plugin validation if available; may sanitize feedback.
+    // Helper: Apply plugin validation if available.
+    // Non-const ref: MODIFY path may update feedback.comment / feedback.metadata.
     ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 

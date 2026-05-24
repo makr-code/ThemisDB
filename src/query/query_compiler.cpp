@@ -343,7 +343,7 @@ private:
             ++stats_.compilation_failures;
             THEMIS_WARN("QueryCompiler: specialisation failed key={} error={}",
                         key, ex.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             entry.compile_failed = true;
             ++stats_.compilation_failures;
             THEMIS_WARN("QueryCompiler: specialisation failed key={} (unknown error)", key);

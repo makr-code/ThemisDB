@@ -208,7 +208,7 @@ EncryptedBlobBackend::encrypt(const std::vector<uint8_t>& plaintext) const
         }
 
         EVP_CIPHER_CTX_free(ctx);
-    } catch (...) {
+    } catch (const std::exception&) {
         EVP_CIPHER_CTX_free(ctx);
         throw;
     }
@@ -283,7 +283,7 @@ EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
                 "EncryptedBlobBackend: GCM authentication tag verification failed "
                 "(data tampered or wrong key)");
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         if (ctx) {
             EVP_CIPHER_CTX_free(ctx);
         }

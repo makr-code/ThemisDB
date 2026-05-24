@@ -305,6 +305,35 @@ public:
      */
     std::vector<QoSManager::TenantQuotaStats> getAllTenantBandwidthStats() const;
 
+    // -------------------------------------------------------------------------
+    // Geospatial query injection bridge (stub #284)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Callback type for geospatial query execution over the wire protocol.
+     *
+     * Receives the JSON request payload extracted from a GEO_QUERY frame and
+     * returns a JSON response object.  Expected payload fields: `"collection"`,
+     * `"lat"`, `"lon"`, `"radius_m"`, `"limit"`.  The response must contain at
+     * least `"success"` (bool) and `"results"` (array) on success.
+     *
+     * The callback is called from worker threads; it must be thread-safe.
+     */
+    using GeoQueryFn = std::function<nlohmann::json(const nlohmann::json&)>;
+
+    /**
+     * @brief Inject a geospatial query backend for the JSON wire protocol.
+     *
+     * When set, `handleGeoQuery()` delegates to this function instead of
+     * returning the GEO_NOT_INTEGRATED fallback response.  Pass `nullptr` to
+     * revert to the fallback (no-op deregistration).
+     *
+     * Thread-safe; may be called before or after `start()`.
+     *
+     * @param fn  Geo query executor; pass nullptr to clear.
+     */
+    void setGeoQueryFn(GeoQueryFn fn);
+
     // Cursor entry used by paginated query responses.
     struct CursorEntry {
         nlohmann::json results;    // Full result set (JSON array)
@@ -342,6 +371,10 @@ private:
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
     std::shared_ptr<QueryEngine> query_engine_;
+
+    // Geospatial query injection bridge (stub #284)
+    mutable std::mutex geo_query_fn_mutex_;
+    GeoQueryFn         geo_query_fn_;
 
     // Cursor registry: stores live AQL query results for batch pagination.
     // cursor_id -> {results as JSON array, current offset, TTL timestamp}

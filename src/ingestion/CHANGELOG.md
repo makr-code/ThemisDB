@@ -14,6 +14,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Replaced all remaining `catch (...)` handlers in Ingestion implementation files with typed `catch (const std::exception&)`.
   - Targeted delta in this block: **44 → 0** across 14 files (`ingestion_manager`: 6→0, `cdc_connector`: 5→0, plus 12 additional Ingestion files).
 
+- Ingestion catch-all hardening (Phase 23, 2026-05-19): replaced all remaining 44 `catch(...)`
+  handlers with typed `catch (const std::exception&)` across 14 files; zero catch-all handlers
+  remain in `src/ingestion/*.cpp`.
 - Phase 2 LLM pipeline: LoRA fine-tuning integration, SpaCy NLP pipeline, agentic verification loop
 - Extended binary MIME detection (XLSX, ODT, RTF)
 - Distributed checkpoint store (etcd-backed)

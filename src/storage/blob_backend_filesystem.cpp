@@ -150,7 +150,7 @@ std::string FilesystemBlobBackend::name() const {
 bool FilesystemBlobBackend::isAvailable() const {
     try {
         return fs::exists(base_path_) && fs::is_directory(base_path_);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

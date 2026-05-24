@@ -12,8 +12,8 @@
 #include <openssl/sha.h>
 #include <regex>
 #include <sstream>
-
-#include "content/content_errors.h"
+#include <iomanip>
+#include <unordered_set>
 
 // ============================================================================
 // Helpers (file-local)
@@ -396,11 +396,14 @@ SecurityCheckResult ContentSecurityManager::checkPii(const std::string &text, co
     if (!findings.empty()) {
         metrics_.pii_detected++;
         result.pii_found = true;
-
-        // Collect unique PII types
-        for (const auto &finding : findings) {
+        
+        // Collect unique PII types — use unordered_set for O(1) dedup instead
+        // of std::find on the growing pii_types vector (avoids O(n²) behaviour
+        // when many findings share the same PII type).
+        std::unordered_set<std::string> seen_types;
+        for (const auto& finding : findings) {
             std::string type_str = utils::PIITypeUtils::toString(finding.type);
-            if (std::find(result.pii_types.begin(), result.pii_types.end(), type_str) == result.pii_types.end()) {
+            if (seen_types.insert(type_str).second) {
                 result.pii_types.push_back(type_str);
             }
         }

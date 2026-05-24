@@ -353,6 +353,20 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
                                       "async_jobs");
                 }
                 THEMIS_DEBUG("AsyncJob {} finished with status {}", job->id, final_status);
+            } catch (const std::exception&) {
+                {
+                    std::lock_guard<std::mutex> rlock(job->mu);
+                    job->error      = "unknown error during async AQL execution";
+                    job->status     = AsyncJobStatus::FAILED;
+                    job->updated_at = std::chrono::system_clock::now();
+                }
+                // Snapshot outside the lock to avoid re-locking job->mu.
+                nlohmann::json job_snapshot = job->toJson();
+                if (result_cache) {
+                    result_cache->put(job->id, {{"job_id", job->id}}, job_snapshot,
+                                      "async_jobs");
+                }
+                THEMIS_DEBUG("AsyncJob {} finished with status failed", job->id);
             }
         });
 

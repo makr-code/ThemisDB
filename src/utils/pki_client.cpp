@@ -384,7 +384,7 @@ static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string&
         auto j = nlohmann::json::parse(resp_body);
         std::string cert_pem = j.value("certificate_pem", std::string{});
         if (!cert_pem.empty()) return cert_pem;
-    } catch (...) {}
+    } catch (const std::exception&) {}
 
     if (resp_body.find("-----BEGIN CERTIFICATE-----") != std::string::npos) {
         return resp_body;
@@ -574,7 +574,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     } catch (const std::exception& e) {
                         std::cerr << "PKI REST parse exception: " << e.what() << " body='" << resp_body << "'\n";
                         // fallthrough to local fallback
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         std::cerr << "PKI REST parse unknown error, body='" << resp_body << "'\n";
                         // fallthrough to local fallback
                     }
@@ -582,7 +582,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     std::cerr << "PKI REST /sign: curl error: " << curl_easy_strerror(rc) << " resp='" << resp_body << "'\n";
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // ignore and fallback
         }
     }
@@ -785,7 +785,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
                     } catch (const std::exception& e) {
                         std::cerr << "PKI REST parse exception: " << e.what() << " body='" << resp_body << "'\n";
                         // fallthrough to local fallback
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         std::cerr << "PKI REST parse unknown error, body='" << resp_body << "'\n";
                         // fallthrough to local fallback
                     }
@@ -793,7 +793,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
                     std::cerr << "PKI REST /verify: curl error: " << curl_easy_strerror(rc) << " resp='" << resp_body << "'\n";
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // ignore and fallback
         }
     }

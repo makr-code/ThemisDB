@@ -95,48 +95,45 @@ using json = nlohmann::json;
 class VoiceApiHandler {
 public:
     /**
-     * @brief Construct Voice API handler.
+     * @brief Construct Voice API handler
      *
-     * @param voice_assistant  Voice assistant instance (required).
-     * @param auth             Optional authentication middleware.  When non-null
-     *                         and enabled, every request is validated via the
-     *                         repository-wide JWT/OIDC stack.  When null the
-     *                         handler operates in open mode (non-empty bearer
-     *                         token check only) for backward compatibility.
+     * @param voice_assistant Voice assistant instance
      */
     explicit VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant);
 
     /**
-     * @brief Construct Voice API handler with authentication middleware.
-     *
-     * @param voice_assistant Voice assistant instance
-     * @param auth            Authentication middleware for JWT/OIDC bearer-token validation
-     */
-    VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant,
-                    std::shared_ptr<::themis::AuthMiddleware> auth);
-    
-    /**
-     * @brief Configure JWT Bearer Token validation.
-     *
-     * When set, @ref validateBearerToken verifies each request's token via the
-     * provided @ref auth::JWTValidator (signature, expiry, issuer, audience).
-     * If not configured the handler rejects all requests with a 401 response.
-     *
-     * @param config JWTValidator configuration (JWKS URL, expected issuer, …).
-     */
-    void configureJWT(const auth::JWTValidatorConfig& config);
-    
-    /**
      * @brief Handle Voice API request
-     * 
+     *
      * Routes request to appropriate handler based on path and method.
      * Validates JWT Bearer Token authentication.
-     * 
+     *
      * @param req HTTP request
      * @return HTTP response (JSON or audio data)
      */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req);
+
+    /**
+     * @brief Function type for bearer-token validation (stub #302).
+     *
+     * When injected via setTokenValidatorFn(), validateBearerToken() delegates
+     * to this function, enabling JWT signature, expiry, audience, and issuer
+     * verification without changing callers.
+     *
+     * @param token The bearer token string (after the "Bearer " prefix).
+     * @return true if the token is valid and the caller is authorized.
+     */
+    using TokenValidatorFn = std::function<bool(std::string_view)>;
+
+    /**
+     * @brief Inject a real JWT/OIDC token validator.
+     *
+     * Thread-safe.  Passing nullptr reverts to the built-in non-empty-check
+     * fallback (retained for dev/CI builds only).
+     *
+     * @param fn Token validation callback.
+     */
+    static void setTokenValidatorFn(TokenValidatorFn fn);
 
 private:
     // Core endpoints

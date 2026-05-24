@@ -217,6 +217,7 @@ using S3ListFn = std::function<std::vector<std::string>(const std::string& bucke
                                                         const std::string& prefix)>;
 using S3ExistsFn = std::function<bool(const std::string& bucket,
                                       const std::string& remote_path)>;
+
 using GCSUploadFn = std::function<bool(const std::string& bucket,
                                        const std::string& local_path,
                                        const std::string& remote_path,
@@ -227,9 +228,10 @@ using GCSDownloadFn = std::function<bool(const std::string& bucket,
 using GCSDeleteFn = std::function<bool(const std::string& bucket,
                                        const std::string& remote_path)>;
 using GCSListFn = std::function<std::vector<std::string>(const std::string& bucket,
-                                                         const std::string& prefix)>;
+                                                          const std::string& prefix)>;
 using GCSExistsFn = std::function<bool(const std::string& bucket,
                                        const std::string& remote_path)>;
+
 using AzureUploadFn = std::function<bool(const std::string& account_name,
                                          const std::string& container,
                                          const std::string& local_path,
@@ -243,8 +245,8 @@ using AzureDeleteFn = std::function<bool(const std::string& account_name,
                                          const std::string& container,
                                          const std::string& remote_path)>;
 using AzureListFn = std::function<std::vector<std::string>(const std::string& account_name,
-                                                           const std::string& container,
-                                                           const std::string& prefix)>;
+                                                            const std::string& container,
+                                                            const std::string& prefix)>;
 using AzureExistsFn = std::function<bool(const std::string& account_name,
                                          const std::string& container,
                                          const std::string& remote_path)>;

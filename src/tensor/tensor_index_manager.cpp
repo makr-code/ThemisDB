@@ -315,13 +315,11 @@ TensorIndexManager::mapCores(const std::string& tenant_id,
 }
 
 // -----------------------------------------------------------------------
-// ggmlCorePtrs() — legacy pointer bridge backed by mapCores()
-//
-// Returns borrowed pointers into a thread-local cache of TensorMmapBridge
-// instances so callers that still depend on the raw pointer API get mmap/mlock
-// backing and deterministic lifetime until the next cache replacement on the
-// same thread.
-// -----------------------------------------------------------------------
+// ggmlCorePtrs() — raw-pointer legacy bridge (kept for backward compat)
+// STUB #277 RESOLVED 2026-05-21: [[deprecated]] attribute added to declaration;
+// all new callers must use mapCores() for mmap-pinned, lifetime-safe access.
+// This implementation is retained for backward compatibility until all callers
+// are migrated and the function can be removed.
 
 std::vector<std::pair<const float*, size_t>>
 TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,

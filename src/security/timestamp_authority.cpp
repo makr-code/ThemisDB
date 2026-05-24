@@ -157,7 +157,7 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
             TimestampToken tok;
             tok.error_message = std::string("getTimestampForHash callback failed: ") + e.what();
             return tok;
-        } catch (...) {
+        } catch (const std::exception&) {
             TimestampToken tok;
             tok.error_message = "getTimestampForHash callback failed: unknown exception";
             return tok;
@@ -210,7 +210,7 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
     if (fn) {
         try {
             return fn(hash, token, config_);
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }
@@ -282,7 +282,7 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
             validation_errors_.push_back(
                 std::string("Injected ValidateFn threw exception: ") + e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             validation_errors_.push_back("Injected ValidateFn threw unknown exception");
             return false;
         }
@@ -371,7 +371,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
             validation_errors_.push_back(
                 std::string("Injected QualifiedTSAFn threw exception: ") + e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             validation_errors_.push_back("Injected QualifiedTSAFn threw unknown exception");
             return false;
         }

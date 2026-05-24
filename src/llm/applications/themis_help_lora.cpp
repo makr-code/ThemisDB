@@ -110,9 +110,7 @@ public:
 
         // Initialize LoRA training service
         LoRATrainingService::Config training_cfg;
-        training_cfg.base_model_path = cfg.model_path_provider
-            ? cfg.model_path_provider(cfg.base_model_id)
-            : "models/" + cfg.base_model_id + ".gguf";
+        training_cfg.base_model_path = resolveBaseModelPath();
         training_cfg.default_hyperparameters = cfg.hyperparameters;
         training_service = std::make_unique<LoRATrainingService>(training_cfg);
         
@@ -124,6 +122,23 @@ public:
         // The queryInternal() method will attempt to load the model on-demand,
         // either from local storage or via remote download (Ollama) if
         // enable_remote_loading is configured.
+    }
+
+    std::string resolveBaseModelPath() const {
+        if (config.model_path_provider) {
+            try {
+                auto resolved = config.model_path_provider(config.base_model_id);
+                if (!resolved.empty()) {
+                    return resolved;
+                }
+                spdlog::warn("Model path provider returned empty path for model '{}'; using default path fallback",
+                             config.base_model_id);
+            } catch (const std::exception& e) {
+                spdlog::warn("Model path provider failed for model '{}': {}. Using default path fallback",
+                             config.base_model_id, e.what());
+            }
+        }
+        return "models/" + config.base_model_id + ".gguf";
     }
     
     std::string buildDocumentationPrompt(const std::string& question) {
@@ -150,32 +165,7 @@ public:
                 // Try to load model - this may fail if model file is not available
                 // In that case, we'll fall back to placeholder responses
                 try {
-                    // STUB/SIMULATION NOTE (stub #299):
-                    // Purpose: Allow model loading to proceed in deployments where the
-                    //          LLMModelStorage service is not yet running or not wired
-                    //          to this component, by falling back to a predictable local
-                    //          path convention.
-                    // Activation: Always — LLMModelStorage path resolution is not
-                    //             injected into ThemisHelpLoRA; the hardcoded path
-                    //             is always attempted first.
-                    // Production Delta: The path `"models/" + base_model_id + ".gguf"` is
-                    //                   relative to the server's working directory.  In
-                    //                   containerised deployments the working directory is
-                    //                   often `/`, making the path incorrect.  Models stored
-                    //                   under non-default paths (custom model repos, object
-                    //                   stores, versioned subdirs) are never found.
-                    // Removal Plan: Add a `ModelPathProviderFn` injection API to
-                    //               ThemisHelpLoRA::Config; implement the provider in
-                    //               LLMModelStorage::resolveGGUFPath(model_id); wire it at
-                    //               server startup.  See src/llm/FUTURE_ENHANCEMENTS.md
-                    //               §ThemisHelpLoRA ModelPath.  Target: Q2 2027.
-                    // Resolve model path via injected provider or fallback (stub #299 resolved).
-                    std::string model_path;
-                    if (config.model_path_provider) {
-                        model_path = config.model_path_provider(config.base_model_id);
-                    } else {
-                        model_path = "models/" + config.base_model_id + ".gguf";
-                    }
+                    std::string model_path = resolveBaseModelPath();
                     bool loaded = llama_wrapper->loadModel(model_path);
                     
                     if (loaded) {

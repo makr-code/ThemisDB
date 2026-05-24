@@ -552,28 +552,28 @@ public:
         if (!config_.db) {
             return model_ids;
         }
-        
-        // Enumerate all model keys stored under the collection prefix using the
-        // RocksDB wrapper's scanPrefix iterator.  Edge and stats keys share the
-        // same prefix but contain a colon-delimited secondary segment; exclude
-        // them so only plain model-id keys are returned.
+
         const std::string prefix = config_.key_prefix;
-        config_.db->scanPrefix(prefix,
-            [&](std::string_view key, std::string_view /*value*/) -> bool {
-                if (key.size() <= prefix.size()) {
-                    return true; // skip malformed/empty suffix
-                }
-                std::string model_id(key.substr(prefix.size()));
-                // Skip auxiliary key types: "edge:…", "stats:", etc.
-                if (model_id.rfind("edge:", 0) == 0 ||
-                    model_id.rfind("stats:", 0) == 0) {
-                    return true;
-                }
-                if (!filter || model_id.find(*filter) != std::string::npos) {
-                    model_ids.push_back(std::move(model_id));
-                }
-                return true; // continue iteration
-            });
+        config_.db->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
+            if (key.size() <= prefix.size()) {
+                return true;
+            }
+
+            const std::string model_id(key.substr(prefix.size()));
+            if (model_id.empty()) {
+                return true;
+            }
+
+            if (filter && model_id.find(*filter) == std::string::npos) {
+                return true;
+            }
+
+            model_ids.push_back(model_id);
+            return true;
+        });
+
+        std::sort(model_ids.begin(), model_ids.end());
+        model_ids.erase(std::unique(model_ids.begin(), model_ids.end()), model_ids.end());
         
         return model_ids;
     }
@@ -948,4 +948,3 @@ const LLMModelStorage::Config& LLMModelStorage::getConfig() const {
 
 } // namespace llm
 } // namespace themis
-

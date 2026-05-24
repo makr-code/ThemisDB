@@ -62,10 +62,13 @@ namespace storage {
  * @brief Configuration for HierarchicalTuckerDecomposer.
  */
 struct HTConfig {
-    std::size_t max_rank      = 16;  ///< Maximum rank per node (clamped to min(n_k, N/n_k))
-    double      eps           = 0.01; ///< Relative reconstruction error tolerance
-    std::size_t hooi_max_iter = 3;   ///< HOOI refinement iterations after HOSVD initialisation
-                                     ///< (0 = HOSVD-only, no alternating optimisation)
+    std::size_t max_rank = 16;  ///< Maximum rank per node (clamped to min(n_k, N/n_k))
+    double      eps      = 0.01; ///< Relative reconstruction error tolerance
+
+    /// Maximum HOOI alternating-optimization iterations after HOSVD initialization.
+    /// Set to 0 to use HOSVD-only (lower quality but faster).  Default 20 iterations
+    /// are sufficient for convergence in most practical cases.
+    std::size_t max_hooi_iter = 20;
 };
 
 // ============================================================================
@@ -100,10 +103,9 @@ public:
      * @throws std::invalid_argument if data.size() != ∏ shape[k], d < 2, or any
      *         shape[k] == 0.
      *
-      * @note Decomposition performs HOSVD initialization (step 1) followed by
-      *       iterative HOOI alternating-optimization refinement (up to 20 sweeps)
-      *       until `eps` is reached or the iteration cap is hit, then constructs
-      *       the HT tree top-down (step 3).
+     * The decomposition uses HOSVD to initialize factor matrices U_k, then
+     * alternating HOOI iterations (up to HTConfig::max_hooi_iter) to minimize
+     * ‖T − T̃‖_F / ‖T‖_F.  Set max_hooi_iter = 0 to use HOSVD-only initialization.
      */
     std::pair<tensor::HTTrain, Stats>
     decompose(const std::vector<float>&        data,
@@ -126,12 +128,10 @@ private:
      * Returns U (m × r), S (r), Vt (r × n) where r is chosen such that
      * sigma[r] < delta (or r = max_rank if the threshold is never reached).
      *
-      * Uses the shared Golub-Reinsch-based TensorTrainDecomposer truncated SVD
-      * backend to keep truncation behavior consistent across decomposers.
-      * Delegating to the shared backend eliminates the internal Gram-matrix
-      * Jacobi EVD path for numerically superior results on large/ill-conditioned
-      * matrices while keeping the public HT decomposer interface unchanged.
-      */
+     * Uses the shared production TT decomposer SVD helper
+     * (`TensorTrainDecomposer::truncatedSVDShared`) to ensure consistent
+     * numerical behavior across compressed-tensor decomposers.
+     */
     static void truncatedSVD(
         const std::vector<float>&  mat,
         std::size_t                m,

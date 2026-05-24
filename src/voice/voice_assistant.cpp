@@ -552,20 +552,22 @@ VoiceSession VoiceAssistant::getSession(const std::string& session_id) {
 
 void VoiceAssistant::updateSession(const std::string& session_id, const json& context) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    
+
     auto it = sessions_.find(session_id);
     if (it != sessions_.end()) {
         it->second.context = context;
         it->second.last_activity = std::chrono::system_clock::now().time_since_epoch().count();
-    } else {
-        // Log warning: attempting to update non-existent session
-        // In production, this should be logged properly
     }
 }
 
 void VoiceAssistant::deleteSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    sessions_.erase(session_id);
+
+    auto it = sessions_.find(session_id);
+    if (it == sessions_.end()) {
+        throw std::out_of_range("VoiceAssistant::deleteSession: session not found: " + session_id);
+    }
+    sessions_.erase(it);
 }
 
 json VoiceAssistant::getStatistics() const {

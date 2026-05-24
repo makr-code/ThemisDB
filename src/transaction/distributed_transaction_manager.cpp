@@ -768,38 +768,30 @@ void DistributedTransactionManager::runPhase2Unlocked(
 
     for (const auto& part : parts) {
         if (!part.callback) {
-            // Use the RPC phase-2 bridge when set (stub #279 resolved).
-            if (auto rpc_fn = getRpcPhase2Fn()) {
-                const std::string nid = part.node_id;
-                const std::string tid = txn_id;
-                const bool commit = do_commit;
-                futures.push_back(submitTask([rpc_fn, nid, tid, commit]() {
-                    try {
-                        rpc_fn(nid, tid, commit);
-                    } catch (const std::exception& ex) {
-                        THEMIS_ERROR("RpcPhase2Fn threw for node={} txn={}: {}",
-                                     nid, tid, ex.what());
-                    } catch (...) {
-                        THEMIS_ERROR("RpcPhase2Fn threw unknown exception for node={}", nid);
+            const auto dispatch = config_.remote_phase2_dispatch;
+            const std::string nid = part.node_id;
+            const std::string ep  = part.endpoint;
+            const std::string tid = txn_id;
+            const std::string cid = coordinator_id_;
+
+            futures.push_back(submitTask([dispatch, nid, ep, tid, cid, do_commit]() {
+                if (!dispatch) {
+                    THEMIS_ERROR("2PC {} remote dispatch missing for node={} txn={} endpoint={} "
+                                 "(set DistributedTxnManagerConfig::remote_phase2_dispatch)",
+                                 do_commit ? "COMMIT" : "ABORT", nid, tid, ep);
+                    return;
+                }
+                try {
+                    const bool ok = dispatch(tid, nid, ep, do_commit);
+                    if (!ok) {
+                        THEMIS_ERROR("2PC {} remote dispatch reported failure for node={} txn={} endpoint={}",
+                                     do_commit ? "COMMIT" : "ABORT", nid, tid, ep);
                     }
-                }));
-            } else {
-                // STUB/SIMULATION NOTE (stub #279):
-                // Purpose: Preserve in-process phase-2 fan-out while the remote
-                //          commit/abort RPC path is still missing.
-                // Activation: Reached when a participant is registered only by
-                //             node/endpoint and provides no local callback and
-                //             no RpcPhase2Fn is injected.
-                // Production Delta: The coordinator durably records COMMIT/ABORT in
-                //                   its own WAL, but the final decision is never
-                //                   delivered to the remote participant. Remote
-                //                   nodes can remain prepared/orphaned until a real
-                //                   transport replays the decision.
-                // Removal Plan: Route phase-2 decisions through shard RPC / mTLS
-                //               transport instead of skipping callback-less
-                //               participants (tracked in STUB_INVENTORY #279).
-            }
-            // Skip local-callback path — no callback is available.
+                } catch (const std::exception& ex) {
+                    THEMIS_ERROR("2PC {} remote dispatch threw for node={} txn={} coordinator={}: {}",
+                                 do_commit ? "COMMIT" : "ABORT", nid, tid, cid, ex.what());
+                }
+            }));
             continue;
         }
         IDistributedParticipantCallback* cb  = part.callback;

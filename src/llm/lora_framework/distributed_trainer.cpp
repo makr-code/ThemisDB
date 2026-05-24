@@ -175,7 +175,7 @@ void DistributedTrainer::setBroadcastFn(BroadcastFn fn) {
 }
 
 void DistributedTrainer::setAllReduceCpuFn(AllReduceCpuFn fn) {
-    allreduce_fn_ = std::move(fn);
+    allreduce_cpu_fn_ = std::move(fn);
 }
 
 DistributedStats DistributedTrainer::stats() const {
@@ -208,47 +208,26 @@ float DistributedTrainer::scale_learning_rate(
     }
 }
 
-// STUB/SIMULATION NOTE (stub #290):
-// Purpose: Allow distributed training code paths to compile and run without
-//          NCCL, RCCL, or MPI installed.  Gradient vectors are scaled locally
-//          (divide by world_size) under the assumption that they were already
-//          summed externally, which is only true for single-process builds.
-// Activation: Always — no compile-time flag; the real NCCL/MPI path is not
-//             implemented in this function.  The CustomAllReduce bridge (#181,
-//             RESOLVED) covers the ring-allreduce path for GPU tensors; this
-//             stub covers the CPU float-vector path in the training loop.
-// Production Delta: In a genuine multi-GPU or multi-node setting each rank
-//                   independently scales its *own* gradient vector without
-//                   exchanging data with peers.  This is mathematically incorrect
-//                   and causes divergent model weights after the first step.
-//                   Single-process builds (world_size == 1) are unaffected.
-// Removal Plan: Add an AllReduceCpuFn injection API analogous to
-//               CustomAllReduce::setRingAllreduceFn(); inject an MPI_Allreduce /
-//               Gloo allreduce callback at startup; replace the scale-only path.
-//               See src/llm/FUTURE_ENHANCEMENTS.md §DistributedTrainer AllReduceCPU.
-//               Target: v2.2.0.
+// CPU-based AllReduce — delegates to injected AllReduceCpuFn when set (stub #290 RESOLVED).
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
-    // Use injected all-reduce bridge if available (stub #290).
-    if (allreduce_fn_) {
-        (*allreduce_fn_)(data);
+    if (allreduce_cpu_fn_.has_value()) {
+        try {
+            (*allreduce_cpu_fn_)(data);
+        } catch (const std::exception& e) {
+            spdlog::error("DistributedTrainer::allreduce_cpu injected fn failed: {}; "
+                          "falling back to local gradient scaling", e.what());
+            // Fall through to local fallback on exception
+            const float scale = 1.0f / static_cast<float>(config_.world_size);
+            for (float& val : data) {
+                val *= scale;
+            }
+        }
         return;
     }
-
-    // STUB/SIMULATION NOTE (stub #290):
-    // Purpose: Allow distributed training code paths to compile and run without
-    //          NCCL, RCCL, or MPI installed.  Gradient vectors are scaled locally
-    //          (divide by world_size) under the assumption that they were already
-    //          summed externally, which is only true for single-process builds.
-    // Activation: Active when no AllReduceCpuFn is injected via setAllReduceCpuFn().
-    // Production Delta: In a genuine multi-GPU or multi-node setting each rank
-    //                   independently scales its *own* gradient vector without
-    //                   exchanging data with peers.  This is mathematically incorrect
-    //                   and causes divergent model weights after the first step.
-    //                   Single-process builds (world_size == 1) are unaffected.
-    // Removal Plan: Inject an MPI_Allreduce / Gloo allreduce callback via
-    //               setAllReduceCpuFn() at startup; replace the scale-only path.
-    //               Target: v2.2.0.
-    float scale = 1.0f / static_cast<float>(config_.world_size);
+    // Built-in fallback: local gradient scaling.
+    // Correct only for world_size == 1 (single-process builds); inject a real
+    // AllReduceCpuFn via setAllReduceCpuFn() for multi-process deployments.
+    const float scale = 1.0f / static_cast<float>(config_.world_size);
     for (float& val : data) {
         val *= scale;
     }

@@ -1187,46 +1187,24 @@ TEST(TensorFingerprintGraph, TFG06_findSimilarByFingerprint_tenant_filter) {
     EXPECT_TRUE(results.size() <= 1u);
 }
 
-TEST(TensorFingerprintGraph, TFG07_exact_similarity_callback_overrides_fingerprint_ranking) {
+// TFG-07: findSimilar() uses exact TT cosine similarity for ranking score.
+TEST(TensorFingerprintGraph, TFG07_findSimilar_uses_exact_tt_cosine_score) {
     TensorFingerprintGraph graph;
-    graph.addAdapter("key_query", makeTFGTrain(1.0f), "legal", "llama3", "t1");
-    graph.addAdapter("key_a", makeTFGTrain(1.1f), "legal", "llama3", "t1");
-    graph.addAdapter("key_b", makeTFGTrain(1.2f), "legal", "llama3", "t1");
+    auto train_q = makeTFGTrain(1.0f);
+    auto train_b = makeTFGTrain(1.001f);
+    auto train_c = makeTFGTrain(3.0f);
 
-    graph.setExactSimilarityFn([](std::string_view query_key,
-                                  std::string_view candidate_key) -> std::optional<float> {
-        if (query_key == "key_query" && candidate_key == "key_b") {
-            return 0.99f;
-        }
-        if (query_key == "key_query" && candidate_key == "key_a") {
-            return 0.10f;
-        }
-        return std::nullopt;
-    });
+    graph.addAdapter("key_q", train_q, "legal", "llama3", "t1");
+    graph.addAdapter("key_b", train_b, "legal", "llama3", "t1");
+    graph.addAdapter("key_c", train_c, "legal", "llama3", "t1");
 
-    auto results = graph.findSimilar("key_query", 2);
+    auto results = graph.findSimilar("key_q", 2);
     ASSERT_EQ(results.size(), 2u);
-    EXPECT_EQ(results[0].adapter_key, "key_b");
-    EXPECT_GT(results[0].score, results[1].score);
-}
+    ASSERT_EQ(results[0].adapter_key, "key_b");
 
-TEST(TensorFingerprintGraph, TFG08_exact_similarity_nullopt_falls_back_to_fingerprint) {
-    TensorFingerprintGraph graph;
-    auto train_query = makeTFGTrain(1.0f);
-    auto train_near  = makeTFGTrain(1.001f);
-    auto train_far   = makeTFGTrain(100.0f);
-
-    graph.addAdapter("key_query", train_query, "legal", "llama3", "t1");
-    graph.addAdapter("key_near", train_near, "legal", "llama3", "t1");
-    graph.addAdapter("key_far", train_far, "science", "llama3", "t1");
-
-    graph.setExactSimilarityFn([](std::string_view, std::string_view) -> std::optional<float> {
-        return std::nullopt;
-    });
-
-    auto results = graph.findSimilar("key_query", 2);
-    ASSERT_EQ(results.size(), 2u);
-    EXPECT_EQ(results[0].adapter_key, "key_near");
+    const float expected =
+        static_cast<float>(TensorTrainDecomposer::cosineSimilarity(train_q, train_b));
+    EXPECT_NEAR(results[0].score, expected, 1e-5f);
 }
 
 // =============================================================================

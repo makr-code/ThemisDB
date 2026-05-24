@@ -211,9 +211,11 @@ public:
      * `mapCores()` internally and returns borrowed pointers into a
      * thread-local `TensorMmapBridge` cache.
      *
-     * @deprecated Use mapCores() instead.
+     * @deprecated Use mapCores() instead. Raw pointers have no lifetime
+     *             protection and are unsafe for concurrent mutation or index
+     *             replacement (stub #277; removal after all callers migrate).
      */
-    [[deprecated("Use mapCores() instead")]]
+    [[deprecated("Use mapCores() for safe mmap-pinned TT-core access (stub #277 resolved)")]]
     std::vector<std::pair<const float*, size_t>>
         ggmlCorePtrs(const std::string& tenant_id,
                      const std::string& collection,

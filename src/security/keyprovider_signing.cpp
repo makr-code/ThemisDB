@@ -49,7 +49,7 @@ public:
                 BIO_free(cbio);
                 if (x) cert_ptr = x; // transfer ownership to CMSSigningService below
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // missing cert is acceptable
         }
 
@@ -72,7 +72,7 @@ public:
                     return cms.verify(data, signature, key_id);
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             // fallthrough
         }
         // No cert available -> verification not possible here

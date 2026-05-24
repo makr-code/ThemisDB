@@ -641,12 +641,9 @@ HttpServer::HttpServer(
         };
         auth_->addToken(cfg);
         THEMIS_INFO("Auth: ADMIN token configured via env");
-        try {
-            auto v = auth_->validateToken(cfg.token);
-            // GAP-011 fixed: log only token length, never prefix/suffix bytes.
-            THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
-                       cfg.token.size(), v.authorized, v.user_id, v.reason);
-        } catch (const std::exception&) {}
+        // GAP-011/GAP-532: startup validateToken diagnostic removed — it logged
+        // user_id and reason which adds no operational value and pollutes audit
+        // logs with internal validation state on every server start.
     }
     // Read-only token
     if (auto t = themis_get_env("THEMIS_TOKEN_READONLY")) {
@@ -8836,25 +8833,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.prepare_payload();
             return res;
         }
-        // Log Authorization header presence for this DELETE request
-        try {
-            std::string auth_hdr = std::string(it->value());
-            auto mask = [](const std::string& s) {
-                if (s.size() <= 8) return s;
-                return s.substr(0,4) + "..." + s.substr(s.size()-4);
-            };
-            THEMIS_INFO("handlePiiDeleteByUuid: Authorization header='{}'", mask(auth_hdr));
-        } catch (const std::exception&) {}
+        THEMIS_INFO("handlePiiDeleteByUuid: Authorization header present");
         auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
-        // Log presence of Authorization header for debugging (mask token)
-        try {
-            std::string auth_hdr = std::string(it->value());
-            auto mask = [](const std::string& s) {
-                if (s.size() <= 8) return s;
-                return s.substr(0,4) + "..." + s.substr(s.size()-4);
-            };
-            THEMIS_INFO("PII DELETE: Authorization header present: '{}'", mask(auth_hdr));
-        } catch (const std::exception&) {}
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -8865,20 +8845,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.prepare_payload();
             return res;
         }
-            // Diagnostic: validate token to see which user_id (if any) is associated
-            try {
-                auto vres = auth_->validateToken(*token);
-                THEMIS_INFO("requireAccess: validateToken -> authorized={} user_id='{}' reason='{}'", vres.authorized, vres.user_id, vres.reason);
-                try {
-                    std::cerr << "[AUTH-DBG] validateToken -> authorized=" << (vres.authorized?"true":"false")
-                              << " user_id='" << vres.user_id << "' reason='" << vres.reason << "'\n";
-                } catch (const std::exception&) {}
-            } catch (const std::exception&) {}
             auto ar = auth_->authorize(*token, required_scope);
-            try {
-                std::cerr << "[AUTH-DBG] authorize -> authorized=" << (ar.authorized?"true":"false")
-                          << " user_id='" << ar.user_id << "' reason='" << ar.reason << "'\n";
-            } catch (const std::exception&) {}
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -8904,11 +8871,6 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             THEMIS_INFO("Policy check bypass for admin user_id='{}'", user_id);
             return std::nullopt;
         }
-        // Diagnostic: show user_id before policy check
-        try {
-            std::cerr << "[AUTH-DBG] before_policy_check -> user_id='" << user_id << "' action='" << action << "' resource='" << resource << "'\n";
-        } catch (const std::exception&) {}
-
         // Extract client IP from headers (X-Forwarded-For or X-Real-IP)
         std::optional<std::string> client_ip;
         for (const auto& h : req) {
@@ -9160,20 +9122,14 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        // Diagnostic: mask token and log authorize attempts
-        auto mask = [](std::string_view t) {
-            std::string s(t);
-            if (s.size() <= 8) return s;
-            return s.substr(0,4) + std::string("...") + s.substr(s.size()-4);
-        };
-        THEMIS_INFO("PII Delete: Authorization header present, token='{}', required_scope='pii:write'", mask(*token));
+        THEMIS_INFO("PII Delete: Authorization header present, required_scope='pii:write'");
         
         auto ar = auth_->authorize(*token, "pii:write");
-        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
+        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={}", ar.authorized);
         if (!ar.authorized) {
-            THEMIS_INFO("PII Delete: trying fallback authorize('admin') for token='{}'", mask(*token));
+            THEMIS_INFO("PII Delete: trying fallback authorize('admin')");
             ar = auth_->authorize(*token, "admin");
-            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
+            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={}", ar.authorized);
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");
@@ -9742,6 +9698,8 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
         return makeResponse(http::status::ok, out.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("Hybrid search error: ") + e.what(), req);
+    } catch (const std::exception&) {
+        return makeErrorResponse(http::status::bad_request, "Hybrid search error", req);
     }
 }
 
@@ -9805,6 +9763,8 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fulltext search error: ") + e.what(), req);
+    } catch (const std::exception&) {
+        return makeErrorResponse(http::status::internal_server_error, "Unknown fulltext search error", req);
     }
 }
 
@@ -9984,6 +9944,8 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         return makeErrorResponse(http::status::bad_request, std::string("JSON parse error: ") + e.what(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fusion search error: ") + e.what(), req);
+    } catch (const std::exception&) {
+        return makeErrorResponse(http::status::internal_server_error, "Unknown fusion search error", req);
     }
 }
 
@@ -10002,6 +9964,8 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
+    } catch (const std::exception&) {
+        return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
 
@@ -10020,6 +9984,8 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaPut(
         return makeResponse(http::status::ok, json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
+    } catch (const std::exception&) {
+        return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
 
@@ -10161,6 +10127,8 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("config read error: ") + e.what(), req);
+    } catch (const std::exception&) {
+        return makeErrorResponse(http::status::internal_server_error, "config read error", req);
     }
 }
 
@@ -10185,6 +10153,8 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigPut(
         return makeResponse(http::status::ok, json{{"status","ok"}}.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("config write error: ") + e.what(), req);
+    } catch (const std::exception&) {
+        return makeErrorResponse(http::status::bad_request, "config write error", req);
     }
 }
 
@@ -12889,4 +12859,3 @@ void HttpServer::setMcpServer(
 
 } // namespace server
 } // namespace themis
-

@@ -151,7 +151,7 @@ bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
     TTTrain train;
     try {
         train = quantizer_.dequantize(orig_qt);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;  // dequantization failure; leave unchanged
     }
 
@@ -171,7 +171,7 @@ bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
     QuantizedTrain new_qt;
     try {
         new_qt = quantizer_.quantize(compressed, quant_type_);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;  // quantization failure; leave unchanged
     }
 

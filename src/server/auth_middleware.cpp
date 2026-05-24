@@ -182,13 +182,7 @@ bool AuthMiddleware::roleGrantsScope(const std::vector<std::string>& roles,
 
 AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std::string_view required_scope) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    // Mask token for logging (show first/last 4 chars)
-    auto mask = [](std::string_view t) {
-        std::string s(t);
-        if (s.size() <= 8) return s;
-        return s.substr(0,4) + "..." + s.substr(s.size()-4);
-    };
-    THEMIS_INFO("AuthMiddleware::authorize called for token='{}' required_scope='{}'", mask(token), required_scope);
+    THEMIS_INFO("AuthMiddleware::authorize called (required_scope='{}')", required_scope);
     
     // First try API token lookup.
     // GAP-008 fixed: instead of relying on the hash-map comparison for the final
@@ -720,4 +714,3 @@ void AuthMiddleware::loadRoleScopeMapping()
 }
 
 } // namespace themis
-

@@ -118,30 +118,17 @@ public:
     /// Get field as float vector (for embeddings)
     std::optional<std::vector<float>> getFieldAsVector(std::string_view field_name) const;
 
-    /**
-     * @brief Retrieve a field as a vector of strings (resolves stub #292).
-     *
-     * Tries JSON-array format first (e.g. `["label1","label2"]`), then falls
-     * back to comma-splitting for backward compatibility with legacy data.
-     * Leading/trailing whitespace is trimmed from each element; empty elements
-     * are discarded.
-     *
-     * @param field_name  Field to read.
-     * @return Vector of string values, or nullopt if the field is absent.
-     */
+    /// Get field as a string array.
+    ///
+    /// Attempts to decode the named field as an ordered list of strings.
+    /// The following encodings are recognised, in priority order:
+    ///   1. A JSON array stored as a plain string value, e.g. `["a","b","c"]`.
+    ///   2. A comma-separated plain string (legacy format, backward-compatible read).
+    ///
+    /// Returns `std::nullopt` when the field is absent or cannot be decoded as
+    /// any string-like type.  Returns an empty vector for an empty array or an
+    /// empty string.
     std::optional<std::vector<std::string>> getFieldAsStringArray(std::string_view field_name) const;
-
-    /**
-     * @brief Store a vector of strings as a JSON-array string (resolves stub #292).
-     *
-     * Values are serialised as `["a","b","c"]` and stored via the standard
-     * `setField()` path so that `getFieldAsStringArray()` can round-trip them
-     * correctly without ambiguity from commas inside label names.
-     *
-     * @param field_name  Field to write.
-     * @param values      Strings to store.
-     */
-    void setFieldAsStringArray(std::string_view field_name, const std::vector<std::string>& values);
 
     /// Set field value (modifies blob)
     void setField(std::string_view field_name, const Value& value);

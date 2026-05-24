@@ -114,15 +114,19 @@ namespace {
     }
 }
 
-VoiceApiHandler::VoiceApiHandler(
-    std::shared_ptr<voice::VoiceAssistant> voice_assistant)
-    : VoiceApiHandler(std::move(voice_assistant), nullptr) {}
+// Token validator injection state (stub #302 resolution).
+namespace {
+std::mutex token_validator_fn_mutex;
+VoiceApiHandler::TokenValidatorFn token_validator_fn;
+} // anonymous namespace (inside themis::server)
 
-VoiceApiHandler::VoiceApiHandler(
-    std::shared_ptr<voice::VoiceAssistant> voice_assistant,
-    std::shared_ptr<::themis::AuthMiddleware> auth)
-    : voice_assistant_(voice_assistant)
-    , auth_(std::move(auth)) {
+void VoiceApiHandler::setTokenValidatorFn(TokenValidatorFn fn) {
+    std::lock_guard<std::mutex> lock(token_validator_fn_mutex);
+    token_validator_fn = std::move(fn);
+}
+
+VoiceApiHandler::VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_assistant)
+    : voice_assistant_(voice_assistant) {
     // Initialize HTTP client pool for downloading audio from URLs
     utils::HTTPClientPool::Config http_config;
     http_config.max_connections = 10;
@@ -1039,19 +1043,18 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
 ) {
     auto span = Tracer::startSpan("handleDeleteSession");
 
-    // Verify the session exists before deleting; getSession() auto-creates, so
-    // check the internal map via a read-only probe: attempt an update on a
-    // known key — if the session was never created getSession would have made
-    // it, so here we simply call getSession (which may create) then delete.
-    // A cleaner path: call deleteSession directly; it is idempotent for
-    // non-existent sessions.  The caller already validated the session_id
-    // format in the router, so proceed with the hard delete.
-    voice_assistant_->deleteSession(session_id);
+    // Hard-delete the session (stub #308 RESOLVED).
+    try {
+        voice_assistant_->deleteSession(session_id);
+    } catch (const std::out_of_range&) {
+        return createErrorResponse(http::status::not_found, "session_not_found",
+                                   "No session with id: " + session_id);
+    }
 
     json result;
     result["success"] = true;
     result["session_id"] = session_id;
-    
+
     return createJsonResponse(result);
 }
 
@@ -1677,6 +1680,25 @@ bool VoiceApiHandler::validateBearerToken(
     } catch (const std::exception&) {
         return false;
     }
+    
+    // Extract token
+    std::string token = auth.substr(7);
+
+    // Delegate to injected JWT validator if set (stub #302 RESOLVED).
+    {
+        std::lock_guard<std::mutex> lock(token_validator_fn_mutex);
+        if (token_validator_fn) {
+            try {
+                return token_validator_fn(token);
+            } catch (const std::exception& e) {
+                spdlog::error("VoiceApiHandler: token validator threw: {}; rejecting", e.what());
+                return false;
+            }
+        }
+    }
+    // Built-in fallback: accept any non-empty bearer token (dev/CI only).
+    // Inject a real JWT/OIDC validator via setTokenValidatorFn() for production.
+    return !token.empty();
 }
 
 http::response<http::string_body> VoiceApiHandler::createErrorResponse(

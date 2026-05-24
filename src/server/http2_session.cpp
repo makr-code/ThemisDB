@@ -278,7 +278,8 @@ int Http2Session::onStreamCloseCallback(nghttp2_session* /*session*/, int32_t st
     // Process complete request
     self->processStream(stream_id);
     self->streams_.erase(stream_id);
-    self->response_buffers_.erase(stream_id); // Release buffer when stream closes.
+    // Release any in-flight response buffer for this stream (stub #298 RESOLVED).
+    self->response_buffers_.erase(stream_id);
     
     return 0;
 }
@@ -454,15 +455,19 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
             NGHTTP2_NV_FLAG_NONE
         });
     }
-
-    // Use shared_ptr<ResponseBuffer> for RAII buffer management (stub #298 resolved).
+    
+    // RAII response buffer (stub #298 RESOLVED): use shared_ptr stored in
+    // response_buffers_[stream_id]; erased in read_callback on EOF and in
+    // onStreamCloseCallback for stream-reset / early-close safety.
     auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
+    response_buffers_[stream_id] = resp_buffer;
+    auto* raw_ptr = resp_buffer.get();
 
     nghttp2_data_provider data_prd;
-    data_prd.source.ptr = resp_buffer.get();
-    data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
+    data_prd.source.ptr = raw_ptr;
+    data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t sid,
                                  uint8_t* buf, size_t length, uint32_t* data_flags,
-                                 nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
+                                 nghttp2_data_source* source, void* user_data) -> ssize_t {
         auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
         size_t remaining = buffer->data.size() - buffer->offset;
         size_t to_copy = std::min(length, remaining);
@@ -474,22 +479,22 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
 
         if (buffer->offset >= buffer->data.size()) {
             *data_flags |= NGHTTP2_DATA_FLAG_EOF;
+            // Release the shared_ptr from the per-stream map; the buffer is
+            // freed when the last owner (this lambda's captured reference via
+            // the map) drops its reference count.
+            auto* self = static_cast<Http2Session*>(user_data);
+            self->response_buffers_.erase(sid);
         }
 
-        return to_copy;
+        return static_cast<ssize_t>(to_copy);
     };
-
-    // Keep buffer alive until stream completion via the streams_ map.
-    response_buffers_[stream_id] = resp_buffer;
 
     int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(), nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response failed: {}", nghttp2_strerror(rv));
-        response_buffers_.erase(stream_id);
+        response_buffers_.erase(stream_id); // release buffer on submit failure
     }
-    // Transfer ownership to the read_callback; it will delete on EOF.
-    resp_buffer_owner.release();
-    
+
     doWrite();
 }
 
@@ -590,14 +595,17 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
         }
     }
     
-    // Create data provider for push response body using RAII shared_ptr (stub #298 resolved).
+    // Create data provider for push response body (stub #298b RESOLVED).
+    // Uses shared_ptr stored in response_buffers_ for leak-free lifetime management.
     auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
+    response_buffers_[promised_stream_id] = resp_buffer;
+    auto* raw_ptr = resp_buffer.get();
 
     nghttp2_data_provider data_prd;
-    data_prd.source.ptr = resp_buffer.get();
-    data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
+    data_prd.source.ptr = raw_ptr;
+    data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t sid,
                                  uint8_t* buf, size_t length, uint32_t* data_flags,
-                                 nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
+                                 nghttp2_data_source* source, void* user_data) -> ssize_t {
         auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
         size_t remaining = buffer->data.size() - buffer->offset;
         size_t to_copy = std::min(length, remaining);
@@ -609,18 +617,18 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
 
         if (buffer->offset >= buffer->data.size()) {
             *data_flags |= NGHTTP2_DATA_FLAG_EOF;
+            auto* self = static_cast<Http2Session*>(user_data);
+            self->response_buffers_.erase(sid);
         }
 
-        return to_copy;
+        return static_cast<ssize_t>(to_copy);
     };
-
-    response_buffers_[promised_stream_id] = resp_buffer;
 
     rv = nghttp2_submit_response(ng2_session_, promised_stream_id, response_nva.data(),
                                   response_nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response for push failed: {}", nghttp2_strerror(rv));
-        response_buffers_.erase(promised_stream_id);
+        response_buffers_.erase(promised_stream_id); // release buffer on submit failure
         return;
     }
     

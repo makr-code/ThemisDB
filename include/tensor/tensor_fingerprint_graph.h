@@ -28,9 +28,9 @@
  * a rank-1 sketch of the adapter.  This is O(n₁ · r₁) to compute
  * and O(r₁) to store — negligible compared to the full adapter.
  *
- * Exact ranking can be injected with `setExactSimilarityFn(fn)`.
- * When the callback is absent (or returns no score), deterministic
- * fingerprint-cosine fallback is used.
+ * `findSimilar()` uses exact compressed-domain TT cosine similarity via
+ * `TensorTrainDecomposer::cosineSimilarity()`.  `findSimilarByFingerprint()`
+ * remains as a fast approximate path for callers that only have a sketch.
  *
  * ## Thread Safety
  * All public methods are thread-safe via shared_mutex.
@@ -76,6 +76,9 @@ struct FingerprintEntry {
 
     /// Frobenius norm of the first TT-core (used for normalisation).
     float first_core_norm = 0.0f;
+
+    /// Full TT train used for exact compressed-domain similarity in findSimilar().
+    storage::TTTrain exact_train;
 };
 
 // ============================================================================
@@ -149,13 +152,10 @@ public:
     /**
      * @brief Find the top-k adapters most similar to the query adapter.
      *
-     * Similarity is computed as cosine similarity on the column-mean
-     * fingerprint of G_0.  The query adapter itself is excluded from the
+     * Similarity is computed as exact compressed-domain TT cosine similarity
+     * (`TensorTrainDecomposer::cosineSimilarity`) when both query and candidate
+     * TT payloads are present. The query adapter itself is excluded from the
      * result list.
-     *
-     * If `setExactSimilarityFn(fn)` is configured and returns a score
-     * for a candidate, that score is used. Otherwise fallback cosine on
-     * fingerprints is used.
      *
      * @param query_key  Storage key of the query adapter (must be registered).
      * @param k          Maximum number of results to return.

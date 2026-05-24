@@ -300,6 +300,23 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
                         if (isBooleanLiteral(scalar, bool_value)) {
                             json_node = bool_value;
                             return;
+                        } catch (const std::exception&) {}
+                        
+                        try {
+                            json_node = yaml_node.as<int>();
+                            return;
+                        } catch (const std::exception&) {}
+                        
+                        try {
+                            json_node = yaml_node.as<double>();
+                            return;
+                        } catch (const std::exception&) {}
+                        
+                        // Fall back to string
+                        try {
+                            json_node = yaml_node.as<std::string>();
+                        } catch (const std::exception&) {
+                            json_node = nullptr;
                         }
 
                         int int_value = 0;

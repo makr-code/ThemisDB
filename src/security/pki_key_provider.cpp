@@ -204,7 +204,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
                 auto encrypted_json = nlohmann::json::parse(*encrypted_dek_opt);
                 blob = themis::EncryptedBlob::fromJson(encrypted_json);
                 parsed = true;
-            } catch (...) {
+            } catch (const std::exception&) {
                 parsed = false;
             }
             

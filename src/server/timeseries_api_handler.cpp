@@ -396,19 +396,20 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
-        // Build aggregate list from two sources:
-        //   1. Continuous aggregates registered in agg_manager (user-defined).
-        //   2. Built-in point-aggregate functions always supported by TSStore.
-        nlohmann::json agg_list = nlohmann::json::array();
-
-        (void)agg_manager_;
-
-        // Built-in TSStore::AggregationResult fields — always available.
-        for (const char* builtin : {"min", "max", "avg", "sum", "count"}) {
-            agg_list.push_back(builtin);
+        std::vector<std::string> names;
+        if (aggregates_fn_) {
+            // Delegate to the injected provider for live backend metadata.
+            names = aggregates_fn_();
+        } else {
+            // Built-in enumeration of all supported aggregate functions
+            // (mirrors TimeSeriesAggregates::AggregateFunction enum values).
+            names = {"min", "max", "avg", "sum", "count",
+                     "stddev", "variance", "first", "last",
+                     "percentile_50", "percentile_95", "percentile_99"};
         }
-
-        nlohmann::json response = {{"aggregates", agg_list}};
+        nlohmann::json response = {
+            {"aggregates", nlohmann::json(names)}
+        };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {
@@ -422,23 +423,17 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
-        // Use injected retention-policy provider if available (stub #301 resolved).
-        RetentionPoliciesProviderFn fn;
-        {
-            std::lock_guard<std::mutex> lock(retentionPoliciesMutex_);
-            fn = retentionPoliciesFn_;
-        }
-
         nlohmann::json policies = nlohmann::json::array();
-        if (fn) {
-            for (auto& policy : fn()) {
-                policies.push_back(std::move(policy));
+        if (retentions_fn_) {
+            // Delegate to the injected provider for live retention-policy metadata.
+            auto policy_map = retentions_fn_();
+            for (const auto& [metric, seconds] : policy_map) {
+                policies.push_back({
+                    {"metric", metric},
+                    {"retention_seconds", seconds}
+                });
             }
         }
-        // When no provider is injected the list is intentionally empty: the
-        // TSStore does not maintain a centralised retention-policy catalog yet.
-        // Callers may inject a provider via setRetentionPoliciesProviderFn().
-
         nlohmann::json response = {{"policies", policies}};
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
