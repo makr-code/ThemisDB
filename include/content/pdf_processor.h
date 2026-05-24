@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            pdf_processor.h                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:44:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     207                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: pdf_processor.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
+ * Gap Summary: total=2; TODO=0, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -49,11 +38,11 @@ class ContentMetrics;  // forward declaration
  * @brief PDF Page Information
  */
 struct PDFPageInfo {
-    int page_number;
+    int page_number = 0;   ///< 1-based page index (CON-020)
     std::string text;
-    int width;           // Points (1/72 inch)
-    int height;          // Points
-    int rotation;        // 0, 90, 180, 270
+    int width = 0;         ///< Width in points (1/72 inch) (CON-020)
+    int height = 0;        ///< Height in points (CON-020)
+    int rotation = 0;      ///< Rotation: 0, 90, 180, or 270 degrees (CON-020)
     std::vector<std::pair<float, float>> text_positions;  // x,y positions of text blocks
 };
 
@@ -69,9 +58,9 @@ struct PDFMetadata {
     std::string producer;
     std::string creation_date;      // ISO 8601
     std::string modification_date;  // ISO 8601
-    int page_count;
-    bool is_encrypted;
-    bool is_linearized;
+    int page_count = 0;            ///< Total number of pages (CON-020)
+    bool is_encrypted = false;     ///< True if document is password-protected (CON-020)
+    bool is_linearized = false;    ///< True if PDF is web-optimised/linearized (CON-020)
     std::string pdf_version;
 };
 

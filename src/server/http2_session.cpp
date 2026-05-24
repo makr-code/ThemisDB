@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=0 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            http2_session.cpp                                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     684                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: http2_session.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 85/100 | Lines: 688
+ * Open Issues: TODOs=2, Stubs=3, Gaps=7, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=7 | external_v3=159 | delta=152 | status=divergent
+ * External Severity (v3): C=9, H=118, M=32
+ * PR: #144 Complete Modern Protocols implementation: MCP and HTTP/3 tests, Pos... (2026-03-11T17:01:47Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #ifdef THEMIS_ENABLE_HTTP2
@@ -291,6 +282,8 @@ int Http2Session::onStreamCloseCallback(nghttp2_session* /*session*/, int32_t st
     // Process complete request
     self->processStream(stream_id);
     self->streams_.erase(stream_id);
+    // Release any in-flight response buffer for this stream (stub #298 RESOLVED).
+    self->response_buffers_.erase(stream_id);
     
     return 0;
 }
@@ -518,7 +511,7 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
         std::lock_guard<std::mutex> lock(response_mutex_);
         response_buffers_.erase(stream_id);
     }
-    
+
     doWrite();
 }
 

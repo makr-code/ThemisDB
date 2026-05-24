@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_data_selection.cpp                            ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-15 18:51:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1290                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_data_selection.cpp | Version: 0.0.39 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1276
+ * Open Issues: TODOs=1, Stubs=1, Gaps=4, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=4 | external_v3=307 | delta=303 | status=divergent
+ * External Severity (v3): C=14, H=232, M=61
+ * PR: #3648 audit(training): complete module documentation audit â€” ghost file... (2026-03-12T07:45:18Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0

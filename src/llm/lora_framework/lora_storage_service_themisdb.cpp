@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=13 unimpl=11 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_storage_service_themisdb.cpp                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     959                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_storage_service_themisdb.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 91/100 | Lines: 946
+ * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=4, Sim=0, Debt=0
+ * Gap Correlation: internal=6 | external_v3=295 | delta=289 | status=divergent
+ * External Severity (v3): C=21, H=243, M=31
+ * PR: #568 Integrate PKIKeyProvider for LoRA Adapter Encryption (2026-03-11T18:14:28Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_storage_service.h"
@@ -492,7 +483,7 @@ private:
         spdlog::info("    Session Pool: {}", config_.hsm_session_pool_size);
         
         // Configure HSM
-        security::HSMConfig hsm_config;
+        ::themis::security::HSMConfig hsm_config;
         hsm_config.library_path = config_.hsm_library_path;
         hsm_config.slot_id = config_.hsm_slot_id;
         hsm_config.pin = config_.hsm_pin;
@@ -501,19 +492,19 @@ private:
         hsm_config.signature_algorithm = "RSA-SHA256";
         
         // Create HSM provider
-        auto hsm = std::make_shared<security::HSMProvider>(hsm_config);
+        auto hsm = std::make_shared<::themis::security::HSMProvider>(hsm_config);
         if (!hsm->initialize()) {
             throw std::runtime_error("HSM initialization failed: " + hsm->getLastError());
         }
         
         // Create HSM adapter
-        security::HSMKeyProviderAdapter::Config adapter_config;
+        ::themis::security::HSMKeyProviderAdapter::Config adapter_config;
         adapter_config.kek_label = config_.hsm_key_label;
         adapter_config.cache_ttl_ms = DEFAULT_HSM_CACHE_TTL_MS;
         adapter_config.max_cache_size = DEFAULT_HSM_MAX_CACHE_SIZE;
         adapter_config.enable_caching = true;
         
-        auto key_provider = std::make_shared<security::HSMKeyProviderAdapter>(hsm, adapter_config);
+        auto key_provider = std::make_shared<::themis::security::HSMKeyProviderAdapter>(hsm, adapter_config);
         
         spdlog::info("  ✓ HSM-backed encryption initialized successfully");
         spdlog::info("  Hardware-backed keys provide maximum security");
@@ -564,7 +555,7 @@ private:
         spdlog::info("    Verify: {}", config_.pki_verify_certificate);
         
         // Initialize PKIKeyProvider with certificate files
-        auto key_provider = std::make_shared<security::PKIKeyProvider>(
+        auto key_provider = std::make_shared<::themis::security::PKIKeyProvider>(
             config_.pki_cert_path,
             config_.pki_private_key_path,
             config_.db,

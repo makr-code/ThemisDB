@@ -1,3 +1,14 @@
+/*
+ * ThemisDB | File: input_validator.cpp | Version: 0.0.1 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 542
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=96 | delta=93 | status=divergent
+ * External Severity (v3): C=0, H=67, M=29
+ * PR: #4833 Continue Phase-6 tensorgraph integration and resolve develop-branch... (2026-05-07T06:32:12Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file input_validator.cpp
  * @brief Input validation and sanitization implementation
@@ -71,7 +82,7 @@ ValidationResult InputValidator::validateUserInput(
     case ValidationContext::CONFIG_PATH:
       if (!validatePathTraversal(input)) {
         return {false,
-                "Path contains traversal sequences (../, ..\)",
+                "Path contains traversal sequences (../, ..\\)",
                 "Use absolute paths or paths relative to safe directory"};
       }
       return {true, "", ""};
@@ -129,6 +140,7 @@ ValidationResult InputValidator::validateFileUpload(
     std::string_view filename,
     size_t file_size,
     std::string_view mime_type) {
+  (void)mime_type;
   
   // Check filename for traversal attacks
   if (!validatePathTraversal(filename)) {
@@ -210,6 +222,7 @@ ValidationResult InputValidator::validateUriParameter(std::string_view uri_param
 ValidationResult InputValidator::validateRequestHeader(
     std::string_view header_name,
     std::string_view header_value) {
+  (void)header_name;
   
   // Check value size limit
   if (header_value.size() > MAX_HEADER_VALUE_SIZE) {
@@ -319,7 +332,7 @@ ValidationResult InputValidator::validateConfigPath(
 
 std::string InputValidator::sanitizeForHtml(std::string_view input) {
   std::string output;
-  output.reserve(input.size() * 1.2);  // Typical overhead ~20%
+  output.reserve(input.size() + (input.size() / 5));  // Typical overhead ~20%
   
   for (char c : input) {
     switch (c) {
@@ -369,7 +382,7 @@ std::string InputValidator::sanitizeForShell(std::string_view input) {
 
 std::string InputValidator::sanitizeForJson(std::string_view input) {
   std::string output;
-  output.reserve(input.size() * 1.2);
+  output.reserve(input.size() + (input.size() / 5));
   
   for (unsigned char c : input) {
     switch (c) {

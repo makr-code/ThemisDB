@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_rag_hybrid_retriever.cpp                      ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:56:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     425                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_rag_hybrid_retriever.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -33,6 +22,7 @@
  */
 
 #include "rag/hybrid_retriever.h"
+#include "rag/vectorizer_interface.h"
 #include <gtest/gtest.h>
 
 #include <string>
@@ -71,6 +61,31 @@ static std::vector<RetrievedDocument> makeDocs(size_t n,
     return docs;
 }
 
+class TestVectorizer final : public IVectorizer {
+public:
+    void initialize() override { initialized_ = true; }
+    bool isInitialized() const override { return initialized_; }
+
+    std::vector<float> encodeQuery(const std::string& query) override {
+        if (query.empty()) {
+            throw std::invalid_argument("empty query");
+        }
+        return {1.0f, 0.0f};
+    }
+
+    std::vector<float> encodePassage(const std::string& passage) override {
+        if (passage.find("match") != std::string::npos) {
+            return {1.0f, 0.0f};
+        }
+        return {0.0f, 1.0f};
+    }
+
+    size_t getEmbeddingDimension() const override { return 2; }
+
+private:
+    bool initialized_ = false;
+};
+
 // ---------------------------------------------------------------------------
 // Config validation
 // ---------------------------------------------------------------------------
@@ -80,43 +95,61 @@ TEST(HybridRetrieverConfig, DefaultConstructorIsValid) {
 }
 
 TEST(HybridRetrieverConfig, ValidCustomConfig) {
-    HybridRetrieverConfig cfg;
-    cfg.bm25_weight   = 0.4;
-    cfg.vector_weight = 0.6;
-    cfg.rrf_k         = 60.0;
-    cfg.top_k         = 5;
-    EXPECT_NO_THROW(HybridRetriever(cfg));
+    HybridRetrieverConfig cfg_valid;
+    cfg_valid.bm25_weight   = 0.4;
+    cfg_valid.vector_weight = 0.6;
+    cfg_valid.rrf_k         = 60.0;
+    cfg_valid.top_k         = 5;
+    EXPECT_NO_THROW({
+        HybridRetriever retriever{cfg_valid};
+        static_cast<void>(retriever);
+    });
 }
 
 TEST(HybridRetrieverConfig, NegativeBm25WeightThrows) {
-    HybridRetrieverConfig cfg;
-    cfg.bm25_weight = -0.1;
-    EXPECT_THROW(HybridRetriever(cfg), std::invalid_argument);
+    HybridRetrieverConfig cfg_neg_bm25;
+    cfg_neg_bm25.bm25_weight = -0.1;
+    EXPECT_THROW({
+        HybridRetriever retriever{cfg_neg_bm25};
+        static_cast<void>(retriever);
+    }, std::invalid_argument);
 }
 
 TEST(HybridRetrieverConfig, NegativeVectorWeightThrows) {
-    HybridRetrieverConfig cfg;
-    cfg.vector_weight = -0.1;
-    EXPECT_THROW(HybridRetriever(cfg), std::invalid_argument);
+    HybridRetrieverConfig cfg_neg_vector;
+    cfg_neg_vector.vector_weight = -0.1;
+    EXPECT_THROW({
+        HybridRetriever retriever{cfg_neg_vector};
+        static_cast<void>(retriever);
+    }, std::invalid_argument);
 }
 
 TEST(HybridRetrieverConfig, ZeroRrfKThrows) {
-    HybridRetrieverConfig cfg;
-    cfg.rrf_k = 0.0;
-    EXPECT_THROW(HybridRetriever(cfg), std::invalid_argument);
+    HybridRetrieverConfig cfg_zero_rrf;
+    cfg_zero_rrf.rrf_k = 0.0;
+    EXPECT_THROW({
+        HybridRetriever retriever{cfg_zero_rrf};
+        static_cast<void>(retriever);
+    }, std::invalid_argument);
 }
 
 TEST(HybridRetrieverConfig, NegativeRrfKThrows) {
-    HybridRetrieverConfig cfg;
-    cfg.rrf_k = -1.0;
-    EXPECT_THROW(HybridRetriever(cfg), std::invalid_argument);
+    HybridRetrieverConfig cfg_neg_rrf;
+    cfg_neg_rrf.rrf_k = -1.0;
+    EXPECT_THROW({
+        HybridRetriever retriever{cfg_neg_rrf};
+        static_cast<void>(retriever);
+    }, std::invalid_argument);
 }
 
 TEST(HybridRetrieverConfig, ZeroWeightsAreAllowed) {
-    HybridRetrieverConfig cfg;
-    cfg.bm25_weight   = 0.0;
-    cfg.vector_weight = 0.0;
-    EXPECT_NO_THROW(HybridRetriever(cfg));
+    HybridRetrieverConfig cfg_zero_weights;
+    cfg_zero_weights.bm25_weight   = 0.0;
+    cfg_zero_weights.vector_weight = 0.0;
+    EXPECT_NO_THROW({
+        HybridRetriever retriever{cfg_zero_weights};
+        static_cast<void>(retriever);
+    });
 }
 
 TEST(HybridRetrieverConfig, SetConfigUpdatesAndValidates) {
@@ -393,6 +426,87 @@ TEST(HybridRetrieverFactoryTest, FactoryRetrieverProducesResults) {
     auto res = r.fuse(makeDocs(5), makeDocs(5));
     EXPECT_FALSE(res.documents.empty());
     EXPECT_TRUE(res.used_rrf);
+}
+
+// ---------------------------------------------------------------------------
+// DPR / IVectorizer integration path
+// ---------------------------------------------------------------------------
+
+TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerUsesDenseRanking) {
+    HybridRetrieverConfig cfg;
+    cfg.bm25_weight = 0.2;
+    cfg.vector_weight = 0.8;
+    HybridRetriever retriever(cfg);
+
+    auto vectorizer = std::make_shared<TestVectorizer>();
+    vectorizer->initialize();
+    retriever.setVectorizer(vectorizer);
+
+    std::vector<RetrievedDocument> bm25 = {
+        makeDoc("doc_bm25_top", "this document does not align", 0.95),
+        makeDoc("doc_dense_top", "this one is a semantic match", 0.70),
+    };
+
+    const auto result = retriever.retrieveWithVectorizer("semantic query", bm25);
+    ASSERT_FALSE(result.documents.empty());
+    EXPECT_EQ(result.documents.front().id, "doc_dense_top");
+}
+
+TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerThrowsWithoutVectorizer) {
+    HybridRetriever retriever;
+    const std::vector<RetrievedDocument> bm25 = {makeDoc("d1", "content", 0.5)};
+    EXPECT_THROW(
+        {
+            auto vectorized = retriever.retrieveWithVectorizer("q", bm25);
+            static_cast<void>(vectorized);
+        },
+        std::runtime_error);
+}
+
+TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerThrowsWhenVectorizerNotInitialized) {
+    HybridRetriever retriever;
+    retriever.setVectorizer(std::make_shared<TestVectorizer>());
+    const std::vector<RetrievedDocument> bm25 = {makeDoc("d1", "content", 0.5)};
+    EXPECT_THROW(
+        {
+            auto vectorized = retriever.retrieveWithVectorizer("q", bm25);
+            static_cast<void>(vectorized);
+        },
+        std::runtime_error);
+}
+
+TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerThrowsOnEmptyQuery) {
+    HybridRetriever retriever;
+    auto vectorizer = std::make_shared<TestVectorizer>();
+    vectorizer->initialize();
+    retriever.setVectorizer(vectorizer);
+
+    const std::vector<RetrievedDocument> bm25 = {makeDoc("d1", "content", 0.5)};
+    EXPECT_THROW(
+        {
+            auto vectorized = retriever.retrieveWithVectorizer("", bm25);
+            static_cast<void>(vectorized);
+        },
+        std::invalid_argument);
+}
+
+TEST(HybridRetrieverVectorizerIntegration, RetrieveWithVectorizerWithEmptyCandidatesReturnsEmptyResult) {
+    HybridRetriever retriever;
+    auto vectorizer = std::make_shared<TestVectorizer>();
+    vectorizer->initialize();
+    retriever.setVectorizer(vectorizer);
+
+    const auto result = retriever.retrieveWithVectorizer("q", {});
+    EXPECT_TRUE(result.documents.empty());
+    EXPECT_TRUE(result.scores.empty());
+    EXPECT_EQ(result.total_candidates, 0u);
+}
+
+TEST(HybridRetrieverVectorizerIntegration, GetVectorizerReturnsInjectedInstance) {
+    HybridRetriever retriever;
+    auto vectorizer = std::make_shared<TestVectorizer>();
+    retriever.setVectorizer(vectorizer);
+    EXPECT_EQ(retriever.getVectorizer(), vectorizer);
 }
 
 // ---------------------------------------------------------------------------

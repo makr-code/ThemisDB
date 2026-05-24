@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            import_api_handler.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     608                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: import_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 619
+ * Open Issues: TODOs=1, Stubs=5, Gaps=9, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=9 | external_v3=172 | delta=163 | status=divergent
+ * External Severity (v3): C=6, H=125, M=41
+ * PR: #3081 feat(importers): S3-compatible object-storage source connector (2026-03-12T06:21:38Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/import_api_handler.h"
@@ -39,6 +26,57 @@ namespace server {
 
 using json = nlohmann::json;
 using namespace importers;
+
+namespace {
+
+std::shared_ptr<IImporter> selectSchemaImporter(
+    const std::string& source_path,
+    const std::shared_ptr<IImporter>& default_importer,
+    const std::shared_ptr<IImporter>& s3_importer
+) {
+    if (source_path.rfind("s3://", 0) == 0 && s3_importer) {
+        return s3_importer;
+    }
+    return default_importer;
+}
+
+bool hasUsableSchemaPayload(const json& schema) {
+    if (schema.is_null()) {
+        return false;
+    }
+    if (schema.is_object()) {
+        if (schema.empty()) {
+            return false;
+        }
+        if (schema.contains("tables") && schema["tables"].is_array()) {
+            return !schema["tables"].empty();
+        }
+        return true;
+    }
+    return schema.is_array() && !schema.empty();
+}
+
+} // namespace
+
+// ============================================================================
+// Schema bridge setters (stub #294)
+// ============================================================================
+
+void ImportApiHandler::setSchemaInspectorFn(SchemaInspectorFn fn) {
+    schemaInspectorFn_ = std::move(fn);
+}
+
+void ImportApiHandler::clearSchemaInspectorFn() {
+    schemaInspectorFn_ = nullptr;
+}
+
+void ImportApiHandler::setSchemaValidatorFn(SchemaValidatorFn fn) {
+    schemaValidatorFn_ = std::move(fn);
+}
+
+void ImportApiHandler::clearSchemaValidatorFn() {
+    schemaValidatorFn_ = nullptr;
+}
 
 // ============================================================================
 // Construction
@@ -449,7 +487,7 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
 // v2.0 Handlers
 // ============================================================================
 
-void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& req,
+void ImportApiHandler::handleGetSchema(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
     const std::string job_id = req.matches[1];
@@ -502,7 +540,7 @@ void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& 
     jsonOk(res, json{{"job_id", job_id}, {"schema", schema}});
 }
 
-void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Request& req,
+void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
     json body;

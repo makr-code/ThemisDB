@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_rag_judge.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     489                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_rag_judge.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -125,6 +114,35 @@ TEST_F(RAGJudgeTest, EvaluationWithStructuredInput) {
     
     EXPECT_GE(result.overall_score, 0.0);
     EXPECT_LE(result.overall_score, 1.0);
+}
+
+TEST_F(RAGJudgeTest, RelevancePenalizedWhenDocumentBiasMetadataPresent) {
+    RAGJudge judge(config_);
+
+    EvaluationInput neutral_input;
+    neutral_input.query = "What is the capital of France?";
+    neutral_input.documents = createTestDocuments();
+    neutral_input.generated_answer = "Paris is the capital of France.";
+
+    EvaluationInput biased_input = neutral_input;
+    for (auto& doc : biased_input.documents) {
+        BiasScore score;
+        score.overall_score = 1.0;
+        score.confidence = 1.0;
+        score.flagged = true;
+        doc.bias_score = score;
+    }
+
+    const double neutral_relevance =
+        judge.evaluateDimension(EvaluationDimension::RELEVANCE, neutral_input);
+    const double biased_relevance =
+        judge.evaluateDimension(EvaluationDimension::RELEVANCE, biased_input);
+
+    EXPECT_GE(neutral_relevance, 0.0);
+    EXPECT_LE(neutral_relevance, 1.0);
+    EXPECT_GE(biased_relevance, 0.0);
+    EXPECT_LE(biased_relevance, 1.0);
+    EXPECT_LE(biased_relevance, neutral_relevance);
 }
 
 // Test: Pairwise comparison
@@ -239,7 +257,7 @@ TEST_F(RAGJudgeTest, EvaluationCallback) {
     
     bool callback_invoked = false;
     judge.setEvaluationCallback([&callback_invoked](const EvaluationResult& result) {
-        callback_invoked = true;
+        callback_invoked = callback_invoked || (result.overall_score >= 0.0);
     });
     
     std::string query = "Test query";

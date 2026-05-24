@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            base_entity.h                                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:11                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     251                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: base_entity.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -128,7 +117,19 @@ public:
     
     /// Get field as float vector (for embeddings)
     std::optional<std::vector<float>> getFieldAsVector(std::string_view field_name) const;
-    
+
+    /// Get field as a string array.
+    ///
+    /// Attempts to decode the named field as an ordered list of strings.
+    /// The following encodings are recognised, in priority order:
+    ///   1. A JSON array stored as a plain string value, e.g. `["a","b","c"]`.
+    ///   2. A comma-separated plain string (legacy format, backward-compatible read).
+    ///
+    /// Returns `std::nullopt` when the field is absent or cannot be decoded as
+    /// any string-like type.  Returns an empty vector for an empty array or an
+    /// empty string.
+    std::optional<std::vector<std::string>> getFieldAsStringArray(std::string_view field_name) const;
+
     /// Set field value (modifies blob)
     void setField(std::string_view field_name, const Value& value);
     

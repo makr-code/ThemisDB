@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            oauth2_provider.h                                  ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:47:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     334                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1364ca87e9  2026-03-11  fix: address code review – duplicate heading, curl overfl... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: oauth2_provider.h | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -93,6 +79,7 @@ namespace server {
  */
 class OAuth2Provider {
 public:
+    using RefreshTokenRevocationFn = std::function<bool(const std::string& refresh_token)>;
     /**
      * @brief Configuration for the server-layer OAuth2/OIDC provider
      */
@@ -256,6 +243,14 @@ public:
     void setRandBytesForTesting(
         std::function<void(unsigned char* buf, std::size_t len)> fn);
 
+    /**
+     * @brief Override refresh-token revocation dispatch used by handleLogout().
+     *
+     * Enables wiring a concrete revocation endpoint integration without changing
+     * the logout endpoint contract.
+     */
+    void setRefreshTokenRevocationFn(RefreshTokenRevocationFn fn);
+
 private:
     Config config_;
     std::unique_ptr<auth::OIDCProvider>   oidc_provider_;
@@ -268,6 +263,9 @@ private:
     /// Injected random-bytes hook (for testing).
     std::function<void(unsigned char* buf, std::size_t len)>
         rand_bytes_fn_;
+
+    /// Optional refresh-token revocation bridge for logout.
+    RefreshTokenRevocationFn refresh_token_revocation_fn_;
 
     // -----------------------------------------------------------------------
     // Pending-state map (state → {code_verifier, expiry})

@@ -1,17 +1,12 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=4 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/tensor_index_manager.cpp                    ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                     ║
-    • Maturity Level:  🟡 EXPERIMENTAL                                 ║
-    • Open Issues:     Stubs: 1 (TIM-01)                                 ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_index_manager.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 339
+ * Open Issues: TODOs=1, Stubs=5, Gaps=8, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=8 | external_v3=70 | delta=62 | status=divergent
+ * External Severity (v3): C=11, H=44, M=15
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -19,7 +14,7 @@
  * @brief TensorIndexManager implementation.
  *
  * ### Stub log
- * - TIM-01  `ggmlCorePtrs()` — mmap bridge to GGML (Phase 3, Q1 2027)
+ * - TIM-01  `ggmlCorePtrs()` legacy raw-pointer path — resolved 2026-05-20
  * - TIM-02  `dropTenantIndexes()` RocksDB prefix-delete — resolved 2026-05-06
  */
 
@@ -32,6 +27,7 @@
 #include <fstream>
 #include <shared_mutex>
 #include <stdexcept>
+#include <unordered_map>
 
 // The FlatTensorIndex concrete class is defined in tensor_index.cpp and is
 // not exposed in the header.  We forward-create it here via a factory lambda

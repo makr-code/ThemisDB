@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            paxos_state_persistence.cpp                        ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:50:55                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     308                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: paxos_state_persistence.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 304
+ * Open Issues: TODOs=1, Stubs=4, Gaps=7, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=7 | external_v3=54 | delta=47 | status=divergent
+ * External Severity (v3): C=10, H=42, M=2
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/paxos_state_persistence.h"
@@ -35,6 +23,49 @@ using json     = nlohmann::json;
 
 namespace themis {
 namespace sharding {
+
+namespace {
+
+ConsensusLogEntry buildConsensusEntryFromAcceptedValue(const std::string& value,
+                                                       uint64_t slot,
+                                                       uint64_t ballot_round) {
+    ConsensusLogEntry entry;
+    entry.index = slot;
+    entry.term = ballot_round;
+
+    const auto parsed = json::parse(value, nullptr, false);
+    if (!parsed.is_discarded() && parsed.is_object()) {
+        entry.operation = parsed.value("operation", std::string("paxos.accept"));
+        entry.data = parsed;
+    } else {
+        entry.operation = "paxos.accept";
+        entry.data = {
+            {"raw_value", value}
+        };
+    }
+
+    entry.data["accepted_round"] = ballot_round;
+    entry.data["slot"] = slot;
+    return entry;
+}
+
+std::string decodeAcceptedValueFromWalPayload(const json& payload) {
+    if (!payload.is_object()) {
+        return payload.dump();
+    }
+    if (payload.contains("data") && payload["data"].is_object()) {
+        const auto& data = payload["data"];
+        if (data.contains("raw_value") && data["raw_value"].is_string()) {
+            return data["raw_value"].get<std::string>();
+        }
+    }
+    if (payload.contains("operation") && payload["operation"].is_string()) {
+        return payload["operation"].get<std::string>();
+    }
+    return payload.dump();
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DurableAcceptorState
@@ -262,7 +293,9 @@ bool PaxosStatePersistence::persistCommit(uint64_t slot) {
 
     ConsensusLogEntry entry;
     if (slot_cache_.count(slot) && !slot_cache_[slot].accepted_value.empty()) {
-        entry.operation = slot_cache_[slot].accepted_value;
+        entry = buildConsensusEntryFromAcceptedValue(slot_cache_[slot].accepted_value,
+                                                     slot,
+                                                     slot_cache_[slot].accepted_round);
     }
     LSN lsn = wal_->logCommit(slot, entry);
     if (config_.sync_on_write) wal_->flush();
@@ -309,8 +342,9 @@ bool PaxosStatePersistence::forceCompact() {
         std::map<uint64_t, ConsensusLogEntry>     committed_log;
         for (const auto& [s, state] : slot_cache_) {
             if (state.is_committed) {
-                ConsensusLogEntry e;
-                e.operation = state.accepted_value;
+                auto e = buildConsensusEntryFromAcceptedValue(state.accepted_value,
+                                                              s,
+                                                              state.accepted_round);
                 committed_log[s] = e;
             }
         }

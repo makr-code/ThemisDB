@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=67 unimpl=13 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vram_allocator.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     645                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vram_allocator.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 941
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=253 | delta=250 | status=divergent
+ * External Severity (v3): C=18, H=227, M=8
+ * PR: #4678 feat: replace production stubs across 7 modules â€” TSA, Paxos RPC,... (2026-04-15T19:06:49Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/vram_allocator.h"
@@ -119,7 +106,16 @@ namespace {
 
         // 2. Physical device (first discrete GPU, or first available)
         uint32_t dev_count = 0;
-        vkEnumeratePhysicalDevices(ctx->instance, &dev_count, nullptr);
+        {
+            VkResult enum_result = vkEnumeratePhysicalDevices(ctx->instance, &dev_count, nullptr);
+            if (enum_result != VK_SUCCESS && enum_result != VK_INCOMPLETE) {
+                spdlog::error("VRAMAllocator(Vulkan): vkEnumeratePhysicalDevices (count) failed: {}",
+                              static_cast<int>(enum_result));
+                vkDestroyInstance(ctx->instance, nullptr);
+                ctx->instance = VK_NULL_HANDLE;
+                return false;
+            }
+        }
         if (dev_count == 0) {
             spdlog::error("VRAMAllocator(Vulkan): no physical devices found");
             vkDestroyInstance(ctx->instance, nullptr);
@@ -127,7 +123,16 @@ namespace {
             return false;
         }
         std::vector<VkPhysicalDevice> devs(dev_count);
-        vkEnumeratePhysicalDevices(ctx->instance, &dev_count, devs.data());
+        {
+            VkResult enum_result = vkEnumeratePhysicalDevices(ctx->instance, &dev_count, devs.data());
+            if (enum_result != VK_SUCCESS && enum_result != VK_INCOMPLETE) {
+                spdlog::error("VRAMAllocator(Vulkan): vkEnumeratePhysicalDevices (fill) failed: {}",
+                              static_cast<int>(enum_result));
+                vkDestroyInstance(ctx->instance, nullptr);
+                ctx->instance = VK_NULL_HANDLE;
+                return false;
+            }
+        }
 
         ctx->physical_device = devs[0];                     // fallback
         for (const auto& pd : devs) {
@@ -246,7 +251,12 @@ namespace {
             return nullptr;
         }
 
-        vkBindBufferMemory(ctx->device, buffer, memory, 0);
+        if (vkBindBufferMemory(ctx->device, buffer, memory, 0) != VK_SUCCESS) {
+            spdlog::error("VRAMAllocator(Vulkan): vkBindBufferMemory failed");
+            vkFreeMemory(ctx->device, memory, nullptr);
+            vkDestroyBuffer(ctx->device, buffer, nullptr);
+            return nullptr;
+        }
 
         void* mapped = nullptr;
         if (vkMapMemory(ctx->device, memory, 0, mem_req.size, 0, &mapped) != VK_SUCCESS) {

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_video_processor_extended.cpp                  ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:58:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     656                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_video_processor_extended.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -147,10 +136,20 @@ TEST_F(VideoProcessorExtendedTest, MultipleInitialization) {
 }
 
 /**
- * @test Test plugin health check
+ * @test Test plugin health check.
+ *
+ * CON-007: In a no-FFmpeg build the processor is initialised but cannot do
+ * real work, so healthCheck() must return false.  In an FFmpeg build it
+ * reflects the initialized_ flag (true after successful initialize()).
  */
 TEST_F(VideoProcessorExtendedTest, HealthCheck) {
+#ifdef THEMIS_HAS_FFMPEG
     EXPECT_TRUE(processor.healthCheck());
+#else
+    // CON-007 fix: no-FFmpeg simulation mode must surface the missing
+    // dependency so health-check aggregators can detect it.
+    EXPECT_FALSE(processor.healthCheck());
+#endif
 }
 
 /**

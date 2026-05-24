@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_query_cache.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:56:15                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     608                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_query_cache.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -210,15 +199,15 @@ TEST_F(QueryCacheTest, LRU_AccessUpdatesOrder) {
     QueryCache cache(config_);
     
     // Add 3 entries
-    cache.put("Q1", json::object(), json({{"data", 1}}));
-    cache.put("Q2", json::object(), json({{"data", 2}}));
-    cache.put("Q3", json::object(), json({{"data", 3}}));
+    static_cast<void>(cache.put("Q1", json::object(), json({{"data", 1}})));
+    static_cast<void>(cache.put("Q2", json::object(), json({{"data", 2}})));
+    static_cast<void>(cache.put("Q3", json::object(), json({{"data", 3}})));
     
     // Access Q1 (moves it to front)
-    cache.get("Q1");
+    static_cast<void>(cache.get("Q1"));
     
     // Add Q4 - should evict Q2 (now LRU)
-    cache.put("Q4", json::object(), json({{"data", 4}}));
+    static_cast<void>(cache.put("Q4", json::object(), json({{"data", 4}})));
     
     // Q2 should be evicted
     auto result = cache.get("Q2");
@@ -241,19 +230,19 @@ TEST_F(QueryCacheTest, LFU_Eviction) {
     QueryCache cache(config_);
     
     // Add 3 entries
-    cache.put("Q1", json::object(), json({{"data", 1}}));
-    cache.put("Q2", json::object(), json({{"data", 2}}));
-    cache.put("Q3", json::object(), json({{"data", 3}}));
+    static_cast<void>(cache.put("Q1", json::object(), json({{"data", 1}})));
+    static_cast<void>(cache.put("Q2", json::object(), json({{"data", 2}})));
+    static_cast<void>(cache.put("Q3", json::object(), json({{"data", 3}})));
     
     // Access Q2 and Q3 multiple times
-    cache.get("Q2");
-    cache.get("Q2");
-    cache.get("Q3");
-    cache.get("Q3");
+    static_cast<void>(cache.get("Q2"));
+    static_cast<void>(cache.get("Q2"));
+    static_cast<void>(cache.get("Q3"));
+    static_cast<void>(cache.get("Q3"));
     // Q1 has access_count=1, Q2=3, Q3=3
     
     // Add Q4 - should evict Q1 (lowest frequency)
-    cache.put("Q4", json::object(), json({{"data", 4}}));
+    static_cast<void>(cache.put("Q4", json::object(), json({{"data", 4}})));
     
     // Q1 should be evicted
     auto result = cache.get("Q1");
@@ -282,7 +271,7 @@ TEST_F(QueryCacheTest, TTL_Expiration) {
     json result = {{"data", 1}};
     
     // Store in cache
-    cache.put(query, json::object(), result);
+    static_cast<void>(cache.put(query, json::object(), result));
     
     // Immediate get should succeed
     auto get_result = cache.get(query);
@@ -310,7 +299,7 @@ TEST_F(QueryCacheTest, TTL_CustomTTL) {
     
     // Store with custom TTL
     auto custom_ttl = std::chrono::seconds(1);
-    cache.put(query, json::object(), result, {}, custom_ttl);
+    static_cast<void>(cache.put(query, json::object(), result, {}, custom_ttl));
     
     // Wait for expiration
     std::this_thread::sleep_for(std::chrono::seconds(2));
@@ -328,7 +317,7 @@ TEST_F(QueryCacheTest, ClearExpired) {
     // Add multiple entries
     for (int i = 0; i < 5; i++) {
         std::string query = "SELECT " + std::to_string(i);
-        cache.put(query, json::object(), json({{"data", i}}));
+        static_cast<void>(cache.put(query, json::object(), json({{"data", i}})));
     }
     
     EXPECT_EQ(cache.getStats().current_entries, 5);
@@ -355,7 +344,7 @@ TEST_F(QueryCacheTest, Dependency_Tracking) {
     json result = {{"data", 1}};
     std::vector<std::string> deps = {"users"};
     
-    cache.put(query, json::object(), result, deps);
+    static_cast<void>(cache.put(query, json::object(), result, deps));
     
     // Should be in cache
     auto get_result = cache.get(query);
@@ -367,9 +356,9 @@ TEST_F(QueryCacheTest, InvalidateByDependency) {
     QueryCache cache(config_);
     
     // Add queries with dependencies
-    cache.put("SELECT * FROM users", json::object(), json({{"data", 1}}), {"users"});
-    cache.put("SELECT * FROM orders", json::object(), json({{"data", 2}}), {"orders"});
-    cache.put("SELECT * FROM users JOIN orders", json::object(), json({{"data", 3}}), {"users", "orders"});
+    static_cast<void>(cache.put("SELECT * FROM users", json::object(), json({{"data", 1}}), {"users"}));
+    static_cast<void>(cache.put("SELECT * FROM orders", json::object(), json({{"data", 2}}), {"orders"}));
+    static_cast<void>(cache.put("SELECT * FROM users JOIN orders", json::object(), json({{"data", 3}}), {"users", "orders"}));
     
     EXPECT_EQ(cache.getStats().current_entries, 3);
     
@@ -391,7 +380,7 @@ TEST_F(QueryCacheTest, InvalidateSpecific) {
     QueryCache cache(config_);
     
     std::string query = "SELECT * FROM users";
-    cache.put(query, json::object(), json({{"data", 1}}));
+    static_cast<void>(cache.put(query, json::object(), json({{"data", 1}})));
     
     // Invalidate specific query
     auto result = cache.invalidate(query);
@@ -417,7 +406,7 @@ TEST_F(QueryCacheTest, Clear) {
     // Add multiple entries
     for (int i = 0; i < 5; i++) {
         std::string query = "SELECT " + std::to_string(i);
-        cache.put(query, json::object(), json({{"data", i}}));
+        static_cast<void>(cache.put(query, json::object(), json({{"data", i}})));
     }
     
     EXPECT_EQ(cache.getStats().current_entries, 5);
@@ -432,9 +421,9 @@ TEST_F(QueryCacheTest, Clear) {
 TEST_F(QueryCacheTest, GetDetailedInfo) {
     QueryCache cache(config_);
     
-    cache.put("SELECT 1", json::object(), json({{"data", 1}}));
-    cache.get("SELECT 1");
-    cache.get("SELECT 2");  // Miss
+    static_cast<void>(cache.put("SELECT 1", json::object(), json({{"data", 1}})));
+    static_cast<void>(cache.get("SELECT 1"));
+    static_cast<void>(cache.get("SELECT 2"));  // Miss
     
     auto info = cache.getDetailedInfo();
     
@@ -451,8 +440,8 @@ TEST_F(QueryCacheTest, GetDetailedInfo) {
 TEST_F(QueryCacheTest, ResetStats) {
     QueryCache cache(config_);
     
-    cache.put("SELECT 1", json::object(), json({{"data", 1}}));
-    cache.get("SELECT 1");
+    static_cast<void>(cache.put("SELECT 1", json::object(), json({{"data", 1}})));
+    static_cast<void>(cache.get("SELECT 1"));
     
     auto stats = cache.getStats();
     EXPECT_EQ(stats.hits, 1);
@@ -472,7 +461,7 @@ TEST_F(QueryCacheTest, SetConfig) {
     // Fill cache
     for (int i = 0; i < 10; i++) {
         std::string query = "SELECT " + std::to_string(i);
-        cache.put(query, json::object(), json({{"data", i}}));
+        static_cast<void>(cache.put(query, json::object(), json({{"data", i}})));
     }
     
     EXPECT_EQ(cache.getStats().current_entries, 10);
@@ -537,7 +526,7 @@ TEST_F(QueryCacheTest, ConcurrentAccess) {
     // Pre-populate cache
     for (int i = 0; i < 5; i++) {
         std::string query = "SELECT " + std::to_string(i);
-        cache.put(query, json::object(), json({{"data", i}}));
+        static_cast<void>(cache.put(query, json::object(), json({{"data", i}})));
     }
     
     // Concurrent reads and writes
@@ -549,9 +538,9 @@ TEST_F(QueryCacheTest, ConcurrentAccess) {
                 
                 // Mix reads and writes
                 if (i % 2 == 0) {
-                    cache.get(query);
+                    static_cast<void>(cache.get(query));
                 } else {
-                    cache.put(query, json::object(), json({{"data", i}}));
+                    static_cast<void>(cache.put(query, json::object(), json({{"data", i}})));
                 }
             }
         });
@@ -596,7 +585,7 @@ TEST_F(QueryCacheTest, ComplexParams) {
     };
     json result = {{"data", {1, 2, 3}}};
     
-    cache.put(query, params, result);
+    static_cast<void>(cache.put(query, params, result));
     
     auto get_result = cache.get(query, params);
     ASSERT_TRUE(get_result.has_value());

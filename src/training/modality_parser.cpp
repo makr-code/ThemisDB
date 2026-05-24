@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=8 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            modality_parser.cpp                                ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:51:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     636                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: modality_parser.cpp | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 618
+ * Open Issues: TODOs=1, Stubs=2, Gaps=4, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=4 | external_v3=266 | delta=262 | status=divergent
+ * External Severity (v3): C=4, H=235, M=27
+ * PR: #4157 fix(training): restore missing section heading for Multi-Modality L... (2026-03-13T06:21:27Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // SPDX-License-Identifier: Apache-2.0
@@ -41,6 +28,7 @@
  */
 
 #include "training/modality_parser.h"
+#include "utils/string_utils.h"
 
 #include <algorithm>
 #include <chrono>
@@ -51,6 +39,8 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <utils/string_utils.h>
 
 namespace themis {
 namespace training {
@@ -81,7 +71,7 @@ static std::vector<std::string> splitLines(const std::string& text) {
 }
 
 // Trim leading/trailing ASCII whitespace
-// Using themis::utils::themis::utils::trim() from string_utils.h (Phase 1 consolidation)
+// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 // Return true if the line looks like part of a pipe-delimited table row
 static bool isPipeTableRow(const std::string& line) {
@@ -316,7 +306,7 @@ TableExtractor::extract(const std::string& text,
         if (count >= config_.max_table_rows) break;
 
         // Build a column-count summary from the first row
-        std::string first_row = detail::themis::utils::trim(lines[blk.first_line]);
+        std::string first_row = themis::utils::trim(lines[blk.first_line]);
         size_t col_count = detail::countChar(first_row, '|');
         if (col_count > 0) col_count = (col_count + 1) / 2; // pipe-delimited
 
@@ -355,7 +345,7 @@ CitationExtractor::extract(const std::string& text,
 
     auto addMatch = [&](const std::string& matched, const std::string& type) {
         if (samples.size() >= config_.max_citations_per_document) return;
-        std::string m = detail::themis::utils::trim(matched);
+        std::string m = themis::utils::trim(matched);
         if (m.empty()) return;
 
         TrainingSample s;
@@ -424,8 +414,8 @@ bool OCRExtractor::isAvailable() const noexcept {
 }
 
 std::vector<TrainingSample>
-OCRExtractor::extract(const std::string& image_path,
-                      const std::string& document_id) const
+OCRExtractor::extract([[maybe_unused]] const std::string& image_path,
+                      [[maybe_unused]] const std::string& document_id) const
 {
     std::vector<TrainingSample> samples;
 

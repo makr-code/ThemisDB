@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auto_rebalancer.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     847                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • b93d73ee43  2026-03-14  fix(sharding): add non-owning pointer comment in setPredi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auto_rebalancer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 844
+ * Open Issues: TODOs=1, Stubs=4, Gaps=7, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=7 | external_v3=203 | delta=196 | status=divergent
+ * External Severity (v3): C=24, H=126, M=53
+ * PR: #4231 feat(sharding): Adaptive Shard Rebalancer with Load-Based Splitting... (2026-03-14T19:14:59Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/auto_rebalancer.h"
@@ -392,37 +380,37 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
         THEMIS_ERROR("AutoRebalancer: No operator key configured for operation {}", operation_id);
         return {};
     }
-    
+
     // Open and read private key file
     FILE* key_file = fopen(config_.operator_key_path.c_str(), "r");
     if (!key_file) {
         THEMIS_ERROR("AutoRebalancer: Cannot open operator key file: {}", config_.operator_key_path);
         return {};
     }
-    
+
     EVP_PKEY* pkey = PEM_read_PrivateKey(key_file, nullptr, nullptr, nullptr);
     fclose(key_file);
-    
+
     if (!pkey) {
         THEMIS_ERROR("AutoRebalancer: Failed to parse operator private key");
         return {};
     }
-    
+
     // Create canonical message to sign: "REBALANCE:{operation_id}:{timestamp}"
     auto now = std::chrono::system_clock::now();
     auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(
         now.time_since_epoch()
     ).count();
-    
+
     std::ostringstream msg_oss;
     msg_oss << "REBALANCE:" << operation_id << ":" << timestamp;
     std::string message = msg_oss.str();
-    
+
     // Compute SHA-256 hash of the message
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(message.c_str()), 
+    SHA256(reinterpret_cast<const unsigned char*>(message.c_str()),
            message.size(), hash);
-    
+
     // Sign the hash using RSA-SHA256 via EVP API
     EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(pkey, nullptr);
     if (!ctx) {
@@ -430,14 +418,14 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
         THEMIS_ERROR("AutoRebalancer: Failed to create signing context");
         return {};
     }
-    
+
     if (EVP_PKEY_sign_init(ctx) <= 0) {
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
         THEMIS_ERROR("AutoRebalancer: Failed to initialize signing");
         return {};
     }
-    
+
     // Set padding mode to PKCS#1 v1.5
     if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING) <= 0) {
         EVP_PKEY_CTX_free(ctx);
@@ -445,14 +433,14 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
         THEMIS_ERROR("AutoRebalancer: Failed to set RSA padding");
         return {};
     }
-    
+
     if (EVP_PKEY_CTX_set_signature_md(ctx, EVP_sha256()) <= 0) {
         EVP_PKEY_CTX_free(ctx);
         EVP_PKEY_free(pkey);
         THEMIS_ERROR("AutoRebalancer: Failed to set signature digest");
         return {};
     }
-    
+
     // Determine signature buffer size
     size_t sig_len = 0;
     if (EVP_PKEY_sign(ctx, nullptr, &sig_len, hash, SHA256_DIGEST_LENGTH) <= 0) {
@@ -485,8 +473,8 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     
     std::string sig_b64;
     if (encoded_len > 0) {
-        sig_b64 = std::string(reinterpret_cast<char*>(b64_buf.data()), 
-                             static_cast<size_t>(encoded_len));
+        sig_b64 = std::string(reinterpret_cast<char*>(b64_buf.data()),
+                              static_cast<size_t>(encoded_len));
     } else {
         THEMIS_ERROR("AutoRebalancer: Base64 encoding failed");
         return {};
@@ -840,6 +828,11 @@ bool AutoRebalancer::executeSplitProposal(const HotShardSplitPolicy::SplitPropos
 
     span.setAttribute("success", ok);
     return ok;
+}
+
+void AutoRebalancer::setSignOperationFn(SignOperationFn fn) {
+    std::lock_guard<std::mutex> lock(sign_fn_mutex_);
+    sign_fn_ = std::move(fn);
 }
 
 } // namespace sharding

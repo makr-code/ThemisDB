@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=4 stub=5 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cloud_backup.cpp                                   ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:50:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   32.0/100                                       ║
-    • Total Lines:     706                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3ac1c41432  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cloud_backup.cpp | Version: 0.0.15 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 916
+ * Open Issues: TODOs=1, Stubs=72, Gaps=130, Unimpl=0, Mock=22, Sim=35, Debt=0
+ * Gap Correlation: internal=130 | external_v3=136 | delta=6 | status=near
+ * External Severity (v3): C=6, H=98, M=32
+ * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/cloud_backup.h"
@@ -258,8 +246,6 @@ public:
         THEMIS_INFO("S3 delete (placeholder): s3://{}/{}", bucket_, remote_path);
         THEMIS_WARN("Using placeholder S3 implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
-        // In mock mode, simulate successful deletion
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful delete");
@@ -326,17 +312,7 @@ public:
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
         THEMIS_INFO("S3 exists check (placeholder): s3://{}/{}", bucket_, remote_path);
-        
-        // Placeholder behavior: return false to indicate SDK not integrated
-        // In mock mode, check if we have a record of this upload
-        const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
-        if (mock_env && std::string(mock_env) == "1") {
-            // In mock mode, assume existence based on previous uploads
-            // Real implementation would query S3
-            return false;  // Conservative: assume not exists
-        }
-        
-        return false;  // SDK not integrated, cannot check existence
+        return false;
     }
     
     std::string name() const override {
@@ -398,22 +374,29 @@ public:
         //               (or injected upload callback) and propagate real status.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        
+        AzureUploadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_azure_upload_fn;
+        }
+        if (fn) {
+            try {
+                return fn(account_name_, container_, local_path, remote_path, metadata);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Azure upload callback failed: {}", e.what());
+                return false;
+            }
+        }
+
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
             return false;
         }
         
-        // Activate by building with THEMIS_ENABLE_AZURE (azure-storage-blobs-cpp):
-        // In production, use Azure SDK:
-        // Azure::Storage::Blobs::BlockBlobClient blob_client(...);
-        // blob_client.UploadFrom(local_path);
-        
         THEMIS_INFO("Azure upload (placeholder): {} -> {}/{}/{}", 
                    local_path, account_name_, container_, remote_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful upload");
@@ -444,11 +427,9 @@ public:
                    account_name_, container_, remote_path, local_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful download");
-            // Create empty file to simulate download
             std::ofstream file(local_path);
             file << "Mock backup file - replace with real Azure SDK integration\n";
             file.close();
@@ -477,8 +458,6 @@ public:
         THEMIS_INFO("Azure delete (placeholder): {}/{}/{}", account_name_, container_, remote_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
-        // In mock mode, simulate successful deletion
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful delete");
@@ -604,21 +583,14 @@ public:
         //               (or injected upload callback) and propagate real status.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
             return false;
         }
         
-        // Activate by building with THEMIS_ENABLE_GCS (google-cloud-cpp[storage]):
-        // In production, use GCS SDK:
-        // google::cloud::storage::Client client(...);
-        // client.UploadFile(local_path, bucket_, remote_path);
-        
         THEMIS_INFO("GCS upload (placeholder): {} -> gs://{}/{}", local_path, bucket_, remote_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful upload");
@@ -655,15 +627,12 @@ public:
         //               (or injected download callback) with error propagation.
         //               See src/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
         //               Target: v2.3.0.
-        
         THEMIS_INFO("GCS download (placeholder): gs://{}/{} -> {}", bucket_, remote_path, local_path);
         THEMIS_WARN("Using placeholder GCS implementation - real SDK integration planned for v1.4.0");
         
-        // Placeholder behavior: return false to indicate SDK not integrated
         const char* mock_env = std::getenv("THEMIS_CLOUD_BACKUP_MOCK");
         if (mock_env && std::string(mock_env) == "1") {
             THEMIS_INFO("Mock mode enabled - simulating successful download");
-            // Create empty file to simulate download
             std::ofstream file(local_path);
             file << "Mock backup file - replace with real GCS SDK integration\n";
             file.close();

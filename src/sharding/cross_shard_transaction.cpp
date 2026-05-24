@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=5 unimpl=2 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cross_shard_transaction.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   73.0/100                                       ║
-    • Total Lines:     2731                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cross_shard_transaction.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 2858
+ * Open Issues: TODOs=1, Stubs=3, Gaps=6, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=6 | external_v3=752 | delta=746 | status=divergent
+ * External Severity (v3): C=58, H=567, M=127
+ * PR: #4212 fix(chimera/percolator): repair Python SyntaxError in regression de... (2026-03-15T06:59:06Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB
@@ -296,7 +283,7 @@ bool CrossShardTransactionCoordinator::beginTransaction(
             {"state", static_cast<int>(TransactionState::ACTIVE)}
         };
         
-        consensus_->propose("BEGIN_TRANSACTION", data);
+        static_cast<void>(consensus_->propose("BEGIN_TRANSACTION", data));
     }
     
     spdlog::info("Transaction {} started with protocol {}", 
@@ -424,10 +411,10 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     
     // Replicate prepare state via consensus
     if (consensus_ && all_prepared) {
-        consensus_->propose("PREPARE_TRANSACTION", {
+        static_cast<void>(consensus_->propose("PREPARE_TRANSACTION", {
             {"transaction_id", transaction_id},
             {"state", static_cast<int>(TransactionState::PREPARED)}
-        });
+        }));
     }
     
     return all_prepared;
@@ -498,10 +485,10 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
     // Replicate final state via consensus
     if (consensus_) {
         auto final_state = success ? TransactionState::COMMITTED : TransactionState::ABORTED;
-        consensus_->propose("FINALIZE_TRANSACTION", {
+        static_cast<void>(consensus_->propose("FINALIZE_TRANSACTION", {
             {"transaction_id", transaction_id},
             {"state", static_cast<int>(final_state)}
-        });
+        }));
     }
     
     return success;
@@ -538,7 +525,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     
     // Send abort requests to all participants using the local copy.
     for (auto& [shard_id, participant] : txn.participants) {
-        sendAbort(shard_id, transaction_id);
+        static_cast<void>(sendAbort(shard_id, transaction_id));
         participant.aborted = true;
         
         // Phase 2.3.4: Log ABORTED confirmation to WAL
@@ -573,10 +560,10 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     
     // Replicate abort state via consensus
     if (consensus_) {
-        consensus_->propose("ABORT_TRANSACTION", {
+        static_cast<void>(consensus_->propose("ABORT_TRANSACTION", {
             {"transaction_id", transaction_id},
             {"state", static_cast<int>(TransactionState::ABORTED)}
-        });
+        }));
     }
     
     spdlog::info("Transaction {} aborted", transaction_id);
@@ -1230,10 +1217,10 @@ bool CrossShardTransactionCoordinator::executeCalvin(CrossShardTransaction& txn)
 
     // Replicate the sequence decision via consensus so all nodes agree
     if (consensus_) {
-        consensus_->propose("CALVIN_SEQUENCE", {
+        static_cast<void>(consensus_->propose("CALVIN_SEQUENCE", {
             {"transaction_id", txn.transaction_id},
             {"sequence_number", sequence_number}
-        });
+        }));
     }
 
     // -------------------------------------------------------------------------

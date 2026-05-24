@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llama_wrapper.h                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     653                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • dd98ecc0e0  2026-04-06  Add server crash error log for model loading and tensor i... ║
-    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llama_wrapper.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -352,6 +337,29 @@ public:
     // ═══════════════════════════════════════════════════════════
     
     InferenceResponse generate(const InferenceRequest& request) override;
+
+    /**
+     * @brief Generate draft token IDs and raw logits for speculative decoding.
+     *
+     * Evaluates the request prompt, then iteratively samples @p k draft tokens
+     * from the current model while capturing the raw pre-sampling logits row for
+     * each step. The returned rows are compatible with
+     * SpeculativeDecoder::verify().
+     *
+     * @param request Inference request; only prompt and sampling parameters are used.
+     * @param k Number of draft tokens to generate.
+     * @param vocab_size_hint Optional expected vocabulary size; if it differs from
+     *        the loaded model vocabulary, the model vocabulary is used.
+     * @return Draft token IDs and aligned raw logits.
+     *
+     * @throws std::runtime_error if no model/context is loaded or llama_decode fails.
+     * @throws std::invalid_argument if @p k is zero.
+     */
+    [[nodiscard]] DraftTokensResult generateDraftTokens(
+        const InferenceRequest& request,
+        size_t k,
+        size_t vocab_size_hint
+    ) override;
     
     InferenceResponse generateRAG(
         const RAGContext& rag_context,

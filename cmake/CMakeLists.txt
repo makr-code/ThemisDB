@@ -1705,6 +1705,11 @@ set(THEMIS_CORE_SOURCES
     ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/synopsis_store.cpp
+    ../src/query/incremental_agg.cpp
+    ../src/query/cq_watermark.cpp
+    ../src/query/continuous_query_engine.cpp
+    ../src/query/continuous_query_planner.cpp
     ../src/query/query_rewrite_rule.cpp
     ../src/query/query_profiler.cpp
 
@@ -1913,7 +1918,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/markdown_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/stt_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/stt_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pdf_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ocr_processor.cpp>
@@ -1938,7 +1943,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/language_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/embedding_pipeline.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager_embedding.cpp>
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/tts_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/tts_processor.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/content/content_manager_llm.cpp>
     
     # Content ↔ Toolbox adapter layer (IFormatExtractor implementations)
@@ -4139,6 +4144,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/distributed_training_coordinator.cpp       # Coordinator implementation (link fixes)
         ../src/llm/applications/themis_help_lora.cpp          # Themis Help LoRA app (link fixes)
         ../src/llm/security/signature_verifier.cpp            # LLM signature verification
+        ../src/llm/lora_security_validator.cpp                # LoRA security policy validation
         
         # Dynamic batch size adaptation (Issue #39)
         ../src/llm/lora_framework/adaptive_batcher.cpp        # Adaptive batch sizing for optimal GPU utilization

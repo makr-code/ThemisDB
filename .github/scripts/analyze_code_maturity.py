@@ -24,6 +24,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
+from urllib.parse import urlparse
 
 # ---------------------------------------------------------------------------
 # Konfiguration
@@ -613,6 +614,7 @@ def generate_report(
     results: List[Dict[str, Any]],
     tracking: Dict[str, Any],
     output_path: Path,
+    repo_meta: Optional[Dict[str, str]] = None,
 ) -> None:
     """Generiert den Markdown-Report."""
     now = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
@@ -643,6 +645,16 @@ def generate_report(
     lines.append(f'**Last Updated:** {now} UTC  ')
     lines.append(f'**Analyzed Files:** {total}  ')
     lines.append(f'**Average Maturity Score:** {avg_score:.1f}/100\n')
+
+    if repo_meta:
+        lines.append('## 🧭 Repository Context\n')
+        if repo_meta.get('name_with_owner'):
+            lines.append(f'**Repository:** {repo_meta["name_with_owner"]}  ')
+        if repo_meta.get('default_branch'):
+            lines.append(f'**Default Branch:** {repo_meta["default_branch"]}  ')
+        if repo_meta.get('url'):
+            lines.append(f'**Remote URL:** {repo_meta["url"]}  ')
+        lines.append('')
 
     lines.append('## 📊 Overall Statistics\n')
     lines.append('| Metric | Count |')
@@ -846,6 +858,99 @@ def find_source_files(root: Path) -> List[Path]:
     return sorted(files)
 
 
+def _parse_owner_repo_from_remote(remote_url: str) -> Tuple[Optional[str], Optional[str]]:
+    """Best-effort parsing of owner/repo from common git remote URL formats."""
+    if not remote_url:
+        return None, None
+
+    cleaned = remote_url.strip()
+    if cleaned.endswith('.git'):
+        cleaned = cleaned[:-4]
+
+    # SSH format: git@github.com:owner/repo
+    m = re.match(r'^[^@]+@[^:]+:(?P<owner>[^/]+)/(?P<repo>[^/]+)$', cleaned)
+    if m:
+        return m.group('owner'), m.group('repo')
+
+    # HTTPS format: https://github.com/owner/repo
+    try:
+        parsed = urlparse(cleaned)
+        if parsed.path:
+            parts = [p for p in parsed.path.split('/') if p]
+            if len(parts) >= 2:
+                return parts[0], parts[1]
+    except Exception:
+        pass
+
+    return None, None
+
+
+def get_repo_metadata(root: Path) -> Dict[str, str]:
+    """
+    Resolve repository metadata for report context.
+
+    Priority:
+      1) gh repo view --json ... (local-friendly when gh auth is configured)
+      2) git remote + git rev-parse fallback
+    """
+    meta: Dict[str, str] = {}
+
+    # 1) Preferred: GitHub CLI (works locally with auth)
+    try:
+        gh = subprocess.run(
+            [
+                'gh', 'repo', 'view',
+                '--json', 'nameWithOwner,defaultBranchRef,url',
+            ],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            timeout=8,
+        )
+        if gh.returncode == 0 and gh.stdout.strip():
+            data = json.loads(gh.stdout)
+            meta['name_with_owner'] = data.get('nameWithOwner', '')
+            meta['default_branch'] = (data.get('defaultBranchRef') or {}).get('name', '')
+            meta['url'] = data.get('url', '')
+            # If gh worked we already have the richest source.
+            return {k: v for k, v in meta.items() if v}
+    except Exception:
+        pass
+
+    # 2) Fallback: git origin + branch parsing
+    try:
+        remote = subprocess.run(
+            ['git', 'remote', 'get-url', 'origin'],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if remote.returncode == 0:
+            remote_url = remote.stdout.strip()
+            meta['url'] = remote_url
+            owner, repo = _parse_owner_repo_from_remote(remote_url)
+            if owner and repo:
+                meta['name_with_owner'] = f'{owner}/{repo}'
+    except Exception:
+        pass
+
+    try:
+        branch = subprocess.run(
+            ['git', 'rev-parse', '--abbrev-ref', 'origin/HEAD'],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if branch.returncode == 0 and branch.stdout.strip().startswith('origin/'):
+            meta['default_branch'] = branch.stdout.strip().split('/', 1)[1]
+    except Exception:
+        pass
+
+    return {k: v for k, v in meta.items() if v}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description='ThemisDB Code-Maturity-Analyse und Auto-Versionierung',
@@ -869,6 +974,7 @@ def main() -> int:
 
     root = Path(args.root).resolve()
     write_headers = not args.no_headers
+    repo_meta = get_repo_metadata(root)
 
     tracking_path = root / '.github' / 'version_tracking.json'
     # Use the provided --report-path, falling back to the canonical docs location.
@@ -930,7 +1036,7 @@ def main() -> int:
         print(f'📈 Total commits in history: {total_commits:,}')
 
     # Report generieren
-    generate_report(results, tracking, report_path)
+    generate_report(results, tracking, report_path, repo_meta=repo_meta)
     try:
         display_path = report_path.relative_to(root)
     except ValueError:

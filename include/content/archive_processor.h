@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            archive_processor.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:44:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     284                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: archive_processor.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -69,11 +55,11 @@ enum class ArchiveFormat {
  * @brief Archive member information
  */
 struct ArchiveMember {
-    std::string path;              // Path within archive
-    uint64_t uncompressed_size;    // Uncompressed size in bytes
-    uint64_t compressed_size;      // Compressed size in bytes
-    bool is_directory;             // True if this is a directory entry
-    bool is_encrypted;             // True if this member is encrypted
+    std::string path;                       // Path within archive
+    uint64_t uncompressed_size = 0;         ///< Uncompressed size in bytes (CON-019)
+    uint64_t compressed_size = 0;           ///< Compressed size in bytes (CON-019)
+    bool is_directory = false;              ///< True if this is a directory entry (CON-019)
+    bool is_encrypted = false;              ///< True if this member is encrypted (CON-019)
 };
 
 /**
@@ -81,12 +67,12 @@ struct ArchiveMember {
  */
 struct ArchiveMetadata {
     ArchiveFormat format;
-    bool is_encrypted;
-    uint64_t total_uncompressed_size;
-    uint64_t total_compressed_size;
-    size_t member_count;
-    size_t directory_count;
-    size_t file_count;
+    bool is_encrypted = false;              ///< CON-019
+    uint64_t total_uncompressed_size = 0;   ///< CON-019
+    uint64_t total_compressed_size = 0;     ///< CON-019
+    size_t member_count = 0;               ///< CON-019
+    size_t directory_count = 0;            ///< CON-019
+    size_t file_count = 0;                 ///< CON-019
     std::vector<ArchiveMember> members;
     std::string comment;  // Archive comment if any
 };
@@ -95,7 +81,7 @@ struct ArchiveMetadata {
  * @brief Archive extraction result (internal use)
  */
 struct ArchiveExtractionResult {
-    bool success;
+    bool success = false;  ///< CON-019
     std::string error_message;
     std::vector<std::string> extracted_files;  // Paths to extracted files in temp directory
     std::string temp_directory;  // Temporary directory used for extraction
@@ -105,7 +91,7 @@ struct ArchiveExtractionResult {
  * @brief Archive Processor Result (for process() method)
  */
 struct ArchiveProcessorResult {
-    bool success;
+    bool success = false;  ///< CON-019
     std::string error_message;
     json metadata;
 };

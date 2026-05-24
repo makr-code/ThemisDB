@@ -65,3 +65,12 @@
 - [ ] No new warnings introduced
 - [ ] Security-sensitive paths reviewed by security maintainer (if applicable)
 
+## Scanner and IntelliSense Gates
+
+- [ ] IntelliSense/Compiler: no new errors in changed files
+- [ ] clang-tidy/cppcheck: no new high-risk findings in changed files
+- [ ] Gap Scanner: no new `critical` findings in categories `security`, `input_validation`, `query_correctness`, `distributed_consistency`, `concurrency`, `memory`
+- [ ] Gap Scanner: no new `high` findings in the same categories (or explicitly approved)
+- [ ] Gap Scanner delta report attached (baseline vs current), not only absolute totals
+- [ ] New `unknown` scanner findings triaged (fixed, re-categorized, or justified)
+

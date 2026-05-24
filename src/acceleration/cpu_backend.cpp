@@ -1,36 +1,22 @@
-// THEMIS_GAP_STATS: gaps=8 unimpl=7 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cpu_backend.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     559                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: cpu_backend.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=97, M=39, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "acceleration/cpu_backend.h"
+
+#include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <limits>
+#include <queue>
+
 #include "acceleration/batch_validator.h"
 #include "acceleration/kernel_invocation.h"
 #include "utils/geometric_distances.h"
-#include <cmath>
-#include <algorithm>
-#include <iostream>
-#include <queue>
-#include <limits>
 
 namespace themis {
 namespace acceleration {
@@ -43,59 +29,44 @@ namespace acceleration {
 // Replaces the former scalar loops with hardware-accelerated kernels
 // (AVX-512 / AVX2 / ARM NEON / scalar fallback).
 
-float CPUVectorBackend::computeL2Distance(const float* a, const float* b, size_t dim) const {
+float CPUVectorBackend::computeL2Distance(const float *a, const float *b, size_t dim) const {
     // Returns squared distance (no sqrt) to preserve monotonic ranking behaviour
     // of callers; matches the contract of the previous scalar implementation.
     return themis::simd::l2_distance_sq(a, b, dim);
 }
 
-float CPUVectorBackend::computeCosineDistance(const float* a, const float* b, size_t dim) const {
+float CPUVectorBackend::computeCosineDistance(const float *a, const float *b, size_t dim) const {
     return themis::simd::cosine_distance(a, b, dim);
 }
 
-std::vector<float> CPUVectorBackend::computeDistances(
-    const float* queries,
-    size_t numQueries,
-    size_t dim,
-    const float* vectors,
-    size_t numVectors,
-    bool useL2
-) {
+std::vector<float> CPUVectorBackend::computeDistances(const float *queries, size_t numQueries, size_t dim,
+                                                      const float *vectors, size_t numVectors, bool useL2) {
     clearError();
-    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
-    if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
-                                             vectors, numVectors, sink)) {
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
+    if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim, vectors, numVectors, sink)) {
         return {};
     }
 
     std::vector<float> distances(numQueries * numVectors);
-    
+
     for (size_t q = 0; q < numQueries; ++q) {
-        const float* query = queries + q * dim;
+        const float *query = queries + q * dim;
         for (size_t v = 0; v < numVectors; ++v) {
-            const float* vector = vectors + v * dim;
-            float dist = useL2 ? computeL2Distance(query, vector, dim)
-                              : computeCosineDistance(query, vector, dim);
+            const float *vector = vectors + v * dim;
+            float dist = useL2 ? computeL2Distance(query, vector, dim) : computeCosineDistance(query, vector, dim);
             distances[q * numVectors + v] = dist;
         }
     }
-    
+
     return distances;
 }
 
-std::vector<std::vector<std::pair<uint32_t, float>>> CPUVectorBackend::batchKnnSearch(
-    const float* queries,
-    size_t numQueries,
-    size_t dim,
-    const float* vectors,
-    size_t numVectors,
-    size_t k,
-    bool useL2
-) {
+std::vector<std::vector<std::pair<uint32_t, float>>>
+CPUVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_t dim, const float *vectors,
+                                 size_t numVectors, size_t k, bool useL2) {
     clearError();
-    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
-    if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
-                                             vectors, numVectors, sink)) {
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
+    if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim, vectors, numVectors, sink)) {
         return {};
     }
     if (!BatchValidator::validateK(name(), k, sink)) {
@@ -103,21 +74,20 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CPUVectorBackend::batchKnnS
     }
 
     std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
-    
+
     for (size_t q = 0; q < numQueries; ++q) {
-        const float* query = queries + q * dim;
-        
+        const float *query = queries + q * dim;
+
         // Compute all distances for this query
         std::vector<std::pair<uint32_t, float>> distances;
         distances.reserve(numVectors);
-        
+
         for (size_t v = 0; v < numVectors; ++v) {
-            const float* vector = vectors + v * dim;
-            float dist = useL2 ? computeL2Distance(query, vector, dim)
-                              : computeCosineDistance(query, vector, dim);
+            const float *vector = vectors + v * dim;
+            float dist = useL2 ? computeL2Distance(query, vector, dim) : computeCosineDistance(query, vector, dim);
             distances.emplace_back(static_cast<uint32_t>(v), dist);
         }
-        
+
         // Partial sort to get k nearest neighbors.
         // Tie-breaking rule: when two candidates share the same distance the one
         // with the lower vector index is placed first (deterministic ordering).
@@ -125,19 +95,17 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CPUVectorBackend::batchKnnS
         // tied only when their distance values are bit-for-bit identical, which
         // happens when the same computational path is applied to equal inputs.
         size_t actualK = std::min(k, distances.size());
-        std::partial_sort(
-            distances.begin(),
-            distances.begin() + actualK,
-            distances.end(),
-            [](const auto& a, const auto& b) {
-                if (a.second != b.second) return a.second < b.second;
-                return a.first < b.first; // tie-break: lower index wins
-            }
-        );
-        
+        std::partial_sort(distances.begin(), distances.begin() + actualK, distances.end(),
+                          [](const auto &a, const auto &b) {
+                              if (a.second != b.second) {
+                                  return a.second < b.second;
+                              }
+                              return a.first < b.first; // tie-break: lower index wins
+                          });
+
         results[q].assign(distances.begin(), distances.begin() + actualK);
     }
-    
+
     return results;
 }
 
@@ -145,17 +113,12 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CPUVectorBackend::batchKnnS
 // CPUGraphBackend Implementation
 // ============================================================================
 
-std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
-    const uint32_t* adjacency,
-    size_t numVertices,
-    const uint32_t* startVertices,
-    size_t numStarts,
-    uint32_t maxDepth
-) {
+std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(const uint32_t *adjacency, size_t numVertices,
+                                                             const uint32_t *startVertices, size_t numStarts,
+                                                             uint32_t maxDepth) {
     clearError();
-    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
-    if (!BatchValidator::validateGraphBFSBatch(name(), adjacency, numVertices,
-                                               startVertices, numStarts, sink)) {
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
+    if (!BatchValidator::validateGraphBFSBatch(name(), adjacency, numVertices, startVertices, numStarts, sink)) {
         return {};
     }
 
@@ -181,14 +144,14 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
                 continue;
             }
 
-        // Dense adjacency matrix row for vertex `current`.
-        // Interface contract: `adjacency` is a row-major N×N matrix where
-        // adjacency[u * N + v] != 0 denotes an edge u→v (confirmed by the
-        // CUDA backend which allocates numVertices * numVertices elements).
-        // Complexity per BFS is therefore O(N²) in the number of vertices;
-        // this is inherent to the dense-matrix representation and acceptable
-        // for graphs where the caller already uses a dense format.
-        const uint32_t* row = adjacency + current * numVertices;
+            // Dense adjacency matrix row for vertex `current`.
+            // Interface contract: `adjacency` is a row-major N×N matrix where
+            // adjacency[u * N + v] != 0 denotes an edge u→v (confirmed by the
+            // CUDA backend which allocates numVertices * numVertices elements).
+            // Complexity per BFS is therefore O(N²) in the number of vertices;
+            // this is inherent to the dense-matrix representation and acceptable
+            // for graphs where the caller already uses a dense format.
+            const uint32_t *row = adjacency + current * numVertices;
             for (uint32_t v = 0; v < static_cast<uint32_t>(numVertices); ++v) {
                 if (row[v] != 0u && !visited[v]) {
                     visited[v] = true;
@@ -201,19 +164,13 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
     return results;
 }
 
-std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
-    const uint32_t* adjacency,
-    const float* weights,
-    size_t numVertices,
-    const uint32_t* startVertices,
-    const uint32_t* endVertices,
-    size_t numPairs
-) {
+std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint32_t *adjacency, const float *weights,
+                                                                      size_t numVertices, const uint32_t *startVertices,
+                                                                      const uint32_t *endVertices, size_t numPairs) {
     clearError();
-    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
-    if (!BatchValidator::validateShortestPathBatch(name(), adjacency, weights,
-                                                   numVertices, startVertices,
-                                                   endVertices, numPairs, sink)) {
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
+    if (!BatchValidator::validateShortestPathBatch(name(), adjacency, weights, numVertices, startVertices, endVertices,
+                                                   numPairs, sink)) {
         return {};
     }
 
@@ -256,8 +213,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
                 break; // target reached
             }
 
-            const uint32_t* adjRow = adjacency + u * N;
-            const float*    wRow   = weights   + u * N;
+            const uint32_t *adjRow = adjacency + u * N;
+            const float *wRow      = weights + u * N;
             for (uint32_t v = 0; v < N; ++v) {
                 if (adjRow[v] == 0u) {
                     continue;
@@ -268,9 +225,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
                 // clamp to 0 to remain correct (zero-cost edge) rather than
                 // silently producing a wrong shortest path.
                 if (raw_w < 0.0f) {
-                    std::cerr << "[CPUGraph] batchShortestPath: negative weight "
-                              << raw_w << " on edge " << u << "→" << v
-                              << "; clamped to 0\n";
+                    std::cerr << "[CPUGraph] batchShortestPath: negative weight " << raw_w << " on edge " << u << "→"
+                              << v << "; clamped to 0\n";
                 }
                 const float w  = std::max(0.0f, raw_w);
                 const float nd = dist[u] + w;
@@ -311,75 +267,62 @@ double CPUGeoBackend::vincentyDistance(double lat1, double lon1, double lat2, do
     return haversineDistance(lat1, lon1, lat2, lon2);
 }
 
-std::vector<float> CPUGeoBackend::batchDistances(
-    const double* latitudes1,
-    const double* longitudes1,
-    const double* latitudes2,
-    const double* longitudes2,
-    size_t count,
-    bool useHaversine
-) {
+std::vector<float> CPUGeoBackend::batchDistances(const double *latitudes1, const double *longitudes1,
+                                                 const double *latitudes2, const double *longitudes2, size_t count,
+                                                 bool useHaversine) {
     clearError();
-    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
-    if (!BatchValidator::validateGeoBatch(name(), latitudes1, longitudes1,
-                                          latitudes2, longitudes2, count, sink)) {
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
+    if (!BatchValidator::validateGeoBatch(name(), latitudes1, longitudes1, latitudes2, longitudes2, count, sink)) {
         return {};
     }
 
     std::vector<float> distances(count);
-    
+
     for (size_t i = 0; i < count; ++i) {
-        double dist = useHaversine 
-            ? haversineDistance(latitudes1[i], longitudes1[i], latitudes2[i], longitudes2[i])
-            : vincentyDistance(latitudes1[i], longitudes1[i], latitudes2[i], longitudes2[i]);
+        double dist  = useHaversine ? haversineDistance(latitudes1[i], longitudes1[i], latitudes2[i], longitudes2[i])
+                                    : vincentyDistance(latitudes1[i], longitudes1[i], latitudes2[i], longitudes2[i]);
         distances[i] = static_cast<float>(dist);
     }
-    
+
     return distances;
 }
 
-std::vector<bool> CPUGeoBackend::batchPointInPolygon(
-    const double* pointLats,
-    const double* pointLons,
-    size_t numPoints,
-    const double* polygonCoords,
-    size_t numPolygonVertices
-) {
+std::vector<bool> CPUGeoBackend::batchPointInPolygon(const double *pointLats, const double *pointLons, size_t numPoints,
+                                                     const double *polygonCoords, size_t numPolygonVertices) {
     clearError();
-    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
-    if (!BatchValidator::validatePointInPolygonBatch(name(), pointLats, pointLons,
-                                                     numPoints, polygonCoords,
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
+    if (!BatchValidator::validatePointInPolygonBatch(name(), pointLats, pointLons, numPoints, polygonCoords,
                                                      numPolygonVertices, sink)) {
         return {};
     }
 
     std::vector<bool> results(numPoints);
-    
+
     // Ray casting algorithm for point-in-polygon test
     for (size_t p = 0; p < numPoints; ++p) {
         double testLat = pointLats[p];
         double testLon = pointLons[p];
-        
+
         bool inside = false;
-        size_t j = numPolygonVertices - 1;
-        
+        size_t j    = numPolygonVertices - 1;
+
         for (size_t i = 0; i < numPolygonVertices; ++i) {
             double lat_i = polygonCoords[i * 2];
             double lon_i = polygonCoords[i * 2 + 1];
             double lat_j = polygonCoords[j * 2];
             double lon_j = polygonCoords[j * 2 + 1];
-            
-            if (((lon_i > testLon) != (lon_j > testLon)) &&
-                (testLat < (lat_j - lat_i) * (testLon - lon_i) / (lon_j - lon_i) + lat_i)) {
+
+            if (((lon_i > testLon) != (lon_j > testLon))
+                && (testLat < (lat_j - lat_i) * (testLon - lon_i) / (lon_j - lon_i) + lat_i)) {
                 inside = !inside;
             }
-            
+
             j = i;
         }
-        
+
         results[p] = inside;
     }
-    
+
     return results;
 }
 
@@ -399,10 +342,8 @@ namespace {
 // ANN dispatch functions
 // ---------------------------------------------------------------------------
 
-static int cpu_ann_l2_distance(
-    const float* queries, const float* vectors, float* distances,
-    int numQueries, int numVectors, int dim, void* /*stream*/)
-{
+static int cpu_ann_l2_distance(const float *queries, const float *vectors, float *distances, int numQueries,
+                               int numVectors, int dim, void * /*stream*/) {
     for (int q = 0; q < numQueries; ++q) {
         for (int v = 0; v < numVectors; ++v) {
             float sum = 0.f;
@@ -416,10 +357,8 @@ static int cpu_ann_l2_distance(
     return 0;
 }
 
-static int cpu_ann_cosine_distance(
-    const float* queries, const float* vectors, float* distances,
-    int numQueries, int numVectors, int dim, void* /*stream*/)
-{
+static int cpu_ann_cosine_distance(const float *queries, const float *vectors, float *distances, int numQueries,
+                                   int numVectors, int dim, void * /*stream*/) {
     // Minimum denominator (|a|*|b|) below which cosine is undefined: treat as max distance.
     constexpr float kCosineEpsilon = 1e-10f;
     for (int q = 0; q < numQueries; ++q) {
@@ -429,20 +368,18 @@ static int cpu_ann_cosine_distance(
                 float qv = queries[q * dim + d];
                 float vv = vectors[v * dim + d];
                 dot += qv * vv;
-                nq  += qv * qv;
-                nv  += vv * vv;
+                nq += qv * qv;
+                nv += vv * vv;
             }
-            const float denom = std::sqrt(nq) * std::sqrt(nv);
+            const float denom             = std::sqrt(nq) * std::sqrt(nv);
             distances[q * numVectors + v] = (denom > kCosineEpsilon) ? 1.f - dot / denom : 1.f;
         }
     }
     return 0;
 }
 
-static int cpu_ann_inner_product(
-    const float* queries, const float* vectors, float* distances,
-    int numQueries, int numVectors, int dim, void* /*stream*/)
-{
+static int cpu_ann_inner_product(const float *queries, const float *vectors, float *distances, int numQueries,
+                                 int numVectors, int dim, void * /*stream*/) {
     // Negative inner product so that smaller is better (consistent with L2/cosine)
     for (int q = 0; q < numQueries; ++q) {
         for (int v = 0; v < numVectors; ++v) {
@@ -456,10 +393,8 @@ static int cpu_ann_inner_product(
     return 0;
 }
 
-static int cpu_ann_topk(
-    const float* distances, uint32_t* topk_indices, float* topk_dists,
-    int numQueries, int numVectors, int topK, void* /*stream*/)
-{
+static int cpu_ann_topk(const float *distances, uint32_t *topk_indices, float *topk_dists, int numQueries,
+                        int numVectors, int topK, void * /*stream*/) {
     // Comparator: (distance, index) where lower distance wins; lower index breaks ties.
     // The max-heap keeps the topK smallest pairs by ejecting the largest.
     // Using pair<float,uint32_t> directly: pair comparison is lexicographic, so
@@ -467,7 +402,7 @@ static int cpu_ann_topk(
     // This guarantees that for equal distances, the lower index is always kept.
     using Pair = std::pair<float, uint32_t>; // (distance, index)
     for (int q = 0; q < numQueries; ++q) {
-        const float* row = distances + q * numVectors;
+        const float *row = distances + q * numVectors;
         // Max-heap of size topK: keeps the topK smallest distances
         std::priority_queue<Pair> heap;
         for (int v = 0; v < numVectors; ++v) {
@@ -480,7 +415,7 @@ static int cpu_ann_topk(
         int slot = static_cast<int>(heap.size()) - 1;
         while (!heap.empty()) {
             topk_indices[q * topK + slot] = heap.top().second;
-            topk_dists  [q * topK + slot] = heap.top().first;
+            topk_dists[q * topK + slot]   = heap.top().first;
             heap.pop();
             --slot;
         }
@@ -492,37 +427,30 @@ static int cpu_ann_topk(
 // Geospatial dispatch functions
 // ---------------------------------------------------------------------------
 
-static int cpu_geo_distance(
-    const double* lats1, const double* lons1,
-    const double* lats2, const double* lons2,
-    float* out_distances, int count,
-    GeoDistanceFormula /*formula*/,  // Vincenty falls back to Haversine (CPU impl)
-    void* /*stream*/)
-{
+static int cpu_geo_distance(const double *lats1, const double *lons1, const double *lats2, const double *lons2,
+                            float *out_distances, int count,
+                            GeoDistanceFormula /*formula*/, // Vincenty falls back to Haversine (CPU impl)
+                            void * /*stream*/) {
     for (int i = 0; i < count; ++i) {
-        out_distances[i] = static_cast<float>(
-            themis::geo::haversine_km(lats1[i], lons1[i], lats2[i], lons2[i]));
+        out_distances[i] = static_cast<float>(themis::geo::haversine_km(lats1[i], lons1[i], lats2[i], lons2[i]));
     }
     return 0;
 }
 
-static int cpu_geo_containment(
-    const double* point_lats, const double* point_lons, int numPoints,
-    const double* polygon_coords, int numVertices,
-    uint8_t* results, void* /*stream*/)
-{
+static int cpu_geo_containment(const double *point_lats, const double *point_lons, int numPoints,
+                               const double *polygon_coords, int numVertices, uint8_t *results, void * /*stream*/) {
     for (int p = 0; p < numPoints; ++p) {
         const double testLat = point_lats[p];
         const double testLon = point_lons[p];
-        bool inside = false;
-        int  j = numVertices - 1;
+        bool inside          = false;
+        int j                = numVertices - 1;
         for (int i = 0; i < numVertices; ++i) {
             const double lat_i = polygon_coords[i * 2];
             const double lon_i = polygon_coords[i * 2 + 1];
             const double lat_j = polygon_coords[j * 2];
             const double lon_j = polygon_coords[j * 2 + 1];
-            if (((lon_i > testLon) != (lon_j > testLon)) &&
-                (testLat < (lat_j - lat_i) * (testLon - lon_i) / (lon_j - lon_i) + lat_i)) {
+            if (((lon_i > testLon) != (lon_j > testLon))
+                && (testLat < (lat_j - lat_i) * (testLon - lon_i) / (lon_j - lon_i) + lat_i)) {
                 inside = !inside;
             }
             j = i;
@@ -558,24 +486,15 @@ GeoKernelDispatch CPUGeoBackend::populateGeoDispatch() const {
 // CPUMatrixBackend Implementation
 // =============================================================================
 
-int CPUMatrixBackend::matmul(const MatrixKernelParams& params, void* /*opaque_stream*/)
-{
+int CPUMatrixBackend::matmul(const MatrixKernelParams &params, void * /*opaque_stream*/) {
     return tensor_core::launchCPUMatmulKernel(
-        static_cast<const float*>(params.A),
-        static_cast<const float*>(params.B),
-        static_cast<float*>(params.C),
-        static_cast<int>(params.M),
-        static_cast<int>(params.K),
-        static_cast<int>(params.N),
-        params.alpha,
-        params.beta
-    );
+        static_cast<const float *>(params.A), static_cast<const float *>(params.B), static_cast<float *>(params.C),
+        static_cast<int>(params.M), static_cast<int>(params.K), static_cast<int>(params.N), params.alpha, params.beta);
 }
 
 namespace {
 
-static int cpu_matrix_matmul(const MatrixKernelParams& params, void* stream)
-{
+static int cpu_matrix_matmul(const MatrixKernelParams &params, void *stream) {
     CPUMatrixBackend backend;
     return backend.matmul(params, stream);
 }
@@ -590,4 +509,3 @@ MatrixKernelDispatch CPUMatrixBackend::populateMatrixDispatch() const {
 
 } // namespace acceleration
 } // namespace themis
-

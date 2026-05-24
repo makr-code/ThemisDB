@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_adaptive_join_strategies.cpp                  ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:52:08                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     699                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1a5facd331  2026-03-14  style(query): align inline comments in AC4 test for consi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_adaptive_join_strategies.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -619,7 +605,10 @@ TEST(AdaptiveJoinStrategiesTest, EdgeCase_ThrowsOnEmptyLeftKey) {
     spec.right_key = "id";
 
     RuntimeStats stats = defaultStats();
-    EXPECT_THROW(exec.executeJoin(spec, left, right, stats), std::invalid_argument);
+    EXPECT_THROW({
+        auto join_result = exec.executeJoin(spec, left, right, stats);
+        static_cast<void>(join_result);
+    }, std::invalid_argument);
 }
 
 TEST(AdaptiveJoinStrategiesTest, EdgeCase_ThrowsOnEmptyRightKey) {
@@ -633,7 +622,10 @@ TEST(AdaptiveJoinStrategiesTest, EdgeCase_ThrowsOnEmptyRightKey) {
     spec.right_key = "";
 
     RuntimeStats stats = defaultStats();
-    EXPECT_THROW(exec.executeJoin(spec, left, right, stats), std::invalid_argument);
+    EXPECT_THROW({
+        auto join_result = exec.executeJoin(spec, left, right, stats);
+        static_cast<void>(join_result);
+    }, std::invalid_argument);
 }
 
 TEST(AdaptiveJoinStrategiesTest, EdgeCase_MultiRowCrossProductInBucket) {

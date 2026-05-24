@@ -1,12 +1,10 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            continuous_query_api_handler.h                    ║
-  Version:         2.0.0                                             ║
-  Description:     REST + SSE handler for /v1/queries/continuous     ║
-╚═════════════════════════════════════════════════════════════════════╝
-*/
+ * ThemisDB | File: continuous_query_api_handler.h | Version: 2.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
 
 #pragma once
 

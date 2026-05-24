@@ -1,13 +1,13 @@
 {
   "toolbox": {
-    "total": 296,
+    "total": 303,
     "severity_critical": 3,
     "severity_high": 260,
-    "severity_medium": 33,
+    "severity_medium": 40,
     "by_category": {
       "security": 4,
       "memory": 5,
-      "reliability": 14,
+      "reliability": 21,
       "concurrency": 3,
       "container": 4,
       "platform": 2,
@@ -23,7 +23,7 @@
       "src\\toolbox\\content_toolbox_bridge.cpp": [
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 131,
+          "line": 129,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "toolbox_ptr = impl_->toolbox_;",
@@ -32,7 +32,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 134,
+          "line": 132,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "toolbox_ptr->extractEntitySet(extracted_text, mime_type, filename);",
@@ -41,7 +41,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 209,
+          "line": 207,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "toolbox_ptr2 = impl_->toolbox_;",
@@ -50,7 +50,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 212,
+          "line": 210,
           "type": "null_dereference",
           "severity": "HIGH",
           "snippet": "toolbox_ptr2->extractEntitySet(extracted_text, mime_type, filename_hint);",
@@ -59,7 +59,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 131,
+          "line": 129,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "toolbox_ptr = impl_->toolbox_;",
@@ -68,7 +68,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 134,
+          "line": 132,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "toolbox_ptr->extractEntitySet(extracted_text, mime_type, filename);",
@@ -77,7 +77,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 209,
+          "line": 207,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "toolbox_ptr2 = impl_->toolbox_;",
@@ -86,7 +86,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 212,
+          "line": 210,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "toolbox_ptr2->extractEntitySet(extracted_text, mime_type, filename_hint);",
@@ -95,16 +95,16 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 10,
+          "line": 8,
           "type": "no_health_check",
           "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "snippet": "* Status: Production Ready",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 58,
+          "line": 56,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ContentToolboxBridge: toolbox must not be null\");",
@@ -113,7 +113,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 61,
+          "line": 59,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ContentToolboxBridge: content_manager must not be null\");",
@@ -122,7 +122,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 141,
+          "line": 139,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);",
@@ -131,7 +131,7 @@
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 218,
+          "line": 216,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);",
@@ -142,7 +142,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 93,
+          "line_number": 91,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -151,7 +151,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 94,
+          "line_number": 92,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -160,7 +160,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 109,
+          "line_number": 107,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -169,7 +169,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 110,
+          "line_number": 108,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -178,7 +178,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 112,
+          "line_number": 110,
           "var_name": "assembly",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -187,7 +187,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 113,
+          "line_number": 111,
           "var_name": "assembly",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -196,7 +196,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 130,
+          "line_number": 128,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -205,7 +205,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 131,
+          "line_number": 129,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -214,7 +214,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 134,
+          "line_number": 132,
           "var_name": "toolbox_ptr",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -223,7 +223,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 141,
+          "line_number": 139,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -232,7 +232,16 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 152,
+          "line_number": 150,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line_number": 181,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -247,19 +256,10 @@
           "reason": "Potential null-pointer dereference"
         },
         {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 185,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 186,
+          "line_number": 184,
           "var_name": "meta",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -268,7 +268,16 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 190,
+          "line_number": 188,
+          "var_name": "meta",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line_number": 189,
           "var_name": "meta",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -278,15 +287,6 @@
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
           "line_number": 191,
-          "var_name": "meta",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 193,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -295,7 +295,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 196,
+          "line_number": 194,
           "var_name": "assembly",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -304,7 +304,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 208,
+          "line_number": 206,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -313,7 +313,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 209,
+          "line_number": 207,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -322,7 +322,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 212,
+          "line_number": 210,
           "var_name": "toolbox_ptr2",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -331,7 +331,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 218,
+          "line_number": 216,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -340,7 +340,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 228,
+          "line_number": 226,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -349,7 +349,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 247,
+          "line_number": 245,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -358,7 +358,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 251,
+          "line_number": 249,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -367,7 +367,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 255,
+          "line_number": 253,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -376,10 +376,30 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 259,
+          "line_number": 257,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line_number": 32,
+          "class_name": "ContentToolboxBridge",
+          "function_name": "Impl",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line_number": 33,
+          "class_name": "ContentToolboxBridge",
+          "function_name": "Impl",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
@@ -405,27 +425,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 36,
-          "class_name": "ContentToolboxBridge",
-          "function_name": "Impl",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 37,
-          "class_name": "ContentToolboxBridge",
-          "function_name": "Impl",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 51,
+          "line_number": 49,
           "class_name": "ContentToolboxBridge",
           "function_name": "ContentToolboxBridge",
           "issue": "Virtual function called in constructor",
@@ -435,7 +435,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 58,
+          "line_number": 56,
           "class_name": "ContentToolboxBridge",
           "function_name": "ContentToolboxBridge",
           "issue": "Virtual function called in constructor",
@@ -445,9 +445,29 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 61,
+          "line_number": 59,
           "class_name": "ContentToolboxBridge",
           "function_name": "ContentToolboxBridge",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line_number": 62,
+          "class_name": "ContentToolboxBridge",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
+          "line_number": 63,
+          "class_name": "ContentToolboxBridge",
+          "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -475,27 +495,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 66,
-          "class_name": "ContentToolboxBridge",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 67,
-          "class_name": "ContentToolboxBridge",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 72,
+          "line_number": 70,
           "class_name": "ContentToolboxBridge",
           "function_name": "move",
           "issue": "Virtual function called in constructor",
@@ -505,7 +505,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 79,
+          "line_number": 77,
           "class_name": "ContentToolboxBridge",
           "function_name": "ContentToolboxBridge",
           "issue": "Virtual function called in constructor",
@@ -515,7 +515,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 170,
+          "line_number": 168,
           "class_name": "ContentToolboxBridge",
           "function_name": "enrichExisting",
           "issue": "Virtual function called in constructor",
@@ -525,7 +525,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 246,
+          "line_number": 244,
           "class_name": "ContentToolboxBridge",
           "function_name": "toolbox",
           "issue": "Virtual function called in constructor",
@@ -535,7 +535,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 250,
+          "line_number": 248,
           "class_name": "ContentToolboxBridge",
           "function_name": "toolbox",
           "issue": "Virtual function called in constructor",
@@ -545,7 +545,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 254,
+          "line_number": 252,
           "class_name": "ContentToolboxBridge",
           "function_name": "toolbox",
           "issue": "Virtual function called in constructor",
@@ -555,7 +555,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line_number": 258,
+          "line_number": 256,
           "class_name": "ContentToolboxBridge",
           "function_name": "contentManager",
           "issue": "Virtual function called in constructor",
@@ -565,7 +565,7 @@
       "src\\toolbox\\toolbox_builder.cpp": [
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 158,
+          "line": 156,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto registerFormatStep = [&](std::shared_ptr<ingestion::IFormatExtractor> ext) {",
@@ -574,16 +574,16 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 10,
+          "line": 8,
           "type": "no_health_check",
           "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "snippet": "* Status: Production Ready",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 55,
+          "line": 53,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withWorkflowProfile: path must not be empty\");",
@@ -592,7 +592,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 100,
+          "line": 98,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withWorkflowEngine: engine must not be null\");",
@@ -601,7 +601,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 110,
+          "line": 108,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withFormatExtractor: extractor must not be null\");",
@@ -610,7 +610,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 120,
+          "line": 118,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"ToolboxBuilder::withFormatExtractorFactory: factory must not be null\");",
@@ -619,7 +619,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 141,
+          "line": 139,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(\"ToolboxBuilder::build() called more than once\");",
@@ -628,7 +628,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 261,
+          "line": 259,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::logic_error(",
@@ -637,7 +637,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 112,
+          "line": 110,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "impl_->format_extractors.push_back(std::move(extractor));",
@@ -646,7 +646,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 129,
+          "line": 127,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "impl_->format_extractors.push_back(std::move(ext));",
@@ -657,7 +657,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 37,
+          "line_number": 35,
           "line_content": "std::vector<std::shared_ptr<ingestion::IFormatExtractor>>      format_extractors;",
           "context": [
             "    std::shared_ptr<ingestion::IGraphWriter>                       graph_writer;",
@@ -675,7 +675,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 57,
+          "line_number": 55,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -684,7 +684,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 64,
+          "line_number": 62,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -693,7 +693,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 71,
+          "line_number": 69,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -702,7 +702,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 78,
+          "line_number": 76,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -711,7 +711,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 85,
+          "line_number": 83,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -720,7 +720,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 92,
+          "line_number": 90,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -729,7 +729,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 102,
+          "line_number": 100,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -738,7 +738,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 112,
+          "line_number": 110,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -747,43 +747,43 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 119,
+          "line_number": 117,
           "var_name": "ext",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
         {
           "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_builder.cpp",
+          "line_number": 123,
+          "var_name": "factory",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_builder.cpp",
+          "line_number": 124,
+          "var_name": "factory",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
           "line_number": 125,
-          "var_name": "factory",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
+          "var_name": "ext",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
         },
         {
           "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 126,
-          "var_name": "factory",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
           "line_number": 127,
-          "var_name": "ext",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 129,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -792,7 +792,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 140,
+          "line_number": 138,
           "var_name": "toolbox",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -801,7 +801,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 143,
+          "line_number": 141,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -810,7 +810,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 149,
+          "line_number": 147,
           "var_name": "toolbox",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -819,7 +819,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 150,
+          "line_number": 148,
           "var_name": "toolbox",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -828,7 +828,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 154,
+          "line_number": 152,
           "var_name": "toolbox",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -837,7 +837,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 159,
+          "line_number": 157,
           "var_name": "ext",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -846,7 +846,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 192,
+          "line_number": 190,
           "var_name": "ext",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -855,7 +855,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 198,
+          "line_number": 196,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -864,25 +864,25 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 206,
+          "line_number": 204,
           "var_name": "toolbox",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
         },
         {
           "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_builder.cpp",
+          "line_number": 210,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
           "line_number": 212,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 214,
           "var_name": "engine",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -891,7 +891,25 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 216,
+          "line_number": 214,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_builder.cpp",
+          "line_number": 218,
+          "var_name": "toolbox",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_builder.cpp",
+          "line_number": 219,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -901,24 +919,6 @@
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
           "line_number": 220,
-          "var_name": "toolbox",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 221,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 222,
           "var_name": "engine",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -927,7 +927,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 236,
+          "line_number": 234,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -936,7 +936,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 240,
+          "line_number": 238,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -945,7 +945,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 244,
+          "line_number": 242,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -954,7 +954,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 257,
+          "line_number": 255,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -963,7 +963,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 260,
+          "line_number": 258,
           "var_name": "toolbox",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -972,7 +972,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 265,
+          "line_number": 263,
           "var_name": "this",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -981,7 +981,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 270,
+          "line_number": 268,
           "var_name": "toolbox",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -990,7 +990,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 272,
+          "line_number": 270,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -999,7 +999,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 275,
+          "line_number": 273,
           "var_name": "toolbox",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1008,7 +1008,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 277,
+          "line_number": 275,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1017,7 +1017,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 47,
+          "line_number": 45,
           "class_name": "Unknown",
           "function_name": "ToolboxBuilder",
           "issue": "Virtual function called in constructor",
@@ -1027,7 +1027,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 50,
+          "line_number": 48,
+          "class_name": "Unknown",
+          "function_name": "ToolboxBuilder",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_builder.cpp",
+          "line_number": 51,
           "class_name": "Unknown",
           "function_name": "ToolboxBuilder",
           "issue": "Virtual function called in constructor",
@@ -1057,17 +1067,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 57,
-          "class_name": "Unknown",
-          "function_name": "ToolboxBuilder",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 61,
+          "line_number": 59,
           "class_name": "Unknown",
           "function_name": "withWorkflowProfile",
           "issue": "Virtual function called in constructor",
@@ -1077,7 +1077,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 64,
+          "line_number": 62,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1087,7 +1087,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 68,
+          "line_number": 66,
           "class_name": "Unknown",
           "function_name": "withGraphWriter",
           "issue": "Virtual function called in constructor",
@@ -1097,7 +1097,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 71,
+          "line_number": 69,
           "class_name": "Unknown",
           "function_name": "withGraphWriter",
           "issue": "Virtual function called in constructor",
@@ -1107,7 +1107,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 75,
+          "line_number": 73,
           "class_name": "Unknown",
           "function_name": "withVectorWriter",
           "issue": "Virtual function called in constructor",
@@ -1117,7 +1117,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 78,
+          "line_number": 76,
           "class_name": "Unknown",
           "function_name": "withVectorWriter",
           "issue": "Virtual function called in constructor",
@@ -1127,7 +1127,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 82,
+          "line_number": 80,
           "class_name": "Unknown",
           "function_name": "withTextBackend",
           "issue": "Virtual function called in constructor",
@@ -1137,7 +1137,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 85,
+          "line_number": 83,
           "class_name": "Unknown",
           "function_name": "withTextBackend",
           "issue": "Virtual function called in constructor",
@@ -1147,7 +1147,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 89,
+          "line_number": 87,
           "class_name": "Unknown",
           "function_name": "withTensorDecompositionBackend",
           "issue": "Virtual function called in constructor",
@@ -1157,7 +1157,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 92,
+          "line_number": 90,
           "class_name": "Unknown",
           "function_name": "withTensorDecompositionBackend",
           "issue": "Virtual function called in constructor",
@@ -1167,9 +1167,19 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 96,
+          "line_number": 94,
           "class_name": "Unknown",
           "function_name": "withTensorCoreSink",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_builder.cpp",
+          "line_number": 98,
+          "class_name": "Unknown",
+          "function_name": "move",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -1187,17 +1197,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 102,
-          "class_name": "Unknown",
-          "function_name": "move",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 106,
+          "line_number": 104,
           "class_name": "Unknown",
           "function_name": "withWorkflowEngine",
           "issue": "Virtual function called in constructor",
@@ -1207,7 +1207,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 110,
+          "line_number": 108,
           "class_name": "Unknown",
           "function_name": "invalid_argument",
           "issue": "Virtual function called in constructor",
@@ -1217,7 +1217,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 112,
+          "line_number": 110,
           "class_name": "Unknown",
           "function_name": "move",
           "issue": "Virtual function called in constructor",
@@ -1227,7 +1227,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 116,
+          "line_number": 114,
           "class_name": "Unknown",
           "function_name": "withFormatExtractor",
           "issue": "Virtual function called in constructor",
@@ -1237,7 +1237,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 120,
+          "line_number": 118,
           "class_name": "Unknown",
           "function_name": "invalid_argument",
           "issue": "Virtual function called in constructor",
@@ -1247,7 +1247,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 129,
+          "line_number": 127,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1257,7 +1257,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 139,
+          "line_number": 137,
           "class_name": "Unknown",
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
@@ -1267,7 +1267,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 141,
+          "line_number": 139,
           "class_name": "Unknown",
           "function_name": "build",
           "issue": "Virtual function called in constructor",
@@ -1277,7 +1277,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 146,
+          "line_number": 144,
           "class_name": "Unknown",
           "function_name": "build",
           "issue": "Virtual function called in constructor",
@@ -1287,7 +1287,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 168,
+          "line_number": 166,
           "class_name": "Unknown",
           "function_name": "supportedMimeTypes",
           "issue": "Virtual function called in constructor",
@@ -1297,7 +1297,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 175,
+          "line_number": 173,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1307,7 +1307,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 178,
+          "line_number": 176,
           "class_name": "Unknown",
           "function_name": "createParsePdfStep",
           "issue": "Virtual function called in constructor",
@@ -1317,7 +1317,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 184,
+          "line_number": 182,
           "class_name": "Unknown",
           "function_name": "find",
           "issue": "Virtual function called in constructor",
@@ -1327,7 +1327,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 187,
+          "line_number": 185,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1337,7 +1337,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 192,
+          "line_number": 190,
           "class_name": "Unknown",
           "function_name": "createParseArchiveStep",
           "issue": "Virtual function called in constructor",
@@ -1347,7 +1347,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 193,
+          "line_number": 191,
           "class_name": "Unknown",
           "function_name": "createParseArchiveStep",
           "issue": "Virtual function called in constructor",
@@ -1357,7 +1357,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 212,
+          "line_number": 210,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1367,7 +1367,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 216,
+          "line_number": 214,
           "class_name": "Unknown",
           "function_name": "setTextBackend",
           "issue": "Virtual function called in constructor",
@@ -1377,7 +1377,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 235,
+          "line_number": 233,
           "class_name": "Unknown",
           "function_name": "THEMIS_WARN",
           "issue": "Virtual function called in constructor",
@@ -1387,7 +1387,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 239,
+          "line_number": 237,
           "class_name": "Unknown",
           "function_name": "graphWriter",
           "issue": "Virtual function called in constructor",
@@ -1397,7 +1397,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 243,
+          "line_number": 241,
           "class_name": "Unknown",
           "function_name": "graphWriter",
           "issue": "Virtual function called in constructor",
@@ -1407,7 +1407,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 249,
+          "line_number": 247,
           "class_name": "Unknown",
           "function_name": "vectorWriter",
           "issue": "Virtual function called in constructor",
@@ -1417,7 +1417,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 251,
+          "line_number": 249,
           "class_name": "Unknown",
           "function_name": "profileCount",
           "issue": "Virtual function called in constructor",
@@ -1427,7 +1427,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 256,
+          "line_number": 254,
           "class_name": "Unknown",
           "function_name": "BuiltToolbox",
           "issue": "Virtual function called in constructor",
@@ -1437,7 +1437,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 261,
+          "line_number": 259,
           "class_name": "Unknown",
           "function_name": "BuiltToolbox",
           "issue": "Virtual function called in constructor",
@@ -1447,7 +1447,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_builder.cpp",
-          "line_number": 262,
+          "line_number": 260,
           "class_name": "Unknown",
           "function_name": "buildWithBridges",
           "issue": "Virtual function called in constructor",
@@ -1455,7 +1455,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 128,
+          "line": 126,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1464,7 +1464,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 170,
+          "line": 168,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1473,7 +1473,7 @@
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 174,
+          "line": 172,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1481,19 +1481,169 @@
           "context": "primary.find(\"opendocument\") != std::string::npos) {"
         }
       ],
+      "src\\toolbox\\content_fingerprinter.cpp": [
+        {
+          "file": "src\\toolbox\\content_fingerprinter.cpp",
+          "line": 8,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "* Status: Production Ready",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 30,
+          "line_content": "oss << std::hex << std::setfill('0');",
+          "context": [
+            "",
+            "    std::ostringstream oss;",
+            "    oss << std::hex << std::setfill('0');",
+            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
+            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);"
+          ],
+          "pattern_matched": "oss << std::hex << std::setfill('0');",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 32,
+          "line_content": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+          "context": [
+            "    oss << std::hex << std::setfill('0');",
+            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
+            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+            "    }",
+            "    return oss.str();"
+          ],
+          "pattern_matched": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 26,
+          "line_content": "unsigned char digest[SHA256_DIGEST_LENGTH];",
+          "context": [
+            "/// Compute SHA-256 of @p len bytes at @p data and return a 64-char hex string.",
+            "std::string sha256Hex(const unsigned char* data, std::size_t len) {",
+            "    unsigned char digest[SHA256_DIGEST_LENGTH];",
+            "    SHA256(data, len, digest);",
+            ""
+          ],
+          "pattern_matched": "unsigned char digest[SHA256_DIGEST_LENGTH];",
+          "operation": "Array access: digest[SHA256_DIGEST_LENGTH]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 32,
+          "line_content": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+          "context": [
+            "    oss << std::hex << std::setfill('0');",
+            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
+            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+            "    }",
+            "    return oss.str();"
+          ],
+          "pattern_matched": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+          "operation": "Array access: digest[i]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 30,
+          "class_name": "Unknown",
+          "function_name": "sha256Hex",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 32,
+          "class_name": "Unknown",
+          "function_name": "sha256Hex",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 45,
+          "class_name": "Unknown",
+          "function_name": "compute",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 60,
+          "class_name": "Unknown",
+          "function_name": "size",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\toolbox\\content_fingerprinter.cpp",
+          "line": 45,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ContentFingerprint ContentFingerprinter::compute(std::string_view text) const {"
+        },
+        {
+          "file": "src\\toolbox\\content_fingerprinter.cpp",
+          "line": 60,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ContentFingerprint ContentFingerprinter::compute("
+        },
+        {
+          "file": "src\\toolbox\\content_fingerprinter.cpp",
+          "line": 80,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return ContentFingerprinter{}.compute(text);"
+        }
+      ],
       "src\\toolbox\\ingestion_toolbox.cpp": [
         {
           "file": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line": 11,
+          "line": 8,
           "type": "no_health_check",
           "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "snippet": "* Status: Production Ready",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line": 218,
+          "line": 215,
           "type": "data_race",
           "severity": "CRITICAL",
           "snippet": "impl_->extract_entities_total_ += static_cast<uint64_t>(entity_count);",
@@ -1502,7 +1652,7 @@
         },
         {
           "file": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line": 232,
+          "line": 229,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "out << \"# HELP toolbox_extract_calls_total Total extractEntities() / extractEntitySet() calls.\\n\";",
@@ -1511,7 +1661,7 @@
         },
         {
           "file": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line": 240,
+          "line": 237,
           "type": "hardcoded_path",
           "severity": "MEDIUM",
           "snippet": "out << \"# HELP toolbox_extract_entities_total Cumulative number of entities / chunks extracted.\\n\";",
@@ -1522,7 +1672,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 232,
+          "line_number": 229,
           "line_content": "out << \"# HELP toolbox_extract_calls_total Total extractEntities() / extractEntitySet() calls.\\n\";",
           "context": [
             "    std::ostringstream out;",
@@ -1540,7 +1690,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 233,
+          "line_number": 230,
           "line_content": "out << \"# TYPE toolbox_extract_calls_total counter\\n\";",
           "context": [
             "",
@@ -1558,7 +1708,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 234,
+          "line_number": 231,
           "line_content": "out << \"toolbox_extract_calls_total \" << calls << \"\\n\";",
           "context": [
             "    out << \"# HELP toolbox_extract_calls_total Total extractEntities() / extractEntitySet() calls.\\n\";",
@@ -1576,7 +1726,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 236,
+          "line_number": 233,
           "line_content": "out << \"# HELP toolbox_extract_errors_total Failed extraction calls.\\n\";",
           "context": [
             "    out << \"toolbox_extract_calls_total \" << calls << \"\\n\";",
@@ -1594,7 +1744,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 237,
+          "line_number": 234,
           "line_content": "out << \"# TYPE toolbox_extract_errors_total counter\\n\";",
           "context": [
             "",
@@ -1612,7 +1762,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 238,
+          "line_number": 235,
           "line_content": "out << \"toolbox_extract_errors_total \" << errors << \"\\n\";",
           "context": [
             "    out << \"# HELP toolbox_extract_errors_total Failed extraction calls.\\n\";",
@@ -1630,7 +1780,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 240,
+          "line_number": 237,
           "line_content": "out << \"# HELP toolbox_extract_entities_total Cumulative number of entities / chunks extracted.\\n\";",
           "context": [
             "    out << \"toolbox_extract_errors_total \" << errors << \"\\n\";",
@@ -1648,7 +1798,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 241,
+          "line_number": 238,
           "line_content": "out << \"# TYPE toolbox_extract_entities_total counter\\n\";",
           "context": [
             "",
@@ -1666,7 +1816,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 242,
+          "line_number": 239,
           "line_content": "out << \"toolbox_extract_entities_total \" << entities << \"\\n\";",
           "context": [
             "    out << \"# HELP toolbox_extract_entities_total Cumulative number of entities / chunks extracted.\\n\";",
@@ -1684,7 +1834,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 244,
+          "line_number": 241,
           "line_content": "out << \"# HELP toolbox_extract_latency_ms_total Cumulative extraction wall-clock latency in milliseconds.\\n\";",
           "context": [
             "    out << \"toolbox_extract_entities_total \" << entities << \"\\n\";",
@@ -1702,7 +1852,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 245,
+          "line_number": 242,
           "line_content": "out << \"# TYPE toolbox_extract_latency_ms_total counter\\n\";",
           "context": [
             "",
@@ -1720,7 +1870,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 246,
+          "line_number": 243,
           "line_content": "out << \"toolbox_extract_latency_ms_total \" << latency << \"\\n\";",
           "context": [
             "    out << \"# HELP toolbox_extract_latency_ms_total Cumulative extraction wall-clock latency in milliseconds.\\n\";",
@@ -1733,6 +1883,15 @@
           "conversion_from": "",
           "conversion_to": "",
           "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line_number": 70,
+          "var_name": "toolbox",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
         },
         {
           "gap_type": "pointer_without_null_check",
@@ -1756,16 +1915,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 79,
-          "var_name": "toolbox",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 103,
+          "line_number": 100,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1774,7 +1924,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 104,
+          "line_number": 101,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1783,7 +1933,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 110,
+          "line_number": 107,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1792,7 +1942,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 111,
+          "line_number": 108,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1801,7 +1951,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 119,
+          "line_number": 116,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1810,7 +1960,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 120,
+          "line_number": 117,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1819,7 +1969,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 126,
+          "line_number": 123,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1828,7 +1978,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 130,
+          "line_number": 127,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1837,7 +1987,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 131,
+          "line_number": 128,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1846,7 +1996,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 150,
+          "line_number": 147,
           "var_name": "engine",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1855,7 +2005,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 151,
+          "line_number": 148,
           "var_name": "result",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1864,10 +2014,37 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 191,
+          "line_number": 188,
           "var_name": "t0",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line_number": 213,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line_number": 214,
+          "var_name": "calls",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line_number": 215,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
         },
         {
           "gap_type": "pointer_without_null_check",
@@ -1879,31 +2056,22 @@
           "reason": "Potential null-pointer dereference"
         },
         {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line_number": 220,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 217,
+          "line_number": 221,
           "var_name": "calls",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 218,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 219,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
         },
         {
           "gap_type": "pointer_without_null_check",
@@ -1915,19 +2083,10 @@
           "reason": "Potential null-pointer dereference"
         },
         {
-          "gap_type": "conditional_initialization_use",
+          "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
           "line_number": 224,
-          "var_name": "calls",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 226,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1936,16 +2095,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 227,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 228,
+          "line_number": 225,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1954,7 +2104,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 58,
+          "line_number": 55,
           "class_name": "IngestionToolbox",
           "function_name": "IngestionToolbox",
           "issue": "Virtual function called in constructor",
@@ -1964,7 +2114,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 64,
+          "line_number": 61,
           "class_name": "IngestionToolbox",
           "function_name": "IngestionToolbox",
           "issue": "Virtual function called in constructor",
@@ -1974,9 +2124,19 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 69,
+          "line_number": 66,
           "class_name": "IngestionToolbox",
           "function_name": "impl_",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line_number": 73,
+          "class_name": "IngestionToolbox",
+          "function_name": "createDefault",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -1994,17 +2154,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 79,
-          "class_name": "IngestionToolbox",
-          "function_name": "createDefault",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 87,
+          "line_number": 84,
           "class_name": "IngestionToolbox",
           "function_name": "registerStep",
           "issue": "Virtual function called in constructor",
@@ -2014,7 +2164,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 90,
+          "line_number": 87,
           "class_name": "IngestionToolbox",
           "function_name": "ops",
           "issue": "Virtual function called in constructor",
@@ -2024,9 +2174,19 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 97,
+          "line_number": 94,
           "class_name": "IngestionToolbox",
           "function_name": "createChunkTtDecomposeStep",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
+          "line_number": 98,
+          "class_name": "IngestionToolbox",
+          "function_name": "setWorkflowEngine",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -2054,17 +2214,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 107,
-          "class_name": "IngestionToolbox",
-          "function_name": "setWorkflowEngine",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 112,
+          "line_number": 109,
           "class_name": "IngestionToolbox",
           "function_name": "lk",
           "issue": "Virtual function called in constructor",
@@ -2074,7 +2224,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 118,
+          "line_number": 115,
           "class_name": "IngestionToolbox",
           "function_name": "lk",
           "issue": "Virtual function called in constructor",
@@ -2084,7 +2234,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 123,
+          "line_number": 120,
           "class_name": "IngestionToolbox",
           "function_name": "workflowEngine",
           "issue": "Virtual function called in constructor",
@@ -2094,7 +2244,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 125,
+          "line_number": 122,
           "class_name": "IngestionToolbox",
           "function_name": "workflowEngine",
           "issue": "Virtual function called in constructor",
@@ -2104,7 +2254,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 129,
+          "line_number": 126,
           "class_name": "IngestionToolbox",
           "function_name": "lk",
           "issue": "Virtual function called in constructor",
@@ -2114,7 +2264,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 154,
+          "line_number": 151,
           "class_name": "IngestionToolbox",
           "function_name": "execute",
           "issue": "Virtual function called in constructor",
@@ -2124,7 +2274,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 163,
+          "line_number": 160,
           "class_name": "IngestionToolbox",
           "function_name": "move",
           "issue": "Virtual function called in constructor",
@@ -2134,7 +2284,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 172,
+          "line_number": 169,
           "class_name": "IngestionToolbox",
           "function_name": "extractEntities",
           "issue": "Virtual function called in constructor",
@@ -2144,7 +2294,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 175,
+          "line_number": 172,
           "class_name": "IngestionToolbox",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -2154,7 +2304,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 186,
+          "line_number": 183,
           "class_name": "IngestionToolbox",
           "function_name": "count",
           "issue": "Virtual function called in constructor",
@@ -2164,7 +2314,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 195,
+          "line_number": 192,
           "class_name": "IngestionToolbox",
           "function_name": "extractEntitySet",
           "issue": "Virtual function called in constructor",
@@ -2174,7 +2324,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 198,
+          "line_number": 195,
           "class_name": "IngestionToolbox",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -2184,7 +2334,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 212,
+          "line_number": 209,
           "class_name": "IngestionToolbox",
           "function_name": "empty",
           "issue": "Virtual function called in constructor",
@@ -2194,7 +2344,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line_number": 222,
+          "line_number": 219,
           "class_name": "IngestionToolbox",
           "function_name": "recordExtraction",
           "issue": "Virtual function called in constructor",
@@ -2202,7 +2352,7 @@
         },
         {
           "file": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line": 150,
+          "line": 147,
           "category": "observability",
           "severity": "HIGH",
           "pattern": "missing_trace_point",
@@ -2210,357 +2360,19 @@
           "context": "auto result = engine->execute(ctx);"
         }
       ],
-      "src\\toolbox\\toolbox_composite.cpp": [
+      "src\\toolbox\\language_detector.cpp": [
         {
-          "file": "src\\toolbox\\toolbox_composite.cpp",
-          "line": 65,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\toolbox\\toolbox_composite.cpp",
-          "line": 81,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::logic_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 42,
-          "var_name": "toolbox",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 45,
-          "var_name": "toolbox",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 14,
-          "class_name": "Unknown",
-          "function_name": "ToolboxComposite",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 17,
-          "class_name": "Unknown",
-          "function_name": "ToolboxComposite",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 18,
-          "class_name": "Unknown",
-          "function_name": "ToolboxComposite",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 23,
-          "class_name": "Unknown",
-          "function_name": "ToolboxComposite",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 36,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 48,
-          "class_name": "Unknown",
-          "function_name": "resolve",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 52,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 60,
-          "class_name": "Unknown",
-          "function_name": "fallback",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 65,
-          "class_name": "Unknown",
-          "function_name": "addRoute",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 68,
-          "class_name": "Unknown",
-          "function_name": "addRoute",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 72,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 75,
-          "class_name": "Unknown",
-          "function_name": "invalid_argument",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 79,
-          "class_name": "Unknown",
-          "function_name": "setFallback",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 81,
-          "class_name": "Unknown",
-          "function_name": "setFallback",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 84,
-          "class_name": "Unknown",
-          "function_name": "move",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        }
-      ],
-      "src\\toolbox\\toolbox_registry.cpp": [
-        {
-          "file": "src\\toolbox\\toolbox_registry.cpp",
-          "line": 10,
+          "file": "src\\toolbox\\language_detector.cpp",
+          "line": 8,
           "type": "no_health_check",
           "severity": "MEDIUM",
-          "snippet": "Status: \u2705 Production Ready                                          \u2551",
+          "snippet": "* Status: Production Ready",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 37,
-          "class_name": "Unknown",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 39,
-          "class_name": "Unknown",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 43,
-          "class_name": "Unknown",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 46,
-          "class_name": "Unknown",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 49,
-          "class_name": "Unknown",
-          "function_name": "invalid_argument",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 51,
-          "class_name": "Unknown",
-          "function_name": "lk",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 56,
-          "class_name": "Unknown",
-          "function_name": "instance",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 61,
-          "class_name": "Unknown",
-          "function_name": "initialize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 71,
-          "class_name": "Unknown",
-          "function_name": "reset",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 75,
-          "class_name": "Unknown",
-          "function_name": "initializeToolbox",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 83,
-          "class_name": "Unknown",
-          "function_name": "globalToolbox",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 91,
-          "class_name": "Unknown",
-          "function_name": "instance",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_registry.cpp",
-          "line_number": 95,
-          "class_name": "Unknown",
-          "function_name": "extractEntitySet",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "file": "src\\toolbox\\toolbox_registry.cpp",
-          "line": 51,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_health_check",
-          "description": "Service without health check endpoint",
-          "context": "\"call ToolboxRegistry::initialize() at server startup\");"
-        },
-        {
-          "file": "src\\toolbox\\toolbox_registry.cpp",
-          "line": 58,
-          "category": "determinism",
-          "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "return g_instance != nullptr;"
-        }
-      ],
-      "src\\toolbox\\language_detector.cpp": [
-        {
           "file": "src\\toolbox\\language_detector.cpp",
-          "line": 20,
+          "line": 31,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(utils::toLower(word));",
@@ -2571,7 +2383,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\language_detector.cpp",
-          "line_number": 19,
+          "line_number": 30,
           "line_content": "while (iss >> word) {",
           "context": [
             "    std::istringstream iss(buf);",
@@ -2589,7 +2401,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\language_detector.cpp",
-          "line_number": 55,
+          "line_number": 66,
           "var_name": "best_lang",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2598,7 +2410,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\language_detector.cpp",
-          "line_number": 20,
+          "line_number": 31,
           "class_name": "Unknown",
           "function_name": "tokenize",
           "issue": "Virtual function called in constructor",
@@ -2608,7 +2420,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\language_detector.cpp",
-          "line_number": 31,
+          "line_number": 42,
           "class_name": "Unknown",
           "function_name": "DefaultLanguageDetector",
           "issue": "Virtual function called in constructor",
@@ -2618,7 +2430,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\language_detector.cpp",
-          "line_number": 35,
+          "line_number": 46,
           "class_name": "Unknown",
           "function_name": "DefaultLanguageDetector",
           "issue": "Virtual function called in constructor",
@@ -2628,7 +2440,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\language_detector.cpp",
-          "line_number": 39,
+          "line_number": 50,
           "class_name": "Unknown",
           "function_name": "DefaultLanguageDetector",
           "issue": "Virtual function called in constructor",
@@ -2638,7 +2450,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\language_detector.cpp",
-          "line_number": 52,
+          "line_number": 63,
           "class_name": "Unknown",
           "function_name": "for",
           "issue": "Virtual function called in constructor",
@@ -2648,7 +2460,16 @@
       "src\\toolbox\\text_chunker.cpp": [
         {
           "file": "src\\toolbox\\text_chunker.cpp",
-          "line": 44,
+          "line": 8,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "* Status: Production Ready",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\toolbox\\text_chunker.cpp",
+          "line": 55,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(c.text));",
@@ -2659,7 +2480,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\text_chunker.cpp",
-          "line_number": 11,
+          "line_number": 22,
           "class_name": "Unknown",
           "function_name": "TextChunker",
           "issue": "Virtual function called in constructor",
@@ -2669,7 +2490,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\text_chunker.cpp",
-          "line_number": 15,
+          "line_number": 26,
           "class_name": "Unknown",
           "function_name": "TextChunker",
           "issue": "Virtual function called in constructor",
@@ -2679,27 +2500,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\text_chunker.cpp",
-          "line_number": 21,
-          "class_name": "Unknown",
-          "function_name": "TextChunker",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\text_chunker.cpp",
-          "line_number": 25,
-          "class_name": "Unknown",
-          "function_name": "TextChunker",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\text_chunker.cpp",
-          "line_number": 29,
+          "line_number": 32,
           "class_name": "Unknown",
           "function_name": "TextChunker",
           "issue": "Virtual function called in constructor",
@@ -2711,6 +2512,26 @@
           "file_path": "src\\toolbox\\text_chunker.cpp",
           "line_number": 36,
           "class_name": "Unknown",
+          "function_name": "TextChunker",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\text_chunker.cpp",
+          "line_number": 40,
+          "class_name": "Unknown",
+          "function_name": "TextChunker",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\text_chunker.cpp",
+          "line_number": 47,
+          "class_name": "Unknown",
           "function_name": "setConfig",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
@@ -2719,7 +2540,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\text_chunker.cpp",
-          "line_number": 44,
+          "line_number": 55,
           "class_name": "Unknown",
           "function_name": "chunkTexts",
           "issue": "Virtual function called in constructor",
@@ -2729,7 +2550,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\text_chunker.cpp",
-          "line_number": 49,
+          "line_number": 60,
           "class_name": "Unknown",
           "function_name": "split",
           "issue": "Virtual function called in constructor",
@@ -2737,7 +2558,7 @@
         },
         {
           "file": "src\\toolbox\\text_chunker.cpp",
-          "line": 43,
+          "line": 54,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -2745,153 +2566,62 @@
           "context": "result.push_back(std::move(c.text));"
         }
       ],
-      "src\\toolbox\\content_fingerprinter.cpp": [
+      "src\\toolbox\\text_normalizer.cpp": [
         {
-          "gap_type": "SHIFT_OVERFLOW",
+          "file": "src\\toolbox\\text_normalizer.cpp",
+          "line": 8,
+          "type": "no_health_check",
           "severity": "MEDIUM",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 19,
-          "line_content": "oss << std::hex << std::setfill('0');",
-          "context": [
-            "",
-            "    std::ostringstream oss;",
-            "    oss << std::hex << std::setfill('0');",
-            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
-            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);"
-          ],
-          "pattern_matched": "oss << std::hex << std::setfill('0');",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 21,
-          "line_content": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-          "context": [
-            "    oss << std::hex << std::setfill('0');",
-            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
-            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-            "    }",
-            "    return oss.str();"
-          ],
-          "pattern_matched": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 15,
-          "line_content": "unsigned char digest[SHA256_DIGEST_LENGTH];",
-          "context": [
-            "/// Compute SHA-256 of @p len bytes at @p data and return a 64-char hex string.",
-            "std::string sha256Hex(const unsigned char* data, std::size_t len) {",
-            "    unsigned char digest[SHA256_DIGEST_LENGTH];",
-            "    SHA256(data, len, digest);",
-            ""
-          ],
-          "pattern_matched": "unsigned char digest[SHA256_DIGEST_LENGTH];",
-          "operation": "Array access: digest[SHA256_DIGEST_LENGTH]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 21,
-          "line_content": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-          "context": [
-            "    oss << std::hex << std::setfill('0');",
-            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
-            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-            "    }",
-            "    return oss.str();"
-          ],
-          "pattern_matched": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-          "operation": "Array access: digest[i]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
+          "snippet": "* Status: Production Ready",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 19,
+          "file_path": "src\\toolbox\\text_normalizer.cpp",
+          "line_number": 22,
           "class_name": "Unknown",
-          "function_name": "sha256Hex",
+          "function_name": "normalize",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 21,
+          "file_path": "src\\toolbox\\text_normalizer.cpp",
+          "line_number": 23,
           "class_name": "Unknown",
-          "function_name": "sha256Hex",
+          "function_name": "normalize",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 34,
+          "file_path": "src\\toolbox\\text_normalizer.cpp",
+          "line_number": 31,
           "class_name": "Unknown",
-          "function_name": "compute",
+          "function_name": "normalize",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 49,
-          "class_name": "Unknown",
-          "function_name": "size",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "file": "src\\toolbox\\content_fingerprinter.cpp",
-          "line": 34,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_latency_metric",
-          "description": "No latency measurement for operation",
-          "context": "ContentFingerprint ContentFingerprinter::compute(std::string_view text) const {"
-        },
-        {
-          "file": "src\\toolbox\\content_fingerprinter.cpp",
-          "line": 49,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_latency_metric",
-          "description": "No latency measurement for operation",
-          "context": "ContentFingerprint ContentFingerprinter::compute("
-        },
-        {
-          "file": "src\\toolbox\\content_fingerprinter.cpp",
-          "line": 69,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_latency_metric",
-          "description": "No latency measurement for operation",
-          "context": "return ContentFingerprinter{}.compute(text);"
         }
       ],
       "src\\toolbox\\text_quality_scorer.cpp": [
         {
+          "file": "src\\toolbox\\text_quality_scorer.cpp",
+          "line": 8,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "* Status: Production Ready",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\toolbox\\text_quality_scorer.cpp",
-          "line_number": 26,
+          "line_number": 37,
           "line_content": "while (iss >> word) {",
           "context": [
             "    std::size_t total_len = 0;",
@@ -2909,7 +2639,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\text_quality_scorer.cpp",
-          "line_number": 50,
+          "line_number": 61,
           "var_name": "all_ws",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2918,7 +2648,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\text_quality_scorer.cpp",
-          "line_number": 59,
+          "line_number": 70,
           "var_name": "all_ws",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2927,7 +2657,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\text_quality_scorer.cpp",
-          "line_number": 86,
+          "line_number": 97,
           "var_name": "repetition_ratio",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2936,7 +2666,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\text_quality_scorer.cpp",
-          "line_number": 45,
+          "line_number": 56,
           "class_name": "Unknown",
           "function_name": "score",
           "issue": "Virtual function called in constructor",
@@ -2946,7 +2676,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\text_quality_scorer.cpp",
-          "line_number": 71,
+          "line_number": 82,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -2954,7 +2684,7 @@
         },
         {
           "file": "src\\toolbox\\text_quality_scorer.cpp",
-          "line": 59,
+          "line": 70,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -2962,12 +2692,377 @@
           "context": "if (c != ' ' && c != '\\t' && c != '\\n' && c != '\\r') {"
         }
       ],
+      "src\\toolbox\\toolbox_composite.cpp": [
+        {
+          "file": "src\\toolbox\\toolbox_composite.cpp",
+          "line": 8,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "* Status: Production Ready",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_composite.cpp",
+          "line": 75,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_composite.cpp",
+          "line": 91,
+          "type": "uncaught_exception",
+          "severity": "HIGH",
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 52,
+          "var_name": "toolbox",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 55,
+          "var_name": "toolbox",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 24,
+          "class_name": "Unknown",
+          "function_name": "ToolboxComposite",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 27,
+          "class_name": "Unknown",
+          "function_name": "ToolboxComposite",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 28,
+          "class_name": "Unknown",
+          "function_name": "ToolboxComposite",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 33,
+          "class_name": "Unknown",
+          "function_name": "ToolboxComposite",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 46,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 58,
+          "class_name": "Unknown",
+          "function_name": "resolve",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 62,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 70,
+          "class_name": "Unknown",
+          "function_name": "fallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 75,
+          "class_name": "Unknown",
+          "function_name": "addRoute",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 78,
+          "class_name": "Unknown",
+          "function_name": "addRoute",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 82,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 85,
+          "class_name": "Unknown",
+          "function_name": "invalid_argument",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 89,
+          "class_name": "Unknown",
+          "function_name": "setFallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 91,
+          "class_name": "Unknown",
+          "function_name": "setFallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 94,
+          "class_name": "Unknown",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        }
+      ],
+      "src\\toolbox\\toolbox_registry.cpp": [
+        {
+          "file": "src\\toolbox\\toolbox_registry.cpp",
+          "line": 8,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "* Status: Production Ready",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 35,
+          "class_name": "Unknown",
+          "function_name": "initialize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 37,
+          "class_name": "Unknown",
+          "function_name": "initialize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 41,
+          "class_name": "Unknown",
+          "function_name": "initialize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 44,
+          "class_name": "Unknown",
+          "function_name": "initialize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 47,
+          "class_name": "Unknown",
+          "function_name": "invalid_argument",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 49,
+          "class_name": "Unknown",
+          "function_name": "lk",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 54,
+          "class_name": "Unknown",
+          "function_name": "instance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 59,
+          "class_name": "Unknown",
+          "function_name": "initialize",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 69,
+          "class_name": "Unknown",
+          "function_name": "reset",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 73,
+          "class_name": "Unknown",
+          "function_name": "initializeToolbox",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 81,
+          "class_name": "Unknown",
+          "function_name": "globalToolbox",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 89,
+          "class_name": "Unknown",
+          "function_name": "instance",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_registry.cpp",
+          "line_number": 93,
+          "class_name": "Unknown",
+          "function_name": "extractEntitySet",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_registry.cpp",
+          "line": 49,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
+          "context": "\"call ToolboxRegistry::initialize() at server startup\");"
+        },
+        {
+          "file": "src\\toolbox\\toolbox_registry.cpp",
+          "line": 56,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "return g_instance != nullptr;"
+        }
+      ],
       "src\\toolbox\\toolbox_streaming.cpp": [
+        {
+          "file": "src\\toolbox\\toolbox_streaming.cpp",
+          "line": 8,
+          "type": "no_health_check",
+          "severity": "MEDIUM",
+          "snippet": "* Status: Production Ready",
+          "description": "Status field defined but no initialization or health check",
+          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+        },
         {
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_streaming.cpp",
-          "line_number": 18,
+          "line_number": 29,
           "var_name": "chunk_texts",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2976,41 +3071,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\toolbox\\toolbox_streaming.cpp",
-          "line_number": 46,
+          "line_number": 57,
           "class_name": "Unknown",
           "function_name": "extractEntitiesStream",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        }
-      ],
-      "src\\toolbox\\text_normalizer.cpp": [
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\text_normalizer.cpp",
-          "line_number": 11,
-          "class_name": "Unknown",
-          "function_name": "normalize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\text_normalizer.cpp",
-          "line_number": 12,
-          "class_name": "Unknown",
-          "function_name": "normalize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\text_normalizer.cpp",
-          "line_number": 20,
-          "class_name": "Unknown",
-          "function_name": "normalize",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         }

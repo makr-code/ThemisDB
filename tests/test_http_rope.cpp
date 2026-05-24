@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_http_rope.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:54:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     427                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_http_rope.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include <gtest/gtest.h>
@@ -364,6 +353,20 @@ TEST_F(HttpRopeApiTest, GetRoPEStats) {
         {"num_rotation_pairs", 384}
     };
     httpPost("/api/v1/vector-index/test_rope/rope/config", config_request);
+
+    // Add one rotated entity to produce runtime stats.
+    std::vector<float> embedding(768, 0.1f);
+    json add_request = {
+        {"entity", {
+            {"id", "stats_doc"},
+            {"embedding", embedding}
+        }},
+        {"vector_field", "embedding"},
+        {"position", 7}
+    };
+    auto add_response = httpPost("/api/v1/vector-index/test_rope/rope/add", add_request);
+    ASSERT_TRUE(add_response.contains("status"));
+    EXPECT_EQ(add_response["status"], "success");
 
     auto response = httpGet("/api/v1/vector-index/test_rope/rope/stats");
     

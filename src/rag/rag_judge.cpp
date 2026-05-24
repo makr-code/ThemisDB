@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rag_judge.cpp                                      ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1319                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rag_judge.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1506
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=462 | delta=459 | status=divergent
+ * External Severity (v3): C=77, H=305, M=80
+ * PR: #1272 Implement post-generation quality control with LLM-as-Judge, G-Eval... (2026-03-11T17:46:10Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -686,10 +677,31 @@ double RAGJudge::evaluateRelevance(const EvaluationInput& input) {
         input.query
     );
     
-    THEMIS_DEBUG("Relevance: score={:.2f}, similarity={:.2f}", 
-                 result.relevance_score, result.question_similarity_score);
-    
-    return result.relevance_score;
+    double adjusted_relevance = result.relevance_score;
+
+    // Wave A3 integration: if per-document bias metadata exists, reduce relevance
+    // slightly for strongly biased contexts to discourage ethically risky retrieval.
+    double summed_bias = 0.0;
+    size_t biased_docs = 0;
+    for (const auto& doc : input.documents) {
+        if (doc.bias_score.has_value()) {
+            summed_bias += std::clamp(doc.bias_score->overall_score, 0.0, 1.0);
+            ++biased_docs;
+        }
+    }
+    if (biased_docs > 0) {
+        const double avg_bias = summed_bias / static_cast<double>(biased_docs);
+        const double max_penalty = 0.30;  // keep relevance dominant; fairness is a soft adjustment
+        const double penalty = std::min(max_penalty, avg_bias * max_penalty);
+        adjusted_relevance = std::max(0.0, result.relevance_score * (1.0 - penalty));
+        THEMIS_DEBUG("Relevance fairness adjustment: base={:.3f}, avg_bias={:.3f}, penalty={:.3f}, adjusted={:.3f}",
+                     result.relevance_score, avg_bias, penalty, adjusted_relevance);
+    }
+
+    THEMIS_DEBUG("Relevance: score={:.2f}, similarity={:.2f}",
+                 adjusted_relevance, result.question_similarity_score);
+
+    return adjusted_relevance;
 }
 
 double RAGJudge::evaluateCompleteness(const EvaluationInput& input) {
@@ -1516,4 +1528,3 @@ double calculateCalibrationError(
 } // namespace metrics
 
 } // namespace themis::rag::judge
-

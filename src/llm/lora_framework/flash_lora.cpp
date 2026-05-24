@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            flash_lora.cpp                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:34                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     527                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: flash_lora.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 512
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=215 | delta=212 | status=divergent
+ * External Severity (v3): C=48, H=166, M=1
+ * PR: #608 Implement FlashAttention-style memory-efficient LoRA computation (2026-03-11T18:12:44Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/flash_lora.h"
@@ -135,7 +122,6 @@ GPUTensor FlashLoRA::forward(
     }
     
     // Get LoRA dimensions
-    size_t rank = B.shape()[0];
     size_t out_dim = A.shape()[0];
     
     // Create output tensor
@@ -401,7 +387,7 @@ bool FlashLoRA::is_available(const Device& device) {
     if (device.type == DeviceType::CUDA) {
         // Check CUDA compute capability
         int device_id = device.index;
-        cudaDeviceProp prop;
+        cudaDeviceProp prop{};
         cudaError_t err = cudaGetDeviceProperties(&prop, device_id);
         
         if (err != cudaSuccess) {
@@ -443,8 +429,13 @@ FlashLoRA::Config FlashLoRA::get_recommended_config(
 #ifdef THEMIS_ENABLE_CUDA
     if (device.type == DeviceType::CUDA) {
         int device_id = device.index;
-        cudaDeviceProp prop;
-        cudaGetDeviceProperties(&prop, device_id);
+        cudaDeviceProp prop{};
+        cudaError_t prop_err = cudaGetDeviceProperties(&prop, device_id);
+        if (prop_err != cudaSuccess) {
+            spdlog::warn("FlashLoRA: cudaGetDeviceProperties failed for device {}: {}",
+                         device_id, cudaGetErrorString(prop_err));
+            // Fall through with zeroed prop; auto_tune_for_device will use safe defaults
+        }
         
         // Auto-tune based on device name
         config.auto_tune_for_device(std::string(prop.name));
@@ -499,7 +490,6 @@ void FlashLoRA::validate_shapes(
     size_t in_dim = input_shape.back();
     size_t rank_B = B_shape[0];
     size_t in_dim_B = B_shape[1];
-    size_t out_dim_A = A_shape[0];
     size_t rank_A = A_shape[1];
     
     if (in_dim != in_dim_B) {

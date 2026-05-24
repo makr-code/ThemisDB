@@ -1,34 +1,44 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
+// THEMIS_GAP_STATS: gaps=0 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            secure_transport_client.cpp                        ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:56                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     226                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • afc6b2738b  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: secure_transport_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 228
+ * Open Issues: TODOs=2, Stubs=3, Gaps=8, Unimpl=1, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=8 | external_v3=42 | delta=34 | status=divergent
+ * External Severity (v3): C=0, H=37, M=5
+ * PR: #1134 Implement cross-shard LoRA transfer via shared WAL transport stack (2026-03-11T17:51:20Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/secure_transport_client.h"
 #include "utils/cursor.h"
+#include "utils/lz4_codec.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <chrono>
 #include <algorithm>
 
 namespace themis::sharding {
+
+// ============================================================================
+// LZ4 bridges (stub #295)
+// ============================================================================
+
+void SecureTransportClient::setLz4CompressFn(Lz4CompressFn fn) {
+    lz4CompressFn_ = std::move(fn);
+}
+
+void SecureTransportClient::clearLz4CompressFn() {
+    lz4CompressFn_ = nullptr;
+}
+
+void SecureTransportClient::setLz4DecompressFn(Lz4DecompressFn fn) {
+    lz4DecompressFn_ = std::move(fn);
+}
+
+void SecureTransportClient::clearLz4DecompressFn() {
+    lz4DecompressFn_ = nullptr;
+}
 
 SecureTransportClient::SecureTransportClient(const Config& config)
     : config_(config) {
@@ -59,7 +69,9 @@ std::shared_ptr<MTLSClient> SecureTransportClient::getMTLSClient() const {
     return mtls_client_;
 }
 
-bool SecureTransportClient::compressData(const std::string& data, std::string& compressed) {
+bool SecureTransportClient::compressData(const std::string& data,
+                                         std::string& compressed,
+                                         std::string* compression_codec) {
     if (config_.compression == Config::CompressionType::None) {
         return false;
     }
@@ -74,6 +86,9 @@ bool SecureTransportClient::compressData(const std::string& data, std::string& c
             auto compressed_bytes = utils::zstd_compress(data, config_.compression_level);
             if (!compressed_bytes.empty() && compressed_bytes.size() < data.size()) {
                 compressed = std::string(compressed_bytes.begin(), compressed_bytes.end());
+                if (compression_codec != nullptr) {
+                    *compression_codec = "zstd";
+                }
                 spdlog::debug("SecureTransportClient: Compressed {} -> {} bytes (ratio: {:.2f}x)",
                              data.size(), compressed.size(),
                              static_cast<double>(data.size()) / compressed.size());
@@ -136,7 +151,7 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         
         // Try compression
         std::string compressed_data;
-        if (compressData(payload.data, compressed_data)) {
+        if (compressData(payload.data, compressed_data, &compression_codec)) {
             transfer_data = compressed_data;
             compressed = true;
             compression_codec = (config_.compression == Config::CompressionType::LZ4) ? "lz4" : "zstd";

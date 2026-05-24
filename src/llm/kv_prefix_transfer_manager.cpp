@@ -1,3 +1,14 @@
+/*
+ * ThemisDB | File: kv_prefix_transfer_manager.cpp | Version: 0.0.1 | Last Modified: 2026-05-07 18:01:10
+ * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 129
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=23 | delta=20 | status=divergent
+ * External Severity (v3): C=0, H=22, M=1
+ * PR: #4726 LLM+RAID: wire domain-aware INFER routing, async batch fan-out, and... (2026-04-19T16:02:57Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // Copyright 2026 ThemisDB — Licensed under MIT License
 
 /**

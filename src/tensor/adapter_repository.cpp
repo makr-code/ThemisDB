@@ -1,15 +1,12 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=2 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/adapter_repository.cpp                      ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 3 (Q2 2027)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adapter_repository.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 397
+ * Open Issues: TODOs=1, Stubs=13, Gaps=19, Unimpl=0, Mock=1, Sim=4, Debt=0
+ * Gap Correlation: internal=19 | external_v3=84 | delta=65 | status=divergent
+ * External Severity (v3): C=13, H=63, M=8
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

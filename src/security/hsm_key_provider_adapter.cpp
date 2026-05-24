@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=0 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            hsm_key_provider_adapter.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:42                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     490                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hsm_key_provider_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 594
+ * Open Issues: TODOs=1, Stubs=22, Gaps=26, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=26 | external_v3=194 | delta=168 | status=divergent
+ * External Severity (v3): C=24, H=154, M=16
+ * PR: #2564 feat(security): HSM direct PKCS#11 DEK wrap/unwrap integration (2026-03-12T05:51:37Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "security/hsm_key_provider_adapter.h"

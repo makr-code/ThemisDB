@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=3 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            active_vram_allocator.cpp                          ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:49:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     830                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: active_vram_allocator.cpp | Version: 0.0.13 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 872
+ * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=5 | external_v3=218 | delta=213 | status=divergent
+ * External Severity (v3): C=17, H=192, M=9
+ * PR: #3802 [LLM] AdaptiveVRAMAllocator GPU allocation + 3 bug fixes in GPUMemo... (2026-03-12T07:59:16Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -88,9 +75,12 @@ size_t alignUp(size_t n, size_t alignment) {
  * @param gpu_available   True when a real CUDA device is in use.
  */
 void copyMemory(void* dst, const void* src, size_t bytes,
-                bool device_to_host, bool gpu_available)
+                [[maybe_unused]] bool device_to_host,
+                [[maybe_unused]] bool gpu_available)
 {
-    if (bytes == 0 || !dst || !src) return;
+    if (bytes == 0 || dst == nullptr || src == nullptr) {
+        return;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available) {

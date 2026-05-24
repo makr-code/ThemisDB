@@ -1,3 +1,11 @@
+/*
+ * ThemisDB | File: test_ai_plugin_generator.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /**
  * @file test_ai_plugin_generator.cpp
  * @brief Minimum coverage tests for AIPluginGenerator (UNUSED_FUNCTIONS_REPORT KEEP).
@@ -8,8 +16,7 @@
  *   APG-03  validatePrompt with a valid description returns success.
  *   APG-04  validatePrompt with oversized description (>8192 chars) returns error.
  *   APG-05  generatePlugin propagates validatePrompt errors (empty description).
- *   APG-06  generatePlugin with a valid prompt returns a structured error
- *           (Phase-1: LLM endpoint not yet wired).
+ *   APG-06  generatePlugin with a valid prompt returns generated plugin payload.
  */
 
 #include <gtest/gtest.h>
@@ -23,6 +30,28 @@ namespace {
 AIPluginGenerator makeGenerator() {
     AIPluginGenerator::Config cfg;
     cfg.llm_endpoint = "http://test.invalid:18080";  // unreachable, clearly-named test fixture
+    cfg.endpoint_invoker = [](const std::string& endpoint, const nlohmann::json& request) -> Result<nlohmann::json> {
+        if (endpoint.empty() || !request.contains("description")) {
+            return tl::unexpected(Error(
+                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "Invalid test request"));
+        }
+        return nlohmann::json{
+            {"plugin", {
+                {"name", "generated_test_plugin"},
+                {"version", "1.0.0"},
+                {"description", request.value("description", std::string{})},
+                {"type", static_cast<int>(themis::plugins::PluginType::BLOB_STORAGE)},
+                {"header_code", "#pragma once\nclass GeneratedPlugin {};"},
+                {"implementation_code", "void generated_plugin_entry() {}"},
+                {"test_code", "TEST(GeneratedPlugin, Smoke) { SUCCEED(); }"},
+                {"cmake_code", "add_library(generated_plugin SHARED generated_plugin.cpp)"},
+                {"build_dependencies", nlohmann::json::array({"fmt"})},
+                {"passed_security_checks", true},
+                {"security_report", "ok"}
+            }}
+        };
+    };
     return AIPluginGenerator(cfg);
 }
 
@@ -88,8 +117,8 @@ TEST(AIPluginGeneratorTest, APG05_GeneratePluginPropagatesValidationError) {
     EXPECT_FALSE(result.has_value()) << "generatePlugin must propagate validation errors";
 }
 
-// APG-06: generatePlugin with valid prompt returns Phase-1 "not wired" error.
-TEST(AIPluginGeneratorTest, APG06_GeneratePluginReturnsPhase1Error) {
+// APG-06: generatePlugin with valid prompt returns generated plugin payload.
+TEST(AIPluginGeneratorTest, APG06_GeneratePluginReturnsGeneratedPlugin) {
     auto gen = makeGenerator();
     auto result = gen.generatePlugin(validPrompt());
     // Unreachable endpoint without a test callback should fail with a structured error.

@@ -261,7 +261,7 @@ int FlashAttentionCUDA::getComputeCapability() {
         return 0;
     }
     
-    cudaDeviceProp prop;
+    cudaDeviceProp prop{};
     err = cudaGetDeviceProperties(&prop, device);
     if (err != cudaSuccess) {
         return 0;

@@ -14,6 +14,7 @@
 #include <mutex>
 #include <stdexcept>
 #include <string>
+#include <array>
 
 namespace themis {
 namespace plugins {
@@ -96,6 +97,10 @@ AIPluginGenerator::AIPluginGenerator(const Config& config)
 {}
 
 AIPluginGenerator::~AIPluginGenerator() = default;
+
+void AIPluginGenerator::setLlmHttpPostFn(LlmHttpPostFn fn) {
+    llm_http_post_fn_ = std::move(fn);
+}
 
 Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& prompt)
 {

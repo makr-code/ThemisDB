@@ -1,157 +1,131 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            discourse_engine.cpp                               ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:48:50                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     229                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 87778519a4  2026-04-12  feat(ethics_ai): remove stubs — computed scoring, YAML fi... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: discourse_engine.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=42, M=31, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "discourse_engine.h"
-#include "ethics_evaluator.h"
-#include <sstream>
-#include <random>
+
 #include <iomanip>
+#include <random>
+#include <sstream>
+
+#include "ethics_evaluator.h"
 
 namespace themis {
 namespace plugins {
 namespace ethics {
 
-EthicalDiscourseEngine::EthicalDiscourseEngine(
-    std::shared_ptr<PhilosophyLoader> philosophy_loader,
-    std::shared_ptr<ArgumentStore> store,
-    std::shared_ptr<RAGContextEngine> rag_engine)
-    : philosophy_loader_(philosophy_loader)
-    , store_(store)
-    , rag_engine_(rag_engine) {
-}
+EthicalDiscourseEngine::EthicalDiscourseEngine(std::shared_ptr<PhilosophyLoader> philosophy_loader,
+                                               std::shared_ptr<ArgumentStore> store,
+                                               std::shared_ptr<RAGContextEngine> rag_engine)
+    : philosophy_loader_(philosophy_loader), store_(store), rag_engine_(rag_engine) {}
 
-std::variant<DebateInitialization, Status> EthicalDiscourseEngine::initializeDebate(
-    const std::string& dilemma_description,
-    const std::vector<std::string>& philosophy_schools,
-    const std::string& category) {
-    
+std::variant<DebateInitialization, Status>
+EthicalDiscourseEngine::initializeDebate(const std::string &dilemma_description,
+                                         const std::vector<std::string> &philosophy_schools,
+                                         const std::string &category) {
     // Validate philosophy schools
-    for (const auto& school : philosophy_schools) {
+    for (const auto &school : philosophy_schools) {
         if (!philosophy_loader_->hasProfile(school)) {
             return Status::Error("Philosophy profile not found: " + school);
         }
     }
-    
+
     // Generate debate ID
     std::stringstream ss;
-    auto now = std::chrono::system_clock::now();
+    auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     ss << "debate_" << time_t;
-    
+
     DebateInitialization debate;
-    debate.debate_id = ss.str();
+    debate.debate_id           = ss.str();
     debate.dilemma_description = dilemma_description;
-    debate.philosophy_schools = philosophy_schools;
-    debate.category = category;
-    debate.created_at = now;
+    debate.philosophy_schools  = philosophy_schools;
+    debate.category            = category;
+    debate.created_at          = now;
 
     // Register the debate so continueDebate() can find it later.
     {
         std::lock_guard<std::mutex> lock(debates_mutex_);
         active_debates_[debate.debate_id] = debate;
     }
-    
+
     return debate;
 }
 
-std::variant<EthicalDecision, Status> EthicalDiscourseEngine::makeDecision(
-    const std::string& dilemma_description,
-    const std::vector<std::string>& philosophy_schools,
-    const std::string& category,
-    bool use_rag) {
-    
+std::variant<EthicalDecision, Status>
+EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
+                                     const std::vector<std::string> &philosophy_schools, const std::string &category,
+                                     bool use_rag) {
     // Validate inputs
     if (philosophy_schools.empty()) {
         return Status::Error("At least one philosophy school required");
     }
-    
+
     // Get RAG context if requested
     RAGContext rag_context;
     if (use_rag) {
-        auto rag_result = rag_engine_->buildContext(
-            dilemma_description, 
-            philosophy_schools, 
-            category
-        );
-        if (auto* context = std::get_if<RAGContext>(&rag_result)) {
+        auto rag_result = rag_engine_->buildContext(dilemma_description, philosophy_schools, category);
+        if (auto *context = std::get_if<RAGContext>(&rag_result)) {
             rag_context = *context;
         }
     }
-    
+
     // Generate arguments from each philosophy
     std::vector<EthicalArgument> arguments;
-    for (const auto& school : philosophy_schools) {
+    for (const auto &school : philosophy_schools) {
         auto profile_result = philosophy_loader_->getProfile(school);
-        if (auto* profile = std::get_if<PhilosophyProfile>(&profile_result)) {
+        if (auto *profile = std::get_if<PhilosophyProfile>(&profile_result)) {
             // Generate pro argument
             auto arg = generateArgument(*profile, dilemma_description, ArgumentType::PRO);
             store_->storeArgument(arg, true);
             arguments.push_back(arg);
         }
     }
-    
+
     // Synthesize decision
     std::string primary_philosophy = philosophy_schools[0];
-    std::string decision_text = synthesizeDecision(arguments, primary_philosophy);
-    
+    std::string decision_text      = synthesizeDecision(arguments, primary_philosophy);
+
     // Create decision object
     std::stringstream ss;
-    auto now = std::chrono::system_clock::now();
+    auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     ss << "decision_" << time_t;
-    
+
     EthicalDecision decision;
-    decision.decision_id = ss.str();
-    decision.dilemma_id = ""; // Would be set if part of a debate
-    decision.decision_text = decision_text;
-    decision.primary_philosophy = primary_philosophy;
+    decision.decision_id             = ss.str();
+    decision.dilemma_id              = ""; // Would be set if part of a debate
+    decision.decision_text           = decision_text;
+    decision.primary_philosophy      = primary_philosophy;
     decision.supporting_philosophies = philosophy_schools;
-    decision.confidence = EthicsEvaluator::computeConfidence(arguments);
-    decision.consensus_level = EthicsEvaluator::computeConsensus(arguments);
-    decision.created_at = now;
-    
+    decision.confidence              = EthicsEvaluator::computeConfidence(arguments);
+    decision.consensus_level         = EthicsEvaluator::computeConsensus(arguments);
+    decision.created_at              = now;
+
     // Store decision
     store_->storeDecision(decision);
-    
+
     return decision;
 }
 
-EthicalArgument EthicalDiscourseEngine::generateArgument(
-    const PhilosophyProfile& profile,
-    const std::string& dilemma,
-    ArgumentType type) {
-    
+EthicalArgument EthicalDiscourseEngine::generateArgument(const PhilosophyProfile &profile, const std::string &dilemma,
+                                                         ArgumentType type) {
     // Generate argument ID
     std::stringstream ss;
-    auto now = std::chrono::system_clock::now();
+    auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     std::random_device rd;
     ss << "arg_" << time_t << "_" << (rd() % 1000);
-    
+
     EthicalArgument argument;
-    argument.id = ss.str();
+    argument.id                = ss.str();
     argument.philosophy_school = profile.school_id;
-    argument.argument_type = type;
-    argument.created_at = now;
+    argument.argument_type     = type;
+    argument.created_at        = now;
 
     // Derive strength from the richness of the profile: more theses → stronger argument.
     // Heuristic: 0 theses → WEAK (no principled basis); 1-2 → MODERATE (minimal support);
@@ -167,20 +141,20 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(
     } else {
         argument.strength = ArgumentStrength::DECISIVE;
     }
-    
+
     // Build content from all available profile data.
     std::stringstream content;
     content << "From the perspective of " << profile.name << ":\n";
 
     // Incorporate all main theses.
-    for (const auto& thesis : profile.main_theses) {
+    for (const auto &thesis : profile.main_theses) {
         content << "  • " << thesis << "\n";
     }
 
     // Incorporate secondary theses if present.
     if (!profile.secondary_theses.empty()) {
         content << "Supporting principles:\n";
-        for (const auto& thesis : profile.secondary_theses) {
+        for (const auto &thesis : profile.secondary_theses) {
             content << "  – " << thesis << "\n";
         }
     }
@@ -200,20 +174,18 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(
         content << "This framework raises concerns: the principles cited above "
                    "indicate caution or constraint is warranted.";
     }
-    
-    argument.content = content.str();
+
+    argument.content         = content.str();
     argument.principle_basis = profile.main_theses;
-    
+
     return argument;
 }
 
-std::string EthicalDiscourseEngine::synthesizeDecision(
-    const std::vector<EthicalArgument>& arguments,
-    const std::string& primary_philosophy) {
-    
+std::string EthicalDiscourseEngine::synthesizeDecision(const std::vector<EthicalArgument> &arguments,
+                                                       const std::string &primary_philosophy) {
     std::stringstream ss;
     ss << "After considering perspectives from ";
-    
+
     for (size_t i = 0; i < arguments.size(); ++i) {
         if (i > 0 && i == arguments.size() - 1) {
             ss << " and ";
@@ -222,10 +194,10 @@ std::string EthicalDiscourseEngine::synthesizeDecision(
         }
         ss << arguments[i].philosophy_school;
     }
-    
-    ss << ", the primary recommendation based on " << primary_philosophy 
+
+    ss << ", the primary recommendation based on " << primary_philosophy
        << " is to proceed with careful consideration of all ethical dimensions.";
-    
+
     return ss.str();
 }
 
@@ -233,10 +205,8 @@ std::string EthicalDiscourseEngine::synthesizeDecision(
 // v0.2.0 — Multi-Round Debates
 // ============================================================================
 
-std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(
-    const std::string& debate_id,
-    int round_number)
-{
+std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(const std::string &debate_id,
+                                                                         int round_number) {
     // Cap rounds at 3 to bound computation cost.
     const int capped_round = (round_number > 3) ? 3 : (round_number < 1 ? 1 : round_number);
 
@@ -261,24 +231,30 @@ std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(
         std::lock_guard<std::mutex> lock(debates_mutex_);
         auto it = debate_arguments_.find(debate_id);
         if (it != debate_arguments_.end()) {
-            for (const auto& arg : it->second)
+            for (const auto &arg : it->second) {
                 prev_arg_ids.push_back(arg.id);
+            }
         }
     }
 
     DebateRound round;
-    round.debate_id   = debate_id;
+    round.debate_id    = debate_id;
     round.round_number = capped_round;
 
-    for (const auto& school : init.philosophy_schools) {
+    for (const auto &school : init.philosophy_schools) {
         auto profile_result = philosophy_loader_->getProfile(school);
-        if (!std::holds_alternative<PhilosophyProfile>(profile_result)) continue;
-        const auto& profile = std::get<PhilosophyProfile>(profile_result);
+        if (!std::holds_alternative<PhilosophyProfile>(profile_result)) {
+            continue;
+        }
+        const auto &profile = std::get<PhilosophyProfile>(profile_result);
 
         // Round 1 → PRO, Round 2 → CONTRA, Round 3 → SYNTHESIS
         ArgumentType arg_type = ArgumentType::PRO;
-        if (capped_round == 2) arg_type = ArgumentType::REBUTTAL;
-        else if (capped_round == 3) arg_type = ArgumentType::SYNTHESIS;
+        if (capped_round == 2) {
+            arg_type = ArgumentType::REBUTTAL;
+        } else if (capped_round == 3) {
+            arg_type = ArgumentType::SYNTHESIS;
+        }
 
         EthicalArgument arg = generateArgument(profile, init.dilemma_description, arg_type);
         // Link counter-arguments to previous round.
@@ -294,9 +270,10 @@ std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(
     // Accumulate all arguments for next-round context.
     {
         std::lock_guard<std::mutex> lock(debates_mutex_);
-        auto& all = debate_arguments_[debate_id];
-        for (const auto& a : round.arguments)
+        auto &all = debate_arguments_[debate_id];
+        for (const auto &a : round.arguments) {
             all.push_back(a);
+        }
     }
 
     // Persist the round.

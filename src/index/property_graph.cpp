@@ -1,21 +1,9 @@
-// THEMIS_GAP_STATS: gaps=2 unimpl=0 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            property_graph.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1273                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: property_graph.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 85/100
+ * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=248, M=80, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Property Graph Manager Implementation
@@ -85,12 +73,11 @@ PropertyGraphManager::PropertyGraphManager(RocksDBWrapper& db) : db_(db) {}
 // ===== Helper Methods =====
 
 std::vector<std::string> PropertyGraphManager::extractLabels_(const BaseEntity& node) const {
-    std::vector<std::string> labels;
-    
-    // Try to get _labels field as array
-    auto labelsField = node.getField("_labels");
-    if (!labelsField.has_value()) {
-        return labels;  // No labels
+    // Delegate to BaseEntity::getFieldAsStringArray(), which handles both the
+    // current JSON-array serialization and the legacy comma-separated format.
+    auto arr = node.getFieldAsStringArray("_labels");
+    if (!arr.has_value()) {
+        return {};
     }
 
     // `_labels` is persisted as a JSON string-array payload for compatibility
@@ -352,10 +339,10 @@ PropertyGraphManager::Status PropertyGraphManager::removeNodeLabel(std::string_v
     BaseEntity node = BaseEntity::deserialize(std::string(pk), *blob);
     std::vector<std::string> labels = extractLabels_(node);
 
-    // Remove label
-    auto it = std::find(labels.begin(), labels.end(), label);
+    // Update labels
+    const auto it = std::find(labels.begin(), labels.end(), label);
     if (it == labels.end()) {
-        return Status::OK();  // Label doesn't exist (idempotent)
+        return Status::OK();  // Label not present (idempotent)
     }
     labels.erase(it);
 

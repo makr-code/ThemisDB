@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            oidc_provider.h                                    ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:44:21                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     248                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 9410e16988  2026-03-12  feat(auth): implement RFC 8693 token exchange in Federate... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: oidc_provider.h | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=2; TODO=0, Stub=0, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -50,6 +36,7 @@ struct OIDCDiscoveryDocument {
     std::string authorization_endpoint;              ///< Authorization endpoint (code flow)
     std::string device_authorization_endpoint;       ///< Device authorization endpoint (RFC 8628)
     std::string userinfo_endpoint;                   ///< UserInfo endpoint (optional)
+    std::string revocation_endpoint;                 ///< RFC 7009 token revocation endpoint (optional)
     std::vector<std::string> id_token_signing_alg_values_supported; ///< Signing algorithms
     std::vector<std::string> response_types_supported;
     std::vector<std::string> grant_types_supported;

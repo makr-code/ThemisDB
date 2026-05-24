@@ -1,34 +1,17 @@
-// THEMIS_GAP_STATS: gaps=196 unimpl=63 stub=3 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            graphics_backends.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:31                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     4022                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • c1f421bf84  2026-04-13  OpenGL Compute Shader Backend: Complete 5 Remaining Stubs... ║
-    • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: graphics_backends.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟡 RELEASE-CANDIDATE | Score: 77/100 | Lines: 4256
+ * Gap Summary: total=30; TODO=1, Stub=24, Unimpl=0, Mock=1, Sim=3, Debt=1, C=5, H=527, M=178, L=4
+ * PR: #4928 [Docs][acceleration] Aktualize module docs for public API, runtime ... (2026-05-10T18:11:48Z)
+ * Status: Release Candidate
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Public interface
 #include "acceleration/graphics_backends.h"
 #include <stdexcept>
 #include "acceleration/shader_integrity.h"
+#include "utils/geometric_distances.h"
 
 #include <algorithm>
 #include <chrono>
@@ -36,9 +19,11 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <mutex>
+#include <queue>
 #include <string>
 #include <utility>
 #include <vector>

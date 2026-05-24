@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themis_help_lora.h                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     247                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themis_help_lora.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -27,6 +16,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -73,9 +63,20 @@ public:
      * @brief Configuration for ThemisHelpLoRA
      */
     struct Config {
+        using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
+
         std::string adapter_id = "themis_help_lora";
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
+        /**
+         * @brief Optional GGUF path resolver for @ref base_model_id.
+         *
+         * When set, this callback is queried first for both lazy inference-time
+         * model loading and training-service base-model initialization.
+         * Return an empty string to fall back to the default local path
+         * `models/<base_model_id>.gguf`.
+         */
+        ModelPathProviderFn model_path_provider;
         
         // Remote model loading (Ollama support)
         bool enable_remote_loading = false;
@@ -83,16 +84,16 @@ public:
         std::string ollama_model_name = "llama2:7b";
         std::string model_config_yaml = "config/llm_remote_models.yaml";
         bool auto_download_model = true;
-        
+
         // Dependencies (to be injected)
         rocksdb::TransactionDB* db = nullptr;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
-        
+
         // Training settings
         lora::LoRAHyperparameters hyperparameters;
         int feedback_batch_size = 100;  // Train after N feedback items
         std::chrono::hours training_interval{24}; // Or train daily
-        
+
         // Quality settings
         float min_accuracy_threshold = 0.80f;
         bool enable_ab_testing = true;

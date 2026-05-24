@@ -1,35 +1,22 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            parallel_traversal.cpp                             ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 18:49:02                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     396                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: parallel_traversal.cpp | Version: 0.0.18
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=52, M=55, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Parallel multi-source BFS/DFS implementation for ThemisDB graph module.
 
 #include "graph/parallel_traversal.h"
+
 #include <algorithm>
 #include <chrono>
 #include <future>
 #include <queue>
 #include <thread>
 #include <unordered_set>
+
 #include "utils/error_registry.h"
 
 namespace themis {
@@ -39,23 +26,18 @@ namespace graph {
 // Constructor
 // ---------------------------------------------------------------------------
 
-ParallelTraversal::ParallelTraversal(GraphIndexManager& graph_manager)
-    : graph_manager_(graph_manager) {}
+ParallelTraversal::ParallelTraversal(GraphIndexManager &graph_manager) : graph_manager_(graph_manager) {}
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-size_t ParallelTraversal::effectiveThreadCount(
-    const Config& config, size_t num_sources) {
-
-    size_t requested = (config.num_threads > 0)
-        ? static_cast<size_t>(config.num_threads)
-        : []() -> size_t {
-              const size_t hw = std::thread::hardware_concurrency();
-              const size_t base = (hw > 0) ? hw : 4u;
-              return std::max<size_t>(2u, std::min<size_t>(base, 16u));
-          }();
+size_t ParallelTraversal::effectiveThreadCount(const Config &config, size_t num_sources) {
+    size_t requested = (config.num_threads > 0) ? static_cast<size_t>(config.num_threads) : []() -> size_t {
+        const size_t hw   = std::thread::hardware_concurrency();
+        const size_t base = (hw > 0) ? hw : 4u;
+        return std::max<size_t>(2u, std::min<size_t>(base, 16u));
+    }();
 
     // Never spawn more threads than there are sources.
     return std::min(requested, num_sources);
@@ -65,19 +47,20 @@ size_t ParallelTraversal::effectiveThreadCount(
 // Single-source BFS (runs inside an async task)
 // ---------------------------------------------------------------------------
 
-ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(
-    const std::string& source,
-    const Config& config) {
-
+ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const std::string &source,
+                                                                         const Config &config) {
     SourceTraversalResult result;
     result.source = source;
 
     auto start_time = std::chrono::steady_clock::now();
 
     auto timedOut = [&]() -> bool {
-        if (config.timeout_ms == 0) return false;
-        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - start_time).count();
+        if (config.timeout_ms == 0) {
+            return false;
+        }
+        auto elapsed
+            = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time)
+                  .count();
         return elapsed > static_cast<decltype(elapsed)>(config.timeout_ms);
     };
 
@@ -87,33 +70,35 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(
     visited.insert(source);
     current_frontier.push_back(source);
 
-    const auto& forbidden = config.forbidden_vertices;
+    const auto &forbidden = config.forbidden_vertices;
 
     for (int depth = 0; depth <= config.max_depth; ++depth) {
-        if (current_frontier.empty()) break;
+        if (current_frontier.empty()) {
+            break;
+        }
 
         if (timedOut()) {
             result.timed_out = true;
             break;
         }
 
-        for (const auto& node : current_frontier) {
+        for (const auto &node : current_frontier) {
             result.visited.push_back(node);
             ++result.nodes_explored;
 
-            if (config.max_results > 0 &&
-                result.visited.size() >= config.max_results) {
+            if (config.max_results > 0 && result.visited.size() >= config.max_results) {
                 return result;
             }
         }
 
-        if (depth == config.max_depth) break;
+        if (depth == config.max_depth) {
+            break;
+        }
 
         std::vector<std::string> next_frontier;
 
-        const bool use_fan_out_parallel =
-            config.fan_out_threshold > 0 &&
-            current_frontier.size() >= static_cast<size_t>(config.fan_out_threshold);
+        const bool use_fan_out_parallel
+            = config.fan_out_threshold > 0 && current_frontier.size() >= static_cast<size_t>(config.fan_out_threshold);
 
         if (use_fan_out_parallel) {
             // Parallel fan-out expansion: split the frontier into chunks and
@@ -121,9 +106,8 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(
             // produces a raw list of candidate neighbors; de-duplication against
             // the shared visited set is done serially by the main thread after
             // all tasks complete (no data races).
-            const size_t nthreads = effectiveThreadCount(config, current_frontier.size());
-            const size_t chunk_size =
-                (current_frontier.size() + nthreads - 1) / nthreads;
+            const size_t nthreads   = effectiveThreadCount(config, current_frontier.size());
+            const size_t chunk_size = (current_frontier.size() + nthreads - 1) / nthreads;
 
             struct ChunkResult {
                 std::vector<std::string> candidates;
@@ -134,32 +118,35 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(
 
             for (size_t t = 0; t < nthreads; ++t) {
                 const size_t begin = t * chunk_size;
-                if (begin >= current_frontier.size()) break;
-                const size_t end =
-                    std::min(begin + chunk_size, current_frontier.size());
+                if (begin >= current_frontier.size()) {
+                    break;
+                }
+                const size_t end = std::min(begin + chunk_size, current_frontier.size());
 
-                futures.push_back(std::async(
-                    std::launch::async,
-                    [this, &current_frontier, begin, end]() {
-                        ChunkResult cr;
-                        for (size_t i = begin; i < end; ++i) {
-                            auto [status, neighbors] =
-                                graph_manager_.outNeighbors(current_frontier[i]);
-                            if (!status.ok) continue;
-                            for (const auto& nb : neighbors) {
-                                cr.candidates.push_back(nb);
-                            }
+                futures.push_back(std::async(std::launch::async, [this, &current_frontier, begin, end]() {
+                    ChunkResult cr;
+                    for (size_t i = begin; i < end; ++i) {
+                        auto [status, neighbors] = graph_manager_.outNeighbors(current_frontier[i]);
+                        if (!status.ok) {
+                            continue;
                         }
-                        return cr;
-                    }));
+                        for (const auto &nb : neighbors) {
+                            cr.candidates.push_back(nb);
+                        }
+                    }
+                    return cr;
+                }));
             }
 
-            for (auto& fut : futures) {
+            for (auto &fut : futures) {
                 auto cr = fut.get();
-                for (const auto& nb : cr.candidates) {
-                    if (visited.count(nb)) continue;
-                    if (std::find(forbidden.begin(), forbidden.end(), nb) !=
-                        forbidden.end()) continue;
+                for (const auto &nb : cr.candidates) {
+                    if (visited.count(nb)) {
+                        continue;
+                    }
+                    if (std::find(forbidden.begin(), forbidden.end(), nb) != forbidden.end()) {
+                        continue;
+                    }
                     visited.insert(nb);
                     next_frontier.push_back(nb);
                     ++result.edges_traversed;
@@ -167,13 +154,18 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(
             }
         } else {
             // Sequential frontier expansion (default path for small fan-out).
-            for (const auto& node : current_frontier) {
+            for (const auto &node : current_frontier) {
                 auto [status, neighbors] = graph_manager_.outNeighbors(node);
-                if (!status.ok) continue;
-                for (const auto& nb : neighbors) {
-                    if (visited.count(nb)) continue;
-                    if (std::find(forbidden.begin(), forbidden.end(), nb) !=
-                        forbidden.end()) continue;
+                if (!status.ok) {
+                    continue;
+                }
+                for (const auto &nb : neighbors) {
+                    if (visited.count(nb)) {
+                        continue;
+                    }
+                    if (std::find(forbidden.begin(), forbidden.end(), nb) != forbidden.end()) {
+                        continue;
+                    }
                     visited.insert(nb);
                     next_frontier.push_back(nb);
                     ++result.edges_traversed;
@@ -191,23 +183,24 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(
 // Single-source DFS (runs inside an async task)
 // ---------------------------------------------------------------------------
 
-ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleDFS(
-    const std::string& source,
-    const Config& config) {
-
+ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleDFS(const std::string &source,
+                                                                         const Config &config) {
     SourceTraversalResult result;
     result.source = source;
 
     auto start_time = std::chrono::steady_clock::now();
 
     auto timedOut = [&]() -> bool {
-        if (config.timeout_ms == 0) return false;
-        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - start_time).count();
+        if (config.timeout_ms == 0) {
+            return false;
+        }
+        auto elapsed
+            = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time)
+                  .count();
         return elapsed > static_cast<decltype(elapsed)>(config.timeout_ms);
     };
 
-    const auto& forbidden = config.forbidden_vertices;
+    const auto &forbidden = config.forbidden_vertices;
 
     std::unordered_set<std::string> visited;
     // Stack holds (vertex, depth) pairs for iterative DFS.
@@ -218,7 +211,9 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleDFS(
         auto [current, depth] = stack.back();
         stack.pop_back();
 
-        if (visited.count(current)) continue;
+        if (visited.count(current)) {
+            continue;
+        }
 
         if (timedOut()) {
             result.timed_out = true;
@@ -229,19 +224,25 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleDFS(
         result.visited.push_back(current);
         ++result.nodes_explored;
 
-        if (config.max_results > 0 &&
-            result.visited.size() >= config.max_results) {
+        if (config.max_results > 0 && result.visited.size() >= config.max_results) {
             break;
         }
 
-        if (depth >= config.max_depth) continue;
+        if (depth >= config.max_depth) {
+            continue;
+        }
 
         auto [status, neighbors] = graph_manager_.outNeighbors(current);
-        if (!status.ok) continue;
-        for (const auto& nb : neighbors) {
-            if (visited.count(nb)) continue;
-            if (std::find(forbidden.begin(), forbidden.end(), nb) !=
-                forbidden.end()) continue;
+        if (!status.ok) {
+            continue;
+        }
+        for (const auto &nb : neighbors) {
+            if (visited.count(nb)) {
+                continue;
+            }
+            if (std::find(forbidden.begin(), forbidden.end(), nb) != forbidden.end()) {
+                continue;
+            }
             stack.push_back({nb, depth + 1});
             ++result.edges_traversed;
         }
@@ -254,20 +255,20 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleDFS(
 // Merge per-source results
 // ---------------------------------------------------------------------------
 
-ParallelTraversal::MultiSourceResult ParallelTraversal::mergeResults(
-    std::vector<SourceTraversalResult>&& per_source,
-    double execution_time_ms) {
-
+ParallelTraversal::MultiSourceResult ParallelTraversal::mergeResults(std::vector<SourceTraversalResult> &&per_source,
+                                                                     double execution_time_ms) {
     MultiSourceResult merged;
     merged.execution_time_ms = execution_time_ms;
 
     std::unordered_set<std::string> seen;
-    for (auto& sr : per_source) {
+    for (auto &sr : per_source) {
         merged.total_nodes_explored += sr.nodes_explored;
         merged.total_edges_traversed += sr.edges_traversed;
-        if (sr.timed_out) merged.timed_out = true;
+        if (sr.timed_out) {
+            merged.timed_out = true;
+        }
 
-        for (const auto& v : sr.visited) {
+        for (const auto &v : sr.visited) {
             if (seen.insert(v).second) {
                 merged.visited_vertices.push_back(v);
                 merged.vertex_to_source.emplace(v, sr.source);
@@ -282,21 +283,16 @@ ParallelTraversal::MultiSourceResult ParallelTraversal::mergeResults(
 // Public: multiSourceBFS
 // ---------------------------------------------------------------------------
 
-Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(
-    const std::vector<std::string>& sources) {
-
+Result<ParallelTraversal::MultiSourceResult>
+ParallelTraversal::multiSourceBFS(const std::vector<std::string> &sources) {
     return multiSourceBFS(sources, Config{});
 }
 
-Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(
-    const std::vector<std::string>& sources,
-    const Config& config) {
-
+Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(const std::vector<std::string> &sources,
+                                                                               const Config &config) {
     if (sources.empty()) {
-        return Err<MultiSourceResult>(
-            errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
-            "multiSourceBFS: sources list must not be empty"
-        );
+        return Err<MultiSourceResult>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+                                      "multiSourceBFS: sources list must not be empty");
     }
 
     auto wall_start = std::chrono::steady_clock::now();
@@ -307,31 +303,26 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(
     per_source.reserve(sources.size());
 
     // Process sources in batches of max_concurrent to cap thread count.
-    for (size_t batch_start = 0; batch_start < sources.size(); ) {
-        const size_t batch_end =
-            std::min(batch_start + max_concurrent, sources.size());
+    for (size_t batch_start = 0; batch_start < sources.size();) {
+        const size_t batch_end = std::min(batch_start + max_concurrent, sources.size());
 
         std::vector<std::future<SourceTraversalResult>> futures;
         futures.reserve(batch_end - batch_start);
 
         for (size_t i = batch_start; i < batch_end; ++i) {
             futures.push_back(std::async(
-                std::launch::async,
-                [this, &sources, i, &config]() {
-                    return this->runSingleBFS(sources[i], config);
-                }));
+                std::launch::async, [this, &sources, i, &config]() { return this->runSingleBFS(sources[i], config); }));
         }
 
-        for (auto& fut : futures) {
+        for (auto &fut : futures) {
             per_source.push_back(fut.get());
         }
 
         batch_start = batch_end;
     }
 
-    auto wall_end = std::chrono::steady_clock::now();
-    const double wall_ms =
-        std::chrono::duration<double, std::milli>(wall_end - wall_start).count();
+    auto wall_end        = std::chrono::steady_clock::now();
+    const double wall_ms = std::chrono::duration<double, std::milli>(wall_end - wall_start).count();
 
     return Ok(mergeResults(std::move(per_source), wall_ms));
 }
@@ -340,21 +331,16 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(
 // Public: multiSourceDFS
 // ---------------------------------------------------------------------------
 
-Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(
-    const std::vector<std::string>& sources) {
-
+Result<ParallelTraversal::MultiSourceResult>
+ParallelTraversal::multiSourceDFS(const std::vector<std::string> &sources) {
     return multiSourceDFS(sources, Config{});
 }
 
-Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(
-    const std::vector<std::string>& sources,
-    const Config& config) {
-
+Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(const std::vector<std::string> &sources,
+                                                                               const Config &config) {
     if (sources.empty()) {
-        return Err<MultiSourceResult>(
-            errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
-            "multiSourceDFS: sources list must not be empty"
-        );
+        return Err<MultiSourceResult>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+                                      "multiSourceDFS: sources list must not be empty");
     }
 
     auto wall_start = std::chrono::steady_clock::now();
@@ -364,31 +350,26 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(
     std::vector<SourceTraversalResult> per_source;
     per_source.reserve(sources.size());
 
-    for (size_t batch_start = 0; batch_start < sources.size(); ) {
-        const size_t batch_end =
-            std::min(batch_start + max_concurrent, sources.size());
+    for (size_t batch_start = 0; batch_start < sources.size();) {
+        const size_t batch_end = std::min(batch_start + max_concurrent, sources.size());
 
         std::vector<std::future<SourceTraversalResult>> futures;
         futures.reserve(batch_end - batch_start);
 
         for (size_t i = batch_start; i < batch_end; ++i) {
             futures.push_back(std::async(
-                std::launch::async,
-                [this, &sources, i, &config]() {
-                    return this->runSingleDFS(sources[i], config);
-                }));
+                std::launch::async, [this, &sources, i, &config]() { return this->runSingleDFS(sources[i], config); }));
         }
 
-        for (auto& fut : futures) {
+        for (auto &fut : futures) {
             per_source.push_back(fut.get());
         }
 
         batch_start = batch_end;
     }
 
-    auto wall_end = std::chrono::steady_clock::now();
-    const double wall_ms =
-        std::chrono::duration<double, std::milli>(wall_end - wall_start).count();
+    auto wall_end        = std::chrono::steady_clock::now();
+    const double wall_ms = std::chrono::duration<double, std::milli>(wall_end - wall_start).count();
 
     return Ok(mergeResults(std::move(per_source), wall_ms));
 }

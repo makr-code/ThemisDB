@@ -1,37 +1,23 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            rocksdb_token_blacklist.cpp                        ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:48:41                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     281                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 3a23233d60  2026-03-12  fix(auth): address PR review comments on token blacklist ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: rocksdb_token_blacklist.cpp | Version: 0.0.13
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=55, M=15, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/rocksdb_token_blacklist.h"
-#include "utils/logger.h"
 
+#include <chrono>
+#include <cstring>
 #include <rocksdb/db.h>
+#include <rocksdb/iterator.h>
 #include <rocksdb/options.h>
 #include <rocksdb/slice.h>
 #include <rocksdb/write_batch.h>
-#include <rocksdb/iterator.h>
-
 #include <stdexcept>
-#include <cstring>
-#include <chrono>
+
+#include "utils/logger.h"
 
 namespace themis {
 namespace auth {
@@ -40,11 +26,9 @@ namespace auth {
 // Expiry encoding helpers
 // ============================================================================
 
-std::string RocksDBTokenBlacklist::encodeExpiry(
-        std::chrono::system_clock::time_point tp) {
-    int64_t secs = static_cast<int64_t>(
-        std::chrono::duration_cast<std::chrono::seconds>(
-            tp.time_since_epoch()).count());
+std::string RocksDBTokenBlacklist::encodeExpiry(std::chrono::system_clock::time_point tp) {
+    int64_t secs
+        = static_cast<int64_t>(std::chrono::duration_cast<std::chrono::seconds>(tp.time_since_epoch()).count());
 
     // Store as big-endian 8 bytes so byte-wise ordering matches time ordering
     std::string buf(8, '\0');
@@ -55,8 +39,7 @@ std::string RocksDBTokenBlacklist::encodeExpiry(
     return buf;
 }
 
-std::chrono::system_clock::time_point RocksDBTokenBlacklist::decodeExpiry(
-        const std::string& val) {
+std::chrono::system_clock::time_point RocksDBTokenBlacklist::decodeExpiry(const std::string &val) {
     if (val.size() < 8) {
         return std::chrono::system_clock::time_point{};
     }
@@ -71,9 +54,7 @@ std::chrono::system_clock::time_point RocksDBTokenBlacklist::decodeExpiry(
 // Constructor / Destructor
 // ============================================================================
 
-RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config& config)
-    : config_(config)
-{
+RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(config) {
     if (config_.db_path.empty()) {
         throw std::invalid_argument("RocksDBTokenBlacklist: db_path must not be empty");
     }
@@ -90,8 +71,7 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config& config)
     // or a similar error — we fall back to the "default" CF only.
     std::vector<std::string> existing_cfs;
     {
-        rocksdb::Status ls = rocksdb::DB::ListColumnFamilies(
-            rocksdb::DBOptions{opts}, config_.db_path, &existing_cfs);
+        rocksdb::Status ls = rocksdb::DB::ListColumnFamilies(rocksdb::DBOptions{opts}, config_.db_path, &existing_cfs);
         if (!ls.ok()) {
             existing_cfs = {"default"};
         }
@@ -102,8 +82,11 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config& config)
 
     // Ensure our blacklist CF is in the open request so it gets created if absent.
     bool has_blacklist_cf = false;
-    for (const auto& cf : existing_cfs) {
-        if (cf == config_.column_family) { has_blacklist_cf = true; break; }
+    for (const auto &cf : existing_cfs) {
+        if (cf == config_.column_family) {
+            has_blacklist_cf = true;
+            break;
+        }
     }
     if (!has_blacklist_cf) {
         existing_cfs.push_back(config_.column_family);
@@ -111,16 +94,15 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config& config)
 
     std::vector<rocksdb::ColumnFamilyDescriptor> cf_descs;
     cf_descs.reserve(existing_cfs.size());
-    for (const auto& cf : existing_cfs) {
+    for (const auto &cf : existing_cfs) {
         cf_descs.emplace_back(cf, rocksdb::ColumnFamilyOptions{});
     }
 
-    std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
-    rocksdb::Status s = rocksdb::DB::Open(
-        rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_);
+    std::vector<rocksdb::ColumnFamilyHandle *> cf_handles;
+    rocksdb::Status s = rocksdb::DB::Open(rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_);
     if (!s.ok()) {
-        throw std::runtime_error("RocksDBTokenBlacklist: failed to open DB at '"
-                                 + config_.db_path + "': " + s.ToString());
+        throw std::runtime_error("RocksDBTokenBlacklist: failed to open DB at '" + config_.db_path
+                                 + "': " + s.ToString());
     }
 
     // Identify the blacklist CF handle; keep all others for proper cleanup.
@@ -134,16 +116,17 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config& config)
 
     if (!cf_) {
         // Unexpected: CF should have been created by create_missing_column_families.
-        for (auto* h : other_cf_handles_) { db_->DestroyColumnFamilyHandle(h); }
+        for (auto *h : other_cf_handles_) {
+            db_->DestroyColumnFamilyHandle(h);
+        }
         other_cf_handles_.clear();
         delete db_;
         db_ = nullptr;
-        throw std::runtime_error("RocksDBTokenBlacklist: blacklist CF '"
-                                 + config_.column_family + "' not found after open");
+        throw std::runtime_error("RocksDBTokenBlacklist: blacklist CF '" + config_.column_family
+                                 + "' not found after open");
     }
 
-    THEMIS_INFO("RocksDBTokenBlacklist: opened DB at '{}' (CF '{}')",
-                config_.db_path, config_.column_family);
+    THEMIS_INFO("RocksDBTokenBlacklist: opened DB at '{}' (CF '{}')", config_.db_path, config_.column_family);
 
     // Start background purge thread
     running_.store(true);
@@ -157,13 +140,23 @@ RocksDBTokenBlacklist::~RocksDBTokenBlacklist() {
         running_.store(false);
     }
     cv_.notify_all();
-    if (purge_thread_.joinable()) purge_thread_.join();
+    if (purge_thread_.joinable()) {
+        purge_thread_.join();
+    }
 
     // Close DB: destroy all CF handles first, then delete the DB pointer.
-    if (cf_) { db_->DestroyColumnFamilyHandle(cf_); cf_ = nullptr; }
-    for (auto* h : other_cf_handles_) { db_->DestroyColumnFamilyHandle(h); }
+    if (cf_) {
+        db_->DestroyColumnFamilyHandle(cf_);
+        cf_ = nullptr;
+    }
+    for (auto *h : other_cf_handles_) {
+        db_->DestroyColumnFamilyHandle(h);
+    }
     other_cf_handles_.clear();
-    if (db_) { delete db_; db_ = nullptr; }
+    if (db_) {
+        delete db_;
+        db_ = nullptr;
+    }
 
     THEMIS_INFO("RocksDBTokenBlacklist: closed DB at '{}'", config_.db_path);
 }
@@ -172,35 +165,36 @@ RocksDBTokenBlacklist::~RocksDBTokenBlacklist() {
 // ITokenBlacklist interface
 // ============================================================================
 
-void RocksDBTokenBlacklist::add(const std::string& jti,
-                                 std::chrono::system_clock::time_point expiry) {
-    if (jti.empty()) return;
+void RocksDBTokenBlacklist::add(const std::string &jti, std::chrono::system_clock::time_point expiry) {
+    if (jti.empty()) {
+        return;
+    }
 
     rocksdb::WriteOptions wo;
-    wo.sync = false;  // WAL is still active; sync=false defers fsync for perf
+    wo.sync = false; // WAL is still active; sync=false defers fsync for perf
 
-    rocksdb::Status s = db_->Put(wo, cf_,
-                                  rocksdb::Slice(jti),
-                                  rocksdb::Slice(encodeExpiry(expiry)));
+    rocksdb::Status s = db_->Put(wo, cf_, rocksdb::Slice(jti), rocksdb::Slice(encodeExpiry(expiry)));
     if (!s.ok()) {
-        THEMIS_WARN("RocksDBTokenBlacklist::add: Put failed for JTI '{}': {}",
-                    jti, s.ToString());
+        THEMIS_WARN("RocksDBTokenBlacklist::add: Put failed for JTI '{}': {}", jti, s.ToString());
     } else {
         THEMIS_DEBUG("RocksDBTokenBlacklist: revoked JTI '{}'", jti);
     }
 }
 
-bool RocksDBTokenBlacklist::isRevoked(const std::string& jti) const {
-    if (jti.empty()) return false;
+bool RocksDBTokenBlacklist::isRevoked(const std::string &jti) const {
+    if (jti.empty()) {
+        return false;
+    }
 
     std::string value;
     rocksdb::ReadOptions ro;
     rocksdb::Status s = db_->Get(ro, cf_, rocksdb::Slice(jti), &value);
 
-    if (s.IsNotFound()) return false;
+    if (s.IsNotFound()) {
+        return false;
+    }
     if (!s.ok()) {
-        THEMIS_WARN("RocksDBTokenBlacklist::isRevoked: Get failed for JTI '{}': {}",
-                    jti, s.ToString());
+        THEMIS_WARN("RocksDBTokenBlacklist::isRevoked: Get failed for JTI '{}': {}", jti, s.ToString());
         return false;
     }
 
@@ -215,9 +209,9 @@ void RocksDBTokenBlacklist::purgeExpired() {
     // large column families.
     static constexpr size_t kChunkSize = 1000;
 
-    rocksdb::ReadOptions  ro;
+    rocksdb::ReadOptions ro;
     rocksdb::WriteOptions wo;
-    rocksdb::WriteBatch   batch;
+    rocksdb::WriteBatch batch;
     size_t pending = 0;
 
     std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(ro, cf_));
@@ -230,8 +224,7 @@ void RocksDBTokenBlacklist::purgeExpired() {
             if (pending >= kChunkSize) {
                 rocksdb::Status s = db_->Write(wo, &batch);
                 if (!s.ok()) {
-                    THEMIS_WARN("RocksDBTokenBlacklist::purgeExpired: Write failed: {}",
-                                s.ToString());
+                    THEMIS_WARN("RocksDBTokenBlacklist::purgeExpired: Write failed: {}", s.ToString());
                 }
                 batch.Clear();
                 pending = 0;
@@ -240,8 +233,7 @@ void RocksDBTokenBlacklist::purgeExpired() {
     }
 
     if (!it->status().ok()) {
-        THEMIS_WARN("RocksDBTokenBlacklist::purgeExpired: iterator error: {}",
-                    it->status().ToString());
+        THEMIS_WARN("RocksDBTokenBlacklist::purgeExpired: iterator error: {}", it->status().ToString());
         return;
     }
 
@@ -264,11 +256,11 @@ void RocksDBTokenBlacklist::purgeExpired() {
 void RocksDBTokenBlacklist::purgeLoop() {
     while (running_.load()) {
         std::unique_lock<std::mutex> lk(cv_mutex_);
-        cv_.wait_for(lk,
-                     std::chrono::seconds(config_.purge_interval_seconds),
-                     [this] { return !running_.load(); });
+        cv_.wait_for(lk, std::chrono::seconds(config_.purge_interval_seconds), [this] { return !running_.load(); });
 
-        if (!running_.load()) break;
+        if (!running_.load()) {
+            break;
+        }
         lk.unlock();
 
         THEMIS_DEBUG("RocksDBTokenBlacklist: running scheduled purge");

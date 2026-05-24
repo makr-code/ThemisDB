@@ -1,24 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_llm_process_analyzer.cpp                      ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:51:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     771                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d740b08330  2026-03-18  fix: address all PR review feedback - splice, comments, u... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_llm_process_analyzer.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
+ * Gap Summary: total=13; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=6, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -373,7 +358,7 @@ TEST_F(LLMProcessAnalyzerTest, CacheStats_AfterOneMiss) {
     req.process_trace = {{"step", "onboard"}};
     req.ideal_model   = nlohmann::json::object();
 
-    analyzer.analyze(req);  // first call → cache miss
+    static_cast<void>(analyzer.analyze(req));  // first call → cache miss
 
     auto stats = analyzer.getCacheStats();
     EXPECT_EQ(stats.misses, 1u);
@@ -388,8 +373,8 @@ TEST_F(LLMProcessAnalyzerTest, CacheStats_AfterHitAndMiss) {
     req.process_trace = {{"step", "resolve"}};
     req.ideal_model   = nlohmann::json::object();
 
-    analyzer.analyze(req);  // miss
-    analyzer.analyze(req);  // hit
+    static_cast<void>(analyzer.analyze(req));  // miss
+    static_cast<void>(analyzer.analyze(req));  // hit
 
     auto stats = analyzer.getCacheStats();
     EXPECT_EQ(stats.misses, 1u);
@@ -404,7 +389,7 @@ TEST_F(LLMProcessAnalyzerTest, ClearCache_ResetsStats) {
     req.process_trace = {{"inv", 999}};
     req.ideal_model   = nlohmann::json::object();
 
-    analyzer.analyze(req);  // populate cache
+    static_cast<void>(analyzer.analyze(req));  // populate cache
     analyzer.clearCache();
 
     auto stats = analyzer.getCacheStats();
@@ -420,7 +405,7 @@ TEST_F(LLMProcessAnalyzerTest, ClearCache_SecondCallIsAMiss) {
     req.process_trace = {{"inv", 777}};
     req.ideal_model   = nlohmann::json::object();
 
-    analyzer.analyze(req);  // miss, populates cache
+    static_cast<void>(analyzer.analyze(req));  // miss, populates cache
     analyzer.clearCache();
     auto [ok, resp] = analyzer.analyze(req);  // should miss again after clear
 
@@ -469,7 +454,7 @@ TEST_F(LLMProcessAnalyzerTest, AnalyzeProcess_DeviationsField) {
     EXPECT_TRUE(ok);
     // deviations should be initialized (may be empty in simulation)
     // What matters is no crash and the vector is accessible
-    EXPECT_NO_FATAL_FAILURE(resp.deviations.size());
+    EXPECT_GE(resp.deviations.size(), 0u);
 }
 
 TEST_F(LLMProcessAnalyzerTest, AnalyzeProcess_ComplianceIssuesField) {
@@ -482,7 +467,7 @@ TEST_F(LLMProcessAnalyzerTest, AnalyzeProcess_ComplianceIssuesField) {
     auto [ok, resp] = analyzer.analyze(req);
 
     EXPECT_TRUE(ok);
-    EXPECT_NO_FATAL_FAILURE(resp.compliance_issues.size());
+    EXPECT_GE(resp.compliance_issues.size(), 0u);
 }
 
 TEST_F(LLMProcessAnalyzerTest, ResponseTimeIsNonNegative) {
@@ -586,7 +571,7 @@ TEST(LLMConfigTest, MaxCacheEntriesConfigurable) {
         req.domain        = "admin";
         req.process_trace = {{"i", i}};
         req.ideal_model   = nlohmann::json::object();
-        analyzer.analyze(req);
+        static_cast<void>(analyzer.analyze(req));
     }
     auto stats = analyzer.getCacheStats();
     EXPECT_EQ(stats.misses,    50u);
@@ -598,7 +583,7 @@ TEST(LLMConfigTest, MaxCacheEntriesConfigurable) {
     extra.domain        = "admin";
     extra.process_trace = {{"i", 9999}};
     extra.ideal_model   = nlohmann::json::object();
-    analyzer.analyze(extra);
+    static_cast<void>(analyzer.analyze(extra));
 
     stats = analyzer.getCacheStats();
     EXPECT_EQ(stats.evictions, 1u);
@@ -628,8 +613,8 @@ TEST_F(LLMProcessAnalyzerTest, LRUEviction_LeastRecentlyUsedEntryEvicted) {
     };
 
     // Fill to capacity: req0, req1 are cached
-    small_cache.analyze(makeReq(0));
-    small_cache.analyze(makeReq(1));
+    static_cast<void>(small_cache.analyze(makeReq(0)));
+    static_cast<void>(small_cache.analyze(makeReq(1)));
 
     // Promote req0 to MRU by re-requesting it
     auto [ok_hit, resp_hit] = small_cache.analyze(makeReq(0));
@@ -637,7 +622,7 @@ TEST_F(LLMProcessAnalyzerTest, LRUEviction_LeastRecentlyUsedEntryEvicted) {
     EXPECT_TRUE(resp_hit.from_cache);  // must be a hit
 
     // Insert req2 — capacity exceeded; req1 (LRU) should be evicted
-    small_cache.analyze(makeReq(2));
+    static_cast<void>(small_cache.analyze(makeReq(2)));
 
     auto stats = small_cache.getCacheStats();
     EXPECT_GE(stats.evictions, 1u);
@@ -671,8 +656,8 @@ TEST_F(LLMProcessAnalyzerTest, CacheKey_DifferentTracesDifferentKeys) {
     LLMRequest req2 = req1;
     req2.process_trace = {{"a", 2}};
 
-    analyzer.analyze(req1);  // miss, populates cache
-    analyzer.analyze(req1);  // hit
+    static_cast<void>(analyzer.analyze(req1));  // miss, populates cache
+    static_cast<void>(analyzer.analyze(req1));  // hit
 
     auto [ok_miss, resp2] = analyzer.analyze(req2);  // must be a miss (different trace)
     EXPECT_TRUE(ok_miss);
@@ -686,7 +671,7 @@ TEST_F(LLMProcessAnalyzerTest, CacheKey_SameRequestCacheHit) {
     req.process_trace = {{"event", "submit"}, {"user", "alice"}};
     req.ideal_model   = {{"steps", nlohmann::json::array()}};
 
-    analyzer.analyze(req);                           // miss
+    static_cast<void>(analyzer.analyze(req));                           // miss
     auto [ok, resp] = analyzer.analyze(req);         // must be a hit
     EXPECT_TRUE(ok);
     EXPECT_TRUE(resp.from_cache);
@@ -732,7 +717,7 @@ TEST(LLMProcessAnalyzerPerfTest, PutInCache_O1Eviction_Under1us) {
         req.domain        = "bench";
         req.process_trace = {{"i", i}};
         req.ideal_model   = nlohmann::json::object();
-        analyzer.analyze(req);
+        static_cast<void>(analyzer.analyze(req));
     }
 
     // Measure the time for kIterations insertions that each evict the LRU entry
@@ -750,7 +735,7 @@ TEST(LLMProcessAnalyzerPerfTest, PutInCache_O1Eviction_Under1us) {
         // cache put by pre-computing the key and then issuing a repeated
         // miss on a distinct request (cache is full → eviction occurs).
         auto t0 = std::chrono::steady_clock::now();
-        analyzer.analyze(req);  // includes getCacheKey + putInCache (+ callLLM stub)
+        static_cast<void>(analyzer.analyze(req));  // includes getCacheKey + putInCache (+ callLLM stub)
         auto t1 = std::chrono::steady_clock::now();
 
         timings_ns.push_back(

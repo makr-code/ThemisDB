@@ -1,4 +1,14 @@
-// THEMIS_GAP_STATS: gaps=9 unimpl=3 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+/*
+ * ThemisDB | File: fim_importer.cpp | Version: 0.0.1 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 543
+ * Open Issues: TODOs=1, Stubs=3, Gaps=6, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=6 | external_v3=133 | delta=127 | status=divergent
+ * External Severity (v3): C=1, H=101, M=31
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 /*
  * ThemisDB - Process Modeling Module
  *
@@ -267,7 +277,6 @@ std::vector<FimModelResult> FimImporter::importFimCatalogue(
     std::vector<ProzessEntry> entries;
     ProzessEntry current;
     bool         in_prozess{false};
-    size_t       char_pos{0};       // approximated byte position during tokenisation
 
     // We track byte position manually: each tag_cb call occurs in order.
     // After tokenisation we know positions relative to XML string.

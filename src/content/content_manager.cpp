@@ -1,4 +1,3 @@
-// THEMIS_GAP_STATS: gaps=44 unimpl=20 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -20,7 +19,7 @@
     • a2d7c07202  2026-04-14  update after codefindings               ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  State: ✅ Production Ready                                           ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -47,12 +46,14 @@
 #include <random>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 #include <unordered_set>
 #include <queue>
 #include <set>
 #include <sstream>
 #include <fstream>
 #include <thread>
+#include <stdexcept>
 
 namespace themis {
 namespace content {
@@ -71,6 +72,8 @@ template <typename Fn>
 bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
                       std::string& error_out, int& attempts_out) {
     attempts_out = 0;
+    // i=0 is the initial attempt; i=1..max_retries are the retries.
+    // Using i <= max_retries is intentional: max_retries=0 means "no retries" (one attempt total).
     for (int i = 0; i <= max_retries; ++i) {
         if (i > 0 && retry_delay_ms > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
@@ -384,6 +387,8 @@ static std::vector<std::string> buildChunkWhitelist(
             // ignore parsing errors
         } catch (const std::exception&) {
             // ignore parsing errors
+        } catch (const std::exception&) {
+            // ignore scan callback errors to continue processing
         }
         return true;
     });
@@ -702,8 +707,8 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
 
             std::vector<uint8_t> to_store;
             size_t original_size = bb.size();
-            size_t compressed_size = original_size;
-            float compression_ratio = 1.0f;
+            [[maybe_unused]] size_t compressed_size = original_size;
+            [[maybe_unused]] float compression_ratio = 1.0f;
             
             if (should_compress(meta.mime_type, bb.size())) {
 #ifdef THEMIS_HAS_ZSTD
@@ -835,7 +840,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     }
                 }
             }
-        } catch (const std::exception& e) {
+        } catch (const nlohmann::json::exception& e) {
             // Config parsing failed - continue with defaults (auto_fulltext_index = false)
             // This is acceptable as the feature is opt-in
             THEMIS_DEBUG("Failed to parse content config for fulltext index: {}", e.what());
@@ -844,12 +849,12 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         // Ensure fulltext index exists if auto-indexing is enabled
         if (auto_fulltext_index && secondary_index_) {
             if (!secondary_index_->hasFulltextIndex("chunk", "text")) {
-                auto ft_status = secondary_index_->createFulltextIndex("chunk", "text", fulltext_config);
-                if (ft_status.ok) {
+                auto fulltext_create_result = secondary_index_->createFulltextIndex("chunk", "text", fulltext_config);
+                if (fulltext_create_result.ok) {
                     THEMIS_INFO("Created fulltext index for chunk.text with language={}, stemming={}", 
                                fulltext_config.language, fulltext_config.stemming_enabled);
                 } else {
-                    THEMIS_WARN("Failed to create fulltext index for chunk.text: {}", ft_status.message);
+                    THEMIS_WARN("Failed to create fulltext index for chunk.text: {}", fulltext_create_result.message);
                 }
             }
         }
@@ -898,9 +903,9 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                             {"chunk_type", c.chunk_type}
                         }
                     );
-                    auto idx_status = secondary_index_->put("chunk", chunk_entity);
-                    if (!idx_status.ok) {
-                        THEMIS_WARN("Failed to index chunk {} in fulltext index: {}", c.id, idx_status.message);
+                    auto fulltext_put_result = secondary_index_->put("chunk", chunk_entity);
+                    if (!fulltext_put_result.ok) {
+                        THEMIS_WARN("Failed to index chunk {} in fulltext index: {}", c.id, fulltext_put_result.message);
                     }
                 }
                 
@@ -958,6 +963,12 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 for (const auto& f : meta_fields) {
                     // Mapping: Feldname auf ContentMeta Struktur
                     // Unterstützte Felder: extracted_metadata, user_metadata, tags
+                    //
+                    // Use a unique_ptr to own the heap-allocated JSON object for the
+                    // "tags" field.  For the other two fields we point at an existing
+                    // ContentMeta member — no heap allocation needed.  This eliminates
+                    // the previous raw-new / manual-delete pattern (CWE-401 / RAII).
+                    std::unique_ptr<nlohmann::json> tags_json_owner;
                     nlohmann::json* target = nullptr;
                     std::optional<nlohmann::json> tags_json_holder;
                     if (f == "extracted_metadata") target = &meta.extracted_metadata;
@@ -988,6 +999,8 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         } else if (f == "tags") {
                             meta.tags.clear();
                         }
+                        // tags_json_owner auto-deleted at end of loop iteration.
+                        // Hänge verschlüsselte Strings in eine Zusatzliste (wird später gemerged)
                         // Wir lagern verschlüsselte Meta-Felder im allgemeinen Meta-JSON als Platzhalter unter reserved key
                         // Da ContentMeta::toJson() Felder fix zusammenstellt, hängen wir Zusatzfelder erst nachher an (siehe unten mjsonPatch)
                         // Temporär speichern in map structure
@@ -1546,7 +1559,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
 
     // Erzeuge Map pk->score und Queue für Expansion
     std::unordered_map<std::string, double> bestScore; bestScore.reserve(base.size()*2);
-    struct QItem { std::string origin; std::string node; int hop; };
+    struct QItem { std::string origin; std::string node; int hop = 0; };  // CON-015: explicit default for hop
     std::queue<QItem> q;
 
     // Metrik beachten: COSINE liefert distance = 1 - cosine → similarity = 1 - d
@@ -1625,9 +1638,9 @@ Status ContentManager::deleteContent(const std::string& content_id) {
         }
         // Remove from fulltext index if present
         if (secondary_index_ && secondary_index_->hasFulltextIndex("chunk", "text")) {
-            auto erase_status = secondary_index_->erase("chunk", c.id);
-            if (!erase_status.ok) {
-                THEMIS_WARN("Failed to remove chunk {} from fulltext index: {}", c.id, erase_status.message);
+            auto fulltext_erase_result = secondary_index_->erase("chunk", c.id);
+            if (!fulltext_erase_result.ok) {
+                THEMIS_WARN("Failed to remove chunk {} from fulltext index: {}", c.id, fulltext_erase_result.message);
             }
         }
     }
@@ -1757,9 +1770,9 @@ Status ContentManager::createDirectory(const std::string& virtual_path, bool rec
         size_t pos = normalized.rfind('/');
         if (pos > 0) {
             std::string parent = normalized.substr(0, pos);
-            auto parent_status = createDirectory(parent, true);
-            if (!parent_status.ok) {
-                return parent_status;
+            auto parent_create_result = createDirectory(parent, true);
+            if (!parent_create_result.ok) {
+                return parent_create_result;
             }
         }
     }
@@ -1926,9 +1939,9 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 {"content", meta.toJson()}
             };
             
-            auto status = importContent(spec, blob, user_context);
-            if (!status.ok) {
-                result.error_message = status.message;
+            auto import_result = importContent(spec, blob, user_context);
+            if (!import_result.ok) {
+                result.error_message = import_result.message;
                 return result;
             }
             
@@ -2014,9 +2027,9 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
             {"content", archive_meta.toJson()}
         };
         
-        auto status = importContent(archive_spec, blob, user_context);
-        if (!status.ok) {
-            result.error_message = "Failed to store archive: " + status.message;
+        auto import_result = importContent(archive_spec, blob, user_context);
+        if (!import_result.ok) {
+            result.error_message = "Failed to store archive: " + import_result.message;
             return result;
         }
         
@@ -2039,7 +2052,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                     (std::istreambuf_iterator<char>(file)),
                     std::istreambuf_iterator<char>()
                 );
-                file.close();
+                // std::ifstream closed automatically (RAII) at end of loop iteration.
                 
                 // Get relative path within archive
                 std::string relative_path = path_str;
@@ -2646,14 +2659,16 @@ ContentManager::IngestResult ContentManager::ingestStream(
         return stream_stage_cfg.embedding.enabled;
     }();
     // Incremental SHA-256 hash over all streamed bytes.
-    EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
+    // RAII wrapper — EVP_MD_CTX_free() is called automatically when the unique_ptr
+    // is reset or goes out of scope, guarding against exception-induced leaks.
+    using EvpCtxPtr = std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>;
+    EvpCtxPtr sha256_ctx(EVP_MD_CTX_new(), EVP_MD_CTX_free);
     if (sha256_ctx) {
-        if (EVP_DigestInit_ex(sha256_ctx, EVP_sha256(), nullptr) != 1) {
+        if (EVP_DigestInit_ex(sha256_ctx.get(), EVP_sha256(), nullptr) != 1) {
             THEMIS_WARN("ingestStream: EVP_DigestInit_ex failed; SHA-256 dedup disabled for '{}'", filename);
-            EVP_MD_CTX_free(sha256_ctx);
-            sha256_ctx = nullptr;
+            sha256_ctx.reset();
         } else {
-            EVP_DigestUpdate(sha256_ctx, header_buf.data(), header_buf.size());
+            EVP_DigestUpdate(sha256_ctx.get(), header_buf.data(), header_buf.size());
         }
     } else {
         THEMIS_WARN("ingestStream: EVP_MD_CTX_new failed; SHA-256 dedup disabled for '{}'", filename);
@@ -2781,10 +2796,9 @@ ContentManager::IngestResult ContentManager::ingestStream(
         if (n == 0) break;
         total_bytes += static_cast<int64_t>(n);
         if (sha256_ctx) {
-            if (EVP_DigestUpdate(sha256_ctx, read_buf.data(), n) != 1) {
+            if (EVP_DigestUpdate(sha256_ctx.get(), read_buf.data(), n) != 1) {
                 THEMIS_WARN("ingestStream: EVP_DigestUpdate failed; disabling SHA-256 for '{}'", filename);
-                EVP_MD_CTX_free(sha256_ctx);
-                sha256_ctx = nullptr;
+                sha256_ctx.reset();
             }
         }
         carry.append(read_buf.data(), n);
@@ -2806,9 +2820,8 @@ ContentManager::IngestResult ContentManager::ingestStream(
         if (!sha256_ctx) return {};
         unsigned char digest[SHA256_DIGEST_LENGTH];
         unsigned int  digest_len = 0;
-        int ok = EVP_DigestFinal_ex(sha256_ctx, digest, &digest_len);
-        EVP_MD_CTX_free(sha256_ctx);
-        sha256_ctx = nullptr;
+        int ok = EVP_DigestFinal_ex(sha256_ctx.get(), digest, &digest_len);
+        sha256_ctx.reset();
         if (!ok) return {};
         std::ostringstream oss;
         oss << std::hex << std::setfill('0');

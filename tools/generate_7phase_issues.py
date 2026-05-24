@@ -147,7 +147,7 @@ Phase 7: Merge & Release        [ ] → Not started
 
 ### Gap Discovery Tasks
 ```
-[ ] Execute: python tools/gap_scanner_v3.py . ai_working --module {module}
+[ ] Execute: python tools/scanners/orchestrator.py . ai_working --module {module}
 [ ] Load: ai_working/gap_scan_v3_{module}.json
 [ ] Create: artifacts/gap_audit_report.json (detailed inventory)
 [ ] Create: artifacts/gaps_by_category.json (grouped)

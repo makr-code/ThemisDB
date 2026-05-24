@@ -1,26 +1,13 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
+// THEMIS_GAP_STATS: gaps=0 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            themis_help_lora.cpp                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:30                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     662                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: themis_help_lora.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 80/100 | Lines: 677
+ * Open Issues: TODOs=2, Stubs=8, Gaps=13, Unimpl=0, Mock=1, Sim=1, Debt=1
+ * Gap Correlation: internal=13 | external_v3=219 | delta=206 | status=divergent
+ * External Severity (v3): C=13, H=172, M=34
+ * PR: #376 Implement Real LLM Integration for LoRA Framework with Docker/Ollam... (2026-03-11T18:23:08Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/applications/themis_help_lora.h"
@@ -44,6 +31,27 @@ namespace applications {
 
 using json = nlohmann::json;
 using namespace themis::llm::lora;
+
+namespace {
+std::string resolveModelPath(const ThemisHelpLoRA::Config& config) {
+    if (config.model_path_provider) {
+        try {
+            auto resolved = config.model_path_provider(config.base_model_id);
+            if (!resolved.empty()) {
+                return resolved;
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("ThemisHelpLoRA: model path provider failed for '{}': {}",
+                         config.base_model_id, e.what());
+        } catch (...) {
+            spdlog::warn("ThemisHelpLoRA: model path provider failed for '{}'",
+                         config.base_model_id);
+        }
+    }
+
+    return "models/" + config.base_model_id + ".gguf";
+}
+} // namespace
 
 class ThemisHelpLoRA::Impl {
 public:
@@ -122,6 +130,23 @@ public:
         // The queryInternal() method will attempt to load the model on-demand,
         // either from local storage or via remote download (Ollama) if
         // enable_remote_loading is configured.
+    }
+
+    std::string resolveBaseModelPath() const {
+        if (config.model_path_provider) {
+            try {
+                auto resolved = config.model_path_provider(config.base_model_id);
+                if (!resolved.empty()) {
+                    return resolved;
+                }
+                spdlog::warn("Model path provider returned empty path for model '{}'; using default path fallback",
+                             config.base_model_id);
+            } catch (const std::exception& e) {
+                spdlog::warn("Model path provider failed for model '{}': {}. Using default path fallback",
+                             config.base_model_id, e.what());
+            }
+        }
+        return "models/" + config.base_model_id + ".gguf";
     }
     
     std::string buildDocumentationPrompt(const std::string& question) {
@@ -691,4 +716,3 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
 } // namespace applications
 } // namespace llm
 } // namespace themis
-

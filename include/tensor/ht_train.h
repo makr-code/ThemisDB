@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/ht_train.h                                  ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 5 (Q1 2028)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: ht_train.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -51,18 +46,13 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <optional>
+#include "storage/tensor_train_decomposer.h"
 #include <string>
 #include <vector>
-
-// Forward declaration of TTTrain for the compatibility bridge
-namespace themis {
-namespace storage {
-struct TTTrain;
-} // namespace storage
-} // namespace themis
 
 namespace themis {
 namespace tensor {
@@ -207,8 +197,32 @@ struct HTTrain {
     // ── Move / copy ────────────────────────────────────────────────────────────
 
     HTTrain() = default;
-    HTTrain(HTTrain&&) noexcept = default;
-    HTTrain& operator=(HTTrain&&) noexcept = default;
+
+    // Explicit move ctor: move all data members; mutex is default-constructed
+    // (mutexes are not moveable in C++).
+    HTTrain(HTTrain&& other) noexcept
+        : root(std::move(other.root))
+        , shape(std::move(other.shape))
+        , max_rank(other.max_rank)
+        , achieved_eps(other.achieved_eps)
+        , original_norm(other.original_norm)
+        , tt_cache_(std::move(other.tt_cache_))
+        // tt_mutex_ default-constructed
+    {}
+
+    // Explicit move assignment.
+    HTTrain& operator=(HTTrain&& other) noexcept {
+        if (this != &other) {
+            root         = std::move(other.root);
+            shape        = std::move(other.shape);
+            max_rank     = other.max_rank;
+            achieved_eps = other.achieved_eps;
+            original_norm = other.original_norm;
+            std::lock_guard<std::mutex> lock(tt_mutex_);
+            tt_cache_    = std::move(other.tt_cache_);
+        }
+        return *this;
+    }
 
     // No implicit copy; use clone()
     HTTrain(const HTTrain&)            = delete;
@@ -216,6 +230,12 @@ struct HTTrain {
 
     /// Deep-copy the entire HT tree.
     HTTrain clone() const;
+
+private:
+    // Memoised TT-train conversion cache (stub #286 resolved).
+    // guarded by tt_mutex_; std::shared_ptr allows the cache to outlive a move.
+    mutable std::shared_ptr<storage::TTTrain> tt_cache_;
+    mutable std::mutex                         tt_mutex_;
 };
 
 // ============================================================================

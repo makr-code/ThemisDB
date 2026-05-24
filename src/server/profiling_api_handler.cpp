@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            profiling_api_handler.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:49                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     364                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: profiling_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 402
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=113 | delta=110 | status=divergent
+ * External Severity (v3): C=0, H=94, M=19
+ * PR: #3632 fix(build): register 40+ missing sources across 7 modules in cmake ... (2026-03-12T07:39:41Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/profiling_api_handler.h"
@@ -378,36 +365,16 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
     if (query_pos == std::string::npos || query_pos + 1 >= target.size()) {
         return true;
     }
-
-    auto query = std::string_view(target).substr(query_pos + 1);
-    while (!query.empty()) {
-        const auto amp_pos = query.find('&');
-        const auto token = query.substr(0, amp_pos);
-
-        const auto eq_pos = token.find('=');
-        const auto key = token.substr(0, eq_pos);
-        if (key == param_name) {
-            if (eq_pos == std::string_view::npos || eq_pos + 1 >= token.size()) {
-                return false;
-            }
-
-            const auto value_view = token.substr(eq_pos + 1);
-            int parsed_value = 0;
-            const auto* begin = value_view.data();
-            const auto* end = value_view.data() + value_view.size();
-            const auto [ptr, ec] = std::from_chars(begin, end, parsed_value);
-            if (ec != std::errc{} || ptr != end || parsed_value < 0) {
-                return false;
-            }
-
-            value = parsed_value;
-            return true;
-        }
-
-        if (amp_pos == std::string_view::npos) {
-            break;
-        }
-        query.remove_prefix(amp_pos + 1);
+    
+    pos += param_name.length() + 1;
+    size_t end = target.find('&', pos);
+    std::string value_str = (end == std::string::npos) ? 
+        target.substr(pos) : target.substr(pos, end - pos);
+    
+    try {
+        return std::stoi(value_str);
+    } catch (const std::exception&) {
+        return default_value;
     }
 
     return true;

@@ -1,25 +1,15 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_lora_manager.h                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     945                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_lora_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
+ * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/lora_security_validator.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -345,6 +335,15 @@ public:
         
         // Multi-GPU support (v1.4.0)
         MultiGPUConfig multi_gpu;
+
+        // Security validation (v1.20.0): when set, loadLoRAInternal() calls
+        // validateMetadata() before any GGUF parse.  Optional: null disables
+        // validation (legacy / test deployments).
+        std::shared_ptr<LoRASecurityValidator> security_validator;
+        /// When true and security_validator is set, a metadata-validation
+        /// failure causes loadLoRA() to reject the adapter hard.
+        /// When false the failure is logged as a warning and loading continues.
+        bool enforce_security_validation = true;
     };
     
     explicit MultiLoRAManager(const Config& config);

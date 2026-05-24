@@ -67,9 +67,9 @@ class ReliabilityGapScanner:
     
     # Blocking operations
     BLOCKING_PATTERNS = {
-        'mutex_lock': re.compile(r'(mutex|lock_guard|unique_lock|lock)\s*\('),
+        'mutex_lock': re.compile(r'\.\s*lock\s*\('),
         'thread_join': re.compile(r'(thread|task)\.join\(\)'),
-        'file_io': re.compile(r'(read|write|open|fopen|fscanf)\s*\('),
+        'file_io': re.compile(r'(?<!\.)\b(read|write|open|fopen|fscanf)\s*\('),
         'semaphore_wait': re.compile(r'(wait|acquire)\s*\('),
     }
     
@@ -177,7 +177,11 @@ class ReliabilityGapScanner:
             
             # Check for status/health field initialization
             if 'Status' in line or 'status' in line or 'healthy' in line:
-                if '=' not in line and 'return' not in line:
+                # Only treat this as a field/variable declaration candidate.
+                # Avoid function signatures and call expressions that contain
+                # "Status" as a return type or namespace symbol.
+                looks_like_declaration = ';' in line and '(' not in line
+                if looks_like_declaration and '=' not in line and 'return' not in line:
                     # Possible uninitialized status
                     next_context = ''.join(lines[line_num:min(len(lines), line_num+3)])
                     if 'init' not in next_context.lower() and 'set' not in next_context.lower():

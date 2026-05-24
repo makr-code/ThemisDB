@@ -121,7 +121,7 @@ Both RAG LLM integration points fall back to stubs when no real inference engine
 - `llm_integration.cpp` line 109: "No inference engine configured, using stub"
 - `llm_judge_integration.cpp` line 45/173: "initialized in MOCK MODE - evaluations will use stub responses"
 
-In mock mode, all evaluations produce fixed scores, making the RAG evaluation pipeline useless in production.
+In mock mode, evaluations are synthetic (deterministic prompt-hash heuristics) and must not be treated as production quality signals.
 
 **Implementation Notes:**
 - `[x]` `LLMIntegration::generate()`: wire to `LLMPluginManager::instance().generate()` via the same `THEMIS_ENABLE_LLM` guard used by `ingestion/llm_adapter.cpp`; fail fast with a clear error (not a stub) when `THEMIS_ENABLE_LLM=OFF` and a real engine is required.

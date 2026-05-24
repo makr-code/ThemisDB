@@ -1,21 +1,9 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_arrow_flight.cpp                              ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:51:38                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     632                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: test_arrow_flight.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -295,13 +283,22 @@ TEST(ArrowFlightClientTest, OperationsAfterCloseThrow) {
     auto client = ArrowFlightClient::connect(makeClientOpts(18843));
     client->close();
 
-    EXPECT_THROW(client->listFlights(), std::runtime_error);
+    EXPECT_THROW({
+        auto flights = client->listFlights();
+        static_cast<void>(flights);
+    }, std::runtime_error);
     EXPECT_THROW(
-        client->doGet(FlightDescriptor::fromPath({"x"})),
+        {
+            auto batch = client->doGet(FlightDescriptor::fromPath({"x"}));
+            static_cast<void>(batch);
+        },
         std::runtime_error);
     auto empty = makeBatch(0);
     EXPECT_THROW(
-        client->doPut(empty, FlightDescriptor::fromPath({"x"})),
+        {
+            auto put_result = client->doPut(empty, FlightDescriptor::fromPath({"x"}));
+            static_cast<void>(put_result);
+        },
         std::runtime_error);
     server->stop();
 }
@@ -358,7 +355,10 @@ TEST(ArrowFlightClientTest, DoGetUnknownPathThrows) {
     server->start();
     auto client = ArrowFlightClient::connect(makeClientOpts(18861));
     EXPECT_THROW(
-        client->doGet(FlightDescriptor::fromPath({"does_not_exist"})),
+        {
+            auto batch = client->doGet(FlightDescriptor::fromPath({"does_not_exist"}));
+            static_cast<void>(batch);
+        },
         std::runtime_error);
     client->close();
     server->stop();
@@ -565,7 +565,10 @@ TEST(ArrowFlightServerTest, CrossServerClientIsolation) {
     auto c1 = ArrowFlightClient::connect(makeClientOpts(18892));
     // s2_only is on server 2; client 1 must not find it
     EXPECT_THROW(
-        c1->doGet(FlightDescriptor::fromPath({"s2_only"})),
+        {
+            auto batch = c1->doGet(FlightDescriptor::fromPath({"s2_only"}));
+            static_cast<void>(batch);
+        },
         std::runtime_error);
 
     c1->close();

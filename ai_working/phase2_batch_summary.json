@@ -1,0 +1,68 @@
+{
+  "execution": {
+    "timestamp": "2026-05-19 09:08:41",
+    "modules_processed": 65,
+    "execution_time_seconds": 0.004044771194458008,
+    "average_per_module": 6.222724914550781e-05
+  },
+  "effort_distribution": {
+    "critical_priority": 32772,
+    "high_priority": 21906.5,
+    "medium_priority": 12350.5,
+    "total_hours": 67029.0,
+    "total_days_8h": 8414
+  },
+  "top_effort_modules": [
+    [
+      "llm",
+      14941.0,
+      24394
+    ],
+    [
+      "server",
+      11691.25,
+      19089
+    ],
+    [
+      "query",
+      9438.75,
+      15413
+    ],
+    [
+      "sharding",
+      6743.25,
+      11012
+    ],
+    [
+      "index",
+      5370.75,
+      8770
+    ],
+    [
+      "storage",
+      4581.75,
+      7481
+    ],
+    [
+      "analytics",
+      4301.75,
+      7026
+    ],
+    [
+      "rag",
+      3920.5,
+      6402
+    ],
+    [
+      "security",
+      3084.0,
+      5037
+    ],
+    [
+      "content",
+      2846.0,
+      4647
+    ]
+  ],
+  "phase_3_readiness": "ALL_MODULES_READY"
+}

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     343                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -153,6 +153,31 @@ struct LoRAVectorEmbedding {
             {"dimensions", embedding.size()}
         };
     }
+
+    /**
+     * @brief Deserialise a LoRAVectorEmbedding from its JSON representation.
+     *
+     * All fields are optional; missing fields retain their zero-value defaults.
+     *
+     * @param j  JSON object produced by toJSON().
+     * @return   Populated LoRAVectorEmbedding.
+     */
+    static LoRAVectorEmbedding fromJSON(const json& j) {
+        LoRAVectorEmbedding emb;
+        if (j.contains("adapter_id"))      emb.adapter_id      = j["adapter_id"].get<std::string>();
+        if (j.contains("embedding_model")) emb.embedding_model = j["embedding_model"].get<std::string>();
+        if (j.contains("source_text"))     emb.source_text     = j["source_text"].get<std::string>();
+        if (j.contains("embedding") && j["embedding"].is_array()) {
+            emb.embedding = j["embedding"].get<std::vector<float>>();
+        }
+        if (j.contains("source") && j["source"].is_number_integer()) {
+            int s = j["source"].get<int>();
+            if (s >= 0 && s <= static_cast<int>(Source::COMBINED)) {
+                emb.source = static_cast<Source>(s);
+            }
+        }
+        return emb;
+    }
 };
 
 /**
@@ -287,8 +312,16 @@ struct AdapterMetadataEnhanced : public AdapterMetadata {
             }
         }
         
-        // Vector info
-        // TODO: Parse embeddings
+        // Vector info — parse per-role embeddings from their JSON representations
+        if (j.contains("description_embedding") && j["description_embedding"].is_object()) {
+            metadata.description_embedding = LoRAVectorEmbedding::fromJSON(j["description_embedding"]);
+        }
+        if (j.contains("task_embedding") && j["task_embedding"].is_object()) {
+            metadata.task_embedding = LoRAVectorEmbedding::fromJSON(j["task_embedding"]);
+        }
+        if (j.contains("performance_embedding") && j["performance_embedding"].is_object()) {
+            metadata.performance_embedding = LoRAVectorEmbedding::fromJSON(j["performance_embedding"]);
+        }
         
         // Relationships
         if (j.contains("similar_adapters")) {

@@ -1,20 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            voice_api_handler.h                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:04                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     267                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: voice_api_handler.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -34,12 +23,14 @@
 
 #pragma once
 
+#include "server/auth_middleware.h"
 #include <boost/beast.hpp>
 #include <memory>
 #include <string>
 #include <string_view>
 #include <optional>
 #include <nlohmann/json.hpp>
+#include "auth/jwt_validator.h"
 
 // Forward declarations
 namespace themis {
@@ -99,7 +90,7 @@ class VoiceApiHandler {
 public:
     /**
      * @brief Construct Voice API handler
-     * 
+     *
      * @param voice_assistant Voice assistant instance
      * @param auth Optional shared authentication middleware used for
      *             bearer token validation (static tokens and JWT when configured).
@@ -110,15 +101,37 @@ public:
     
     /**
      * @brief Handle Voice API request
-     * 
+     *
      * Routes request to appropriate handler based on path and method.
      * Validates JWT Bearer Token authentication.
-     * 
+     *
      * @param req HTTP request
      * @return HTTP response (JSON or audio data)
      */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req);
+
+    /**
+     * @brief Function type for bearer-token validation (stub #302).
+     *
+     * When injected via setTokenValidatorFn(), validateBearerToken() delegates
+     * to this function, enabling JWT signature, expiry, audience, and issuer
+     * verification without changing callers.
+     *
+     * @param token The bearer token string (after the "Bearer " prefix).
+     * @return true if the token is valid and the caller is authorized.
+     */
+    using TokenValidatorFn = std::function<bool(std::string_view)>;
+
+    /**
+     * @brief Inject a real JWT/OIDC token validator.
+     *
+     * Thread-safe.  Passing nullptr reverts to the built-in non-empty-check
+     * fallback (retained for dev/CI builds only).
+     *
+     * @param fn Token validation callback.
+     */
+    static void setTokenValidatorFn(TokenValidatorFn fn);
 
 private:
     // Core endpoints

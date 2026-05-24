@@ -1,28 +1,9 @@
-// THEMIS_GAP_STATS: gaps=3 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            olap.cpp                                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:32                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     1765                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
-    • 0187453ebb  2026-04-13  fix(analytics): replace whole-class _WIN32 OLAPEngine stu... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: olap.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=35, H=424, M=160, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "analytics/olap.h"
@@ -31,32 +12,35 @@
 #include "themis/gpu/query_accelerator.h"
 #include <algorithm>
 #include <atomic>
+#include <chrono>
 #include <cmath>
 #include <cstring>
-#include <numeric>
-#include <chrono>
-#include <list>
-#include <mutex>
-#include <sstream>
-#include <set>
-#include <thread>
-#include <unordered_set>
-#include <map>
 #include <limits>
+#include <list>
+#include <map>
+#include <mutex>
+#include <numeric>
+#include <set>
+#include <spdlog/spdlog.h>
+#include <sstream>
 #include <string>
 #include <string_view>
-#include <variant>
+#include <thread>
 #include <unordered_map>
+#include <unordered_set>
+#include <variant>
 #include <vector>
-#include <spdlog/spdlog.h>
+
+#include "analytics/detail/memory_pool.h"
+#include "themis/gpu/query_accelerator.h"
 
 // SIMD intrinsics headers — guarded so non-SIMD platforms compile cleanly.
 #if defined(__AVX512F__)
-#  include <immintrin.h>
+#include <immintrin.h>
 #elif defined(__AVX2__)
-#  include <immintrin.h>
+#include <immintrin.h>
 #elif defined(__ARM_NEON) || defined(__aarch64__)
-#  include <arm_neon.h>
+#include <arm_neon.h>
 #endif
 
 #ifdef ARROW_ENABLED
@@ -104,10 +88,10 @@ namespace themis {
 namespace analytics {
 
 namespace {
-std::mutex                               s_olap_export_bridge_mutex;
-OLAPEngine::ExportToParquetFn            s_export_to_parquet_fn;
-OLAPEngine::ExportCollectionToParquetFn  s_export_collection_to_parquet_fn;
-}
+std::mutex s_olap_export_bridge_mutex;
+OLAPEngine::ExportToParquetFn s_export_to_parquet_fn;
+OLAPEngine::ExportCollectionToParquetFn s_export_collection_to_parquet_fn;
+} // namespace
 
 void OLAPEngine::setExportToParquetFn(ExportToParquetFn fn) {
     std::lock_guard<std::mutex> lk(s_olap_export_bridge_mutex);
@@ -124,9 +108,12 @@ void OLAPEngine::setExportCollectionToParquetFn(ExportCollectionToParquetFn fn) 
 // ============================================================================
 
 class OLAPEngine::Impl {
-public:
+  public:
     // In-memory data for testing (would connect to storage in production)
-    std::unordered_map<std::string, std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>> collections;
+    std::unordered_map<
+        std::string,
+        std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>>
+        collections;
 
     // GPU acceleration
     OLAPEngine::Config config;
@@ -146,8 +133,8 @@ public:
         std::chrono::steady_clock::time_point updated;
         bool valid = false;
     };
-    mutable std::mutex                                    stats_mutex;
-    std::unordered_map<std::string, CollectionStats>      stats_cache_;
+    mutable std::mutex stats_mutex;
+    std::unordered_map<std::string, CollectionStats> stats_cache_;
 
     // -------------------------------------------------------------------------
     // O(1) LRU result cache — doubly-linked list + unordered_map.
@@ -160,26 +147,29 @@ public:
     using LruList = std::list<std::string>;
     using LruMap  = std::unordered_map<std::string, std::pair<LruList::iterator, CacheEntry>>;
 
-    mutable LruList     result_lru_list;
-    mutable LruMap      result_lru_map;
-    mutable std::mutex  result_cache_mutex;
+    mutable LruList result_lru_list;
+    mutable LruMap result_lru_map;
+    mutable std::mutex result_cache_mutex;
 
     // Background cleanup thread for TTL eviction.
-    std::thread             cleanup_thread;
-    std::atomic<bool>       cleanup_stop{false};
+    std::thread cleanup_thread;
+    std::atomic<bool> cleanup_stop{false};
 
     void startCleanupThread() {
-        if (config.result_cache_max_entries == 0 || config.result_cache_ttl_ms <= 0) return;
+        if (config.result_cache_max_entries == 0 || config.result_cache_ttl_ms <= 0) {
+            return;
+        }
         cleanup_stop.store(false);
         cleanup_thread = std::thread([this]() {
-            const auto interval = std::chrono::milliseconds(
-                std::max(int64_t(1000), config.result_cache_ttl_ms / 4));
+            const auto interval = std::chrono::milliseconds(std::max(int64_t(1000), config.result_cache_ttl_ms / 4));
             while (!cleanup_stop.load()) {
                 std::this_thread::sleep_for(interval);
-                if (cleanup_stop.load()) break;
+                if (cleanup_stop.load()) {
+                    break;
+                }
                 auto now = std::chrono::steady_clock::now();
                 std::lock_guard<std::mutex> lock(result_cache_mutex);
-                for (auto it = result_lru_map.begin(); it != result_lru_map.end(); ) {
+                for (auto it = result_lru_map.begin(); it != result_lru_map.end();) {
                     if (now >= it->second.second.expiry) {
                         result_lru_list.erase(it->second.first);
                         it = result_lru_map.erase(it);
@@ -193,7 +183,9 @@ public:
 
     void stopCleanupThread() {
         cleanup_stop.store(true);
-        if (cleanup_thread.joinable()) cleanup_thread.join();
+        if (cleanup_thread.joinable()) {
+            cleanup_thread.join();
+        }
     }
 
     ~Impl() {
@@ -205,14 +197,14 @@ OLAPEngine::OLAPEngine() : impl_(std::make_unique<Impl>()) {
     impl_->startCleanupThread();
 }
 
-OLAPEngine::OLAPEngine(const Config& config) : impl_(std::make_unique<Impl>()) {
+OLAPEngine::OLAPEngine(const Config &config) : impl_(std::make_unique<Impl>()) {
     impl_->config = config;
     if (config.enable_gpu) {
         themis::gpu::GPUQueryAccelerator::Config gpu_cfg;
         gpu_cfg.gpu_threshold_rows = config.gpu_threshold_rows;
-        impl_->gpu_accelerator = std::make_unique<themis::gpu::GPUQueryAccelerator>(gpu_cfg);
-        spdlog::info("OLAPEngine: GPU acceleration enabled (device {}, threshold {} rows)",
-                     config.gpu_device_id, config.gpu_threshold_rows);
+        impl_->gpu_accelerator     = std::make_unique<themis::gpu::GPUQueryAccelerator>(gpu_cfg);
+        spdlog::info("OLAPEngine: GPU acceleration enabled (device {}, threshold {} rows)", config.gpu_device_id,
+                     config.gpu_threshold_rows);
     }
     impl_->startCleanupThread();
 }
@@ -224,65 +216,80 @@ OLAPEngine::~OLAPEngine() = default;
 // equivalent queries (same dimensions/measures/filters regardless of order)
 // map to the same cache entry.
 // ---------------------------------------------------------------------------
-static std::string computeOLAPCacheKey(const OLAPQuery& query) {
+static std::string computeOLAPCacheKey(const OLAPQuery &query) {
     std::ostringstream ss;
     ss << query.collection << '\0';
 
     // Sorted dimension names
     std::vector<std::string> dims;
     dims.reserve(query.dimensions.size());
-    for (const auto& d : query.dimensions) {
+    for (const auto &d : query.dimensions) {
         dims.push_back(d.name + ':' + d.expression + ':' + (d.include_in_grouping ? '1' : '0'));
     }
     std::sort(dims.begin(), dims.end());
-    for (const auto& d : dims) ss << d << '\0';
+    for (const auto &d : dims) {
+        ss << d << '\0';
+    }
 
     // Sorted measure descriptors
     std::vector<std::string> meas;
     meas.reserve(query.measures.size());
-    for (const auto& m : query.measures) {
+    for (const auto &m : query.measures) {
         meas.push_back(m.name + ':' + m.field + ':' + std::to_string(static_cast<int>(m.function)));
     }
     std::sort(meas.begin(), meas.end());
-    for (const auto& m : meas) ss << m << '\0';
+    for (const auto &m : meas) {
+        ss << m << '\0';
+    }
 
     // Canonical filter order: sort by serialised representation
     std::vector<std::string> filter_strs;
     filter_strs.reserve(query.filters.size());
-    for (const auto& f : query.filters) {
+    for (const auto &f : query.filters) {
         std::string fstr = f.field + ':' + std::to_string(static_cast<int>(f.op)) + ':';
-        std::visit([&fstr](const auto& v) {
-            using T = std::decay_t<decltype(v)>;
-            if constexpr (std::is_same_v<T, std::nullptr_t>) {
-                fstr += "null";
-            } else if constexpr (std::is_same_v<T, bool>) {
-                fstr += (v ? "true" : "false");
-            } else if constexpr (std::is_same_v<T, int64_t>) {
-                fstr += std::to_string(v);
-            } else if constexpr (std::is_same_v<T, double>) {
-                fstr += std::to_string(v);
-            } else if constexpr (std::is_same_v<T, std::string>) {
-                fstr += v;
-            } else if constexpr (std::is_same_v<T, std::vector<std::string>>) {
-                for (const auto& s : v) { fstr += s; fstr += ','; }
-            }
-        }, f.value);
+        std::visit(
+            [&fstr](const auto &v) {
+                using T = std::decay_t<decltype(v)>;
+                if constexpr (std::is_same_v<T, std::nullptr_t>) {
+                    fstr += "null";
+                } else if constexpr (std::is_same_v<T, bool>) {
+                    fstr += (v ? "true" : "false");
+                } else if constexpr (std::is_same_v<T, int64_t>) {
+                    fstr += std::to_string(v);
+                } else if constexpr (std::is_same_v<T, double>) {
+                    fstr += std::to_string(v);
+                } else if constexpr (std::is_same_v<T, std::string>) {
+                    fstr += v;
+                } else if constexpr (std::is_same_v<T, std::vector<std::string>>) {
+                    for (const auto &s : v) {
+                        fstr += s;
+                        fstr += ',';
+                    }
+                }
+            },
+            f.value);
         filter_strs.push_back(std::move(fstr));
     }
     std::sort(filter_strs.begin(), filter_strs.end());
-    for (const auto& f : filter_strs) ss << f << '\0';
+    for (const auto &f : filter_strs) {
+        ss << f << '\0';
+    }
 
     // Grouping mode
     ss << static_cast<int>(query.grouping_mode) << '\0';
 
     // Limit / offset
-    if (query.limit)  ss << 'L' << *query.limit  << '\0';
-    if (query.offset) ss << 'O' << *query.offset << '\0';
+    if (query.limit) {
+        ss << 'L' << *query.limit << '\0';
+    }
+    if (query.offset) {
+        ss << 'O' << *query.offset << '\0';
+    }
 
     return ss.str();
 }
 
-OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
+OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
     auto start = std::chrono::high_resolution_clock::now();
 
     const size_t max_entries = impl_->config.result_cache_max_entries;
@@ -297,16 +304,14 @@ OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
         std::lock_guard<std::mutex> lock(impl_->result_cache_mutex);
         auto it = impl_->result_lru_map.find(cache_key);
         if (it != impl_->result_lru_map.end()) {
-            const auto now = std::chrono::steady_clock::now();
+            const auto now     = std::chrono::steady_clock::now();
             const bool expired = (ttl_ms > 0) && (now >= it->second.second.expiry);
             if (!expired) {
                 // Cache hit — promote to MRU front (O(1) splice)
-                impl_->result_lru_list.splice(
-                    impl_->result_lru_list.begin(), impl_->result_lru_list, it->second.first);
-                OLAPResult cached = it->second.second.result;
-                auto end = std::chrono::high_resolution_clock::now();
-                cached.execution_time_ms =
-                    std::chrono::duration<double, std::milli>(end - start).count();
+                impl_->result_lru_list.splice(impl_->result_lru_list.begin(), impl_->result_lru_list, it->second.first);
+                OLAPResult cached        = it->second.second.result;
+                auto end                 = std::chrono::high_resolution_clock::now();
+                cached.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
                 return cached;
             }
             // Expired: evict now so the fresh result is cached below
@@ -328,7 +333,7 @@ OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
     impl_->pool->reset();
 
     OLAPResult result;
-    
+
     switch (query.grouping_mode) {
         case OLAPQuery::GroupingMode::Simple:
             result = executeSimpleGroupBy(query);
@@ -343,34 +348,31 @@ OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
             result = executeGroupingSetsQuery(query);
             break;
     }
-    
-    auto end = std::chrono::high_resolution_clock::now();
+
+    auto end                 = std::chrono::high_resolution_clock::now();
     result.execution_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
 
     // ------------------------------------------------------------------
     // 3. Store result in LRU cache
     // ------------------------------------------------------------------
     if (max_entries > 0) {
-        const auto expiry = (ttl_ms > 0)
-            ? std::chrono::steady_clock::now() + std::chrono::milliseconds(ttl_ms)
-            : std::chrono::steady_clock::time_point::max();
+        const auto expiry = (ttl_ms > 0) ? std::chrono::steady_clock::now() + std::chrono::milliseconds(ttl_ms)
+                                         : std::chrono::steady_clock::time_point::max();
 
         std::lock_guard<std::mutex> lock(impl_->result_cache_mutex);
         auto it = impl_->result_lru_map.find(cache_key);
         if (it != impl_->result_lru_map.end()) {
             // Update existing entry and promote to MRU
-            impl_->result_lru_list.splice(
-                impl_->result_lru_list.begin(), impl_->result_lru_list, it->second.first);
+            impl_->result_lru_list.splice(impl_->result_lru_list.begin(), impl_->result_lru_list, it->second.first);
             it->second.second = OLAPEngine::Impl::CacheEntry{result, expiry};
         } else {
             impl_->result_lru_list.push_front(cache_key);
-            impl_->result_lru_map[cache_key] = {
-                impl_->result_lru_list.begin(),
-                OLAPEngine::Impl::CacheEntry{result, expiry}};
+            impl_->result_lru_map[cache_key]
+                = {impl_->result_lru_list.begin(), OLAPEngine::Impl::CacheEntry{result, expiry}};
         }
         // Evict LRU tail(s) if over capacity — O(1) per eviction
         while (impl_->result_lru_map.size() > max_entries) {
-            const std::string& lru_key = impl_->result_lru_list.back();
+            const std::string &lru_key = impl_->result_lru_list.back();
             impl_->result_lru_map.erase(lru_key);
             impl_->result_lru_list.pop_back();
         }
@@ -379,36 +381,36 @@ OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
     return result;
 }
 
-OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery& query) {
+OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
     OLAPResult result;
-    
+
     // Build column list
-    for (const auto& dim : query.dimensions) {
+    for (const auto &dim : query.dimensions) {
         result.columns.push_back(dim.name);
     }
-    for (const auto& measure : query.measures) {
+    for (const auto &measure : query.measures) {
         result.columns.push_back(measure.name);
     }
-    
+
     // Group data by dimensions
     std::map<std::vector<std::string>, std::vector<double>> groups;
-    
+
     auto it = impl_->collections.find(query.collection);
     if (it == impl_->collections.end()) {
-        return result;  // Empty result for non-existent collection
+        return result; // Empty result for non-existent collection
     }
-    
-    for (const auto& row : it->second) {
+
+    for (const auto &row : it->second) {
         // Build group key
         std::vector<std::string> groupKey;
-        for (const auto& dim : query.dimensions) {
+        for (const auto &dim : query.dimensions) {
             auto fieldIt = row.find(dim.name);
             if (fieldIt != row.end()) {
-                if (auto* s = std::get_if<std::string>(&fieldIt->second)) {
+                if (auto *s = std::get_if<std::string>(&fieldIt->second)) {
                     groupKey.push_back(*s);
-                } else if (auto* i = std::get_if<int64_t>(&fieldIt->second)) {
+                } else if (auto *i = std::get_if<int64_t>(&fieldIt->second)) {
                     groupKey.push_back(std::to_string(*i));
-                } else if (auto* d = std::get_if<double>(&fieldIt->second)) {
+                } else if (auto *d = std::get_if<double>(&fieldIt->second)) {
                     groupKey.push_back(std::to_string(*d));
                 } else {
                     groupKey.push_back("");
@@ -417,75 +419,82 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery& query) {
                 groupKey.push_back("");
             }
         }
-        
+
         // Collect measure values
-        for (const auto& measure : query.measures) {
+        for (const auto &measure : query.measures) {
             auto fieldIt = row.find(measure.field);
-            double val = 0.0;
+            double val   = 0.0;
             if (fieldIt != row.end()) {
-                if (auto* d = std::get_if<double>(&fieldIt->second)) {
+                if (auto *d = std::get_if<double>(&fieldIt->second)) {
                     val = *d;
-                } else if (auto* i = std::get_if<int64_t>(&fieldIt->second)) {
+                } else if (auto *i = std::get_if<int64_t>(&fieldIt->second)) {
                     val = static_cast<double>(*i);
                 }
             }
             groups[groupKey].push_back(val);
         }
     }
-    
+
     // Compute aggregates for each group
-    for (const auto& [groupKey, values] : groups) {
+    for (const auto &[groupKey, values] : groups) {
         OLAPResult::Row resultRow;
-        
+
         // Add dimension values
         for (size_t i = 0; i < query.dimensions.size(); ++i) {
             resultRow.values[query.dimensions[i].name] = groupKey[i];
         }
-        
+
         // Compute measure aggregates
         size_t valueIdx = 0;
-        for (const auto& measure : query.measures) {
+        for (const auto &measure : query.measures) {
             std::vector<double> measureValues;
             for (size_t i = valueIdx; i < values.size(); i += query.measures.size()) {
                 measureValues.push_back(values[i]);
             }
-            
+
             double aggValue = computeAggregate(measureValues, measure.function, measure.percentile_value);
             resultRow.values[measure.name] = aggValue;
             ++valueIdx;
         }
-        
+
         result.rows.push_back(std::move(resultRow));
     }
-    
+
     result.total_rows = result.rows.size();
-    
+
     // Apply sorting
     if (!query.sorts.empty()) {
-        std::sort(result.rows.begin(), result.rows.end(),
-            [&query](const OLAPResult::Row& a, const OLAPResult::Row& b) {
-                for (const auto& sort : query.sorts) {
-                    auto aIt = a.values.find(sort.field);
-                    auto bIt = b.values.find(sort.field);
-                    
-                    if (aIt == a.values.end() || bIt == b.values.end()) continue;
-                    
-                    // Compare as doubles for numeric types
-                    double aVal = 0, bVal = 0;
-                    if (auto* d = std::get_if<double>(&aIt->second)) aVal = *d;
-                    else if (auto* i = std::get_if<int64_t>(&aIt->second)) aVal = static_cast<double>(*i);
-                    
-                    if (auto* d = std::get_if<double>(&bIt->second)) bVal = *d;
-                    else if (auto* i = std::get_if<int64_t>(&bIt->second)) bVal = static_cast<double>(*i);
-                    
-                    if (aVal != bVal) {
-                        return sort.ascending ? (aVal < bVal) : (aVal > bVal);
-                    }
+        std::sort(result.rows.begin(), result.rows.end(), [&query](const OLAPResult::Row &a, const OLAPResult::Row &b) {
+            for (const auto &sort : query.sorts) {
+                auto aIt = a.values.find(sort.field);
+                auto bIt = b.values.find(sort.field);
+
+                if (aIt == a.values.end() || bIt == b.values.end()) {
+                    continue;
                 }
-                return false;
-            });
+
+                // Compare as doubles for numeric types
+                double aVal = 0, bVal = 0;
+                if (auto *d = std::get_if<double>(&aIt->second)) {
+                    aVal = *d;
+                } else if (auto *i = std::get_if<int64_t>(&aIt->second)) {
+                    aVal = static_cast<double>(*i);
+                }
+
+                if (auto *d = std::get_if<double>(&bIt->second)) {
+                    bVal = *d;
+                } else if (auto *i = std::get_if<int64_t>(&bIt->second)) {
+                    bVal = static_cast<double>(*i);
+                }
+
+                if (aVal != bVal) {
+                    return sort.ascending ? (aVal < bVal) : (aVal > bVal);
+                }
+            }
+            return false;
+        });
     }
-    
+
     // Apply limit/offset
     if (query.offset && *query.offset > 0) {
         if (static_cast<size_t>(*query.offset) < result.rows.size()) {
@@ -494,94 +503,94 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery& query) {
             result.rows.clear();
         }
     }
-    
+
     if (query.limit && *query.limit > 0) {
         if (static_cast<size_t>(*query.limit) < result.rows.size()) {
             result.has_more = true;
             result.rows.resize(*query.limit);
         }
     }
-    
+
     return result;
 }
 
-OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery& query) {
+OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
     OLAPResult result;
-    
+
     // CUBE generates all possible grouping combinations
     // For n dimensions, this is 2^n grouping sets
-    size_t numDimensions = query.dimensions.size();
+    size_t numDimensions   = query.dimensions.size();
     size_t numCombinations = 1ULL << numDimensions;
-    
+
     // Build column list
-    for (const auto& dim : query.dimensions) {
+    for (const auto &dim : query.dimensions) {
         result.columns.push_back(dim.name);
     }
-    for (const auto& measure : query.measures) {
+    for (const auto &measure : query.measures) {
         result.columns.push_back(measure.name);
     }
     result.columns.push_back("_grouping_id");
-    
+
     // Process each grouping combination
     for (size_t mask = 0; mask < numCombinations; ++mask) {
-        OLAPQuery subQuery = query;
+        OLAPQuery subQuery     = query;
         subQuery.grouping_mode = OLAPQuery::GroupingMode::Simple;
         subQuery.dimensions.clear();
-        
+
         for (size_t i = 0; i < numDimensions; ++i) {
             if (mask & (1ULL << i)) {
                 subQuery.dimensions.push_back(query.dimensions[i]);
             }
         }
-        
+
         auto subResult = executeSimpleGroupBy(subQuery);
-        
-        for (auto& row : subResult.rows) {
+
+        for (auto &row : subResult.rows) {
             // Add NULL for dimensions not in this grouping
             for (size_t i = 0; i < numDimensions; ++i) {
                 if (!(mask & (1ULL << i))) {
                     row.values[query.dimensions[i].name] = nullptr;
                 }
             }
-            row.grouping_id = static_cast<int64_t>(mask);
+            row.grouping_id            = static_cast<int64_t>(mask);
             row.values["_grouping_id"] = static_cast<int64_t>(mask);
             result.rows.push_back(std::move(row));
         }
     }
-    
+
     result.total_rows = result.rows.size();
     return result;
 }
 
-OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery& query) {
+OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery &query) {
     OLAPResult result;
-    
+
     // ROLLUP generates hierarchical groupings
     // For dimensions (A, B, C), generates: (A,B,C), (A,B), (A), ()
     size_t numDimensions = query.dimensions.size();
-    
+
     // Build column list
-    for (const auto& dim : query.dimensions) {
+    for (const auto &dim : query.dimensions) {
         result.columns.push_back(dim.name);
     }
-    for (const auto& measure : query.measures) {
+    for (const auto &measure : query.measures) {
         result.columns.push_back(measure.name);
     }
     result.columns.push_back("_level");
-    
+
     // Process each rollup level
     for (size_t level = 0; level <= numDimensions; ++level) {
-        OLAPQuery subQuery = query;
+        OLAPQuery subQuery     = query;
         subQuery.grouping_mode = OLAPQuery::GroupingMode::Simple;
         subQuery.dimensions.clear();
-        
+
         for (size_t i = 0; i < numDimensions - level; ++i) {
             subQuery.dimensions.push_back(query.dimensions[i]);
         }
-        
+
         auto subResult = executeSimpleGroupBy(subQuery);
-        
-        for (auto& row : subResult.rows) {
+
+        for (auto &row : subResult.rows) {
             // Add NULL for dimensions at higher levels
             for (size_t i = numDimensions - level; i < numDimensions; ++i) {
                 row.values[query.dimensions[i].name] = nullptr;
@@ -590,41 +599,41 @@ OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery& query) {
             result.rows.push_back(std::move(row));
         }
     }
-    
+
     result.total_rows = result.rows.size();
     return result;
 }
 
-OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery& query) {
+OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery &query) {
     OLAPResult result;
-    
+
     // Build column list
-    for (const auto& dim : query.dimensions) {
+    for (const auto &dim : query.dimensions) {
         result.columns.push_back(dim.name);
     }
-    for (const auto& measure : query.measures) {
+    for (const auto &measure : query.measures) {
         result.columns.push_back(measure.name);
     }
-    
+
     // Process each grouping set
-    for (const auto& groupingSet : query.grouping_sets) {
-        OLAPQuery subQuery = query;
+    for (const auto &groupingSet : query.grouping_sets) {
+        OLAPQuery subQuery     = query;
         subQuery.grouping_mode = OLAPQuery::GroupingMode::Simple;
         subQuery.dimensions.clear();
-        
+
         std::unordered_set<std::string> setDimensions(groupingSet.dimensions.begin(), groupingSet.dimensions.end());
-        
-        for (const auto& dim : query.dimensions) {
+
+        for (const auto &dim : query.dimensions) {
             if (setDimensions.count(dim.name)) {
                 subQuery.dimensions.push_back(dim);
             }
         }
-        
+
         auto subResult = executeSimpleGroupBy(subQuery);
-        
-        for (auto& row : subResult.rows) {
+
+        for (auto &row : subResult.rows) {
             // Add NULL for dimensions not in this grouping set
-            for (const auto& dim : query.dimensions) {
+            for (const auto &dim : query.dimensions) {
                 if (!setDimensions.count(dim.name)) {
                     row.values[dim.name] = nullptr;
                 }
@@ -632,91 +641,85 @@ OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery& query) {
             result.rows.push_back(std::move(row));
         }
     }
-    
+
     result.total_rows = result.rows.size();
     return result;
 }
 
-std::vector<CubeCell> OLAPEngine::executeCube(
-    std::string_view collection,
-    const std::vector<Dimension>& dimensions,
-    const std::vector<Measure>& measures,
-    const std::vector<Filter>& filters
-) {
+std::vector<CubeCell> OLAPEngine::executeCube(std::string_view collection, const std::vector<Dimension> &dimensions,
+                                              const std::vector<Measure> &measures,
+                                              const std::vector<Filter> &filters) {
     OLAPQuery query;
-    query.collection = std::string(collection);
-    query.dimensions = dimensions;
-    query.measures = measures;
-    query.filters = filters;
+    query.collection    = std::string(collection);
+    query.dimensions    = dimensions;
+    query.measures      = measures;
+    query.filters       = filters;
     query.grouping_mode = OLAPQuery::GroupingMode::Cube;
-    
+
     auto result = execute(query);
-    
+
     std::vector<CubeCell> cells;
-    for (const auto& row : result.rows) {
+    for (const auto &row : result.rows) {
         CubeCell cell;
         cell.grouping_id = row.grouping_id;
-        
-        for (const auto& dim : dimensions) {
+
+        for (const auto &dim : dimensions) {
             auto it = row.values.find(dim.name);
             if (it != row.values.end()) {
                 if (std::holds_alternative<std::nullptr_t>(it->second)) {
                     cell.dimensions[dim.name] = std::nullopt;
-                } else if (auto* s = std::get_if<std::string>(&it->second)) {
+                } else if (auto *s = std::get_if<std::string>(&it->second)) {
                     cell.dimensions[dim.name] = *s;
                 }
             }
         }
-        
-        for (const auto& measure : measures) {
+
+        for (const auto &measure : measures) {
             auto it = row.values.find(measure.name);
             if (it != row.values.end()) {
-                if (auto* d = std::get_if<double>(&it->second)) {
+                if (auto *d = std::get_if<double>(&it->second)) {
                     cell.measures[measure.name] = *d;
-                } else if (auto* i = std::get_if<int64_t>(&it->second)) {
+                } else if (auto *i = std::get_if<int64_t>(&it->second)) {
                     cell.measures[measure.name] = static_cast<double>(*i);
                 }
             }
         }
-        
+
         cells.push_back(std::move(cell));
     }
-    
+
     return cells;
 }
 
-std::vector<RollupRow> OLAPEngine::executeRollup(
-    std::string_view collection,
-    const std::vector<Dimension>& dimensions,
-    const std::vector<Measure>& measures,
-    const std::vector<Filter>& filters
-) {
+std::vector<RollupRow> OLAPEngine::executeRollup(std::string_view collection, const std::vector<Dimension> &dimensions,
+                                                 const std::vector<Measure> &measures,
+                                                 const std::vector<Filter> &filters) {
     OLAPQuery query;
-    query.collection = std::string(collection);
-    query.dimensions = dimensions;
-    query.measures = measures;
-    query.filters = filters;
+    query.collection    = std::string(collection);
+    query.dimensions    = dimensions;
+    query.measures      = measures;
+    query.filters       = filters;
     query.grouping_mode = OLAPQuery::GroupingMode::Rollup;
-    
+
     auto result = execute(query);
-    
+
     std::vector<RollupRow> rows;
-    for (const auto& row : result.rows) {
+    for (const auto &row : result.rows) {
         RollupRow rollupRow;
-        
+
         auto levelIt = row.values.find("_level");
         if (levelIt != row.values.end()) {
-            if (auto* i = std::get_if<int64_t>(&levelIt->second)) {
+            if (auto *i = std::get_if<int64_t>(&levelIt->second)) {
                 rollupRow.level = static_cast<int>(*i);
             }
         }
-        
-        for (const auto& dim : dimensions) {
+
+        for (const auto &dim : dimensions) {
             auto it = row.values.find(dim.name);
             if (it != row.values.end()) {
                 if (std::holds_alternative<std::nullptr_t>(it->second)) {
                     rollupRow.dimension_values.push_back(std::nullopt);
-                } else if (auto* s = std::get_if<std::string>(&it->second)) {
+                } else if (auto *s = std::get_if<std::string>(&it->second)) {
                     rollupRow.dimension_values.push_back(*s);
                 } else {
                     rollupRow.dimension_values.push_back(std::nullopt);
@@ -725,51 +728,48 @@ std::vector<RollupRow> OLAPEngine::executeRollup(
                 rollupRow.dimension_values.push_back(std::nullopt);
             }
         }
-        
-        for (const auto& measure : measures) {
+
+        for (const auto &measure : measures) {
             auto it = row.values.find(measure.name);
             if (it != row.values.end()) {
-                if (auto* d = std::get_if<double>(&it->second)) {
+                if (auto *d = std::get_if<double>(&it->second)) {
                     rollupRow.measures[measure.name] = *d;
-                } else if (auto* i = std::get_if<int64_t>(&it->second)) {
+                } else if (auto *i = std::get_if<int64_t>(&it->second)) {
                     rollupRow.measures[measure.name] = static_cast<double>(*i);
                 }
             }
         }
-        
+
         rows.push_back(std::move(rollupRow));
     }
-    
+
     return rows;
 }
 
-std::vector<OLAPEngine::WindowResult> OLAPEngine::evaluateWindowFunctions(
-    const std::vector<std::unordered_map<std::string, double>>& data,
-    const std::vector<Measure>& measures,
-    const OLAPQuery::WindowSpec& window
-) {
+std::vector<OLAPEngine::WindowResult>
+OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::string, double>> &data,
+                                    const std::vector<Measure> &measures, const OLAPQuery::WindowSpec &window) {
     std::vector<WindowResult> results;
-    
-    for (const auto& measure : measures) {
+
+    for (const auto &measure : measures) {
         WindowResult result;
         result.function = Measure::functionName(measure.function);
-        result.field = measure.field;
+        result.field    = measure.field;
         result.values.resize(data.size());
-        
+
         // Simple implementation without partitioning for now
         for (size_t i = 0; i < data.size(); ++i) {
             // Determine window bounds
             size_t start = 0;
-            size_t end = data.size();
-            
+            size_t end   = data.size();
+
             if (window.rows_preceding) {
-                start = (i > static_cast<size_t>(*window.rows_preceding)) ? 
-                        (i - *window.rows_preceding) : 0;
+                start = (i > static_cast<size_t>(*window.rows_preceding)) ? (i - *window.rows_preceding) : 0;
             }
             if (window.rows_following) {
                 end = std::min(i + *window.rows_following + 1, data.size());
             }
-            
+
             // Collect window values
             std::vector<double> windowValues;
             for (size_t j = start; j < end; ++j) {
@@ -778,58 +778,60 @@ std::vector<OLAPEngine::WindowResult> OLAPEngine::evaluateWindowFunctions(
                     windowValues.push_back(it->second);
                 }
             }
-            
+
             result.values[i] = computeAggregate(windowValues, measure.function, measure.percentile_value);
         }
-        
+
         results.push_back(std::move(result));
     }
-    
+
     return results;
 }
 
-OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
+OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
     QueryPlan plan;
+    const auto to_plan_rows = [](size_t value) {
+        const size_t max_rows = static_cast<size_t>(std::numeric_limits<int>::max());
+        return static_cast<int>(std::min(value, max_rows));
+    };
 
     // Use cached collection statistics when available; fall back to 1000 rows.
     {
         std::lock_guard<std::mutex> lock(impl_->stats_mutex);
         auto it = impl_->stats_cache_.find(query.collection);
         if (it != impl_->stats_cache_.end() && it->second.valid) {
-            plan.estimated_rows = static_cast<size_t>(it->second.row_count);
+            plan.estimated_rows = to_plan_rows(static_cast<size_t>(it->second.row_count));
         } else {
             // No statistics collected yet — use the in-memory store directly if
             // it holds data for this collection.
             auto cit = impl_->collections.find(query.collection);
             if (cit != impl_->collections.end() && !cit->second.empty()) {
-                plan.estimated_rows = cit->second.size();
+                plan.estimated_rows = to_plan_rows(cit->second.size());
             } else {
                 plan.estimated_rows = 1000; // default when no data available
             }
         }
     }
     plan.estimated_cost = static_cast<double>(plan.estimated_rows);
-    
+
     // Check for index usage
     if (query.filters.empty()) {
         plan.optimization_notes.push_back("Full table scan required (no filters)");
     } else {
         plan.optimization_notes.push_back("Filter pushdown applied");
     }
-    
+
     // Check grouping complexity
     if (query.grouping_mode == OLAPQuery::GroupingMode::Cube) {
         size_t combinations = 1ULL << query.dimensions.size();
-        plan.optimization_notes.push_back(
-            "CUBE will generate " + std::to_string(combinations) + " grouping combinations"
-        );
+        plan.optimization_notes.push_back("CUBE will generate " + std::to_string(combinations)
+                                          + " grouping combinations");
         plan.estimated_cost *= combinations;
     } else if (query.grouping_mode == OLAPQuery::GroupingMode::Rollup) {
-        plan.optimization_notes.push_back(
-            "ROLLUP will generate " + std::to_string(query.dimensions.size() + 1) + " levels"
-        );
+        plan.optimization_notes.push_back("ROLLUP will generate " + std::to_string(query.dimensions.size() + 1)
+                                          + " levels");
     }
-    
+
     // Parallel execution possibility
     if (plan.estimated_rows > 10000) {
         plan.parallel_execution = true;
@@ -838,12 +840,10 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
 
     // GPU acceleration note
     if (impl_->config.enable_gpu) {
-        plan.optimization_notes.push_back(
-            "GPU acceleration enabled (CUDA/ROCm, threshold " +
-            std::to_string(impl_->config.gpu_threshold_rows) + " rows)"
-        );
+        plan.optimization_notes.push_back("GPU acceleration enabled (CUDA/ROCm, threshold "
+                                          + std::to_string(impl_->config.gpu_threshold_rows) + " rows)");
     }
-    
+
     return plan;
 }
 
@@ -863,34 +863,43 @@ void OLAPEngine::collectStatistics(std::string_view collection) {
     auto it = impl_->collections.find(key);
     if (it != impl_->collections.end()) {
         stats.row_count = it->second.size();
-        stats.valid = true;
+        stats.valid     = true;
     }
     stats.updated = std::chrono::steady_clock::now();
 
     impl_->stats_cache_[key] = stats;
 }
 
-double OLAPEngine::computeAggregate(
-    const std::vector<double>& values,
-    Measure::Function function,
-    double percentile
-) {
-    if (values.empty()) return 0.0;
+double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::Function function, double percentile) {
+    if (values.empty()) {
+        return 0.0;
+    }
 
     // GPU-accelerated path for basic aggregations when GPU is enabled and
     // the value set is large enough to justify GPU dispatch overhead.
     if (impl_->gpu_accelerator && values.size() >= impl_->config.gpu_threshold_rows) {
         using AggFunc = themis::gpu::GPUQueryAccelerator::AggFunc;
-        using Row = themis::gpu::GPUQueryAccelerator::Row;
+        using Row     = themis::gpu::GPUQueryAccelerator::Row;
 
         std::optional<AggFunc> gpu_func;
         switch (function) {
-            case Measure::Function::Sum:   gpu_func = AggFunc::SUM;   break;
-            case Measure::Function::Count: gpu_func = AggFunc::COUNT; break;
-            case Measure::Function::Min:   gpu_func = AggFunc::MIN;   break;
-            case Measure::Function::Max:   gpu_func = AggFunc::MAX;   break;
-            case Measure::Function::Avg:   gpu_func = AggFunc::AVG;   break;
-            default: break;
+            case Measure::Function::Sum:
+                gpu_func = AggFunc::SUM;
+                break;
+            case Measure::Function::Count:
+                gpu_func = AggFunc::COUNT;
+                break;
+            case Measure::Function::Min:
+                gpu_func = AggFunc::MIN;
+                break;
+            case Measure::Function::Max:
+                gpu_func = AggFunc::MAX;
+                break;
+            case Measure::Function::Avg:
+                gpu_func = AggFunc::AVG;
+                break;
+            default:
+                break;
         }
 
         if (gpu_func) {
@@ -904,8 +913,10 @@ double OLAPEngine::computeAggregate(
                 gpu_rows.push_back(std::move(row));
             }
 
-            auto value_fn = [](const Row& r) -> double {
-                if (r.data.size() < sizeof(double)) return 0.0;
+            auto value_fn = [](const Row &r) -> double {
+                if (r.data.size() < sizeof(double)) {
+                    return 0.0;
+                }
                 double v;
                 std::memcpy(&v, r.data.data(), sizeof(double));
                 return v;
@@ -919,21 +930,21 @@ double OLAPEngine::computeAggregate(
     switch (function) {
         case Measure::Function::Count:
             return static_cast<double>(values.size());
-            
+
         case Measure::Function::Sum:
             return std::accumulate(values.begin(), values.end(), 0.0);
-            
+
         case Measure::Function::Avg:
             return std::accumulate(values.begin(), values.end(), 0.0) / values.size();
-            
+
         case Measure::Function::Min:
             return *std::min_element(values.begin(), values.end());
-            
+
         case Measure::Function::Max:
             return *std::max_element(values.begin(), values.end());
-            
+
         case Measure::Function::StdDev: {
-            double mean = std::accumulate(values.begin(), values.end(), 0.0) / values.size();
+            double mean     = std::accumulate(values.begin(), values.end(), 0.0) / values.size();
             double variance = 0.0;
             for (double v : values) {
                 variance += (v - mean) * (v - mean);
@@ -941,16 +952,16 @@ double OLAPEngine::computeAggregate(
             variance /= values.size();
             return std::sqrt(variance);
         }
-            
+
         case Measure::Function::Variance: {
-            double mean = std::accumulate(values.begin(), values.end(), 0.0) / values.size();
+            double mean     = std::accumulate(values.begin(), values.end(), 0.0) / values.size();
             double variance = 0.0;
             for (double v : values) {
                 variance += (v - mean) * (v - mean);
             }
             return variance / values.size();
         }
-            
+
         case Measure::Function::Median: {
             std::vector<double> sorted = values;
             std::sort(sorted.begin(), sorted.end());
@@ -960,11 +971,11 @@ double OLAPEngine::computeAggregate(
             }
             return sorted[mid];
         }
-            
+
         case Measure::Function::Percentile: {
             std::vector<double> sorted = values;
             std::sort(sorted.begin(), sorted.end());
-            double rank = percentile / 100.0 * (sorted.size() - 1);
+            double rank  = percentile / 100.0 * (sorted.size() - 1);
             size_t lower = static_cast<size_t>(rank);
             size_t upper = lower + 1;
             if (upper >= sorted.size()) {
@@ -973,19 +984,19 @@ double OLAPEngine::computeAggregate(
             double fraction = rank - lower;
             return sorted[lower] + fraction * (sorted[upper] - sorted[lower]);
         }
-            
+
         case Measure::Function::CountDistinct: {
             std::unordered_set<double> unique(values.begin(), values.end());
             return static_cast<double>(unique.size());
         }
-            
+
         case Measure::Function::First:
             return values.front();
-            
+
         case Measure::Function::Last:
             return values.back();
     }
-    
+
     return 0.0;
 }
 
@@ -1009,16 +1020,17 @@ namespace {
 static const bool kHasAVX512 = __builtin_cpu_supports("avx512f");
 #endif
 
-static double vectorizedSum(const double* data, size_t n) noexcept {
+static double vectorizedSum(const double *data, size_t n) noexcept {
     double total = 0.0;
-    size_t i = 0;
+    size_t i     = 0;
 #if defined(__AVX512F__)
     if (n >= 8 && kHasAVX512) {
         __m512d vsum = _mm512_setzero_pd();
         for (; i + 7 < n; i += 8)
             vsum = _mm512_add_pd(vsum, _mm512_loadu_pd(data + i));
         total = _mm512_reduce_add_pd(vsum);
-        for (; i < n; ++i) total += data[i];
+        for (; i < n; ++i)
+            total += data[i];
         return total;
     }
 #endif
@@ -1032,84 +1044,104 @@ static double vectorizedSum(const double* data, size_t n) noexcept {
         total = lane[0] + lane[1] + lane[2] + lane[3];
     }
 #endif
-    for (; i < n; ++i) total += data[i];
+    for (; i < n; ++i) {
+        total += data[i];
+    }
     return total;
 }
 
-static double vectorizedMin(const double* data, size_t n) noexcept {
-    if (n == 0) return std::numeric_limits<double>::max();
+static double vectorizedMin(const double *data, size_t n) noexcept {
+    if (n == 0) {
+        return std::numeric_limits<double>::max();
+    }
     double result = data[0];
-    size_t i = 1;
+    size_t i      = 1;
 #if defined(__AVX512F__)
     if (n >= 8 && kHasAVX512) {
         __m512d vmin = _mm512_set1_pd(data[0]);
-        i = 0;
+        i            = 0;
         for (; i + 7 < n; i += 8)
             vmin = _mm512_min_pd(vmin, _mm512_loadu_pd(data + i));
         result = _mm512_reduce_min_pd(vmin);
-        for (; i < n; ++i) if (data[i] < result) result = data[i];
+        for (; i < n; ++i)
+            if (data[i] < result)
+                result = data[i];
         return result;
     }
 #endif
 #if defined(__AVX2__)
     if (n >= 4) {
         __m256d vmin = _mm256_set1_pd(data[0]);
-        i = 0;
+        i            = 0;
         for (; i + 3 < n; i += 4)
             vmin = _mm256_min_pd(vmin, _mm256_loadu_pd(data + i));
         double lane[4];
         _mm256_storeu_pd(lane, vmin);
         result = std::min({lane[0], lane[1], lane[2], lane[3]});
-        for (; i < n; ++i) if (data[i] < result) result = data[i];
+        for (; i < n; ++i)
+            if (data[i] < result)
+                result = data[i];
         return result;
     }
 #endif
-    for (; i < n; ++i) if (data[i] < result) result = data[i];
+    for (; i < n; ++i) {
+        if (data[i] < result)
+            result = data[i];
+    }
     return result;
 }
 
-static double vectorizedMax(const double* data, size_t n) noexcept {
-    if (n == 0) return std::numeric_limits<double>::lowest();
+static double vectorizedMax(const double *data, size_t n) noexcept {
+    if (n == 0) {
+        return std::numeric_limits<double>::lowest();
+    }
     double result = data[0];
-    size_t i = 1;
+    size_t i      = 1;
 #if defined(__AVX512F__)
     if (n >= 8 && kHasAVX512) {
         __m512d vmax = _mm512_set1_pd(data[0]);
-        i = 0;
+        i            = 0;
         for (; i + 7 < n; i += 8)
             vmax = _mm512_max_pd(vmax, _mm512_loadu_pd(data + i));
         result = _mm512_reduce_max_pd(vmax);
-        for (; i < n; ++i) if (data[i] > result) result = data[i];
+        for (; i < n; ++i)
+            if (data[i] > result)
+                result = data[i];
         return result;
     }
 #endif
 #if defined(__AVX2__)
     if (n >= 4) {
         __m256d vmax = _mm256_set1_pd(data[0]);
-        i = 0;
+        i            = 0;
         for (; i + 3 < n; i += 4)
             vmax = _mm256_max_pd(vmax, _mm256_loadu_pd(data + i));
         double lane[4];
         _mm256_storeu_pd(lane, vmax);
         result = std::max({lane[0], lane[1], lane[2], lane[3]});
-        for (; i < n; ++i) if (data[i] > result) result = data[i];
+        for (; i < n; ++i)
+            if (data[i] > result)
+                result = data[i];
         return result;
     }
 #endif
-    for (; i < n; ++i) if (data[i] > result) result = data[i];
+    for (; i < n; ++i) {
+        if (data[i] > result)
+            result = data[i];
+    }
     return result;
 }
 
 } // anonymous namespace
 
 class ColumnarStore::Impl {
-public:
+  public:
     struct Column {
         std::string name;
         std::string type;
         std::vector<std::variant<std::nullptr_t, bool, int64_t, double, std::string>> data;
     };
-    
+
     std::unordered_map<std::string, Column> columns;
     size_t row_count = 0;
 
@@ -1119,15 +1151,15 @@ public:
 
     // Populate simd_buffer with numeric (double + int64) values from a column.
     // Returns a pointer/count pair into the buffer for SIMD consumption.
-    static std::pair<const double*, size_t>
-    extractDoubles(const Column& col, std::vector<double>& buf) {
+    static std::pair<const double *, size_t> extractDoubles(const Column &col, std::vector<double> &buf) {
         buf.clear();
         buf.reserve(col.data.size());
-        for (const auto& val : col.data) {
-            if (const auto* d = std::get_if<double>(&val))
+        for (const auto &val : col.data) {
+            if (const auto *d = std::get_if<double>(&val)) {
                 buf.push_back(*d);
-            else if (const auto* i64 = std::get_if<int64_t>(&val))
+            } else if (const auto *i64 = std::get_if<int64_t>(&val)) {
                 buf.push_back(static_cast<double>(*i64));
+            }
         }
         return {buf.data(), buf.size()};
     }
@@ -1138,8 +1170,8 @@ ColumnarStore::~ColumnarStore() = default;
 
 void ColumnarStore::createColumn(std::string_view name, std::string_view type) {
     Impl::Column col;
-    col.name = std::string(name);
-    col.type = std::string(type);
+    col.name                 = std::string(name);
+    col.type                 = std::string(type);
     impl_->columns[col.name] = std::move(col);
 }
 
@@ -1152,10 +1184,10 @@ bool ColumnarStore::hasColumn(std::string_view name) const {
 }
 
 void ColumnarStore::appendRows(
-    const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& rows
-) {
-    for (const auto& row : rows) {
-        for (auto& [name, col] : impl_->columns) {
+    const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>
+        &rows) {
+    for (const auto &row : rows) {
+        for (auto &[name, col] : impl_->columns) {
             auto it = row.find(name);
             if (it != row.end()) {
                 col.data.push_back(it->second);
@@ -1168,7 +1200,7 @@ void ColumnarStore::appendRows(
 }
 
 void ColumnarStore::clear() {
-    for (auto& [name, col] : impl_->columns) {
+    for (auto &[name, col] : impl_->columns) {
         col.data.clear();
     }
     impl_->row_count = 0;
@@ -1180,7 +1212,9 @@ size_t ColumnarStore::rowCount() const {
 
 double ColumnarStore::sum(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
-    if (it == impl_->columns.end()) return 0.0;
+    if (it == impl_->columns.end()) {
+        return 0.0;
+    }
 
     auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
     return vectorizedSum(ptr, n);
@@ -1188,37 +1222,51 @@ double ColumnarStore::sum(std::string_view column) const {
 
 double ColumnarStore::avg(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
-    if (it == impl_->columns.end() || it->second.data.empty()) return 0.0;
+    if (it == impl_->columns.end() || it->second.data.empty()) {
+        return 0.0;
+    }
 
     auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
-    if (n == 0) return 0.0;
+    if (n == 0) {
+        return 0.0;
+    }
     return vectorizedSum(ptr, n) / static_cast<double>(n);
 }
 
 double ColumnarStore::min(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
-    if (it == impl_->columns.end() || it->second.data.empty()) return 0.0;
+    if (it == impl_->columns.end() || it->second.data.empty()) {
+        return 0.0;
+    }
 
     auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
-    if (n == 0) return 0.0;
+    if (n == 0) {
+        return 0.0;
+    }
     return vectorizedMin(ptr, n);
 }
 
 double ColumnarStore::max(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
-    if (it == impl_->columns.end() || it->second.data.empty()) return 0.0;
+    if (it == impl_->columns.end() || it->second.data.empty()) {
+        return 0.0;
+    }
 
     auto [ptr, n] = Impl::extractDoubles(it->second, impl_->simd_buffer);
-    if (n == 0) return 0.0;
+    if (n == 0) {
+        return 0.0;
+    }
     return vectorizedMax(ptr, n);
 }
 
 int64_t ColumnarStore::count(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
-    if (it == impl_->columns.end()) return 0;
-    
+    if (it == impl_->columns.end()) {
+        return 0;
+    }
+
     int64_t result = 0;
-    for (const auto& val : it->second.data) {
+    for (const auto &val : it->second.data) {
         if (!std::holds_alternative<std::nullptr_t>(val)) {
             ++result;
         }
@@ -1228,33 +1276,37 @@ int64_t ColumnarStore::count(std::string_view column) const {
 
 int64_t ColumnarStore::countDistinct(std::string_view column) const {
     auto it = impl_->columns.find(std::string(column));
-    if (it == impl_->columns.end()) return 0;
-    
+    if (it == impl_->columns.end()) {
+        return 0;
+    }
+
     std::unordered_set<std::string> unique;
-    for (const auto& val : it->second.data) {
-        if (auto* s = std::get_if<std::string>(&val)) {
+    for (const auto &val : it->second.data) {
+        if (auto *s = std::get_if<std::string>(&val)) {
             unique.insert(*s);
-        } else if (auto* d = std::get_if<double>(&val)) {
+        } else if (auto *d = std::get_if<double>(&val)) {
             unique.insert(std::to_string(*d));
-        } else if (auto* i = std::get_if<int64_t>(&val)) {
+        } else if (auto *i = std::get_if<int64_t>(&val)) {
             unique.insert(std::to_string(*i));
         }
     }
     return static_cast<int64_t>(unique.size());
 }
 
-double ColumnarStore::sumWhere(std::string_view column, const std::vector<bool>& mask) const {
+double ColumnarStore::sumWhere(std::string_view column, const std::vector<bool> &mask) const {
     auto it = impl_->columns.find(std::string(column));
-    if (it == impl_->columns.end()) return 0.0;
-    
-    double result = 0.0;
+    if (it == impl_->columns.end()) {
+        return 0.0;
+    }
+
+    double result  = 0.0;
     size_t minSize = std::min(it->second.data.size(), mask.size());
     for (size_t i = 0; i < minSize; ++i) {
         if (mask[i]) {
-            const auto& val = it->second.data[i];
-            if (auto* d = std::get_if<double>(&val)) {
+            const auto &val = it->second.data[i];
+            if (auto *d = std::get_if<double>(&val)) {
                 result += *d;
-            } else if (auto* n = std::get_if<int64_t>(&val)) {
+            } else if (auto *n = std::get_if<int64_t>(&val)) {
                 result += static_cast<double>(*n);
             }
         }
@@ -1265,47 +1317,53 @@ double ColumnarStore::sumWhere(std::string_view column, const std::vector<bool>&
 ColumnarStore::ColumnStats ColumnarStore::getColumnStats(std::string_view column) const {
     ColumnStats stats;
     stats.name = std::string(column);
-    
+
     auto it = impl_->columns.find(std::string(column));
-    if (it == impl_->columns.end()) return stats;
-    
-    stats.type = it->second.type;
+    if (it == impl_->columns.end()) {
+        return stats;
+    }
+
+    stats.type      = it->second.type;
     stats.row_count = it->second.data.size();
-    
+
     std::unordered_set<std::string> unique;
-    double sum = 0.0;
+    double sum           = 0.0;
     int64_t nonNullCount = 0;
-    
-    for (const auto& val : it->second.data) {
+
+    for (const auto &val : it->second.data) {
         if (std::holds_alternative<std::nullptr_t>(val)) {
             ++stats.null_count;
             continue;
         }
-        
+
         ++nonNullCount;
-        
+
         double v = 0.0;
-        if (auto* d = std::get_if<double>(&val)) {
+        if (auto *d = std::get_if<double>(&val)) {
             v = *d;
             unique.insert(std::to_string(*d));
-        } else if (auto* i = std::get_if<int64_t>(&val)) {
+        } else if (auto *i = std::get_if<int64_t>(&val)) {
             v = static_cast<double>(*i);
             unique.insert(std::to_string(*i));
-        } else if (auto* s = std::get_if<std::string>(&val)) {
+        } else if (auto *s = std::get_if<std::string>(&val)) {
             unique.insert(*s);
-            continue;  // Skip numeric stats for strings
+            continue; // Skip numeric stats for strings
         }
-        
+
         sum += v;
-        if (!stats.min_value || v < *stats.min_value) stats.min_value = v;
-        if (!stats.max_value || v > *stats.max_value) stats.max_value = v;
+        if (!stats.min_value || v < *stats.min_value) {
+            stats.min_value = v;
+        }
+        if (!stats.max_value || v > *stats.max_value) {
+            stats.max_value = v;
+        }
     }
-    
+
     stats.distinct_count = unique.size();
     if (nonNullCount > 0) {
         stats.avg_value = sum / nonNullCount;
     }
-    
+
     return stats;
 }
 
@@ -1314,7 +1372,7 @@ ColumnarStore::ColumnStats ColumnarStore::getColumnStats(std::string_view column
 // ============================================================================
 
 class MaterializedView::Impl {
-public:
+  public:
     OLAPResult cached_result;
     std::chrono::system_clock::time_point last_refresh;
     bool is_initialized = false;
@@ -1325,45 +1383,60 @@ public:
 
     struct AggState {
         int64_t count = 0;
-        double  sum   = 0.0;
-        std::multiset<double> sorted;   // for MIN/MAX
-        double  wf_mean = 0.0;          // Welford mean
-        double  wf_m2   = 0.0;          // Welford M2
+        double sum    = 0.0;
+        std::multiset<double> sorted; // for MIN/MAX
+        double wf_mean = 0.0;         // Welford mean
+        double wf_m2   = 0.0;         // Welford M2
 
         void add(double v, int sign) {
             if (sign > 0) {
-                ++count; sum += v;
+                ++count;
+                sum += v;
                 sorted.insert(v);
                 double delta = v - wf_mean;
                 wf_mean += delta / static_cast<double>(count);
-                wf_m2   += delta * (v - wf_mean);
+                wf_m2 += delta * (v - wf_mean);
             } else if (sign < 0 && count > 0) {
-                --count; sum -= v;
+                --count;
+                sum -= v;
                 auto it = sorted.find(v);
-                if (it != sorted.end()) sorted.erase(it);
+                if (it != sorted.end()) {
+                    sorted.erase(it);
+                }
                 if (count > 0) {
                     double old_mean = wf_mean;
-                    double new_mean = (wf_mean * static_cast<double>(count + 1) - v)
-                                      / static_cast<double>(count);
+                    double new_mean = (wf_mean * static_cast<double>(count + 1) - v) / static_cast<double>(count);
                     wf_m2 -= (v - old_mean) * (v - new_mean);
-                    if (wf_m2 < 0.0) wf_m2 = 0.0;
+                    if (wf_m2 < 0.0)
+                        wf_m2 = 0.0;
                     wf_mean = new_mean;
                 } else {
-                    wf_mean = 0.0; wf_m2 = 0.0;
+                    wf_mean = 0.0;
+                    wf_m2   = 0.0;
                 }
             }
         }
         double result(Measure::Function f, [[maybe_unused]] double pct = 0.0) const {
-            if (count == 0) return 0.0;
+            if (count == 0) {
+                return 0.0;
+            }
             switch (f) {
-                case Measure::Function::Count:    return static_cast<double>(count);
-                case Measure::Function::Sum:      return sum;
-                case Measure::Function::Avg:      return sum / static_cast<double>(count);
-                case Measure::Function::Min:      return sorted.empty() ? 0.0 : *sorted.begin();
-                case Measure::Function::Max:      return sorted.empty() ? 0.0 : *sorted.rbegin();
-                case Measure::Function::StdDev:   return (count >= 2) ? std::sqrt(wf_m2 / static_cast<double>(count - 1)) : 0.0;
-                case Measure::Function::Variance: return (count >= 2) ? wf_m2 / static_cast<double>(count - 1) : 0.0;
-                default: return sum;
+                case Measure::Function::Count:
+                    return static_cast<double>(count);
+                case Measure::Function::Sum:
+                    return sum;
+                case Measure::Function::Avg:
+                    return sum / static_cast<double>(count);
+                case Measure::Function::Min:
+                    return sorted.empty() ? 0.0 : *sorted.begin();
+                case Measure::Function::Max:
+                    return sorted.empty() ? 0.0 : *sorted.rbegin();
+                case Measure::Function::StdDev:
+                    return (count >= 2) ? std::sqrt(wf_m2 / static_cast<double>(count - 1)) : 0.0;
+                case Measure::Function::Variance:
+                    return (count >= 2) ? wf_m2 / static_cast<double>(count - 1) : 0.0;
+                default:
+                    return sum;
             }
         }
     };
@@ -1371,37 +1444,48 @@ public:
     // group_key → (measure_name → AggState)
     std::map<std::string, std::unordered_map<std::string, AggState>> groups;
 
-    static std::string makeGroupKey(const Row& row,
-                                    const std::vector<Dimension>& dims) {
+    static std::string makeGroupKey(const Row &row, const std::vector<Dimension> &dims) {
         std::string key;
-        for (const auto& d : dims) {
+        for (const auto &d : dims) {
             auto it = row.find(d.name);
             if (it != row.end()) {
-                if (auto* s = std::get_if<std::string>(&it->second)) key += *s;
-                else if (auto* i = std::get_if<int64_t>(&it->second)) key += std::to_string(*i);
-                else if (auto* dv = std::get_if<double>(&it->second)) key += std::to_string(*dv);
+                if (auto *s = std::get_if<std::string>(&it->second)) {
+                    key += *s;
+                } else if (auto *i = std::get_if<int64_t>(&it->second)) {
+                    key += std::to_string(*i);
+                } else if (auto *dv = std::get_if<double>(&it->second)) {
+                    key += std::to_string(*dv);
+                }
             }
             key += '\0';
         }
         return key;
     }
 
-    static double fieldToDouble(const std::variant<std::nullptr_t, bool, int64_t, double, std::string>& v) {
-        if (auto* d = std::get_if<double>(&v))   return *d;
-        if (auto* i = std::get_if<int64_t>(&v))  return static_cast<double>(*i);
-        if (auto* b = std::get_if<bool>(&v))      return *b ? 1.0 : 0.0;
+    static double fieldToDouble(const std::variant<std::nullptr_t, bool, int64_t, double, std::string> &v) {
+        if (auto *d = std::get_if<double>(&v)) {
+            return *d;
+        }
+        if (auto *i = std::get_if<int64_t>(&v)) {
+            return static_cast<double>(*i);
+        }
+        if (auto *b = std::get_if<bool>(&v)) {
+            return *b ? 1.0 : 0.0;
+        }
         return 0.0;
     }
 
-    void applyDelta(const Row& row, int sign, const std::vector<Dimension>& dims,
-                    const std::vector<Measure>& measures) {
+    void applyDelta(const Row &row, int sign, const std::vector<Dimension> &dims,
+                    const std::vector<Measure> &measures) {
         std::string gk = makeGroupKey(row, dims);
-        auto& group = groups[gk];
-        for (const auto& m : measures) {
-            auto& state = group[m.name];
-            double v = 0.0;
-            auto it = row.find(m.field);
-            if (it != row.end()) v = fieldToDouble(it->second);
+        auto &group    = groups[gk];
+        for (const auto &m : measures) {
+            auto &state = group[m.name];
+            double v    = 0.0;
+            auto it     = row.find(m.field);
+            if (it != row.end()) {
+                v = fieldToDouble(it->second);
+            }
             state.add(v, sign);
         }
         // Remove empty groups after deletion
@@ -1409,30 +1493,39 @@ public:
             auto git = groups.find(gk);
             if (git != groups.end()) {
                 bool empty = true;
-                for (const auto& [n, s] : git->second)
-                    if (s.count > 0) { empty = false; break; }
-                if (empty) groups.erase(git);
+                for (const auto &[n, s] : git->second) {
+                    if (s.count > 0) {
+                        empty = false;
+                        break;
+                    }
+                }
+                if (empty) {
+                    groups.erase(git);
+                }
             }
         }
     }
 
     // Rebuild OLAPResult from current groups
-    OLAPResult buildResult(const std::vector<Dimension>& dims,
-                           const std::vector<Measure>& measures) const {
+    OLAPResult buildResult(const std::vector<Dimension> &dims, const std::vector<Measure> &measures) const {
         OLAPResult r;
-        for (const auto& d : dims)  r.columns.push_back(d.name);
-        for (const auto& m : measures) r.columns.push_back(m.name);
+        for (const auto &d : dims) {
+            r.columns.push_back(d.name);
+        }
+        for (const auto &m : measures) {
+            r.columns.push_back(m.name);
+        }
 
-        for (const auto& [gk, agg_map] : groups) {
+        for (const auto &[gk, agg_map] : groups) {
             OLAPResult::Row row;
             // Decode group key
             std::istringstream iss(gk);
             std::string token;
-            for (const auto& d : dims) {
+            for (const auto &d : dims) {
                 std::getline(iss, token, '\0');
                 row.values[d.name] = token;
             }
-            for (const auto& m : measures) {
+            for (const auto &m : measures) {
                 auto it = agg_map.find(m.name);
                 if (it != agg_map.end()) {
                     row.values[m.name] = it->second.result(m.function, m.percentile_value);
@@ -1445,199 +1538,258 @@ public:
     }
 };
 
-MaterializedView::MaterializedView(const Definition& def) 
-    : definition_(def), impl_(std::make_unique<Impl>()) {}
+MaterializedView::MaterializedView(const Definition &def) : definition_(def), impl_(std::make_unique<Impl>()) {}
 
 MaterializedView::~MaterializedView() = default;
 
 void MaterializedView::refresh() {
     OLAPEngine engine;
-    
+
     OLAPQuery query;
     query.collection = definition_.source_collection;
     query.dimensions = definition_.dimensions;
-    query.measures = definition_.measures;
-    query.filters = definition_.base_filters;
-    
-    impl_->cached_result = engine.execute(query);
-    impl_->last_refresh = std::chrono::system_clock::now();
+    query.measures   = definition_.measures;
+    query.filters    = definition_.base_filters;
+
+    impl_->cached_result  = engine.execute(query);
+    impl_->last_refresh   = std::chrono::system_clock::now();
     impl_->is_initialized = true;
 }
 
 void MaterializedView::incrementalRefresh(
-    const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& changes
-) {
+    const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>
+        &changes) {
     // Delta maintenance: apply each change row as an INSERT to the incremental
     // aggregate state, then rebuild the cached OLAPResult from current groups.
     // This avoids a full re-scan of the source collection.
-    for (const auto& row : changes) {
+    for (const auto &row : changes) {
         impl_->applyDelta(row, +1, definition_.dimensions, definition_.measures);
     }
-    impl_->cached_result = impl_->buildResult(definition_.dimensions, definition_.measures);
-    impl_->last_refresh  = std::chrono::system_clock::now();
+    impl_->cached_result  = impl_->buildResult(definition_.dimensions, definition_.measures);
+    impl_->last_refresh   = std::chrono::system_clock::now();
     impl_->is_initialized = true;
 }
 
-OLAPResult MaterializedView::query(
-    const std::vector<Filter>& filters,
-    const std::vector<Sort>& sorts,
-    std::optional<int64_t> limit
-) {
+OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std::vector<Sort> &sorts,
+                                   std::optional<int64_t> limit) {
     if (!impl_->is_initialized) {
         refresh();
     }
-    
+
     // Apply additional filters to cached result
     OLAPResult result = impl_->cached_result;
-    
+
     // Apply filters to cached result rows
     if (!filters.empty()) {
-        using RowVal = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
-        auto fieldStr = [](const RowVal& v) -> std::string {
-            if (auto* s = std::get_if<std::string>(&v)) return *s;
-            if (auto* i = std::get_if<int64_t>(&v))    return std::to_string(*i);
-            if (auto* d = std::get_if<double>(&v))      return std::to_string(*d);
-            if (auto* b = std::get_if<bool>(&v))        return *b ? "true" : "false";
+        using RowVal  = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+        auto fieldStr = [](const RowVal &v) -> std::string {
+            if (auto *s = std::get_if<std::string>(&v)) {
+                return *s;
+            }
+            if (auto *i = std::get_if<int64_t>(&v)) {
+                return std::to_string(*i);
+            }
+            if (auto *d = std::get_if<double>(&v)) {
+                return std::to_string(*d);
+            }
+            if (auto *b = std::get_if<bool>(&v)) {
+                return *b ? "true" : "false";
+            }
             return "";
         };
-        auto fieldDbl = [](const RowVal& v) -> double {
-            if (auto* d = std::get_if<double>(&v))   return *d;
-            if (auto* i = std::get_if<int64_t>(&v))  return static_cast<double>(*i);
-            if (auto* b = std::get_if<bool>(&v))      return *b ? 1.0 : 0.0;
+        auto fieldDbl = [](const RowVal &v) -> double {
+            if (auto *d = std::get_if<double>(&v)) {
+                return *d;
+            }
+            if (auto *i = std::get_if<int64_t>(&v)) {
+                return static_cast<double>(*i);
+            }
+            if (auto *b = std::get_if<bool>(&v)) {
+                return *b ? 1.0 : 0.0;
+            }
             return 0.0;
         };
-        auto filterDbl = [](const Filter& f) -> double {
-            if (auto* d = std::get_if<double>(&f.value))   return *d;
-            if (auto* i = std::get_if<int64_t>(&f.value))  return static_cast<double>(*i);
-            if (auto* b = std::get_if<bool>(&f.value))      return *b ? 1.0 : 0.0;
+        auto filterDbl = [](const Filter &f) -> double {
+            if (auto *d = std::get_if<double>(&f.value)) {
+                return *d;
+            }
+            if (auto *i = std::get_if<int64_t>(&f.value)) {
+                return static_cast<double>(*i);
+            }
+            if (auto *b = std::get_if<bool>(&f.value)) {
+                return *b ? 1.0 : 0.0;
+            }
             return 0.0;
         };
-        auto filterStr = [](const Filter& f) -> std::string {
-            if (auto* s = std::get_if<std::string>(&f.value)) return *s;
-            if (auto* i = std::get_if<int64_t>(&f.value))    return std::to_string(*i);
-            if (auto* d = std::get_if<double>(&f.value))      return std::to_string(*d);
-            if (auto* b = std::get_if<bool>(&f.value))        return *b ? "true" : "false";
+        auto filterStr = [](const Filter &f) -> std::string {
+            if (auto *s = std::get_if<std::string>(&f.value)) {
+                return *s;
+            }
+            if (auto *i = std::get_if<int64_t>(&f.value)) {
+                return std::to_string(*i);
+            }
+            if (auto *d = std::get_if<double>(&f.value)) {
+                return std::to_string(*d);
+            }
+            if (auto *b = std::get_if<bool>(&f.value)) {
+                return *b ? "true" : "false";
+            }
             return "";
         };
 
-        auto passesFilters = [&](const OLAPResult::Row& row) -> bool {
-            for (const auto& f : filters) {
-                auto it = row.values.find(f.field);
-                bool is_null = (it == row.values.end()) ||
-                               std::holds_alternative<std::nullptr_t>(it->second);
+        auto passesFilters = [&](const OLAPResult::Row &row) -> bool {
+            for (const auto &f : filters) {
+                auto it      = row.values.find(f.field);
+                bool is_null = (it == row.values.end()) || std::holds_alternative<std::nullptr_t>(it->second);
 
-                if (f.op == Filter::Operator::IsNull)    { if (!is_null) return false; continue; }
-                if (f.op == Filter::Operator::IsNotNull) { if (is_null)  return false; continue; }
-                if (is_null) return false;
+                if (f.op == Filter::Operator::IsNull) {
+                    if (!is_null) {
+                        return false;
+                    }
+                    continue;
+                }
+                if (f.op == Filter::Operator::IsNotNull) {
+                    if (is_null) {
+                        return false;
+                    }
+                    continue;
+                }
+                if (is_null) {
+                    return false;
+                }
 
-                const auto& fv = it->second;
+                const auto &fv = it->second;
                 switch (f.op) {
                     case Filter::Operator::Eq:
-                        if (fieldStr(fv) != filterStr(f)) return false;
+                        if (fieldStr(fv) != filterStr(f)) {
+                            return false;
+                        }
                         break;
                     case Filter::Operator::Ne:
-                        if (fieldStr(fv) == filterStr(f)) return false;
+                        if (fieldStr(fv) == filterStr(f)) {
+                            return false;
+                        }
                         break;
                     case Filter::Operator::Lt:
-                        if (!(fieldDbl(fv) < filterDbl(f)))  return false;
+                        if (!(fieldDbl(fv) < filterDbl(f))) {
+                            return false;
+                        }
                         break;
                     case Filter::Operator::Le:
-                        if (!(fieldDbl(fv) <= filterDbl(f))) return false;
+                        if (!(fieldDbl(fv) <= filterDbl(f))) {
+                            return false;
+                        }
                         break;
                     case Filter::Operator::Gt:
-                        if (!(fieldDbl(fv) > filterDbl(f)))  return false;
+                        if (!(fieldDbl(fv) > filterDbl(f))) {
+                            return false;
+                        }
                         break;
                     case Filter::Operator::Ge:
-                        if (!(fieldDbl(fv) >= filterDbl(f))) return false;
+                        if (!(fieldDbl(fv) >= filterDbl(f))) {
+                            return false;
+                        }
                         break;
                     case Filter::Operator::In: {
-                        if (auto* vec = std::get_if<std::vector<std::string>>(&f.value)) {
+                        if (auto *vec = std::get_if<std::vector<std::string>>(&f.value)) {
                             std::string fs = fieldStr(fv);
-                            if (std::find(vec->begin(), vec->end(), fs) == vec->end())
+                            if (std::find(vec->begin(), vec->end(), fs) == vec->end()) {
                                 return false;
+                            }
                         }
                         break;
                     }
                     case Filter::Operator::NotIn: {
-                        if (auto* vec = std::get_if<std::vector<std::string>>(&f.value)) {
+                        if (auto *vec = std::get_if<std::vector<std::string>>(&f.value)) {
                             std::string fs = fieldStr(fv);
-                            if (std::find(vec->begin(), vec->end(), fs) != vec->end())
+                            if (std::find(vec->begin(), vec->end(), fs) != vec->end()) {
                                 return false;
+                            }
                         }
                         break;
                     }
                     case Filter::Operator::Contains: {
                         std::string fs = fieldStr(fv), fvs = filterStr(f);
-                        if (fs.find(fvs) == std::string::npos) return false;
+                        if (fs.find(fvs) == std::string::npos) {
+                            return false;
+                        }
                         break;
                     }
                     case Filter::Operator::StartsWith: {
                         std::string fs = fieldStr(fv), fvs = filterStr(f);
-                        if (fs.rfind(fvs, 0) != 0) return false;
+                        if (fs.rfind(fvs, 0) != 0) {
+                            return false;
+                        }
                         break;
                     }
                     case Filter::Operator::EndsWith: {
                         std::string fs = fieldStr(fv), fvs = filterStr(f);
-                        if (fs.size() < fvs.size() ||
-                            fs.rfind(fvs) != fs.size() - fvs.size()) return false;
+                        if (fs.size() < fvs.size() || fs.rfind(fvs) != fs.size() - fvs.size()) {
+                            return false;
+                        }
                         break;
                     }
                     case Filter::Operator::Between: {
                         double lo = filterDbl(f), hi = lo;
                         if (f.value2) {
-                            if (auto* d = std::get_if<double>(&*f.value2))
+                            if (auto *d = std::get_if<double>(&*f.value2)) {
                                 hi = *d;
-                            else if (auto* i = std::get_if<int64_t>(&*f.value2))
+                            } else if (auto *i = std::get_if<int64_t>(&*f.value2)) {
                                 hi = static_cast<double>(*i);
+                            }
                         }
                         double fd = fieldDbl(fv);
-                        if (fd < lo || fd > hi) return false;
+                        if (fd < lo || fd > hi) {
+                            return false;
+                        }
                         break;
                     }
-                    default: break;
+                    default:
+                        break;
                 }
             }
             return true;
         };
 
-        result.rows.erase(
-            std::remove_if(result.rows.begin(), result.rows.end(),
-                [&passesFilters](const OLAPResult::Row& row) {
-                    return !passesFilters(row);
-                }),
-            result.rows.end()
-        );
+        result.rows.erase(std::remove_if(result.rows.begin(), result.rows.end(),
+                                         [&passesFilters](const OLAPResult::Row &row) { return !passesFilters(row); }),
+                          result.rows.end());
         result.total_rows = static_cast<int64_t>(result.rows.size());
     }
-    
+
     // Apply sorting
     if (!sorts.empty()) {
-        std::sort(result.rows.begin(), result.rows.end(),
-            [&sorts](const OLAPResult::Row& a, const OLAPResult::Row& b) {
-                for (const auto& sort : sorts) {
-                    auto aIt = a.values.find(sort.field);
-                    auto bIt = b.values.find(sort.field);
-                    
-                    if (aIt == a.values.end() || bIt == b.values.end()) continue;
-                    
-                    double aVal = 0, bVal = 0;
-                    if (auto* d = std::get_if<double>(&aIt->second)) aVal = *d;
-                    if (auto* d = std::get_if<double>(&bIt->second)) bVal = *d;
-                    
-                    if (aVal != bVal) {
-                        return sort.ascending ? (aVal < bVal) : (aVal > bVal);
-                    }
+        std::sort(result.rows.begin(), result.rows.end(), [&sorts](const OLAPResult::Row &a, const OLAPResult::Row &b) {
+            for (const auto &sort : sorts) {
+                auto aIt = a.values.find(sort.field);
+                auto bIt = b.values.find(sort.field);
+
+                if (aIt == a.values.end() || bIt == b.values.end()) {
+                    continue;
                 }
-                return false;
-            });
+
+                double aVal = 0, bVal = 0;
+                if (auto *d = std::get_if<double>(&aIt->second)) {
+                    aVal = *d;
+                }
+                if (auto *d = std::get_if<double>(&bIt->second)) {
+                    bVal = *d;
+                }
+
+                if (aVal != bVal) {
+                    return sort.ascending ? (aVal < bVal) : (aVal > bVal);
+                }
+            }
+            return false;
+        });
     }
-    
+
     // Apply limit
     if (limit && *limit > 0 && static_cast<size_t>(*limit) < result.rows.size()) {
         result.has_more = true;
         result.rows.resize(*limit);
     }
-    
+
     return result;
 }
 
@@ -1650,15 +1802,17 @@ int64_t MaterializedView::rowCount() const {
 }
 
 bool MaterializedView::isStale() const {
-    if (!impl_->is_initialized) return true;
-    
-    if (definition_.refresh_mode == Definition::RefreshMode::Manual) {
-        return false;  // Manual views are never "stale"
+    if (!impl_->is_initialized) {
+        return true;
     }
-    
+
+    if (definition_.refresh_mode == Definition::RefreshMode::Manual) {
+        return false; // Manual views are never "stale"
+    }
+
     auto now = std::chrono::system_clock::now();
     auto age = std::chrono::duration_cast<std::chrono::seconds>(now - impl_->last_refresh);
-    
+
     return age.count() > definition_.refresh_interval_seconds;
 }
 
@@ -1668,23 +1822,20 @@ bool MaterializedView::isStale() const {
 
 #ifdef ARROW_ENABLED
 
-bool OLAPEngine::exportToParquet(
-    const OLAPResult& result,
-    const std::string& path,
-    const std::string& compression
-) {
-        // Build Arrow schema from result columns
-        std::vector<std::shared_ptr<arrow::Field>> schema_fields;
-        
-        for (const auto& col_name : result.columns) {
-            // Infer type from first non-null value
-            arrow::Type::type arrow_type = arrow::Type::STRING;  // Default to string
-            
-            if (!result.rows.empty()) {
-                for (const auto& row : result.rows) {
-                    auto it = row.values.find(col_name);
-                    if (it != row.values.end()) {
-                        std::visit([&](const auto& val) {
+bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &path, const std::string &compression) {
+    // Build Arrow schema from result columns
+    std::vector<std::shared_ptr<arrow::Field>> schema_fields;
+
+    for (const auto &col_name : result.columns) {
+        // Infer type from first non-null value
+        arrow::Type::type arrow_type = arrow::Type::STRING; // Default to string
+
+        if (!result.rows.empty()) {
+            for (const auto &row : result.rows) {
+                auto it = row.values.find(col_name);
+                if (it != row.values.end()) {
+                    std::visit(
+                        [&](const auto &val) {
                             using T = std::decay_t<decltype(val)>;
                             if constexpr (std::is_same_v<T, bool>) {
                                 arrow_type = arrow::Type::BOOL;
@@ -1695,140 +1846,155 @@ bool OLAPEngine::exportToParquet(
                             } else if constexpr (std::is_same_v<T, std::string>) {
                                 arrow_type = arrow::Type::STRING;
                             }
-                        }, it->second);
-                        break;
-                    }
+                        },
+                        it->second);
+                    break;
                 }
             }
-            
-            std::shared_ptr<arrow::DataType> field_type;
-            switch (arrow_type) {
-                case arrow::Type::BOOL: field_type = arrow::boolean(); break;
-                case arrow::Type::INT64: field_type = arrow::int64(); break;
-                case arrow::Type::DOUBLE: field_type = arrow::float64(); break;
-                default: field_type = arrow::utf8(); break;
-            }
-            
-            schema_fields.push_back(arrow::field(col_name, field_type));
         }
-        
-        auto schema = std::make_shared<arrow::Schema>(schema_fields);
-        
-        // Build column arrays
-        std::vector<std::shared_ptr<arrow::Array>> arrays;
-        
-        for (size_t col_idx = 0; col_idx < result.columns.size(); ++col_idx) {
-            const auto& col_name = result.columns[col_idx];
-            const auto& field_type = schema_fields[col_idx]->type();
-            
-            // Create array builder based on type
-            std::shared_ptr<arrow::Array> array;
-            
-            if (field_type->id() == arrow::Type::BOOL) {
-                arrow::BooleanBuilder builder;
-                for (const auto& row : result.rows) {
-                    auto it = row.values.find(col_name);
-                    if (it != row.values.end() && std::holds_alternative<bool>(it->second)) {
-                        auto st = builder.Append(std::get<bool>(it->second));
-                        if (!st.ok()) return false;
-                    } else {
-                        auto st = builder.AppendNull();
-                        if (!st.ok()) return false;
-                    }
-                }
-                auto st = builder.Finish(&array);
-                if (!st.ok()) return false;
-            } else if (field_type->id() == arrow::Type::INT64) {
-                arrow::Int64Builder builder;
-                for (const auto& row : result.rows) {
-                    auto it = row.values.find(col_name);
-                    if (it != row.values.end() && std::holds_alternative<int64_t>(it->second)) {
-                        auto st = builder.Append(std::get<int64_t>(it->second));
-                        if (!st.ok()) return false;
-                    } else {
-                        auto st = builder.AppendNull();
-                        if (!st.ok()) return false;
-                    }
-                }
-                auto st = builder.Finish(&array);
-                if (!st.ok()) return false;
-            } else if (field_type->id() == arrow::Type::DOUBLE) {
-                arrow::DoubleBuilder builder;
-                for (const auto& row : result.rows) {
-                    auto it = row.values.find(col_name);
-                    if (it != row.values.end() && std::holds_alternative<double>(it->second)) {
-                        auto st = builder.Append(std::get<double>(it->second));
-                        if (!st.ok()) return false;
-                    } else {
-                        auto st = builder.AppendNull();
-                        if (!st.ok()) return false;
-                    }
-                }
-                auto st = builder.Finish(&array);
-                if (!st.ok()) return false;
-            } else {
-                arrow::StringBuilder builder;
-                for (const auto& row : result.rows) {
-                    auto it = row.values.find(col_name);
-                    if (it != row.values.end() && std::holds_alternative<std::string>(it->second)) {
-                        auto st = builder.Append(std::get<std::string>(it->second));
-                        if (!st.ok()) return false;
-                    } else {
-                        auto st = builder.AppendNull();
-                        if (!st.ok()) return false;
-                    }
-                }
-                auto st = builder.Finish(&array);
-                if (!st.ok()) return false;
-            }
-            
-            arrays.push_back(array);
+
+        std::shared_ptr<arrow::DataType> field_type;
+        switch (arrow_type) {
+            case arrow::Type::BOOL:
+                field_type = arrow::boolean();
+                break;
+            case arrow::Type::INT64:
+                field_type = arrow::int64();
+                break;
+            case arrow::Type::DOUBLE:
+                field_type = arrow::float64();
+                break;
+            default:
+                field_type = arrow::utf8();
+                break;
         }
-        
-        // Create Arrow Table
-        auto table = arrow::Table::Make(schema, arrays);
-        
-        // Write to Parquet
-        std::shared_ptr<arrow::io::FileOutputStream> outfile;
-        PARQUET_ASSIGN_OR_THROW(outfile, arrow::io::FileOutputStream::Open(path));
-        
-        // Set compression
-        parquet::WriterProperties::Builder props_builder;
-        if (compression == "snappy") {
-            props_builder.compression(parquet::Compression::SNAPPY);
-        } else if (compression == "gzip") {
-            props_builder.compression(parquet::Compression::GZIP);
-        } else if (compression == "zstd") {
-            props_builder.compression(parquet::Compression::ZSTD);
+
+        schema_fields.push_back(arrow::field(col_name, field_type));
+    }
+
+    auto schema = std::make_shared<arrow::Schema>(schema_fields);
+
+    // Build column arrays
+    std::vector<std::shared_ptr<arrow::Array>> arrays;
+
+    for (size_t col_idx = 0; col_idx < result.columns.size(); ++col_idx) {
+        const auto &col_name   = result.columns[col_idx];
+        const auto &field_type = schema_fields[col_idx]->type();
+
+        // Create array builder based on type
+        std::shared_ptr<arrow::Array> array;
+
+        if (field_type->id() == arrow::Type::BOOL) {
+            arrow::BooleanBuilder builder;
+            for (const auto &row : result.rows) {
+                auto it = row.values.find(col_name);
+                if (it != row.values.end() && std::holds_alternative<bool>(it->second)) {
+                    auto st = builder.Append(std::get<bool>(it->second));
+                    if (!st.ok())
+                        return false;
+                } else {
+                    auto st = builder.AppendNull();
+                    if (!st.ok())
+                        return false;
+                }
+            }
+            auto st = builder.Finish(&array);
+            if (!st.ok())
+                return false;
+        } else if (field_type->id() == arrow::Type::INT64) {
+            arrow::Int64Builder builder;
+            for (const auto &row : result.rows) {
+                auto it = row.values.find(col_name);
+                if (it != row.values.end() && std::holds_alternative<int64_t>(it->second)) {
+                    auto st = builder.Append(std::get<int64_t>(it->second));
+                    if (!st.ok())
+                        return false;
+                } else {
+                    auto st = builder.AppendNull();
+                    if (!st.ok())
+                        return false;
+                }
+            }
+            auto st = builder.Finish(&array);
+            if (!st.ok())
+                return false;
+        } else if (field_type->id() == arrow::Type::DOUBLE) {
+            arrow::DoubleBuilder builder;
+            for (const auto &row : result.rows) {
+                auto it = row.values.find(col_name);
+                if (it != row.values.end() && std::holds_alternative<double>(it->second)) {
+                    auto st = builder.Append(std::get<double>(it->second));
+                    if (!st.ok())
+                        return false;
+                } else {
+                    auto st = builder.AppendNull();
+                    if (!st.ok())
+                        return false;
+                }
+            }
+            auto st = builder.Finish(&array);
+            if (!st.ok())
+                return false;
         } else {
-            props_builder.compression(parquet::Compression::UNCOMPRESSED);
+            arrow::StringBuilder builder;
+            for (const auto &row : result.rows) {
+                auto it = row.values.find(col_name);
+                if (it != row.values.end() && std::holds_alternative<std::string>(it->second)) {
+                    auto st = builder.Append(std::get<std::string>(it->second));
+                    if (!st.ok())
+                        return false;
+                } else {
+                    auto st = builder.AppendNull();
+                    if (!st.ok())
+                        return false;
+                }
+            }
+            auto st = builder.Finish(&array);
+            if (!st.ok())
+                return false;
         }
-        
-        auto props = props_builder.build();
-        
-        // Write table
-        PARQUET_THROW_NOT_OK(
-            parquet::arrow::WriteTable(*table, arrow::default_memory_pool(), outfile, 1024, props)
-        );
-        
-        return true;
+
+        arrays.push_back(array);
+    }
+
+    // Create Arrow Table
+    auto table = arrow::Table::Make(schema, arrays);
+
+    // Write to Parquet
+    std::shared_ptr<arrow::io::FileOutputStream> outfile;
+    PARQUET_ASSIGN_OR_THROW(outfile, arrow::io::FileOutputStream::Open(path));
+
+    // Set compression
+    parquet::WriterProperties::Builder props_builder;
+    if (compression == "snappy") {
+        props_builder.compression(parquet::Compression::SNAPPY);
+    } else if (compression == "gzip") {
+        props_builder.compression(parquet::Compression::GZIP);
+    } else if (compression == "zstd") {
+        props_builder.compression(parquet::Compression::ZSTD);
+    } else {
+        props_builder.compression(parquet::Compression::UNCOMPRESSED);
+    }
+
+    auto props = props_builder.build();
+
+    // Write table
+    PARQUET_THROW_NOT_OK(parquet::arrow::WriteTable(*table, arrow::default_memory_pool(), outfile, 1024, props));
+
+    return true;
 }
 
-bool OLAPEngine::exportCollectionToParquet(
-    std::string_view collection,
-    const std::string& path,
-    const std::vector<Filter>& filters,
-    const std::string& compression
-) {
+bool OLAPEngine::exportCollectionToParquet(std::string_view collection, const std::string &path,
+                                           const std::vector<Filter> &filters, const std::string &compression) {
     // Build simple query to export all data
     OLAPQuery query;
-    query.collection = std::string(collection);
-    query.filters = filters;
+    query.collection    = std::string(collection);
+    query.filters       = filters;
     query.grouping_mode = OLAPQuery::GroupingMode::Simple;
-    
+
     // Execute query to get all rows
     auto result = execute(query);
-    
+
     // Export to Parquet
     return exportToParquet(result, path, compression);
 }
@@ -1845,11 +2011,7 @@ bool OLAPEngine::exportCollectionToParquet(
 //   depend on Parquet export (e.g. BI connectors, Spark integration) will fail.
 // Removal Plan: Install Apache Arrow via vcpkg and rebuild with ARROW_ENABLED.
 // Roadmap ref: src/analytics/FUTURE_ENHANCEMENTS.md § "Parquet/Arrow Export (v1.7.0)"
-bool OLAPEngine::exportToParquet(
-    const OLAPResult& result,
-    const std::string& path,
-    const std::string& compression
-) {
+bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &path, const std::string &compression) {
     ExportToParquetFn fn;
     {
         std::lock_guard<std::mutex> lk(s_olap_export_bridge_mutex);
@@ -1866,12 +2028,8 @@ bool OLAPEngine::exportToParquet(
     return false;
 }
 
-bool OLAPEngine::exportCollectionToParquet(
-    std::string_view collection,
-    const std::string& path,
-    const std::vector<Filter>& filters,
-    const std::string& compression
-) {
+bool OLAPEngine::exportCollectionToParquet(std::string_view collection, const std::string &path,
+                                           const std::vector<Filter> &filters, const std::string &compression) {
     ExportCollectionToParquetFn fn;
     {
         std::lock_guard<std::mutex> lk(s_olap_export_bridge_mutex);
@@ -1891,4 +2049,3 @@ bool OLAPEngine::exportCollectionToParquet(
 
 } // namespace analytics
 } // namespace themis
-

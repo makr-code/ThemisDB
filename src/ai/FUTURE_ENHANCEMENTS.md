@@ -80,7 +80,7 @@ and integration impact.
 ### Wave A: Critical / Near-Term (Q3 2026 – Q4 2026)
 
 #### A1: Speculative Decoding with Real Draft Model
-- **Status:** [ ] Not Started | **Target:** 6 weeks | **Priority:** 🟠 High
+- **Status:** [~] In Progress (baseline implementation exists; acceptance validation pending) | **Target:** 6 weeks | **Priority:** 🟠 High
 - **Reference:** Chen et al. "Accelerating LLM Inference with Speculative Decoding" (arXiv:2211.17192)
 - **Rationale:** Current `SpeculativeDecoder` uses constant-token placeholder (STUB #262). Real draft logits reduce draft-rejection rate from 85% → 30%, enabling 2-4× wall-clock speedup.
 - **Affected Systems:**
@@ -97,13 +97,13 @@ and integration impact.
 - **Tests:** SD-REAL-01..08 (extend existing focused suite); benchmark in `benchmarks/bench_llm_inference.cpp`
 
 #### A2: Dense Passage Retrieval (DPR) Vectorizer
-- **Status:** [ ] Not Started | **Target:** 4 weeks | **Priority:** 🟠 High
+- **Status:** [~] In Progress (DPR + HybridRetriever integration and comparative benchmark path implemented; external-dataset run pending) | **Target:** 4 weeks | **Priority:** 🟠 High
 - **Reference:** Karpukhin et al. "Dense Passage Retrieval for Open-Domain QA" (ICLR 2021, arXiv:2004.04906)
 - **Rationale:** Hybrid BM25+Vector retrieval in RAG currently uses generic embeddings. DPR-style bi-encoder (query encoder + passage encoder) improves MRR@10 by 15-25% over unsupervised embeddings.
 - **Affected Systems:**
   - `include/rag/dpr_vectorizer.h` (new)
   - `src/rag/dpr_vectorizer.cpp` (new)
-  - `include/rag/hybrid_retriever.h`: wire DPR as `IVectorizer` option
+  - `include/rag/hybrid_retriever.h`: wire DPR as `IVectorizer` option ✅
 - **Interface:**
   ```cpp
   class DPRVectorizer : public IVectorizer {
@@ -116,10 +116,10 @@ and integration impact.
   - MRR@10 improvement ≥ +15% vs. baseline on MS MARCO or Natural Questions subset
   - Passage encoding batch throughput ≥ 100 docs/sec (GPU, batch_size=32)
   - Query latency ≤ 150 ms (CLIP-based 384-dim embeddings)
-- **Tests:** DPR-01..10 in `tests/rag/test_dpr_vectorizer.cpp`; benchmark vs. BM25-only baseline
+- **Tests:** DPR-01..10 in `tests/rag/test_dpr_vectorizer.cpp`; benchmark vs. BM25-only baseline (`benchmarks/bench_rag_hybrid_retriever.cpp`)
 
 #### A3: Fairness & Bias Detection in RAG
-- **Status:** [ ] Not Started | **Target:** 4 weeks | **Priority:** 🟡 Medium
+- **Status:** [~] In Progress (baseline implementation exists; full eval/perf closure pending) | **Target:** 4 weeks | **Priority:** 🟡 Medium
 - **Reference:** Bolukbasi et al. "Man is to Computer Programmer as Woman is to Homemaker" (NeurIPS 2016, arXiv:1607.06520)
 - **Rationale:** RAG can amplify corpus biases. Quantified bias scoring per retrieved document enables ethical audits and filtering.
 - **Affected Systems:**

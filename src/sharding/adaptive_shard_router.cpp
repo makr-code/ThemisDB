@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=10 unimpl=0 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            adaptive_shard_router.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:53                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     484                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: adaptive_shard_router.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 85/100 | Lines: 531
+ * Open Issues: TODOs=2, Stubs=3, Gaps=7, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=7 | external_v3=127 | delta=120 | status=divergent
+ * External Severity (v3): C=7, H=88, M=32
+ * PR: #1171 Implement adaptive capability-based shard routing with auto-generat... (2026-03-11T17:50:05Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "sharding/adaptive_shard_router.h"
@@ -26,6 +17,18 @@
 #include <numeric>
 
 namespace themis::sharding {
+
+// ============================================================================
+// NlpContextFn bridge (stub #291)
+// ============================================================================
+
+void AdaptiveShardRouter::setNlpContextFn(NlpContextFn fn) {
+    nlpContextFn_ = std::move(fn);
+}
+
+void AdaptiveShardRouter::clearNlpContextFn() {
+    nlpContextFn_ = nullptr;
+}
 
 AdaptiveShardRouter::AdaptiveShardRouter(
     std::shared_ptr<URNResolver> resolver,
@@ -342,10 +345,28 @@ void AdaptiveShardRouter::setNlpContextFn(NlpContextFn fn) {
 CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     const std::string& query
 ) {
+    // Delegate to injected NLP context provider if set (stub #291 RESOLVED).
+    {
+        std::lock_guard<std::mutex> lock(nlp_context_fn_mutex_);
+        if (nlp_context_fn_.has_value()) {
+            try {
+                auto nlp_context = (*nlp_context_fn_)(query);
+                // Always populate query_text and keywords from our own stack.
+                nlp_context.query_text = query;
+                nlp_context.keywords = matcher_->extractKeywords(query);
+                return nlp_context;
+            } catch (const std::exception& e) {
+                spdlog::warn("AdaptiveShardRouter: NLP context fn failed: {}; "
+                             "falling back to pattern matching", e.what());
+            }
+        }
+    }
+
+    // Built-in keyword-pattern fallback (correct for single-node / CI use).
+    // Inject a sentence-transformer or NER-based provider via setNlpContextFn()
+    // for production multi-language routing accuracy.
     CapabilityMatcher::QueryContext context;
     context.query_text = query;
-    
-    // Extract keywords
     context.keywords = matcher_->extractKeywords(query);
     
     // Prefer injected NLP/ML enrichment when available.
@@ -356,9 +377,9 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     
     // Fallback heuristic path for deployments without an injected NLP service.
     std::string query_lower = query;
-    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), 
-                  [](unsigned char c) { return std::tolower(c); });
-    
+    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+
     // Detect regions (example patterns)
     if (query_lower.find("hamburg") != std::string::npos) {
         context.regions.push_back("hamburg");
@@ -369,7 +390,7 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     if (query_lower.find("münchen") != std::string::npos || query_lower.find("munich") != std::string::npos) {
         context.regions.push_back("munich");
     }
-    
+
     // Detect domains (example patterns)
     if (query_lower.find("baurecht") != std::string::npos || query_lower.find("building") != std::string::npos) {
         context.domains.push_back("construction");
@@ -377,7 +398,7 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     if (query_lower.find("recht") != std::string::npos || query_lower.find("legal") != std::string::npos) {
         context.domains.push_back("law");
     }
-    
+
     return context;
 }
 

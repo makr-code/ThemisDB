@@ -1,35 +1,21 @@
-// THEMIS_GAP_STATS: gaps=1 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_query_builder.cpp                              ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-15 18:48:35                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     728                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 0660d82e15  2026-03-15  fix(aql): audit fixes - standalone DML validation, getNex... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_query_builder.cpp | Version: 0.0.39
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=330, M=91, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "aql/aql_query_builder.h"
+
+#include <algorithm>
+#include <spdlog/spdlog.h>
+#include <sstream>
+#include <stdexcept>
+
 #include "aql/aql_query_validator.h"
 #include "aql/aql_schema_provider.h"
 #include "aql/llm_aql_handler.h"
-
-#include <sstream>
-#include <stdexcept>
-#include <algorithm>
-#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace aql {
@@ -60,14 +46,14 @@ struct ForTraverseClause {
     std::string start;
     std::string graph;
     std::string direction;
-    int         min_depth;
-    int         max_depth;
+    int min_depth;
+    int max_depth;
 };
 
 enum class DMLType { INSERT, UPDATE, REMOVE, UPSERT, REPLACE };
 
 struct DMLClause {
-    DMLType     type;
+    DMLType type;
     std::string collection;
     std::string doc_expr;    // INSERT / UPDATE / REMOVE / REPLACE document expression
     std::string filter_expr; // UPSERT search expression
@@ -85,18 +71,18 @@ struct WindowClause {
 // ============================================================================
 
 class AQLQueryBuilder::Impl {
-public:
-    std::vector<ForClause>          for_clauses;
-    std::vector<ForTraverseClause>  for_traverse_clauses;
-    std::vector<std::string>        let_clauses;   // raw "var = expr" strings
-    std::vector<std::string>        filters;
-    std::vector<WindowClause>       window_clauses;
-    std::vector<SortClause>         sorts;
-    std::vector<CollectClause>      collects;
-    int                             limit_count  = -1;
-    int                             limit_offset = 0;
-    std::string                     return_expr;
-    std::vector<DMLClause>          dml_clauses;
+  public:
+    std::vector<ForClause> for_clauses;
+    std::vector<ForTraverseClause> for_traverse_clauses;
+    std::vector<std::string> let_clauses; // raw "var = expr" strings
+    std::vector<std::string> filters;
+    std::vector<WindowClause> window_clauses;
+    std::vector<SortClause> sorts;
+    std::vector<CollectClause> collects;
+    int limit_count  = -1;
+    int limit_offset = 0;
+    std::string return_expr;
+    std::vector<DMLClause> dml_clauses;
 
     // Schema snapshot attached via setSchema()
     std::vector<CollectionMetadata> schema;
@@ -121,7 +107,7 @@ public:
 
     // Renders the partial or complete query
     std::string render(bool require_complete) const {
-        bool has_for = !for_clauses.empty() || !for_traverse_clauses.empty();
+        bool has_for           = !for_clauses.empty() || !for_traverse_clauses.empty();
         bool has_return_or_dml = !return_expr.empty() || !dml_clauses.empty();
 
         if (require_complete) {
@@ -137,28 +123,28 @@ public:
         std::ostringstream oss;
         bool first_clause = true;
 
-        auto sep = [&]() -> std::ostringstream& {
-            if (!first_clause) oss << "\n  ";
+        auto sep = [&]() -> std::ostringstream & {
+            if (!first_clause) {
+                oss << "\n  ";
+            }
             first_clause = false;
             return oss;
         };
 
-        for (const auto& fc : for_clauses) {
+        for (const auto &fc : for_clauses) {
             sep() << "FOR " << fc.variable << " IN " << fc.collection;
         }
-        for (const auto& ft : for_traverse_clauses) {
-            sep() << "FOR " << ft.vertex_var << ", " << ft.edge_var << ", " << ft.path_var
-                  << " IN " << ft.min_depth << ".." << ft.max_depth
-                  << " " << ft.direction << " " << ft.start
-                  << " GRAPH " << ft.graph;
+        for (const auto &ft : for_traverse_clauses) {
+            sep() << "FOR " << ft.vertex_var << ", " << ft.edge_var << ", " << ft.path_var << " IN " << ft.min_depth
+                  << ".." << ft.max_depth << " " << ft.direction << " " << ft.start << " GRAPH " << ft.graph;
         }
-        for (const auto& lc : let_clauses) {
+        for (const auto &lc : let_clauses) {
             sep() << "LET " << lc;
         }
-        for (const auto& f : filters) {
+        for (const auto &f : filters) {
             sep() << "FILTER " << f;
         }
-        for (const auto& wc : window_clauses) {
+        for (const auto &wc : window_clauses) {
             sep();
             if (!wc.partition_expr.empty()) {
                 oss << "WINDOW " << wc.partition_expr << " WITH " << wc.window_spec;
@@ -166,10 +152,10 @@ public:
                 oss << "WINDOW " << wc.window_spec;
             }
         }
-        for (const auto& c : collects) {
+        for (const auto &c : collects) {
             sep() << "COLLECT " << c.variable << " = " << c.expression;
         }
-        for (const auto& s : sorts) {
+        for (const auto &s : sorts) {
             sep() << "SORT " << s.field << (s.ascending ? " ASC" : " DESC");
         }
         if (limit_count >= 0) {
@@ -183,7 +169,7 @@ public:
         if (!return_expr.empty()) {
             sep() << "RETURN " << return_expr;
         }
-        for (const auto& dml : dml_clauses) {
+        for (const auto &dml : dml_clauses) {
             switch (dml.type) {
                 case DMLType::INSERT:
                     sep() << "INSERT " << dml.doc_expr << " INTO " << dml.collection;
@@ -198,10 +184,8 @@ public:
                     sep() << "REPLACE " << dml.doc_expr << " IN " << dml.collection;
                     break;
                 case DMLType::UPSERT:
-                    sep() << "UPSERT " << dml.filter_expr
-                          << " INSERT " << dml.insert_expr
-                          << " UPDATE " << dml.update_expr
-                          << " IN " << dml.collection;
+                    sep() << "UPSERT " << dml.filter_expr << " INSERT " << dml.insert_expr << " UPDATE "
+                          << dml.update_expr << " IN " << dml.collection;
                     break;
             }
         }
@@ -214,22 +198,18 @@ public:
 // Constructor / Destructor
 // ============================================================================
 
-AQLQueryBuilder::AQLQueryBuilder()
-    : impl_(std::make_unique<Impl>()) {}
+AQLQueryBuilder::AQLQueryBuilder() : impl_(std::make_unique<Impl>()) {}
 
 AQLQueryBuilder::~AQLQueryBuilder() = default;
 
-AQLQueryBuilder::AQLQueryBuilder(AQLQueryBuilder&&) noexcept = default;
-AQLQueryBuilder& AQLQueryBuilder::operator=(AQLQueryBuilder&&) noexcept = default;
+AQLQueryBuilder::AQLQueryBuilder(AQLQueryBuilder &&) noexcept            = default;
+AQLQueryBuilder &AQLQueryBuilder::operator=(AQLQueryBuilder &&) noexcept = default;
 
 // ============================================================================
 // Fluent builder methods
 // ============================================================================
 
-AQLQueryBuilder& AQLQueryBuilder::forIn(
-    const std::string& variable,
-    const std::string& collection
-) {
+AQLQueryBuilder &AQLQueryBuilder::forIn(const std::string &variable, const std::string &collection) {
     if (variable.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::forIn: variable must not be empty");
     }
@@ -240,7 +220,7 @@ AQLQueryBuilder& AQLQueryBuilder::forIn(
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::filter(const std::string& condition) {
+AQLQueryBuilder &AQLQueryBuilder::filter(const std::string &condition) {
     if (condition.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::filter: condition must not be empty");
     }
@@ -248,7 +228,7 @@ AQLQueryBuilder& AQLQueryBuilder::filter(const std::string& condition) {
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::sort(const std::string& field, bool ascending) {
+AQLQueryBuilder &AQLQueryBuilder::sort(const std::string &field, bool ascending) {
     if (field.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::sort: field must not be empty");
     }
@@ -256,7 +236,7 @@ AQLQueryBuilder& AQLQueryBuilder::sort(const std::string& field, bool ascending)
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::limit(int count, int offset) {
+AQLQueryBuilder &AQLQueryBuilder::limit(int count, int offset) {
     if (count < 0) {
         throw std::invalid_argument("AQLQueryBuilder::limit: count must be non-negative");
     }
@@ -268,7 +248,7 @@ AQLQueryBuilder& AQLQueryBuilder::limit(int count, int offset) {
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::ret(const std::string& expression) {
+AQLQueryBuilder &AQLQueryBuilder::ret(const std::string &expression) {
     if (expression.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::ret: expression must not be empty");
     }
@@ -276,10 +256,7 @@ AQLQueryBuilder& AQLQueryBuilder::ret(const std::string& expression) {
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::let(
-    const std::string& variable,
-    const std::string& expression
-) {
+AQLQueryBuilder &AQLQueryBuilder::let(const std::string &variable, const std::string &expression) {
     if (variable.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::let: variable must not be empty");
     }
@@ -290,10 +267,7 @@ AQLQueryBuilder& AQLQueryBuilder::let(
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::collect(
-    const std::string& variable,
-    const std::string& expression
-) {
+AQLQueryBuilder &AQLQueryBuilder::collect(const std::string &variable, const std::string &expression) {
     if (variable.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::collect: variable must not be empty");
     }
@@ -304,7 +278,7 @@ AQLQueryBuilder& AQLQueryBuilder::collect(
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::reset() {
+AQLQueryBuilder &AQLQueryBuilder::reset() {
     impl_->reset();
     return *this;
 }
@@ -313,16 +287,10 @@ AQLQueryBuilder& AQLQueryBuilder::reset() {
 // Graph traversal
 // ============================================================================
 
-AQLQueryBuilder& AQLQueryBuilder::forTraverse(
-    const std::string& vertex_var,
-    const std::string& edge_var,
-    const std::string& path_var,
-    const std::string& start,
-    const std::string& graph,
-    const std::string& direction,
-    int min_depth,
-    int max_depth
-) {
+AQLQueryBuilder &AQLQueryBuilder::forTraverse(const std::string &vertex_var, const std::string &edge_var,
+                                              const std::string &path_var, const std::string &start,
+                                              const std::string &graph, const std::string &direction, int min_depth,
+                                              int max_depth) {
     if (vertex_var.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::forTraverse: vertex_var must not be empty");
     }
@@ -345,14 +313,11 @@ AQLQueryBuilder& AQLQueryBuilder::forTraverse(
         throw std::invalid_argument("AQLQueryBuilder::forTraverse: max_depth must be non-negative");
     }
     if (min_depth > max_depth) {
-        throw std::invalid_argument(
-            "AQLQueryBuilder::forTraverse: min_depth (" + std::to_string(min_depth) +
-            ") must not exceed max_depth (" + std::to_string(max_depth) + ")"
-        );
+        throw std::invalid_argument("AQLQueryBuilder::forTraverse: min_depth (" + std::to_string(min_depth)
+                                    + ") must not exceed max_depth (" + std::to_string(max_depth) + ")");
     }
-    impl_->for_traverse_clauses.push_back({
-        vertex_var, edge_var, path_var, start, graph, direction, min_depth, max_depth
-    });
+    impl_->for_traverse_clauses.push_back(
+        {vertex_var, edge_var, path_var, start, graph, direction, min_depth, max_depth});
     return *this;
 }
 
@@ -360,10 +325,7 @@ AQLQueryBuilder& AQLQueryBuilder::forTraverse(
 // DML methods
 // ============================================================================
 
-AQLQueryBuilder& AQLQueryBuilder::insertInto(
-    const std::string& collection,
-    const std::string& doc_expr
-) {
+AQLQueryBuilder &AQLQueryBuilder::insertInto(const std::string &collection, const std::string &doc_expr) {
     if (collection.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::insertInto: collection must not be empty");
     }
@@ -374,10 +336,7 @@ AQLQueryBuilder& AQLQueryBuilder::insertInto(
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::updateIn(
-    const std::string& collection,
-    const std::string& doc_expr
-) {
+AQLQueryBuilder &AQLQueryBuilder::updateIn(const std::string &collection, const std::string &doc_expr) {
     if (collection.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::updateIn: collection must not be empty");
     }
@@ -388,10 +347,7 @@ AQLQueryBuilder& AQLQueryBuilder::updateIn(
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::removeIn(
-    const std::string& collection,
-    const std::string& doc_expr
-) {
+AQLQueryBuilder &AQLQueryBuilder::removeIn(const std::string &collection, const std::string &doc_expr) {
     if (collection.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::removeIn: collection must not be empty");
     }
@@ -402,12 +358,8 @@ AQLQueryBuilder& AQLQueryBuilder::removeIn(
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::upsertIn(
-    const std::string& collection,
-    const std::string& filter_expr,
-    const std::string& insert_expr,
-    const std::string& update_expr
-) {
+AQLQueryBuilder &AQLQueryBuilder::upsertIn(const std::string &collection, const std::string &filter_expr,
+                                           const std::string &insert_expr, const std::string &update_expr) {
     if (collection.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::upsertIn: collection must not be empty");
     }
@@ -424,10 +376,7 @@ AQLQueryBuilder& AQLQueryBuilder::upsertIn(
     return *this;
 }
 
-AQLQueryBuilder& AQLQueryBuilder::replaceIn(
-    const std::string& collection,
-    const std::string& doc_expr
-) {
+AQLQueryBuilder &AQLQueryBuilder::replaceIn(const std::string &collection, const std::string &doc_expr) {
     if (collection.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::replaceIn: collection must not be empty");
     }
@@ -442,10 +391,7 @@ AQLQueryBuilder& AQLQueryBuilder::replaceIn(
 // WINDOW analytics
 // ============================================================================
 
-AQLQueryBuilder& AQLQueryBuilder::window(
-    const std::string& partition_expr,
-    const std::string& window_spec
-) {
+AQLQueryBuilder &AQLQueryBuilder::window(const std::string &partition_expr, const std::string &window_spec) {
     if (window_spec.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::window: window_spec must not be empty");
     }
@@ -457,10 +403,7 @@ AQLQueryBuilder& AQLQueryBuilder::window(
 // Subquery support
 // ============================================================================
 
-AQLQueryBuilder& AQLQueryBuilder::subquery(
-    const std::string& variable,
-    const AQLQueryBuilder& inner
-) {
+AQLQueryBuilder &AQLQueryBuilder::subquery(const std::string &variable, const AQLQueryBuilder &inner) {
     if (variable.empty()) {
         throw std::invalid_argument("AQLQueryBuilder::subquery: variable must not be empty");
     }
@@ -477,7 +420,7 @@ AQLQueryBuilder& AQLQueryBuilder::subquery(
 // Schema-aware query generation
 // ============================================================================
 
-AQLQueryBuilder& AQLQueryBuilder::setSchema(const std::vector<CollectionMetadata>& schema) {
+AQLQueryBuilder &AQLQueryBuilder::setSchema(const std::vector<CollectionMetadata> &schema) {
     impl_->schema = schema;
     return *this;
 }
@@ -486,14 +429,12 @@ std::string AQLQueryBuilder::getSchemaContext() const {
     return formatSchemaContext(impl_->schema);
 }
 
-std::vector<std::string> AQLQueryBuilder::getFieldsForCollection(
-    const std::string& collection
-) const {
-    for (const auto& col : impl_->schema) {
+std::vector<std::string> AQLQueryBuilder::getFieldsForCollection(const std::string &collection) const {
+    for (const auto &col : impl_->schema) {
         if (col.name == collection) {
             std::vector<std::string> fields;
             fields.reserve(col.fields.size());
-            for (const auto& f : col.fields) {
+            for (const auto &f : col.fields) {
                 fields.push_back(f.name);
             }
             return fields;
@@ -519,11 +460,10 @@ std::string AQLQueryBuilder::getPartialQuery() const {
 // ============================================================================
 
 bool AQLQueryBuilder::isComplete() const {
-    bool has_for = !impl_->for_clauses.empty() || !impl_->for_traverse_clauses.empty();
+    bool has_for           = !impl_->for_clauses.empty() || !impl_->for_traverse_clauses.empty();
     bool has_return_or_dml = !impl_->return_expr.empty() || !impl_->dml_clauses.empty();
     // DML-only queries (e.g., INSERT without a FOR loop) are also considered complete
-    if (!impl_->dml_clauses.empty() && impl_->for_clauses.empty()
-        && impl_->for_traverse_clauses.empty()) {
+    if (!impl_->dml_clauses.empty() && impl_->for_clauses.empty() && impl_->for_traverse_clauses.empty()) {
         return true;
     }
     return has_for && has_return_or_dml;
@@ -532,21 +472,17 @@ bool AQLQueryBuilder::isComplete() const {
 bool AQLQueryBuilder::isValid() const {
     // A valid (possibly incomplete) query must have no contradictions:
     // - At least one FOR clause if any other clause (except DML) is present
-    bool has_for = !impl_->for_clauses.empty() || !impl_->for_traverse_clauses.empty();
-    bool has_any_clause = !impl_->filters.empty()
-        || !impl_->sorts.empty()
-        || !impl_->collects.empty()
-        || !impl_->let_clauses.empty()
-        || !impl_->window_clauses.empty()
-        || impl_->limit_count >= 0
-        || !impl_->return_expr.empty();
+    bool has_for        = !impl_->for_clauses.empty() || !impl_->for_traverse_clauses.empty();
+    bool has_any_clause = !impl_->filters.empty() || !impl_->sorts.empty() || !impl_->collects.empty()
+                          || !impl_->let_clauses.empty() || !impl_->window_clauses.empty() || impl_->limit_count >= 0
+                          || !impl_->return_expr.empty();
 
     if (has_any_clause && !has_for) {
         return false;
     }
 
     // Traversal depth must be logically consistent
-    for (const auto& ft : impl_->for_traverse_clauses) {
+    for (const auto &ft : impl_->for_traverse_clauses) {
         if (ft.min_depth > ft.max_depth) {
             return false;
         }
@@ -560,40 +496,42 @@ ValidationResult AQLQueryBuilder::validate() const {
     ValidationResult result = validator.validate(*this);
 
     // Check traversal depth constraints
-    for (const auto& ft : impl_->for_traverse_clauses) {
+    for (const auto &ft : impl_->for_traverse_clauses) {
         if (ft.min_depth > ft.max_depth) {
             result.is_valid = false;
-            result.issues.push_back({
-                ValidationIssue::Severity::ERROR,
-                "Graph traversal min_depth (" + std::to_string(ft.min_depth) +
-                    ") is greater than max_depth (" + std::to_string(ft.max_depth) + ")",
-                "FOR"
-            });
+            result.issues.push_back({ValidationIssue::Severity::ERROR,
+                                     "Graph traversal min_depth (" + std::to_string(ft.min_depth)
+                                         + ") is greater than max_depth (" + std::to_string(ft.max_depth) + ")",
+                                     "FOR"});
         }
     }
 
     // Schema-aware: warn when a collection named in a FOR clause is not found
     // in the attached metadata snapshot.
     if (!impl_->schema.empty()) {
-        for (const auto& fc : impl_->for_clauses) {
+        for (const auto &fc : impl_->for_clauses) {
             bool found = false;
-            for (const auto& col : impl_->schema) {
+            for (const auto &col : impl_->schema) {
                 if (col.name == fc.collection) {
                     found = true;
                     break;
                 }
             }
             if (!found) {
-                result.issues.push_back({
-                    ValidationIssue::Severity::WARNING,
-                    "Collection '" + fc.collection + "' not found in attached schema",
-                    "FOR"
-                });
+                result.issues.push_back({ValidationIssue::Severity::WARNING,
+                                         "Collection '" + fc.collection + "' not found in attached schema", "FOR"});
             }
         }
     }
 
     return result;
+}
+
+ValidationResult AQLQueryBuilder::validate(const std::vector<CollectionMetadata> &schema) const {
+    // Delegate to AQLQueryValidator which has full schema-aware logic for both
+    // structural checks and unknown-collection / unknown-field detection.
+    AQLQueryValidator validator;
+    return validator.validate(*this, schema);
 }
 
 // ============================================================================
@@ -645,19 +583,16 @@ std::vector<std::string> AQLQueryBuilder::getNextSteps() const {
 // LLM-powered suggestions
 // ============================================================================
 
-std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(
-    LLMAQLHandler& handler,
-    const std::string& schema_context,
-    int max_suggestions
-) const {
+std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler &handler,
+                                                                   const std::string &schema_context,
+                                                                   int max_suggestions) const {
     std::vector<std::string> suggestions;
 
     try {
         std::string partial = getPartialQuery();
 
         // Use the caller-supplied context, or fall back to the attached schema.
-        const std::string& effective_schema =
-            !schema_context.empty() ? schema_context : getSchemaContext();
+        const std::string &effective_schema = !schema_context.empty() ? schema_context : getSchemaContext();
 
         std::ostringstream prompt;
         prompt << "You are an AQL (ArangoDB Query Language) expert for ThemisDB.\n";
@@ -668,7 +603,9 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(
         prompt << "Valid next clauses (based on AQL grammar): ";
         auto steps = getNextSteps();
         for (size_t i = 0; i < steps.size(); ++i) {
-            if (i > 0) prompt << ", ";
+            if (i > 0) {
+                prompt << ", ";
+            }
             prompt << steps[i];
         }
         prompt << "\n\n";
@@ -694,24 +631,20 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(
                 suggestions.push_back(line);
             }
         }
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         spdlog::warn("AQLQueryBuilder::getCompletionSuggestions failed: {}", e.what());
     }
 
     return suggestions;
 }
 
-std::string AQLQueryBuilder::getLLMSuggestion(
-    LLMAQLHandler& handler,
-    const std::string& intent,
-    const std::string& schema_context
-) const {
+std::string AQLQueryBuilder::getLLMSuggestion(LLMAQLHandler &handler, const std::string &intent,
+                                              const std::string &schema_context) const {
     try {
         std::string partial = getPartialQuery();
 
         // Use the caller-supplied context, or fall back to the attached schema.
-        const std::string& effective_schema =
-            !schema_context.empty() ? schema_context : getSchemaContext();
+        const std::string &effective_schema = !schema_context.empty() ? schema_context : getSchemaContext();
 
         std::ostringstream context;
         if (!effective_schema.empty()) {
@@ -722,7 +655,7 @@ std::string AQLQueryBuilder::getLLMSuggestion(
         }
 
         return handler.translateNLToAQL(intent, context.str());
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         spdlog::warn("AQLQueryBuilder::getLLMSuggestion failed: {}", e.what());
         return "";
     }
@@ -732,7 +665,7 @@ std::string AQLQueryBuilder::getLLMSuggestion(
 // Ingestion enrichment flag
 // ============================================================================
 
-AQLQueryBuilder& AQLQueryBuilder::withIngestionEnrichment(bool enabled) {
+AQLQueryBuilder &AQLQueryBuilder::withIngestionEnrichment(bool enabled) {
     impl_->ingestion_enrichment = enabled;
     return *this;
 }

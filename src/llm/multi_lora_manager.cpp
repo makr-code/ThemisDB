@@ -1,31 +1,18 @@
-// THEMIS_GAP_STATS: gaps=20 unimpl=16 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            multi_lora_manager.cpp                             ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:37                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   42.0/100                                       ║
-    • Total Lines:     3181                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-    • df59ab8148  2026-04-12  feat(llm): promote llama_wrapper, multi_lora_manager, pro... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: multi_lora_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:49
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 3377
+ * Open Issues: TODOs=1, Stubs=1, Gaps=5, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=5 | external_v3=1227 | delta=1222 | status=divergent
+ * External Severity (v3): C=111, H=1007, M=109
+ * PR: #4678 feat: replace production stubs across 7 modules â€” TSA, Paxos RPC,... (2026-04-15T19:06:49Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/multi_lora_manager.h"
 #include <stdexcept>
 #include "llm/gguf_loader.h"
+#include "llm/lora_security_validator.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -55,6 +42,8 @@ namespace llm {
 // Quantization and memory constants
 namespace {
     constexpr size_t TYPICAL_LORA_RANK8_BYTES = 32 * 1024 * 1024;  // 32 MB for rank-8 LoRA
+    constexpr size_t MIN_LORA_RANK = 4;    // Matches LoRASecurityConfig::min_rank default
+    constexpr size_t MAX_LORA_RANK = 128;  // Matches LoRASecurityConfig::max_rank default
     constexpr float INT8_MAX_VALUE = 127.0f;
     constexpr float INT4_MAX_VALUE = 7.0f;
     constexpr float MIN_SCALE_EPSILON = 1e-8f;
@@ -1270,16 +1259,16 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
         // Fallback: generate a size-representative weight vector when the file
         // cannot be parsed (e.g. unit tests with non-existent paths).
         if (weights.empty()) {
-            size_t num_weights = lora->original_vram_bytes / sizeof(float);
+            size_t fallback_weights = lora->original_vram_bytes / sizeof(float);
             const size_t kMaxFallback = 256 * 1024;   // 1 MB of floats
-            num_weights = std::min(num_weights, kMaxFallback);
-            if (num_weights == 0) {
+            fallback_weights = std::min(fallback_weights, kMaxFallback);
+            if (fallback_weights == 0) {
                 spdlog::warn("quantizeLoRA: zero-size LoRA '{}', skipping quantization", lora->lora_id);
                 return false;
             }
-            weights.assign(num_weights, 0.0f);
+            weights.assign(fallback_weights, 0.0f);
             // Populate with a deterministic non-zero pattern for scale calibration.
-            for (size_t i = 0; i < num_weights; ++i) {
+            for (size_t i = 0; i < fallback_weights; ++i) {
                 weights[i] = static_cast<float>((i % 255) - 127) / 127.0f;
             }
         }
@@ -2009,6 +1998,26 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
         return nullptr;
     }
 
+    // Security validation (v1.20.0): run LoRASecurityValidator::validateMetadata()
+    // before any file I/O so that malformed or tampered adapters are rejected
+    // early — before the GGUF parser streams adapter weights into memory.
+    if (config_.security_validator) {
+        if (!config_.security_validator->validateMetadata(lora_path)) {
+            if (config_.enforce_security_validation) {
+                spdlog::error("loadLoRAInternal: security-validator rejected adapter '{}' "
+                              "at path '{}' — metadata validation failed (enforce=true)",
+                              lora_id, lora_path);
+                return nullptr;
+            }
+            spdlog::warn("loadLoRAInternal: security-validator reported metadata issue for "
+                         "adapter '{}' at path '{}' — continuing (enforce=false)",
+                         lora_id, lora_path);
+        } else {
+            spdlog::debug("loadLoRAInternal: security-validator approved adapter '{}' "
+                          "at path '{}'", lora_id, lora_path);
+        }
+    }
+
     // Validate that LoRA file exists
     std::ifstream file_check(lora_path, std::ios::binary);
     if (!file_check.good()) {
@@ -2669,7 +2678,6 @@ json MultiLoRAManager::getGPUTransferAuditLog(size_t limit) const {
     
     json log = json::array();
     
-    size_t count = 0;
     size_t start = (limit > 0 && audit_log_.size() > limit) ? 
                    (audit_log_.size() - limit) : 0;
     
@@ -3392,4 +3400,3 @@ void MultiLoRAManager::updateInferenceMetrics(
 
 } // namespace llm
 } // namespace themis
-

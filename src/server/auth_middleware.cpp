@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_middleware.cpp                                ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:46                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     696                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auth_middleware.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 720
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=186 | delta=183 | status=divergent
+ * External Severity (v3): C=18, H=151, M=17
+ * PR: #5123 docs(server): update VCCDB Design.md â€“ add header, cross-refs, fi... (2026-05-14T05:24:44Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "server/auth_middleware.h"
@@ -195,13 +182,7 @@ bool AuthMiddleware::roleGrantsScope(const std::vector<std::string>& roles,
 
 AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std::string_view required_scope) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    // Mask token for logging (show first/last 4 chars)
-    auto mask = [](std::string_view t) {
-        std::string s(t);
-        if (s.size() <= 8) return s;
-        return s.substr(0,4) + "..." + s.substr(s.size()-4);
-    };
-    THEMIS_INFO("AuthMiddleware::authorize called for token='{}' required_scope='{}'", mask(token), required_scope);
+    THEMIS_INFO("AuthMiddleware::authorize called (required_scope='{}')", required_scope);
     
     // First try API token lookup.
     // GAP-008 fixed: instead of relying on the hash-map comparison for the final
@@ -429,7 +410,7 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
             auto claims = jwt_validator_->parseAndValidate(std::string(token));
             metrics_.jwt_validation_success_total++;
             return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);
-        } catch (const std::exception& e) {
+        } catch (const std::exception&) {
             metrics_.jwt_validation_failed_total++;
             // GAP-013: Log JWT validation failures at WARN for auditability (CWE-778).
             // Previously logged at DEBUG, which means auth failures were invisible
@@ -733,4 +714,3 @@ void AuthMiddleware::loadRoleScopeMapping()
 }
 
 } // namespace themis
-

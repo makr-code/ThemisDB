@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            vector_index.h                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:12                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     521                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: vector_index.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -31,6 +17,7 @@
 #include <optional>
 #include <utility>
 #include <memory>
+#include <cstdint>
 
 namespace themis {
 
@@ -407,6 +394,15 @@ public:
     /// Get current rotary embedding configuration
     /// Returns nullopt if rotary embeddings are not enabled
     std::optional<struct RotationConfig> getRotaryEmbeddingConfig() const;
+
+    struct RotaryEmbeddingStats {
+        uint64_t total_rotated_entities = 0;
+        uint64_t total_relational_rotations = 0;
+        double avg_rotation_time_us = 0.0;
+    };
+
+    /// Get runtime RoPE stats. Returns nullopt when RoPE is disabled.
+    std::optional<RotaryEmbeddingStats> getRotaryEmbeddingStats() const;
     
     /// Add entity with automatic positional rotation
     /// The embedding is rotated based on the position parameter before storage
@@ -423,6 +419,23 @@ public:
         std::string_view vectorField,
         const std::string& relation_type
     );
+
+    /**
+     * @brief Runtime counters for rotary embedding operations.
+     *
+     * Incremented atomically by addEntityWithRotation (total_rotated_entities)
+     * and addEntityWithRelationalRotation (relational_rotations).
+     */
+    struct RotaryStats {
+        uint64_t total_rotated_entities{0};  ///< Cumulative positional-rotation adds
+        uint64_t relational_rotations{0};    ///< Cumulative relational-rotation adds
+    };
+
+    /// Return a snapshot of the rotary embedding counters.
+    RotaryStats getRotaryStats() const {
+        return { rotary_positional_rotations_.load(std::memory_order_relaxed),
+                 rotary_relational_rotations_.load(std::memory_order_relaxed) };
+    }
     
     /// KNN search with rotation-aware query
     /// Rotates the query vector before search
@@ -503,6 +516,10 @@ private:
     // Rotary Embeddings support
     std::unique_ptr<RotaryEmbedding> rotary_embedding_;
     bool rotary_enabled_ = false;
+    mutable std::atomic<uint64_t> rotary_positional_rotations_{0};
+    mutable std::atomic<uint64_t> rotary_relational_rotations_{0};
+    mutable std::atomic<uint64_t> rotary_query_rotations_{0};
+    mutable std::atomic<uint64_t> rotary_total_rotation_time_us_{0};
     
     // Advanced Vector Index Integration (v1.5.0+)
     AdvancedIndexConfig advanced_config_;

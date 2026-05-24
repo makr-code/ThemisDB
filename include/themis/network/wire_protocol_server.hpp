@@ -1,24 +1,9 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            wire_protocol_server.hpp                           ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:47:25                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     315                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • e7af44ad0c  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: wire_protocol_server.hpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=7, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // ThemisDB Wire Protocol Server
@@ -99,6 +84,13 @@ class CloseRequest;
 #endif
 
 namespace themis {
+
+// Forward declarations for injectable engine types (stub #281)
+class QueryEngine;
+class TSStore;
+class ProcessGraphManager;
+namespace index { class SpatialIndexManager; }
+
 namespace wire {
 
 // =============================================================================
@@ -190,20 +182,195 @@ struct WireFrameHeader {
 static_assert(sizeof(WireFrameHeader) == HEADER_SIZE, "Header must be 12 bytes");
 
 // =============================================================================
+// Engine injection configuration (stub #281)
+// Declared before WireProtocolSession so the session can reference it.
+// =============================================================================
+
+/**
+ * @brief Engine references for the Protobuf wire protocol handlers.
+ *
+ * Passed to WireProtocolServer at construction time and forwarded to each
+ * new WireProtocolSession.  All fields are optional shared_ptrs; a null
+ * pointer keeps the corresponding handler returning a redirect error.
+ */
+struct WireEngineConfig {
+    /// @brief AQL query engine (enables QUERY_AQL, CURSOR_NEXT, CURSOR_CLOSE)
+    std::shared_ptr<QueryEngine> query_engine;
+    /// @brief Spatial index for GEO_QUERY dispatch
+    std::shared_ptr<index::SpatialIndexManager> spatial_index;
+    /// @brief Time-series store for TIMESERIES_QUERY dispatch
+    std::shared_ptr<TSStore> ts_store;
+    /// @brief BPMN process graph manager (enables BPMN_START, BPMN_TASK_COMPLETE,
+    ///        BPMN_QUERY_INSTANCE)
+    std::shared_ptr<ProcessGraphManager> process_graph;
+};
+
+// =============================================================================
 // Wire Protocol Session
 // =============================================================================
+
+// ---------------------------------------------------------------------------
+// Injection bridge type aliases for WireProtocolSession (stub #281 replacement)
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief AQL query execution bridge for the Protobuf wire protocol.
+ *
+ * When set, QUERY_AQL messages are dispatched to this function instead of
+ * returning HTTP 501.  The function receives the AQL string and the
+ * authenticated session's namespace and must return a JSON-encoded result
+ * string.  An exception or empty return keeps the error path.
+ *
+ * @param aql  AQL query string.
+ * @param ns   Namespace / tenant derived from the authenticated session.
+ * @return     JSON-encoded query result.
+ */
+using WireAqlExecFn = std::function<std::string(
+    const std::string& aql, const std::string& ns)>;
+
+/**
+ * @brief Cursor next-page bridge for the Protobuf wire protocol.
+ *
+ * @param cursor_id  Cursor identifier from the CURSOR_NEXT request.
+ * @return           JSON-encoded next page of results.
+ */
+using WireCursorNextFn = std::function<std::string(const std::string& cursor_id)>;
+
+/**
+ * @brief Cursor close bridge for the Protobuf wire protocol.
+ *
+ * @param cursor_id  Cursor identifier from the CURSOR_CLOSE request.
+ * @return           true if the cursor was found and closed, false otherwise.
+ */
+using WireCursorCloseFn = std::function<bool(const std::string& cursor_id)>;
+
+/**
+ * @brief Geospatial query bridge for the Protobuf wire protocol.
+ *
+ * @param collection  Target collection name.
+ * @param lat         Latitude of the search centre (WGS84, decimal degrees).
+ * @param lon         Longitude of the search centre (WGS84, decimal degrees).
+ * @param radius_m    Search radius in metres.
+ * @param limit       Maximum number of results.
+ * @return            JSON-encoded array of matching document objects.
+ */
+using WireGeoQueryFn = std::function<std::string(
+    const std::string& collection, double lat, double lon,
+    double radius_m, int limit)>;
+
+/**
+ * @brief Time-series query bridge for the Protobuf wire protocol.
+ *
+ * @param collection  Collection / series name.
+ * @param start_ns    Start of the query range (nanoseconds since Unix epoch).
+ * @param end_ns      End of the query range (nanoseconds since Unix epoch).
+ * @return            JSON-encoded time-series data points.
+ */
+using WireTSQueryFn = std::function<std::string(
+    const std::string& collection, int64_t start_ns, int64_t end_ns)>;
+
+/**
+ * @brief Graph traversal bridge for the Protobuf wire protocol.
+ *
+ * @param collection   Collection / edge-set name.
+ * @param start_vertex Start vertex identifier.
+ * @param max_depth    Maximum traversal depth (0 = unlimited).
+ * @return             JSON-encoded traversal result.
+ */
+using WireGraphTraversalFn = std::function<std::string(
+    const std::string& collection, const std::string& start_vertex, int max_depth)>;
+
+/**
+ * @brief Register the AQL execution bridge for the Protobuf wire protocol.
+ *
+ * Thread-safe.  Pass nullptr to clear.  Registered once at server startup.
+ */
+void setWireAqlExecFn(WireAqlExecFn fn);
+
+/**
+ * @brief Register the cursor next-page bridge for the Protobuf wire protocol.
+ * Thread-safe.  Pass nullptr to clear.
+ */
+void setWireCursorNextFn(WireCursorNextFn fn);
+
+/**
+ * @brief Register the cursor close bridge for the Protobuf wire protocol.
+ * Thread-safe.  Pass nullptr to clear.
+ */
+void setWireCursorCloseFn(WireCursorCloseFn fn);
+
+/**
+ * @brief Register the geospatial query bridge for the Protobuf wire protocol.
+ * Thread-safe.  Pass nullptr to clear.
+ */
+void setWireGeoQueryFn(WireGeoQueryFn fn);
+
+/**
+ * @brief Register the time-series query bridge for the Protobuf wire protocol.
+ * Thread-safe.  Pass nullptr to clear.
+ */
+void setWireTSQueryFn(WireTSQueryFn fn);
+
+/**
+ * @brief Register the graph traversal bridge for the Protobuf wire protocol.
+ * Thread-safe.  Pass nullptr to clear.
+ */
+void setWireGraphTraversalFn(WireGraphTraversalFn fn);
 
 class WireProtocolSession : public std::enable_shared_from_this<WireProtocolSession> {
 public:
     using socket_t = boost::asio::ip::tcp::socket;
     using error_code = boost::system::error_code;
+
+    // -------------------------------------------------------------------------
+    // Engine injection bridges (stub #281)
+    // These function types allow the server to wire real engine backends into
+    // WireProtocolSession without creating a hard compile-time dependency on the
+    // engine headers.  Each function receives the relevant request fields and
+    // returns a serialised JSON response string (ready to wrap in send_ok/send_error).
+    // -------------------------------------------------------------------------
+
+    /// AQL query executor: (aql_string, db_namespace) → JSON response string.
+    using AqlQueryFn = std::function<std::string(const std::string& aql,
+                                                  const std::string& ns)>;
+
+    /// Cursor-next executor: (cursor_id) → JSON response string.
+    using CursorNextFn = std::function<std::string(const std::string& cursor_id)>;
+
+    /// Cursor-close executor: (cursor_id) → JSON response string.
+    using CursorCloseFn = std::function<std::string(const std::string& cursor_id)>;
+
+    /// Geospatial query executor: (collection, lat, lon, radius_m, limit) → JSON response string.
+    using GeoQueryFn = std::function<std::string(const std::string& collection,
+                                                  double lat, double lon,
+                                                  double radius_m, int limit)>;
+
+    /// Time-series query executor: (collection, start_ns, end_ns, aggregation) → JSON string.
+    using TimeseriesQueryFn = std::function<std::string(const std::string& collection,
+                                                         int64_t start_ns,
+                                                         int64_t end_ns,
+                                                         const std::string& aggregation)>;
+
+    /// Graph traversal executor: () → JSON response string.
+    using GraphTraverseFn = std::function<std::string()>;
     
-    WireProtocolSession(socket_t socket);
+    explicit WireProtocolSession(socket_t socket);
     ~WireProtocolSession();
     
     void start();
     void close(const std::string& reason = "");
     void set_disconnect_callback(std::function<void(const std::string&)> callback);
+
+    /**
+     * @brief Inject engine references for stub #281.
+     *
+     * Called by WireProtocolServer immediately after session construction.
+     * The pointer is non-owning (the WireProtocolServer's engines_ field owns
+     * the WireEngineConfig).
+     */
+    void set_engines(const WireEngineConfig* engines) noexcept {
+        engines_ = engines;
+    }
     
     const std::string& session_id() const { return session_id_; }
     bool is_authenticated() const { return authenticated_; }
@@ -326,6 +493,14 @@ private:
     std::function<void(const std::string&)> disconnect_callback_;
     bool disconnect_notified_;
     mutable std::mutex session_mutex_;
+
+    // Engine injection bridges stored per-session (stub #281)
+    AqlQueryFn        aql_query_fn_;
+    CursorNextFn      cursor_next_fn_;
+    CursorCloseFn     cursor_close_fn_;
+    GeoQueryFn        geo_query_fn_;
+    TimeseriesQueryFn timeseries_query_fn_;
+    GraphTraverseFn   graph_traverse_fn_;
     
     // Statistics
     uint64_t messages_received_;
@@ -353,8 +528,20 @@ class WireProtocolServer {
 public:
     using acceptor_t = boost::asio::ip::tcp::acceptor;
     using endpoint_t = boost::asio::ip::tcp::endpoint;
-    
+
+    /// @brief Minimal constructor (no engine injection; all advanced handlers return redirect errors).
     WireProtocolServer(boost::asio::io_context& io_context, uint16_t port);
+
+    /**
+     * @brief Engine-injected constructor.
+     *
+     * @param io_context Boost.Asio I/O context for async network operations.
+     * @param port        TCP port to listen on.
+     * @param engines     Engine references to wire into session handlers.
+     */
+    WireProtocolServer(boost::asio::io_context& io_context, uint16_t port,
+                       WireEngineConfig engines);
+
     ~WireProtocolServer();
     
     void start();
@@ -364,6 +551,25 @@ public:
     size_t active_sessions() const;
     uint64_t total_connections() const;
     uint64_t total_messages() const;
+
+    // -------------------------------------------------------------------------
+    // Engine injection bridges (stub #281)
+    // Set engine backends before calling start().  Each fn is thread-safely
+    // copied into newly accepted WireProtocolSession objects.
+    // -------------------------------------------------------------------------
+
+    /** @brief Inject AQL query executor into all new sessions. */
+    void setAqlQueryFn(WireProtocolSession::AqlQueryFn fn);
+    /** @brief Inject cursor-next executor into all new sessions. */
+    void setCursorNextFn(WireProtocolSession::CursorNextFn fn);
+    /** @brief Inject cursor-close executor into all new sessions. */
+    void setCursorCloseFn(WireProtocolSession::CursorCloseFn fn);
+    /** @brief Inject geospatial query executor into all new sessions. */
+    void setGeoQueryFn(WireProtocolSession::GeoQueryFn fn);
+    /** @brief Inject time-series query executor into all new sessions. */
+    void setTimeseriesQueryFn(WireProtocolSession::TimeseriesQueryFn fn);
+    /** @brief Inject graph traversal executor into all new sessions. */
+    void setGraphTraverseFn(WireProtocolSession::GraphTraverseFn fn);
     
 private:
     void async_accept();
@@ -378,6 +584,14 @@ private:
     uint64_t total_connections_;
     uint64_t total_messages_;
     bool running_;
+
+    // Engine fn storage — guarded by state_mutex_ (same lock used for sessions_)
+    WireProtocolSession::AqlQueryFn        aql_query_fn_;
+    WireProtocolSession::CursorNextFn      cursor_next_fn_;
+    WireProtocolSession::CursorCloseFn     cursor_close_fn_;
+    WireProtocolSession::GeoQueryFn        geo_query_fn_;
+    WireProtocolSession::TimeseriesQueryFn timeseries_query_fn_;
+    WireProtocolSession::GraphTraverseFn   graph_traverse_fn_;
 };
 
 // =============================================================================

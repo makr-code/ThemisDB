@@ -1,24 +1,12 @@
-// THEMIS_GAP_STATS: gaps=122 unimpl=0 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            build_info.cpp                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:28                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     1018                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 52f52d4a5c  2026-03-28  Fix edition type assignment to use THEMIS_EDITION_STRING ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: build_info.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 1022
+ * Open Issues: TODOs=1, Stubs=7, Gaps=10, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=10 | external_v3=118 | delta=108 | status=divergent
+ * External Severity (v3): C=1, H=29, M=88
+ * PR: #3830 feat(themis): Modular Build System v1.7.0 â€“ migrate license_info,... (2026-03-12T11:08:09Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*

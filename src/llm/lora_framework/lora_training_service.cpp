@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=0 stub=0 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            lora_training_service.cpp                          ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     2116                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: lora_training_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 81/100 | Lines: 2117
+ * Open Issues: TODOs=3, Stubs=5, Gaps=12, Unimpl=0, Mock=1, Sim=3, Debt=0
+ * Gap Correlation: internal=12 | external_v3=689 | delta=677 | status=divergent
+ * External Severity (v3): C=91, H=551, M=47
+ * PR: #550 Implement Production Training Features for LoRA Framework (2026-03-11T21:36:53Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/lora_framework/lora_training_service.h"
@@ -54,6 +45,30 @@
 namespace themis {
 namespace llm {
 namespace lora {
+
+// ============================================================================
+// ModelPathProvider bridge (stub #289)
+// ============================================================================
+
+namespace {
+    static std::mutex s_model_path_fn_mutex;
+    static std::function<std::string(const std::string&)> s_model_path_fn;
+} // namespace
+
+void LoRATrainingService::setModelPathProviderFn(ModelPathProviderFn fn) {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    s_model_path_fn = std::move(fn);
+}
+
+void LoRATrainingService::clearModelPathProviderFn() {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    s_model_path_fn = nullptr;
+}
+
+static std::function<std::string(const std::string&)> getModelPathProviderFn() {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    return s_model_path_fn;
+}
 
 // Simple MSE loss function
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
@@ -491,7 +506,9 @@ public:
             // Create learning rate scheduler using factory (more comprehensive than params-based)
             // Use config_ scheduler if available, otherwise fall back to params
             std::unique_ptr<LRScheduler> lr_scheduler;
-            int total_steps = (data.size() / params.batch_size) * params.num_epochs;
+            const int total_steps = static_cast<int>(
+                (data.size() / static_cast<size_t>(params.batch_size)) *
+                static_cast<size_t>(params.num_epochs));
             
             // Use production LR scheduler factory with full configuration support
             if (config_.lr_scheduler.type != SchedulerType::CONSTANT || config_.lr_scheduler.base_lr != 1e-4f) {
@@ -747,7 +764,7 @@ public:
                     float batch_loss = compute_mse_loss(predictions, batch_target);
                     
                     // Scale loss for mixed precision
-                    float scaled_loss = mixed_precision->scale_loss(batch_loss);
+                    static_cast<void>(mixed_precision->scale_loss(batch_loss));
                     
                     epoch_loss += batch_loss;
                     num_batches++;
@@ -1240,7 +1257,13 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         // Step 4: Load Quantized Base Model
         // ===================================================================
-        auto quantized_model = loadQuantizedBaseModel(impl_->config_.base_model_path, qlora_config);
+        // Resolve the model path: use the injected provider if available, otherwise
+        // use the configured path directly.
+        std::string resolved_model_path = impl_->config_.base_model_path;
+        if (impl_->config_.model_path_provider) {
+            resolved_model_path = impl_->config_.model_path_provider(impl_->config_.base_model_path);
+        }
+        auto quantized_model = loadQuantizedBaseModel(resolved_model_path, qlora_config);
         if (!quantized_model) {
             throw std::runtime_error("Failed to load quantized base model");
         }
@@ -1562,7 +1585,7 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
             spdlog::error("GGUF model file not found: {}", model_path);
             return nullptr;
         }
-        
+
         std::ifstream gguf_file(model_path, std::ios::binary);
         if (!gguf_file.is_open()) {
             spdlog::error("Failed to open GGUF file: {}", model_path);
@@ -1618,7 +1641,6 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         spdlog::info("GGUF KV pairs: {}", kv_count);
         
         // Parse metadata KV pairs to extract model info
-        size_t model_param_count = 0;
         std::vector<std::string> layer_names;
         
         for (uint64_t i = 0; i < kv_count; ++i) {
@@ -1736,13 +1758,12 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         
         spdlog::info("Successfully loaded GGUF model with {} layers", 
                     quantized_model->num_layers());
+        return quantized_model;
         
     } catch (const std::exception& e) {
         spdlog::error("Exception while loading GGUF model: {}", e.what());
         return nullptr;
     }
-    
-    return quantized_model;
 }
 
 size_t LoRATrainingService::estimateMemoryUsage(

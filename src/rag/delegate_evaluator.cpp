@@ -1,21 +1,12 @@
-// THEMIS_GAP_STATS: gaps=7 unimpl=1 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            delegate_evaluator.cpp                             ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-05-12                                         ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 BETA                                          ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     ~500                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 Beta                                                     ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: delegate_evaluator.cpp | Version: 0.1.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 539
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=99 | delta=96 | status=divergent
+ * External Severity (v3): C=5, H=80, M=14
+ * PR: #5042 feat(base/rag): close Issue #1575 benchmark mapping and document de... (2026-05-12T12:09:49Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**

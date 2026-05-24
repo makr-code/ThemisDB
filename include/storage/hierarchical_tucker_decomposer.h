@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            storage/hierarchical_tucker_decomposer.h           ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-07                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 5 (Q1 2028)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: hierarchical_tucker_decomposer.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
+ * Gap Summary: total=12; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -22,9 +17,11 @@
  *
  * 1. **HOSVD leaves**: for each mode k compute the truncated SVD of the mode-k
  *    unfolding T_(k) ∈ ℝ^{n_k × (N/n_k)} → U_k ∈ ℝ^{n_k × r_k}.
+ *    Delegated to `TensorTrainDecomposer::truncatedSVD()` (Golub-Reinsch).
  *
- * 2. **Tucker core**: G = T ×_0 U_0^T ×_1 U_1^T … ×_{d-1} U_{d-1}^T
- *    (multi-mode product; G ∈ ℝ^{r_0 × … × r_{d-1}}).
+ * 2. **HOOI refinement**: run alternating mode updates using projected
+ *    unfoldings until reconstruction error converges or the configured
+ *    tolerance is reached.
  *
  * 2b. **HOOI sweep**: Alternating optimization — for each mode k, compute
  *     G(k) = T ×_{j≠k} U_j^T, update U_k via truncated SVD of the k-unfolding.
@@ -70,6 +67,11 @@ namespace storage {
 struct HTConfig {
     std::size_t max_rank = 16;  ///< Maximum rank per node (clamped to min(n_k, N/n_k))
     double      eps      = 0.01; ///< Relative reconstruction error tolerance
+
+    /// Maximum HOOI alternating-optimization iterations after HOSVD initialization.
+    /// Set to 0 to use HOSVD-only (lower quality but faster).  Default 20 iterations
+    /// are sufficient for convergence in most practical cases.
+    std::size_t max_hooi_iter = 20;
 };
 
 // ============================================================================

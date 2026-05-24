@@ -1,25 +1,9 @@
-// THEMIS_GAP_STATS: gaps=6 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            profiler.cpp                                       ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-15 18:49:00                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     193                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: profiler.cpp | Version: 0.0.15
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=15, M=25, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /*
@@ -46,26 +30,24 @@ namespace gpu {
 
 uint64_t GPUProfiler::nowNs() {
     using namespace std::chrono;
-    return static_cast<uint64_t>(
-        duration_cast<nanoseconds>(
-            steady_clock::now().time_since_epoch()).count());
+    return static_cast<uint64_t>(duration_cast<nanoseconds>(steady_clock::now().time_since_epoch()).count());
 }
 
 // ============================================================================
 // Range markers
 // ============================================================================
 
-void GPUProfiler::beginRange(const std::string& name, uint32_t argb_color) {
+void GPUProfiler::beginRange(const std::string &name, uint32_t argb_color) {
     std::lock_guard<std::mutex> lock(mutex_);
 
 #ifdef THEMIS_ENABLE_CUDA
-    nvtxEventAttributes_t attrs  = {};
-    attrs.version                = NVTX_VERSION;
-    attrs.size                   = NVTX_EVENT_ATTRIB_STRUCT_SIZE;
-    attrs.colorType              = NVTX_COLOR_ARGB;
-    attrs.color                  = argb_color;
-    attrs.messageType            = NVTX_MESSAGE_TYPE_ASCII;
-    attrs.message.ascii          = name.c_str();
+    nvtxEventAttributes_t attrs = {};
+    attrs.version               = NVTX_VERSION;
+    attrs.size                  = NVTX_EVENT_ATTRIB_STRUCT_SIZE;
+    attrs.colorType             = NVTX_COLOR_ARGB;
+    attrs.color                 = argb_color;
+    attrs.messageType           = NVTX_MESSAGE_TYPE_ASCII;
+    attrs.message.ascii         = name.c_str();
     nvtxRangePushEx(&attrs);
 #elif defined(THEMIS_ENABLE_HIP)
     roctxRangePushA(name.c_str());
@@ -77,7 +59,9 @@ void GPUProfiler::beginRange(const std::string& name, uint32_t argb_color) {
 
 void GPUProfiler::endRange() {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (range_stack_.empty()) return;
+    if (range_stack_.empty()) {
+        return;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
     nvtxRangePop();
@@ -85,8 +69,8 @@ void GPUProfiler::endRange() {
     roctxRangePop();
 #endif
 
-    const uint64_t now    = nowNs();
-    const auto&    active = range_stack_.back();
+    const uint64_t now = nowNs();
+    const auto &active = range_stack_.back();
 
     Range completed;
     completed.name     = active.name;
@@ -97,7 +81,7 @@ void GPUProfiler::endRange() {
     range_stack_.pop_back();
 }
 
-void GPUProfiler::markEvent(const std::string& name) {
+void GPUProfiler::markEvent(const std::string &name) {
     std::lock_guard<std::mutex> lock(mutex_);
 
 #ifdef THEMIS_ENABLE_CUDA
@@ -110,7 +94,7 @@ void GPUProfiler::markEvent(const std::string& name) {
     Range ev;
     ev.name     = name;
     ev.start_ns = now;
-    ev.end_ns   = now;   // zero duration marks a point event
+    ev.end_ns   = now; // zero duration marks a point event
     completed_ranges_.push_back(std::move(ev));
 }
 
@@ -140,8 +124,8 @@ std::string GPUProfiler::rocm_profiler_export() const {
     oss << "{\n  \"traceEvents\": [\n";
 
     for (std::size_t i = 0; i < completed_ranges_.size(); ++i) {
-        const Range& r = completed_ranges_[i];
-        const bool   is_instant = (r.start_ns == r.end_ns);
+        const Range &r        = completed_ranges_[i];
+        const bool is_instant = (r.start_ns == r.end_ns);
 
         if (is_instant) {
             oss << "    {\"name\": \"" << r.name << "\", \"ph\": \"i\", "
@@ -153,7 +137,9 @@ std::string GPUProfiler::rocm_profiler_export() const {
                 << "\"dur\": " << ((r.end_ns - r.start_ns) / 1000) << ", "
                 << "\"pid\": 0, \"tid\": " << r.device_id << "}";
         }
-        if (i + 1 < completed_ranges_.size()) oss << ',';
+        if (i + 1 < completed_ranges_.size()) {
+            oss << ',';
+        }
         oss << '\n';
     }
 
@@ -180,9 +166,7 @@ void GPUProfiler::reset() {
 // ScopedGPURange
 // ============================================================================
 
-ScopedGPURange::ScopedGPURange(const std::string& name, uint32_t argb_color)
-    : profiler_(GPUProfiler::GetInstance())
-{
+ScopedGPURange::ScopedGPURange(const std::string &name, uint32_t argb_color) : profiler_(GPUProfiler::GetInstance()) {
     profiler_.beginRange(name, argb_color);
 }
 

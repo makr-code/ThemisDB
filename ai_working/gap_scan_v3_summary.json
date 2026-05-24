@@ -1,79 +1,79 @@
 {
-  "scan_date": "2026-05-19T08:30:33.994589",
+  "scan_date": "2026-05-21T06:18:22.098070",
   "phase": "Phase 1-10 Extended (27 scanners: 8 Phase 1-4 + 5 Phase 5 + 2 Phase 7 + 2 Phase 8 + 3 Phase 9 + 2 Phase 10)",
-  "total_gaps": 193888,
+  "total_gaps": 194852,
   "by_severity": {
-    "critical": 11701,
-    "high": 142064,
-    "medium": 40123,
-    "actionable": 153765
+    "critical": 11778,
+    "high": 142775,
+    "medium": 40299,
+    "actionable": 154553
   },
   "by_category": {
-    "security": 1514,
-    "memory": 2227,
-    "reliability": 14548,
-    "concurrency": 1834,
-    "raii": 1855,
-    "container": 7625,
+    "security": 1525,
+    "memory": 2234,
+    "reliability": 14748,
+    "concurrency": 1855,
+    "raii": 1847,
+    "container": 7741,
     "platform": 1147,
-    "performance": 1017,
-    "type_conversion": 15928,
-    "input_validation": 8266,
-    "exception_safety": 1493,
-    "uninitialized": 39846,
-    "oop_design": 58444,
-    "audit_logging": 754,
+    "performance": 1018,
+    "type_conversion": 15958,
+    "input_validation": 8377,
+    "exception_safety": 1494,
+    "uninitialized": 40003,
+    "oop_design": 58596,
+    "audit_logging": 760,
     "deprecated_apis": 4,
-    "performance_patterns": 6773,
+    "performance_patterns": 6798,
     "gpu_memory_safety": 229,
-    "query_correctness": 11350,
-    "distributed_consistency": 1190,
-    "llm_ai_safety": 3372,
-    "observability": 5962,
-    "determinism": 8510
+    "query_correctness": 11436,
+    "distributed_consistency": 1186,
+    "llm_ai_safety": 3425,
+    "observability": 5948,
+    "determinism": 8523
   },
   "modules_scanned": 65,
   "top_modules": [
     {
       "module": "llm",
-      "gaps": 24394
+      "gaps": 24531
     },
     {
       "module": "server",
-      "gaps": 19089
+      "gaps": 19261
     },
     {
       "module": "query",
-      "gaps": 15413
+      "gaps": 15519
     },
     {
       "module": "sharding",
-      "gaps": 11012
+      "gaps": 11078
     },
     {
       "module": "index",
-      "gaps": 8770
+      "gaps": 8772
     },
     {
       "module": "storage",
-      "gaps": 7481
+      "gaps": 7494
     },
     {
       "module": "analytics",
-      "gaps": 7026
+      "gaps": 7030
     },
     {
       "module": "rag",
-      "gaps": 6402
+      "gaps": 6742
     },
     {
       "module": "security",
-      "gaps": 5037
+      "gaps": 5048
     },
     {
       "module": "content",
-      "gaps": 4647
+      "gaps": 4597
     }
   ],
-  "implementation_effort": "4136.6 weeks (20683 days)"
+  "implementation_effort": "4158.3 weeks (20791 days)"
 }

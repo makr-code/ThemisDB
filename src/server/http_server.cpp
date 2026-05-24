@@ -1,27 +1,12 @@
-// THEMIS_GAP_STATS: gaps=98 unimpl=17 stub=1 mock=0 sim=0 todo=1 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            http_server.cpp                                    ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:47                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     11513                                          ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
-    • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: http_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 12904
+ * Open Issues: TODOs=2, Stubs=2, Gaps=7, Unimpl=0, Mock=1, Sim=2, Debt=0
+ * Gap Correlation: internal=7 | external_v3=2901 | delta=2894 | status=divergent
+ * External Severity (v3): C=80, H=2281, M=540
+ * PR: #5152 Research review rewrite: ERROR_AWARENESS_AND_INTROSPECTION (evidenc... (2026-05-14T07:52:37Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Ensure correct WinSock include order on Windows
@@ -3750,14 +3735,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
                 
                 // Check query quota for query endpoints
-                std::string path_only = target;
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                std::string quota_path = target;
+                auto qpos = quota_path.find('?');
+                if (qpos != std::string::npos) quota_path = quota_path.substr(0, qpos);
                 
                 // Use prefix match for /search/* to catch all search endpoints
-                bool is_query_endpoint = (path_only == "/query" || 
-                                         path_only.rfind("/search/", 0) == 0 ||
-                                         path_only.rfind("/api/aql", 0) == 0);
+                bool is_query_endpoint = (quota_path == "/query" || 
+                                         quota_path.rfind("/search/", 0) == 0 ||
+                                         quota_path.rfind("/api/aql", 0) == 0);
                 
                 if (is_query_endpoint) {
                     // Acquire query slot via RAII guard
@@ -3791,12 +3776,12 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     // Early routing for Ethics AI API
     {
-        std::string path_only = target;
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-        if (path_only.rfind("/ethics/", 0) == 0 || path_only.rfind("/api/ethics/", 0) == 0) {
+        std::string ethics_path = target;
+        auto qpos = ethics_path.find('?');
+        if (qpos != std::string::npos) ethics_path = ethics_path.substr(0, qpos);
+        if (ethics_path.rfind("/ethics/", 0) == 0 || ethics_path.rfind("/api/ethics/", 0) == 0) {
             // HS-12: Ethics routes require auth — check before any early dispatch.
-            if (auto auth_err = requireAccess(req, "ethics", "ethics.query", path_only)) {
+            if (auto auth_err = requireAccess(req, "ethics", "ethics.query", ethics_path)) {
                 return *auth_err;
             }
             if (ethics_api_) {
@@ -3814,13 +3799,13 @@ http::response<http::string_body> HttpServer::routeRequest(
 #if THEMIS_ENABLE_LLM
     // Early routing for core LLM API endpoints used by connector-mode tests.
     {
-        std::string path_only = target;
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        std::string llm_path = target;
+        auto qpos = llm_path.find('?');
+        if (qpos != std::string::npos) llm_path = llm_path.substr(0, qpos);
 
-        if (path_only.rfind("/api/v1/llm/", 0) == 0) {
+        if (llm_path.rfind("/api/v1/llm/", 0) == 0) {
             // HS-4: LLM routes require auth — check before any payload parsing or dispatch.
-            if (auto auth_err = requireAccess(req, "llm", "llm", path_only)) {
+            if (auto auth_err = requireAccess(req, "llm", "llm", llm_path)) {
                 return *auth_err;
             }
             try {
@@ -4117,17 +4102,16 @@ http::response<http::string_body> HttpServer::routeRequest(
                         const std::string msg = e.what();
                         if (msg.find("No default LLM plugin available") != std::string::npos) {
                             if (themis::llm::createLlamaWrapper("llamacpp", "", json::object())) {
-                                try {
-                                    themis::llm::RAGContext rag_context;
-                                    rag_context.query = query;
-                                    rag_context.collection_name = collection;
-                                    rag_context.top_k = top_k;
+                                themis::llm::RAGContext rag_context;
+                                rag_context.query = query;
+                                rag_context.collection_name = collection;
+                                rag_context.top_k = top_k;
 
-                                    themis::llm::InferenceRequest llm_request;
-                                    llm_request.prompt = query;
-                                    llm_request.model_id = payload.value("model", std::string{"default"});
-                                    llm_request.max_tokens = payload.value("max_tokens", 512);
-                                    llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
+                                themis::llm::InferenceRequest llm_request;
+                                llm_request.prompt = query;
+                                llm_request.model_id = payload.value("model", std::string{"default"});
+                                llm_request.max_tokens = payload.value("max_tokens", 512);
+                                llm_request.temperature = static_cast<float>(payload.value("temperature", 0.7));
 
                                     auto llm_response = plugin_mgr.generate(llm_request);
                                     const int documents_retrieved = !rag_context.documents.empty()
@@ -5788,10 +5772,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::EncryptionSchemaGet:
             // Check access control before delegating
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "config:read", "config.read", path_only)) {
+                std::string config_path = std::string(req.target());
+                auto qpos = config_path.find('?');
+                if (qpos != std::string::npos) config_path = config_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:read", "config.read", config_path)) {
                     response = *resp;
                     break;
                 }
@@ -5801,10 +5785,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::EncryptionSchemaPut:
             // Check access control before delegating
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "config:write", "config.write", path_only)) {
+                std::string config_path = std::string(req.target());
+                auto qpos = config_path.find('?');
+                if (qpos != std::string::npos) config_path = config_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "config:write", "config.write", config_path)) {
                     response = *resp;
                     break;
                 }
@@ -5938,10 +5922,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::PoliciesImportRangerPost: {
             // Require admin scope + policy action
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                std::string policy_path = std::string(req.target());
+                auto qpos = policy_path.find('?');
+                if (qpos != std::string::npos) policy_path = policy_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", policy_path)) {
                     response = *resp;
                     break;
                 }
@@ -5957,10 +5941,10 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::PoliciesExportRangerGet: {
             // Require admin scope + policy action
             if (auth_ && auth_->isEnabled()) {
-                std::string path_only = std::string(req.target());
-                auto qpos = path_only.find('?');
-                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
-                if (auto resp = requireAccess(req, "admin", "admin", path_only)) {
+                std::string policy_path = std::string(req.target());
+                auto qpos = policy_path.find('?');
+                if (qpos != std::string::npos) policy_path = policy_path.substr(0, qpos);
+                if (auto resp = requireAccess(req, "admin", "admin", policy_path)) {
                     response = *resp;
                     break;
                 }
@@ -6078,11 +6062,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             // Extract gRPC method path from /grpc-web/<method>
             const std::string target_str{req.target()};
             const auto qpos = target_str.find('?');
-            const std::string path_only = (qpos != std::string::npos)
+            const std::string grpc_path = (qpos != std::string::npos)
                 ? target_str.substr(0, qpos) : target_str;
             // Strip /grpc-web prefix - resulting path is "/<package>.<Service>/<Method>"
             static constexpr std::string_view kGrpcWebPrefix{"/grpc-web"};
-            const std::string method_path = path_only.substr(kGrpcWebPrefix.size());
+            const std::string method_path = grpc_path.substr(kGrpcWebPrefix.size());
             response = grpc_web_proxy_->handlePost(req, method_path);
             break;
         }
@@ -6110,9 +6094,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             static constexpr std::string_view kFnPrefix{"/api/v1/functions/"};
             const std::string target_str{req.target()};
             const auto qpos = target_str.find('?');
-            const std::string path_only = (qpos != std::string::npos)
+            const std::string fn_path = (qpos != std::string::npos)
                 ? target_str.substr(0, qpos) : target_str;
-            std::string id = path_only.substr(kFnPrefix.size());
+            std::string id = fn_path.substr(kFnPrefix.size());
             // Strip trailing sub-resource segment if present
             for (const auto* suffix : {"/invoke", "/versions"}) {
                 const std::string_view sv{suffix};
@@ -6123,10 +6107,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
             }
             const auto route_method = req.method();
-            const bool has_invoke  = path_only.size() > 7 &&
-                path_only.substr(path_only.size() - 7) == "/invoke";
-            const bool has_versions = path_only.size() > 9 &&
-                path_only.substr(path_only.size() - 9) == "/versions";
+            const bool has_invoke  = fn_path.size() > 7 &&
+                fn_path.substr(fn_path.size() - 7) == "/invoke";
+            const bool has_versions = fn_path.size() > 9 &&
+                fn_path.substr(fn_path.size() - 9) == "/versions";
             if (has_invoke)
                 response = serverless_fn_handler_->handleInvoke(req, id);
             else if (has_versions)
@@ -6227,19 +6211,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::UdfGet: {
             static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
-            std::string path_only = std::string(req.target());
-            if (auto qp = path_only.find('?'); qp != std::string::npos)
-                path_only = path_only.substr(0, qp);
-            std::string udf_name = path_only.substr(kUdfPfx.size());
+            std::string udf_path = std::string(req.target());
+            if (auto qp = udf_path.find('?'); qp != std::string::npos)
+                udf_path = udf_path.substr(0, qp);
+            std::string udf_name = udf_path.substr(kUdfPfx.size());
             response = udf_api_handler_->handleGet(req, udf_name);
             break;
         }
         case Route::UdfDelete: {
             static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
-            std::string path_only = std::string(req.target());
-            if (auto qp = path_only.find('?'); qp != std::string::npos)
-                path_only = path_only.substr(0, qp);
-            std::string udf_name = path_only.substr(kUdfPfx.size());
+            std::string udf_path = std::string(req.target());
+            if (auto qp = udf_path.find('?'); qp != std::string::npos)
+                udf_path = udf_path.substr(0, qp);
+            std::string udf_name = udf_path.substr(kUdfPfx.size());
             response = udf_api_handler_->handleDelete(req, udf_name);
             break;
         }
@@ -6926,8 +6910,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "Retention API not initialized", req);
                 break;
             }
-            std::string target = std::string(req.target());
-            std::string policy_name = target.substr(target.rfind('/') + 1);
+            std::string request_target = std::string(req.target());
+            std::string policy_name = request_target.substr(request_target.rfind('/') + 1);
             auto qpos = policy_name.find('?');
             if (qpos != std::string::npos) policy_name = policy_name.substr(0, qpos);
             if (policy_name.empty()) {
@@ -6990,9 +6974,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                                              "SAGA API not initialized", req);
                 break;
             }
-            std::string target = std::string(req.target());
+            std::string request_target = std::string(req.target());
             static constexpr std::string_view kPrefix = "/api/saga/batches/";
-            std::string batch_id = target.substr(kPrefix.size());
+            std::string batch_id = request_target.substr(kPrefix.size());
             auto qpos = batch_id.find('?');
             if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
             if (batch_id.empty()) {
@@ -7016,9 +7000,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             // Extract batch_id from path /api/saga/batches/{id}/verify
-            std::string target = std::string(req.target());
+            std::string request_target = std::string(req.target());
             static constexpr std::string_view kVPrefix = "/api/saga/batches/";
-            std::string rest = target.substr(kVPrefix.size());
+            std::string rest = request_target.substr(kVPrefix.size());
             auto slash_pos = rest.find('/');
             std::string batch_id = (slash_pos != std::string::npos)
                 ? rest.substr(0, slash_pos) : rest;
@@ -9177,20 +9161,14 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        // Diagnostic: mask token and log authorize attempts
-        auto mask = [](std::string_view t) {
-            std::string s(t);
-            if (s.size() <= 8) return s;
-            return s.substr(0,4) + std::string("...") + s.substr(s.size()-4);
-        };
-        THEMIS_INFO("PII Delete: Authorization header present, token='{}', required_scope='pii:write'", mask(*token));
+        THEMIS_INFO("PII Delete: Authorization header present, required_scope='pii:write'");
         
         auto ar = auth_->authorize(*token, "pii:write");
-        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
+        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={}", ar.authorized);
         if (!ar.authorized) {
-            THEMIS_INFO("PII Delete: trying fallback authorize('admin') for token='{}'", mask(*token));
+            THEMIS_INFO("PII Delete: trying fallback authorize('admin')");
             ar = auth_->authorize(*token, "admin");
-            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={} user='{}' reason='{}'", ar.authorized, ar.user_id, ar.reason);
+            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={}", ar.authorized);
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");
@@ -12920,4 +12898,3 @@ void HttpServer::setMcpServer(
 
 } // namespace server
 } // namespace themis
-

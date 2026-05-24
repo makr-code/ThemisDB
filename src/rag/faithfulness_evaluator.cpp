@@ -1,20 +1,12 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            faithfulness_evaluator.cpp                         ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:29                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     358                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: faithfulness_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 345
+ * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
+ * Gap Correlation: internal=3 | external_v3=58 | delta=55 | status=divergent
+ * External Severity (v3): C=1, H=36, M=21
+ * PR: #1272 Implement post-generation quality control with LLM-as-Judge, G-Eval... (2026-03-11T17:46:10Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -220,10 +212,11 @@ SupportLevel FaithfulnessEvaluator::checkEntailment(
 
 std::vector<Citation> FaithfulnessEvaluator::verifyCitations(
     const std::string& answer,
-    const std::vector<std::pair<std::string, std::string>>& documents,
+    [[maybe_unused]] const std::vector<std::pair<std::string, std::string>>& documents,
     const std::vector<Claim>& claims
 ) {
     std::vector<Citation> citations;
+    static_cast<void>(documents);
     
     if (!impl_->config.enable_citation_check) {
         return citations;
@@ -276,9 +269,10 @@ std::vector<Citation> FaithfulnessEvaluator::verifyCitations(
 FaithfulnessResult FaithfulnessEvaluator::evaluate(
     const std::string& answer,
     const std::vector<std::pair<std::string, std::string>>& documents,
-    const std::string& query
+    [[maybe_unused]] const std::string& query
 ) {
     FaithfulnessResult result;
+    static_cast<void>(query);
     
     // Step 1: Extract claims
     result.claims = extractClaims(answer);

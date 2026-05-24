@@ -1,12 +1,20 @@
+/*
+ * ThemisDB | File: spatial_join_filter.cpp | Version: 0.0.1
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=0, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 //
-// THEMIS_GAP_STATS: gaps=1 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 
 #include "geo/spatial_join_filter.h"
-#include "geo/geo_math.h"
 
 #include <cmath>
+
+#include "geo/geo_math.h"
 
 namespace themis {
 namespace geo {
@@ -18,37 +26,41 @@ namespace geo {
 namespace {
 
 /// @return Centroid of a bounding box.
-Coordinate bboxCentroid(const BBox& bb) noexcept {
+Coordinate bboxCentroid(const BBox &bb) noexcept {
     return {(bb.min_x + bb.max_x) * 0.5, (bb.min_y + bb.max_y) * 0.5};
 }
 
 /// @return true if the two bounding boxes have any overlap in their interiors or edges.
-bool bboxOverlap(const BBox& a, const BBox& b) noexcept {
-    return a.min_x <= b.max_x && a.max_x >= b.min_x &&
-           a.min_y <= b.max_y && a.max_y >= b.min_y;
+bool bboxOverlap(const BBox &a, const BBox &b) noexcept {
+    return a.min_x <= b.max_x && a.max_x >= b.min_x && a.min_y <= b.max_y && a.max_y >= b.min_y;
 }
 
 /// @return true if bounding box @p b is fully contained within @p a.
-bool bboxContains(const BBox& a, const BBox& b) noexcept {
-    return b.min_x >= a.min_x && b.max_x <= a.max_x &&
-           b.min_y >= a.min_y && b.max_y <= a.max_y;
+bool bboxContains(const BBox &a, const BBox &b) noexcept {
+    return b.min_x >= a.min_x && b.max_x <= a.max_x && b.min_y >= a.min_y && b.max_y <= a.max_y;
 }
 
 /// @return true if the two bounding boxes share a boundary point but
 ///         have no interior overlap.
-bool bboxTouches(const BBox& a, const BBox& b) noexcept {
+bool bboxTouches(const BBox &a, const BBox &b) noexcept {
     // They touch iff they share at least one boundary line/point
     // but do not overlap in their interiors.
-    const bool share_x = (a.min_x == b.max_x) || (a.max_x == b.min_x);
-    const bool share_y = (a.min_y == b.max_y) || (a.max_y == b.min_y);
+    const bool share_x   = (a.min_x == b.max_x) || (a.max_x == b.min_x);
+    const bool share_y   = (a.min_y == b.max_y) || (a.max_y == b.min_y);
     const bool overlap_x = a.min_x < b.max_x && a.max_x > b.min_x;
     const bool overlap_y = a.min_y < b.max_y && a.max_y > b.min_y;
 
     // Touch on a vertical or horizontal boundary
-    if (share_x && overlap_y) return true;
-    if (share_y && overlap_x) return true;
+    if (share_x && overlap_y) {
+        return true;
+    }
+    if (share_y && overlap_x) {
+        return true;
+    }
     // Touch at a corner
-    if (share_x && share_y) return true;
+    if (share_x && share_y) {
+        return true;
+    }
     return false;
 }
 
@@ -58,8 +70,7 @@ bool bboxTouches(const BBox& a, const BBox& b) noexcept {
 // IntersectsFilter
 // ---------------------------------------------------------------------------
 
-bool IntersectsFilter::matches(const IGeoJSONGeometry& a,
-                               const IGeoJSONGeometry& b) const {
+bool IntersectsFilter::matches(const IGeoJSONGeometry &a, const IGeoJSONGeometry &b) const {
     return bboxOverlap(a.bbox(), b.bbox());
 }
 
@@ -67,8 +78,7 @@ bool IntersectsFilter::matches(const IGeoJSONGeometry& a,
 // ContainsFilter
 // ---------------------------------------------------------------------------
 
-bool ContainsFilter::matches(const IGeoJSONGeometry& a,
-                              const IGeoJSONGeometry& b) const {
+bool ContainsFilter::matches(const IGeoJSONGeometry &a, const IGeoJSONGeometry &b) const {
     return bboxContains(a.bbox(), b.bbox());
 }
 
@@ -76,8 +86,7 @@ bool ContainsFilter::matches(const IGeoJSONGeometry& a,
 // WithinFilter
 // ---------------------------------------------------------------------------
 
-bool WithinFilter::matches(const IGeoJSONGeometry& a,
-                            const IGeoJSONGeometry& b) const {
+bool WithinFilter::matches(const IGeoJSONGeometry &a, const IGeoJSONGeometry &b) const {
     return bboxContains(b.bbox(), a.bbox());
 }
 
@@ -85,8 +94,7 @@ bool WithinFilter::matches(const IGeoJSONGeometry& a,
 // TouchesFilter
 // ---------------------------------------------------------------------------
 
-bool TouchesFilter::matches(const IGeoJSONGeometry& a,
-                             const IGeoJSONGeometry& b) const {
+bool TouchesFilter::matches(const IGeoJSONGeometry &a, const IGeoJSONGeometry &b) const {
     return bboxTouches(a.bbox(), b.bbox());
 }
 
@@ -94,8 +102,7 @@ bool TouchesFilter::matches(const IGeoJSONGeometry& a,
 // DWithinFilter
 // ---------------------------------------------------------------------------
 
-bool DWithinFilter::matches(const IGeoJSONGeometry& a,
-                             const IGeoJSONGeometry& b) const {
+bool DWithinFilter::matches(const IGeoJSONGeometry &a, const IGeoJSONGeometry &b) const {
     const auto ca = bboxCentroid(a.bbox());
     const auto cb = bboxCentroid(b.bbox());
 
@@ -107,7 +114,7 @@ bool DWithinFilter::matches(const IGeoJSONGeometry& a,
         // Euclidean fallback for projected CRS
         const double dx = ca.x - cb.x;
         const double dy = ca.y - cb.y;
-        dist_m = std::sqrt(dx * dx + dy * dy);
+        dist_m          = std::sqrt(dx * dx + dy * dy);
     }
     return dist_m <= radius_m_;
 }

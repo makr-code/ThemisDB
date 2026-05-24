@@ -1,28 +1,12 @@
-// THEMIS_GAP_STATS: gaps=38 unimpl=28 stub=1 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            replication_manager.cpp                            ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:50:36                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     6217                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
-    • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: replication_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 6310
+ * Open Issues: TODOs=1, Stubs=4, Gaps=10, Unimpl=0, Mock=1, Sim=4, Debt=0
+ * Gap Correlation: internal=10 | external_v3=1948 | delta=1938 | status=divergent
+ * External Severity (v3): C=271, H=1107, M=570
+ * PR: #4182 feat(replication): Compressed Replication v1.6.0 â€” CI, adaptive f... (2026-03-13T16:42:57Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -5234,7 +5218,7 @@ uint32_t WALArchivalManager::purgeExpired() {
     while (it != index_.end()) {
         if (it->archived_at < cutoff) {
             if (backend_) {
-                backend_->deleteObject(it->archive_path);
+                static_cast<void>(backend_->deleteObject(it->archive_path));
             } else {
                 std::error_code ec;
                 std::filesystem::remove(it->archive_path, ec);
@@ -5278,7 +5262,7 @@ uint32_t WALArchivalManager::transitionStorageTiers() {
             // Notify the cloud backend so it can apply the actual tier transition
             // (e.g. move to S3 Glacier, Azure Archive).  No-op for local backend.
             if (backend_) {
-                backend_->setStorageTier(seg.archive_path, new_tier);
+                static_cast<void>(backend_->setStorageTier(seg.archive_path, new_tier));
             }
             ++transitioned;
         }

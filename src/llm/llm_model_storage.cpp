@@ -1,25 +1,12 @@
-// THEMIS_GAP_STATS: gaps=17 unimpl=15 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            llm_model_storage.cpp                              ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:49:33                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     998                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: llm_model_storage.cpp | Version: 0.0.47 | Last Modified: 2026-05-18 20:49:59
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 997
+ * Open Issues: TODOs=1, Stubs=4, Gaps=8, Unimpl=0, Mock=2, Sim=1, Debt=0
+ * Gap Correlation: internal=8 | external_v3=274 | delta=266 | status=divergent
+ * External Severity (v3): C=26, H=209, M=39
+ * PR: #4304 [LLM-DEP-123] Implement RocksDB model storage for LLMDeploymentPlugin (2026-03-17T20:09:20Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/llm_model_storage.h"
@@ -456,7 +443,7 @@ public:
                 // Convert to hex string
                 std::stringstream ss;
                 for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-                    ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+                    ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(static_cast<unsigned char>(hash[i]));
                 }
                 std::string computed_hash = ss.str();
                 
@@ -762,27 +749,17 @@ std::vector<json> LLMModelStorage::getEdges(
     }
     
     try {
-        // List all edge keys and filter by direction
-        std::string edge_prefix = config_.key_prefix + "edge:";
-        // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
-        std::vector<std::string> keys;  // Empty - requires DB scan implementation
-        
-        for (const auto& key : keys) {
-            // Parse key to check if it involves this model
-            // Key format: collection:edge:from:to:type
-            size_t parts_start = key.find(edge_prefix) + edge_prefix.length();
-            std::string key_suffix = key.substr(parts_start);
-            
-            // Parse the key components
+        // Scan all edge keys for this model using RocksDBWrapper::scanPrefix.
+        const std::string edge_prefix = config_.key_prefix + "edge:";
+        config_.db->scanPrefix(edge_prefix, [&](std::string_view key, std::string_view value) -> bool {
+            // Key format after edge_prefix: from:to:type
+            std::string key_suffix(key.substr(edge_prefix.size()));
             auto first_colon = key_suffix.find(':');
-            if (first_colon == std::string::npos) continue;
-            
+            if (first_colon == std::string::npos) return true;
             std::string from_id = key_suffix.substr(0, first_colon);
             auto remaining = key_suffix.substr(first_colon + 1);
-            
             auto second_colon = remaining.find(':');
-            if (second_colon == std::string::npos) continue;
-            
+            if (second_colon == std::string::npos) return true;
             std::string to_id = remaining.substr(0, second_colon);
             
             // Check if this edge involves the requested model
@@ -812,8 +789,12 @@ std::vector<json> LLMModelStorage::getEdges(
                 } catch (const std::exception&) {
                     // Skip invalid edge data
                 }
+                if (include) edges.push_back(std::move(edge_json));
+            } catch (const std::exception&) {
+                // Skip invalid edge data
             }
-        }
+            return true;
+        });
         
         spdlog::info("Found {} edges for model {}", edges.size(), model_id);
     } catch (const std::exception& e) {
@@ -906,32 +887,21 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
             return similar_models;
         }
         
-        // List all embeddings and compute cosine similarity
-        std::string embedding_prefix = config_.key_prefix + "embedding:";
-        // Note: RocksDB wrapper doesn't provide listKeysWithPrefix in this version
-        std::vector<std::string> keys;  // Empty - requires DB scan implementation
-        
-        for (const auto& key : keys) {
-            // Extract model ID from key
-            std::string other_model_id = key.substr(embedding_prefix.length());
-            
-            if (other_model_id == model_id) {
-                continue;  // Skip self
-            }
-            
-            auto other_data = config_.db->get(key);
-            if (!other_data || other_data->empty()) {
-                continue;
-            }
-            
-            // Parse other embedding
-            std::string other_json_str(other_data->begin(), other_data->end());
-            std::vector<float> other_embedding;
-            
+        // Scan all embedding keys using RocksDBWrapper::scanPrefix.
+        const std::string embedding_prefix = config_.key_prefix + "embedding:";
+        config_.db->scanPrefix(embedding_prefix, [&](std::string_view key, std::string_view value) -> bool {
+            std::string other_model_id(key.substr(embedding_prefix.size()));
+            if (other_model_id == model_id) return true; // Skip self
             try {
-                json other_json = json::parse(other_json_str);
-                if (!other_json.contains("values")) {
-                    continue;
+                json other_json = json::parse(std::string(value));
+                if (!other_json.contains("values")) return true;
+                std::vector<float> other_embedding = other_json["values"].get<std::vector<float>>();
+                if (other_embedding.size() != query_embedding.size()) return true;
+                float dot_product = 0.0f, norm_query = 0.0f, norm_other = 0.0f;
+                for (size_t i = 0; i < query_embedding.size(); ++i) {
+                    dot_product += query_embedding[i] * other_embedding[i];
+                    norm_query  += query_embedding[i] * query_embedding[i];
+                    norm_other  += other_embedding[i] * other_embedding[i];
                 }
                 other_embedding = other_json["values"].get<std::vector<float>>();
                 
@@ -942,27 +912,8 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
             } catch (const std::exception&) {
                 continue;  // Skip invalid embeddings
             }
-            
-            // Compute cosine similarity
-            float dot_product = 0.0f;
-            float norm_query = 0.0f;
-            float norm_other = 0.0f;
-            
-            for (size_t i = 0; i < query_embedding.size(); i++) {
-                dot_product += query_embedding[i] * other_embedding[i];
-                norm_query += query_embedding[i] * query_embedding[i];
-                norm_other += other_embedding[i] * other_embedding[i];
-            }
-            
-            float similarity = 0.0f;
-            if (norm_query > 0 && norm_other > 0) {
-                similarity = dot_product / (std::sqrt(norm_query) * std::sqrt(norm_other));
-            }
-            
-            if (similarity >= threshold) {
-                similar_models.push_back({other_model_id, similarity});
-            }
-        }
+            return true;
+        });
         
         // Sort by similarity (descending) and limit to k
         std::sort(similar_models.begin(), similar_models.end(),

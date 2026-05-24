@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor_train_decomposer.h                          ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_train_decomposer.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -316,19 +311,49 @@ public:
      */
     static double cosineSimilarity(const TTTrain& a, const TTTrain& b);
 
+    /**
+     * @brief Shared truncated-SVD helper for cross-decomposer reuse.
+     *
+     * Exposes the production Golub-Reinsch truncated SVD implementation used
+     * internally by TT-SVD so other decomposers (for example HT) can avoid
+     * maintaining duplicate low-level SVD code paths.
+     *
+     * @param mat           Input matrix in row-major layout (m×n).
+     * @param m             Number of rows.
+     * @param n             Number of columns.
+     * @param delta         Truncation threshold for singular values.
+     * @param max_rank_cap  Hard cap for retained rank (0 = no extra cap).
+     * @param U             Output left singular vectors (m×rank_out).
+     * @param S             Output singular values (rank_out).
+     * @param Vt            Output right singular vectors transposed (rank_out×n).
+     * @param rank_out      Chosen truncated rank (>= 1 for non-empty matrices).
+     */
+    static void truncatedSVDShared(const std::vector<float>& mat,
+                                   std::size_t m, std::size_t n,
+                                   double delta,
+                                   std::size_t max_rank_cap,
+                                   std::vector<float>& U,
+                                   std::vector<float>& S,
+                                   std::vector<float>& Vt,
+                                   std::size_t& rank_out);
+
 private:
     /// Perform truncated SVD of an m×n matrix.  Returns U, S, Vt truncated to
     /// `rank` columns/rows (rank chosen so that σ_{rank+1} ≤ delta, or by
-    /// max_rank cap).  Uses Householder bidiagonalisation (Golub-Reinsch).
+    /// max_rank cap). Uses Householder bidiagonalisation (Golub-Reinsch).
+    ///
+    /// Exposed for other tensor decomposers (e.g. HT) to reuse the same
+    /// numerically robust truncation routine.
     static void truncatedSVD(const std::vector<float>& mat,
-                              std::size_t m, std::size_t n,
-                              double delta,
-                              std::size_t max_rank_cap,
-                              std::vector<float>& U,
-                              std::vector<float>& S,
-                              std::vector<float>& Vt,
-                              std::size_t& rank_out);
+                             std::size_t m, std::size_t n,
+                             double delta,
+                             std::size_t max_rank_cap,
+                             std::vector<float>& U,
+                             std::vector<float>& S,
+                             std::vector<float>& Vt,
+                             std::size_t& rank_out);
 
+private:
     /// Matrix multiply C = A·B where A is (m×k) and B is (k×n) — row-major.
     static std::vector<float> matMul(const std::vector<float>& A,
                                      const std::vector<float>& B,

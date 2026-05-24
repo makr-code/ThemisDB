@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            aql_query_builder.h                                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-15 18:44:14                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     372                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a6184aa197  2026-03-14  feat(aql): add graph traversal, DML, WINDOW, and subquery... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: aql_query_builder.h | Version: 0.0.39
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -291,6 +277,23 @@ public:
      * @return ValidationResult with errors, warnings, and hints
      */
     ValidationResult validate() const;
+
+    /**
+     * @brief Validate the current builder state against an explicit schema snapshot.
+     *
+     * Runs all structural checks (same as @c validate()), then additionally:
+     *  - Warns when a collection in a FOR clause is absent from @p schema.
+     *  - Warns when a field access (@c variable.field) refers to a field not
+     *    present in the schema for that collection.
+     *
+     * The @p schema passed here takes precedence over any schema previously
+     * attached via @c setSchema().  The internally attached schema is not
+     * consulted for schema-aware checks when an explicit @p schema is provided.
+     *
+     * @param schema  Collection metadata snapshot to validate against.
+     * @return ValidationResult with all structural and schema issues found.
+     */
+    ValidationResult validate(const std::vector<CollectionMetadata>& schema) const;
 
     // =========================================================================
     // Schema-aware query generation (live collection metadata)

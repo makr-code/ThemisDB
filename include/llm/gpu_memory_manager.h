@@ -1,30 +1,21 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            gpu_memory_manager.h                               ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:45:27                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     222                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: gpu_memory_manager.h | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
 
 #include <cstddef>
+#include <functional>
 #include <string>
 #include <unordered_map>
 #include <mutex>
 #include <vector>
 #include <memory>
+#include <functional>
 
 namespace themis {
 namespace llm {
@@ -44,6 +35,8 @@ namespace detail {
  */
 class GPUMemoryManager {
 public:
+    using GPUTemperatureProviderFn = std::function<float(int gpu_device_id)>;
+
     struct MemoryAllocation {
         std::string model_id;
         size_t vram_bytes = 0;
@@ -69,10 +62,30 @@ public:
         bool enable_multi_gpu = false;
         std::vector<int> gpu_devices;  // GPU device IDs to use
         bool enable_peer_access = false;  // Enable CUDA peer-to-peer access
+        GPUTemperatureProviderFn temperature_provider_fn;  // Optional temperature callback
     };
     
     explicit GPUMemoryManager(const Config& config);
     ~GPUMemoryManager();
+
+    /**
+     * @brief Function type for per-device GPU temperature query (stub #309).
+     *
+     * When injected via setNvmlTemperatureFn(), updateGPUHealth() calls this
+     * function instead of returning a hardcoded 0.0 °C placeholder.  The
+     * function receives the device ID and must return the current temperature
+     * in degrees Celsius, or throw on error.
+     */
+    using NvmlTemperatureFn = std::function<float(int /*device_id*/)>;
+
+    /**
+     * @brief Inject an NVML-based (or mock) GPU temperature provider.
+     *
+     * Thread-safe.  Passing nullptr reverts to the 0.0 °C placeholder.
+     *
+     * @param fn Temperature query callback.
+     */
+    static void setNvmlTemperatureFn(NvmlTemperatureFn fn);
     
     // Memory allocation
     void* allocateGPU(const std::string& model_id, size_t bytes);
@@ -175,6 +188,17 @@ public:
     bool enablePeerAccess(int src_gpu, int dst_gpu);
     bool disablePeerAccess(int src_gpu, int dst_gpu);
     bool canAccessPeer(int src_gpu, int dst_gpu) const;
+
+    /**
+     * @brief Install runtime GPU temperature provider (e.g. NVML bridge).
+     * @param fn Provider callable returning temperature in °C for a GPU device ID.
+     */
+    void setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn);
+
+    /**
+     * @brief Remove runtime GPU temperature provider and use built-in fallback.
+     */
+    void clearGPUTemperatureProviderFn();
     
 private:
     Config config_;
@@ -199,6 +223,7 @@ private:
     std::unordered_map<int, float> gpu_temperatures_;     // Temperature tracking
     std::unordered_map<int, float> gpu_utilizations_;     // Utilization tracking
     std::unordered_map<int, size_t> gpu_error_counts_;    // Error count per GPU
+    GPUTemperatureProviderFn temperature_provider_fn_;
     
     // Adapter tracking for load balancing
     std::unordered_map<int, std::vector<std::string>> gpu_adapters_;  // Adapters per GPU
@@ -213,8 +238,10 @@ private:
     // Defragmentation helper methods
     bool defragmentModelGPU(const std::string& model_id, const std::vector<MemoryAllocation>& gpu_allocs);
     bool defragmentModelCPU(const std::string& model_id, const std::vector<MemoryAllocation>& cpu_allocs);
+
+    // Bridge callback for NVML temperature (stub #309)
+    NVMLTemperatureFn nvml_temperature_fn_;
 };
 
 } // namespace llm
 } // namespace themis
-

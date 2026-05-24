@@ -1,26 +1,12 @@
-// THEMIS_GAP_STATS: gaps=20 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            incremental_lora_trainer.cpp                       ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:51:19                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     1384                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: incremental_lora_trainer.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 1479
+ * Open Issues: TODOs=1, Stubs=1, Gaps=6, Unimpl=0, Mock=1, Sim=3, Debt=0
+ * Gap Correlation: internal=6 | external_v3=351 | delta=345 | status=divergent
+ * External Severity (v3): C=38, H=265, M=48
+ * PR: #4519 [WIP] Update developer documentation for module training (2026-04-12T20:28:15Z)
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "training/incremental_lora_trainer.h"
@@ -346,7 +332,7 @@ public:
             // Phase 4: Compute metrics (simulated)
             if (!validation_samples.empty()) {
                 double total_loss = 0.0;
-                for (const auto& s : validation_samples) {
+                for ([[maybe_unused]] const auto& s : validation_samples) {
                     total_loss += 0.45;
                 }
                 result.validation_loss = total_loss / validation_samples.size();
@@ -629,7 +615,8 @@ public:
             if (!llm_router_->isAvailable()) {
                 return DeployResult::fail("router_unavailable");
             }
-            llm_router_->setAdapterWeight(adapter_version, traffic_split);
+            const bool weight_set = llm_router_->setAdapterWeight(adapter_version, traffic_split);
+            static_cast<void>(weight_set);
         }
         return DeployResult::ok(adapter_version, traffic_split);
     }
@@ -649,7 +636,8 @@ public:
             if (!llm_router_->isAvailable()) {
                 return DeployResult::fail("router_unavailable");
             }
-            llm_router_->setAdapterWeight(target_version, 1.0f);
+            const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
+            static_cast<void>(weight_set);
         }
         return DeployResult::ok(target_version, 1.0f);
     }
@@ -928,8 +916,12 @@ public:
                 target_vec = encodeSample(training_data[idx].second, feature_dim);
             } else {
                 // Synthetic deterministic batch: varied across steps and batch positions
-                std::mt19937 gen_in(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
-                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                const auto seed_in = static_cast<std::uint64_t>(
+                    step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
+                const auto seed_tg = static_cast<std::uint64_t>(
+                    step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                std::mt19937_64 gen_in(seed_in);
+                std::mt19937_64 gen_tg(seed_tg);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
                 target_vec.resize(feature_dim);

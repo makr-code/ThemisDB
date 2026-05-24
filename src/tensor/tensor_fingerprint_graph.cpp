@@ -1,15 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/tensor_fingerprint_graph.cpp                ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-06                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 4 prep (Q3 2027)                    ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_fingerprint_graph.cpp | Version: 1.0.0 | Last Modified: 2026-05-20 17:13:04
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 269
+ * Open Issues: TODOs=1, Stubs=5, Gaps=8, Unimpl=0, Mock=1, Sim=1, Debt=0
+ * Gap Correlation: internal=8 | external_v3=54 | delta=46 | status=divergent
+ * External Severity (v3): C=12, H=40, M=2
+ * PR: none
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -29,9 +26,34 @@
 #include <limits>
 #include <numeric>
 #include <shared_mutex>
+#include <utility>
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// ExactSimilarity bridge (stub #276)
+// ============================================================================
+
+namespace {
+    static std::mutex s_exact_sim_fn_mutex;
+    static TensorFingerprintGraph::ExactSimilarityFn s_exact_sim_fn;
+} // namespace
+
+void TensorFingerprintGraph::setExactSimilarityFn(ExactSimilarityFn fn) {
+    std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
+    s_exact_sim_fn = std::move(fn);
+}
+
+void TensorFingerprintGraph::clearExactSimilarityFn() {
+    std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
+    s_exact_sim_fn = nullptr;
+}
+
+static TensorFingerprintGraph::ExactSimilarityFn getExactSimilarityFn() {
+    std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
+    return s_exact_sim_fn;
+}
 
 // ============================================================================
 // Static helpers
@@ -106,6 +128,7 @@ bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
     entry.tenant_id      = tenant_id;
     entry.fingerprint    = std::move(fp);
     entry.first_core_norm = norm;
+    entry.exact_train    = train;
 
     {
         std::unique_lock lock(mutex_);
@@ -304,6 +327,16 @@ TensorFingerprintGraph::GraphStats
 TensorFingerprintGraph::stats() const noexcept {
     std::shared_lock lock(stats_mutex_);
     return stats_;
+}
+
+void TensorFingerprintGraph::setExactSimilarityFn(ExactSimilarityFn fn) {
+    std::unique_lock lock(exact_similarity_fn_mutex_);
+    exact_similarity_fn_ = std::move(fn);
+}
+
+void TensorFingerprintGraph::clearExactSimilarityFn() {
+    std::unique_lock lock(exact_similarity_fn_mutex_);
+    exact_similarity_fn_ = nullptr;
 }
 
 } // namespace tensor

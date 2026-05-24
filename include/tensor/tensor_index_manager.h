@@ -1,14 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            tensor/tensor_index_manager.h                      ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-05-05                                         ║
-  Author:          copilot                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🟡 EXPERIMENTAL — Phase 1 (Q3 2026)                         ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: tensor_index_manager.h | Version: 1.0.0
+ * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
+ * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 /**
@@ -222,6 +217,7 @@ public:
      * returns raw pointers but keeps the underlying mmap bridge cached so
      * pointer data remains stable across index mutations.
      */
+    [[deprecated("Use mapCores() for safe mmap-pinned TT-core access (stub #277 resolved)")]]
     std::vector<std::pair<const float*, size_t>>
         ggmlCorePtrs(const std::string& tenant_id,
                      const std::string& collection,

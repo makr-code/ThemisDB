@@ -1,23 +1,9 @@
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            auth_error.cpp                                     ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:39                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     598                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • c20bbb0ace  2026-03-13  fix(auth): address PR review comments on SAML assertion e... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: auth_error.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=37, M=12, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "auth/auth_error.h"
@@ -211,15 +197,15 @@ std::string AuthError::maskToken(const std::string& token) {
 
 std::string AuthError::generateRequestId() {
     // Generate a random request ID (format: auth-XXXXXXXX)
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    static std::random_device local_rd;
+    static std::mt19937 local_gen(local_rd());
     static std::uniform_int_distribution<> dis(0, 15);
     
     std::stringstream ss;
     ss << "auth-";
     
     for (int i = 0; i < 8; i++) {
-        ss << std::hex << dis(gen);
+        ss << std::hex << dis(local_gen);
     }
     
     return ss.str();

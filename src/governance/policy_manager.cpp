@@ -1,31 +1,12 @@
-// THEMIS_GAP_STATS: gaps=4 unimpl=4 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-18
 /*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            policy_manager.cpp                                 ║
-  Version:         0.0.47                                             ║
-  Last Modified:   2026-04-15 18:48:59                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     761                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • d275653619  2026-04-14  update after codefindings               ║
-    • a2d7c07202  2026-04-14  update after codefindings               ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
+ * ThemisDB | File: policy_manager.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=27, H=119, M=38, L=0
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "governance/policy_manager.h"
-#include "governance/policy_validator.h"
-#include "utils/logger.h"
-#include "observability/metrics_collector.h"
 
 #include <algorithm>
 #include <chrono>
@@ -34,6 +15,10 @@
 #include <shared_mutex>
 #include <yaml-cpp/yaml.h>
 
+#include "governance/policy_validator.h"
+#include "observability/metrics_collector.h"
+#include "utils/logger.h"
+
 namespace themis {
 namespace governance {
 
@@ -41,68 +26,114 @@ namespace governance {
 
 nlohmann::json PolicyRule::toJson() const {
     nlohmann::json j;
-    j["id"] = id;
-    j["name"] = name;
-    j["description"] = description;
+    j["id"]                   = id;
+    j["name"]                 = name;
+    j["description"]          = description;
     j["classification_level"] = classification_level;
-    j["enabled"] = enabled;
-    j["resources"] = resources;
-    j["actions"] = actions;
-    j["required_roles"] = required_roles;
-    j["require_encryption"] = require_encryption;
-    j["require_signature"] = require_signature;
-    j["allow_export"] = allow_export;
-    j["allow_cache"] = allow_cache;
-    j["retention_days"] = retention_days;
-    j["redaction_level"] = redaction_level;
-    j["audit_access"] = audit_access;
-    j["audit_changes"] = audit_changes;
-    j["priority"] = priority;
-    j["created_by"] = created_by;
-    j["created_at"] = created_at;
-    j["updated_at"] = updated_at;
-    j["version"] = version;
-    j["last_modified_by"] = last_modified_by;
-    j["change_description"] = change_description;
+    j["enabled"]              = enabled;
+    j["resources"]            = resources;
+    j["actions"]              = actions;
+    j["required_roles"]       = required_roles;
+    j["require_encryption"]   = require_encryption;
+    j["require_signature"]    = require_signature;
+    j["allow_export"]         = allow_export;
+    j["allow_cache"]          = allow_cache;
+    j["retention_days"]       = retention_days;
+    j["redaction_level"]      = redaction_level;
+    j["audit_access"]         = audit_access;
+    j["audit_changes"]        = audit_changes;
+    j["priority"]             = priority;
+    j["created_by"]           = created_by;
+    j["created_at"]           = created_at;
+    j["updated_at"]           = updated_at;
+    j["version"]              = version;
+    j["last_modified_by"]     = last_modified_by;
+    j["change_description"]   = change_description;
     return j;
 }
 
-PolicyRule PolicyRule::fromJson(const nlohmann::json& j) {
+PolicyRule PolicyRule::fromJson(const nlohmann::json &j) {
     PolicyRule rule;
-    if (j.contains("id")) rule.id = j["id"].get<std::string>();
-    if (j.contains("name")) rule.name = j["name"].get<std::string>();
-    if (j.contains("description")) rule.description = j["description"].get<std::string>();
-    if (j.contains("classification_level")) rule.classification_level = j["classification_level"].get<std::string>();
-    if (j.contains("enabled")) rule.enabled = j["enabled"].get<bool>();
-    if (j.contains("resources")) rule.resources = j["resources"].get<std::vector<std::string>>();
-    if (j.contains("actions")) rule.actions = j["actions"].get<std::vector<std::string>>();
-    if (j.contains("required_roles")) rule.required_roles = j["required_roles"].get<std::vector<std::string>>();
-    if (j.contains("require_encryption")) rule.require_encryption = j["require_encryption"].get<bool>();
-    if (j.contains("require_signature")) rule.require_signature = j["require_signature"].get<bool>();
-    if (j.contains("allow_export")) rule.allow_export = j["allow_export"].get<bool>();
-    if (j.contains("allow_cache")) rule.allow_cache = j["allow_cache"].get<bool>();
-    if (j.contains("retention_days")) rule.retention_days = j["retention_days"].get<int>();
-    if (j.contains("redaction_level")) rule.redaction_level = j["redaction_level"].get<std::string>();
-    if (j.contains("audit_access")) rule.audit_access = j["audit_access"].get<bool>();
-    if (j.contains("audit_changes")) rule.audit_changes = j["audit_changes"].get<bool>();
-    if (j.contains("priority")) rule.priority = j["priority"].get<int>();
-    if (j.contains("created_by")) rule.created_by = j["created_by"].get<std::string>();
-    if (j.contains("created_at")) rule.created_at = j["created_at"].get<int64_t>();
-    if (j.contains("updated_at")) rule.updated_at = j["updated_at"].get<int64_t>();
-    if (j.contains("version")) rule.version = j["version"].get<std::string>();
-    if (j.contains("last_modified_by")) rule.last_modified_by = j["last_modified_by"].get<std::string>();
-    if (j.contains("change_description")) rule.change_description = j["change_description"].get<std::string>();
+    if (j.contains("id")) {
+        rule.id = j["id"].get<std::string>();
+    }
+    if (j.contains("name")) {
+        rule.name = j["name"].get<std::string>();
+    }
+    if (j.contains("description")) {
+        rule.description = j["description"].get<std::string>();
+    }
+    if (j.contains("classification_level")) {
+        rule.classification_level = j["classification_level"].get<std::string>();
+    }
+    if (j.contains("enabled")) {
+        rule.enabled = j["enabled"].get<bool>();
+    }
+    if (j.contains("resources")) {
+        rule.resources = j["resources"].get<std::vector<std::string>>();
+    }
+    if (j.contains("actions")) {
+        rule.actions = j["actions"].get<std::vector<std::string>>();
+    }
+    if (j.contains("required_roles")) {
+        rule.required_roles = j["required_roles"].get<std::vector<std::string>>();
+    }
+    if (j.contains("require_encryption")) {
+        rule.require_encryption = j["require_encryption"].get<bool>();
+    }
+    if (j.contains("require_signature")) {
+        rule.require_signature = j["require_signature"].get<bool>();
+    }
+    if (j.contains("allow_export")) {
+        rule.allow_export = j["allow_export"].get<bool>();
+    }
+    if (j.contains("allow_cache")) {
+        rule.allow_cache = j["allow_cache"].get<bool>();
+    }
+    if (j.contains("retention_days")) {
+        rule.retention_days = j["retention_days"].get<int>();
+    }
+    if (j.contains("redaction_level")) {
+        rule.redaction_level = j["redaction_level"].get<std::string>();
+    }
+    if (j.contains("audit_access")) {
+        rule.audit_access = j["audit_access"].get<bool>();
+    }
+    if (j.contains("audit_changes")) {
+        rule.audit_changes = j["audit_changes"].get<bool>();
+    }
+    if (j.contains("priority")) {
+        rule.priority = j["priority"].get<int>();
+    }
+    if (j.contains("created_by")) {
+        rule.created_by = j["created_by"].get<std::string>();
+    }
+    if (j.contains("created_at")) {
+        rule.created_at = j["created_at"].get<int64_t>();
+    }
+    if (j.contains("updated_at")) {
+        rule.updated_at = j["updated_at"].get<int64_t>();
+    }
+    if (j.contains("version")) {
+        rule.version = j["version"].get<std::string>();
+    }
+    if (j.contains("last_modified_by")) {
+        rule.last_modified_by = j["last_modified_by"].get<std::string>();
+    }
+    if (j.contains("change_description")) {
+        rule.change_description = j["change_description"].get<std::string>();
+    }
     return rule;
 }
 
-bool PolicyRule::appliesTo(const std::string& resource, const std::string& action) const {
+bool PolicyRule::appliesTo(const std::string &resource, const std::string &action) const {
     if (!enabled) {
         return false;
     }
-    
+
     // Check resource match
     bool resource_match = resources.empty(); // Empty means all resources
-    for (const auto& pattern : resources) {
+    for (const auto &pattern : resources) {
         if (pattern == "*" || pattern == resource) {
             resource_match = true;
             break;
@@ -116,20 +147,20 @@ bool PolicyRule::appliesTo(const std::string& resource, const std::string& actio
             }
         }
     }
-    
+
     if (!resource_match) {
         return false;
     }
-    
+
     // Check action match
     bool action_match = actions.empty(); // Empty means all actions
-    for (const auto& pattern : actions) {
+    for (const auto &pattern : actions) {
         if (pattern == "*" || pattern == action) {
             action_match = true;
             break;
         }
     }
-    
+
     return action_match;
 }
 
@@ -137,34 +168,44 @@ bool PolicyRule::appliesTo(const std::string& resource, const std::string& actio
 
 PolicyManager::PolicyManager() = default;
 
-bool PolicyManager::loadRules(const std::string& path) {
+bool PolicyManager::loadRules(const std::string &path) {
     try {
         // Detect file type by extension
-        bool is_yaml = (path.substr(path.find_last_of(".") + 1) == "yaml" || 
-                        path.substr(path.find_last_of(".") + 1) == "yml");
-        
+        bool is_yaml
+            = (path.substr(path.find_last_of(".") + 1) == "yaml" || path.substr(path.find_last_of(".") + 1) == "yml");
+
         if (is_yaml) {
             // Load from YAML
             YAML::Node config = YAML::LoadFile(path);
-            
+
             if (!config["rules"]) {
                 THEMIS_ERROR("YAML file missing 'rules' field: {}", path);
                 return false;
             }
-            
+
             std::lock_guard<std::mutex> lock(mutex_);
             rules_.clear();
-            
-            const auto& rules_node = config["rules"];
-            for (const auto& rule_node : rules_node) {
+
+            const auto &rules_node = config["rules"];
+            for (const auto &rule_node : rules_node) {
                 PolicyRule rule;
-                
-                if (rule_node["id"]) rule.id = rule_node["id"].as<std::string>();
-                if (rule_node["name"]) rule.name = rule_node["name"].as<std::string>();
-                if (rule_node["description"]) rule.description = rule_node["description"].as<std::string>();
-                if (rule_node["classification_level"]) rule.classification_level = rule_node["classification_level"].as<std::string>();
-                if (rule_node["enabled"]) rule.enabled = rule_node["enabled"].as<bool>();
-                
+
+                if (rule_node["id"]) {
+                    rule.id = rule_node["id"].as<std::string>();
+                }
+                if (rule_node["name"]) {
+                    rule.name = rule_node["name"].as<std::string>();
+                }
+                if (rule_node["description"]) {
+                    rule.description = rule_node["description"].as<std::string>();
+                }
+                if (rule_node["classification_level"]) {
+                    rule.classification_level = rule_node["classification_level"].as<std::string>();
+                }
+                if (rule_node["enabled"]) {
+                    rule.enabled = rule_node["enabled"].as<bool>();
+                }
+
                 if (rule_node["resources"]) {
                     rule.resources = rule_node["resources"].as<std::vector<std::string>>();
                 }
@@ -174,26 +215,50 @@ bool PolicyManager::loadRules(const std::string& path) {
                 if (rule_node["required_roles"]) {
                     rule.required_roles = rule_node["required_roles"].as<std::vector<std::string>>();
                 }
-                
-                if (rule_node["require_encryption"]) rule.require_encryption = rule_node["require_encryption"].as<bool>();
-                if (rule_node["require_signature"]) rule.require_signature = rule_node["require_signature"].as<bool>();
-                if (rule_node["allow_export"]) rule.allow_export = rule_node["allow_export"].as<bool>();
-                if (rule_node["allow_cache"]) rule.allow_cache = rule_node["allow_cache"].as<bool>();
-                if (rule_node["retention_days"]) rule.retention_days = rule_node["retention_days"].as<int>();
-                if (rule_node["redaction_level"]) rule.redaction_level = rule_node["redaction_level"].as<std::string>();
-                if (rule_node["audit_access"]) rule.audit_access = rule_node["audit_access"].as<bool>();
-                if (rule_node["audit_changes"]) rule.audit_changes = rule_node["audit_changes"].as<bool>();
-                if (rule_node["priority"]) rule.priority = rule_node["priority"].as<int>();
-                if (rule_node["created_by"]) rule.created_by = rule_node["created_by"].as<std::string>();
-                if (rule_node["created_at"]) rule.created_at = rule_node["created_at"].as<int64_t>();
-                if (rule_node["updated_at"]) rule.updated_at = rule_node["updated_at"].as<int64_t>();
-                
+
+                if (rule_node["require_encryption"]) {
+                    rule.require_encryption = rule_node["require_encryption"].as<bool>();
+                }
+                if (rule_node["require_signature"]) {
+                    rule.require_signature = rule_node["require_signature"].as<bool>();
+                }
+                if (rule_node["allow_export"]) {
+                    rule.allow_export = rule_node["allow_export"].as<bool>();
+                }
+                if (rule_node["allow_cache"]) {
+                    rule.allow_cache = rule_node["allow_cache"].as<bool>();
+                }
+                if (rule_node["retention_days"]) {
+                    rule.retention_days = rule_node["retention_days"].as<int>();
+                }
+                if (rule_node["redaction_level"]) {
+                    rule.redaction_level = rule_node["redaction_level"].as<std::string>();
+                }
+                if (rule_node["audit_access"]) {
+                    rule.audit_access = rule_node["audit_access"].as<bool>();
+                }
+                if (rule_node["audit_changes"]) {
+                    rule.audit_changes = rule_node["audit_changes"].as<bool>();
+                }
+                if (rule_node["priority"]) {
+                    rule.priority = rule_node["priority"].as<int>();
+                }
+                if (rule_node["created_by"]) {
+                    rule.created_by = rule_node["created_by"].as<std::string>();
+                }
+                if (rule_node["created_at"]) {
+                    rule.created_at = rule_node["created_at"].as<int64_t>();
+                }
+                if (rule_node["updated_at"]) {
+                    rule.updated_at = rule_node["updated_at"].as<int64_t>();
+                }
+
                 rules_[rule.id] = rule;
             }
-            
+
             THEMIS_INFO("Loaded {} policy rules from YAML: {}", rules_.size(), path);
             return true;
-            
+
         } else {
             // Load from JSON
             std::ifstream file(path);
@@ -201,55 +266,55 @@ bool PolicyManager::loadRules(const std::string& path) {
                 THEMIS_WARN("Policy file not found: {}", path);
                 return false;
             }
-            
+
             nlohmann::json j;
             file >> j;
-            
+
             return importRules(j);
         }
-        
-    } catch (const YAML::Exception& e) {
+
+    } catch (const YAML::Exception &e) {
         THEMIS_ERROR("Failed to load policy rules from YAML {}: {}", path, e.what());
         return false;
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         THEMIS_ERROR("Failed to load policy rules from {}: {}", path, e.what());
         return false;
     }
 }
 
-bool PolicyManager::saveRules(const std::string& path) {
+bool PolicyManager::saveRules(const std::string &path) {
     try {
         std::ofstream file(path);
         if (!file.is_open()) {
             THEMIS_ERROR("Failed to open file for writing: {}", path);
             return false;
         }
-        
+
         nlohmann::json j = exportRules();
         file << j.dump(2);
-        
+
         THEMIS_INFO("Saved {} policy rules to {}", rules_.size(), path);
         return true;
-        
-    } catch (const std::exception& e) {
+
+    } catch (const std::exception &e) {
         THEMIS_ERROR("Failed to save policy rules to {}: {}", path, e.what());
         return false;
     }
 }
 
-void PolicyManager::addRule(const PolicyRule& rule) {
+void PolicyManager::addRule(const PolicyRule &rule) {
     std::lock_guard<std::mutex> lock(mutex_);
     rules_[rule.id] = rule;
     THEMIS_DEBUG("Added policy rule: {} ({})", rule.id, rule.name);
 }
 
-void PolicyManager::removeRule(const std::string& rule_id) {
+void PolicyManager::removeRule(const std::string &rule_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     rules_.erase(rule_id);
     THEMIS_DEBUG("Removed policy rule: {}", rule_id);
 }
 
-std::optional<PolicyRule> PolicyManager::getRule(const std::string& rule_id) const {
+std::optional<PolicyRule> PolicyManager::getRule(const std::string &rule_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = rules_.find(rule_id);
     if (it != rules_.end()) {
@@ -262,17 +327,14 @@ std::vector<PolicyRule> PolicyManager::listRules() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<PolicyRule> result;
     result.reserve(rules_.size());
-    for (const auto& [id, rule] : rules_) {
+    for (const auto &[id, rule] : rules_) {
         result.push_back(rule);
     }
     return result;
 }
 
-std::vector<PolicyRule> PolicyManager::findApplicableRules(
-    const std::string& resource,
-    const std::string& action,
-    const std::vector<std::string>& user_roles
-) const {
+std::vector<PolicyRule> PolicyManager::findApplicableRules(const std::string &resource, const std::string &action,
+                                                           const std::vector<std::string> &user_roles) const {
     // Capture a snapshot of the active policy set without holding the write lock,
     // so that a concurrent reloadPolicies() swap does not block this read.
     std::shared_ptr<const PolicySet> snap;
@@ -285,8 +347,8 @@ std::vector<PolicyRule> PolicyManager::findApplicableRules(
     // the management rules_ map for readers that call findApplicableRules()
     // before any reloadPolicies() has been executed.
     std::vector<PolicyRule> applicable;
-    auto search = [&](const std::unordered_map<std::string, PolicyRule>& rules) {
-        for (const auto& [id, rule] : rules) {
+    auto search = [&](const std::unordered_map<std::string, PolicyRule> &rules) {
+        for (const auto &[id, rule] : rules) {
             if (!rule.appliesTo(resource, action)) {
                 continue;
             }
@@ -294,14 +356,16 @@ std::vector<PolicyRule> PolicyManager::findApplicableRules(
             // Check if user has required roles
             if (!rule.required_roles.empty()) {
                 bool has_role = false;
-                for (const auto& required_role : rule.required_roles) {
-                    for (const auto& user_role : user_roles) {
+                for (const auto &required_role : rule.required_roles) {
+                    for (const auto &user_role : user_roles) {
                         if (required_role == user_role || required_role == "*") {
                             has_role = true;
                             break;
                         }
                     }
-                    if (has_role) break;
+                    if (has_role) {
+                        break;
+                    }
                 }
                 if (!has_role) {
                     continue;
@@ -321,64 +385,56 @@ std::vector<PolicyRule> PolicyManager::findApplicableRules(
 
     // Sort by priority (highest first)
     std::sort(applicable.begin(), applicable.end(),
-              [](const PolicyRule& a, const PolicyRule& b) {
-                  return a.priority > b.priority;
-              });
+              [](const PolicyRule &a, const PolicyRule &b) { return a.priority > b.priority; });
 
     return applicable;
 }
 
-PolicyManager::PolicyDecision PolicyManager::evaluatePolicy(
-    const std::string& resource,
-    const std::string& action,
-    const std::vector<std::string>& user_roles
-) const {
+PolicyManager::PolicyDecision PolicyManager::evaluatePolicy(const std::string &resource, const std::string &action,
+                                                            const std::vector<std::string> &user_roles) const {
     auto applicable_rules = findApplicableRules(resource, action, user_roles);
     return aggregateRules(applicable_rules);
 }
 
-PolicyManager::PolicyDecision PolicyManager::aggregateRules(
-    const std::vector<PolicyRule>& rules
-) const {
+PolicyManager::PolicyDecision PolicyManager::aggregateRules(const std::vector<PolicyRule> &rules) const {
     PolicyDecision decision;
-    
+
     if (rules.empty()) {
         // Default permissive policy
         decision.allowed = true;
         return decision;
     }
-    
+
     // Aggregate effects from all applicable rules
     // More restrictive settings take precedence
-    for (const auto& rule : rules) {
+    for (const auto &rule : rules) {
         decision.applied_rules.push_back(rule.id);
-        
+
         // Use highest classification level
-        if (decision.classification_level.empty() || 
-            rule.classification_level > decision.classification_level) {
+        if (decision.classification_level.empty() || rule.classification_level > decision.classification_level) {
             decision.classification_level = rule.classification_level;
         }
-        
+
         // OR logic for requirements (if any rule requires, it's required)
         decision.require_encryption = decision.require_encryption || rule.require_encryption;
-        decision.require_signature = decision.require_signature || rule.require_signature;
-        decision.audit_access = decision.audit_access || rule.audit_access;
-        decision.audit_changes = decision.audit_changes || rule.audit_changes;
-        
+        decision.require_signature  = decision.require_signature || rule.require_signature;
+        decision.audit_access       = decision.audit_access || rule.audit_access;
+        decision.audit_changes      = decision.audit_changes || rule.audit_changes;
+
         // AND logic for permissions (if any rule denies, it's denied)
         decision.allow_export = decision.allow_export && rule.allow_export;
-        decision.allow_cache = decision.allow_cache && rule.allow_cache;
-        
+        decision.allow_cache  = decision.allow_cache && rule.allow_cache;
+
         // Use shortest retention period
         decision.retention_days = std::min(decision.retention_days, rule.retention_days);
-        
+
         // Use strictest redaction level
-        if (rule.redaction_level == "strict" || 
-            (rule.redaction_level == "standard" && decision.redaction_level == "none")) {
+        if (rule.redaction_level == "strict"
+            || (rule.redaction_level == "standard" && decision.redaction_level == "none")) {
             decision.redaction_level = rule.redaction_level;
         }
     }
-    
+
     return decision;
 }
 
@@ -386,34 +442,35 @@ PolicyManager::ValidationResult PolicyManager::validateRules() const {
     std::lock_guard<std::mutex> lock(mutex_);
     ValidationResult result;
     result.valid = true;
-    
+
     // Check for duplicate IDs
     std::unordered_map<std::string, int> id_counts;
-    for (const auto& [id, rule] : rules_) {
+    for (const auto &[id, rule] : rules_) {
         id_counts[id]++;
     }
-    
-    for (const auto& [id, count] : id_counts) {
+
+    for (const auto &[id, count] : id_counts) {
         if (count > 1) {
             result.valid = false;
             result.errors.push_back("Duplicate rule ID: " + id);
         }
     }
-    
+
     // Check for conflicting rules (same resource/action but different effects)
-    for (const auto& [id1, rule1] : rules_) {
-        for (const auto& [id2, rule2] : rules_) {
-            if (id1 >= id2) continue; // Avoid duplicate checks
-            
+    for (const auto &[id1, rule1] : rules_) {
+        for (const auto &[id2, rule2] : rules_) {
+            if (id1 >= id2) {
+                continue; // Avoid duplicate checks
+            }
+
             // Simple conflict detection: same resources and actions but different encryption requirements
-            if (rule1.resources == rule2.resources && 
-                rule1.actions == rule2.actions &&
-                rule1.require_encryption != rule2.require_encryption) {
+            if (rule1.resources == rule2.resources && rule1.actions == rule2.actions
+                && rule1.require_encryption != rule2.require_encryption) {
                 result.warnings.push_back("Potential conflict between rules " + id1 + " and " + id2);
             }
         }
     }
-    
+
     return result;
 }
 
@@ -421,17 +478,17 @@ PolicyManager::PolicyStats PolicyManager::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     PolicyStats stats;
     stats.total_rules = static_cast<int>(rules_.size());
-    
-    for (const auto& [id, rule] : rules_) {
+
+    for (const auto &[id, rule] : rules_) {
         if (rule.enabled) {
             stats.enabled_rules++;
         } else {
             stats.disabled_rules++;
         }
-        
+
         stats.rules_by_classification[rule.classification_level]++;
     }
-    
+
     return stats;
 }
 
@@ -439,41 +496,41 @@ nlohmann::json PolicyManager::exportRules() const {
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json j;
     j["version"] = "1.0";
-    j["rules"] = nlohmann::json::array();
-    
-    for (const auto& [id, rule] : rules_) {
+    j["rules"]   = nlohmann::json::array();
+
+    for (const auto &[id, rule] : rules_) {
         j["rules"].push_back(rule.toJson());
     }
-    
+
     return j;
 }
 
-bool PolicyManager::importRules(const nlohmann::json& j) {
+bool PolicyManager::importRules(const nlohmann::json &j) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
     try {
         if (!j.contains("rules")) {
             THEMIS_ERROR("Invalid policy JSON: missing 'rules' field");
             return false;
         }
-        
+
         rules_.clear();
-        
-        for (const auto& rule_json : j["rules"]) {
+
+        for (const auto &rule_json : j["rules"]) {
             PolicyRule rule = PolicyRule::fromJson(rule_json);
             rules_[rule.id] = rule;
         }
-        
+
         THEMIS_INFO("Imported {} policy rules", rules_.size());
         return true;
-        
-    } catch (const std::exception& e) {
+
+    } catch (const std::exception &e) {
         THEMIS_ERROR("Failed to import policy rules: {}", e.what());
         return false;
     }
 }
 
-bool PolicyManager::matchPattern(const std::string& pattern, const std::string& value) const {
+bool PolicyManager::matchPattern(const std::string &pattern, const std::string &value) const {
     if (pattern == "*") {
         return true;
     }
@@ -490,20 +547,20 @@ bool PolicyManager::matchPattern(const std::string& pattern, const std::string& 
 
 // ========== PolicyManager Versioning Methods ==========
 
-std::string PolicyManager::incrementVersion(const std::string& current_version, int level) const {
+std::string PolicyManager::incrementVersion(const std::string &current_version, int level) const {
     // Parse semantic version: major.minor.patch
     std::string version = current_version;
     int major = 0, minor = 0, patch = 0;
-    
-    size_t first_dot = version.find('.');
+
+    size_t first_dot  = version.find('.');
     size_t second_dot = version.find('.', first_dot + 1);
-    
+
     if (first_dot != std::string::npos && second_dot != std::string::npos) {
         major = std::stoi(version.substr(0, first_dot));
         minor = std::stoi(version.substr(first_dot + 1, second_dot - first_dot - 1));
         patch = std::stoi(version.substr(second_dot + 1));
     }
-    
+
     // Increment the specified level
     if (level == 0) { // Major
         major++;
@@ -515,96 +572,88 @@ std::string PolicyManager::incrementVersion(const std::string& current_version, 
     } else { // Patch
         patch++;
     }
-    
+
     return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
 }
 
-bool PolicyManager::updateRule(const std::string& rule_id, const PolicyRule& updated_rule,
-                               const std::string& modified_by, const std::string& change_description) {
+bool PolicyManager::updateRule(const std::string &rule_id, const PolicyRule &updated_rule,
+                               const std::string &modified_by, const std::string &change_description) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
     auto it = rules_.find(rule_id);
     if (it == rules_.end()) {
         THEMIS_WARN("Cannot update non-existent rule: {}", rule_id);
         return false;
     }
-    
+
     // Save current version to history
-    std::string timestamp_str = std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count());
-    const std::string& author = !modified_by.empty() ? modified_by :
-        (!it->second.last_modified_by.empty() ? it->second.last_modified_by : it->second.created_by);
-    version_history_.recordVersion(
-        rule_id,
-        it->second,
-        author,
-        "Version saved before update"
-    );
-    
+    std::string timestamp_str = std::to_string(
+        std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+    const std::string &author
+        = !modified_by.empty()
+              ? modified_by
+              : (!it->second.last_modified_by.empty() ? it->second.last_modified_by : it->second.created_by);
+    version_history_.recordVersion(rule_id, it->second, author, "Version saved before update");
+
     // Update the rule with new version
-    PolicyRule new_rule = updated_rule;
-    new_rule.id = rule_id; // Ensure ID doesn't change
-    new_rule.version = incrementVersion(it->second.version, 2); // Increment patch version
-    new_rule.last_modified_by = modified_by;
+    PolicyRule new_rule         = updated_rule;
+    new_rule.id                 = rule_id;                                 // Ensure ID doesn't change
+    new_rule.version            = incrementVersion(it->second.version, 2); // Increment patch version
+    new_rule.last_modified_by   = modified_by;
     new_rule.change_description = change_description;
-    new_rule.updated_at = std::chrono::duration_cast<std::chrono::seconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count();
-    
+    new_rule.updated_at
+        = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
     rules_[rule_id] = new_rule;
-    
+
     THEMIS_INFO("Updated policy rule {} to version {}", rule_id, new_rule.version);
     return true;
 }
 
-std::vector<PolicyRuleVersion> PolicyManager::getRuleVersions(const std::string& rule_id) const {
+std::vector<PolicyRuleVersion> PolicyManager::getRuleVersions(const std::string &rule_id) const {
     return version_history_.getVersions(rule_id);
 }
 
-std::optional<PolicyRuleVersion> PolicyManager::getRuleVersion(
-    const std::string& rule_id, const std::string& version) const {
+std::optional<PolicyRuleVersion> PolicyManager::getRuleVersion(const std::string &rule_id,
+                                                               const std::string &version) const {
     return version_history_.getVersion(rule_id, version);
 }
 
-bool PolicyManager::rollbackToVersion(const std::string& rule_id, const std::string& version,
-                                      const std::string& modified_by) {
+bool PolicyManager::rollbackToVersion(const std::string &rule_id, const std::string &version,
+                                      const std::string &modified_by) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
     auto version_record = version_history_.getVersion(rule_id, version);
     if (!version_record || version_record->rule_snapshot.empty()) {
         THEMIS_WARN("Version {} not found or has no snapshot for rule {}", version, rule_id);
         return false;
     }
-    
+
     auto it = rules_.find(rule_id);
     if (it == rules_.end()) {
         THEMIS_WARN("Cannot rollback non-existent rule: {}", rule_id);
         return false;
     }
-    
+
     // Save current version to history before rollback
-    version_history_.recordVersion(
-        rule_id,
-        it->second,
-        modified_by,
-        "Version saved before rollback"
-    );
+    version_history_.recordVersion(rule_id, it->second, modified_by, "Version saved before rollback");
 
     // Restore rule from snapshot, preserving new incremented version number (level 2 = patch)
-    PolicyRule restored = PolicyRule::fromJson(version_record->rule_snapshot);
-    restored.id = rule_id;  // Ensure ID doesn't change
-    restored.version = incrementVersion(it->second.version, 2);
-    restored.last_modified_by = modified_by;
+    PolicyRule restored         = PolicyRule::fromJson(version_record->rule_snapshot);
+    restored.id                 = rule_id; // Ensure ID doesn't change
+    restored.version            = incrementVersion(it->second.version, 2);
+    restored.last_modified_by   = modified_by;
     restored.change_description = "Rollback to version " + version;
-    restored.updated_at = std::chrono::duration_cast<std::chrono::seconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count();
+    restored.updated_at
+        = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
     rules_[rule_id] = restored;
-    
+
     THEMIS_INFO("Rolled back rule {} to version {} (new version: {})", rule_id, version, restored.version);
     return true;
 }
 
-bool PolicyManager::rollbackToPreviousVersion(const std::string& rule_id, const std::string& modified_by) {
+bool PolicyManager::rollbackToPreviousVersion(const std::string &rule_id, const std::string &modified_by) {
     std::string latest = version_history_.getLastRecordedVersion(rule_id);
     if (latest.empty()) {
         THEMIS_WARN("No version history found for rule {}", rule_id);
@@ -613,8 +662,8 @@ bool PolicyManager::rollbackToPreviousVersion(const std::string& rule_id, const 
     return rollbackToVersion(rule_id, latest, modified_by);
 }
 
-std::vector<VersionDiff> PolicyManager::previewRollback(
-    const std::string& rule_id, const std::string& target_version) const {
+std::vector<VersionDiff> PolicyManager::previewRollback(const std::string &rule_id,
+                                                        const std::string &target_version) const {
     auto version_record = version_history_.getVersion(rule_id, target_version);
     if (!version_record || version_record->rule_snapshot.empty()) {
         THEMIS_WARN("Version {} not found or has no snapshot for rule {}", target_version, rule_id);
@@ -629,40 +678,40 @@ std::vector<VersionDiff> PolicyManager::previewRollback(
 
     // Compare target snapshot against current rule to show what would change
     PolicyRule target_rule = PolicyRule::fromJson(version_record->rule_snapshot);
-    VersionDiff diff = version_history_.compareRules(target_rule, it->second);
-    diff.rule_id = rule_id;
-    diff.version1 = target_version;
-    diff.version2 = it->second.version;
+    VersionDiff diff       = version_history_.compareRules(target_rule, it->second);
+    diff.rule_id           = rule_id;
+    diff.version1          = target_version;
+    diff.version2          = it->second.version;
     return {diff};
 }
 
-std::vector<VersionDiff> PolicyManager::compareRuleVersions(
-    const std::string& rule_id, const std::string& version1, const std::string& version2) const {
+std::vector<VersionDiff> PolicyManager::compareRuleVersions(const std::string &rule_id, const std::string &version1,
+                                                            const std::string &version2) const {
     // Use version_history_ to compare versions
     auto diff = version_history_.compareVersions(rule_id, version1, version2);
     return std::vector<VersionDiff>{diff};
 }
 
-std::vector<PolicyRuleVersion> PolicyManager::getAuditTrail(
-    const std::string& rule_id, int64_t /*start_time*/, int64_t /*end_time*/) const {
+std::vector<PolicyRuleVersion> PolicyManager::getAuditTrail(const std::string &rule_id, int64_t /*start_time*/,
+                                                            int64_t /*end_time*/) const {
     return version_history_.getVersions(rule_id);
 }
 
-std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(
-    const std::string& user, int64_t /*start_time*/, int64_t /*end_time*/) const {
+std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(const std::string &user, int64_t /*start_time*/,
+                                                                  int64_t /*end_time*/) const {
     // Collect all rule IDs under the rules mutex, then query version history
     std::vector<std::string> rule_ids;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        for (const auto& [id, rule_value] : rules_) {
+        for (const auto &[id, rule_value] : rules_) {
             rule_ids.push_back(id);
         }
     }
 
     std::vector<PolicyRuleVersion> result;
-    for (const auto& rule_id : rule_ids) {
+    for (const auto &rule_id : rule_ids) {
         auto versions = version_history_.getVersions(rule_id);
-        for (const auto& v : versions) {
+        for (const auto &v : versions) {
             if (v.author == user) {
                 result.push_back(v);
             }
@@ -673,16 +722,18 @@ std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(
 
 // ========== Hot-Reload: double-buffer implementation ==========
 
-bool PolicyManager::reloadPolicies(const std::string& path, std::string* err) {
+bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
     // 1. Load the new rule set into a staging PolicyManager.
     //    This keeps the current rules_ untouched until validation succeeds.
     auto staging = std::make_shared<PolicyManager>();
     if (!staging->loadRules(path)) {
         const std::string msg = "reloadPolicies: failed to load rules from " + path;
         THEMIS_ERROR("{}", msg);
-        if (err) *err = msg;
-        observability::MetricsCollector::getInstance().addCounter(
-            "governance_policy_reload_total", 1, {{"result", "failure"}});
+        if (err) {
+            *err = msg;
+        }
+        observability::MetricsCollector::getInstance().addCounter("governance_policy_reload_total", 1,
+                                                                  {{"result", "failure"}});
         return false;
     }
 
@@ -691,11 +742,14 @@ bool PolicyManager::reloadPolicies(const std::string& path, std::string* err) {
     auto report = validator.validateRuleset();
     if (report.has_critical_issues) {
         const std::string msg = "reloadPolicies: validation failed – critical issues detected "
-                                "(score=" + std::to_string(report.validation_score) + ")";
+                                "(score="
+                                + std::to_string(report.validation_score) + ")";
         THEMIS_ERROR("{}", msg);
-        if (err) *err = msg;
-        observability::MetricsCollector::getInstance().addCounter(
-            "governance_policy_reload_total", 1, {{"result", "failure"}});
+        if (err) {
+            *err = msg;
+        }
+        observability::MetricsCollector::getInstance().addCounter("governance_policy_reload_total", 1,
+                                                                  {{"result", "failure"}});
         return false;
     }
 
@@ -710,7 +764,7 @@ bool PolicyManager::reloadPolicies(const std::string& path, std::string* err) {
 
     // 4. Build the new PolicySet snapshot via the public listRules() API.
     auto new_set = std::make_shared<PolicySet>();
-    for (const auto& rule : staging->listRules()) {
+    for (const auto &rule : staging->listRules()) {
         new_set->rules[rule.id] = rule;
     }
     // Derive a deterministic version identifier from sorted rule IDs.
@@ -719,14 +773,19 @@ bool PolicyManager::reloadPolicies(const std::string& path, std::string* err) {
     // integrity verification.
     std::vector<std::string> ids;
     ids.reserve(new_set->rules.size());
-    for (const auto& [id, rule] : new_set->rules) ids.push_back(id);
+    for (const auto &[id, rule] : new_set->rules) {
+        ids.push_back(id);
+    }
     std::sort(ids.begin(), ids.end());
     std::string concat;
-    for (const auto& id : ids) { concat += id; concat += '|'; }
+    for (const auto &id : ids) {
+        concat += id;
+        concat += '|';
+    }
     new_set->version_hash = std::to_string(std::hash<std::string>{}(concat));
-    new_set->loaded_at = std::chrono::duration_cast<std::chrono::milliseconds>(
-                             std::chrono::system_clock::now().time_since_epoch())
-                             .count();
+    new_set->loaded_at
+        = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
+              .count();
 
     // 5. Atomically promote the new PolicySet (double-buffer swap).
     //    Readers that already hold a shared_ptr snapshot to the old PolicySet
@@ -734,7 +793,7 @@ bool PolicyManager::reloadPolicies(const std::string& path, std::string* err) {
     //    holders release it.
     {
         std::unique_lock<std::shared_mutex> wlock(policy_set_mutex_);
-        active_policy_set_ = new_set;  // implicit conversion to shared_ptr<const PolicySet>
+        active_policy_set_ = new_set; // implicit conversion to shared_ptr<const PolicySet>
     }
     // Also update rules_ so management operations (addRule, etc.) remain consistent.
     {
@@ -746,17 +805,18 @@ bool PolicyManager::reloadPolicies(const std::string& path, std::string* err) {
                 "(old_version={}, new_version={})",
                 new_set->rules.size(), old_version, new_set->version_hash);
 
-    observability::MetricsCollector::getInstance().addCounter(
-        "governance_policy_reload_total", 1, {{"result", "success"}});
+    observability::MetricsCollector::getInstance().addCounter("governance_policy_reload_total", 1,
+                                                              {{"result", "success"}});
     return true;
 }
 
 std::string PolicyManager::activePolicyVersion() const {
     std::shared_lock<std::shared_mutex> rlock(policy_set_mutex_);
-    if (!active_policy_set_) return {};
+    if (!active_policy_set_) {
+        return {};
+    }
     return active_policy_set_->version_hash;
 }
 
 } // namespace governance
 } // namespace themis
-
