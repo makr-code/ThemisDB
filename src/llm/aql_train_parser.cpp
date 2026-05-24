@@ -501,7 +501,7 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
         try {
             auto j = nlohmann::json::parse(content);
             return TrainStatementConfig::fromJSON(j);
-        } catch (...) {
+        } catch (const std::exception&) {
             // Fall through to key-value parsing
             if (content.front() == '{' && content.back() == '}') {
                 content = themis::utils::trim(content.substr(1, content.size() - 2));
@@ -826,7 +826,7 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
             std::string rest = themis::utils::trim(aql.substr(pos_limit + 5));
             auto tokens = tokenize(rest);
             if (!tokens.empty()) {
-                try { stmt->limit = std::stoi(tokens[0]); } catch (...) {}
+                try { stmt->limit = std::stoi(tokens[0]); } catch (const std::exception&) {}
             }
         }
     }

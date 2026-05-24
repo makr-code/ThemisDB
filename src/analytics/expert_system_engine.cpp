@@ -245,15 +245,11 @@ ExpertSystemEngine::matchAllConditions(const HornClause &rule, const std::vector
 // ML confidence (static, called WITHOUT holding mutex_)
 // ──────────────────────────────────────────────────────────────────────────────
 
-/*static*/ double ExpertSystemEngine::mlConfidenceNoLock(ModelServingEngine *scorer, const ScorerFn &scorer_fn,
-                                                         const std::string &model_name, const std::string &model_ver,
-                                                         const HornClause &rule, const std::vector<Fact> &matched) {
-    if (scorer_fn) {
-        try {
-            return scorer_fn(rule, matched);
-        } catch (...) {
-            return 1.0;
-        } // Fallback: treat as confident
+double ExpertSystemEngine::mlConfidence(const HornClause&        rule,
+                                         const std::vector<Fact>& matched) const {
+    if (ml_scorer_fn_) {
+        try { return ml_scorer_fn_(rule, matched); }
+        catch (const std::exception&) { return 1.0; }  // Fallback: treat as confident
     }
     if (scorer && rule.ml_confidence_threshold > 0.0) {
         try {
@@ -264,13 +260,9 @@ ExpertSystemEngine::matchAllConditions(const HornClause &rule, const std::vector
             dp.set("priority", static_cast<double>(rule.priority));
             std::string label = scorer->predict(model_name, model_ver, dp);
             // Interpret numeric label as confidence.
-            try {
-                return std::stod(label);
-            } catch (...) {
-                return 1.0;
-            }
-        } catch (...) {
-            return 1.0; // Scorer unavailable → fire rule deterministically
+            try { return std::stod(label); } catch (const std::exception&) { return 1.0; }
+        } catch (const std::exception&) {
+            return 1.0;  // Scorer unavailable → fire rule deterministically
         }
     }
     return 1.0;

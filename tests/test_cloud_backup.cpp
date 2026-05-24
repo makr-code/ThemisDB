@@ -610,11 +610,16 @@ TEST_F(CloudBackupTest, CreateBackupUsesGCSUploadCallbackWithoutMockMode) {
     setGCSUploadFn([&called](const std::string& bucket,
                              const std::string& local_path,
                              const std::string& remote_path,
-                             const std::map<std::string, std::string>&) {
+                             const std::map<std::string, std::string>& metadata) {
         called = true;
         EXPECT_EQ(bucket, "test-bucket");
         EXPECT_EQ(remote_path, "backup-for-gcs-upload-callback/shard1");
         EXPECT_TRUE(std::filesystem::exists(local_path));
+        auto backup_id_it = metadata.find("backup_id");
+        EXPECT_NE(backup_id_it, metadata.end());
+        if (backup_id_it != metadata.end()) {
+            EXPECT_EQ(backup_id_it->second, "backup-for-gcs-upload-callback");
+        }
         return true;
     });
 
@@ -675,12 +680,17 @@ TEST_F(CloudBackupTest, CreateBackupUsesAzureUploadCallbackWithoutMockMode) {
                                const std::string& container,
                                const std::string& local_path,
                                const std::string& remote_path,
-                               const std::map<std::string, std::string>&) {
+                               const std::map<std::string, std::string>& metadata) {
         called = true;
         EXPECT_EQ(account_name, "test-account");
         EXPECT_EQ(container, "test-container");
         EXPECT_EQ(remote_path, "backup-for-azure-upload-callback/shard1");
         EXPECT_TRUE(std::filesystem::exists(local_path));
+        auto shard_id_it = metadata.find("shard_id");
+        EXPECT_NE(shard_id_it, metadata.end());
+        if (shard_id_it != metadata.end()) {
+            EXPECT_EQ(shard_id_it->second, "shard1");
+        }
         return true;
     });
 

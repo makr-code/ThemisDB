@@ -21,24 +21,30 @@
 #include <regex>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
+#include <mutex>
 
 namespace themis {
 namespace llm {
 
-// ── Spam-keywords provider bridge (stub #296) ─────────────────────────────
+// ─── SpamKeywordsProviderFn bridge storage (stub #296) ───────────────────────
 namespace {
-std::mutex              s_spam_kw_mutex;
-FeedbackStore::SpamKeywordsProviderFn s_spam_kw_provider;
-} // anonymous namespace
+    std::mutex s_spam_fn_mutex;
+    FeedbackStore::SpamKeywordsProviderFn s_spam_fn;
 
-void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn fn) {
-    std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
-    s_spam_kw_provider = std::move(fn);
+    FeedbackStore::SpamKeywordsProviderFn getSpamFn() {
+        std::lock_guard<std::mutex> lk(s_spam_fn_mutex);
+        return s_spam_fn;
+    }
+} // namespace
+
+void FeedbackStore::setSpamKeywordsProviderFn(SpamKeywordsProviderFn fn) {
+    std::lock_guard<std::mutex> lk(s_spam_fn_mutex);
+    s_spam_fn = std::move(fn);
 }
 
-void FeedbackStore::clearSpamKeywordsProvider() {
-    std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
-    s_spam_kw_provider = SpamKeywordsProviderFn{};
+void FeedbackStore::clearSpamKeywordsProviderFn() {
+    std::lock_guard<std::mutex> lk(s_spam_fn_mutex);
+    s_spam_fn = nullptr;
 }
 
 // ===== Helper function to convert enum to string =====
@@ -543,7 +549,16 @@ void FeedbackStore::clear() {
 // ===== Validation Logic =====
 
 const std::vector<std::string>& FeedbackStore::getSpamKeywords() {
-    // Built-in static keyword list used as fallback when no provider is injected.
+    // Use injected provider if available (stub #296 resolved).
+    if (auto fn = getSpamFn()) {
+        static thread_local std::vector<std::string> dynamic_keywords;
+        dynamic_keywords = fn();
+        return dynamic_keywords;
+    }
+    // STUB/SIMULATION NOTE (stub #296):
+    // Activation: Active when no SpamKeywordsProviderFn is injected.
+    // Production Delta: Keyword set is fixed at compile time.
+    // Removal Plan: Inject via setSpamKeywordsProviderFn(). Target: v2.0.0.
     static const std::vector<std::string> spam_keywords = {
         "buy now", "click here", "viagra", "casino", "lottery",
         "free money", "million dollars", "nigerian prince",
@@ -669,14 +684,11 @@ ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // Apply the plugin's suggested modifications to the feedback entry
-                // before accepting it (stub #297 resolved).
-                if (result.modified_comment) {
-                    data.comment = *result.modified_comment;
+                // Apply plugin-suggested modifications (stub #297 resolved).
+                if (result.modified_comment.has_value()) {
                     feedback.comment = *result.modified_comment;
                 }
-                if (result.modified_metadata) {
-                    data.metadata = *result.modified_metadata;
+                if (result.modified_metadata.has_value()) {
                     feedback.metadata = *result.modified_metadata;
                 }
                 return ValidationStatus::APPROVED;
@@ -889,4 +901,3 @@ bool FeedbackStore::isLinkedToAdapter(
 
 } // namespace llm
 } // namespace themis
-

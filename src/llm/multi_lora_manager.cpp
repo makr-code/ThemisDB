@@ -2052,7 +2052,7 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
             // Extract rank/alpha from GGUF metadata if present.
             auto it_rank = meta.config.find("lora.rank");
             if (it_rank != meta.config.end()) {
-                try { lora->rank = std::stoi(it_rank->second); } catch (...) {}
+                try { lora->rank = std::stoi(it_rank->second); } catch (const std::exception&) {}
             }
             if (lora->rank != 0 && (lora->rank < MIN_LORA_RANK || lora->rank > MAX_LORA_RANK)) {
                 spdlog::error("loadLoRAInternal: adapter '{}' has out-of-bounds rank {} "
@@ -2062,7 +2062,7 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
             }
             auto it_alpha = meta.config.find("lora.alpha");
             if (it_alpha != meta.config.end()) {
-                try { lora->alpha = std::stof(it_alpha->second); } catch (...) {}
+                try { lora->alpha = std::stof(it_alpha->second); } catch (const std::exception&) {}
             }
         } else {
             spdlog::debug("loadLoRAInternal: GGUF parse skipped for '{}' ({}); "

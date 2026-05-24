@@ -278,6 +278,7 @@ int Http2Session::onStreamCloseCallback(nghttp2_session* /*session*/, int32_t st
     // Process complete request
     self->processStream(stream_id);
     self->streams_.erase(stream_id);
+    self->response_buffers_.erase(stream_id); // Release buffer when stream closes.
     
     return 0;
 }
@@ -453,22 +454,11 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
             NGHTTP2_NV_FLAG_NONE
         });
     }
-    
-    // Allocate response buffer with unique_ptr for exception-safe lifetime management
-    // (stub #298 resolved). If nghttp2_submit_response succeeds, ownership is transferred
-    // to the read_callback via release(); on failure the unique_ptr destructor frees the
-    // buffer automatically, eliminating the prior leak on the error path.
-    struct ResponseBuffer {
-        std::string data;
-        size_t offset = 0;
-    };
 
-    auto resp_buffer_owner = std::make_unique<ResponseBuffer>(ResponseBuffer{body, 0});
-    auto* resp_buffer = resp_buffer_owner.get();
+    // Use shared_ptr<ResponseBuffer> for RAII buffer management (stub #298 resolved).
+    auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
 
     nghttp2_data_provider data_prd;
-    // Store the weak_ptr in the source void* to avoid a circular reference;
-    // the actual shared_ptr ownership lives in response_buffers_.
     data_prd.source.ptr = resp_buffer.get();
     data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
                                  uint8_t* buf, size_t length, uint32_t* data_flags,
@@ -484,17 +474,18 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
 
         if (buffer->offset >= buffer->data.size()) {
             *data_flags |= NGHTTP2_DATA_FLAG_EOF;
-            delete buffer; // ownership was transferred via release() on success path
         }
 
-        return static_cast<ssize_t>(to_copy);
+        return to_copy;
     };
+
+    // Keep buffer alive until stream completion via the streams_ map.
+    response_buffers_[stream_id] = resp_buffer;
 
     int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(), nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response failed: {}", nghttp2_strerror(rv));
-        // unique_ptr destructor automatically frees buffer — no leak
-        return;
+        response_buffers_.erase(stream_id);
     }
     // Transfer ownership to the read_callback; it will delete on EOF.
     resp_buffer_owner.release();
@@ -599,38 +590,37 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
         }
     }
     
-    // Create data provider for push response body — use shared_ptr ownership
-    // via response_buffers_ for RAII lifetime management (same pattern as
-    // sendResponse(), avoiding raw new/delete).
+    // Create data provider for push response body using RAII shared_ptr (stub #298 resolved).
     auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
-    response_buffers_[promised_stream_id] = resp_buffer;
-    
+
     nghttp2_data_provider data_prd;
     data_prd.source.ptr = resp_buffer.get();
     data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
                                  uint8_t* buf, size_t length, uint32_t* data_flags,
                                  nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
         auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
-        const size_t remaining = buffer->data.size() - buffer->offset;
-        const size_t to_copy = std::min(length, remaining);
-        
+        size_t remaining = buffer->data.size() - buffer->offset;
+        size_t to_copy = std::min(length, remaining);
+
         if (to_copy > 0) {
             std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
             buffer->offset += to_copy;
         }
-        
+
         if (buffer->offset >= buffer->data.size()) {
             *data_flags |= NGHTTP2_DATA_FLAG_EOF;
         }
-        
-        return static_cast<ssize_t>(to_copy);
+
+        return to_copy;
     };
-    
-    rv = nghttp2_submit_response(ng2_session_, promised_stream_id, response_nva.data(), 
+
+    response_buffers_[promised_stream_id] = resp_buffer;
+
+    rv = nghttp2_submit_response(ng2_session_, promised_stream_id, response_nva.data(),
                                   response_nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response for push failed: {}", nghttp2_strerror(rv));
-        response_buffers_.erase(promised_stream_id); // Release on submit failure
+        response_buffers_.erase(promised_stream_id);
         return;
     }
     

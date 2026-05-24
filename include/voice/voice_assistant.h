@@ -376,12 +376,16 @@ public:
     void updateSession(const std::string& session_id, const json& context);
 
     /**
-     * @brief Delete a voice session by ID.
+     * @brief Hard-delete a session and all associated state.
      *
-     * @param session_id Session identifier.
-     * @return true when an existing session was removed, false when no session exists.
+     * Removes the session entry from the internal session map. If the session
+     * does not exist the call is a no-op (idempotent). Use this instead of
+     * soft-clearing via updateSession() when the DELETE /voice/session/{id}
+     * endpoint is invoked.
+     *
+     * @param session_id Session identifier to delete.
      */
-    bool deleteSession(const std::string& session_id);
+    void deleteSession(const std::string& session_id);
 
     /**
      * @brief Synthesize text to speech using the embedded TTS processor.

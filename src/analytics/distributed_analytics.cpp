@@ -379,7 +379,7 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
                 bool healthy = false;
                 try {
                     healthy = e.executor->isHealthy();
-                } catch (...) {
+                } catch (const std::exception&) {
                     healthy = false;
                 }
                 e.cached_healthy->store(healthy, std::memory_order_release);
@@ -398,7 +398,7 @@ void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::sh
     if (executor) {
         try {
             initial_healthy = executor->isHealthy();
-        } catch (...) {
+        } catch (const std::exception&) {
             initial_healthy = false;
         }
     }
@@ -729,30 +729,27 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                 ShardExecutionInfo info;
                 info.shard_id = entry.shard_id;
 
-                const auto t0 = std::chrono::steady_clock::now();
-                try {
-                    auto partial           = entry.executor->execute(entry.shard_id, query);
-                    const auto t1          = std::chrono::steady_clock::now();
-                    info.success           = true;
-                    info.execution_time_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
-                    promise.set_value({std::move(partial), std::move(info)});
-                } catch (const std::exception &ex) {
-                    const auto t1          = std::chrono::steady_clock::now();
-                    info.success           = false;
-                    info.error             = ex.what();
-                    info.execution_time_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
-                    spdlog::error("DistributedAnalyticsSharding: shard {} failed: {}", entry.shard_id, ex.what());
-                    promise.set_value({OLAPResult{}, std::move(info)});
-                } catch (...) {
-                    const auto t1          = std::chrono::steady_clock::now();
-                    info.success           = false;
-                    info.error             = "unknown shard error";
-                    info.execution_time_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
-                    spdlog::error("DistributedAnalyticsSharding: shard {} failed with unknown exception",
-                                  entry.shard_id);
-                    promise.set_value({OLAPResult{}, std::move(info)});
-                }
-            }).detach();
+                    const auto t0 = std::chrono::steady_clock::now();
+                    try {
+                        auto partial = entry.executor->execute(entry.shard_id, query);
+                        const auto t1 = std::chrono::steady_clock::now();
+                        info.success = true;
+                        info.execution_time_ms =
+                            std::chrono::duration<double, std::milli>(t1 - t0).count();
+                        promise.set_value({std::move(partial), std::move(info)});
+                    } catch (const std::exception& ex) {
+                        const auto t1 = std::chrono::steady_clock::now();
+                        info.success = false;
+                        info.error   = ex.what();
+                        info.execution_time_ms =
+                            std::chrono::duration<double, std::milli>(t1 - t0).count();
+                        spdlog::error(
+                            "DistributedAnalyticsSharding: shard {} failed: {}",
+                            entry.shard_id, ex.what());
+                        promise.set_value({OLAPResult{}, std::move(info)});
+                    }
+                })
+                .detach();
         }
 
         for (size_t i = 0; i < futures.size(); ++i) {

@@ -109,8 +109,6 @@ void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
                 g_debug_log_fn(message);
             } catch (const std::exception& e) {
                 spdlog::warn("quantization debug callback failed: {}", e.what());
-            } catch (...) {
-                spdlog::warn("quantization debug callback failed with unknown exception");
             }
         }
     }

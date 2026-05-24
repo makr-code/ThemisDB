@@ -36,6 +36,30 @@
 
 namespace themis::transaction {
 
+// ============================================================================
+// RPC phase-2 bridge (stub #279)
+// ============================================================================
+
+namespace {
+static std::mutex s_rpc_phase2_fn_mutex;
+static DistributedTransactionManager::RpcPhase2Fn s_rpc_phase2_fn;
+} // namespace
+
+void DistributedTransactionManager::setRpcPhase2Fn(RpcPhase2Fn fn) {
+    std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
+    s_rpc_phase2_fn = std::move(fn);
+}
+
+void DistributedTransactionManager::clearRpcPhase2Fn() {
+    std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
+    s_rpc_phase2_fn = nullptr;
+}
+
+static DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn() {
+    std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
+    return s_rpc_phase2_fn;
+}
+
 namespace {
 /// Format a system_clock time-point as ISO-8601 for WAL/log data.
 std::string formatTimePoint(std::chrono::system_clock::time_point tp) {
@@ -744,32 +768,40 @@ void DistributedTransactionManager::runPhase2Unlocked(
 
     for (const auto& part : parts) {
         if (!part.callback) {
-            if (!part.endpoint.empty() && remote_phase2_fn_.has_value()) {
-                // Route the phase-2 decision to the remote participant via the
-                // injected transport bridge (stub #279 resolved).
-                const std::string ep  = part.endpoint;
+            // Use the RPC phase-2 bridge when set (stub #279 resolved).
+            if (auto rpc_fn = getRpcPhase2Fn()) {
+                const std::string nid = part.node_id;
                 const std::string tid = txn_id;
-                const bool        commit = do_commit;
-                const RemotePhase2Fn fn = *remote_phase2_fn_;
-                futures.push_back(submitTask([fn, ep, tid, commit]() {
+                const bool commit = do_commit;
+                futures.push_back(submitTask([rpc_fn, nid, tid, commit]() {
                     try {
-                        fn(ep, tid, commit);
+                        rpc_fn(nid, tid, commit);
                     } catch (const std::exception& ex) {
-                        THEMIS_ERROR("2PC remote phase-2 {} threw for endpoint={} txn={}: {}",
-                                     commit ? "COMMIT" : "ABORT", ep, tid, ex.what());
+                        THEMIS_ERROR("RpcPhase2Fn threw for node={} txn={}: {}",
+                                     nid, tid, ex.what());
+                    } catch (...) {
+                        THEMIS_ERROR("RpcPhase2Fn threw unknown exception for node={}", nid);
                     }
                 }));
             } else {
-                // No callback and no remote transport fn injected: log and skip.
-                // Decision is durable in WAL; recoverInDoubtTransactions() can
-                // replay it when the transport becomes available.
-                THEMIS_WARN("runPhase2Unlocked: no phase-2 transport for node='{}' endpoint='{}' "
-                            "(decision={} durable in WAL; not delivered to remote)",
-                            part.node_id, part.endpoint, do_commit ? "COMMIT" : "ABORT");
+                // STUB/SIMULATION NOTE (stub #279):
+                // Purpose: Preserve in-process phase-2 fan-out while the remote
+                //          commit/abort RPC path is still missing.
+                // Activation: Reached when a participant is registered only by
+                //             node/endpoint and provides no local callback and
+                //             no RpcPhase2Fn is injected.
+                // Production Delta: The coordinator durably records COMMIT/ABORT in
+                //                   its own WAL, but the final decision is never
+                //                   delivered to the remote participant. Remote
+                //                   nodes can remain prepared/orphaned until a real
+                //                   transport replays the decision.
+                // Removal Plan: Route phase-2 decisions through shard RPC / mTLS
+                //               transport instead of skipping callback-less
+                //               participants (tracked in STUB_INVENTORY #279).
             }
+            // Skip local-callback path — no callback is available.
             continue;
         }
-
         IDistributedParticipantCallback* cb  = part.callback;
         const std::string                nid = part.node_id;
         const std::string                tid = txn_id;

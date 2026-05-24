@@ -11,7 +11,7 @@
 #include "index/property_graph.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
-#include <nlohmann/json.hpp>
+#include <mutex>
 #include <sstream>
 #include <algorithm>
 #include <unordered_set>
@@ -21,19 +21,77 @@
 
 namespace themis {
 
+// ============================================================================
+// StringArrayFn bridge (stub #292)
+// ============================================================================
+
+namespace {
+    static std::mutex s_string_array_fn_mutex;
+    static std::function<std::vector<std::string>(const std::string&)> s_string_array_fn;
+} // namespace
+
+void PropertyGraphManager::setStringArrayFn(StringArrayFn fn) {
+    std::lock_guard<std::mutex> lock(s_string_array_fn_mutex);
+    s_string_array_fn = std::move(fn);
+}
+
+void PropertyGraphManager::clearStringArrayFn() {
+    std::lock_guard<std::mutex> lock(s_string_array_fn_mutex);
+    s_string_array_fn = nullptr;
+}
+
+static std::function<std::vector<std::string>(const std::string&)> getStringArrayFn() {
+    std::lock_guard<std::mutex> lock(s_string_array_fn_mutex);
+    return s_string_array_fn;
+}
+
 PropertyGraphManager::PropertyGraphManager(RocksDBWrapper& db) : db_(db) {}
 
 // ===== Helper Methods =====
 
 std::vector<std::string> PropertyGraphManager::extractLabels_(const BaseEntity& node) const {
-    // Use getFieldAsStringArray() which handles both JSON-array format
-    // (written by setFieldAsStringArray) and legacy comma-separated strings
-    // (stub #292 resolved).
-    auto arr = node.getFieldAsStringArray("_labels");
-    if (!arr.has_value()) {
-        return {};
+    // Use injected label extraction bridge if available (stub #292).
+    if (auto arr_fn = getStringArrayFn()) {
+        auto pkOpt = node.getFieldAsString("id");
+        std::string node_id = pkOpt.has_value() ? *pkOpt : "";
+        return arr_fn(node_id);
     }
-    return *arr;
+
+    std::vector<std::string> labels;
+    
+    // Try to get _labels field as array
+    auto labelsField = node.getField("_labels");
+    if (!labelsField.has_value()) {
+        return labels;  // No labels
+    }
+
+    // STUB/SIMULATION NOTE (stub #292):
+    // Purpose: Allow label extraction to work without a native string-array type
+    //          in BaseEntity.  Parses the '_labels' field as a comma-separated
+    //          string so that property graph operations compile and run on the
+    //          current storage layer.
+    // Activation: Active when no StringArrayFn is injected via setStringArrayFn().
+    // Production Delta: Labels containing commas are parsed incorrectly; leading/
+    //                   trailing whitespace trimming can silently drop characters if
+    //                   a label is all-whitespace.
+    // Removal Plan: Extend BaseEntity::PropertyValue to include std::vector<std::string>;
+    //               target Q2 2027.
+    auto labelsStr = node.getFieldAsString("_labels");
+    if (labelsStr.has_value()) {
+        std::string labels_str = *labelsStr;
+        std::stringstream ss(labels_str);
+        std::string label;
+        while (std::getline(ss, label, ',')) {
+            // Trim whitespace
+            label.erase(0, label.find_first_not_of(" \t"));
+            label.erase(label.find_last_not_of(" \t") + 1);
+            if (!label.empty()) {
+                labels.push_back(label);
+            }
+        }
+    }
+    
+    return labels;
 }
 
 std::optional<std::string> PropertyGraphManager::extractType_(const BaseEntity& edge) const {

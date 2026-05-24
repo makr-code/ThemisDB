@@ -55,6 +55,46 @@ namespace websocket = beast::websocket;
 class WireProtocolWebSocketSession;
 #endif
 
+// ---------------------------------------------------------------------------
+// GEO_QUERY injection bridge (stub #284 replacement)
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Geospatial query injection bridge for the JSON wire protocol.
+ *
+ * When set via setNetworkGeoQueryFn(), GEO_QUERY messages received on the
+ * JSON wire protocol port are dispatched to this function instead of
+ * returning the hard-coded GEO_NOT_INTEGRATED error.
+ *
+ * The function receives the collection name, centre coordinates (WGS84
+ * decimal degrees), search radius in metres, and result limit.  It must
+ * return a nlohmann::json array of matching document objects.
+ *
+ * Thread-safety: the stored function pointer is protected by an internal
+ * mutex; callers may register/clear the bridge at any time.
+ *
+ * @param collection  Target collection name.
+ * @param lat         Latitude of the search centre (WGS84, decimal degrees).
+ * @param lon         Longitude of the search centre (WGS84, decimal degrees).
+ * @param radius_m    Search radius in metres (>0).
+ * @param limit       Maximum number of results (<=0 means no limit).
+ * @return            JSON array of matching document objects.
+ */
+using GeoQueryFn = std::function<nlohmann::json(
+    const std::string& collection, double lat, double lon,
+    double radius_m, int limit)>;
+
+/**
+ * @brief Register the geospatial query injection bridge.
+ *
+ * Thread-safe.  Replaces any previously registered function.  Pass a
+ * null/empty function to clear the bridge and restore the
+ * GEO_NOT_INTEGRATED fallback behaviour.
+ *
+ * @param fn  Callable to handle GEO_QUERY messages, or nullptr to clear.
+ */
+void setNetworkGeoQueryFn(GeoQueryFn fn);
+
 /**
  * @brief Wire Protocol Server - Binary TCP Protocol
  * 

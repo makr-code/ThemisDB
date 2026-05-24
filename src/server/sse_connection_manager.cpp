@@ -149,13 +149,23 @@ std::vector<std::pair<uint64_t, std::string>> SseConnectionManager::pollEventsWi
             conn->buffered_events.begin(),
             conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
         );
+        // Remove consumed events from both buffers (keep in sync)
         conn->buffered_events.erase(
             conn->buffered_events.begin(),
             conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
         );
-        conn->last_activity = std::chrono::steady_clock::now();
-        total_events_sent_ += events.size();
-        conn->sent_in_window += static_cast<uint32_t>(events.size());
+        {
+            size_t raw_count = std::min(count, conn->buffered_raw_events.size());
+            conn->buffered_raw_events.erase(
+                conn->buffered_raw_events.begin(),
+                conn->buffered_raw_events.begin() + static_cast<std::ptrdiff_t>(raw_count));
+        }
+        if (!events.empty()) {
+            conn->last_activity = std::chrono::steady_clock::now();
+            total_events_sent_ += events.size();
+            conn->sent_in_window += static_cast<uint32_t>(events.size());
+        }
+        
         return events;
     }
 
@@ -165,10 +175,19 @@ std::vector<std::pair<uint64_t, std::string>> SseConnectionManager::pollEventsWi
         conn->buffered_events.begin(),
         conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
     );
+    
+    // Remove consumed events from both buffers (keep in sync)
     conn->buffered_events.erase(
         conn->buffered_events.begin(),
         conn->buffered_events.begin() + static_cast<ptrdiff_t>(count)
     );
+    {
+        size_t raw_count = std::min(count, conn->buffered_raw_events.size());
+        conn->buffered_raw_events.erase(
+            conn->buffered_raw_events.begin(),
+            conn->buffered_raw_events.begin() + static_cast<std::ptrdiff_t>(raw_count));
+    }
+    
     if (!events.empty()) {
         conn->last_activity = std::chrono::steady_clock::now();
         total_events_sent_ += events.size();
@@ -176,17 +195,41 @@ std::vector<std::pair<uint64_t, std::string>> SseConnectionManager::pollEventsWi
     return events;
 }
 
-std::vector<std::string> SseConnectionManager::pollEvents(
+std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
     uint64_t conn_id,
-    size_t max_events
-) {
-    auto seq_events = pollEventsWithSequences(conn_id, max_events);
-    std::vector<std::string> strings;
-    strings.reserve(seq_events.size());
-    for (auto& [seq, line] : seq_events) {
-        strings.push_back(std::move(line));
+    size_t   max_events)
+{
+    std::unique_lock<std::shared_mutex> lock(connections_mutex_);
+
+    auto it = connections_.find(conn_id);
+    if (it == connections_.end() || !it->second->active) {
+        return {};
     }
-    return strings;
+
+    auto& conn = it->second;
+    size_t count = std::min(max_events, conn->buffered_raw_events.size());
+    if (count == 0) return {};
+
+    std::vector<Changefeed::ChangeEvent> raw_events(
+        conn->buffered_raw_events.begin(),
+        conn->buffered_raw_events.begin() + static_cast<std::ptrdiff_t>(count));
+
+    conn->buffered_raw_events.erase(
+        conn->buffered_raw_events.begin(),
+        conn->buffered_raw_events.begin() + static_cast<std::ptrdiff_t>(count));
+
+    // Drain the parallel formatted-string buffer in sync so it doesn't accumulate.
+    // The caller (using raw events for delivery tracking) formats SSE lines itself.
+    {
+        size_t fmt_count = std::min(count, conn->buffered_events.size());
+        conn->buffered_events.erase(
+            conn->buffered_events.begin(),
+            conn->buffered_events.begin() + static_cast<std::ptrdiff_t>(fmt_count));
+    }
+
+    conn->last_activity = std::chrono::steady_clock::now();
+    total_events_sent_ += raw_events.size();
+    return raw_events;
 }
 
 bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
@@ -301,6 +344,8 @@ void SseConnectionManager::backgroundPollTask() {
                     if (config_.drop_oldest_on_overflow) {
                         if (!c.buffered_events.empty()) {
                             c.buffered_events.erase(c.buffered_events.begin());
+                            if (!c.buffered_raw_events.empty())
+                                c.buffered_raw_events.erase(c.buffered_raw_events.begin());
                             c.dropped_events++;
                             total_dropped_events_++;
                         } else {
@@ -313,7 +358,9 @@ void SseConnectionManager::backgroundPollTask() {
 
                 std::string sse_line = "id: " + std::to_string(event.sequence) + "\n";
                 sse_line += "data: " + event.toJson().dump() + "\n\n";
-                c.buffered_events.emplace_back(event.sequence, std::move(sse_line));
+                c.buffered_events.push_back(std::move(sse_line));
+                // Keep raw-event buffer in sync for at-least-once delivery tracking.
+                c.buffered_raw_events.push_back(event);
                 c.current_sequence = std::max(c.current_sequence, event.sequence);
             }
         }

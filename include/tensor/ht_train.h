@@ -46,6 +46,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -197,11 +198,35 @@ struct HTTrain {
     /// Deep-copy the entire HT tree.
     HTTrain clone() const;
 
-private:
-    /// Memoized compatibility conversion result for toTTTrain().
-    mutable std::optional<storage::TTTrain> cached_tt_train_;
-    /// Guards cached_tt_train_ initialization in const toTTTrain().
-    mutable std::mutex cached_tt_train_mutex_;
+    // ─── HTToTT bridge (stub #286) ────────────────────────────────────────────
+
+    /// @brief Type alias for HT-to-TT conversion injection.
+    using HTToTTFn = std::function<storage::TTTrain(const HTTrain&)>;
+
+    /**
+     * @brief Install a HT-to-TT conversion function used by toTTTrain().
+     *
+     * When set, toTTTrain() delegates to this function instead of the
+     * O(∏n_k) full-reconstruction placeholder.
+     * @param fn Callable receiving a const HTTrain reference → TTTrain.
+     */
+    static void setHTToTTFn(HTToTTFn fn) {
+        std::lock_guard<std::mutex> lock(s_ht_to_tt_fn_mutex_);
+        s_ht_to_tt_fn_ = std::move(fn);
+    }
+
+    /**
+     * @brief Remove the HT-to-TT conversion bridge (reverts to placeholder).
+     */
+    static void clearHTToTTFn() {
+        std::lock_guard<std::mutex> lock(s_ht_to_tt_fn_mutex_);
+        s_ht_to_tt_fn_ = nullptr;
+    }
+
+    /// @cond INTERNAL
+    static inline std::mutex s_ht_to_tt_fn_mutex_;
+    static inline HTToTTFn   s_ht_to_tt_fn_;
+    /// @endcond
 };
 
 // ============================================================================

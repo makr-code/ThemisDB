@@ -203,19 +203,25 @@ public:
 
     [[nodiscard]] GraphStats stats() const noexcept;
 
-    /**
-     * @brief Inject an exact-similarity backend for adapter ranking.
-     *
-     * @param fn Callback returning an exact similarity score for
-     *           (query_key, candidate_key). Returning std::nullopt keeps
-     *           fingerprint-cosine fallback for that pair.
-     */
-    void setExactSimilarityFn(ExactSimilarityFn fn);
+    // ─── ExactSimilarity bridge (stub #276) ───────────────────────────────
+
+    /// @brief Type alias for exact-similarity injection.
+    using ExactSimilarityFn = std::function<float(const std::string& key_a,
+                                                   const std::string& key_b)>;
 
     /**
-     * @brief Clear a previously injected exact-similarity backend.
+     * @brief Install an exact-similarity function replacing cosine fingerprint.
+     *
+     * When set, findSimilarByFingerprint() delegates per-pair scoring to this
+     * function instead of computing cosine similarity on stored fingerprints.
+     * @param fn Callable receiving two adapter keys and returning a score in [0, 1].
      */
-    void clearExactSimilarityFn();
+    static void setExactSimilarityFn(ExactSimilarityFn fn);
+
+    /**
+     * @brief Remove the exact-similarity override (reverts to cosine fingerprint).
+     */
+    static void clearExactSimilarityFn();
 
 private:
     /// Compute column means of a TT-core data block.

@@ -32,7 +32,7 @@ size_t VectorAutoBuffer::BufferedOp::estimateVectorSize(const BaseEntity& entity
         if (embedding.has_value()) {
             return embedding->size() * sizeof(float);
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // extractVector() threw (field absent or wrong type); use the caller-
         // supplied fallback dimension rather than a hardcoded constant.
     }

@@ -51,6 +51,7 @@ public:
                 embedding_cache_ = std::make_unique<EmbeddingCache>(embed_config);
             } catch (const std::exception&) {
                 // Fallback to linear search if EmbeddingCache initialization fails
+                spdlog::warn("LLMPrefixCache: EmbeddingCache initialization failed: {}", e.what());
                 embedding_cache_.reset();
             }
         }

@@ -576,16 +576,13 @@ public:
 /**
  * @brief PM_PREDICT_END - Predict process end time
  *
- * Current status: placeholder only. The public AQL symbol exists so callers can
- * build queries against the final API shape, but the predictive backend is not
- * wired yet. The current implementation returns `{"predicted_end": null}` for
- * every call.
+ * Current status: deterministic fallback. Until a predictive backend is wired,
+ * the function returns a case-id-based ETA estimate and confidence envelope.
  *
  * @param case_id  Process case ID whose completion time should eventually be
  *                 forecast once the predictive model is integrated.
- * @return JSON object with a `predicted_end` field. When a PredictEndFn has
- *         been registered via setPredictEndFn(), the field carries the function's
- *         result; otherwise it is `null`.
+ * @return JSON object with `predicted_end`, `remaining_hours`,
+ *         `optimistic_hours`, `pessimistic_hours`, and `confidence`.
  */
 class PmPredictEndFunction : public IFunction {
 public:

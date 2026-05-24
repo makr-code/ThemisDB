@@ -110,7 +110,18 @@ uint32_t crc32Update(uint32_t crc, const uint8_t* data, size_t len) {
 
 json parsePayloadJson(const std::vector<uint8_t>& payload_buffer);
 
+// ---------------------------------------------------------------------------
+// GEO_QUERY injection bridge globals (stub #284 replacement)
+// ---------------------------------------------------------------------------
+std::mutex         g_network_geo_fn_mutex;
+GeoQueryFn         g_network_geo_query_fn;
+
 } // anonymous namespace
+
+void setNetworkGeoQueryFn(GeoQueryFn fn) {
+    std::lock_guard<std::mutex> lock(g_network_geo_fn_mutex);
+    g_network_geo_query_fn = std::move(fn);
+}
 
 // =============================================================================
 // WireProtocolServer Implementation
@@ -1621,9 +1632,6 @@ void WireProtocolServer::Session::handleTransactionAbort() {
     }
 }
 
-// Stub #284 resolved: GRAPH_TRAVERSE and QUERY_AQL use query_engine_ when injected;
-// GEO_QUERY now dispatches via SpatialIndexManager obtained from secondary_index_.
-// Fallback to redirect error only when the respective engine/index is not configured.
 void WireProtocolServer::Session::handleGraphTraverse() {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
     // Expected payload (JSON):
@@ -1982,8 +1990,6 @@ void WireProtocolServer::Session::handleGeoQuery() {
     // GEO_QUERY: geospatial proximity / containment queries.
     // Expected payload (JSON):
     //   {"lat": 48.137, "lon": 11.576, "radius_m": 1000, "collection": "...", "limit": 20}
-    // Dispatches via SpatialIndexManager obtained from secondary_index_.
-    // Falls back to NOT_INTEGRATED error when no spatial index is configured.
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");
         return;
@@ -1998,50 +2004,38 @@ void WireProtocolServer::Session::handleGeoQuery() {
             return;
         }
 
-        // Obtain spatial index from the secondary index manager when available.
-        index::SpatialIndexManager* spatial_idx = nullptr;
-        if (server_->secondary_index_) {
-            spatial_idx = server_->secondary_index_->getSpatialIndexManager();
-        }
+        const double lat      = request.value("lat",      0.0);
+        const double lon      = request.value("lon",      0.0);
+        const double radius_m = request.value("radius_m", 0.0);
+        const int    limit    = request.value("limit",    100);
 
-        if (!spatial_idx) {
+        // Delegate to injected GEO_QUERY bridge when configured.
+        GeoQueryFn geo_fn;
+        {
+            std::lock_guard<std::mutex> lock(g_network_geo_fn_mutex);
+            geo_fn = g_network_geo_query_fn;
+        }
+        if (geo_fn) {
+            json results = geo_fn(collection, lat, lon, radius_m, limit);
             json response;
-            response["success"] = false;
-            response["error_code"] = "GEO_NOT_CONFIGURED";
-            response["error"] = "Geospatial index not configured on this server. "
-                                "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.";
+            response["success"]    = true;
             response["collection"] = collection;
-            std::string rs = response.dump();
-            asyncWriteResponse({rs.begin(), rs.end()});
+            response["results"]    = std::move(results);
+            const std::string response_str = response.dump();
+            asyncWriteResponse(std::vector<uint8_t>(response_str.begin(), response_str.end()));
             return;
         }
 
-        double lat    = request.value("lat", 0.0);
-        double lon    = request.value("lon", 0.0);
-        double radius = request.value("radius_m", 1000.0);
-        size_t limit  = static_cast<size_t>(request.value("limit", 100));
-
-        // SpatialIndexManager::searchNearby takes (table, x=lon, y=lat, radius_m, z, limit).
-        auto results = spatial_idx->searchNearby(collection, lon, lat, radius,
-                                                 std::nullopt, limit);
-
+        // Fallback: geo index bridge not configured — direct clients to REST API.
         json response;
-        response["success"] = true;
+        response["success"]    = false;
+        response["error_code"] = "GEO_NOT_INTEGRATED";
+        response["error"]      = "Geospatial query execution is not yet integrated in the wire protocol. "
+                                 "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.";
         response["collection"] = collection;
-        json hits = json::array();
-        for (const auto& r : results) {
-            json hit;
-            hit["pk"]          = r.primary_key;
-            hit["distance_m"]  = r.distance;
-            hit["lat"]         = r.mbr.miny;
-            hit["lon"]         = r.mbr.minx;
-            hits.push_back(std::move(hit));
-        }
-        response["results"] = std::move(hits);
-        response["count"]   = results.size();
 
-        std::string rs = response.dump();
-        asyncWriteResponse({rs.begin(), rs.end()});
+        const std::string response_str = response.dump();
+        asyncWriteResponse(std::vector<uint8_t>(response_str.begin(), response_str.end()));
     } catch (const json::exception& e) {
         sendError(400, std::string("Invalid JSON in GEO_QUERY payload: ") + e.what());
     } catch (const std::exception& e) {

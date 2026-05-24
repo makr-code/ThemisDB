@@ -135,10 +135,20 @@ TEST_F(VideoProcessorExtendedTest, MultipleInitialization) {
 }
 
 /**
- * @test Test plugin health check
+ * @test Test plugin health check.
+ *
+ * CON-007: In a no-FFmpeg build the processor is initialised but cannot do
+ * real work, so healthCheck() must return false.  In an FFmpeg build it
+ * reflects the initialized_ flag (true after successful initialize()).
  */
 TEST_F(VideoProcessorExtendedTest, HealthCheck) {
+#ifdef THEMIS_HAS_FFMPEG
     EXPECT_TRUE(processor.healthCheck());
+#else
+    // CON-007 fix: no-FFmpeg simulation mode must surface the missing
+    // dependency so health-check aggregators can detect it.
+    EXPECT_FALSE(processor.healthCheck());
+#endif
 }
 
 /**

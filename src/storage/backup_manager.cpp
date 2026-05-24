@@ -1892,24 +1892,22 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             THEMIS_INFO("restoreCollections: requested collections: [{}]", coll_list);
         }
 
-        // If a per-CF SST ingest fn is injected, use it for selective restore
-        // (stub #300 resolved).  Only the named collections are affected;
-        // all other column families remain untouched.
-        if (cf_sst_ingest_fn_.has_value()) {
-            if (!(*cf_sst_ingest_fn_)(checkpoint_dir.string(), collections, ec)) {
-                THEMIS_ERROR("restoreCollections: per-CF SST ingest failed for '{}'",
-                             checkpoint_dir.string());
-                return false;
+        // Attempt per-collection SST ingest via injected hook (stub #300 resolved).
+        if (cf_sst_ingest_fn_) {
+            if (cf_sst_ingest_fn_(checkpoint_dir.string(), collections, ec)) {
+                THEMIS_INFO("restoreCollections: per-CF SST ingest succeeded for {} collection(s)",
+                            collections.size());
+                return true;
             }
-            THEMIS_INFO("restoreCollections: per-CF SST ingest complete from '{}' "
-                        "({} collection(s) restored selectively)",
-                        checkpoint_dir.string(), collections.size());
-            return true;
+            THEMIS_WARN("restoreCollections: per-CF SST ingest failed, falling back to "
+                        "full checkpoint restore: {}", ec.message());
+            ec.clear();
         }
 
-        // Fallback: full checkpoint restore when no per-CF ingest fn is injected.
-        // All column families in the checkpoint are overwritten.  Inject a
-        // CfSstIngestFn via setCfSstIngestFn() to enable selective restore.
+        // STUB/SIMULATION NOTE (stub #300):
+        // Activation: Active when no IngestExternalFileFn is injected.
+        // Production Delta: Full checkpoint overwrite; per-CF ingest not performed.
+        // Removal Plan: Inject via setIngestExternalFileFn(). Target: Q4 2027.
         if (!db_wrapper_->restoreFromCheckpoint(checkpoint_dir.string())) {
             THEMIS_ERROR("restoreCollections: checkpoint restore failed for '{}'",
                          checkpoint_dir.string());

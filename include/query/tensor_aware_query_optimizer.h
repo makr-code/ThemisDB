@@ -178,18 +178,24 @@ public:
      */
     [[nodiscard]] RewriteStats lastStats() const noexcept { return last_stats_; }
 
-    /**
-     * @brief Inject a detector callback for AST/IR-level tensor-function resolution.
-     *
-     * @param fn Callback returning a tensor function name for the given node.
-     *           Returning std::nullopt keeps fallback description scanning.
-     */
-    void setTensorNodeDetectorFn(TensorNodeDetectorFn fn);
+    // ─── AST visitor bridge (stub #275) ──────────────────────────────────────
+
+    /// @brief Type alias for AST visitor injection.
+    using AstVisitorFn = std::function<void(QueryPlanNode&)>;
 
     /**
-     * @brief Clear a previously injected detector callback.
+     * @brief Install an AST visitor called after the description-scan on each node.
+     *
+     * When set, the visitor is invoked depth-first after each node is processed
+     * by the description-scan rewrite pass.  Useful for Phase-3 AQL IR coupling.
+     * @param fn Callable receiving a mutable reference to each visited node.
      */
-    void clearTensorNodeDetectorFn();
+    static void setAstVisitorFn(AstVisitorFn fn);
+
+    /**
+     * @brief Remove the AST visitor (reverts to description-scan only).
+     */
+    static void clearAstVisitorFn();
 
 private:
     void rewriteNode(QueryPlanNode& node);

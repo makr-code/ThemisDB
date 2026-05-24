@@ -176,13 +176,14 @@ std::vector<float> HTTrain::reconstruct() const {
 // ============================================================================
 
 storage::TTTrain HTTrain::toTTTrain() const {
+    // Use injected HT-to-TT conversion bridge if available (stub #286).
     {
-        std::lock_guard<std::mutex> cache_lock(cached_tt_train_mutex_);
-        if (cached_tt_train_.has_value()) {
-            return *cached_tt_train_;
+        std::lock_guard<std::mutex> lock(s_ht_to_tt_fn_mutex_);
+        if (s_ht_to_tt_fn_) {
+            return s_ht_to_tt_fn_(*this);
         }
     }
-
+    // STUB #178: reconstruct dense tensor, re-decompose as TT.
     auto dense = reconstruct();
     storage::TensorTrainConfig cfg;
     cfg.max_rank = max_rank > 0 ? max_rank : 16;
@@ -534,10 +535,7 @@ std::vector<float> HierarchicalTuckerDecomposer::modeKProduct(
     return result;
 }
 
-// ── Truncated SVD (stub #288 resolved) ────────────────────────────────────────
-// Delegates to TensorTrainDecomposer::truncatedSVD() which uses Golub-Reinsch
-// bidiagonalization.  This removes the previous Jacobi EVD implementation that
-// was duplicated across decomposers.
+// ── Truncated SVD ─────────────────────────────────────────────────────────────
 
 void HierarchicalTuckerDecomposer::truncatedSVD(
     const std::vector<float>& mat,
@@ -550,12 +548,13 @@ void HierarchicalTuckerDecomposer::truncatedSVD(
     std::vector<float>&       Vt_out,
     std::size_t&              rank_out)
 {
-    if (m == 0 || n == 0) { rank_out = 0; return; }
-    // Delegate to TensorTrainDecomposer::truncatedSVD() which uses
-    // Golub-Reinsch bidiagonalization — more robust than Jacobi EVD for
-    // ill-conditioned matrices and large ranks (stub #288 resolved).
-    TensorTrainDecomposer::truncatedSVD(mat, m, n, delta, max_rank_cap,
-                                        U_out, S_out, Vt_out, rank_out);
+    // Delegate to the shared Golub-Reinsch (Householder bidiagonalisation) SVD
+    // backend from TensorTrainDecomposer.  This replaces the previous Gram-matrix
+    // Jacobi EVD path, which was O(r³·iter) and numerically inferior for large
+    // rank or ill-conditioned matrices (stub #288 resolved).
+    TensorTrainDecomposer::sharedTruncatedSVD(
+        mat, m, n, delta, max_rank_cap,
+        U_out, S_out, Vt_out, rank_out);
 }
 
 // ── buildHTNode — top-down HT construction ────────────────────────────────────
@@ -781,14 +780,63 @@ HierarchicalTuckerDecomposer::decompose(
         ranks[k]   = r;
     }
 
-    // ── Step 2: Tucker core G = T ×_0 U_0^T … ×_{d-1} U_{d-1}^T ─────────────
-    std::vector<float>        G      = data;
-    std::vector<std::size_t>  G_shape = shape;
+    // ── Step 1b: HOOI refinement — alternating mode-k updates ────────────────
+    // After the one-shot HOSVD initialisation above, iterate over all modes and
+    // recompute each leaf basis U_k from the Tucker-projected tensor Y^(k):
+    //   Y^(k) = T ×_{l≠k} U_l^T   (contract all modes except k)
+    //   mode-k unfolding Y^(k)_(k) ∈ ℝ^{n_k × ∏_{l≠k} r_l}
+    //   U_k = leading r_k left singular vectors of Y^(k)_(k)
+    // Tucker reconstruction error: ‖T - T̃‖_F² = ‖T‖_F² - ‖G‖_F² (U_k orthonormal)
+    // so convergence is checked cheaply without a full tensor reconstruction.
+    // (stub #287 resolved)
+    constexpr int HOOI_MAX_ITER = 20;
+    std::vector<float>       G;
+    std::vector<std::size_t> G_shape;
 
-    for (std::size_t k = 0; k < d; ++k) {
-        G       = modeKProduct(G, G_shape, k, U_cache[k], G_shape[k], ranks[k]);
-        G_shape[k] = ranks[k];
+    for (int hooi_iter = 0; hooi_iter < HOOI_MAX_ITER; ++hooi_iter) {
+        for (std::size_t k = 0; k < d; ++k) {
+            // Compute Y^(k) = T ×_{l≠k} U_l^T
+            std::vector<float>       Y   = data;
+            std::vector<std::size_t> Ysh = shape;
+            for (std::size_t l = 0; l < d; ++l) {
+                if (l == k) continue;
+                Y      = modeKProduct(Y, Ysh, l, U_cache[l], Ysh[l], ranks[l]);
+                Ysh[l] = ranks[l];
+            }
+            // Mode-k unfolding: Y^(k)_(k) ∈ ℝ^{n_k × ∏_{l≠k} r_l}
+            std::size_t nk      = shape[k];   // Ysh[k] = shape[k] (untouched)
+            std::size_t n_other = 1;
+            for (std::size_t l = 0; l < d; ++l)
+                if (l != k) n_other *= Ysh[l];
+            auto Yk = modeKUnfolding(Y, Ysh, k);   // [nk × n_other]
+
+            std::vector<float> U_new, S_new, Vt_new;
+            std::size_t r_new = 0;
+            truncatedSVD(Yk, nk, n_other, leaf_delta, cfg_.max_rank,
+                         U_new, S_new, Vt_new, r_new);
+            U_cache[k] = std::move(U_new);
+            ranks[k]   = r_new;
+        }
+
+        // Recompute Tucker core for convergence check:
+        // ‖T - T̃‖_F² = ‖T‖_F² - ‖G‖_F²  (exact for orthonormal U_k)
+        G      = data;
+        G_shape = shape;
+        for (std::size_t k = 0; k < d; ++k) {
+            G         = modeKProduct(G, G_shape, k, U_cache[k], G_shape[k], ranks[k]);
+            G_shape[k] = ranks[k];
+        }
+
+        if (orig_norm > 0.0) {
+            double G_sq = 0.0;
+            for (float v : G) G_sq += static_cast<double>(v) * v;
+            double achieved = std::sqrt(std::max(0.0, total_sq - G_sq)) / orig_norm;
+            if (achieved <= cfg_.eps) break;
+        } else {
+            break;  // Zero tensor: trivially converged
+        }
     }
+    // G and G_shape now hold the final Tucker core from the last HOOI iteration.
     // G now has shape [r_0, ..., r_{d-1}]
 
     // ── Step 2b: HOOI refinement (stub #287 resolved) ─────────────────────────

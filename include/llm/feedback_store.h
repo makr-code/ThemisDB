@@ -236,6 +236,25 @@ public:
     static ValidationStatus validateFeedback(const FeedbackEntry& feedback);
 
     /**
+     * @brief Type alias for injecting a dynamic spam keyword list.
+     */
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+
+    /**
+     * @brief Install a runtime spam keywords provider.
+     *
+     * When set, getSpamKeywords() returns the result of this callable instead
+     * of the built-in static list, enabling runtime keyword updates.
+     * @param fn Callable returning a vector of lowercase spam keyword strings.
+     */
+    static void setSpamKeywordsProviderFn(SpamKeywordsProviderFn fn);
+
+    /**
+     * @brief Remove the spam keywords provider bridge (reverts to static list).
+     */
+    static void clearSpamKeywordsProviderFn();
+
+    /**
      * @brief Clear all feedback entries
      */
     void clear();
@@ -314,8 +333,8 @@ private:
     std::string generateId() const;
     
     static bool isLikelySpam(const std::string& text);
-    
-    // Helper: Apply plugin validation if available; may modify feedback on MODIFY result
+
+    // Helper: Apply plugin validation if available; may sanitize feedback.
     ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 

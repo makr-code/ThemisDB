@@ -1,9 +1,27 @@
+// THEMIS_GAP_STATS: gaps=8 unimpl=1 stub=2 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-19
 /*
- * ThemisDB | File: video_processor.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 85/100
- * Gap Summary: total=11; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=7, Debt=0, C=13, H=175, M=36, L=0
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            video_processor.cpp                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   68.0/100                                       ║
+    • Total Lines:     997                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d275653619  2026-04-14  update after codefindings               ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
  */
 
 /**
@@ -18,7 +36,7 @@
 #define THEMIS_PLUGIN_EXPORTS
 
 #include "content/video_processor.h"
-
+#include <exception>
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -307,8 +325,9 @@ bool VideoProcessor::healthCheck() const {
     // Check if FFmpeg libraries are properly loaded
     return initialized_;
 #else
-    // Simulation mode - always healthy
-    return initialized_;
+    // Without FFmpeg the processor is initialised but cannot do real work;
+    // report unhealthy so health-check aggregators surface the missing dependency.
+    return false;
 #endif
 }
 
@@ -327,7 +346,22 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t> &
 #ifdef THEMIS_HAS_FFMPEG
     return extractMetadataFFmpeg(blob);
 #else
-    // Fallback to simulation mode
+    // STUB/SIMULATION NOTE:
+    // Purpose: Return a plausible MediaExtractionData structure when compiled
+    //          without FFmpeg (THEMIS_HAS_FFMPEG not defined).  Allows the
+    //          content pipeline to exercise the video-processing code path in
+    //          unit-test and development environments that lack FFmpeg.
+    // Activation: THEMIS_HAS_FFMPEG is NOT defined at compile time.
+    // Production Delta: Duration, resolution, bitrate, and codec fields are
+    //                   static placeholder values (120 s, 1920×1080, 5000 kbps,
+    //                   H.264/AAC) rather than actual values decoded from the
+    //                   container.  Container format is inferred from the first
+    //                   12 bytes only; codec detection is approximate.
+    // Removal Plan: Build with -DTHEMIS_HAS_FFMPEG=ON and link
+    //               libavformat/libavcodec; the real extractMetadataFFmpeg()
+    //               path above this #else is then used.
+    //               See src/content/ROADMAP.md § "Long-term: Video frame extraction"
+    //               and src/content/FUTURE_ENHANCEMENTS.md § "Video Processing".
     MediaExtractionData data;
 
     // Analyze blob header to detect format
@@ -338,24 +372,18 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t> &
             data.video_codec      = "h264";
             data.audio_codec      = "aac";
         }
-        // WebM detection
+        // WebM detection (EBML magic bytes)
         else if (blob[0] == 0x1A && blob[1] == 0x45 && blob[2] == 0xDF && blob[3] == 0xA3) {
             data.container_format = "webm";
             data.video_codec      = "vp9";
             data.audio_codec      = "opus";
         }
-        // MKV detection
-        else if (blob[0] == 0x1A && blob[1] == 0x45 && blob[2] == 0xDF && blob[3] == 0xA3) {
-            data.container_format = "matroska";
-            data.video_codec      = "h265";
-            data.audio_codec      = "aac";
-        }
     }
-
-    // Simulated metadata (would be extracted from streams)
-    data.duration_ms  = 120000; // 2 minutes
-    data.width        = 1920;
-    data.height       = 1080;
+    
+    // Placeholder metadata (static values — not decoded from container)
+    data.duration_ms = 120000;  // 2 minutes (placeholder)
+    data.width = 1920;
+    data.height = 1080;
     data.bitrate_kbps = 5000;
     data.framerate    = 30.0;
     data.sample_rate  = 48000;
@@ -523,8 +551,8 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
         // Cleanup
         avformat_close_input(&fmt_ctx);
         std::filesystem::remove(temp_path);
-
-    } catch (const std::exception &) {
+        
+    } catch (const std::exception&) {
         // Ensure temp file is cleaned up
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
@@ -686,9 +714,12 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
                           rgb_frame->linesize);
 
                 // Copy RGB data - optimize for case without padding
-                thumbnail.resize(thumb_width * thumb_height * 3);
-                uint8_t *dst       = thumbnail.data();
-                const uint8_t *src = rgb_frame->data[0];
+                // Cast to size_t before multiplying to prevent signed-int overflow
+                // when caller configures unusually large thumbnail dimensions (CON-027).
+                thumbnail.resize(static_cast<size_t>(thumb_width) *
+                                 static_cast<size_t>(thumb_height) * 3u);
+                uint8_t* dst = thumbnail.data();
+                const uint8_t* src = rgb_frame->data[0];
                 const int row_size = thumb_width * 3;
 
                 if (rgb_frame->linesize[0] == row_size) {
@@ -712,8 +743,8 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
         avcodec_free_context(&codec_ctx);
         avformat_close_input(&fmt_ctx);
         std::filesystem::remove(temp_path);
-
-    } catch (const std::exception &) {
+        
+    } catch (const std::exception&) {
         // Ensure temp file is cleaned up
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
@@ -789,7 +820,7 @@ std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<ui
         av_packet_free(&packet);
         avformat_close_input(&fmt_ctx);
         std::filesystem::remove(temp_path);
-    } catch (const std::exception &) {
+    } catch (const std::exception&) {
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
         }
@@ -936,7 +967,7 @@ std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_
         avcodec_free_context(&codec_ctx);
         avformat_close_input(&fmt_ctx);
         std::filesystem::remove(temp_path);
-    } catch (const std::exception &) {
+    } catch (const std::exception&) {
         if (std::filesystem::exists(temp_path)) {
             std::filesystem::remove(temp_path);
         }

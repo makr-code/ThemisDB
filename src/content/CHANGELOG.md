@@ -19,6 +19,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Reliability hardening block: removed remaining catch-all handlers in `content_manager.cpp` whitelist/filter scan and duplicate-hash lookup paths; fixed invalid filter logging context and kept fail-closed behavior.
 - Reliability hardening block: replaced catch-all handlers in `content_fs.cpp` metadata decode/remove cleanup paths and `embedding_pipeline.cpp` timeout-get path with typed `std::exception` handlers.
 
+### Fixed
+- **CON-033 — Reliability hardening (`content_fs.cpp`, `embedding_pipeline.cpp`)**
+  - Replaced remaining broad `catch (...)` handlers with typed `catch (const std::exception&)` in:
+    - content metadata decode/remove paths (`ContentFS::put/get/getRange/head/remove`)
+    - embedding timeout result path (`EmbeddingPipeline::embedWithTimeout`)
+  - Runtime behavior preserved: metadata failures still map to storage corruption errors, best-effort cleanup remains non-fatal, and embedding failures still degrade to empty-vector fallback with failure metric update.
+- **CON-034 — Reliability hardening (`archive_processor.cpp`, `video_processor.cpp`, `geo_processor.cpp`, `html_processor.cpp`)**
+  - Replaced remaining broad `catch (...)` handlers with typed `catch (const std::exception&)` in:
+    - archive temp-write/TAR parse/create-directories guard paths (`ArchiveProcessor`)
+    - FFmpeg cleanup paths for metadata/thumbnail/keyframes/scenes (`VideoProcessor`)
+    - GDAL cleanup paths for shapefile/geopackage/geotiff (`GeoProcessor`)
+    - numeric HTML entity decode fallback (`HtmlProcessor::decodeEntities`)
+  - Runtime behavior preserved: existing cleanup/rethrow semantics and non-fatal parser fallbacks remain unchanged.
+
 ## [1.7.0] — 2026-03-09
 ### Added
 - Zip-bomb protection in `content_security.cpp`: max 100× decompression ratio, max 1000 entries (CON-006)

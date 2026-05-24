@@ -23,12 +23,36 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
-#include <optional>
+#include <mutex>
 #include <sstream>
 #include <string>
 
 namespace themis {
 namespace query {
+
+// ============================================================================
+// AST visitor bridge (stub #275)
+// ============================================================================
+
+namespace {
+    static std::mutex s_ast_visitor_fn_mutex;
+    static TensorAwareQueryOptimizer::AstVisitorFn s_ast_visitor_fn;
+} // namespace
+
+void TensorAwareQueryOptimizer::setAstVisitorFn(AstVisitorFn fn) {
+    std::lock_guard<std::mutex> lock(s_ast_visitor_fn_mutex);
+    s_ast_visitor_fn = std::move(fn);
+}
+
+void TensorAwareQueryOptimizer::clearAstVisitorFn() {
+    std::lock_guard<std::mutex> lock(s_ast_visitor_fn_mutex);
+    s_ast_visitor_fn = nullptr;
+}
+
+static TensorAwareQueryOptimizer::AstVisitorFn getAstVisitorFn() {
+    std::lock_guard<std::mutex> lock(s_ast_visitor_fn_mutex);
+    return s_ast_visitor_fn;
+}
 
 // ============================================================================
 // Static data
@@ -175,6 +199,11 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
     // Recurse into children.
     for (auto& child : node.children) {
         if (child) rewriteNode(*child);
+    }
+
+    // Invoke the injected AST visitor (bridge injected; fn-based path available).
+    if (auto visitor = getAstVisitorFn()) {
+        visitor(node);
     }
 }
 

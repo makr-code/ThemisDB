@@ -21,6 +21,7 @@
 
 #include "content/html_processor.h"
 
+#include <exception>
 #include <algorithm>
 #include <cctype>
 #include <cmath>
@@ -632,4 +633,3 @@ std::unique_ptr<IContentProcessor> createHtmlProcessor(HtmlProcessor::Config con
 
 } // namespace content
 } // namespace themis
-

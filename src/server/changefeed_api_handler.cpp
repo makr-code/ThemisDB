@@ -427,14 +427,32 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         // Production streaming path via SSE manager (only when enabled)
 #ifdef THEMIS_ENABLE_SSE
         if (keep_alive && sse_manager_) {
-            // Stub #305 resolved: SSE keep-alive path now uses pollEventsWithSequences()
-            // to obtain per-event sequence numbers and feeds them to delivery_tracker_
-            // when a consumer_id is present, enabling at-least-once delivery tracking.
+            // SSE keep-alive path: poll raw ChangeEvent objects from SseConnectionManager
+            // and write pre-formatted SSE lines into the bounded response body.
+            // At-least-once delivery: when consumer_id is provided, raw events are
+            // tracked via delivery_tracker_ so unacknowledged events are redelivered
+            // on the next request (POST /changefeed/stream/ack closes the window).
+            //
+            // Note: This handler uses a synchronous, bounded-response pattern
+            // (http::string_body).  True async push streaming (chunked transfer
+            // with incremental Beast async writes) requires architectural changes
+            // to the HTTP server and is tracked in
+            // src/server/FUTURE_ENHANCEMENTS.md §Server-Sent Events (SSE) Improvements.
             
             uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix, event_types);
             span.setAttribute("sse.connection_id", static_cast<int64_t>(conn_id));
             span.setAttribute("sse.consumer_id", consumer_id);
-            
+
+            // Prepend any pending redelivery events from a previous window
+            if (!consumer_id.empty()) {
+                auto redelivery = delivery_tracker_.getPendingRedelivery(
+                    consumer_id, ack_timeout_override);
+                for (const auto& ev : redelivery) {
+                    body << "id: " << ev.sequence << "\n";
+                    body << "data: " << ev.toJson().dump() << "\n\n";
+                }
+            }
+
             // Stream events for limited duration (configurable for tests)
             auto start = std::chrono::steady_clock::now();
             const auto max_duration = std::chrono::seconds(max_seconds);
@@ -443,24 +461,19 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             
             auto last_hb = start;
             while (std::chrono::steady_clock::now() - start < max_duration) {
-                // Poll events with sequence numbers for at-least-once tracking.
-                auto seq_lines = sse_manager_->pollEventsWithSequences(conn_id, max_events_per_poll);
+                // Poll raw ChangeEvent objects — enables at-least-once tracking
+                // and SSE formatting without fragile string parsing.
+                auto raw_events = sse_manager_->pollRawEvents(conn_id, max_events_per_poll);
                 
-                if (!seq_lines.empty()) {
-                    // Build minimal ChangeEvent list for delivery tracking.
-                    if (!consumer_id.empty()) {
-                        std::vector<Changefeed::ChangeEvent> tracked_events;
-                        tracked_events.reserve(seq_lines.size());
-                        for (const auto& [seq, line] : seq_lines) {
-                            Changefeed::ChangeEvent ev;
-                            ev.sequence = seq;
-                            tracked_events.push_back(ev);
-                        }
-                        delivery_tracker_.trackDelivery(consumer_id, tracked_events);
-                    }
-                    for (const auto& [seq, event_line] : seq_lines) {
-                        body << event_line;
+                if (!raw_events.empty()) {
+                    for (const auto& ev : raw_events) {
+                        body << "id: " << ev.sequence << "\n";
+                        body << "data: " << ev.toJson().dump() << "\n\n";
                         total_events++;
+                    }
+                    // Track delivery for at-least-once guarantee
+                    if (!consumer_id.empty()) {
+                        delivery_tracker_.trackDelivery(consumer_id, raw_events);
                     }
                 } else {
                     bool sent_hb = false;

@@ -1058,11 +1058,8 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
 
     auto toDoubleVec = [&](const std::string &s) -> std::vector<double> {
         std::vector<double> v;
-        for (const auto &t : splitComma(s)) {
-            try {
-                v.push_back(std::stod(t));
-            } catch (...) {
-            }
+        for (const auto& t : splitComma(s)) {
+            try { v.push_back(std::stod(t)); } catch (const std::exception&) {}
         }
         return v;
     };
@@ -1102,8 +1099,14 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
             } else if (key == "iqr") {
                 det.impl_->iqr = toDoubleVec(val);
             }
-        } catch (...) { /* skip malformed line */
-        }
+            else if (key == "means")   det.impl_->means   = toDoubleVec(val);
+            else if (key == "stddevs") det.impl_->stddevs = toDoubleVec(val);
+            else if (key == "medians") det.impl_->medians = toDoubleVec(val);
+            else if (key == "mads")    det.impl_->mads    = toDoubleVec(val);
+            else if (key == "q1")      det.impl_->q1      = toDoubleVec(val);
+            else if (key == "q3")      det.impl_->q3      = toDoubleVec(val);
+            else if (key == "iqr")     det.impl_->iqr     = toDoubleVec(val);
+        } catch (const std::exception&) { /* skip malformed line */ }
     }
     return det;
 }
@@ -1210,8 +1213,7 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
                     // O(1) pointer swap under brief exclusive lock
                     std::unique_lock<std::shared_mutex> dl(detector_mu_);
                     detector_ = std::move(tmp);
-                } catch (...) {
-                }
+                } catch (const std::exception&) {}
             }
             retraining_.store(false, std::memory_order_release);
         }
@@ -1233,24 +1235,24 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
         } else {
             auto buf = snapshotWindow(); // brief shared_lock<window_mu_>
             auto dc  = makeDetectorConfig();
-            retrain_future_
-                = std::async(std::launch::async, [this, buf = std::move(buf), dc = std::move(dc)]() mutable {
-                      // train() is the long O(N·T)/O(N²) work — run with NO lock.
-                      // Even if stopping_ becomes true mid-flight, the destructor's
-                      // retrain_future_.wait() ensures this lambda completes before
-                      // any member is destroyed — no use-after-free.
-                      if (!stopping_.load(std::memory_order_acquire)) {
-                          try {
-                              AnomalyDetector tmp(dc);
-                              tmp.train(buf); // off-lock (O(N·T)/O(N²))
-                              // O(1) Pimpl pointer swap under brief exclusive lock
-                              std::unique_lock<std::shared_mutex> dl(detector_mu_);
-                              detector_ = std::move(tmp);
-                          } catch (...) {
-                          }
-                      }
-                      retraining_.store(false, std::memory_order_release);
-                  });
+            retrain_future_ = std::async(
+                std::launch::async,
+                [this, buf = std::move(buf), dc = std::move(dc)]() mutable {
+                    // train() is the long O(N·T)/O(N²) work — run with NO lock.
+                    // Even if stopping_ becomes true mid-flight, the destructor's
+                    // retrain_future_.wait() ensures this lambda completes before
+                    // any member is destroyed — no use-after-free.
+                    if (!stopping_.load(std::memory_order_acquire)) {
+                        try {
+                            AnomalyDetector tmp(dc);
+                            tmp.train(buf);           // off-lock (O(N·T)/O(N²))
+                            // O(1) Pimpl pointer swap under brief exclusive lock
+                            std::unique_lock<std::shared_mutex> dl(detector_mu_);
+                            detector_ = std::move(tmp);
+                        } catch (const std::exception&) {}
+                    }
+                    retraining_.store(false, std::memory_order_release);
+                });
         }
     }
 
@@ -1263,7 +1265,7 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
         }
         try {
             result = detector_.predict(point);
-        } catch (...) {
+        } catch (const std::exception&) {
             return std::nullopt;
         }
     }

@@ -228,6 +228,9 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("S3 delete callback failed: {}", e.what());
                 return false;
+            } catch (...) {
+                THEMIS_ERROR("S3 delete callback failed: unknown error");
+                return false;
             }
         }
 
@@ -267,6 +270,9 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("S3 list callback failed: {}", e.what());
                 return {};
+            } catch (...) {
+                THEMIS_ERROR("S3 list callback failed: unknown error");
+                return {};
             }
         }
 
@@ -295,6 +301,9 @@ public:
                 return fn(bucket_, remote_path);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("S3 exists callback failed: {}", e.what());
+                return false;
+            } catch (...) {
+                THEMIS_ERROR("S3 exists callback failed: unknown error");
                 return false;
             }
         }
@@ -349,6 +358,23 @@ public:
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
                [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
+        AzureUploadFn fn;
+        {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            fn = g_azure_upload_fn;
+        }
+        if (fn) {
+            try {
+                return fn(account_name_, container_, local_path, remote_path, metadata);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Azure upload callback failed: {}", e.what());
+                return false;
+            } catch (...) {
+                THEMIS_ERROR("Azure upload callback failed: unknown error");
+                return false;
+            }
+        }
+
         // STUB/SIMULATION NOTE (AzureStorageProvider::upload):
         // Purpose: Keep Azure upload call-flow available in builds without linked
         //          azure-storage-blobs-cpp client.
@@ -405,9 +431,12 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Azure download callback failed: {}", e.what());
                 return false;
+            } catch (...) {
+                THEMIS_ERROR("Azure download callback failed: unknown error");
+                return false;
             }
         }
-        
+         
         THEMIS_INFO("Azure download (placeholder): {}/{}/{} -> {}", 
                    account_name_, container_, remote_path, local_path);
         THEMIS_WARN("Using placeholder Azure implementation - real SDK integration planned for v1.4.0");
@@ -437,6 +466,9 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Azure delete callback failed: {}", e.what());
                 return false;
+            } catch (...) {
+                THEMIS_ERROR("Azure delete callback failed: unknown error");
+                return false;
             }
         }
 
@@ -464,6 +496,9 @@ public:
                 return fn(account_name_, container_, prefix);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Azure list callback failed: {}", e.what());
+                return {};
+            } catch (...) {
+                THEMIS_ERROR("Azure list callback failed: unknown error");
                 return {};
             }
         }
@@ -493,6 +528,9 @@ public:
                 return fn(account_name_, container_, remote_path);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Azure exists callback failed: {}", e.what());
+                return false;
+            } catch (...) {
+                THEMIS_ERROR("Azure exists callback failed: unknown error");
                 return false;
             }
         }
@@ -555,6 +593,9 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("GCS upload callback failed: {}", e.what());
                 return false;
+            } catch (...) {
+                THEMIS_ERROR("GCS upload callback failed: unknown error");
+                return false;
             }
         }
 
@@ -598,6 +639,9 @@ public:
                 return fn(bucket_, remote_path, local_path);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("GCS download callback failed: {}", e.what());
+                return false;
+            } catch (...) {
+                THEMIS_ERROR("GCS download callback failed: unknown error");
                 return false;
             }
         }
@@ -679,6 +723,9 @@ public:
             } catch (const std::exception& e) {
                 THEMIS_ERROR("GCS list callback failed: {}", e.what());
                 return {};
+            } catch (...) {
+                THEMIS_ERROR("GCS list callback failed: unknown error");
+                return {};
             }
         }
 
@@ -707,6 +754,9 @@ public:
                 return fn(bucket_, remote_path);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("GCS exists callback failed: {}", e.what());
+                return false;
+            } catch (...) {
+                THEMIS_ERROR("GCS exists callback failed: unknown error");
                 return false;
             }
         }

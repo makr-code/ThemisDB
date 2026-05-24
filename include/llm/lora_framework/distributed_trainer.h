@@ -208,20 +208,20 @@ public:
      */
     void setBroadcastFn(BroadcastFn fn);
 
+    // ─── AllReduceCpu bridge (stub #290) ─────────────────────────────────────
+
+    /// @brief Type alias for all-reduce collective injection.
+    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
+
     /**
-     * @brief Inject a real CPU-side gradient AllReduce (MPI/Gloo).
+     * @brief Inject a real all-reduce implementation (MPI/Gloo/custom).
      *
-     * When set, allreduce_cpu() delegates to this function instead of
-     * the local scale-only fallback.  The function must perform the
-     * sum-and-divide-by-world-size reduction in-place across all ranks.
-     * Pass an empty function to revert to the local fallback.
-     *
-     * @param fn Callable that performs the actual AllReduce in-place.
+     * When set, allreduce_cpu() delegates gradient summation to this function
+     * instead of the local-only scale fallback.  Enables true multi-node
+     * gradient averaging without an NCCL/MPI build dependency.
+     * @param fn Callable that all-reduces data in-place across all ranks.
      */
     void setAllReduceCpuFn(AllReduceCpuFn fn);
-
-    /// Clear the injected AllReduce implementation (reverts to local scaling).
-    void clearAllReduceCpuFn();
     
     /**
      * @brief Get distributed configuration
@@ -282,7 +282,7 @@ private:
 
     std::optional<BarrierFn>      barrier_fn_;
     std::optional<BroadcastFn>    broadcast_fn_;
-    std::optional<AllReduceCpuFn> allreduce_cpu_fn_;
+    std::optional<AllReduceCpuFn> allreduce_fn_;
 };
 
 /**

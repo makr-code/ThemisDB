@@ -18,6 +18,7 @@
 #define THEMIS_PLUGIN_EXPORTS
 
 #include "content/geo_processor.h"
+#include <exception>
 #include <algorithm>
 #include <cmath>
 #include <sstream>
@@ -907,4 +908,3 @@ THEMIS_CONTENT_PLUGIN(GeoProcessor)
 
 } // namespace content
 } // namespace themis
-

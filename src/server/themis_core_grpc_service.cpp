@@ -141,9 +141,6 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
         } catch (const std::exception& e) {
             THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: {}", e.what());
             service_ptr_ = nullptr;
-        } catch (...) {
-            THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: unknown error");
-            service_ptr_ = nullptr;
         }
     }
 #endif

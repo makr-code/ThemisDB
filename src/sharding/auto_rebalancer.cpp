@@ -320,7 +320,7 @@ bool AutoRebalancer::executeRebalance(const LoadImbalanceResult::RebalanceRecomm
     
     // Sign operation
     std::string signature = signOperation(op_id);
-    if (signature.rfind("SIGNATURE:", 0) != 0) {
+    if (signature.empty()) {
         THEMIS_ERROR("Failed to sign rebalance operation: {}", op_id);
         span.recordError("Operation signing failed");
         return false;
@@ -377,7 +377,7 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
 
     // Load private key from operator certificate
     if (config_.operator_key_path.empty()) {
-        THEMIS_ERROR("AutoRebalancer: No operator key configured");
+        THEMIS_ERROR("AutoRebalancer: No operator key configured; refusing unsigned operation");
         return {};
     }
     

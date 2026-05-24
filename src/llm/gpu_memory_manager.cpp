@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <cstring>
 #include <unordered_set>
+#include <cmath>
 
 // Include actual CUDA headers when CUDA support is built
 #ifdef THEMIS_ENABLE_CUDA
@@ -93,8 +94,6 @@ public:
             }
         } catch (const std::exception& e) {
             spdlog::error("Exception during memory cleanup: {}", e.what());
-        } catch (...) {
-            spdlog::error("Unknown exception during memory cleanup");
         }
     }
     
@@ -1304,6 +1303,16 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
     return true;
 }
 
+void GPUMemoryManager::setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    temperature_provider_fn_ = std::move(fn);
+}
+
+void GPUMemoryManager::clearGPUTemperatureProviderFn() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    temperature_provider_fn_ = nullptr;
+}
+
 // GPU Health Monitoring Implementation
 
 GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats(int gpu_device_id) const {
@@ -1675,29 +1684,38 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
     if (gpu_available_) {
         CUDA_CHECK(cudaSetDevice(gpu_device_id));
 
-        float temperature_celsius = 0.0f;
-        if (config_.temperature_provider_fn) {
-            try {
-                if (config_.temperature_provider_fn(gpu_device_id, temperature_celsius)) {
-                    gpu_temperatures_[gpu_device_id] = temperature_celsius;
-                } else {
-                    gpu_temperatures_[gpu_device_id] = 0.0f;
-                }
-            } catch (const std::exception& e) {
-                spdlog::error("GPU temperature callback failed for device {}: {}",
-                              gpu_device_id, e.what());
-                gpu_temperatures_[gpu_device_id] = 0.0f;
-            }
-        } else {
-            gpu_temperatures_[gpu_device_id] = 0.0f;
-        }
-        
         // Get memory info for utilization
         size_t free_mem, total_mem;
         CUDA_CHECK(cudaMemGetInfo(&free_mem, &total_mem));
         size_t used_mem = total_mem - free_mem;
         float utilization = static_cast<float>(used_mem) / total_mem * 100.0f;
         gpu_utilizations_[gpu_device_id] = utilization;
+
+        // Prefer injected runtime telemetry provider (e.g. NVML bridge).
+        float temperature = 45.0f + (utilization * 0.4f);  // Safe fallback estimate
+        GPUTemperatureProviderFn temperature_provider;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            temperature_provider = temperature_provider_fn_;
+        }
+        if (temperature_provider) {
+            try {
+                float provided_temp = temperature_provider(gpu_device_id);
+                if (std::isfinite(provided_temp) && provided_temp >= 0.0f) {
+                    temperature = provided_temp;
+                } else {
+                    spdlog::warn("GPUMemoryManager: Invalid temperature {} for GPU {}, using fallback",
+                                 provided_temp, gpu_device_id);
+                }
+            } catch (const std::exception& e) {
+                spdlog::error("GPUMemoryManager: Temperature provider failed for GPU {}: {}",
+                              gpu_device_id, e.what());
+            } catch (...) {
+                spdlog::error("GPUMemoryManager: Temperature provider failed for GPU {}: unknown error",
+                              gpu_device_id);
+            }
+        }
+        gpu_temperatures_[gpu_device_id] = temperature;
     }
 #else
     // Simulation mode - calculate based on allocations

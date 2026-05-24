@@ -60,7 +60,7 @@ public:
     
     InferenceResponse generateRAG(const RAGContext& context, 
                                    const InferenceRequest& request) override {
-        static_cast<void>(context);
+        (void)context;
         return generate(request);
     }
 
@@ -196,7 +196,7 @@ public:
         return generate(req);
     }
     std::vector<float> embed(const std::string& text) override {
-        static_cast<void>(text);
+        (void)text;
         return std::vector<float>(8, 0.0f);
     }
     LLMCapabilities getCapabilities() const override { return {}; }

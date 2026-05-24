@@ -37,12 +37,9 @@ TimeSeriesApiHandler::TimeSeriesApiHandler(
 {
 }
 
-void TimeSeriesApiHandler::setAggregateTypesProvider(AggregateTypesProviderFn fn) {
-    aggregate_types_provider_ = std::move(fn);
-}
-
-void TimeSeriesApiHandler::setRetentionPoliciesProvider(RetentionPoliciesProviderFn fn) {
-    retention_policies_provider_ = std::move(fn);
+void TimeSeriesApiHandler::setRetentionPoliciesProviderFn(RetentionPoliciesProviderFn fn) {
+    std::lock_guard<std::mutex> lock(retentionPoliciesMutex_);
+    retentionPoliciesFn_ = std::move(fn);
 }
 
 http::response<http::string_body> TimeSeriesApiHandler::handlePut(
@@ -399,20 +396,19 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
-        // Query the injected aggregate-types provider when available (stub #301 resolved).
-        // Fall back to the static built-in list when no provider is wired.
-        nlohmann::json aggregates;
-        if (aggregate_types_provider_) {
-            try {
-                aggregates = aggregate_types_provider_();
-            } catch (const std::exception& ex) {
-                THEMIS_WARN("aggregate_types_provider threw: {}; using static list", ex.what());
-                aggregates = nlohmann::json::array({"min", "max", "avg", "sum", "count"});
-            }
-        } else {
-            aggregates = nlohmann::json::array({"min", "max", "avg", "sum", "count"});
+        // Build aggregate list from two sources:
+        //   1. Continuous aggregates registered in agg_manager (user-defined).
+        //   2. Built-in point-aggregate functions always supported by TSStore.
+        nlohmann::json agg_list = nlohmann::json::array();
+
+        (void)agg_manager_;
+
+        // Built-in TSStore::AggregationResult fields — always available.
+        for (const char* builtin : {"min", "max", "avg", "sum", "count"}) {
+            agg_list.push_back(builtin);
         }
-        nlohmann::json response = {{"aggregates", aggregates}};
+
+        nlohmann::json response = {{"aggregates", agg_list}};
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {
@@ -426,19 +422,23 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
-        // Query the injected retention-policies provider when available (stub #301 resolved).
-        // Fall back to an empty array when no provider is wired.
-        nlohmann::json policies;
-        if (retention_policies_provider_) {
-            try {
-                policies = retention_policies_provider_();
-            } catch (const std::exception& ex) {
-                THEMIS_WARN("retention_policies_provider threw: {}; returning empty list", ex.what());
-                policies = nlohmann::json::array();
-            }
-        } else {
-            policies = nlohmann::json::array();
+        // Use injected retention-policy provider if available (stub #301 resolved).
+        RetentionPoliciesProviderFn fn;
+        {
+            std::lock_guard<std::mutex> lock(retentionPoliciesMutex_);
+            fn = retentionPoliciesFn_;
         }
+
+        nlohmann::json policies = nlohmann::json::array();
+        if (fn) {
+            for (auto& policy : fn()) {
+                policies.push_back(std::move(policy));
+            }
+        }
+        // When no provider is injected the list is intentionally empty: the
+        // TSStore does not maintain a centralised retention-policy catalog yet.
+        // Callers may inject a provider via setRetentionPoliciesProviderFn().
+
         nlohmann::json response = {{"policies", policies}};
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);

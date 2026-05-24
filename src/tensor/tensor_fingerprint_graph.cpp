@@ -24,12 +24,37 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <mutex>
 #include <numeric>
 #include <shared_mutex>
 #include <utility>
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// ExactSimilarity bridge (stub #276)
+// ============================================================================
+
+namespace {
+    static std::mutex s_exact_sim_fn_mutex;
+    static TensorFingerprintGraph::ExactSimilarityFn s_exact_sim_fn;
+} // namespace
+
+void TensorFingerprintGraph::setExactSimilarityFn(ExactSimilarityFn fn) {
+    std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
+    s_exact_sim_fn = std::move(fn);
+}
+
+void TensorFingerprintGraph::clearExactSimilarityFn() {
+    std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
+    s_exact_sim_fn = nullptr;
+}
+
+static TensorFingerprintGraph::ExactSimilarityFn getExactSimilarityFn() {
+    std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
+    return s_exact_sim_fn;
+}
 
 // ============================================================================
 // Static helpers
@@ -223,11 +248,31 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
         }
     }
 
-    ExactSimilarityFn exact_similarity_fn;
-    {
-        std::shared_lock lock(exact_similarity_fn_mutex_);
-        exact_similarity_fn = exact_similarity_fn_;
+    // Prefer injected exact-similarity bridge (stub #276).
+    if (auto exact_fn = getExactSimilarityFn()) {
+        std::vector<SimilarityResult> results;
+        {
+            std::shared_lock lock(mutex_);
+            results.reserve(entries_.size());
+            for (const auto& [cand_key, ent] : entries_) {
+                if (cand_key == query_key) continue;
+                SimilarityResult sr;
+                sr.adapter_key   = ent.adapter_key;
+                sr.domain        = ent.domain;
+                sr.base_model_id = ent.base_model_id;
+                sr.score         = exact_fn(query_key, cand_key);
+                results.push_back(std::move(sr));
+            }
+        }
+        std::sort(results.begin(), results.end(),
+                  [](const SimilarityResult& a, const SimilarityResult& b) {
+                      return a.score > b.score;
+                  });
+        if (results.size() > k) results.resize(k);
+        return results;
     }
+
+    auto results = findSimilarByFingerprint(query_fp, k + 1, "");
 
     std::vector<SimilarityResult> results;
     results.reserve(candidates.size());

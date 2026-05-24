@@ -309,6 +309,9 @@ OIDCDiscoveryDocument OIDCProvider::parseDiscovery(const std::string& json_body)
     if (j.contains("userinfo_endpoint") && j["userinfo_endpoint"].is_string()) {
         doc.userinfo_endpoint = j["userinfo_endpoint"].get<std::string>();
     }
+    if (j.contains("revocation_endpoint") && j["revocation_endpoint"].is_string()) {
+        doc.revocation_endpoint = j["revocation_endpoint"].get<std::string>();
+    }
     if (j.contains("id_token_signing_alg_values_supported") &&
         j["id_token_signing_alg_values_supported"].is_array())
     {

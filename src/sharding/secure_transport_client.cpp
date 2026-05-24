@@ -20,6 +20,26 @@
 
 namespace themis::sharding {
 
+// ============================================================================
+// LZ4 bridges (stub #295)
+// ============================================================================
+
+void SecureTransportClient::setLz4CompressFn(Lz4CompressFn fn) {
+    lz4CompressFn_ = std::move(fn);
+}
+
+void SecureTransportClient::clearLz4CompressFn() {
+    lz4CompressFn_ = nullptr;
+}
+
+void SecureTransportClient::setLz4DecompressFn(Lz4DecompressFn fn) {
+    lz4DecompressFn_ = std::move(fn);
+}
+
+void SecureTransportClient::clearLz4DecompressFn() {
+    lz4DecompressFn_ = nullptr;
+}
+
 SecureTransportClient::SecureTransportClient(const Config& config)
     : config_(config) {
     
@@ -75,20 +95,19 @@ bool SecureTransportClient::compressData(const std::string& data,
                 return true;
             }
         }
-        if (config_.compression == Config::CompressionType::LZ4) {
-            const int acceleration = std::max(1, config_.compression_level);
-            auto compressed_bytes = utils::lz4_compress(data, acceleration);
-            if (!compressed_bytes.empty() && compressed_bytes.size() < data.size()) {
-                compressed = std::string(compressed_bytes.begin(), compressed_bytes.end());
-                if (compression_codec != nullptr) {
-                    *compression_codec = "lz4";
-                }
-                spdlog::debug("SecureTransportClient: LZ4 compressed {} -> {} bytes (ratio: {:.2f}x)",
-                             data.size(), compressed.size(),
-                             static_cast<double>(data.size()) / compressed.size());
-                return true;
-            }
+        // Use injected LZ4 compress bridge if available (stub #295 resolved).
+        if (lz4CompressFn_ && lz4CompressFn_(data, compressed)) {
+            return true;
         }
+        // STUB/SIMULATION NOTE (stub #295):
+        // Purpose: Reserve the LZ4 compression slot in the negotiation chain so
+        //          that future LZ4 support can be added without changing callers.
+        // Activation: Active when no Lz4CompressFn is injected via setLz4CompressFn()
+        //             and THEMIS_HAS_LZ4 is not defined.
+        // Production Delta: Sharding payloads that prefer LZ4 fall through to the
+        //                   uncompressed transfer path, increasing inter-shard bandwidth.
+        // Removal Plan: Link the lz4 vcpkg package and add a #ifdef THEMIS_HAS_LZ4
+        //               branch; or inject via setLz4CompressFn(). Target: v2.1.0.
     } catch (const std::exception& e) {
         spdlog::warn("SecureTransportClient: Compression failed: {}", e.what());
     }

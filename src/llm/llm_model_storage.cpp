@@ -261,7 +261,7 @@ public:
                         auto cap_json = json::parse(cap_str);
                         metadata.capabilities = cap_json.get<std::vector<std::string>>();
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -273,7 +273,7 @@ public:
                         auto lang_json = json::parse(lang_str);
                         metadata.languages = lang_json.get<std::vector<std::string>>();
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -285,7 +285,7 @@ public:
                         auto tags_json = json::parse(tags_str);
                         metadata.tags = tags_json.get<std::vector<std::string>>();
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -330,7 +330,7 @@ public:
                     if (!custom_str.empty()) {
                         metadata.custom_metadata = json::parse(custom_str);
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Ignore parse errors
                 }
             }
@@ -552,21 +552,29 @@ public:
         if (!config_.db) {
             return model_ids;
         }
-
-        // Use RocksDBWrapper::scanPrefix() to enumerate all persisted model keys
-        // (stub #303 resolved). Keys are stored as "<key_prefix><model_id>".
+        
+        // Enumerate all model keys stored under the collection prefix using the
+        // RocksDB wrapper's scanPrefix iterator.  Edge and stats keys share the
+        // same prefix but contain a colon-delimited secondary segment; exclude
+        // them so only plain model-id keys are returned.
         const std::string prefix = config_.key_prefix;
-        config_.db->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {
-            if (key.size() <= prefix.size()) {
-                return true; // continue
-            }
-            std::string model_id(key.substr(prefix.size()));
-            if (!filter || model_id.find(*filter) != std::string::npos) {
-                model_ids.push_back(std::move(model_id));
-            }
-            return true; // continue iteration
-        });
-
+        config_.db->scanPrefix(prefix,
+            [&](std::string_view key, std::string_view /*value*/) -> bool {
+                if (key.size() <= prefix.size()) {
+                    return true; // skip malformed/empty suffix
+                }
+                std::string model_id(key.substr(prefix.size()));
+                // Skip auxiliary key types: "edge:…", "stats:", etc.
+                if (model_id.rfind("edge:", 0) == 0 ||
+                    model_id.rfind("stats:", 0) == 0) {
+                    return true;
+                }
+                if (!filter || model_id.find(*filter) != std::string::npos) {
+                    model_ids.push_back(std::move(model_id));
+                }
+                return true; // continue iteration
+            });
+        
         return model_ids;
     }
     
@@ -755,16 +763,33 @@ std::vector<json> LLMModelStorage::getEdges(
             auto second_colon = remaining.find(':');
             if (second_colon == std::string::npos) return true;
             std::string to_id = remaining.substr(0, second_colon);
-            if (from_id != model_id && to_id != model_id) return true;
-            try {
-                json edge_json = json::parse(std::string(value));
-                bool include = false;
-                if (direction == "both") {
-                    include = true;
-                } else if (direction == "outgoing" && edge_json["from"] == model_id) {
-                    include = true;
-                } else if (direction == "incoming" && edge_json["to"] == model_id) {
-                    include = true;
+            
+            // Check if this edge involves the requested model
+            if (from_id != model_id && to_id != model_id) {
+                continue;
+            }
+            
+            auto edge_data = config_.db->get(key);
+            if (edge_data) {
+                try {
+                    std::string edge_str(edge_data->begin(), edge_data->end());
+                    json edge_json = json::parse(edge_str);
+                    
+                    // Filter by direction
+                    bool include = false;
+                    if (direction == "both") {
+                        include = true;
+                    } else if (direction == "outgoing" && edge_json["from"] == model_id) {
+                        include = true;
+                    } else if (direction == "incoming" && edge_json["to"] == model_id) {
+                        include = true;
+                    }
+                    
+                    if (include) {
+                        edges.push_back(edge_json);
+                    }
+                } catch (const std::exception&) {
+                    // Skip invalid edge data
                 }
                 if (include) edges.push_back(std::move(edge_json));
             } catch (const std::exception&) {
@@ -880,13 +905,14 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
                     norm_query  += query_embedding[i] * query_embedding[i];
                     norm_other  += other_embedding[i] * other_embedding[i];
                 }
-                float similarity = 0.0f;
-                if (norm_query > 0 && norm_other > 0)
-                    similarity = dot_product / (std::sqrt(norm_query) * std::sqrt(norm_other));
-                if (similarity >= threshold)
-                    similar_models.push_back({std::move(other_model_id), similarity});
+                other_embedding = other_json["values"].get<std::vector<float>>();
+                
+                // Skip if dimension mismatch
+                if (other_embedding.size() != query_embedding.size()) {
+                    continue;
+                }
             } catch (const std::exception&) {
-                // Skip invalid embedding data
+                continue;  // Skip invalid embeddings
             }
             return true;
         });

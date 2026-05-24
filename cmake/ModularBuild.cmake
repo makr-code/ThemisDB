@@ -1308,6 +1308,8 @@ set(THEMIS_LLM_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_telephony.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_tts_customizer.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/wake_word_detector.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/content/stt_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/content/tts_processor.cpp>
 )
 
 if(THEMIS_ENABLE_GPU)
@@ -1412,8 +1414,6 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_logger.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_security.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/abuse_detector.cpp>
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/stt_processor.cpp>
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/tts_processor.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/content/content_manager_llm.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/zstd_compression.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/content_chunker.cpp>

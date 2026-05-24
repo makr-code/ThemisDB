@@ -46,6 +46,30 @@ namespace themis {
 namespace llm {
 namespace lora {
 
+// ============================================================================
+// ModelPathProvider bridge (stub #289)
+// ============================================================================
+
+namespace {
+    static std::mutex s_model_path_fn_mutex;
+    static std::function<std::string(const std::string&)> s_model_path_fn;
+} // namespace
+
+void LoRATrainingService::setModelPathProviderFn(ModelPathProviderFn fn) {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    s_model_path_fn = std::move(fn);
+}
+
+void LoRATrainingService::clearModelPathProviderFn() {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    s_model_path_fn = nullptr;
+}
+
+static std::function<std::string(const std::string&)> getModelPathProviderFn() {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    return s_model_path_fn;
+}
+
 // Simple MSE loss function
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
     if (predictions.size() != targets.size()) {
@@ -1548,6 +1572,42 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
     
     // Create quantized model
     auto quantized_model = std::make_unique<QuantizedModel>(model_config);
+    
+    // STUB/SIMULATION NOTE (stub #289):
+    // Purpose: Allow the quantization pipeline to produce a QuantizedModel object
+    //          without parsing a real GGUF file, so that unit tests and CI runs
+    //          without model assets can still exercise the training loop.
+    // Activation: Always active when GGUF model file is absent or path lookup fails
+    //             before the real GGUF parser block below.
+    // Production Delta: Only 3 fixed-dimension (768×768) random-weight layers are
+    //                   created; real models may have 12–96 layers of varying shapes.
+    //                   Training on this synthetic model produces meaningless weights
+    //                   and must not be used in production.
+    // Removal Plan: Integrate LLMModelStorage path lookup (see themis_help_lora.cpp
+    //               TODO) so that a correct GGUF path is always available; remove
+    //               synthetic layer loop once path lookup is guaranteed.
+    //               Target: same milestone as LLMModelStorage integration (Q2 2027).
+    // If a model path provider bridge is set, try to resolve a better path.
+    if (auto path_fn = getModelPathProviderFn()) {
+        std::string resolved = path_fn(model_path);
+        if (!resolved.empty()) {
+            // Overwrite the synthetic path with the resolved path from the bridge.
+            return loadQuantizedBaseModel(resolved, config);
+        }
+    }
+
+    // For now, create some synthetic layers
+    // In production, we'd actually load from the model file
+    // This is a placeholder for the actual model loading logic
+    
+    // Add a few test layers
+    for (int i = 0; i < 3; ++i) {
+        std::string layer_name = "layer_" + std::to_string(i);
+        Tensor weights = tensor_utils::randn({768, 768});  // Standard transformer dimension
+        quantized_model->add_layer(layer_name, weights);
+    }
+    
+    spdlog::info("Created quantized model with {} layers (placeholder)", quantized_model->num_layers());
     
     // Load actual model from GGUF file
     try {

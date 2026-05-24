@@ -25,7 +25,7 @@
 #include "utils/error_registry.h"
 #include "utils/expected.h"
 
-#include <nlohmann/json.hpp>
+#include <mutex>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <string>
@@ -33,6 +33,30 @@
 namespace themis {
 namespace plugins {
 namespace ai {
+
+// ============================================================================
+// HttpPost bridge (stub #282)
+// ============================================================================
+
+namespace {
+    static std::mutex s_http_post_fn_mutex;
+    static AIPluginGenerator::HttpPostFn s_http_post_fn;
+} // namespace
+
+void AIPluginGenerator::setHttpPostFn(HttpPostFn fn) {
+    std::lock_guard<std::mutex> lock(s_http_post_fn_mutex);
+    s_http_post_fn = std::move(fn);
+}
+
+void AIPluginGenerator::clearHttpPostFn() {
+    std::lock_guard<std::mutex> lock(s_http_post_fn_mutex);
+    s_http_post_fn = nullptr;
+}
+
+static AIPluginGenerator::HttpPostFn getHttpPostFn() {
+    std::lock_guard<std::mutex> lock(s_http_post_fn_mutex);
+    return s_http_post_fn;
+}
 
 AIPluginGenerator::AIPluginGenerator(const Config& config)
     : config_(config)
@@ -71,66 +95,22 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     spdlog::debug("[AIPluginGenerator] generatePlugin: description='{}' endpoint='{}'",
                   prompt.description.substr(0, 80), config_.llm_endpoint);
 
-    // 2. Phase 2: perform HTTP POST via injected LlmHttpPostFn.
-    if (!llm_http_post_fn_.has_value()) {
-        // No transport injected — Phase 2 unavailable in this build configuration.
-        return tl::unexpected(
-            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                  "AIPluginGenerator::generatePlugin: no LlmHttpPostFn injected. "
-                  "Call setLlmHttpPostFn() to enable plugin generation. "
-                  "Configured endpoint: " + config_.llm_endpoint));
+    // Use injected HTTP POST bridge if available (stub #282 resolved).
+    if (auto http_fn = getHttpPostFn()) {
+        return http_fn(config_.llm_endpoint, prompt);
     }
 
-    // 3. Build the JSON request.
-    nlohmann::json req;
-    req["description"]           = prompt.description;
-    req["required_capabilities"] = prompt.required_capabilities;
-    req["dependencies"]          = prompt.dependencies;
-    req["generate_tests"]        = prompt.generate_tests;
-    req["generate_docs"]         = prompt.generate_docs;
-    const std::string body = req.dump();
-
-    // 4. Call the injected transport.
-    std::string response;
-    try {
-        response = (*llm_http_post_fn_)(config_.llm_endpoint, body);
-    } catch (const std::exception& ex) {
-        return tl::unexpected(
-            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                  std::string("AIPluginGenerator::generatePlugin: HTTP POST to '") +
-                  config_.llm_endpoint + "' failed: " + ex.what()));
-    }
-
-    // 5. Parse the JSON response.
-    auto parsed = nlohmann::json::parse(response, nullptr, /*throw_on_error=*/false);
-    if (parsed.is_discarded()) {
-        return tl::unexpected(
-            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                  "AIPluginGenerator::generatePlugin: LLM endpoint returned invalid JSON"));
-    }
-
-    const std::string code = parsed.value("implementation_code",
-                                          parsed.value("code", std::string{}));
-    if (code.empty()) {
-        return tl::unexpected(
-            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                  "AIPluginGenerator::generatePlugin: LLM response missing 'implementation_code' field"));
-    }
-
-    GeneratedPlugin plugin;
-    plugin.header_code          = parsed.value("header_code", std::string{});
-    plugin.implementation_code  = code;
-    plugin.test_code            = parsed.value("test_code", std::string{});
-    plugin.cmake_code           = parsed.value("cmake_code", std::string{});
-    plugin.security_report      = parsed.value("security_report", std::string{});
-    plugin.passed_security_checks = parsed.value("passed_security_checks", false);
-    if (parsed.contains("build_dependencies") && parsed["build_dependencies"].is_array()) {
-        plugin.build_dependencies = parsed["build_dependencies"].get<std::vector<std::string>>();
-    }
-
-    spdlog::info("[AIPluginGenerator] generatePlugin: plugin generated successfully from '{}'",
-                 config_.llm_endpoint);
-    return plugin;
+    // 2. Phase-1 implementation: LLM endpoint invocation is not yet wired.
+    //    Return a structured error so callers can distinguish "validation failed"
+    //    from "LLM unavailable".
+    //
+    // TODO (Phase 2, v1.6.0): replace the error below with a real HTTP call to
+    //   config_.llm_endpoint, parse the JSON response, populate GeneratedPlugin,
+    //   and run the security sandbox pipeline.
+    return tl::unexpected(
+        Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+              "AIPluginGenerator::generatePlugin: LLM endpoint not yet wired "
+              "(Phase 2, Target v1.6.0). Endpoint: " + config_.llm_endpoint));
 }
 
 } // namespace ai

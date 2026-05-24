@@ -28,8 +28,11 @@
 #include "index/process_graph.h"
 
 #include <chrono>
+#include <cmath>
 #include <cstring>
+#include <functional>
 #include <iostream>
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 
@@ -51,6 +54,44 @@ using error_code = boost::system::error_code;
 // ============================================================================
 // MessageDispatcher
 // ============================================================================
+
+// ---------------------------------------------------------------------------
+// Injection bridge globals for WireProtocolSession (stub #281 replacement)
+// ---------------------------------------------------------------------------
+namespace {
+std::mutex           g_wire_bridge_mutex;
+WireAqlExecFn        g_wire_aql_exec_fn;
+WireCursorNextFn     g_wire_cursor_next_fn;
+WireCursorCloseFn    g_wire_cursor_close_fn;
+WireGeoQueryFn       g_wire_geo_query_fn;
+WireTSQueryFn        g_wire_ts_query_fn;
+WireGraphTraversalFn g_wire_graph_traversal_fn;
+} // namespace
+
+void setWireAqlExecFn(WireAqlExecFn fn) {
+    std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+    g_wire_aql_exec_fn = std::move(fn);
+}
+void setWireCursorNextFn(WireCursorNextFn fn) {
+    std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+    g_wire_cursor_next_fn = std::move(fn);
+}
+void setWireCursorCloseFn(WireCursorCloseFn fn) {
+    std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+    g_wire_cursor_close_fn = std::move(fn);
+}
+void setWireGeoQueryFn(WireGeoQueryFn fn) {
+    std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+    g_wire_geo_query_fn = std::move(fn);
+}
+void setWireTSQueryFn(WireTSQueryFn fn) {
+    std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+    g_wire_ts_query_fn = std::move(fn);
+}
+void setWireGraphTraversalFn(WireGraphTraversalFn fn) {
+    std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+    g_wire_graph_traversal_fn = std::move(fn);
+}
 
 void MessageDispatcher::register_handler(OpCode opcode, handler_fn handler) {
     handlers_[opcode] = std::move(handler);
@@ -790,37 +831,9 @@ void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
         "/" + sanitizeForMessage(req.uuid()));
 }
 
-// Stub #281 resolved: EngineConfig injected via WireProtocolServer(io_context, port, engines).
-// Each handler checks engines_ and dispatches to the engine when available;
-// falls back to a redirect error only when the engine is not configured.
-
-// ---------------------------------------------------------------------------
-// Proto → nlohmann::json value conversion helpers (used by BPMN handlers)
-// Compiled only when the v1 protobuf generated header is available.
-// ---------------------------------------------------------------------------
-static nlohmann::json protoValueToJson(const v1::Value& val) {
-    switch (val.kind_case()) {
-        case v1::Value::kStringValue: return val.string_value();
-        case v1::Value::kIntValue:    return val.int_value();
-        case v1::Value::kDoubleValue: return val.double_value();
-        case v1::Value::kBoolValue:   return val.bool_value();
-        default:                      return nullptr;
-    }
-}
-
-static nlohmann::json protoMapToJson(
-    const google::protobuf::Map<std::string, v1::Value>& m)
-{
-    auto obj = nlohmann::json::object();
-    for (const auto& [k, v] : m) {
-        obj[k] = protoValueToJson(v);
-    }
-    return obj;
-}
-
 void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
-    // QUERY_AQL: execute an AQL query string via the injected QueryEngine.
-    // Falls back to redirect error when QueryEngine is not injected.
+    // QUERY_AQL: execute an AQL query string.
+    // Requires authentication; validates that the AQL string is non-empty.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -829,25 +842,30 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
         send_error(400, "Missing 'aql' field in QUERY_AQL request");
         return;
     }
-    if (!engines_ || !engines_->query_engine) {
-        send_error(501,
-            "AQL query execution is not yet integrated in the protobuf wire protocol. "
-            "Use the HTTP REST API endpoint POST /api/v1/query instead.");
+
+    WireAqlExecFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+        fn = g_wire_aql_exec_fn;
+    }
+    if (fn) {
+        try {
+            const std::string result = fn(req.aql(), namespace_);
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("AQL execution error: ") + e.what());
+        }
         return;
     }
-    auto result = executeAql(req.aql(), *engines_->query_engine);
-    if (!result) {
-        send_error(400, "AQL query error: " + result.error().message());
-        return;
-    }
-    // Encode result as JSON in send_ok. The payload format mirrors the HTTP REST API.
-    std::string body = result.value().dump();
-    send_ok(body);
+
+    send_error(501,
+        "AQL query execution is not yet integrated in the protobuf wire protocol. "
+        "Use the HTTP REST API endpoint POST /api/v1/query instead.");
 }
 
 void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
-    // CURSOR_NEXT: cursor pagination requires a cursor registry tied to QUERY_AQL.
-    // A per-session cursor store is not yet implemented; redirect to REST API.
+    // CURSOR_NEXT: fetch the next batch of results from an open AQL query cursor.
+    // Requires authentication; validates cursor_id field.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -856,6 +874,22 @@ void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
         send_error(400, "Missing 'cursor_id' in CURSOR_NEXT request");
         return;
     }
+
+    WireCursorNextFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+        fn = g_wire_cursor_next_fn;
+    }
+    if (fn) {
+        try {
+            const std::string result = fn(req.cursor_id());
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("CURSOR_NEXT error: ") + e.what());
+        }
+        return;
+    }
+
     send_error(501,
         "Cursor pagination is not yet available on the protobuf wire port. "
         "Use the HTTP REST API endpoint GET /api/v1/cursor/" +
@@ -872,6 +906,22 @@ void WireProtocolSession::handle_cursor_close(const v1::CursorCloseRequest& req)
         send_error(400, "Missing 'cursor_id' in CURSOR_CLOSE request");
         return;
     }
+
+    WireCursorCloseFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+        fn = g_wire_cursor_close_fn;
+    }
+    if (fn) {
+        try {
+            const bool closed = fn(req.cursor_id());
+            send_ok(closed ? "CURSOR_CLOSED" : "CURSOR_NOT_FOUND");
+        } catch (const std::exception& e) {
+            send_error(500, std::string("CURSOR_CLOSE error: ") + e.what());
+        }
+        return;
+    }
+
     send_error(501,
         "Cursor management is not yet available on the protobuf wire port. "
         "Use the HTTP REST API endpoint DELETE /api/v1/cursor/" +
@@ -902,9 +952,8 @@ void WireProtocolSession::handle_vector_search(
 
 void WireProtocolSession::handle_geo_query(
     const v1::GeoQueryRequest& req) {
-    // GEO_QUERY: geospatial proximity query via injected SpatialIndexManager.
-    // Dispatches searchNearby() for radius queries and searchIntersects() for bbox.
-    // Falls back to redirect error when spatial_index is not injected.
+    // GEO_QUERY: geospatial proximity / containment query.
+    // Requires authentication; validates collection field.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -913,53 +962,42 @@ void WireProtocolSession::handle_geo_query(
         send_error(400, "Missing 'collection' in GEO_QUERY request");
         return;
     }
-    if (!engines_ || !engines_->spatial_index) {
-        send_error(501,
-            "Geospatial index not configured on this server. "
-            "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.");
-        return;
+
+    WireGeoQueryFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+        fn = g_wire_geo_query_fn;
     }
-
-    const size_t limit = req.limit() > 0 ? static_cast<size_t>(req.limit()) : 100U;
-    std::vector<index::SpatialResult> results;
-
-    if (req.has_radius()) {
-        // Radius search: searchNearby(table, x=lon, y=lat, radius_m, z, limit)
-        const double lat      = req.radius().center_lat();
-        const double lon      = req.radius().center_lon();
-        const double radius_m = req.radius().radius_meters() > 0.0
-                                    ? req.radius().radius_meters()
-                                    : 1000.0;
-        results = engines_->spatial_index->searchNearby(
-            req.collection(), lon, lat, radius_m, std::nullopt, limit);
-    } else if (req.has_bbox()) {
-        // Bounding-box search via searchIntersects
-        const auto& bb = req.bbox();
-        themis::geo::MBR query_mbr{bb.min_lon(), bb.min_lat(), bb.max_lon(), bb.max_lat()};
-        results = engines_->spatial_index->searchIntersects(req.collection(), query_mbr);
-        if (results.size() > limit) {
-            results.resize(limit);
+    if (fn) {
+        try {
+            // Extract centre coordinates from the oneof query field.
+            double lat      = 0.0;
+            double lon      = 0.0;
+            double radius_m = 0.0;
+            if (req.has_radius()) {
+                lat      = req.radius().center_lat();
+                lon      = req.radius().center_lon();
+                radius_m = req.radius().radius_meters();
+            } else if (req.has_bbox()) {
+                lat      = (req.bbox().min_lat() + req.bbox().max_lat()) / 2.0;
+                lon      = (req.bbox().min_lon() + req.bbox().max_lon()) / 2.0;
+                // Approximate radius from bounding-box diagonal / 2
+                const double dlat = req.bbox().max_lat() - req.bbox().min_lat();
+                const double dlon = req.bbox().max_lon() - req.bbox().min_lon();
+                radius_m = std::sqrt(dlat * dlat + dlon * dlon) * 111320.0 / 2.0;
+            }
+            const int limit = req.limit() > 0 ? static_cast<int>(req.limit()) : 100;
+            const std::string result = fn(req.collection(), lat, lon, radius_m, limit);
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("GEO_QUERY error: ") + e.what());
         }
-    } else {
-        send_error(400,
-            "GEO_QUERY requires a 'radius' or 'bbox' sub-message; "
-            "polygon search is not yet supported on the wire port.");
         return;
     }
 
-    std::string body = "{\"results\":[";
-    bool first = true;
-    for (const auto& r : results) {
-        if (!first) body += ',';
-        first = false;
-        body += "{\"pk\":\"" + r.primary_key + "\""
-              + ",\"distance_m\":" + std::to_string(r.distance)
-              + ",\"lat\":"        + std::to_string(r.mbr.miny)
-              + ",\"lon\":"        + std::to_string(r.mbr.minx)
-              + "}";
-    }
-    body += "],\"count\":" + std::to_string(results.size()) + "}";
-    send_ok(body);
+    send_error(501,
+        "Geospatial query execution is not yet integrated in the protobuf wire protocol. "
+        "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.");
 }
 
 void WireProtocolSession::handle_timeseries_query(
@@ -980,36 +1018,29 @@ void WireProtocolSession::handle_timeseries_query(
             "start time must be less than end time");
         return;
     }
-    if (!engines_ || !engines_->ts_store) {
-        send_error(503,
-            "Time-series storage not connected to protobuf wire session. "
-            "Use the JSON wire protocol port (8766) or HTTP REST API "
-            "GET /api/v1/timeseries/" + sanitizeForMessage(req.collection()));
-        return;
-    }
-    // TSStore timestamps are in milliseconds; proto field uses nanoseconds.
-    static constexpr uint64_t kNsPerMs = 1'000'000ULL;
-    TSStore::QueryOptions opts;
-    opts.metric            = req.collection();
-    opts.from_timestamp_ms = static_cast<int64_t>(req.start_time_ns() / kNsPerMs);
-    opts.to_timestamp_ms   = static_cast<int64_t>(req.end_time_ns()   / kNsPerMs);
-    // Use default limit (1000); the proto TimeSeriesQueryRequest has no limit field.
 
-    auto result = engines_->ts_store->query(opts);
-    if (!result) {
-        send_error(0x0007, "TIMESERIES_QUERY error: " + result.error().message());
+    WireTSQueryFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+        fn = g_wire_ts_query_fn;
+    }
+    if (fn) {
+        try {
+            const std::string result = fn(
+                req.collection(),
+                static_cast<int64_t>(req.start_time_ns()),
+                static_cast<int64_t>(req.end_time_ns()));
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("TIMESERIES_QUERY error: ") + e.what());
+        }
         return;
     }
-    std::string body = "{\"metric\":\"" + req.collection() + "\",\"points\":[";
-    bool first = true;
-    for (const auto& dp : result.value()) {
-        if (!first) body += ',';
-        first = false;
-        body += "{\"ts_ms\":" + std::to_string(dp.timestamp_ms)
-              + ",\"value\":" + std::to_string(dp.value) + "}";
-    }
-    body += "],\"count\":" + std::to_string(result.value().size()) + "}";
-    send_ok(body);
+
+    send_error(503,
+        "Time-series storage not connected to protobuf wire session. "
+        "Use the JSON wire protocol port (8766) or HTTP REST API "
+        "GET /api/v1/timeseries/" + sanitizeForMessage(req.collection()));
 }
 
 void WireProtocolSession::handle_bpmn_start(
@@ -1133,12 +1164,30 @@ void WireProtocolSession::handle_transaction_abort(
 }
 
 void WireProtocolSession::handle_graph_traverse() {
-    // GRAPH_TRAVERSE: no typed protobuf request is available for this opcode;
-    // redirect to the REST / JSON wire protocol endpoint.
+    // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
+    // Requires authentication.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
     }
+
+    WireGraphTraversalFn fn;
+    {
+        std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
+        fn = g_wire_graph_traversal_fn;
+    }
+    if (fn) {
+        try {
+            // Payload is not parsed into a typed proto message for this opcode;
+            // use an empty-collection/vertex sentinel so the bridge can decide.
+            const std::string result = fn("", "", 0);
+            send_ok(result);
+        } catch (const std::exception& e) {
+            send_error(500, std::string("GRAPH_TRAVERSE error: ") + e.what());
+        }
+        return;
+    }
+
     send_error(501,
         "Graph traversal is not yet available on the protobuf wire port. "
         "Use the HTTP REST API endpoint POST /api/v1/graph/traverse instead.");

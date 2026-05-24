@@ -134,12 +134,14 @@ public:
     
     // IKeyProvider interface implementation (with defaults)
     std::vector<uint8_t> get_key(const std::string& key_id) override {
-        return getKey(key_id);
+        auto key = getKey(key_id);
+        return key;
     }
     
     std::vector<uint8_t> rotate_key(const std::string& key_id) override {
-        const uint32_t new_version = rotateKey(key_id);
-        return getKey(key_id, new_version);
+        [[maybe_unused]] const uint32_t rotated_version = rotateKey(key_id);
+        auto key = getKey(key_id);
+        return key;
     }
     
     /**
@@ -150,7 +152,7 @@ public:
      * @throws KeyNotFoundException if key does not exist
      * @throws KeyOperationException if key is not in ACTIVE or DEPRECATED status
      */
-    [[nodiscard]] virtual std::vector<uint8_t> getKey(const std::string& key_id) = 0;
+    virtual std::vector<uint8_t> getKey(const std::string& key_id) = 0;
     
     /**
      * @brief Retrieve a specific version of an encryption key
@@ -163,7 +165,7 @@ public:
      * @throws KeyNotFoundException if key version does not exist
      * @throws KeyOperationException if key is DELETED
      */
-    [[nodiscard]] virtual std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) = 0;
+    virtual std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) = 0;
     
     /**
      * @brief Create a new version of a key (rotation)
@@ -179,7 +181,7 @@ public:
      * @return New key version number
      * @throws KeyOperationException if rotation fails
      */
-    [[nodiscard]] virtual uint32_t rotateKey(const std::string& key_id) = 0;
+    virtual uint32_t rotateKey(const std::string& key_id) = 0;
     
     /**
      * @brief List all available keys with metadata
@@ -191,7 +193,7 @@ public:
      * 
      * @return Vector of key metadata (all versions)
      */
-    [[nodiscard]] virtual std::vector<KeyMetadata> listKeys() = 0;
+    virtual std::vector<KeyMetadata> listKeys() = 0;
     
     /**
      * @brief Get metadata for a specific key
@@ -201,7 +203,7 @@ public:
      * @return Key metadata
      * @throws KeyNotFoundException if key does not exist
      */
-    [[nodiscard]] virtual KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) = 0;
+    virtual KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) = 0;
     
     /**
      * @brief Return the current (latest active) version number for a key.
@@ -215,15 +217,22 @@ public:
      * @return        Current active version number (≥ 1), or 0 if no version is found
      * @throws        KeyNotFoundException if the key does not exist at all
      */
-    [[nodiscard]] virtual uint32_t getCurrentVersion(const std::string& key_id) {
-        // Fast path: no key at version 1 means key_id is absent.
-        if (!hasKey(key_id, 1)) {
+    virtual uint32_t getCurrentVersion(const std::string& key_id) {
+        // Default probe: walk up from version 1 until getKey(v+1) throws.
+        uint32_t ver = 0;
+        try {
+            // Verify at least version 1 exists (throws KeyNotFoundException if key absent).
+            [[maybe_unused]] const auto probe = getKey(key_id, 1);
+            ver = 1;
+        } catch (...) {
             return 0;
         }
-
-        uint32_t ver = 1;
-        for (uint32_t v = 2; v <= 0xFFFFU; ++v) {
-            if (!hasKey(key_id, v)) {
+        // Walk higher until the version is not found.
+        for (uint32_t v = 2; v <= 0xFFFFu; ++v) {
+            try {
+                [[maybe_unused]] const auto probe = getKey(key_id, v);
+                ver = v;
+            } catch (...) {
                 break;
             }
             ver = v;
@@ -252,7 +261,7 @@ public:
      * @param version Key version (0 = check if any version exists)
      * @return true if key exists, false otherwise
      */
-    [[nodiscard]] virtual bool hasKey(const std::string& key_id, uint32_t version = 0) = 0;
+    virtual bool hasKey(const std::string& key_id, uint32_t version = 0) = 0;
     
     /**
      * @brief Create a new key from raw bytes
@@ -265,7 +274,7 @@ public:
      * @return Key version number
      * @throws KeyOperationException if key creation fails
      */
-    [[nodiscard]] virtual uint32_t createKeyFromBytes(
+    virtual uint32_t createKeyFromBytes(
         const std::string& key_id,
         const std::vector<uint8_t>& key_bytes,
         const KeyMetadata& metadata = KeyMetadata()) = 0;
