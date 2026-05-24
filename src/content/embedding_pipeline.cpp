@@ -32,6 +32,7 @@
 #include <chrono>
 #include <cmath>
 #include <algorithm>
+#include <exception>
 
 namespace themis {
 namespace content {

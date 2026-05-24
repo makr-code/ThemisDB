@@ -187,10 +187,10 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
         std::string rate_str = extractAttr("rate");
         std::string pitch_str = extractAttr("pitch");
         if (!rate_str.empty()) {
-            try { seg.speed = std::stof(rate_str); } catch (...) {}
+            try { seg.speed = std::stof(rate_str); } catch (const std::exception&) {}
         }
         if (!pitch_str.empty()) {
-            try { seg.pitch = std::stof(pitch_str); } catch (...) {}
+            try { seg.pitch = std::stof(pitch_str); } catch (const std::exception&) {}
         }
         seg = validateProsody(seg);
         result.segments.push_back(seg);

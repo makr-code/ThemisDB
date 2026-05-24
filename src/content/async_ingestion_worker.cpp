@@ -108,8 +108,15 @@ AsyncIngestionWorker::AsyncIngestionWorker(std::shared_ptr<ContentManager> conte
     }
 }
 
-AsyncIngestionWorker::~AsyncIngestionWorker() {
-    stop(false); // Force stop without waiting
+AsyncIngestionWorker::~AsyncIngestionWorker() noexcept {
+    try {
+        stop(false);  // Force stop without waiting
+    } catch (...) {
+        // Exceptions must not propagate from destructors (C++ standard §15.5.1).
+        // stop() can throw if a mutex operation or promise::set_exception fails;
+        // any such failure is silently absorbed here to prevent std::terminate().
+        THEMIS_WARN("AsyncIngestionWorker::~AsyncIngestionWorker: exception swallowed during stop()");
+    }
 }
 
 void AsyncIngestionWorker::start() {
@@ -198,13 +205,10 @@ std::string AsyncIngestionWorker::submitFile(const std::string &blob, const std:
     job.blob                = blob;
     job.config              = config;
     job.config["mime_type"] = mime_type;
-    job.user_context        = user_context;
-    job.created_at          = getCurrentTimeMs();
-    job.started_at          = 0;
-    job.completed_at        = 0;
-    job.total_items         = 1;
-    job.processed_items     = 0;
-    job.progress            = 0.0f;
+    job.user_context = user_context;
+    job.created_at = getCurrentTimeMs();
+    job.total_items = 1;
+    // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
 
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
@@ -244,13 +248,10 @@ std::string AsyncIngestionWorker::submitStream(std::istream &stream, const std::
     job.stream              = &stream;
     job.config              = config;
     job.config["mime_type"] = mime_type;
-    job.user_context        = user_context;
-    job.created_at          = getCurrentTimeMs();
-    job.started_at          = 0;
-    job.completed_at        = 0;
-    job.total_items         = 1;
-    job.processed_items     = 0;
-    job.progress            = 0.0f;
+    job.user_context = user_context;
+    job.created_at   = getCurrentTimeMs();
+    job.total_items  = 1;
+    // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
 
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
@@ -355,20 +356,17 @@ std::string AsyncIngestionWorker::submitArchive(const std::string &blob, const s
     }
 
     IngestionJob job;
-    job.job_id          = generateJobId();
-    job.type            = IngestionJobType::ARCHIVE;
-    job.status          = IngestionJobStatus::QUEUED;
-    job.filename        = filename;
-    job.blob            = blob;
-    job.config          = config;
-    job.user_context    = user_context;
-    job.created_at      = getCurrentTimeMs();
-    job.started_at      = 0;
-    job.completed_at    = 0;
-    job.total_items     = -1; // Unknown until extracted
-    job.processed_items = 0;
-    job.progress        = 0.0f;
-
+    job.job_id = generateJobId();
+    job.type = IngestionJobType::ARCHIVE;
+    job.status = IngestionJobStatus::QUEUED;
+    job.filename = filename;
+    job.blob = blob;
+    job.config = config;
+    job.user_context = user_context;
+    job.created_at = getCurrentTimeMs();
+    job.total_items = -1;  // Unknown until extracted
+    // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
+    
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
@@ -399,19 +397,16 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     }
 
     IngestionJob job;
-    job.job_id          = generateJobId();
-    job.type            = IngestionJobType::BATCH_FILES;
-    job.status          = IngestionJobStatus::QUEUED;
-    job.filename        = "batch_" + std::to_string(files.size()) + "_files";
-    job.config          = config;
-    job.user_context    = user_context;
-    job.created_at      = getCurrentTimeMs();
-    job.started_at      = 0;
-    job.completed_at    = 0;
-    job.total_items     = static_cast<int>(files.size());
-    job.processed_items = 0;
-    job.progress        = 0.0f;
-
+    job.job_id = generateJobId();
+    job.type = IngestionJobType::BATCH_FILES;
+    job.status = IngestionJobStatus::QUEUED;
+    job.filename = "batch_" + std::to_string(files.size()) + "_files";
+    job.config = config;
+    job.user_context = user_context;
+    job.created_at = getCurrentTimeMs();
+    job.total_items = static_cast<int>(files.size());
+    // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
+    
     // Store file list in config
     json file_list = json::array();
     for (const auto &[filename, blob] : files) {
@@ -915,13 +910,10 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
     job.config           = source.config;
     job.config["source"] = source.toJson();
     job.config.merge_patch(additional_config);
-    job.user_context    = user_context;
-    job.created_at      = getCurrentTimeMs();
-    job.started_at      = 0;
-    job.completed_at    = 0;
-    job.processed_items = 0;
-    job.progress        = 0.0f;
-
+    job.user_context = user_context;
+    job.created_at = getCurrentTimeMs();
+    // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
+    
     // Estimate size when a plugin is available; otherwise default to a single
     // logical item for handler-driven source jobs.
     if (plugin) {

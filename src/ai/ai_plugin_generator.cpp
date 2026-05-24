@@ -1,38 +1,96 @@
 // THEMIS_GAP_STATS: gaps=0 unimpl=0 stub=0 mock=0 sim=0 todo=0 debt=0 scanned=2026-05-20
 /**
  * @file ai_plugin_generator.cpp
- * @brief Production implementation of AIPluginGenerator — Phase 2 wired via LlmHttpPostFn.
- *
- * Stub #282 resolved: generatePlugin() now performs an HTTP POST to
- * config_.llm_endpoint via an injected LlmHttpPostFn when one is registered.
- * Without an injected function the call returns ERR_PLUGIN_LOAD_FAILED, making
- * the "Phase 2 not available" state explicit instead of silent.
- *
- * Phase 2 flow:
- *   1. validatePrompt() — input validation (unchanged from Phase 1).
- *   2. Build a JSON request from the PluginGenerationPrompt.
- *   3. POST to config_.llm_endpoint via the injected LlmHttpPostFn.
- *   4. Parse the JSON response; populate GeneratedPlugin.
- *   5. Return ERR_PLUGIN_LOAD_FAILED on network or parse errors.
- *
- * To enable code generation, inject a transport at startup:
- *   generator.setLlmHttpPostFn([](const std::string& url, const std::string& body) {
- *       return myHttpClient.post(url, body);
- *   });
+ * @brief Production implementation of AIPluginGenerator.
  */
 
 #include "ai/ai_plugin_generator.h"
 #include "utils/error_registry.h"
 #include "utils/expected.h"
 
+#include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
+#include <mutex>
 #include <stdexcept>
 #include <string>
+#include <array>
 
 namespace themis {
 namespace plugins {
 namespace ai {
+
+namespace {
+
+size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
+    auto* buf = static_cast<std::string*>(userdata);
+    buf->append(static_cast<char*>(ptr), size * nmemb);
+    return size * nmemb;
+}
+
+void ensureCurlGlobalInit() {
+    static std::once_flag init_flag;
+    std::call_once(init_flag, []() { curl_global_init(CURL_GLOBAL_DEFAULT); });
+}
+
+Result<std::string> invokeEndpointWithCurl(const std::string& endpoint,
+                                           const std::string& request_body,
+                                           long timeout_ms) {
+    if (endpoint.empty()) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: llm_endpoint must not be empty"));
+    }
+
+    ensureCurlGlobalInit();
+
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: failed to initialize HTTP client"));
+    }
+
+    std::string response_body;
+    long http_code = 0;
+    struct curl_slist* headers = nullptr;
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+
+    curl_easy_setopt(curl, CURLOPT_URL, endpoint.c_str());
+    curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, request_body.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(request_body.size()));
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, timeout_ms);
+    curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, timeout_ms);
+    curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
+
+    const CURLcode res = curl_easy_perform(curl);
+    if (res == CURLE_OK) {
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+    }
+
+    curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+
+    if (res != CURLE_OK) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: endpoint request failed: " +
+                      std::string(curl_easy_strerror(res))));
+    }
+    if (http_code < 200 || http_code >= 300) {
+        return tl::unexpected(
+            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                  "AIPluginGenerator: endpoint returned HTTP " + std::to_string(http_code)));
+    }
+
+    return response_body;
+}
+
+} // namespace
 
 AIPluginGenerator::AIPluginGenerator(const Config& config)
     : config_(config)
@@ -68,69 +126,69 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         return tl::unexpected(vr.error());
     }
 
-    spdlog::debug("[AIPluginGenerator] generatePlugin: description='{}' endpoint='{}'",
-                  prompt.description.substr(0, 80), config_.llm_endpoint);
+    spdlog::debug(
+        "[AIPluginGenerator] generatePlugin: description='{}' endpoint='{}' timeout_ms={}",
+        prompt.description.substr(0, 80), config_.llm_endpoint, config_.timeout_ms);
 
-    // 2. Phase 2: perform HTTP POST via injected LlmHttpPostFn.
-    if (!llm_http_post_fn_.has_value()) {
-        // No transport injected — Phase 2 unavailable in this build configuration.
-        return tl::unexpected(
-            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                  "AIPluginGenerator::generatePlugin: no LlmHttpPostFn injected. "
-                  "Call setLlmHttpPostFn() to enable plugin generation. "
-                  "Configured endpoint: " + config_.llm_endpoint));
+    json request;
+    request["description"] = prompt.description;
+    request["plugin_type"] = static_cast<int>(prompt.type);
+    request["required_capabilities"] = prompt.required_capabilities;
+    request["dependencies"] = prompt.dependencies;
+    request["llm_model"] = static_cast<int>(prompt.llm_model);
+    request["security_level"] = static_cast<int>(prompt.security_level);
+    request["generate_tests"] = prompt.generate_tests;
+    request["generate_docs"] = prompt.generate_docs;
+    const std::string request_body = request.dump();
+
+    Result<std::string> endpoint_result = config_.endpoint_invoke_fn
+        ? config_.endpoint_invoke_fn(config_.llm_endpoint, request_body, config_.timeout_ms)
+        : invokeEndpointWithCurl(config_.llm_endpoint, request_body, config_.timeout_ms);
+    if (!endpoint_result) {
+        return tl::unexpected(endpoint_result.error());
     }
 
-    // 3. Build the JSON request.
-    nlohmann::json req;
-    req["description"]           = prompt.description;
-    req["required_capabilities"] = prompt.required_capabilities;
-    req["dependencies"]          = prompt.dependencies;
-    req["generate_tests"]        = prompt.generate_tests;
-    req["generate_docs"]         = prompt.generate_docs;
-    const std::string body = req.dump();
-
-    // 4. Call the injected transport.
-    std::string response;
+    json response;
     try {
-        response = (*llm_http_post_fn_)(config_.llm_endpoint, body);
-    } catch (const std::exception& ex) {
+        response = json::parse(*endpoint_result);
+    } catch (const std::exception& e) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                  std::string("AIPluginGenerator::generatePlugin: HTTP POST to '") +
-                  config_.llm_endpoint + "' failed: " + ex.what()));
+                  std::string("AIPluginGenerator: invalid endpoint JSON response: ") + e.what()));
     }
 
-    // 5. Parse the JSON response.
-    auto parsed = nlohmann::json::parse(response, nullptr, /*throw_on_error=*/false);
-    if (parsed.is_discarded()) {
+    const json& payload = (response.contains("generated_plugin") && response["generated_plugin"].is_object())
+                        ? response["generated_plugin"]
+                        : response;
+
+    GeneratedPlugin generated;
+    generated.header_code = payload.value("header_code", std::string{});
+    generated.implementation_code = payload.value("implementation_code", std::string{});
+    generated.test_code = payload.value("test_code", std::string{});
+    generated.cmake_code = payload.value("cmake_code", std::string{});
+    generated.security_report = payload.value("security_report", std::string{});
+    generated.passed_security_checks = payload.value("passed_security_checks", false);
+
+    generated.manifest.name = payload.value("name", std::string("generated_plugin"));
+    generated.manifest.version = payload.value("version", std::string("0.1.0"));
+    generated.manifest.description = payload.value("description", prompt.description);
+    generated.manifest.type = prompt.type;
+
+    if (payload.contains("build_dependencies") && payload["build_dependencies"].is_array()) {
+        for (const auto& dep : payload["build_dependencies"]) {
+            if (dep.is_string()) {
+                generated.build_dependencies.push_back(dep.get<std::string>());
+            }
+        }
+    }
+
+    if (generated.implementation_code.empty()) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                  "AIPluginGenerator::generatePlugin: LLM endpoint returned invalid JSON"));
+                  "AIPluginGenerator: endpoint response missing non-empty implementation_code"));
     }
 
-    const std::string code = parsed.value("implementation_code",
-                                          parsed.value("code", std::string{}));
-    if (code.empty()) {
-        return tl::unexpected(
-            Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-                  "AIPluginGenerator::generatePlugin: LLM response missing 'implementation_code' field"));
-    }
-
-    GeneratedPlugin plugin;
-    plugin.header_code          = parsed.value("header_code", std::string{});
-    plugin.implementation_code  = code;
-    plugin.test_code            = parsed.value("test_code", std::string{});
-    plugin.cmake_code           = parsed.value("cmake_code", std::string{});
-    plugin.security_report      = parsed.value("security_report", std::string{});
-    plugin.passed_security_checks = parsed.value("passed_security_checks", false);
-    if (parsed.contains("build_dependencies") && parsed["build_dependencies"].is_array()) {
-        plugin.build_dependencies = parsed["build_dependencies"].get<std::vector<std::string>>();
-    }
-
-    spdlog::info("[AIPluginGenerator] generatePlugin: plugin generated successfully from '{}'",
-                 config_.llm_endpoint);
-    return plugin;
+    return generated;
 }
 
 } // namespace ai

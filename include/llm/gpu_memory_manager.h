@@ -35,7 +35,7 @@ namespace detail {
  */
 class GPUMemoryManager {
 public:
-    using GPUTemperatureProviderFn = std::function<bool(int gpu_device_id, float& temperature_celsius)>;
+    using GPUTemperatureProviderFn = std::function<float(int gpu_device_id)>;
 
     struct MemoryAllocation {
         std::string model_id;
@@ -67,6 +67,25 @@ public:
     
     explicit GPUMemoryManager(const Config& config);
     ~GPUMemoryManager();
+
+    /**
+     * @brief Function type for per-device GPU temperature query (stub #309).
+     *
+     * When injected via setNvmlTemperatureFn(), updateGPUHealth() calls this
+     * function instead of returning a hardcoded 0.0 °C placeholder.  The
+     * function receives the device ID and must return the current temperature
+     * in degrees Celsius, or throw on error.
+     */
+    using NvmlTemperatureFn = std::function<float(int /*device_id*/)>;
+
+    /**
+     * @brief Inject an NVML-based (or mock) GPU temperature provider.
+     *
+     * Thread-safe.  Passing nullptr reverts to the 0.0 °C placeholder.
+     *
+     * @param fn Temperature query callback.
+     */
+    static void setNvmlTemperatureFn(NvmlTemperatureFn fn);
     
     // Memory allocation
     void* allocateGPU(const std::string& model_id, size_t bytes);
@@ -170,25 +189,16 @@ public:
     bool disablePeerAccess(int src_gpu, int dst_gpu);
     bool canAccessPeer(int src_gpu, int dst_gpu) const;
 
-    // ---------------------------------------------------------------------------
-    // Callback bridge for CUDA/NVML temperature telemetry (stub #309)
-    // ---------------------------------------------------------------------------
     /**
-     * @brief Function type for injecting real NVML per-device temperature queries.
-     *
-     * @param gpu_device_id  CUDA device index to query
-     * @return Temperature in degrees Celsius; negative value signals query failure
+     * @brief Install runtime GPU temperature provider (e.g. NVML bridge).
+     * @param fn Provider callable returning temperature in °C for a GPU device ID.
      */
-    using NVMLTemperatureFn = std::function<float(int gpu_device_id)>;
+    void setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn);
 
     /**
-     * @brief Inject a real NVML temperature provider.
-     *
-     * When set, updateGPUHealth() uses this function to read the sensor value
-     * instead of the hardcoded 0.0°C placeholder.  Pass nullptr to revert to
-     * the placeholder behavior.  Thread-safe (internal mutex).
+     * @brief Remove runtime GPU temperature provider and use built-in fallback.
      */
-    void setNVMLTemperatureFn(NVMLTemperatureFn fn);
+    void clearGPUTemperatureProviderFn();
     
 private:
     Config config_;
@@ -213,6 +223,7 @@ private:
     std::unordered_map<int, float> gpu_temperatures_;     // Temperature tracking
     std::unordered_map<int, float> gpu_utilizations_;     // Utilization tracking
     std::unordered_map<int, size_t> gpu_error_counts_;    // Error count per GPU
+    GPUTemperatureProviderFn temperature_provider_fn_;
     
     // Adapter tracking for load balancing
     std::unordered_map<int, std::vector<std::string>> gpu_adapters_;  // Adapters per GPU

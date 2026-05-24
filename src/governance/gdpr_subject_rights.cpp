@@ -166,8 +166,7 @@ PortabilityPackage GdprSubjectRightsManager::requestPortability(const std::strin
                         combined += '\n';
                     }
                 }
-            } catch (...) {
-            }
+            } catch (const std::exception&) {}
         }
     }
 

@@ -256,7 +256,7 @@ ExpertSystemEngine::matchAllConditions(const HornClause &rule, const std::vector
     if (scorer_fn) {
         try {
             return scorer_fn(rule, matched);
-        } catch (const std::exception&) {
+        } catch (...) {
             return 1.0;
         }
     }
@@ -271,10 +271,10 @@ ExpertSystemEngine::matchAllConditions(const HornClause &rule, const std::vector
             const std::string label = scorer->predict(model_name, model_ver, dp);
             try {
                 return std::stod(label);
-            } catch (const std::exception&) {
+            } catch (...) {
                 return 1.0;
             }
-        } catch (const std::exception&) {
+        } catch (...) {
             return 1.0;
         }
     }

@@ -670,7 +670,7 @@ std::string ThemisHelpLoRA::incrementVersion(const std::string& version) {
     try {
         int minor_num = std::stoi(minor);
         return "v" + major + "." + std::to_string(minor_num + 1);
-    } catch (const std::exception&) {
+    } catch (...) {
         return "v1.1";
     }
 }
@@ -708,7 +708,7 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
             // Already at minimum version v1.0
             return "v1.0";
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         return "v1.0";
     }
 }

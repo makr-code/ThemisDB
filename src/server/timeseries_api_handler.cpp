@@ -20,6 +20,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <chrono>
+#include <set>
 
 namespace themis {
 namespace server {
@@ -37,12 +38,9 @@ TimeSeriesApiHandler::TimeSeriesApiHandler(
 {
 }
 
-void TimeSeriesApiHandler::setAggregateTypesProvider(AggregateTypesProviderFn fn) {
-    aggregate_types_provider_ = std::move(fn);
-}
-
-void TimeSeriesApiHandler::setRetentionPoliciesProvider(RetentionPoliciesProviderFn fn) {
-    retention_policies_provider_ = std::move(fn);
+void TimeSeriesApiHandler::setRetentionPoliciesProviderFn(RetentionPoliciesProviderFn fn) {
+    std::lock_guard<std::mutex> lock(retentionPoliciesMutex_);
+    retentionPoliciesFn_ = std::move(fn);
 }
 
 http::response<http::string_body> TimeSeriesApiHandler::handlePut(
@@ -399,20 +397,37 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
-        // Query the injected aggregate-types provider when available (stub #301 resolved).
-        // Fall back to the static built-in list when no provider is wired.
-        nlohmann::json aggregates;
-        if (aggregate_types_provider_) {
-            try {
-                aggregates = aggregate_types_provider_();
-            } catch (const std::exception& ex) {
-                THEMIS_WARN("aggregate_types_provider threw: {}; using static list", ex.what());
-                aggregates = nlohmann::json::array({"min", "max", "avg", "sum", "count"});
-            }
-        } else {
-            aggregates = nlohmann::json::array({"min", "max", "avg", "sum", "count"});
+        std::set<std::string> aggregate_names = {"min", "max", "avg", "sum", "count"};
+
+        nlohmann::json materialized = nlohmann::json::array();
+        if (storage_) {
+            storage_->scanPrefix("wm:cagg:", [&materialized](std::string_view key, std::string_view value) {
+                const std::string key_str(key);
+                constexpr std::string_view kPrefix = "wm:cagg:";
+                if (key_str.rfind(kPrefix, 0) == 0 && key_str.size() > kPrefix.size()) {
+                    materialized.push_back({
+                        {"aggregate_id", key_str.substr(kPrefix.size())},
+                        {"watermark_ms", std::string(value)}
+                    });
+                }
+                return true;
+            });
         }
-        nlohmann::json response = {{"aggregates", aggregates}};
+
+        if (!materialized.empty()) {
+            aggregate_names.insert("materialized");
+        }
+
+        nlohmann::json functions = nlohmann::json::array();
+        for (const auto& name : aggregate_names) {
+            functions.push_back(name);
+        }
+
+        nlohmann::json response = {
+            {"aggregates", functions},
+            {"materialized_aggregates", materialized},
+            {"materialized_count", materialized.size()}
+        };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {
@@ -426,20 +441,37 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
-        // Query the injected retention-policies provider when available (stub #301 resolved).
-        // Fall back to an empty array when no provider is wired.
-        nlohmann::json policies;
-        if (retention_policies_provider_) {
-            try {
-                policies = retention_policies_provider_();
-            } catch (const std::exception& ex) {
-                THEMIS_WARN("retention_policies_provider threw: {}; returning empty list", ex.what());
-                policies = nlohmann::json::array();
+        nlohmann::json policies = nlohmann::json::array();
+        if (storage_) {
+            auto stored = storage_->get("config:timeseries");
+            if (stored) {
+                std::string serialized(stored->begin(), stored->end());
+                nlohmann::json cfg = nlohmann::json::parse(serialized, nullptr, false);
+                if (!cfg.is_discarded()) {
+                    if (cfg.contains("retention_policies") && cfg["retention_policies"].is_array()) {
+                        policies = cfg["retention_policies"];
+                    } else if (cfg.contains("retention_policy") && cfg["retention_policy"].is_object()) {
+                        policies.push_back(cfg["retention_policy"]);
+                    }
+                }
             }
-        } else {
-            policies = nlohmann::json::array();
         }
-        nlohmann::json response = {{"policies", policies}};
+
+        if (ts_store_) {
+            const auto& config = ts_store_->getConfig();
+            if (config.late_arrival_window_ms > 0) {
+                policies.push_back({
+                    {"name", "late_arrival_window"},
+                    {"window_ms", config.late_arrival_window_ms},
+                    {"source", "tsstore_config"}
+                });
+            }
+        }
+
+        nlohmann::json response = {
+            {"policies", policies},
+            {"policy_count", policies.size()}
+        };
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {
@@ -654,4 +686,3 @@ http::response<http::string_body> TimeSeriesApiHandler::makeResponse(
 
 } // namespace server
 } // namespace themis
-

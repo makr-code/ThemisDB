@@ -225,6 +225,26 @@ struct DistributedTxnManagerConfig {
     /// Maximum number of concurrent transactions tracked in memory.
     size_t max_active_transactions = 10000;
 
+    /**
+     * @brief Optional remote phase-2 dispatcher for callback-less participants.
+     *
+     * When a participant has no in-process callback (`Participant::callback == nullptr`),
+     * the coordinator invokes this function to deliver the final COMMIT/ABORT
+     * decision to the remote node.
+     *
+     * @param txn_id      Distributed transaction identifier.
+     * @param node_id     Participant node/shard identifier.
+     * @param endpoint    Participant endpoint (e.g. host:port).
+     * @param do_commit   true for COMMIT, false for ABORT.
+     * @return true if the decision was delivered successfully; false otherwise.
+     */
+    std::function<bool(
+        const std::string& txn_id,
+        const std::string& node_id,
+        const std::string& endpoint,
+        bool do_commit
+    )> remote_phase2_dispatch;
+
     // ── Performance / PERF-D4 ────────────────────────────────────────────────
 
     /// Batched-prepare window.  When > 0ms the coordinator accumulates
@@ -238,6 +258,32 @@ struct DistributedTxnManagerConfig {
     /// 0 = fall back to std::async per call (legacy behaviour).
     /// Default: 4 (good for typical 2-8 shard deployments).
     size_t worker_thread_count = 4;
+
+    /**
+     * @brief Remote Phase-2 RPC bridge for callback-less participants.
+     *
+     * When set, runPhase2Unlocked() calls this function for every participant
+     * whose `callback` pointer is null and whose `endpoint` is non-empty,
+     * delivering the COMMIT or ABORT decision over the provided transport.
+     *
+     * Signature: `void(endpoint, txn_id, do_commit)`
+     *   - @p endpoint  Network address of the remote participant ("host:port").
+     *   - @p txn_id    Transaction identifier.
+     *   - @p do_commit `true` → send COMMIT; `false` → send ABORT.
+     *
+     * The function is responsible for retry logic and transport-level error
+     * handling.  Any exception thrown by the function is caught and logged by
+     * the coordinator; it does not abort the Phase-2 loop.
+     *
+     * When not set, remote participants receive no Phase-2 message and can
+     * remain prepared until manual recovery.
+     */
+    using Phase2RpcFn = std::function<void(
+        const std::string& endpoint,
+        const std::string& txn_id,
+        bool               do_commit
+    )>;
+    std::optional<Phase2RpcFn> phase2_rpc_fn;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -474,6 +520,27 @@ public:
      * @brief Return the number of currently active (non-terminal) transactions.
      */
     size_t activeTransactionCount() const;
+
+    // ─── RPC phase-2 bridge (stub #279) ──────────────────────────────────────
+
+    /// @brief Type alias for remote phase-2 RPC injection.
+    using RpcPhase2Fn = std::function<void(const std::string& node_id,
+                                           const std::string& txn_id,
+                                           bool               do_commit)>;
+
+    /**
+     * @brief Install a remote phase-2 RPC callback for participants without a
+     *        local callback.  When set, callback-less participants receive their
+     *        commit/abort decision via this function instead of being silently
+     *        skipped.
+     * @param fn Callable receiving (node_id, txn_id, do_commit).
+     */
+    static void setRpcPhase2Fn(RpcPhase2Fn fn);
+
+    /**
+     * @brief Remove the RPC phase-2 bridge (reverts to skip-if-no-callback).
+     */
+    static void clearRpcPhase2Fn();
 
 private:
     // ── Internal helpers ──────────────────────────────────────────────────────

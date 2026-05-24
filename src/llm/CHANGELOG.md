@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- **LLM reliability hardening (rest block)** (`src/llm/**/*.cpp`)
+  - Replaced all remaining `catch (...)` handlers in LLM implementation files with typed `catch (const std::exception&)`.
+  - Targeted delta in this block: **61 → 0** across 24 files (`async_inference_engine`: 14→0, `inference_engine_enhanced`: 7→0, `lora_checkpoint_manager`: 6→0, `llm_model_storage`: 6→0, plus 20 additional LLM files).
+
 - Federated inference across remote nodes (Issue #1928)
 - Hard cancellation for in-flight requests (currently best-effort)
 - Speculative decoding using real draft-model logits (currently synthetic arrays)

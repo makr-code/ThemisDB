@@ -10,6 +10,7 @@
  */
 
 #include "security/vault_key_provider.h"
+#include <stdexcept>
 #include "security/key_provider.h"
 #include <nlohmann/json.hpp>
 #include <curl/curl.h>
@@ -741,7 +742,7 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
         if (kv_version == "v2" && resp_json.contains("data") && resp_json["data"].contains("version")) {
             return resp_json["data"]["version"].get<uint32_t>();
         }
-    } catch (...) {
+    } catch (const std::exception&) {
         // If parsing fails, return version 1 as default
     }
 

@@ -312,10 +312,7 @@ std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(cons
         out.reserve(preds.size());
         for (const auto &p : preds) {
             double val = 0.0;
-            try {
-                val = std::stod(p);
-            } catch (...) {
-            }
+            try { val = std::stod(p); } catch (const std::exception&) {}
             out.push_back({{"value", val}});
         }
     }

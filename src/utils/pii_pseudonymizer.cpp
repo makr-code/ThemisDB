@@ -10,6 +10,7 @@
  */
 
 #include "utils/pii_pseudonymizer.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 
@@ -260,7 +261,7 @@ bool PIIPseudonymizer::softDeletePII(const std::string& pii_uuid, const std::str
             txn->rollback();
             THEMIS_WARN("PIIPseudonymizer: softDeletePII JSON parse/update failed for {}: {}", pii_uuid, e.what());
             return false;
-        } catch (...) {
+        } catch (const std::exception&) {
             txn->rollback();
             return false;
         }
@@ -280,7 +281,7 @@ std::vector<std::string> PIIPseudonymizer::findPIIForEntity(const std::string& e
     try {
         auto index = nlohmann::json::parse(*index_str);
         return index["pii_uuids"].get<std::vector<std::string>>();
-    } catch (...) {
+    } catch (const std::exception&) {
         return {};
     }
 }

@@ -17,6 +17,15 @@
 
 #include "storage/key_schema.h"
 #include "utils/expected.h"
+#include <fmt/format.h>
+#include <algorithm>
+#include <exception>
+#include <sstream>
+#include <iomanip>
+
+#include <nlohmann/json.hpp>
+
+#include <openssl/evp.h>
 
 namespace themis {
 
@@ -33,28 +42,18 @@ std::string ContentFS::sha256Hex(const std::vector<uint8_t> &data) {
     unsigned char md[EVP_MAX_MD_SIZE];
     unsigned int mdLen = 0;
 
-    EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
-    if (!mdctx) {
-        return "";
-    }
+    // RAII wrapper — EVP_MD_CTX_free() called automatically on all exit paths.
+    using EvpCtxPtr = std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>;
+    EvpCtxPtr mdctx(EVP_MD_CTX_new(), EVP_MD_CTX_free);
+    if (!mdctx) return "";
 
-    if (EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr) != 1) {
-        EVP_MD_CTX_free(mdctx);
-        return "";
-    }
+    if (EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr) != 1) return "";
 
     if (!data.empty()) {
-        if (EVP_DigestUpdate(mdctx, data.data(), data.size()) != 1) {
-            EVP_MD_CTX_free(mdctx);
-            return "";
-        }
+        if (EVP_DigestUpdate(mdctx.get(), data.data(), data.size()) != 1) return "";
     }
 
-    if (EVP_DigestFinal_ex(mdctx, md, &mdLen) != 1) {
-        EVP_MD_CTX_free(mdctx);
-        return "";
-    }
-    EVP_MD_CTX_free(mdctx);
+    if (EVP_DigestFinal_ex(mdctx.get(), md, &mdLen) != 1) return "";
 
     return toHex(md, mdLen);
 }
@@ -109,10 +108,9 @@ Result<void> ContentFS::put(const std::string &pk, const std::vector<uint8_t> &d
             try {
                 auto jm             = nlohmann::json::from_cbor(*oldMeta);
                 uint64_t old_chunks = jm.value("chunks", static_cast<uint64_t>(0));
-                for (uint64_t i = 0; i < old_chunks; ++i) {
-                    db_.del(chunkKey(pk, i));
-                }
-            } catch (const std::exception &) {
+                for (uint64_t i = 0; i < old_chunks; ++i) db_.del(chunkKey(pk, i));
+            } catch (const nlohmann::json::exception&) {
+            } catch (const std::exception&) {
             }
         }
     }
@@ -167,9 +165,15 @@ Result<std::vector<uint8_t>> ContentFS::get(const std::string &pk) const {
             }
             return Ok(std::move(out));
         }
-    } catch (const std::exception &) {
+    } catch (const nlohmann::json::exception&) {
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                                         fmt::format("get: invalid metadata for '{}'", pk));
+                                           fmt::format("get: invalid metadata for '{}'", pk));
+    } catch (const std::exception&) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                           fmt::format("get: invalid metadata for '{}'", pk));
+    } catch (const std::exception&) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                            fmt::format("get: invalid metadata for '{}'", pk));
     }
 }
 
@@ -237,9 +241,15 @@ Result<std::vector<uint8_t>> ContentFS::getRange(const std::string &pk, uint64_t
             }
             return Ok(std::move(out));
         }
-    } catch (const std::exception &) {
+    } catch (const nlohmann::json::exception&) {
         return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                                         fmt::format("getRange: invalid metadata for '{}'", pk));
+                                           fmt::format("getRange: invalid metadata for '{}'", pk));
+    } catch (const std::exception&) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                           fmt::format("getRange: invalid metadata for '{}'", pk));
+    } catch (const std::exception&) {
+        return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                            fmt::format("getRange: invalid metadata for '{}'", pk));
     }
 }
 
@@ -260,9 +270,15 @@ Result<ContentMeta> ContentFS::head(const std::string &pk) const {
         m.chunk_size = j.value("chunk_size", static_cast<uint64_t>(0));
         m.chunks     = j.value("chunks", static_cast<uint64_t>(0));
         return Ok(std::move(m));
-    } catch (const std::exception &) {
+    } catch (const nlohmann::json::exception&) {
         return Err<ContentMeta>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                                fmt::format("head: invalid metadata encoding for '{}'", pk));
+                                 fmt::format("head: invalid metadata encoding for '{}'", pk));
+    } catch (const std::exception&) {
+        return Err<ContentMeta>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                 fmt::format("head: invalid metadata encoding for '{}'", pk));
+    } catch (const std::exception&) {
+        return Err<ContentMeta>(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                  fmt::format("head: invalid metadata encoding for '{}'", pk));
     }
 }
 
@@ -273,7 +289,8 @@ Result<void> ContentFS::remove(const std::string &pk) {
         try {
             auto j = nlohmann::json::from_cbor(*meta);
             chunks = j.value("chunks", static_cast<uint64_t>(0));
-        } catch (const std::exception &) {
+        } catch (const nlohmann::json::exception&) {
+        } catch (const std::exception&) {
         }
     }
 

@@ -11,12 +11,11 @@
 
 /**
  * @file tensor/tensor_fingerprint_graph.cpp
- * @brief TensorFingerprintGraph — adapter similarity via G_0 column means.
+ * @brief TensorFingerprintGraph implementation.
  *
- * Similarity ranking supports two paths:
- * - injected `ExactSimilarityFn` for exact backend scoring
- * - deterministic fingerprint-cosine fallback when callback is unset, throws,
- *   or returns std::nullopt for a candidate
+ * findSimilar() uses TT-domain cosine similarity via
+ * TensorTrainDecomposer::innerProduct().  findSimilarByFingerprint()
+ * retains the compact first-core fingerprint approximation.
  */
 
 #include "tensor/tensor_fingerprint_graph.h"
@@ -24,12 +23,37 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <limits>
 #include <numeric>
 #include <shared_mutex>
 #include <utility>
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// ExactSimilarity bridge (stub #276)
+// ============================================================================
+
+namespace {
+    static std::mutex s_exact_sim_fn_mutex;
+    static TensorFingerprintGraph::ExactSimilarityFn s_exact_sim_fn;
+} // namespace
+
+void TensorFingerprintGraph::setExactSimilarityFn(ExactSimilarityFn fn) {
+    std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
+    s_exact_sim_fn = std::move(fn);
+}
+
+void TensorFingerprintGraph::clearExactSimilarityFn() {
+    std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
+    s_exact_sim_fn = nullptr;
+}
+
+static TensorFingerprintGraph::ExactSimilarityFn getExactSimilarityFn() {
+    std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
+    return s_exact_sim_fn;
+}
 
 // ============================================================================
 // Static helpers
@@ -104,10 +128,12 @@ bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
     entry.tenant_id      = tenant_id;
     entry.fingerprint    = std::move(fp);
     entry.first_core_norm = norm;
+    entry.exact_train    = train;
 
     {
         std::unique_lock lock(mutex_);
         entries_[adapter_key] = std::move(entry);
+        trains_[adapter_key] = train;
     }
     {
         std::unique_lock slock(stats_mutex_);
@@ -123,6 +149,7 @@ bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
 bool TensorFingerprintGraph::removeAdapter(const std::string& adapter_key) {
     std::unique_lock lock(mutex_);
     const bool removed = entries_.erase(adapter_key) > 0;
+    trains_.erase(adapter_key);
     if (removed) {
         std::unique_lock slock(stats_mutex_);
         stats_.total_adapters = entries_.size();
@@ -198,78 +225,63 @@ TensorFingerprintGraph::findSimilarByFingerprint(
 
 std::vector<SimilarityResult>
 TensorFingerprintGraph::findSimilar(const std::string& query_key,
-                                    std::size_t        k) const {
+                                     std::size_t        k) const {
     if (k == 0) return {};
 
-    // Look up query entry and snapshot candidates.
-    FingerprintEntry query_entry;
-    std::vector<FingerprintEntry> candidates;
+    storage::TTTrain query_train;
+    std::vector<std::pair<std::string, FingerprintEntry>> candidates;
     {
         std::shared_lock lock(mutex_);
-        auto it = entries_.find(query_key);
-        if (it == entries_.end()) return {};
-        query_entry = it->second;
-
-        if (entries_.size() <= 1) {
-            return {};
-        }
-
-        candidates.reserve(entries_.size() - 1);
+        const auto it_train = trains_.find(query_key);
+        if (it_train == trains_.end()) return {};
+        query_train = it_train->second;
+        candidates.reserve(entries_.size() > 0 ? entries_.size() - 1 : 0);
         for (const auto& [key, entry] : entries_) {
-            if (key == query_key) {
-                continue;
-            }
-            candidates.push_back(entry);
+            if (key == query_key) continue;
+            candidates.emplace_back(key, entry);
         }
     }
 
-    ExactSimilarityFn exact_similarity_fn;
-    {
-        std::shared_lock lock(exact_similarity_fn_mutex_);
-        exact_similarity_fn = exact_similarity_fn_;
-    }
+    const double query_self_ip =
+        storage::TensorTrainDecomposer::innerProduct(query_train, query_train);
+    if (!std::isfinite(query_self_ip) || query_self_ip <= 0.0) return {};
 
     std::vector<SimilarityResult> results;
     results.reserve(candidates.size());
-    for (const auto& candidate : candidates) {
-        float score = 0.0f;
-        bool used_exact_similarity = false;
+    std::size_t comparisons = 0;
+    {
+        std::shared_lock lock(mutex_);
+        for (const auto& [key, entry] : candidates) {
+            const auto it_train = trains_.find(key);
+            if (it_train == trains_.end()) continue;
+            const auto& other_train = it_train->second;
 
-        if (exact_similarity_fn) {
-            try {
-                const auto exact = exact_similarity_fn(query_entry.adapter_key, candidate.adapter_key);
-                if (exact.has_value()) {
-                    score = *exact;
-                    used_exact_similarity = true;
-                }
-            } catch (const std::exception&) {
-                // Fail closed to deterministic fingerprint cosine below.
-                used_exact_similarity = false;
+            const double other_self_ip =
+                storage::TensorTrainDecomposer::innerProduct(other_train, other_train);
+            if (!std::isfinite(other_self_ip) || other_self_ip <= 0.0) {
+                continue;
             }
-        }
 
-        if (!used_exact_similarity) {
-            if (candidate.fingerprint.size() == query_entry.fingerprint.size()) {
-                score = cosineSimilarity(query_entry.fingerprint, candidate.fingerprint);
-            } else {
-                const auto len = std::min(query_entry.fingerprint.size(), candidate.fingerprint.size());
-                std::vector<float> query_prefix(query_entry.fingerprint.begin(),
-                                                query_entry.fingerprint.begin() + len);
-                std::vector<float> candidate_prefix(candidate.fingerprint.begin(),
-                                                    candidate.fingerprint.begin() + len);
-                score = cosineSimilarity(query_prefix, candidate_prefix);
+            const double cross_ip =
+                storage::TensorTrainDecomposer::innerProduct(query_train, other_train);
+            const double denom = std::sqrt(query_self_ip * other_self_ip);
+            if (!std::isfinite(cross_ip) || !std::isfinite(denom) || denom <= 0.0) {
+                continue;
             }
-        }
 
-        SimilarityResult sr;
-        sr.adapter_key    = candidate.adapter_key;
-        sr.domain         = candidate.domain;
-        sr.base_model_id  = candidate.base_model_id;
-        sr.score          = score;
-        results.push_back(std::move(sr));
+            double score = cross_ip / denom;
+            score = std::clamp(score, -1.0, 1.0);
+
+            SimilarityResult sr;
+            sr.adapter_key = entry.adapter_key;
+            sr.domain = entry.domain;
+            sr.base_model_id = entry.base_model_id;
+            sr.score = static_cast<float>(score);
+            results.push_back(std::move(sr));
+            ++comparisons;
+        }
     }
 
-    // Sort descending by score.
     std::sort(results.begin(), results.end(),
               [](const SimilarityResult& a, const SimilarityResult& b) {
                   return a.score > b.score;
@@ -279,7 +291,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
     {
         std::unique_lock slock(stats_mutex_);
         ++stats_.total_query_calls;
-        stats_.total_comparisons += candidates.size();
+        stats_.total_comparisons += comparisons;
     }
 
     return results;

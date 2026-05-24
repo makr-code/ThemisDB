@@ -15,7 +15,6 @@
 #include <vector>
 #include <memory>
 #include <functional>
-#include <mutex>
 #include <nlohmann/json.hpp>
 
 /**
@@ -93,10 +92,17 @@ struct GeneratedPlugin {
  */
 class AIPluginGenerator {
 public:
+    using EndpointInvokeFn = std::function<Result<std::string>(
+        const std::string& endpoint,
+        const std::string& request_body,
+        long timeout_ms)>;
+
     struct Config {
         std::string llm_endpoint = "http://localhost:8080";
         std::string sandbox_dir = "/tmp/themis_plugin_sandbox";
         std::string output_dir = "./generated_plugins";
+        long timeout_ms = 10000;
+        EndpointInvokeFn endpoint_invoke_fn;
     };
 
     /**
@@ -152,6 +158,28 @@ public:
     Result<GeneratedPlugin> generatePlugin(const PluginGenerationPrompt& prompt);
     Result<void> validatePrompt(const PluginGenerationPrompt& prompt);
     
+    // ─── HttpPost bridge (stub #282) ──────────────────────────────────────────
+
+    /// @brief Type alias for LLM HTTP POST injection.
+    using HttpPostFn = std::function<Result<GeneratedPlugin>(
+        const std::string&            endpoint,
+        const PluginGenerationPrompt& prompt)>;
+
+    /**
+     * @brief Install an HTTP POST callable used by generatePlugin() to contact
+     *        the LLM code-generation endpoint.
+     *
+     * When set, generatePlugin() delegates to this function instead of returning
+     * ERR_PLUGIN_LOAD_FAILED.  Replaces the Phase-1 placeholder entirely.
+     * @param fn Callable receiving (endpoint_url, prompt) → Result<GeneratedPlugin>.
+     */
+    static void setHttpPostFn(HttpPostFn fn);
+
+    /**
+     * @brief Remove the HTTP POST bridge (reverts to Phase-1 error return).
+     */
+    static void clearHttpPostFn();
+
 private:
     Config config_;
     std::optional<LlmHttpPostFn> llm_http_post_fn_;

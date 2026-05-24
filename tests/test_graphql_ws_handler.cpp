@@ -35,6 +35,7 @@
 using namespace themis::api;
 namespace gql = themis::graphql;
 using json = nlohmann::json;
+namespace graphql = themis::graphql;
 
 // ---------------------------------------------------------------------------
 // Helpers

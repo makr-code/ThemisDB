@@ -834,7 +834,7 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                                                 } else {
                                                     doc.content = result.pk;
                                                 }
-                                            } catch (const std::exception&) {
+                                            } catch (...) {
                                                 doc.content = result.pk;
                                             }
                                         } else {
@@ -1710,7 +1710,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
                     result.score = std::stof(line.substr(7));
                     // Clamp to [0, 1]
                     result.score = std::max(0.0f, std::min(1.0f, result.score));
-                } catch (const std::exception&) {
+                } catch (...) {
                     result.score = -1.0f;
                 }
                 in_suggestions = false;

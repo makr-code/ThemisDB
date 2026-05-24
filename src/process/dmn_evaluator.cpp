@@ -52,7 +52,7 @@ std::optional<double> parseNumber(std::string_view sv) {
         double result = std::stod(s, &pos);
         if (pos == s.size()) return result;
         return std::nullopt;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

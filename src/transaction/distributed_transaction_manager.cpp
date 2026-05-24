@@ -36,6 +36,30 @@
 
 namespace themis::transaction {
 
+// ============================================================================
+// RPC phase-2 bridge (stub #279)
+// ============================================================================
+
+namespace {
+static std::mutex s_rpc_phase2_fn_mutex;
+static DistributedTransactionManager::RpcPhase2Fn s_rpc_phase2_fn;
+} // namespace
+
+void DistributedTransactionManager::setRpcPhase2Fn(RpcPhase2Fn fn) {
+    std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
+    s_rpc_phase2_fn = std::move(fn);
+}
+
+void DistributedTransactionManager::clearRpcPhase2Fn() {
+    std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
+    s_rpc_phase2_fn = nullptr;
+}
+
+static DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn() {
+    std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
+    return s_rpc_phase2_fn;
+}
+
 namespace {
 /// Format a system_clock time-point as ISO-8601 for WAL/log data.
 std::string formatTimePoint(std::chrono::system_clock::time_point tp) {
@@ -101,7 +125,7 @@ DistributedTransactionManager::~DistributedTransactionManager() {
     {
         std::lock_guard<std::mutex> lock(batch_mutex_);
         for (auto& entry : batch_queue_) {
-            try { entry.result.set_value(false); } catch (...) {}
+            try { entry.result.set_value(false); } catch (const std::exception&) {}
         }
         batch_queue_.clear();
     }
@@ -744,32 +768,33 @@ void DistributedTransactionManager::runPhase2Unlocked(
 
     for (const auto& part : parts) {
         if (!part.callback) {
-            if (!part.endpoint.empty() && remote_phase2_fn_.has_value()) {
-                // Route the phase-2 decision to the remote participant via the
-                // injected transport bridge (stub #279 resolved).
+            // Remote participant: deliver Phase-2 decision via the injected RPC
+            // bridge when an endpoint is known.  Without the bridge the
+            // coordinator's WAL already records the decision, so
+            // recoverInDoubtTransactions() can re-drive delivery after restart.
+            if (!part.endpoint.empty() && config_.phase2_rpc_fn) {
                 const std::string ep  = part.endpoint;
+                const std::string nid = part.node_id;
                 const std::string tid = txn_id;
-                const bool        commit = do_commit;
-                const RemotePhase2Fn fn = *remote_phase2_fn_;
-                futures.push_back(submitTask([fn, ep, tid, commit]() {
+                const std::string cid = coordinator_id_;
+                const bool        dc  = do_commit;
+                auto& rpc_fn = *config_.phase2_rpc_fn;
+                futures.push_back(submitTask([rpc_fn, ep, nid, tid, cid, dc]() {
                     try {
-                        fn(ep, tid, commit);
+                        rpc_fn(ep, tid, dc);
                     } catch (const std::exception& ex) {
-                        THEMIS_ERROR("2PC remote phase-2 {} threw for endpoint={} txn={}: {}",
-                                     commit ? "COMMIT" : "ABORT", ep, tid, ex.what());
+                        THEMIS_ERROR("2PC Phase-2 RPC {} threw for node={} txn={} coordinator={}: {}",
+                                     dc ? "COMMIT" : "ABORT", nid, tid, cid, ex.what());
                     }
                 }));
             } else {
-                // No callback and no remote transport fn injected: log and skip.
-                // Decision is durable in WAL; recoverInDoubtTransactions() can
-                // replay it when the transport becomes available.
-                THEMIS_WARN("runPhase2Unlocked: no phase-2 transport for node='{}' endpoint='{}' "
-                            "(decision={} durable in WAL; not delivered to remote)",
-                            part.node_id, part.endpoint, do_commit ? "COMMIT" : "ABORT");
+                THEMIS_WARN("DistributedTransactionManager [{}] skipping Phase-2 {} for remote "
+                            "participant node={} endpoint='{}' — no Phase2RpcFn injected",
+                            coordinator_id_, do_commit ? "COMMIT" : "ABORT",
+                            part.node_id, part.endpoint);
             }
             continue;
         }
-
         IDistributedParticipantCallback* cb  = part.callback;
         const std::string                nid = part.node_id;
         const std::string                tid = txn_id;
@@ -895,12 +920,12 @@ void DistributedTransactionManager::batchFlushLoop() {
             bool result = false;
             try {
                 result = phase1_futures[i].get();
-            } catch (...) {
+            } catch (const std::exception&) {
                 result = false;
             }
             try {
                 batch[i].result.set_value(result);
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
     }
 }

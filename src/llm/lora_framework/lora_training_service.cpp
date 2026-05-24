@@ -46,6 +46,30 @@ namespace themis {
 namespace llm {
 namespace lora {
 
+// ============================================================================
+// ModelPathProvider bridge (stub #289)
+// ============================================================================
+
+namespace {
+    static std::mutex s_model_path_fn_mutex;
+    static std::function<std::string(const std::string&)> s_model_path_fn;
+} // namespace
+
+void LoRATrainingService::setModelPathProviderFn(ModelPathProviderFn fn) {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    s_model_path_fn = std::move(fn);
+}
+
+void LoRATrainingService::clearModelPathProviderFn() {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    s_model_path_fn = nullptr;
+}
+
+static std::function<std::string(const std::string&)> getModelPathProviderFn() {
+    std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
+    return s_model_path_fn;
+}
+
 // Simple MSE loss function
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
     if (predictions.size() != targets.size()) {
@@ -1551,6 +1575,12 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
     
     // Load actual model from GGUF file
     try {
+        if (model_path.empty()) {
+            spdlog::error("GGUF model path is empty");
+            return nullptr;
+        }
+
+        // Try to open and parse GGUF file
         if (!std::filesystem::exists(model_path)) {
             spdlog::error("GGUF model file not found: {}", model_path);
             return nullptr;
@@ -1561,10 +1591,26 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
             spdlog::error("Failed to open GGUF file: {}", model_path);
             return nullptr;
         }
-        
+
+        const auto read_exact = [&gguf_file](char* dst, std::streamsize count) -> bool {
+            gguf_file.read(dst, count);
+            return gguf_file.good() && gguf_file.gcount() == count;
+        };
+
+        const auto read_u32 = [&read_exact](uint32_t& value) -> bool {
+            return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint32_t)));
+        };
+
+        const auto read_u64 = [&read_exact](uint64_t& value) -> bool {
+            return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint64_t)));
+        };
+         
         // Read GGUF magic number (4 bytes): "GGUF"
         char magic[4];
-        gguf_file.read(magic, 4);
+        if (!read_exact(magic, 4)) {
+            spdlog::error("Failed to read GGUF magic header: {}", model_path);
+            return nullptr;
+        }
         if (std::string(magic, 4) != "GGUF") {
             spdlog::error("Invalid GGUF file format: {}", model_path);
             return nullptr;
@@ -1572,17 +1618,26 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         
         // Read GGUF version (4 bytes, little-endian uint32)
         uint32_t version = 0;
-        gguf_file.read(reinterpret_cast<char*>(&version), sizeof(uint32_t));
+        if (!read_u32(version)) {
+            spdlog::error("Failed to read GGUF version: {}", model_path);
+            return nullptr;
+        }
         spdlog::info("GGUF version: {}", version);
         
         // Read tensor count (8 bytes, little-endian uint64)
         uint64_t tensor_count = 0;
-        gguf_file.read(reinterpret_cast<char*>(&tensor_count), sizeof(uint64_t));
+        if (!read_u64(tensor_count)) {
+            spdlog::error("Failed to read GGUF tensor count: {}", model_path);
+            return nullptr;
+        }
         spdlog::info("GGUF tensor count: {}", tensor_count);
         
         // Read KV pair count (8 bytes, little-endian uint64)
         uint64_t kv_count = 0;
-        gguf_file.read(reinterpret_cast<char*>(&kv_count), sizeof(uint64_t));
+        if (!read_u64(kv_count)) {
+            spdlog::error("Failed to read GGUF KV count: {}", model_path);
+            return nullptr;
+        }
         spdlog::info("GGUF KV pairs: {}", kv_count);
         
         // Parse metadata KV pairs to extract model info
@@ -1591,38 +1646,62 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         for (uint64_t i = 0; i < kv_count; ++i) {
             // Read KV key
             uint64_t key_len = 0;
-            gguf_file.read(reinterpret_cast<char*>(&key_len), sizeof(uint64_t));
+            if (!read_u64(key_len) || key_len == 0) {
+                spdlog::error("Failed to read GGUF key length at KV index {}", i);
+                return nullptr;
+            }
             std::string key(key_len, '\0');
-            gguf_file.read(&key[0], key_len);
+            if (!read_exact(&key[0], static_cast<std::streamsize>(key_len))) {
+                spdlog::error("Failed to read GGUF key payload at KV index {}", i);
+                return nullptr;
+            }
             
             // Read value type (4 bytes)
             uint32_t value_type = 0;
-            gguf_file.read(reinterpret_cast<char*>(&value_type), sizeof(uint32_t));
+            if (!read_u32(value_type)) {
+                spdlog::error("Failed to read GGUF value type at KV index {}", i);
+                return nullptr;
+            }
             
             // Parse specific metadata
-            if (key == "general.name") {
-                uint64_t str_len = 0;
-                gguf_file.read(reinterpret_cast<char*>(&str_len), sizeof(uint64_t));
-                std::string model_name(str_len, '\0');
-                gguf_file.read(&model_name[0], str_len);
-                spdlog::info("GGUF model name: {}", model_name);
-            } else if (key == "llama.context_length") {
-                uint32_t ctx_len = 0;
-                gguf_file.read(reinterpret_cast<char*>(&ctx_len), sizeof(uint32_t));
-                spdlog::info("GGUF context length: {}", ctx_len);
-            } else if (key == "llama.embedding_length") {
-                uint32_t emb_dim = 0;
-                gguf_file.read(reinterpret_cast<char*>(&emb_dim), sizeof(uint32_t));
-                spdlog::info("GGUF embedding dimension: {}", emb_dim);
+                if (key == "general.name") {
+                    uint64_t str_len = 0;
+                    if (!read_u64(str_len)) {
+                        spdlog::error("Failed to read GGUF model-name length");
+                        return nullptr;
+                    }
+                    std::string model_name(str_len, '\0');
+                    if (!read_exact(&model_name[0], static_cast<std::streamsize>(str_len))) {
+                        spdlog::error("Failed to read GGUF model-name payload");
+                        return nullptr;
+                    }
+                    spdlog::info("GGUF model name: {}", model_name);
+                } else if (key == "llama.context_length") {
+                    uint32_t ctx_len = 0;
+                    if (!read_u32(ctx_len)) {
+                        spdlog::error("Failed to read GGUF context_length");
+                        return nullptr;
+                    }
+                    spdlog::info("GGUF context length: {}", ctx_len);
+                } else if (key == "llama.embedding_length") {
+                    uint32_t emb_dim = 0;
+                    if (!read_u32(emb_dim)) {
+                        spdlog::error("Failed to read GGUF embedding_length");
+                        return nullptr;
+                    }
+                    spdlog::info("GGUF embedding dimension: {}", emb_dim);
                 
                 // Use actual embedding dimension from model
                 if (emb_dim > 0) {
                     quantized_model->embedding_dim = emb_dim;
                 }
-            } else if (key == "llama.block_count") {
-                uint32_t block_count = 0;
-                gguf_file.read(reinterpret_cast<char*>(&block_count), sizeof(uint32_t));
-                spdlog::info("GGUF block count: {}", block_count);
+                } else if (key == "llama.block_count") {
+                    uint32_t block_count = 0;
+                    if (!read_u32(block_count)) {
+                        spdlog::error("Failed to read GGUF block_count");
+                        return nullptr;
+                    }
+                    spdlog::info("GGUF block count: {}", block_count);
                 
                 // Pre-populate layer names for actual model layers
                 layer_names.clear();
@@ -1640,8 +1719,15 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
                     case 3: { float v; gguf_file.read(reinterpret_cast<char*>(&v), 4); } break;
                     case 4: { // String
                         uint64_t str_len = 0;
-                        gguf_file.read(reinterpret_cast<char*>(&str_len), sizeof(uint64_t));
+                        if (!read_u64(str_len)) {
+                            spdlog::error("Failed to read GGUF string length for unknown value");
+                            return nullptr;
+                        }
                         gguf_file.seekg(str_len, std::ios::cur);
+                        if (!gguf_file.good()) {
+                            spdlog::error("Failed to skip GGUF unknown string payload");
+                            return nullptr;
+                        }
                     } break;
                     default:
                         spdlog::warn("Unknown GGUF value type: {}", value_type);
@@ -1672,13 +1758,12 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         
         spdlog::info("Successfully loaded GGUF model with {} layers", 
                     quantized_model->num_layers());
+        return quantized_model;
         
     } catch (const std::exception& e) {
         spdlog::error("Exception while loading GGUF model: {}", e.what());
         return nullptr;
     }
-
-    return quantized_model;
 }
 
 size_t LoRATrainingService::estimateMemoryUsage(

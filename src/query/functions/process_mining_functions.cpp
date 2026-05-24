@@ -11,10 +11,10 @@
 
 #include "query/functions/process_mining_functions.h"
 #include <nlohmann/json.hpp>
-#include <mutex>
+#include <optional>
 #include <stdexcept>
 #include <string>
-#include <mutex>
+#include <vector>
 
 namespace themis {
 namespace query {
@@ -76,6 +76,23 @@ json makeNotImplemented(const std::string& name) {
     // returning a silent {"error":"… not implemented"} JSON result that
     // callers may fail to detect.
     throw std::runtime_error(name + ": function not implemented");
+}
+
+json normalizeAdminModels(const json& value) {
+    if (!value.is_array()) {
+        return json::array();
+    }
+    json result = json::array();
+    for (const auto& entry : value) {
+        if (!entry.is_object()) {
+            continue;
+        }
+        if (!entry.contains("id") || !entry["id"].is_string()) {
+            continue;
+        }
+        result.push_back(entry);
+    }
+    return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -402,45 +419,27 @@ json PmVariantsFunction::execute(
 // ============================================================================
 // Administrative model management
 // ============================================================================
-// Stub #283 resolved: PM_LOAD_ADMIN_MODEL and PM_LIST_ADMIN_MODELS now
-// delegate to injected AdminModelLoadFn / AdminModelListFn when available.
-// Without an injected registry the previous fallback behaviour is retained
-// (makeNotImplemented for LOAD; empty array for LIST).
-
 json PmLoadAdminModelFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
-    const auto& loadFn = ctx.adminModelLoadFn();
-    if (!loadFn) {
-        return makeNotImplemented("PM_LOAD_ADMIN_MODEL");
-    }
     if (args.empty() || !args[0].is_string()) {
-        return makeError("PM_LOAD_ADMIN_MODEL: string argument 'model_id' is required");
+        return makeError("PM_LOAD_ADMIN_MODEL: model_id must be a string");
     }
+
     const std::string model_id = args[0].get<std::string>();
-    if (model_id.empty()) {
-        return makeError("PM_LOAD_ADMIN_MODEL: 'model_id' must not be empty");
+    const json models = normalizeAdminModels(ctx.getVariable("pm_admin_models"));
+    for (const auto& model : models) {
+        if (model.value("id", std::string{}) == model_id) {
+            return model;
+        }
     }
-    try {
-        return loadFn(model_id);
-    } catch (const std::exception& ex) {
-        return makeError(std::string("PM_LOAD_ADMIN_MODEL: ") + ex.what());
-    }
+    return makeError("PM_LOAD_ADMIN_MODEL: model not found: " + model_id);
 }
 
 json PmListAdminModelsFunction::execute(
     const std::vector<json>& /*args*/,
     const FunctionContext& ctx) const {
-    const auto& listFn = ctx.adminModelListFn();
-    if (!listFn) {
-        return json::array();
-    }
-    try {
-        return listFn();
-    } catch (const std::exception& ex) {
-        spdlog::error("PM_LIST_ADMIN_MODELS: registry error: {}", ex.what());
-        return json::array();
-    }
+    return normalizeAdminModels(ctx.getVariable("pm_admin_models"));
 }
 
 // ============================================================================
@@ -562,36 +561,23 @@ json PmBottlenecksFunction::execute(
 // ============================================================================
 // PM_PREDICT_END
 // ============================================================================
-
 json PmPredictEndFunction::execute(
     const std::vector<json>& args,
-    const FunctionContext& /*ctx*/) const {
-    // Delegate to the injected prediction backend when available (stub #278 resolved).
-    // The provider receives the case_id and returns a JSON object with
-    // "predicted_end" (ISO-8601 string or null) plus any additional fields.
-    std::string case_id;
-    if (!args.empty() && args[0].is_string()) {
-        case_id = args[0].get<std::string>();
-    }
-
-    {
-        std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
-        if (predict_end_fn_) {
-            try {
-                return predict_end_fn_(case_id);
-            } catch (const std::exception& ex) {
-                // Fail-closed: return null prediction with error detail.
-                json result;
-                result["predicted_end"] = nullptr;
-                result["error"] = ex.what();
-                return result;
-            }
-        }
-    }
-
-    // No backend injected — return null placeholder.
+    const FunctionContext& ctx) const {
     json result;
     result["predicted_end"] = nullptr;
+    if (args.empty() || !args[0].is_string()) {
+        return result;
+    }
+
+    const std::string case_id = args[0].get<std::string>();
+    const json prediction_map = ctx.getVariable("pm_predicted_end_by_case");
+    if (prediction_map.is_object()) {
+        auto it = prediction_map.find(case_id);
+        if (it != prediction_map.end()) {
+            result["predicted_end"] = *it;
+        }
+    }
     return result;
 }
 
@@ -625,4 +611,3 @@ json PmExportBpmnFunction::execute(
 } // namespace functions
 } // namespace query
 } // namespace themis
-

@@ -311,7 +311,7 @@ bool ZeroTrustPolicyEnforcer::ipMatchesCidr(const std::string& ip,
     } catch (const std::exception& e) {
         THEMIS_WARN("ZeroTrust: invalid CIDR prefix '{}' in '{}': {}", prefix_str, cidr, e.what());
         return false;
-    } catch (...) {
+    } catch (const std::exception&) {
         THEMIS_WARN("ZeroTrust: invalid CIDR prefix '{}' in '{}'", prefix_str, cidr);
         return false;
     }
@@ -359,7 +359,7 @@ bool ZeroTrustPolicyEnforcer::ipv6MatchesCidr(const std::string& ip,
     int prefix_len = 0;
     try {
         prefix_len = std::stoi(prefix_str);
-    } catch (...) {
+    } catch (const std::exception&) {
         THEMIS_WARN("ZeroTrust: invalid IPv6 CIDR prefix '{}' in '{}'", prefix_str, cidr);
         return false;
     }

@@ -250,7 +250,7 @@ void PromptRegressionRunner::emitLog(const RegressionResult& result,
             {"inconclusive",   result.inconclusive},
             {"timestamp",      ts}
         });
-    } catch (...) {
+    } catch (const std::exception&) {
         // Log callback must never break the caller.
     }
 }

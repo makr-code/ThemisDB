@@ -366,6 +366,9 @@ public:
 
 /**
  * @brief PM_LOAD_ADMIN_MODEL - Load predefined administrative model
+ *
+ * Models are resolved from the FunctionContext variable `pm_admin_models`,
+ * expected as an array of objects with at least an `"id"` field.
  * 
  * @code
  * -- Load building permit model
@@ -429,6 +432,8 @@ private:
 
 /**
  * @brief PM_LIST_ADMIN_MODELS - List available administrative models
+ *
+ * Returns the normalized `pm_admin_models` array from FunctionContext.
  * 
  * @code
  * LET models = PM_LIST_ADMIN_MODELS()
@@ -576,16 +581,13 @@ public:
 /**
  * @brief PM_PREDICT_END - Predict process end time
  *
- * Current status: placeholder only. The public AQL symbol exists so callers can
- * build queries against the final API shape, but the predictive backend is not
- * wired yet. The current implementation returns `{"predicted_end": null}` for
- * every call.
+ * Reads predictions from FunctionContext variable `pm_predicted_end_by_case`,
+ * expected as an object map `case_id -> predicted_end` value.
  *
  * @param case_id  Process case ID whose completion time should eventually be
- *                 forecast once the predictive model is integrated.
- * @return JSON object with a `predicted_end` field. When a PredictEndFn has
- *         been registered via setPredictEndFn(), the field carries the function's
- *         result; otherwise it is `null`.
+ *                 forecast.
+ * @return JSON object with a `predicted_end` field. The field is currently
+ *         `null` when no prediction is available in the context map.
  */
 class PmPredictEndFunction : public IFunction {
 public:

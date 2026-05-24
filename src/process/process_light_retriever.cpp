@@ -19,6 +19,7 @@
  */
 
 #include "process/process_light_retriever.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -98,7 +99,7 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
                     const auto inst_doc = nlohmann::json::parse(inst_val);
                     model_id = inst_doc.value("model_id",
                                inst_doc.value("process_definition_id", ""));
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
         }
 

@@ -18,6 +18,7 @@
  */
 
 #include "rag/llm_judge_client.h"
+#include <stdexcept>
 #include "llm/inference_engine_enhanced.h"
 #include "llm/llama_wrapper.h"
 #include "utils/logger.h"
@@ -468,7 +469,7 @@ void LLMJudgeClient::parseEvaluationResponse(
                 
                 try {
                     parsed.score = std::stod(score_str);
-                } catch (...) {
+                } catch (const std::exception&) {
                     parsed.score = 0.5; // Default
                 }
             }

@@ -10,6 +10,7 @@
  */
 
 #include "security/rbac.h"
+#include <stdexcept>
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <fstream>
@@ -189,7 +190,7 @@ bool RBAC::loadConfig(const std::string& path) {
         try {
             nlohmann::json j = nlohmann::json::parse(content);
             return loadFromJson(j);
-        } catch (...) {
+        } catch (const std::exception&) {
             return loadFromYaml(content);
         }
         

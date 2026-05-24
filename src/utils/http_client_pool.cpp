@@ -113,7 +113,7 @@ std::future<HTTPResponse> HTTPClientPool::post(
             releaseConnection(client);
             requests_served_++;
             promise->set_value(std::move(response));
-        } catch (...) {
+        } catch (const std::exception&) {
             if (client) {
                 releaseConnection(client);
             }
@@ -140,7 +140,7 @@ std::future<HTTPResponse> HTTPClientPool::get(
             releaseConnection(client);
             requests_served_++;
             promise->set_value(std::move(response));
-        } catch (...) {
+        } catch (const std::exception&) {
             if (client) {
                 releaseConnection(client);
             }

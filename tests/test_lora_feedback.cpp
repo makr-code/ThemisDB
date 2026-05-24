@@ -15,6 +15,7 @@
 #include "llm/lora_framework/lora_feedback.h"
 #include "llm/lora_framework/feedback_plugin.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
+#include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
 #include <memory>
@@ -140,34 +141,35 @@ TEST_F(LoRAFeedbackTest, DeleteFeedback) {
     EXPECT_FALSE(retrieved.has_value());
 }
 
-TEST_F(LoRAFeedbackTest, CreateFeedbackUsesGraphLinkCallbackWhenConfigured) {
-    bool create_link_called = false;
+TEST_F(LoRAFeedbackTest, GraphLinkCreatedAndRemovedWithFeedbackLifecycle) {
+    auto graph_index = std::make_shared<GraphIndexManager>(*db_);
 
-    FeedbackStorageService::Config config;
-    config.db = std::shared_ptr<RocksDBWrapper>(db_.get(), [](RocksDBWrapper*){});
-    config.enable_graph_links = true;
-    config.create_graph_link_fn =
-        [&create_link_called](const std::string& feedback_pk,
-                              const std::string& adapter_pk,
-                              const std::string& edge_type) {
-            create_link_called = true;
-            EXPECT_FALSE(feedback_pk.empty());
-            EXPECT_EQ(adapter_pk, "lora_adapters:adapter-with-graph-link");
-            EXPECT_EQ(edge_type, "belongs_to_adapter");
-            return true;
-        };
+    FeedbackStorageService::Config graph_cfg;
+    graph_cfg.db = std::shared_ptr<RocksDBWrapper>(db_.get(), [](RocksDBWrapper*){});
+    graph_cfg.graph_index = graph_index;
+    graph_cfg.enable_graph_links = true;
 
-    storage_ = std::make_unique<FeedbackStorageService>(config);
+    FeedbackStorageService graph_storage(graph_cfg);
 
     Feedback feedback;
-    feedback.adapter_id = "adapter-with-graph-link";
-    feedback.user_id = "user123";
+    feedback.adapter_id = "adapter_graph";
+    feedback.user_id = "graph_user";
     feedback.rating = 5;
-    feedback.feedback_text = "graph-link-callback";
 
-    auto created = storage_->createFeedback(feedback);
+    auto created = graph_storage.createFeedback(feedback);
     ASSERT_TRUE(created.has_value());
-    EXPECT_TRUE(create_link_called);
+
+    const std::string from = "help_feedback:" + created->id;
+    auto out = graph_index->outNeighbors(from);
+    ASSERT_TRUE(out.first.ok) << out.first.message;
+    ASSERT_EQ(out.second.size(), 1u);
+    EXPECT_EQ(out.second.front(), "lora_adapters:adapter_graph");
+
+    ASSERT_TRUE(graph_storage.deleteFeedback(created->id));
+
+    out = graph_index->outNeighbors(from);
+    ASSERT_TRUE(out.first.ok) << out.first.message;
+    EXPECT_TRUE(out.second.empty());
 }
 
 TEST_F(LoRAFeedbackTest, ListFeedback) {

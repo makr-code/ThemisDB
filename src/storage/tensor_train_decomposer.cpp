@@ -513,6 +513,20 @@ std::vector<float> TensorTrainDecomposer::matMul(
     return C;
 }
 
+    void TensorTrainDecomposer::sharedTruncatedSVD(
+        const std::vector<float>& mat,
+        std::size_t               m,
+        std::size_t               n,
+        double                    delta,
+        std::size_t               max_rank_cap,
+        std::vector<float>&       U,
+        std::vector<float>&       S,
+        std::vector<float>&       Vt,
+        std::size_t&              rank_out)
+    {
+        truncatedSVD(mat, m, n, delta, max_rank_cap, U, S, Vt, rank_out);
+    }
+
 void TensorTrainDecomposer::truncatedSVD(
     const std::vector<float>& mat, std::size_t m, std::size_t n,
     double delta, std::size_t max_rank_cap,
@@ -900,4 +914,14 @@ double TensorTrainDecomposer::cosineSimilarity(const TTTrain& a, const TTTrain& 
     return ip / (na * nb);
 }
 
-} // namespace themis::storage
+void TensorTrainDecomposer::truncatedSVDShared(
+    const std::vector<float>& mat, std::size_t m, std::size_t n,
+    double delta, std::size_t max_rank_cap,
+    std::vector<float>& U, std::vector<float>& S, std::vector<float>& Vt,
+    std::size_t& rank_out)
+{
+    truncatedSVD(mat, m, n, delta, max_rank_cap, U, S, Vt, rank_out);
+}
+
+} // namespace storage
+} // namespace themis

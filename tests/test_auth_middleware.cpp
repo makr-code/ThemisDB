@@ -1198,3 +1198,81 @@ TEST(AuthMiddlewareGap013Test, Authorize_InvalidToken_ReturnsDenied) {
     auto result = auth.authorize("not-a-valid-token", "admin");
     EXPECT_FALSE(result.authorized) << "Invalid token must be denied (GAP-013)";
 }
+
+TEST(AuthMiddlewareGap013Test, DeniedReason_DoesNotEchoPresentedToken) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "known-token";
+    tc.user_id = "dave";
+    tc.scopes  = {"read"};
+    auth.addToken(tc);
+
+    const std::string presented = "sensitive-invalid-token";
+    auto result = auth.authorize(presented, "admin");
+    ASSERT_FALSE(result.authorized);
+    EXPECT_EQ(result.reason, "Invalid token");
+    EXPECT_EQ(result.reason.find(presented), std::string::npos);
+}
+
+// GAP-013-05: authorize() reason for missing scope does not echo the token value.
+TEST(AuthMiddlewareGap013Test, InsufficientScope_ReasonDoesNotEchoToken) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "scope-limited-token-secret";
+    tc.user_id = "erin";
+    tc.scopes  = {"data:read"};
+    auth.addToken(tc);
+
+    auto result = auth.authorize(tc.token, "data:write");
+    ASSERT_FALSE(result.authorized);
+    // Reason must describe the missing scope, not echo the bearer token.
+    EXPECT_NE(result.reason.find("Missing required scope"), std::string::npos)
+        << "Reason should mention missing scope";
+    EXPECT_EQ(result.reason.find(tc.token), std::string::npos)
+        << "Reason must not contain the bearer token value";
+}
+
+// GAP-013-06: validateToken() returns a denied result whose reason does not
+// contain any fragment of the presented token.
+TEST(AuthMiddlewareGap013Test, ValidateToken_ReasonDoesNotEchoToken) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "registered-token-secret-xyz";
+    tc.user_id = "frank";
+    tc.scopes  = {"admin"};
+    auth.addToken(tc);
+
+    const std::string unknown = "unknown-token-secret-xyz";
+    auto result = auth.validateToken(unknown);
+    ASSERT_FALSE(result.authorized);
+    EXPECT_EQ(result.reason.find(unknown), std::string::npos)
+        << "validateToken reason must not echo the presented token";
+}
+
+// GAP-013-07: Multiple concurrent authorize() calls with distinct tokens must
+// not cross-contaminate user_id/reason between threads (no data race on
+// AuthMiddleware::metrics_).
+TEST(AuthMiddlewareGap013Test, ConcurrentDenyRequests_NoCrossContamination) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "thread-token";
+    tc.user_id = "thread-user";
+    tc.scopes  = {"data:read"};
+    auth.addToken(tc);
+
+    constexpr int kThreads = 8;
+    std::vector<std::thread> threads;
+    std::vector<AuthMiddleware::AuthResult> results(kThreads);
+
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&auth, &results, i]() {
+            results[i] = auth.authorize("bad-token-" + std::to_string(i), "admin");
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    for (int i = 0; i < kThreads; ++i) {
+        EXPECT_FALSE(results[i].authorized) << "Thread " << i << " should be denied";
+        EXPECT_TRUE(results[i].user_id.empty()) << "user_id must be empty for unknown token";
+    }
+}

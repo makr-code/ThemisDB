@@ -117,7 +117,7 @@ uint64_t ConsumerGroupManager::readOffsetLocked(const std::string &group_id) con
 
     try {
         return std::stoull(value);
-    } catch (...) {
+    } catch (const std::exception&) {
         return 0;
     }
 }

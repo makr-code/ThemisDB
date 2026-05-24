@@ -10,6 +10,7 @@
  */
 
 #include "storage/blob_backend_filesystem.h"
+#include <stdexcept>
 #include "utils/error_registry.h"
 #include "utils/expected.h"
 #include "utils/logger.h"
@@ -150,7 +151,7 @@ std::string FilesystemBlobBackend::name() const {
 bool FilesystemBlobBackend::isAvailable() const {
     try {
         return fs::exists(base_path_) && fs::is_directory(base_path_);
-    } catch (...) {
+    } catch (const std::exception&) {
         return false;
     }
 }

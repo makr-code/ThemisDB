@@ -10,6 +10,7 @@
  */
 
 #include "server/monitoring_api_handler.h"
+#include <stdexcept>
 #include "server/openapi_route_registry.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
@@ -757,6 +758,9 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         } catch (const std::exception& e) {
             // If plugin metrics fail, log and continue without them
             THEMIS_WARN("Failed to collect plugin metrics: {}", e.what());
+        } catch (const std::exception&) {
+            // Catch any other exceptions to prevent metrics collection from breaking /metrics endpoint
+            THEMIS_WARN("Unknown error while collecting plugin metrics");
         }
         
         // Add distributed tracing metrics
@@ -782,6 +786,8 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             }
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to collect HSM security metrics: {}", e.what());
+        } catch (const std::exception&) {
+            THEMIS_WARN("Unknown error while collecting HSM security metrics");
         }
 
         // Config path resolution metrics (hit rate, miss rate, legacy fallback rate)
@@ -795,6 +801,8 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             themis::config::ConfigMetricsExporter::updateMetricsCollector();
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to collect config path resolution metrics: {}", e.what());
+        } catch (const std::exception&) {
+            THEMIS_WARN("Unknown error while collecting config path resolution metrics");
         }
 
         // Append metrics from the central MetricsCollector (query latency, cache,
@@ -808,6 +816,8 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             }
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to collect subsystem metrics: {}", e.what());
+        } catch (const std::exception&) {
+            THEMIS_WARN("Unknown error while collecting subsystem metrics");
         }
 
         // Return Prometheus format response

@@ -15,6 +15,7 @@
 #include <map>
 #include <mutex>
 #include <atomic>
+#include <functional>
 #include "utils/expected.h"
 
 namespace themis {
@@ -494,12 +495,7 @@ public:
      *   - collections:     Names of the collections (column families) to restore.
      *   - ec:              Set on failure.
      *
-     * Returns @c true on success.  A production implementation maps each
-     * collection name to its column-family handle and calls
-     * `rocksdb::DB::IngestExternalFile()` for the matching SST files.
-     *
-     * Stub #300 injection API — enables selective collection restore without
-     * overwriting unrelated column families.
+     * Returns @c true on success.
      */
     using CfSstIngestFn = std::function<bool(
         const std::string& checkpoint_dir,
@@ -507,14 +503,10 @@ public:
         std::error_code& ec)>;
 
     /**
-     * @brief Inject a per-CF SST ingest function used by `restoreCollections()`
-     *        (resolves stub #300).
+     * @brief Inject a per-CF SST ingest function used by restoreCollections().
      *
-     * When set, `restoreCollections()` calls this function instead of restoring
-     * the full checkpoint.  Only the named collections are affected; other
-     * column families are untouched.
-     *
-     * @param fn  Callable that ingests SST files for the requested column families.
+     * When set, restoreCollections() calls this function before falling back
+     * to full checkpoint restore.
      */
     void setCfSstIngestFn(CfSstIngestFn fn);
 
@@ -609,8 +601,8 @@ private:
     // Helper: Find last full backup for differential
     std::string findLastFullBackup(const std::string& backup_dir);
 
-    WalReplayFn wal_replay_fn_;        ///< Optional WAL-replay hook (Stub #249)
-    std::optional<CfSstIngestFn> cf_sst_ingest_fn_;  ///< Optional per-CF SST ingest hook (Stub #300)
+    WalReplayFn wal_replay_fn_;      ///< Optional WAL-replay hook (Stub #249)
+    CfSstIngestFn cf_sst_ingest_fn_; ///< Optional per-CF SST ingest hook (Stub #300)
 };
 
 } // namespace themis

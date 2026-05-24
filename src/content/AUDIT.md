@@ -1,13 +1,13 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-05-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Content Module
 
-**Last Audit:** 2026-04-19
-**Auditor:** Copilot
-**Status:** ✅ Pass
+**Last Audit:** 2026-05-19  
+**Auditor:** Copilot  
+**Status:** ✅ Pass (with tracked open items)
 
 ## Summary
 
@@ -17,8 +17,9 @@
 | Source Files | 34 (`.cpp` in `src/content/`) |
 | Test Coverage | ✅ Production-ready; security tests cover LibreOffice, archive, OCR paths |
 | Open TODOs | 38 files contain TODOs (processor chain plugin API, video frames, LLM PII scrubbing) |
-| Open Stubs | 2 (plugin processor chain pending Issue #1686; video frame extraction pending Issue #1688) |
-| Security Issues | None (security hardening complete for LibreOffice and zip-bomb paths) |
+| Open Stubs | 6 compile-time conditional stubs (all documented with STUB/SIMULATION NOTE); see MODULE_GAPS.md §Acknowledged Stubs |
+| Gap Scan (v3) | 4,077 flagged items; 27 security, 29 concurrency (see MODULE_GAPS.md) |
+| Security Issues | None critical (security hardening complete for LibreOffice and zip-bomb paths); 27 lower-priority items tracked |
 
 ## Build System
 
@@ -86,11 +87,36 @@
 - **Zip/archive decompression bomb** — 100× ratio and 1000 entry limits enforced in `content_security.cpp`.
 - **LibreOffice environment poisoning** — minimal `HOME=tmpdir` environment; all inherited variables cleared.
 - **OCR input validation** — pre-processing to 300 DPI with Leptonica binarization before Tesseract.
+- **`VideoProcessor::healthCheck()` simulation-mode return** — was returning `initialized_` (always `true`) without FFmpeg; now returns `false`, consistent with `TTSProcessor`/`STTProcessor` pattern (2026-05-19).
+- **Undocumented simulation fallback in extractMetadata()** — `video_processor.cpp` `#else` branch lacked a STUB/SIMULATION NOTE and contained an unreachable MKV detection branch (same magic bytes as WebM); both corrected (2026-05-19).
+- **MODULE_GAPS.md unpopulated** — gap analysis document was a placeholder; populated with gap scan v3 results (4,077 items, categorized) and implementation roadmap (2026-05-19).
+- **RAII violation: raw `new`/`delete` for tags JSON in metadata encryption** — `content_manager.cpp` metadata-encryption loop allocated a temporary `nlohmann::json` on the heap and performed manual `delete` in every exit path, including the exception handler. Replaced with a local stack variable (`tags_tmp`); all three raw `delete` call sites eliminated (2026-05-19, CON-009).
+- **RAII violation: manual `EVP_MD_CTX_free` in `content_fs.cpp::sha256Hex()`** — 4 raw `EVP_MD_CTX_free()` early-return call sites replaced by a `std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>` RAII wrapper; context is freed automatically on all exit paths including exception (2026-05-19, CON-010).
+- **RAII violation: manual `EVP_MD_CTX_free` in `content_manager.cpp::ingestStream()`** — 3 raw `EVP_MD_CTX_free(sha256_ctx); sha256_ctx = nullptr;` call sites (init-fail, update-fail, finalize) replaced by `unique_ptr::reset()`. Exception-unsafe leak path during stream processing eliminated (2026-05-19, CON-011).
+- **Redundant explicit `file.close()` in archive ingestion loop** — `std::ifstream` RAII already guarantees closure at end of loop iteration; explicit call removed (2026-05-19).
+- **Exception-in-destructor: `AsyncIngestionWorker::~AsyncIngestionWorker()`** — destructor called `stop()` without exception guard; if `stop()` throws (e.g. `mutex` op or `promise::set_exception` during stack unwinding), `std::terminate()` would be invoked. Destructor is now declared `noexcept` and wraps `stop()` in a `try/catch(...)` block (2026-05-19, CON-012).
+- **Scanner false positive: `executeWithRetry` loop uses `<= max_retries`** — static scanner flagged `for (i <= max_retries)` as `OFF_BY_ONE`; loop is correct (`max_retries=0` → one initial attempt, no retries). Clarifying comment added (2026-05-19, CON-013).
+- **Phase 4 unit tests** — `test_content_con007_con012_remediations.cpp` added with 5 regression tests: CON-007 simulation-mode healthCheck invariants (3 tests), shutdown regression (1 test), CON-012 `is_nothrow_destructible` compile-time check (1 test). Fixed `VideoProcessorExtendedTest::HealthCheck` in `test_video_processor_extended.cpp` to handle both FFmpeg and no-FFmpeg expected values (2026-05-19).
+- **CON-014 — Uninitialized `IngestionJob` POD fields** (`async_ingestion_worker.h`): added in-class defaults (`= 0` / `= 0.0f`) to `created_at`, `started_at`, `completed_at`, `total_items`, `processed_items`, `progress`; removed 15 redundant explicit zero-assignment lines across 4 call sites in `async_ingestion_worker.cpp` (2026-05-19).
+- **CON-015 — Uninitialized `QItem::hop`** (`content_manager.cpp`): added `= 0` default initializer to the `hop` field of the local `QItem` struct (2026-05-19).
+- **CON-016 — Atomic stat members without in-class defaults** (`async_ingestion_worker.h`): added `{0}` in-class initializers to 5 `std::atomic` member variables; constructor initializer list retained for documentation (2026-05-19).
+- **CON-017 — Uninitialized `ExtractionResult` fields** (`content_processor.h`): `ok` defaulted to `false`; `MediaData::{duration_seconds, width, height, bitrate}` defaulted to `0` (2026-05-19).
+- **CON-018 — Uninitialized `IngestResult::success` and `Stats` fields** (`content_manager.h`): `success` defaulted to `false`; `Stats` POD fields defaulted to `0` (2026-05-19).
+- **CON-019 — Uninitialized archive structs** (`archive_processor.h`): `ArchiveMember`, `ArchiveMetadata`, `ArchiveExtractionResult`, `ArchiveProcessorResult` POD fields all have explicit in-class defaults (2026-05-19).
+- **CON-020 — Uninitialized PDF structs** (`pdf_processor.h`): `PDFPageInfo::{page_number,width,height,rotation}` and `PDFMetadata::{page_count,is_encrypted,is_linearized}` defaulted to `0`/`false` (2026-05-19).
+- **CON-021 — Uninitialized office structs** (`office_processor.h`): `WordDocumentInfo`, `Sheet`, `Slide`, `OfficeMetadata` POD fields defaulted to `0` (2026-05-19).
+- **CON-022 — `[[nodiscard]]` on status-returning methods** (`content_manager.h`): `importContent()`, `ingestRawBlob()`, `ingestStream()`, `deleteContent()`, `createDirectory()`, `registerPath()` are now `[[nodiscard]]` (2026-05-19).
+- **CON-023 — Uninitialized `GeoExtractionData::bounds`** (`content_plugin_interface.h`): `std::array<double,4>` now has `= {}` default (2026-05-19).
+- **CON-024 — Uninitialized `CADExtractionData::bounding_box_min/max`** (`content_plugin_interface.h`): Both `std::array<double,3>` fields now have `= {}` defaults (2026-05-19).
+- **CON-025 — `[[nodiscard]]` on `IContentProcessorPlugin::getStatistics()`** (`content_plugin_interface.h`): Diagnostic added; callers that silently discard the statistics object now receive a compiler warning (2026-05-19).
+- **CON-026 — `[[nodiscard]]` on `IContentProcessorPlugin::generateEmbedding()`** (`content_plugin_interface.h`): Completes `[[nodiscard]]` coverage for all value-returning virtual methods in the plugin interface (2026-05-19).
 
 ### Open
 - **Plugin processor chain** — `IIngestionPlugin` API not yet implemented (Issue #1686); processor dispatch is hardcoded.
 - **Video frame extraction** — FFmpeg integration pending (Issue #1688).
 - **LLM content analysis PII** — document summaries sent to LLM without PII scrubbing; operators should restrict LLM analysis to non-sensitive document categories.
+- **Concurrency gaps** — 29 instances flagged by gap scan v3; pending manual review to confirm or refute false positives.
+- **Security gaps** — 27 instances flagged by gap scan v3; all critical security controls (zip-bomb, subprocess) are in place; remaining items tracked in MODULE_GAPS.md.
 
 ## Compliance
 

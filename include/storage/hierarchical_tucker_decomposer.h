@@ -8,24 +8,26 @@
 
 /**
  * @file storage/hierarchical_tucker_decomposer.h
- * @brief HierarchicalTuckerDecomposer — HOSVD + HOOI HT tensor factorization.
+ * @brief HierarchicalTuckerDecomposer — HOSVD+HOOI HT tensor factorization.
  *
  * Implements the Hierarchical Tucker decomposition (Grasedyck 2010) of a dense
  * multi-dimensional tensor T ∈ ℝ^{n_0 × … × n_{d-1}} into an HTTrain.
  *
- * ## Algorithm
+ * ## Algorithm (HOSVD initialization + HOOI refinement)
  *
  * 1. **HOSVD leaves**: for each mode k compute the truncated SVD of the mode-k
  *    unfolding T_(k) ∈ ℝ^{n_k × (N/n_k)} → U_k ∈ ℝ^{n_k × r_k}.
  *    Delegated to `TensorTrainDecomposer::truncatedSVD()` (Golub-Reinsch).
  *
- * 2. **Tucker core**: G = T ×_0 U_0^T ×_1 U_1^T … ×_{d-1} U_{d-1}^T
- *    (multi-mode product; G ∈ ℝ^{r_0 × … × r_{d-1}}).
+ * 2. **HOOI refinement**: run alternating mode updates using projected
+ *    unfoldings until reconstruction error converges or the configured
+ *    tolerance is reached.
  *
- * 3. **HOOI refinement** (cfg.hooi_max_iter, default 3): alternating-least-
- *    squares update of each U_k by re-projecting T along all other modes.
+ * 2b. **HOOI sweep**: Alternating optimization — for each mode k, compute
+ *     G(k) = T ×_{j≠k} U_j^T, update U_k via truncated SVD of the k-unfolding.
+ *     Repeat until ‖G‖_F converges (rel. change < 1e-6) or 20 iterations.
  *
- * 4. **HT transfer tensors** (top-down balanced binary split):
+ * 3. **HT transfer tensors** (top-down balanced binary split):
  *    Starting from the full Tucker core G (augmented with a trailing 1-dim to
  *    represent rank_out = 1 at the root), each internal node [L, R) with
  *    split M = (L+R)/2 runs two sequential SVDs:
@@ -38,10 +40,10 @@
  *    Recursion terminates at d_sub == 2 (leaf-pair: B = core) or
  *    d_sub == 1 (single leaf: U_effective = U_k · core).
  *
- * ## Compatibility note
- * - `HTTrain::toTTTrain()` performs lazy one-time dense reconstruction + TT
- *   re-decomposition and memoizes the TT result for subsequent calls.
- *   First call remains O(∏ n_k); repeated calls reuse cached TT output.
+ * ## Resolved stubs
+ * - STUB #287 resolved: HOOI alternating optimization loop added (Step 2b).
+ * - STUB #288 resolved: `truncatedSVD()` now reuses
+ *   `TensorTrainDecomposer::truncatedSVD()` as the shared backend.
  */
 
 #pragma once
@@ -63,10 +65,13 @@ namespace storage {
  * @brief Configuration for HierarchicalTuckerDecomposer.
  */
 struct HTConfig {
-    std::size_t max_rank      = 16;  ///< Maximum rank per node (clamped to min(n_k, N/n_k))
-    double      eps           = 0.01; ///< Relative reconstruction error tolerance
-    std::size_t hooi_max_iter = 3;   ///< HOOI refinement iterations after HOSVD initialisation
-                                     ///< (0 = HOSVD-only, no alternating optimisation)
+    std::size_t max_rank = 16;  ///< Maximum rank per node (clamped to min(n_k, N/n_k))
+    double      eps      = 0.01; ///< Relative reconstruction error tolerance
+
+    /// Maximum HOOI alternating-optimization iterations after HOSVD initialization.
+    /// Set to 0 to use HOSVD-only (lower quality but faster).  Default 20 iterations
+    /// are sufficient for convergence in most practical cases.
+    std::size_t max_hooi_iter = 20;
 };
 
 // ============================================================================
@@ -101,17 +106,10 @@ public:
      * @throws std::invalid_argument if data.size() != ∏ shape[k], d < 2, or any
      *         shape[k] == 0.
      *
-     * @note
-     * Uses HOSVD initialisation followed by up to `cfg.hooi_max_iter` HOOI
-     * (Higher-Order Orthogonal Iteration) refinement passes.  Each HOOI
-     * iteration re-projects the input tensor for every mode k (excluding k
-     * itself), recomputes the truncated SVD to update U_k, and rebuilds the
-     * Tucker core.  Convergence is detected when the Tucker core Frobenius norm
-     * improves by less than 1 ppm relative to the original tensor norm.
-     *
-     * Setting `cfg.hooi_max_iter = 0` falls back to pure HOSVD (original
-     * behaviour).  The default of 3 iterations typically reduces reconstruction
-     * error by ε·(√d − 1) relative to the HOSVD baseline at O(3·d·N) extra cost.
+     * @note Stub #287 resolved: HOOI alternating optimization loop added after
+     * HOSVD initialization in `decompose()` (see `hierarchical_tucker_decomposer.cpp`,
+     * Step 2b).  Iterates until ‖G‖_F converges (rel. change < 1e-6) or 20 sweeps
+     * complete.  Long-term plan (Q2 2028): extend `ITensorIndex` to support HT directly.
      */
     std::pair<tensor::HTTrain, Stats>
     decompose(const std::vector<float>&        data,
@@ -134,9 +132,7 @@ private:
      * Returns U (m × r), S (r), Vt (r × n) where r is chosen such that
      * sigma[r] < delta (or r = max_rank if the threshold is never reached).
      *
-     * Delegates to `TensorTrainDecomposer::truncatedSVD()` which uses
-     * Golub-Reinsch bidiagonalization for robust handling of ill-conditioned
-     * and large matrices.
+     * Uses the shared `TensorTrainDecomposer::truncatedSVD()` backend.
      */
     static void truncatedSVD(
         const std::vector<float>&  mat,

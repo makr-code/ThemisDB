@@ -21,6 +21,7 @@
  */
 
 #include "llm/ai_orchestrator.h"
+#include <stdexcept>
 #include <yaml-cpp/yaml.h>
 #include <spdlog/spdlog.h>
 #include <fstream>
@@ -71,7 +72,7 @@ T safeAs(const YAML::Node& n, const T& def) {
         if (n && n.IsDefined() && !n.IsNull()) {
             return n.as<T>();
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
     return def;
 }
 
@@ -145,7 +146,7 @@ ToolSpec parseToolSpec(const YAML::Node& node) {
             std::ostringstream ss;
             ss << node["schema"];
             spec.args_schema = json::parse(ss.str());
-        } catch (...) {
+        } catch (const std::exception&) {
             spec.args_schema = json::object();
         }
     }

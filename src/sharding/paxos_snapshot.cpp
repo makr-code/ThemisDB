@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "sharding/paxos_snapshot.h"
+#include <stdexcept>
 #include "sharding/paxos_consensus.h"
 #include "utils/zstd_codec.h"
 #include <spdlog/spdlog.h>
@@ -361,7 +362,7 @@ std::vector<uint64_t> PaxosSnapshotManager::listSnapshots() const {
                     try {
                         uint64_t snapshot_id = std::stoull(id_str);
                         snapshots.push_back(snapshot_id);
-                    } catch (...) {
+                    } catch (const std::exception&) {
                         // Skip invalid filenames
                     }
                 }

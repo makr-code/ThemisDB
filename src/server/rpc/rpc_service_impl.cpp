@@ -10,6 +10,7 @@
  */
 
 #include "server/rpc_service_impl.h"
+#include <stdexcept>
 #include "plugins/rpc_plugin_interface.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/spatial_index.h"

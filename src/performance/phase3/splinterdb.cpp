@@ -10,6 +10,7 @@
  */
 
 #include "performance/phase3/splinterdb.h"
+#include <stdexcept>
 #include <queue>
 #include <mutex>
 #include <condition_variable>
@@ -155,7 +156,7 @@ void ConcurrentCompactor::worker_loop() {
         
         try {
             task.fn();
-        } catch (...) {
+        } catch (const std::exception&) {
             // In production, log error
         }
         

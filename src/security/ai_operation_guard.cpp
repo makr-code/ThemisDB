@@ -100,6 +100,8 @@ GuardDecision AiOperationGuard::evaluate(
     const std::string& ai_session_id,
     const std::string& caller_role
 ) const {
+    (void)ai_session_id;
+
     // If the guard is disabled, pass everything through as READ_ONLY
     // (i.e., no blocking, no approval).
     if (!config_.enabled) {

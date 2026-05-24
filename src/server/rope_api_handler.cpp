@@ -10,6 +10,7 @@
  */
 
 #include "server/rope_api_handler.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/vector_index.h"
@@ -23,6 +24,26 @@ namespace themis {
 namespace server {
 
 using json = nlohmann::json;
+
+// ============================================================================
+// AuthorizeFn + StatsQueryFn bridges (stubs #280, #307)
+// ============================================================================
+
+void RopeApiHandler::setAuthorizeFn(AuthorizeFn fn) {
+    authorizeFn_ = std::move(fn);
+}
+
+void RopeApiHandler::clearAuthorizeFn() {
+    authorizeFn_ = nullptr;
+}
+
+void RopeApiHandler::setStatsQueryFn(StatsQueryFn fn) {
+    statsQueryFn_ = std::move(fn);
+}
+
+void RopeApiHandler::clearStatsQueryFn() {
+    statsQueryFn_ = nullptr;
+}
 
 RopeApiHandler::RopeApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
@@ -798,15 +819,26 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                     {"normalize_after", config.normalize_after}
                 };
             }
-            
-            const auto stats = vector_index_->getRotaryEmbeddingStats();
-            response["statistics"] = {
-                {"total_rotated_entities", stats.total_rotations},
-                {"avg_rotation_time_us", stats.avg_rotation_time_us},
-                {"positional_rotations", stats.positional_rotations},
-                {"relational_rotations", stats.relational_rotations},
-                {"query_rotations", stats.query_rotations}
-            };
+
+            auto [stats_status, stats] = vector_index_->getStatistics();
+            if (!stats_status.ok) {
+                response["statistics"] = {
+                    {"status", "unavailable"},
+                    {"error", stats_status.message}
+                };
+            } else {
+                response["statistics"] = {
+                    {"status", "ok"},
+                    {"vector_count", stats.vector_count},
+                    {"index_dimension", stats.dimension},
+                    {"distance_metric", stats.metric_name},
+                    {"distance_min", stats.min_distance},
+                    {"distance_max", stats.max_distance},
+                    {"distance_mean", stats.mean_distance},
+                    {"distance_stddev", stats.std_dev_distance},
+                    {"rotation_ready", config_opt.has_value()}
+                };
+            }
         }
         
         span.setStatus(true);
@@ -850,16 +882,21 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)
 {
+    // Basic authentication check - if auth middleware is not configured or not enabled,
+    // allow access (open mode)
     if (!auth_ || !auth_->isEnabled()) {
-        return std::nullopt; // Open mode — allow all
+        return std::nullopt;
     }
-
+    
+    // Enforce scope-based authorization (mirrors VectorApiHandler RBAC pattern).
+    // Extract Bearer token and verify the required permission scope via
+    // auth_->authorize(); deny with HTTP 403 when the scope is not granted.
     auto auth_header = req.find(http::field::authorization);
     if (auth_header == req.end()) {
         return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
     }
 
-    auto token = ::themis::AuthMiddleware::extractBearerToken(
+    auto token = themis::AuthMiddleware::extractBearerToken(
         std::string_view(auth_header->value().data(), auth_header->value().size())
     );
     if (!token) {
@@ -868,9 +905,8 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
 
     auto ar = auth_->authorize(*token, permission);
     if (!ar.authorized) {
-        return makeErrorResponse(
-            http::status::forbidden,
-            "Insufficient permissions for scope: " + permission, req);
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + permission, req);
     }
 
     return std::nullopt;  // null = access allowed

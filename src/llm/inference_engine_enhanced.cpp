@@ -10,6 +10,7 @@
  */
 
 #include "llm/inference_engine_enhanced.h"
+#include <stdexcept>
 #include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
 #include "llm/shared_worker_pool.h"
@@ -568,7 +569,7 @@ bool InferenceEngineEnhanced::cancel(const std::string& request_id) {
         it->second->promise.set_exception(
             std::make_exception_ptr(std::runtime_error("Request cancelled"))
         );
-    } catch (...) {
+    } catch (const std::exception&) {
         // Promise already satisfied
     }
     
@@ -980,7 +981,7 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
                 }
                 
                 it->second->promise.set_value(timeout_response);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Promise already satisfied
             }
             
@@ -1014,13 +1015,13 @@ void InferenceEngineEnhanced::processBatch(
                 // user's completion handler; calling it with an empty response
                 // here would be unexpected and misleading.
                 if (tracked->request.base_request.stream_callback && tracked->callback) {
-                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
+                    try { tracked->callback(InferenceResponse{}); } catch (const std::exception&) {}
                 }
                 try {
                     tracked->promise.set_exception(
                         std::make_exception_ptr(
                             std::runtime_error("Request cancelled")));
-                } catch (...) {}
+                } catch (const std::exception&) {}
                 std::lock_guard<std::mutex> lock(requests_mutex_);
                 tracked_requests_.erase(req.request_id);
                 continue;
@@ -1271,7 +1272,7 @@ void InferenceEngineEnhanced::processBatch(
                 // TokenCallback contract is upheld even when cancellation is
                 // detected after inference completes.
                 if (tracked->request.base_request.stream_callback && tracked->callback) {
-                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
+                    try { tracked->callback(InferenceResponse{}); } catch (const std::exception&) {}
                 }
                 std::lock_guard<std::mutex> lock(requests_mutex_);
                 tracked_requests_.erase(req.request_id);
@@ -1289,7 +1290,7 @@ void InferenceEngineEnhanced::processBatch(
             }
             try {
                 tracked->promise.set_value(response);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Promise already resolved (rare race with timeout monitor) — ignore.
             }
             
@@ -1314,7 +1315,7 @@ void InferenceEngineEnhanced::processBatch(
             
             try {
                 tracked->promise.set_value(error_response);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Promise already satisfied
             }
         }

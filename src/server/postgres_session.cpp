@@ -12,6 +12,7 @@
 #ifdef THEMIS_ENABLE_POSTGRES_WIRE
 
 #include "server/postgres_session.h"
+#include <stdexcept>
 #include "query/query_engine.h"
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"

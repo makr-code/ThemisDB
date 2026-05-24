@@ -15,6 +15,7 @@
 #include <chrono>
 #include <sstream>
 #include <numeric>
+#include <spdlog/spdlog.h>
 
 namespace themis::sharding {
 

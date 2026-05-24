@@ -405,24 +405,22 @@ bool FeedbackStorageService::createGraphLink(
     }
     
     try {
+        // Create edge: feedback --[belongs_to_adapter]--> adapter
         std::string from = makeFeedbackKey(feedback_id);
         std::string to = "lora_adapters:" + adapter_id;
-        std::string edge_type = "belongs_to_adapter";
-        
-        if (config_.create_graph_link_fn) {
-            return config_.create_graph_link_fn(from, to, edge_type);
-        }
+        const std::string edge_type = "belongs_to_adapter";
+        const std::string edge_id = "feedback_link:" + feedback_id + ":" + adapter_id;
 
-        BaseEntity edge("feedback_edge:" + feedback_id + ":" + adapter_id);
-        edge.setField("_from", from);
-        edge.setField("_to", to);
-        edge.setField("edge_type", edge_type);
-        edge.setField("feedback_id", feedback_id);
-        edge.setField("adapter_id", adapter_id);
+        BaseEntity edge;
+        edge.setPrimaryKey(edge_id);
+        edge.setField("id", Value(edge_id));
+        edge.setField("_from", Value(from));
+        edge.setField("_to", Value(to));
+        edge.setField("_type", Value(edge_type));
 
         auto status = config_.graph_index->addEdge(edge);
         if (!status.ok) {
-            spdlog::error("Failed to persist graph link: {}", status.message);
+            spdlog::error("Failed to create graph link {} -> {}: {}", from, to, status.message);
             return false;
         }
         return true;
@@ -442,18 +440,10 @@ bool FeedbackStorageService::removeGraphLink(
     }
     
     try {
-        std::string from = makeFeedbackKey(feedback_id);
-        std::string to = "lora_adapters:" + adapter_id;
-        std::string edge_type = "belongs_to_adapter";
-        
-        if (config_.remove_graph_link_fn) {
-            return config_.remove_graph_link_fn(from, to, edge_type);
-        }
-
-        const std::string edge_id = "feedback_edge:" + feedback_id + ":" + adapter_id;
+        const std::string edge_id = "feedback_link:" + feedback_id + ":" + adapter_id;
         auto status = config_.graph_index->deleteEdge(edge_id);
         if (!status.ok) {
-            spdlog::error("Failed to remove graph link: {}", status.message);
+            spdlog::error("Failed to remove graph link {}: {}", edge_id, status.message);
             return false;
         }
         return true;

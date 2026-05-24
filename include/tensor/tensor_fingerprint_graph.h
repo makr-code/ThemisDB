@@ -8,13 +8,16 @@
 
 /**
  * @file tensor/tensor_fingerprint_graph.h
- * @brief Fingerprint-based adapter similarity graph (Phase 4 prep).
+ * @brief Adapter similarity graph with TT-exact and fingerprint-approximate lookup.
  *
  * ## Overview (paper §Adapter Sovereignty)
  *
  * When many LoRA/PEFT adapters are stored as TT graphs inside ThemisDB,
- * the `TensorFingerprintGraph` provides fast approximate similarity
- * lookup between adapters.
+ * the `TensorFingerprintGraph` provides two lookup modes:
+ * - `findSimilar()` computes cosine similarity in the TT domain via
+ *   TT inner products (exact ranking in compressed space).
+ * - `findSimilarByFingerprint()` computes cosine similarity on a compact
+ *   first-core fingerprint vector (fast approximate ranking).
  *
  * Each adapter is fingerprinted by the column means of its first
  * TT-core (`G_0`), yielding a compact float32 vector that approximates
@@ -27,10 +30,6 @@
  * the first singular vector scaled by `r₁`, which is equivalent to
  * a rank-1 sketch of the adapter.  This is O(n₁ · r₁) to compute
  * and O(r₁) to store — negligible compared to the full adapter.
- *
- * Exact ranking can be injected with `setExactSimilarityFn(fn)`.
- * When the callback is absent (or returns no score), deterministic
- * fingerprint-cosine fallback is used.
  *
  * ## Thread Safety
  * All public methods are thread-safe via shared_mutex.
@@ -76,6 +75,9 @@ struct FingerprintEntry {
 
     /// Frobenius norm of the first TT-core (used for normalisation).
     float first_core_norm = 0.0f;
+
+    /// Full TT train used for exact compressed-domain similarity in findSimilar().
+    storage::TTTrain exact_train;
 };
 
 // ============================================================================
@@ -149,13 +151,9 @@ public:
     /**
      * @brief Find the top-k adapters most similar to the query adapter.
      *
-     * Similarity is computed as cosine similarity on the column-mean
-     * fingerprint of G_0.  The query adapter itself is excluded from the
-     * result list.
-     *
-     * If `setExactSimilarityFn(fn)` is configured and returns a score
-     * for a candidate, that score is used. Otherwise fallback cosine on
-     * fingerprints is used.
+     * Similarity is computed as cosine similarity in the TT domain using
+     * `TensorTrainDecomposer::innerProduct()`.  The query adapter itself is
+     * excluded from the result list.
      *
      * @param query_key  Storage key of the query adapter (must be registered).
      * @param k          Maximum number of results to return.
@@ -169,6 +167,7 @@ public:
      * @brief Find the top-k adapters most similar to the given raw fingerprint.
      *
      * Useful when the caller holds a fingerprint not yet stored in the graph.
+     * This path is intentionally approximate and does not use TT inner-product.
      *
      * @param fingerprint  Query fingerprint vector.
      * @param k            Maximum number of results to return.
@@ -203,19 +202,25 @@ public:
 
     [[nodiscard]] GraphStats stats() const noexcept;
 
-    /**
-     * @brief Inject an exact-similarity backend for adapter ranking.
-     *
-     * @param fn Callback returning an exact similarity score for
-     *           (query_key, candidate_key). Returning std::nullopt keeps
-     *           fingerprint-cosine fallback for that pair.
-     */
-    void setExactSimilarityFn(ExactSimilarityFn fn);
+    // ─── ExactSimilarity bridge (stub #276) ───────────────────────────────
+
+    /// @brief Type alias for exact-similarity injection.
+    using ExactSimilarityFn = std::function<float(const std::string& key_a,
+                                                   const std::string& key_b)>;
 
     /**
-     * @brief Clear a previously injected exact-similarity backend.
+     * @brief Install an exact-similarity function replacing cosine fingerprint.
+     *
+     * When set, findSimilarByFingerprint() delegates per-pair scoring to this
+     * function instead of computing cosine similarity on stored fingerprints.
+     * @param fn Callable receiving two adapter keys and returning a score in [0, 1].
      */
-    void clearExactSimilarityFn();
+    static void setExactSimilarityFn(ExactSimilarityFn fn);
+
+    /**
+     * @brief Remove the exact-similarity override (reverts to cosine fingerprint).
+     */
+    static void clearExactSimilarityFn();
 
 private:
     /// Compute column means of a TT-core data block.
@@ -231,6 +236,7 @@ private:
 
     mutable std::shared_mutex mutex_;
     std::unordered_map<std::string, FingerprintEntry> entries_;
+    std::unordered_map<std::string, storage::TTTrain> trains_;
 
     mutable std::shared_mutex stats_mutex_;
     mutable GraphStats        stats_;

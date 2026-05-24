@@ -10,6 +10,7 @@
  */
 
 #include "llm/prompt_manager.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"
 #include "utils/logger.h"
@@ -216,7 +217,7 @@ size_t PromptManager::loadFromYAML(const std::string& yaml_path) {
                     YAML::Emitter emitter;
                     emitter << prompt_node["metadata"];
                     pt.metadata = nlohmann::json::parse(emitter.c_str());
-                } catch (...) {
+                } catch (const std::exception&) {
                     pt.metadata = nlohmann::json::object();
                 }
             }

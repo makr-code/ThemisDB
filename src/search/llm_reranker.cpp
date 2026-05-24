@@ -113,7 +113,7 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
         } catch (const std::exception& e) {
             THEMIS_WARN("LlmReranker: backend error: {} — falling back for batch [{}, {})",
                         e.what(), start, end);
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_WARN("LlmReranker: unknown backend error — falling back for batch [{}, {})",
                         start, end);
         }
@@ -245,7 +245,7 @@ std::vector<double> LlmReranker::parseScores(
             // Clamp raw value to [0, 10] before normalising
             val = std::max(0.0, std::min(10.0, val));
             scores.push_back(val / 10.0); // normalise to [0, 1]
-        } catch (...) {
+        } catch (const std::exception&) {
             // Unparseable line → skip
         }
     }

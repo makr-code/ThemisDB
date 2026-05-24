@@ -10,6 +10,7 @@
  */
 
 #include "llm/shared_worker_pool.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -185,7 +186,7 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
         } catch (const std::exception& e) {
             spdlog::error("SharedWorkerPool worker {}: task threw: {}",
                           thread_id, e.what());
-        } catch (...) {
+        } catch (const std::exception&) {
             spdlog::error("SharedWorkerPool worker {}: task threw unknown exception",
                           thread_id);
         }

@@ -25,7 +25,8 @@
 //   src/analytics/FUTURE_ENHANCEMENTS.md § "Process Mining Windows Port"
 // Roadmap ref: src/analytics/ROADMAP.md § ProcessMining
 #include "analytics/process_mining.h"
-
+#include <stdexcept>
+#include "utils/logger.h"
 #include <spdlog/spdlog.h>
 
 #include "utils/logger.h"
@@ -293,8 +294,8 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(std::s
             if (event.timestamp_ms > log.max_timestamp) {
                 log.max_timestamp = event.timestamp_ms;
             }
-
-        } catch (...) {
+            
+        } catch (const std::exception&) {
             // Skip malformed documents
         }
         return true;
@@ -414,8 +415,8 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
 
             cases[caseId].push_back(event);
             activities.insert(activity);
-
-        } catch (...) {
+            
+        } catch (const std::exception&) {
             // Skip invalid entities
             return true;
         }
@@ -528,8 +529,8 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
             if (!eventChain.empty()) {
                 cases[caseId] = std::move(eventChain);
             }
-
-        } catch (...) {
+            
+        } catch (const std::exception&) {
             // Skip invalid entities
             return true;
         }

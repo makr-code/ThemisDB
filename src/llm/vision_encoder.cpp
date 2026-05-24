@@ -10,6 +10,7 @@
  */
 
 #include "llm/vision_encoder.h"
+#include <stdexcept>
 #include "themis/module_hash_verifier.h"
 #include "utils/logger.h"
 #include <filesystem>
@@ -348,7 +349,7 @@ std::vector<float> VisionEncoder::encodeImageData(const std::vector<uint8_t>& im
         auto embeddings = encodeImage(temp_path);
         std::filesystem::remove(temp_path);
         return embeddings;
-    } catch (...) {
+    } catch (const std::exception&) {
         std::filesystem::remove(temp_path);
         throw;
     }

@@ -7,6 +7,7 @@
  */
 
 #include "api/themisdb_grpc_service.h"
+#include <stdexcept>
 #include "api/aql_utils.h"
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/transaction_manager.h"
@@ -243,7 +244,7 @@ private:
                 std::string ver_str;
                 if (db_->get(versionKey(storage_key), ver_str)) {
                     try { new_version = std::stoull(ver_str) + 1; }
-                    catch (...) {
+                    catch (const std::exception&) {
                         THEMIS_WARN("UpdateDocument: malformed version counter '{}' for key '{}'; "
                                     "resetting to 1", ver_str, storage_key);
                         new_version = 1;
@@ -416,7 +417,7 @@ private:
                     row->set_data(*result);
                     row->set_has_more(false);
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Fall back to raw payload when response is not valid JSON.
                 auto* row = resp->add_rows();
                 row->set_data(*result);
@@ -847,7 +848,7 @@ void ThemisDBGrpcService::buildImpl() {
         } catch (const std::exception& e) {
             THEMIS_ERROR("ThemisDBGrpcService: service callback failed: {}", e.what());
             service_ptr_ = nullptr;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         }

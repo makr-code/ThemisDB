@@ -133,7 +133,7 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::deriveKey(
         if (fn) [[unlikely]] {
             try {
                 return fn(master_key, salt);
-            } catch (...) {
+            } catch (const std::exception&) {
                 // Fall through to built-in implementation.
             }
         }

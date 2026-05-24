@@ -10,6 +10,7 @@
  */
 
 #include "server/pki_api_handler.h"
+#include <stdexcept>
 #include "utils/logger.h"
 #include "utils/input_validator.h"
 #include <openssl/sha.h>

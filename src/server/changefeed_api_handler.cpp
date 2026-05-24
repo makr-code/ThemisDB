@@ -10,6 +10,7 @@
  */
 
 #include "server/changefeed_api_handler.h"
+#include <stdexcept>
 #include "server/tenant_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
@@ -84,6 +85,23 @@ static std::set<Changefeed::ChangeEventType> parseEventTypes(const std::string& 
         }
     }
     return result;
+}
+
+// ============================================================================
+// Static members — SSE stream writer bridge (stub #305 resolution)
+// ============================================================================
+
+ChangefeedApiHandler::SseStreamWriterFn ChangefeedApiHandler::sse_stream_writer_fn_;
+std::mutex                              ChangefeedApiHandler::sse_writer_mutex_;
+
+void ChangefeedApiHandler::setSseStreamWriterFn(SseStreamWriterFn fn) {
+    std::lock_guard<std::mutex> lock(sse_writer_mutex_);
+    sse_stream_writer_fn_ = std::move(fn);
+}
+
+void ChangefeedApiHandler::clearSseStreamWriterFn() {
+    std::lock_guard<std::mutex> lock(sse_writer_mutex_);
+    sse_stream_writer_fn_ = nullptr;
 }
 
 ChangefeedApiHandler::ChangefeedApiHandler(
@@ -427,76 +445,109 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         // Production streaming path via SSE manager (only when enabled)
 #ifdef THEMIS_ENABLE_SSE
         if (keep_alive && sse_manager_) {
-            // Stub #305 resolved: SSE keep-alive path now uses pollEventsWithSequences()
-            // to obtain per-event sequence numbers and feeds them to delivery_tracker_
-            // when a consumer_id is present, enabling at-least-once delivery tracking.
-            
+            // STUB/SIMULATION NOTE (stub #305): RESOLVED via SseStreamWriterFn bridge
+            //   and pollRawEvents() for at-least-once delivery tracking.
+            // Purpose: Keep changefeed SSE endpoints usable with a bounded, sync-style
+            //          response body while the fully asynchronous stream writer lifecycle
+            //          is not yet integrated into this handler.
+            // Activation (legacy): `THEMIS_ENABLE_SSE` + `keep_alive=true` + `sse_manager_ != nullptr`
+            //          AND no SseStreamWriterFn registered.
+            // Production Delta: When SseStreamWriterFn is set, a true async write loop
+            //          is driven externally; the sync poll path is the documented fallback.
+            //          At-least-once tracking now uses pollRawEvents() so raw ChangeEvent
+            //          objects are available for delivery_tracker_ without parsing formatted lines.
+            // Removal Plan: Sync fallback loop can be removed once all deployments supply
+            //          an async SseStreamWriterFn (Target: v2.2.0).
+
             uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix, event_types);
             span.setAttribute("sse.connection_id", static_cast<int64_t>(conn_id));
             span.setAttribute("sse.consumer_id", consumer_id);
-            
-            // Stream events for limited duration (configurable for tests)
-            auto start = std::chrono::steady_clock::now();
-            const auto max_duration = std::chrono::seconds(max_seconds);
-            size_t total_events = 0;
-            size_t heartbeats = 0;
-            
-            auto last_hb = start;
-            while (std::chrono::steady_clock::now() - start < max_duration) {
-                // Poll events with sequence numbers for at-least-once tracking.
-                auto seq_lines = sse_manager_->pollEventsWithSequences(conn_id, max_events_per_poll);
-                
-                if (!seq_lines.empty()) {
-                    // Build minimal ChangeEvent list for delivery tracking.
-                    if (!consumer_id.empty()) {
-                        std::vector<Changefeed::ChangeEvent> tracked_events;
-                        tracked_events.reserve(seq_lines.size());
-                        for (const auto& [seq, line] : seq_lines) {
-                            Changefeed::ChangeEvent ev;
-                            ev.sequence = seq;
-                            tracked_events.push_back(ev);
-                        }
-                        delivery_tracker_.trackDelivery(consumer_id, tracked_events);
-                    }
-                    for (const auto& [seq, event_line] : seq_lines) {
-                        body << event_line;
+
+            // ── Path A: injected async stream writer ─────────────────────────
+            SseStreamWriterFn writer_snap;
+            {
+                std::lock_guard<std::mutex> lock(sse_writer_mutex_);
+                writer_snap = sse_stream_writer_fn_;
+            }
+            if (writer_snap) {
+                try {
+                    writer_snap(*sse_manager_, conn_id, body,
+                                std::chrono::seconds(max_seconds),
+                                heartbeat_ms_override,
+                                max_events_per_poll);
+                } catch (const std::exception& ex) {
+                    THEMIS_WARN("SseStreamWriterFn threw: {}; falling back to sync loop", ex.what());
+                    writer_snap = nullptr; // fall through to sync path
+                }
+            }
+
+            if (!writer_snap) {
+                // ── Path B: built-in sync poll loop (fallback) ───────────────
+                // Uses pollRawEvents() to obtain raw ChangeEvent objects so that
+                // the delivery_tracker_ can record at-least-once in-flight state.
+                auto start = std::chrono::steady_clock::now();
+                const auto max_duration = std::chrono::seconds(max_seconds);
+                size_t total_events = 0;
+                size_t heartbeats = 0;
+
+                // Re-deliver any unacknowledged events first.
+                if (!consumer_id.empty()) {
+                    auto pending = delivery_tracker_.getPendingRedelivery(consumer_id, ack_timeout_override);
+                    for (const auto& ev : pending) {
+                        body << "id: " << ev.sequence << "\n";
+                        body << "data: " << ev.toJson().dump() << "\n\n";
                         total_events++;
                     }
-                } else {
-                    bool sent_hb = false;
-                    if (heartbeat_ms_override > 0) {
-                        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                            std::chrono::steady_clock::now() - last_hb
-                        ).count();
-                        if (elapsed >= heartbeat_ms_override) {
+                }
+
+                auto last_hb = start;
+                while (std::chrono::steady_clock::now() - start < max_duration) {
+                    // Drain raw events from the SSE manager buffer.
+                    auto raw_events = sse_manager_->pollRawEvents(conn_id, max_events_per_poll);
+
+                    if (!raw_events.empty()) {
+                        for (const auto& ev : raw_events) {
+                            body << "id: " << ev.sequence << "\n";
+                            body << "data: " << ev.toJson().dump() << "\n\n";
+                            total_events++;
+                        }
+                        // Track in-flight for at-least-once delivery.
+                        if (!consumer_id.empty()) {
+                            delivery_tracker_.trackDelivery(consumer_id, raw_events);
+                        }
+                    } else {
+                        bool sent_hb = false;
+                        if (heartbeat_ms_override > 0) {
+                            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                std::chrono::steady_clock::now() - last_hb
+                            ).count();
+                            if (elapsed >= static_cast<int64_t>(heartbeat_ms_override)) {
+                                body << ": heartbeat\n\n";
+                                sse_manager_->recordHeartbeat(conn_id);
+                                heartbeats++;
+                                last_hb = std::chrono::steady_clock::now();
+                                sent_hb = true;
+                            }
+                        }
+                        if (!sent_hb && sse_manager_->needsHeartbeat(conn_id)) {
                             body << ": heartbeat\n\n";
                             sse_manager_->recordHeartbeat(conn_id);
                             heartbeats++;
-                            last_hb = std::chrono::steady_clock::now();
-                            sent_hb = true;
                         }
                     }
-                    if (!sent_hb && sse_manager_->needsHeartbeat(conn_id)) {
-                        body << ": heartbeat\n\n";
-                        sse_manager_->recordHeartbeat(conn_id);
-                        heartbeats++;
-                    }
+
+                    // Sleep briefly to avoid busy-wait.
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 }
-                
-                // Sleep briefly to avoid busy-wait
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+                span.setAttribute("sse.total_events", static_cast<int64_t>(total_events));
+                span.setAttribute("sse.heartbeats", static_cast<int64_t>(heartbeats));
             }
-            
-            // Cleanup connection
+
             sse_manager_->unregisterConnection(conn_id);
-            
-            span.setAttribute("sse.total_events", static_cast<int64_t>(total_events));
-            span.setAttribute("sse.heartbeats", static_cast<int64_t>(heartbeats));
             span.setAttribute("sse.duration_s", static_cast<int64_t>(max_seconds));
-            
-            THEMIS_INFO("SSE stream completed: conn={}, consumer_id='{}', events={}, heartbeats={}",
-                conn_id, consumer_id, total_events, heartbeats);
-            
+            THEMIS_INFO("SSE stream completed: conn={}, consumer_id='{}'", conn_id, consumer_id);
+
         } else
 #endif
         {

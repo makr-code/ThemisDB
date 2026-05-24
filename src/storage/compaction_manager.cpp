@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "storage/compaction_manager.h"
+#include <stdexcept>
 #include "utils/error_registry.h"
 
 #include <regex>
@@ -216,7 +217,7 @@ CompactionManager::Stats CompactionManager::stats() const {
                             // L0 writes are exclusively from memtable flush
                             flush_gb = write_gb;
                         }
-                    } catch (...) {}
+                    } catch (const std::exception&) {}
                 }
             }
 

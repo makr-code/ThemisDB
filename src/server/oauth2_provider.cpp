@@ -540,18 +540,23 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
 nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
 {
     if (!refresh_token.empty()) {
-        if (refresh_token_revocation_fn_) {
-            try {
-                const bool revoked = refresh_token_revocation_fn_(refresh_token);
-                THEMIS_INFO("OAuth2Provider::handleLogout – revocation callback result: {}",
-                            revoked ? "revoked" : "not-revoked");
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("OAuth2Provider::handleLogout revocation callback failed: {}",
-                             e.what());
+        try {
+            const auto& doc = oidc_provider_->discoveryDocument();
+            if (!doc.revocation_endpoint.empty()) {
+                std::string body =
+                    "token=" + urlEncode(refresh_token) +
+                    "&token_type_hint=refresh_token" +
+                    "&client_id=" + urlEncode(config_.oidc.client_id);
+                if (!config_.oidc.client_secret.empty()) {
+                    body += "&client_secret=" + urlEncode(config_.oidc.client_secret);
+                }
+                (void)httpPost(doc.revocation_endpoint, body);
+                THEMIS_INFO("OAuth2Provider::handleLogout – refresh token revocation posted");
+            } else {
+                THEMIS_WARN("OAuth2Provider::handleLogout – revocation endpoint unavailable in discovery metadata");
             }
-        } else {
-            THEMIS_INFO("OAuth2Provider::handleLogout – refresh token revocation requested "
-                        "(no revocation callback configured)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("OAuth2Provider::handleLogout – refresh token revocation failed: {}", e.what());
         }
     }
     THEMIS_INFO("OAuth2Provider::handleLogout – session ended");

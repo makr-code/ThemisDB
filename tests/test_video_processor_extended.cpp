@@ -26,6 +26,7 @@
 #include <vector>
 #include <fstream>
 #include <filesystem>
+#include <limits>
 
 // TODO(v1.3.0): Content plugin API drift (PluginConfig/ExtractionOptions fields). Disable extended video processor tests until updated.
 
@@ -135,10 +136,20 @@ TEST_F(VideoProcessorExtendedTest, MultipleInitialization) {
 }
 
 /**
- * @test Test plugin health check
+ * @test Test plugin health check.
+ *
+ * CON-007: In a no-FFmpeg build the processor is initialised but cannot do
+ * real work, so healthCheck() must return false.  In an FFmpeg build it
+ * reflects the initialized_ flag (true after successful initialize()).
  */
 TEST_F(VideoProcessorExtendedTest, HealthCheck) {
+#ifdef THEMIS_HAS_FFMPEG
     EXPECT_TRUE(processor.healthCheck());
+#else
+    // CON-007 fix: no-FFmpeg simulation mode must surface the missing
+    // dependency so health-check aggregators can detect it.
+    EXPECT_FALSE(processor.healthCheck());
+#endif
 }
 
 /**
@@ -454,6 +465,28 @@ TEST_F(VideoProcessorExtendedTest, ThumbnailSizeConfiguration) {
     thumb_processor.shutdown();
 }
 
+TEST(VideoProcessorConfigValidationTest, RejectsNonPositiveThumbnailDimensions) {
+    PluginConfig config;
+    config.set("thumbnail.max_width", 0);
+    config.set("thumbnail.max_height", 120);
+
+    VideoProcessor processor;
+    EXPECT_FALSE(processor.initialize(config));
+
+    config.set("thumbnail.max_width", 160);
+    config.set("thumbnail.max_height", -1);
+    EXPECT_FALSE(processor.initialize(config));
+}
+
+TEST(VideoProcessorConfigValidationTest, RejectsOverflowProneThumbnailDimensions) {
+    PluginConfig config;
+    config.set("thumbnail.max_width", std::numeric_limits<int>::max());
+    config.set("thumbnail.max_height", std::numeric_limits<int>::max());
+
+    VideoProcessor processor;
+    EXPECT_FALSE(processor.initialize(config));
+}
+
 // ============================================================================
 // Multiple Format Tests
 // ============================================================================
@@ -637,6 +670,5 @@ TEST_F(VideoProcessorExtendedTest, ChunkSizeConfiguration) {
 }
 
 // Main function for Google Test
-
 
 

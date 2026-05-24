@@ -164,7 +164,7 @@ std::optional<int64_t> BaseEntity::getFieldAsInt(std::string_view field_name) co
                     return parsed;
                 }
                 return std::nullopt;
-            } catch (const std::exception&) {
+            } catch (...) {
                 return std::nullopt;
             }
         }

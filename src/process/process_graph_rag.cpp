@@ -20,6 +20,7 @@
  */
 
 #include "process/process_graph_rag.h"
+#include <stdexcept>
 #include "process/process_common.h"
 #include "utils/logger.h"
 
@@ -873,7 +874,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
                     ref_embedding.push_back(v.get<float>());
                 }
             }
-        } catch (...) {
+        } catch (const std::exception&) {
             ref_embedding.clear();
         }
     }
@@ -905,7 +906,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
                     for (const auto& v : emb_json) other_emb.push_back(v.get<float>());
                     sim = cosineSimilarity(ref_embedding, other_emb);
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
 
         if (sim >= min_similarity) {
@@ -970,7 +971,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
                     }
                     candidates.push_back(std::move(sc));
                 }
-            } catch (...) {}
+            } catch (const std::exception&) {}
             return true;
         });
     }
@@ -1325,7 +1326,7 @@ void ProcessGraphRag::recordNodeCompletion(
         std::string val;
         if (db_.get(key, val) && !val.empty()) {
             try { agg = json::parse(val); }
-            catch (...) { agg = json::object(); }
+            catch (const std::exception&) { agg = json::object(); }
         }
     }
 
@@ -1366,7 +1367,7 @@ std::vector<ProcessGraphRag::NodeDwellStats> ProcessGraphRag::analyzeBottlenecks
 
             json agg;
             try { agg = json::parse(value); }
-            catch (...) { return true; }
+            catch (const std::exception&) { return true; }
 
             int64_t count  = agg.value("count", int64_t{0});
             if (count <= 0) return true;

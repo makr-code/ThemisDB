@@ -870,3 +870,150 @@ TEST(WhisperPluginFocusedTests, Q3_NullVadIsNoOp) {
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.text, "no vad");
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Group R – VAD thread-safety (data-race regression)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WhisperPluginFocusedTests, R1_ConcurrentVadSetAndTranscribeStream) {
+    // Verify that concurrent setVoiceActivityDetector() and transcribeStream()
+    // do not produce a data race (regression for the missing vad_mutex_ gap).
+    TranscriptionResult ok;
+    ok.text    = "concurrent";
+    ok.success = true;
+
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextResult(ok);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", json{});
+
+    std::vector<float> speech(320, 0.5f);
+    std::atomic<int> errors{0};
+
+    // Thread A: repeatedly set and clear the VAD
+    std::thread setter([&]() {
+        for (int i = 0; i < 50; ++i) {
+            VadConfig cfg;
+            cfg.energy_threshold = 0.01f;
+            p.setVoiceActivityDetector(std::make_unique<EnergyThresholdVad>(), cfg);
+            p.setVoiceActivityDetector(nullptr);
+        }
+    });
+
+    // Thread B: repeatedly call transcribeStream while VAD changes
+    std::thread caller([&]() {
+        for (int i = 0; i < 50; ++i) {
+            try {
+                auto res = p.transcribeStream(speech, 16000.f, nullptr);
+                if (res.ingestion_source_type != "WHISPER") ++errors;
+            } catch (const std::exception&) {
+                ++errors;
+            }
+        }
+    });
+
+    setter.join();
+    caller.join();
+    EXPECT_EQ(errors.load(), 0);
+}
+
+TEST(WhisperPluginFocusedTests, R2_SetVadAfterTranscribeIsSafe) {
+    // setVoiceActivityDetector() after transcription completes must not corrupt state.
+    TranscriptionResult ok;
+    ok.text    = "safe";
+    ok.success = true;
+
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextResult(ok);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", json{});
+
+    // First transcription with no VAD
+    auto r1 = p.transcribeStream({0.5f}, 16000.f, nullptr);
+    EXPECT_EQ(r1.ingestion_source_type, "WHISPER");
+
+    // Install VAD
+    VadConfig cfg; cfg.energy_threshold = 0.01f;
+    p.setVoiceActivityDetector(std::make_unique<EnergyThresholdVad>(), cfg);
+
+    // Second transcription uses the new VAD (silence suppressed)
+    std::vector<float> silence(160, 0.0f);
+    auto r2 = p.transcribeStream(silence, 16000.f, nullptr);
+    EXPECT_EQ(r2.ingestion_source_type, "WHISPER");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Group S – WAV parser input validation (num_channels guard regression)
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+/// Build a raw WAV byte buffer with configurable parameters.
+/// Caller is responsible for ensuring the header values are consistent.
+static std::vector<uint8_t> buildWav(uint16_t num_channels,
+                                     uint16_t audio_format,
+                                     uint16_t bits_per_sample,
+                                     uint32_t sample_rate = 16000) {
+    const uint32_t bytes_per_sample = bits_per_sample / 8u;
+    const uint32_t data_bytes       = 4 * num_channels * bytes_per_sample;  // 4 frames
+    const uint32_t riff_size        = 36 + data_bytes;
+
+    std::vector<uint8_t> b(44 + data_bytes, 0);
+    // RIFF header
+    b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';
+    b[4]= riff_size & 0xFF;
+    b[5]=(riff_size >> 8) & 0xFF;
+    b[6]=(riff_size >>16) & 0xFF;
+    b[7]=(riff_size >>24) & 0xFF;
+    b[8]='W'; b[9]='A'; b[10]='V'; b[11]='E';
+    // fmt chunk
+    b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';
+    b[16]=16;  // chunk size (LE)
+    b[20]= audio_format & 0xFF; b[21]=(audio_format >>8)&0xFF;
+    b[22]= num_channels & 0xFF; b[23]=(num_channels >>8)&0xFF;
+    // sample_rate
+    b[24]= sample_rate & 0xFF;
+    b[25]=(sample_rate >>8) & 0xFF;
+    b[26]=(sample_rate >>16)& 0xFF;
+    b[27]=(sample_rate >>24)& 0xFF;
+    b[34]= bits_per_sample & 0xFF;
+    b[35]=(bits_per_sample >>8) & 0xFF;
+    // data chunk
+    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';
+    b[40]= data_bytes & 0xFF;
+    b[41]=(data_bytes >>8) & 0xFF;
+    return b;
+}
+} // anonymous namespace
+
+TEST(WhisperPluginFocusedTests, S1_ParseWavRejectsZeroChannels) {
+    // A WAV file with num_channels=0 must throw, not divide by zero.
+    WavAudioChunkReader reader;
+    // Build a WAV with manually overridden num_channels = 0 by manipulating the bytes.
+    // Start from a valid 1-channel WAV then zero out the channel count bytes.
+    auto wav = buildWav(1, 1, 16);
+    wav[22] = 0; wav[23] = 0;  // num_channels = 0
+    float sr = 0.f;
+    EXPECT_THROW(reader.parseWav(wav, sr), std::runtime_error);
+}
+
+TEST(WhisperPluginFocusedTests, S2_ParseWavRejectsExcessiveChannelCount) {
+    // A WAV file claiming 65 channels should be rejected (unreasonable for audio).
+    WavAudioChunkReader reader;
+    auto wav = buildWav(1, 1, 16);
+    wav[22] = 65; wav[23] = 0;  // num_channels = 65
+    float sr = 0.f;
+    EXPECT_THROW(reader.parseWav(wav, sr), std::runtime_error);
+}
+
+TEST(WhisperPluginFocusedTests, S3_ParseWavAcceptsMaxValidChannelCount) {
+    // 64 channels should still be accepted (boundary value).
+    WavAudioChunkReader reader;
+    auto wav = buildWav(64, 1, 16, 16000);
+    float sr = 0.f;
+    // Must not throw; may return an empty or valid vector of samples
+    EXPECT_NO_THROW(reader.parseWav(wav, sr));
+}

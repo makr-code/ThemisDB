@@ -376,10 +376,13 @@ public:
     void updateSession(const std::string& session_id, const json& context);
 
     /**
-     * @brief Delete a voice session by ID.
+     * @brief Delete an existing voice session.
      *
-     * @param session_id Session identifier.
-     * @return true when an existing session was removed, false when no session exists.
+     * Removes the session entry from the in-memory session table. If the
+     * session does not exist, no state is modified.
+     *
+     * @param session_id Session identifier to delete.
+     * @return true when a session was removed, false when it was not found.
      */
     bool deleteSession(const std::string& session_id);
 

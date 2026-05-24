@@ -9,6 +9,7 @@
 // Vector ANN index implementation
 
 #include "index/vector_index.h"
+#include <stdexcept>
 #include "index/advanced_vector_index.h"
 #include "index/ann_index.h"
 #include "index/rotary_embeddings.h"
@@ -288,7 +289,7 @@ bool VectorIndexManager::isVectorEncryptionEnabled() const {
 			nlohmann::json j = nlohmann::json::parse(s);
 			return j.value("encryption_enabled", false);
 		}
-	} catch (...) {
+	} catch (const std::exception&) {
 		// If config doesn't exist or can't be parsed, default to disabled
 	}
 	return false;  // Default: encryption disabled (backward compatible)
@@ -309,7 +310,9 @@ void VectorIndexManager::setVectorEncryptionEnabled(bool enabled) {
 		// Write back to database
 		std::string json_str = j.dump();
 		std::vector<uint8_t> data(json_str.begin(), json_str.end());
-		db_.put("config:vector", data);
+		if (!db_.put("config:vector", data)) {
+			THEMIS_WARN("VectorIndexManager: Failed to persist vector encryption config");
+		}
 		
 		THEMIS_INFO("VectorIndexManager: Vector encryption {}", enabled ? "ENABLED" : "DISABLED");
 	} catch (const std::exception& ex) {
@@ -325,7 +328,7 @@ bool VectorIndexManager::isHnswEncryptionEnabled() const {
 			nlohmann::json j = nlohmann::json::parse(s);
 			return j.value("encryption_enabled", false);
 		}
-	} catch (...) {
+	} catch (const std::exception&) {
 		// If config doesn't exist or can't be parsed, default to disabled
 	}
 	return false;  // Default: encryption disabled (backward compatible)
@@ -346,7 +349,9 @@ void VectorIndexManager::setHnswEncryptionEnabled(bool enabled) {
 		// Write back to database
 		std::string json_str = j.dump();
 		std::vector<uint8_t> data(json_str.begin(), json_str.end());
-		db_.put("config:hnsw", data);
+		if (!db_.put("config:hnsw", data)) {
+			THEMIS_WARN("VectorIndexManager: Failed to persist HNSW encryption config");
+		}
 		
 		THEMIS_INFO("VectorIndexManager: HNSW index encryption {}", enabled ? "ENABLED" : "DISABLED");
 	} catch (const std::exception& ex) {
@@ -653,7 +658,7 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 		
 		// Phase 4: Load HNSW optimization configuration
 		loadHnswOptimizationConfig_();
-	} catch (...) {
+	} catch (const std::exception&) {
 		useHnsw_ = false;
 		THEMIS_WARN("init: HNSW initialisierung fehlgeschlagen, Fallback auf Brute-Force");
 	}
@@ -671,7 +676,7 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 			try {
 				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 				appr->ef_ = efSearch_;
-			} catch (...) {
+			} catch (const std::exception&) {
 				return Status::Error("setEfSearch: HNSW ef_-Update fehlgeschlagen");
 			}
 		}
@@ -757,7 +762,7 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 			} else {
 				// Fallback: nur Cache
 			}
-		} catch (...) {
+		} catch (const std::exception&) {
 			THEMIS_WARN("rebuildFromStorage: Deserialisierung fehlgeschlagen für PK={}", pk);
 		}
 		return true;
@@ -828,7 +833,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(v);
 			storage_vectors.emplace(std::move(pk), std::move(v));
 			++stats.total_scanned;
-		} catch (...) {
+		} catch (const std::exception&) {
 			THEMIS_WARN("incrementalReindex: deserialization failed for pk={}", pk);
 		}
 		return true;
@@ -847,7 +852,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 			auto it = pkToId_.find(pk);
 			if (it != pkToId_.end()) {
-				try { appr->markDelete(it->second); } catch (...) {}
+				try { appr->markDelete(it->second); } catch (const std::exception&) {}
 			}
 		}
 #endif
@@ -877,7 +882,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 					id = id_it->second; // reuse label of a previously deleted entry
 					idToPk_[id] = pk;   // update reverse mapping to the new PK
 				}
-				try { appr->addPoint(new_vec.data(), id); } catch (...) {}
+				try { appr->addPoint(new_vec.data(), id); } catch (const std::exception&) {}
 			}
 #endif
 			++stats.added;
@@ -889,7 +894,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 				auto id_it = pkToId_.find(pk);
 				if (id_it != pkToId_.end()) {
-					try { appr->addPoint(new_vec.data(), id_it->second); } catch (...) {}
+					try { appr->addPoint(new_vec.data(), id_it->second); } catch (const std::exception&) {}
 				}
 			}
 #endif
@@ -961,7 +966,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 				mode = j.value("quantization", std::string("auto"));
 				threshold = j.value("auto_threshold", 1000000);
 			}
-		} catch (...) {}
+		} catch (const std::exception&) {}
 		if (mode == "none") return false;
 		if (mode == "sq8") return true;
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
@@ -1054,7 +1059,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		} else {
 			id = it->second;
 		}
-		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
+		try { appr->addPoint(cache_[pk].data(), id); } catch (const std::exception&) { /* evtl. schon vorhanden */ }
 	}
 #endif
 	// ScaNN / DiskANN alternative ANN backend
@@ -1092,7 +1097,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 				mode = j.value("quantization", std::string("auto"));
 				threshold = j.value("auto_threshold", 1000000);
 			}
-		} catch (...) {}
+		} catch (const std::exception&) {}
 		if (mode == "none") return false; if (mode == "sq8") return true;
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
@@ -1135,7 +1140,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		} else {
 			id = it->second;
 		}
-		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
+		try { appr->addPoint(cache_[pk].data(), id); } catch (const std::exception&) { /* evtl. schon vorhanden */ }
 	}
 #endif
 	// ScaNN / DiskANN alternative ANN backend
@@ -1184,7 +1189,7 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk) {
 		auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 		auto it = pkToId_.find(std::string(pk));
 		if (it != pkToId_.end()) {
-			try { appr->markDelete(it->second); } catch (...) {}
+			try { appr->markDelete(it->second); } catch (const std::exception&) {}
 		}
 	}
 #endif
@@ -1203,7 +1208,7 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, R
 		auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 		auto it = pkToId_.find(std::string(pk));
 		if (it != pkToId_.end()) {
-			try { appr->markDelete(it->second); } catch (...) {}
+			try { appr->markDelete(it->second); } catch (const std::exception&) {}
 		}
 	}
 #endif
@@ -1284,7 +1289,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 							}
 						}
 					}
-				} catch (...) {}
+				} catch (const std::exception&) {}
 			}
 		}
 	} else {
@@ -1305,7 +1310,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 							try {
 								auto enc_field = EncryptedField<std::vector<float>>::fromBase64(*enc_str);
 								v = enc_field.decrypt();
-							} catch (...) {
+							} catch (const std::exception&) {
 								// skip if decryption fails
 							}
 						}
@@ -1335,7 +1340,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 					if (v.size() == static_cast<size_t>(dim_)) {
 						consider(pk, v);
 					}
-				} catch (...) {
+				} catch (const std::exception&) {
 					// skip broken entries
 				}
 				return true;
@@ -1456,7 +1461,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			}
 			std::reverse(out.begin(), out.end()); // kleinste Distanz zuerst
 			return {Status::OK(), std::move(out)};
-		} catch (...) {
+		} catch (const std::exception&) {
 			THEMIS_WARN("searchKnn: HNSW-Suche fehlgeschlagen, Fallback auf Brute-Force");
 		}
 	}
@@ -1485,7 +1490,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 					maxAttempts = j.value("whitelist_max_attempts", 4);
 					growthFactor = j.value("whitelist_growth_factor", 2.0);
 				}
-			} catch (...) {
+			} catch (const std::exception&) {
 				// Ignoriere Parsingfehler und nutze Defaults
 			}
 
@@ -1552,7 +1557,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			THEMIS_INFO("searchKnn: HNSW+Whitelist lieferte nur {} von {} – ergänze via Brute-Force", filtered.size(), k);
 			auto bf = bruteForceSearch_(query, k, whitelist);
 			return {Status::OK(), std::move(bf)};
-		} catch (...) {
+		} catch (const std::exception&) {
 			THEMIS_WARN("searchKnn: HNSW-Whitelist-Suche fehlgeschlagen, Fallback auf Brute-Force");
 			// weiter unten erfolgt Brute-Force
 		}
@@ -1770,7 +1775,7 @@ VectorIndexManager::searchKnnPreFiltered(
 			auto j = nlohmann::json::parse(s);
 			maxFilterScanSize = j.value("max_filter_scan_size", 100000);
 		}
-	} catch (...) {
+	} catch (const std::exception&) {
 		// Ignore parse errors, use default
 	}
 
@@ -1972,7 +1977,7 @@ VectorIndexManager::searchKnnRadius(
 					if (!vecOpt) continue;
 					cache_[pk] = *vecOpt;
 					it = cache_.find(pk);
-				} catch (...) { continue; }
+				} catch (const std::exception&) { continue; }
 			}
 			if (it != cache_.end()) {
 				float dist = distance(query, it->second);
@@ -2024,7 +2029,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			auto j = nlohmann::json::parse(s);
 			maxFilterScanSize = j.value("max_filter_scan_size", 100000);
 		}
-	} catch (...) {}
+	} catch (const std::exception&) {}
 
 	bool isFirstFilter = true;
 	for (const auto& filter : filters) {
@@ -2191,7 +2196,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	#endif
 		} catch (const std::exception& ex) {
 			return Status::Error(std::string("saveIndex: ") + ex.what());
-		} catch (...) {
+		} catch (const std::exception&) {
 			return Status::Error("saveIndex: unbekannter Fehler");
 		}
 		return Status::OK();
@@ -2214,7 +2219,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Check for encryption flag (Phase 2)
 			std::string encryptionFlag;
 			std::getline(metaFile, encryptionFlag);
-			static_cast<void>(encryptionFlag);
+			[[maybe_unused]] const bool isEncrypted = (encryptionFlag == "encrypted");
 
 			if (obj != objectName_) return Status::Error("loadIndex: objectName passt nicht zum Manager");
 			if (dim_ != 0 && dim_ != dim) return Status::Error("loadIndex: Dimension passt nicht zum Manager");
@@ -2319,7 +2324,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Cache ggf. leer lassen; rebuildFromStorage() kann separat genutzt werden
 		} catch (const std::exception& ex) {
 			return Status::Error(std::string("loadIndex: ") + ex.what());
-		} catch (...) {
+		} catch (const std::exception&) {
 			return Status::Error("loadIndex: unbekannter Fehler");
 		}
 		return Status::OK();
@@ -2365,7 +2370,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 				mode = j.value("quantization", std::string("auto"));
 				threshold = j.value("auto_threshold", 1000000);
 			}
-		} catch (...) {}
+		} catch (const std::exception&) {}
 		if (mode == "none") return false; if (mode == "sq8") return true;
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
@@ -2406,7 +2411,7 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		} else {
 			id = it->second;
 		}
-		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
+		try { appr->addPoint(cache_[pk].data(), id); } catch (const std::exception&) { /* evtl. schon vorhanden */ }
 	}
 #endif
 	return Status::OK();
@@ -2434,7 +2439,7 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, R
 		auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 		auto it = pkToId_.find(std::string(pk));
 		if (it != pkToId_.end()) {
-			try { appr->markDelete(it->second); } catch (...) {}
+			try { appr->markDelete(it->second); } catch (const std::exception&) {}
 		}
 	}
 #endif
@@ -2471,7 +2476,7 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 			quantMode = j.value("quantization", std::string("auto"));
 			quantThreshold = j.value("auto_threshold", 1000000);
 		}
-	} catch (...) {}
+	} catch (const std::exception&) {}
 	
 	if (quantMode == "sq8") {
 		shouldQuantize = true;
@@ -2889,17 +2894,15 @@ std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() con
 	return rotary_embedding_->getConfig();
 }
 
-VectorIndexManager::RotaryEmbeddingStats VectorIndexManager::getRotaryEmbeddingStats() const {
-	RotaryEmbeddingStats stats;
-	stats.positional_rotations = rotary_positional_rotations_.load();
-	stats.relational_rotations = rotary_relational_rotations_.load();
-	stats.query_rotations = rotary_query_rotations_.load();
-	stats.total_rotations = stats.positional_rotations + stats.relational_rotations + stats.query_rotations;
-	const auto total_rotation_time_us = rotary_total_rotation_time_us_.load();
-	if (stats.total_rotations > 0) {
-		stats.avg_rotation_time_us =
-			static_cast<double>(total_rotation_time_us) / static_cast<double>(stats.total_rotations);
+std::optional<VectorIndexManager::RotaryEmbeddingStats> VectorIndexManager::getRotaryEmbeddingStats() const {
+	if (!rotary_enabled_ || !rotary_embedding_) {
+		return std::nullopt;
 	}
+	const auto rope_stats = rotary_embedding_->getStats();
+	RotaryEmbeddingStats stats;
+	stats.total_rotated_entities = rope_stats.total_rotated_entities;
+	stats.total_relational_rotations = rope_stats.total_relational_rotations;
+	stats.avg_rotation_time_us = rope_stats.avg_rotation_time_us;
 	return stats;
 }
 
@@ -3049,7 +3052,7 @@ std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_
 		// Update cache for future lookups
 		cache_[pkStr] = *vecOpt;
 		return *vecOpt;
-	} catch (...) {
+	} catch (const std::exception&) {
 		return std::nullopt;
 	}
 }

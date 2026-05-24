@@ -52,8 +52,7 @@
 
 #include <functional>
 #include <memory>
-#include <optional>
-#include <shared_mutex>
+#include <mutex>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -108,6 +107,13 @@ struct TensorContractionPlanNode {
  * // functions appeared. Use stats() to log the cost savings.
  * auto stats = opt.lastStats();
  * ```
+ *
+ * ### AQL-IR visitor bridge (stub #275 resolution)
+ *
+ * An AQL runner that has access to its internal IR can inject a real AST
+ * visitor via `setIRVisitorFn()`.  The visitor is called before the
+ * string-scan fallback; if it returns `true` the string scan is skipped
+ * for that node.
  */
 class TensorAwareQueryOptimizer {
 public:
@@ -115,16 +121,60 @@ public:
 
     TensorAwareQueryOptimizer() = default;
 
+    // ─── AQL-IR visitor bridge ────────────────────────────────────────────
+
+    /**
+     * @brief Type alias for an AQL-IR-level AST tensor-node visitor.
+     *
+     * When the visitor detects a tensor expression in `node`, it must:
+     *  - Set `node.type = PlanNodeType::TensorContraction`.
+     *  - Set `node.estimated_cost` to the TT-domain cost estimate.
+     *  - Set `node.description` to a human-readable summary.
+     *  - Populate `baseline_cost_out` with the equivalent dense-reconstruction
+     *    cost so that `RewriteStats::costReductionFactor()` is meaningful.
+     *  - Return `true`.
+     *
+     * Returning `false` (or leaving the node unchanged) causes the
+     * string-scan heuristic to run as a fallback.
+     *
+     * On exception the visitor's changes to `node` are rolled back and the
+     * string-scan fallback is used.
+     */
+    using IRVisitorFn = std::function<bool(QueryPlanNode& node,
+                                           double& baseline_cost_out)>;
+
+    /**
+     * @brief Register an AQL-IR visitor for AST-level tensor-node detection.
+     *
+     * Replaces any previously registered visitor.  Pass an empty/null
+     * function to revert to the string-scan heuristic.
+     *
+     * Thread-safe.
+     *
+     * @param fn  Visitor to register; may be empty to clear.
+     */
+    static void setIRVisitorFn(IRVisitorFn fn);
+
+    /**
+     * @brief Clear any previously registered AQL-IR visitor.
+     *
+     * After this call the optimizer reverts to the string-scan heuristic.
+     * Thread-safe.
+     */
+    static void clearIRVisitorFn();
+
     // ─── Plan rewriting ───────────────────────────────────────────────────
 
     /**
      * @brief Rewrite a QueryPlanNode tree, replacing tensor function nodes.
      *
- * Traverses the tree depth-first.  Any node resolved to a recognized tensor
- * function call (via injected detector or description fallback) is:
-     *  1. Classified as `PlanNodeType::TensorContraction`.
-     *  2. Given an updated `estimated_cost` reflecting TT-domain complexity.
-     *  3. Annotated in `description` with "[TT-domain]" prefix.
+     * Traverses the tree depth-first.  For each node:
+     *  1. If an IR visitor is registered, it is called first; on success
+     *     (return `true`) the string-scan step is skipped.
+     *  2. Otherwise (or on visitor exception/false return), the node's
+     *     `description` is scanned for known tensor function names.
+     *  3. Detected nodes are classified as `PlanNodeType::TensorContraction`
+     *     and annotated with "[TT-domain]" in the description.
      *
      * The tree is modified in place and a copy of the root is returned.
      *
@@ -178,18 +228,24 @@ public:
      */
     [[nodiscard]] RewriteStats lastStats() const noexcept { return last_stats_; }
 
-    /**
-     * @brief Inject a detector callback for AST/IR-level tensor-function resolution.
-     *
-     * @param fn Callback returning a tensor function name for the given node.
-     *           Returning std::nullopt keeps fallback description scanning.
-     */
-    void setTensorNodeDetectorFn(TensorNodeDetectorFn fn);
+    // ─── AST visitor bridge (stub #275) ──────────────────────────────────────
+
+    /// @brief Type alias for AST visitor injection.
+    using AstVisitorFn = std::function<void(QueryPlanNode&)>;
 
     /**
-     * @brief Clear a previously injected detector callback.
+     * @brief Install an AST visitor called after the description-scan on each node.
+     *
+     * When set, the visitor is invoked depth-first after each node is processed
+     * by the description-scan rewrite pass.  Useful for Phase-3 AQL IR coupling.
+     * @param fn Callable receiving a mutable reference to each visited node.
      */
-    void clearTensorNodeDetectorFn();
+    static void setAstVisitorFn(AstVisitorFn fn);
+
+    /**
+     * @brief Remove the AST visitor (reverts to description-scan only).
+     */
+    static void clearAstVisitorFn();
 
 private:
     void rewriteNode(QueryPlanNode& node);
@@ -200,6 +256,10 @@ private:
 
     // Set of function names routed to TensorContractionEngine.
     static const std::unordered_set<std::string> kTensorFunctions;
+
+    // Static IR visitor bridge (process-wide, guarded by ir_visitor_mutex_).
+    static IRVisitorFn    ir_visitor_fn_;
+    static std::mutex     ir_visitor_mutex_;
 };
 
 } // namespace query

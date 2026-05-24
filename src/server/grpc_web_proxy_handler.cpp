@@ -10,6 +10,7 @@
  */
 
 #include "server/grpc_web_proxy_handler.h"
+#include <stdexcept>
 #include "utils/logger.h"
 
 #include <nlohmann/json.hpp>

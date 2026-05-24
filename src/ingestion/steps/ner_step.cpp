@@ -10,6 +10,7 @@
  */
 
 #include "ingestion/ingestion_step.h"
+#include <stdexcept>
 #include "ingestion/inference_backend.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
@@ -111,7 +112,7 @@ std::vector<RegexMatch> parseNerJson(const std::string& json_str) {
             m.offset = static_cast<std::size_t>(item.value("offset", 0));
             if (!m.text.empty()) out.push_back(std::move(m));
         }
-    } catch (...) {}
+    } catch (const std::exception&) {}
     return out;
 }
 

@@ -178,10 +178,6 @@ void DistributedTrainer::setAllReduceCpuFn(AllReduceCpuFn fn) {
     allreduce_cpu_fn_ = std::move(fn);
 }
 
-void DistributedTrainer::clearAllReduceCpuFn() {
-    allreduce_cpu_fn_.reset();
-}
-
 DistributedStats DistributedTrainer::stats() const {
     return stats_;
 }
@@ -212,24 +208,21 @@ float DistributedTrainer::scale_learning_rate(
     }
 }
 
-// CPU-based AllReduce — stub #290 resolved via AllReduceCpuFn injection.
+// allreduce_cpu: delegates to the injected AllReduceCpuFn when available
+// (MPI_Allreduce / Gloo allreduce must be injected via setAllReduceCpuFn()
+// before training starts when world_size > 1).  Falls back to local scale for
+// single-process builds (world_size == 1) where no peer exchange is needed.
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
-    // Delegate to the injected AllReduce implementation when available.
-    // This enables MPI_Allreduce / Gloo allreduce to be wired at startup
-    // without modifying this function (resolves stub #290).
-    if (allreduce_cpu_fn_.has_value()) {
+    if (allreduce_cpu_fn_) {
         (*allreduce_cpu_fn_)(data);
         return;
     }
 
-    // Fallback: local scale-only path for single-process builds (world_size == 1).
-    // This is mathematically correct only when world_size == 1; for multi-rank
-    // deployments inject a real AllReduceCpuFn via setAllReduceCpuFn().
+    // Fallback: local scale — only correct when world_size == 1.
     if (config_.world_size > 1) {
-        spdlog::warn("DistributedTrainer::allreduce_cpu: no AllReduceCpuFn injected "
-                     "and world_size={} > 1; gradients will not be exchanged with peers. "
-                     "Call setAllReduceCpuFn() to enable true multi-rank training.",
-                     config_.world_size);
+        spdlog::warn("DistributedTrainer::allreduce_cpu called without AllReduceCpuFn "
+                     "(world_size={}); gradients are scaled locally only — inject "
+                     "setAllReduceCpuFn() for genuine multi-rank training", config_.world_size);
     }
     const float scale = 1.0f / static_cast<float>(config_.world_size);
     for (float& val : data) {

@@ -19,35 +19,18 @@
 #include <algorithm>
 #include <mutex>
 #include <regex>
+#include <mutex>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
+#include <mutex>
 
 namespace themis {
 namespace llm {
 
-// ── Spam-keywords provider bridge (stub #296) ─────────────────────────────
 namespace {
-std::mutex              s_spam_kw_mutex;
-FeedbackStore::SpamKeywordsProviderFn s_spam_kw_provider;
-} // anonymous namespace
-
-void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn fn) {
-    std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
-    s_spam_kw_provider = std::move(fn);
-}
-
-void FeedbackStore::setSpamKeywordsProviderFn(SpamKeywordsProviderFn fn) {
-    setSpamKeywordsProvider(std::move(fn));
-}
-
-void FeedbackStore::clearSpamKeywordsProvider() {
-    clearSpamKeywordsProviderFn();
-}
-
-void FeedbackStore::clearSpamKeywordsProviderFn() {
-    std::lock_guard<std::mutex> lk(s_spam_kw_mutex);
-    s_spam_kw_provider = SpamKeywordsProviderFn{};
-}
+std::mutex g_spam_keywords_provider_mutex;
+FeedbackStore::SpamKeywordsProviderFn g_spam_keywords_provider;
+} // namespace
 
 // ===== Helper function to convert enum to string =====
 
@@ -168,6 +151,16 @@ void FeedbackStore::setValidationPlugin(std::shared_ptr<IFeedbackPlugin> plugin)
 
 std::shared_ptr<IFeedbackPlugin> FeedbackStore::getValidationPlugin() const {
     return validation_plugin_;
+}
+
+void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn provider) {
+    std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+    g_spam_keywords_provider = std::move(provider);
+}
+
+void FeedbackStore::clearSpamKeywordsProvider() {
+    std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+    g_spam_keywords_provider = {};
 }
 
 
@@ -551,30 +544,41 @@ void FeedbackStore::clear() {
 // ===== Validation Logic =====
 
 std::vector<std::string> FeedbackStore::getSpamKeywords() {
-    // Built-in static keyword list used as fallback when no provider is injected.
-    static const std::vector<std::string> spam_keywords = {
-        "buy now", "click here", "viagra", "casino", "lottery",
+    // Default spam keywords used when no runtime provider is configured.
+    static const std::vector<std::string> default_spam_keywords = {
+        "buy now", "click here", "viagra", "casino", "lottery", 
         "free money", "million dollars", "nigerian prince",
         "weight loss", "work from home", "make money fast"
     };
 
-    // Delegate to the injected runtime provider when available (stub #296 resolved).
-    // Provider may load keywords from a config file or database table without recompilation.
+    SpamKeywordsProviderFn provider;
     {
-        std::lock_guard<std::mutex> lock(s_spam_kw_mutex);
-        if (s_spam_kw_provider) {
-            try {
-                auto cached = s_spam_kw_provider();
-                if (!cached.empty()) {
-                    return cached;
-                }
-            } catch (...) {
-                // Fall back to static list on provider failure.
-                return spam_keywords;
+        std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
+        provider = g_spam_keywords_provider;
+    }
+
+    if (provider) {
+        try {
+            auto runtime_keywords = provider();
+            if (!runtime_keywords.empty()) {
+                runtime_keywords.erase(
+                    std::remove_if(runtime_keywords.begin(),
+                                   runtime_keywords.end(),
+                                   [](const auto& keyword) { return keyword.empty(); }),
+                    runtime_keywords.end());
             }
+
+            if (!runtime_keywords.empty()) {
+                return runtime_keywords;
+            }
+
+            THEMIS_WARN("Spam keywords provider returned empty list; using built-in defaults");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Spam keywords provider failed: {}; using built-in defaults", e.what());
         }
     }
-    return spam_keywords;
+
+    return default_spam_keywords;
 }
 
 bool FeedbackStore::isLikelySpam(const std::string& text) {
@@ -599,7 +603,7 @@ bool FeedbackStore::isLikelySpam(const std::string& text) {
     }
     
     // Common spam patterns
-    const auto& spam_keywords = getSpamKeywords();
+    const auto spam_keywords = getSpamKeywords();
     
     std::string lower_text = text;
     std::transform(lower_text.begin(), lower_text.end(), lower_text.begin(), ::tolower);
@@ -675,14 +679,11 @@ ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // Apply the plugin's suggested modifications to the feedback entry
-                // before accepting it (stub #297 resolved).
-                if (result.modified_comment) {
-                    data.comment = *result.modified_comment;
+                // Apply plugin-provided transformations before storing the feedback.
+                if (result.modified_comment.has_value()) {
                     feedback.comment = *result.modified_comment;
                 }
-                if (result.modified_metadata) {
-                    data.metadata = *result.modified_metadata;
+                if (result.modified_metadata.has_value()) {
                     feedback.metadata = *result.modified_metadata;
                 }
                 return ValidationStatus::APPROVED;
@@ -895,4 +896,3 @@ bool FeedbackStore::isLinkedToAdapter(
 
 } // namespace llm
 } // namespace themis
-

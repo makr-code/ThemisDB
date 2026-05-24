@@ -9,8 +9,12 @@
 #pragma once
 #include "server/auth_middleware.h"
 
+#include <functional>
+#include <map>
 #include <memory>
+#include <mutex>
 #include <string>
+#include <vector>
 #include <boost/beast/http.hpp>
 
 namespace beast = boost::beast;
@@ -52,6 +56,19 @@ namespace server {
 class TimeSeriesApiHandler {
 public:
     /**
+     * @brief Provider function type for runtime retention-policy introspection.
+     *
+     * Each returned JSON object should have at least the following keys:
+     *   - "metric"          : string — metric name the policy applies to
+     *                         (empty string means a global / catch-all policy)
+     *   - "retain_seconds"  : number — retention window in seconds (0 = unlimited)
+     *
+     * The function is called once per request to @c handleRetentionGet; it must
+     * be thread-safe.
+     */
+    using RetentionPoliciesProviderFn = std::function<std::vector<nlohmann::json>()>;
+
+    /**
      * @brief Construct a new Time Series API Handler
      * 
      * @param storage Storage backend
@@ -65,6 +82,18 @@ public:
         std::shared_ptr<ContinuousAggregateManager> agg_manager,
         std::shared_ptr<themis::AuthMiddleware> auth
     );
+
+    /**
+     * @brief Inject a runtime retention-policy provider (stub #301 resolved).
+     *
+     * When set, @c handleRetentionGet queries this function for the active
+     * retention policies instead of returning an empty list.  The provider
+     * must be thread-safe; it is called under no internal lock.
+     *
+     * @param fn Callable returning active retention policies as JSON objects.
+     *           Each object must contain at least "metric" and "retain_seconds".
+     */
+    void setRetentionPoliciesProviderFn(RetentionPoliciesProviderFn fn);
 
     /**
      * @brief Handle POST /ts/put request
@@ -169,26 +198,30 @@ public:
      */
     http::response<http::string_body> handlePrometheusRemoteWrite(const http::request<http::string_body>& req);
 
-    /**
-     * @brief Inject an optional continuous aggregate materialization engine.
-     *
-     * When set, handleAggregatesGet() returns the union of built-in aggregate
-     * function names and the named continuous aggregates registered with this
-     * engine.
-     *
-     * @param engine Shared pointer to the materialization engine (may be nullptr).
-     */
-    void setAggregateEngine(std::shared_ptr<ContinuousAggMaterializationEngine> engine);
+    // -------------------------------------------------------------------------
+    // Metadata-provider injection (stub #301)
+    // -------------------------------------------------------------------------
 
-    /**
-     * @brief Inject an optional retention-policy manager.
-     *
-     * When set, handleRetentionGet() queries the manager for the current policy
-     * instead of returning an empty list.
-     *
-     * @param mgr Shared pointer to the RetentionManager (may be nullptr).
-     */
-    void setRetentionManager(std::shared_ptr<RetentionManager> mgr);
+    /// Callback type that returns the list of supported aggregate-function names.
+    /// When set via setAggregatesProvider(), handleAggregatesGet() delegates to
+    /// this function instead of returning the built-in static list.
+    using AggregatesFn = std::function<std::vector<std::string>()>;
+
+    /// Callback type that returns retention-policy metadata as a map of
+    /// metric name → retention seconds (0 = no explicit policy).
+    /// When set via setRetentionPoliciesProvider(), handleRetentionGet()
+    /// delegates to this function instead of returning an empty policy list.
+    using RetentionsFn = std::function<std::map<std::string, int64_t>()>;
+
+    /// @brief Inject a provider that supplies real aggregate-function names.
+    /// @param fn Callable returning a vector of aggregate names; pass nullptr
+    ///           to revert to the built-in static list.
+    void setAggregatesProvider(AggregatesFn fn) { aggregates_fn_ = std::move(fn); }
+
+    /// @brief Inject a provider that supplies live retention-policy metadata.
+    /// @param fn Callable returning metric→retention-seconds map; pass nullptr
+    ///           to revert to the built-in empty-list response.
+    void setRetentionPoliciesProvider(RetentionsFn fn) { retentions_fn_ = std::move(fn); }
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
@@ -202,6 +235,13 @@ private:
     std::shared_ptr<ContinuousAggMaterializationEngine> agg_engine_;
     /// Optional: exposes getPolicy() for the /retention endpoint.
     std::shared_ptr<RetentionManager> retention_manager_;
+
+    // Retention-policy injection bridge (stub #301)
+    RetentionPoliciesProviderFn retentionPoliciesFn_;
+    mutable std::mutex retentionPoliciesMutex_;
+
+    AggregatesFn aggregates_fn_;  ///< Optional live aggregates provider (stub #301)
+    RetentionsFn retentions_fn_;  ///< Optional live retention-policy provider (stub #301)
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

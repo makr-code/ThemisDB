@@ -18,6 +18,7 @@
  */
 
 #include "server/voice_api_handler.h"
+#include <stdexcept>
 #include "server/auth_middleware.h"
 #include "voice/voice_assistant.h"
 #include "voice/voice_audio_storage.h"
@@ -25,10 +26,12 @@
 #include "content/tts_processor.h"
 #include "utils/http_client_pool.h"
 #include "utils/input_validator.h"
+#include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
 #include <cctype>
 #include <regex>
+#include <cstdlib>
 #include "utils/tracing.h"
 
 namespace themis::server {
@@ -115,20 +118,83 @@ namespace {
 }
 
 VoiceApiHandler::VoiceApiHandler(
-    std::shared_ptr<voice::VoiceAssistant> voice_assistant)
-    : VoiceApiHandler(std::move(voice_assistant), nullptr) {}
-
-VoiceApiHandler::VoiceApiHandler(
     std::shared_ptr<voice::VoiceAssistant> voice_assistant,
-    std::shared_ptr<::themis::AuthMiddleware> auth)
-    : voice_assistant_(voice_assistant)
-    , auth_(std::move(auth)) {
+    std::shared_ptr<themis::AuthMiddleware> auth)
+    : voice_assistant_(std::move(voice_assistant)),
+      auth_(std::move(auth)) {
     // Initialize HTTP client pool for downloading audio from URLs
     utils::HTTPClientPool::Config http_config;
     http_config.max_connections = 10;
     http_config.connect_timeout = std::chrono::seconds(10);
     http_config.request_timeout = std::chrono::seconds(60); // Audio files may be large
     http_client_pool_ = std::make_shared<utils::HTTPClientPool>(http_config);
+
+    if (!auth_) {
+        auth_ = std::make_shared<themis::AuthMiddleware>();
+    }
+
+    const auto getEnv = [](const char* name) -> std::optional<std::string> {
+        const char* value = std::getenv(name);
+        if (value && *value) {
+            return std::string(value);
+        }
+        return std::nullopt;
+    };
+
+    if (auto token = getEnv("THEMIS_TOKEN_ADMIN")) {
+        themis::AuthMiddleware::TokenConfig cfg;
+        cfg.token = *token;
+        cfg.user_id = "admin";
+        cfg.scopes = {"admin", "data:read", "data:write", "metrics:read"};
+        auth_->addToken(cfg);
+    }
+
+    if (auto token = getEnv("THEMIS_TOKEN_READONLY")) {
+        themis::AuthMiddleware::TokenConfig cfg;
+        cfg.token = *token;
+        cfg.user_id = "readonly";
+        cfg.scopes = {"data:read", "metrics:read"};
+        auth_->addToken(cfg);
+    }
+
+    if (auto token = getEnv("THEMIS_TOKEN_ANALYST")) {
+        themis::AuthMiddleware::TokenConfig cfg;
+        cfg.token = *token;
+        cfg.user_id = "analyst";
+        cfg.scopes = {"data:read", "metrics:read"};
+        auth_->addToken(cfg);
+    }
+
+    if (auto jwks_url = getEnv("THEMIS_JWT_JWKS_URL")) {
+        themis::AuthMiddleware::JWTConfig jwt_cfg;
+        jwt_cfg.jwks_url = *jwks_url;
+        if (auto issuer = getEnv("THEMIS_JWT_EXPECTED_ISSUER")) {
+            jwt_cfg.expected_issuer = *issuer;
+        }
+        if (auto audience = getEnv("THEMIS_JWT_EXPECTED_AUDIENCE")) {
+            jwt_cfg.expected_audience = *audience;
+        }
+        if (auto scope_claim = getEnv("THEMIS_JWT_SCOPE_CLAIM")) {
+            jwt_cfg.scope_claim = *scope_claim;
+        }
+        if (auto tenant_claim = getEnv("THEMIS_JWT_TENANT_CLAIM")) {
+            jwt_cfg.tenant_claim = *tenant_claim;
+        }
+
+        // Allow issuer/audience to be optional in deployments that only set JWKS.
+        jwt_cfg.require_issuer_validation = !jwt_cfg.expected_issuer.empty();
+        jwt_cfg.require_audience_validation = !jwt_cfg.expected_audience.empty();
+
+        try {
+            auth_->enableJWT(jwt_cfg);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("VoiceApiHandler: failed to enable JWT validation: {}", e.what());
+        }
+    }
+}
+
+void VoiceApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
+    jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
 http::response<http::string_body> VoiceApiHandler::handleRequest(
@@ -1034,8 +1100,8 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     const std::string& session_id
 ) {
     auto span = Tracer::startSpan("handleDeleteSession");
-    static_cast<void>(req);
-    if (!voice_assistant_->deleteSession(session_id)) {
+    const bool deleted = voice_assistant_->deleteSession(session_id);
+    if (!deleted) {
         return createErrorResponse(
             http::status::not_found,
             "Not Found",
@@ -1046,7 +1112,7 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     json result;
     result["success"] = true;
     result["session_id"] = session_id;
-    
+
     return createJsonResponse(result);
 }
 
@@ -1650,39 +1716,23 @@ http::response<http::string_body> VoiceApiHandler::handleHealth(
 bool VoiceApiHandler::validateBearerToken(
     const http::request<http::string_body>& req
 ) {
-    // Check Authorization header
     auto it = req.find(http::field::authorization);
     if (it == req.end()) {
         return false;
     }
 
-    const std::string_view auth_value(it->value().data(), it->value().size());
-
-    // Delegate to the shared auth middleware when available (production path).
-    // This validates expiry, signature, issuer, audience, revocation, and
-    // tenant/user claims via the repository-wide JWT/OIDC stack.
-    if (auth_ && auth_->isEnabled()) {
-        auto token = themis::AuthMiddleware::extractBearerToken(auth_value);
-        if (!token) {
-            return false; // Malformed / missing Bearer prefix
-        }
-        // Use "voice:access" scope — voice endpoints require at least this scope.
-        // Operators may tighten this to "voice:write" for synthesis/command endpoints.
-        auto result = auth_->authorize(*token, "voice:access");
-        return result.authorized;
-    }
-
-    // Open mode fallback: require a non-empty bearer token string so that
-    // unauthenticated callers (missing header entirely) are still rejected.
-    // This path is only reached when no auth middleware is injected, which
-    // should only happen in test/development deployments.
-    const std::string_view bearer_prefix("Bearer ");
-    if (auth_value.size() <= bearer_prefix.size() ||
-        auth_value.substr(0, bearer_prefix.size()) != bearer_prefix) {
+    const auto token = themis::AuthMiddleware::extractBearerToken(
+        std::string_view(it->value().data(), it->value().size()));
+    if (!token || token->empty()) {
         return false;
     }
-    
-    return auth_value.size() > bearer_prefix.size();
+
+    if (!auth_) {
+        return false;
+    }
+
+    const auto auth_result = auth_->validateToken(*token);
+    return auth_result.authorized;
 }
 
 http::response<http::string_body> VoiceApiHandler::createErrorResponse(

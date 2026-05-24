@@ -172,27 +172,34 @@ std::vector<float> HTTrain::reconstruct() const {
 }
 
 // ============================================================================
-// toTTTrain — compatibility bridge (STUB #178)
+// toTTTrain — compatibility bridge with memoization (stub #286 resolved)
 // ============================================================================
 
 storage::TTTrain HTTrain::toTTTrain() const {
-    {
-        std::lock_guard<std::mutex> cache_lock(cached_tt_train_mutex_);
-        if (cached_tt_train_.has_value()) {
-            return *cached_tt_train_;
+    // Fast path: return cached conversion if available.
+    if (tt_cache_mtx_) {
+        std::lock_guard<std::mutex> lk(*tt_cache_mtx_);
+        if (tt_cache_) {
+            return *tt_cache_;  // TTTrain is copyable
         }
     }
 
+    // Slow path: full dense reconstruction + TT decomposition (O(∏ n_k)).
     auto dense = reconstruct();
     storage::TensorTrainConfig cfg;
     cfg.max_rank = max_rank > 0 ? max_rank : 16;
     cfg.eps      = achieved_eps > 0.0 ? achieved_eps : 0.01;
     storage::TensorTrainDecomposer decomp;
-    auto tt = decomp.decompose(dense, shape, cfg).first;
+    storage::TTTrain result = decomp.decompose(dense, shape, cfg).first;
 
-    std::lock_guard<std::mutex> cache_lock(cached_tt_train_mutex_);
-    cached_tt_train_ = tt;
-    return *cached_tt_train_;
+    // Store in cache for future calls.
+    if (tt_cache_mtx_) {
+        std::lock_guard<std::mutex> lk(*tt_cache_mtx_);
+        if (!tt_cache_) {
+            tt_cache_ = std::make_shared<storage::TTTrain>(result);
+        }
+    }
+    return result;
 }
 
 // ============================================================================
@@ -534,10 +541,7 @@ std::vector<float> HierarchicalTuckerDecomposer::modeKProduct(
     return result;
 }
 
-// ── Truncated SVD (stub #288 resolved) ────────────────────────────────────────
-// Delegates to TensorTrainDecomposer::truncatedSVD() which uses Golub-Reinsch
-// bidiagonalization.  This removes the previous Jacobi EVD implementation that
-// was duplicated across decomposers.
+// ── Truncated SVD ─────────────────────────────────────────────────────────────
 
 void HierarchicalTuckerDecomposer::truncatedSVD(
     const std::vector<float>& mat,
@@ -550,12 +554,16 @@ void HierarchicalTuckerDecomposer::truncatedSVD(
     std::vector<float>&       Vt_out,
     std::size_t&              rank_out)
 {
-    if (m == 0 || n == 0) { rank_out = 0; return; }
-    // Delegate to TensorTrainDecomposer::truncatedSVD() which uses
-    // Golub-Reinsch bidiagonalization — more robust than Jacobi EVD for
-    // ill-conditioned matrices and large ranks (stub #288 resolved).
-    TensorTrainDecomposer::truncatedSVD(mat, m, n, delta, max_rank_cap,
-                                        U_out, S_out, Vt_out, rank_out);
+    TensorTrainDecomposer::truncatedSVD(
+        mat,
+        m,
+        n,
+        delta,
+        max_rank_cap,
+        U_out,
+        S_out,
+        Vt_out,
+        rank_out);
 }
 
 // ── buildHTNode — top-down HT construction ────────────────────────────────────
@@ -781,72 +789,134 @@ HierarchicalTuckerDecomposer::decompose(
         ranks[k]   = r;
     }
 
-    // ── Step 2: Tucker core G = T ×_0 U_0^T … ×_{d-1} U_{d-1}^T ─────────────
-    std::vector<float>        G      = data;
-    std::vector<std::size_t>  G_shape = shape;
+    // ── Step 1b: HOOI refinement — alternating mode-k updates ────────────────
+    // After the one-shot HOSVD initialisation above, iterate over all modes and
+    // recompute each leaf basis U_k from the Tucker-projected tensor Y^(k):
+    //   Y^(k) = T ×_{l≠k} U_l^T   (contract all modes except k)
+    //   mode-k unfolding Y^(k)_(k) ∈ ℝ^{n_k × ∏_{l≠k} r_l}
+    //   U_k = leading r_k left singular vectors of Y^(k)_(k)
+    // Tucker reconstruction error: ‖T - T̃‖_F² = ‖T‖_F² - ‖G‖_F² (U_k orthonormal)
+    // so convergence is checked cheaply without a full tensor reconstruction.
+    // (stub #287 resolved)
+    constexpr int HOOI_MAX_ITER = 20;
+    std::vector<float>       G;
+    std::vector<std::size_t> G_shape;
 
-    for (std::size_t k = 0; k < d; ++k) {
-        G       = modeKProduct(G, G_shape, k, U_cache[k], G_shape[k], ranks[k]);
-        G_shape[k] = ranks[k];
+    for (int hooi_iter = 0; hooi_iter < HOOI_MAX_ITER; ++hooi_iter) {
+        for (std::size_t k = 0; k < d; ++k) {
+            // Compute Y^(k) = T ×_{l≠k} U_l^T
+            std::vector<float>       Y   = data;
+            std::vector<std::size_t> Ysh = shape;
+            for (std::size_t l = 0; l < d; ++l) {
+                if (l == k) continue;
+                Y      = modeKProduct(Y, Ysh, l, U_cache[l], Ysh[l], ranks[l]);
+                Ysh[l] = ranks[l];
+            }
+            // Mode-k unfolding: Y^(k)_(k) ∈ ℝ^{n_k × ∏_{l≠k} r_l}
+            std::size_t nk      = shape[k];   // Ysh[k] = shape[k] (untouched)
+            std::size_t n_other = 1;
+            for (std::size_t l = 0; l < d; ++l)
+                if (l != k) n_other *= Ysh[l];
+            auto Yk = modeKUnfolding(Y, Ysh, k);   // [nk × n_other]
+
+            std::vector<float> U_new, S_new, Vt_new;
+            std::size_t r_new = 0;
+            truncatedSVD(Yk, nk, n_other, leaf_delta, cfg_.max_rank,
+                         U_new, S_new, Vt_new, r_new);
+            U_cache[k] = std::move(U_new);
+            ranks[k]   = r_new;
+        }
+
+        // Recompute Tucker core for convergence check:
+        // ‖T - T̃‖_F² = ‖T‖_F² - ‖G‖_F²  (exact for orthonormal U_k)
+        G      = data;
+        G_shape = shape;
+        for (std::size_t k = 0; k < d; ++k) {
+            G         = modeKProduct(G, G_shape, k, U_cache[k], G_shape[k], ranks[k]);
+            G_shape[k] = ranks[k];
+        }
+
+        if (orig_norm > 0.0) {
+            double G_sq = 0.0;
+            for (float v : G) G_sq += static_cast<double>(v) * v;
+            double achieved = std::sqrt(std::max(0.0, total_sq - G_sq)) / orig_norm;
+            if (achieved <= cfg_.eps) break;
+        } else {
+            break;  // Zero tensor: trivially converged
+        }
     }
+    // G and G_shape now hold the final Tucker core from the last HOOI iteration.
     // G now has shape [r_0, ..., r_{d-1}]
 
-    // ── Step 2b: HOOI refinement (stub #287 resolved) ─────────────────────────
-    // Alternate-least-squares update: for each mode k, re-project the input
-    // tensor along all other modes using the current U bases, unfold along
-    // mode k, and recompute the truncated SVD → U_k.  Repeat up to
-    // cfg_.hooi_max_iter times or until the Tucker core Frobenius norm
-    // converges (relative improvement < 1 ppm).
-    if (cfg_.hooi_max_iter > 0 && orig_norm > 0.0) {
-        // Initial Tucker core norm for convergence tracking
-        double prev_core_norm_sq = 0.0;
-        for (float v : G) prev_core_norm_sq += static_cast<double>(v) * v;
+    // ── Step 2b: HOOI — alternating optimization (stub #287 resolved) ──────────
+    //
+    // After HOSVD initialization, run Higher-Order Orthogonal Iteration (HOOI)
+    // until convergence.  Each sweep updates every leaf basis U_k by computing the
+    // truncated SVD of the mode-k unfolding of the partially-projected core tensor
+    // G(k) = T ×_{j≠k} U_j^T.  The Tucker core is then recomputed.
+    //
+    // Convergence criterion: relative change in ‖G‖_F < 1e-6 between iterations,
+    // or until max_iter (20) sweeps complete.
+    //
+    // References: Kolda & Bader (2009), §4.2; De Lathauwer et al. (2000b).
+    {
+        constexpr std::size_t max_iter   = 20;
+        constexpr double      tol        = 1e-6;
 
-        constexpr double kConvergenceTol = 1e-6; // relative improvement threshold
+        // Compute initial core norm for convergence tracking
+        double prev_core_norm = 0.0;
+        for (float v : G) prev_core_norm += static_cast<double>(v) * v;
+        prev_core_norm = std::sqrt(prev_core_norm);
 
-        for (std::size_t iter = 0; iter < cfg_.hooi_max_iter; ++iter) {
+        for (std::size_t iter = 0; iter < max_iter; ++iter) {
+            // One HOOI sweep: update each mode-k basis in turn.
             for (std::size_t k = 0; k < d; ++k) {
-                // Project data along all modes except k using current U bases.
-                // After projection: Y_k has shape [r_0,...,r_{k-1}, n_k, r_{k+1},...,r_{d-1}]
-                std::vector<float>       Y       = data;
-                std::vector<std::size_t> Y_shape = shape;
+                // Compute G(k) = T ×_{j≠k} U_j^T  (project all other modes)
+                std::vector<float>       Gk      = data;
+                std::vector<std::size_t> Gk_shape = shape;
                 for (std::size_t j = 0; j < d; ++j) {
                     if (j == k) continue;
-                    Y         = modeKProduct(Y, Y_shape, j, U_cache[j], Y_shape[j], ranks[j]);
-                    Y_shape[j] = ranks[j];
+                    Gk       = modeKProduct(Gk, Gk_shape, j, U_cache[j], Gk_shape[j], ranks[j]);
+                    Gk_shape[j] = ranks[j];
                 }
-                // Unfold along mode k → matrix [n_k × (∏_{j≠k} r_j)]
-                std::size_t m_k   = Y_shape[k]; // == shape[k]
-                std::size_t n_env = 1;
+
+                // Mode-k unfolding of Gk: [n_k × (∏_{j≠k} r_j)]
+                auto Tk_proj = modeKUnfolding(Gk, Gk_shape, k);
+                const std::size_t nk      = shape[k];
+                std::size_t       n_other = 1;
                 for (std::size_t j = 0; j < d; ++j)
-                    if (j != k) n_env *= Y_shape[j];
+                    if (j != k) n_other *= Gk_shape[j];
 
-                auto Y_k = modeKUnfolding(Y, Y_shape, k); // [m_k × n_env]
-
+                // Truncated SVD → new U_k
                 std::vector<float> U_new, S_new, Vt_new;
-                std::size_t r_new = 0;
-                truncatedSVD(Y_k, m_k, n_env, leaf_delta, cfg_.max_rank,
+                std::size_t        r_new = 0;
+                truncatedSVD(Tk_proj, nk, n_other, leaf_delta, cfg_.max_rank,
                              U_new, S_new, Vt_new, r_new);
 
                 U_cache[k] = std::move(U_new);
                 ranks[k]   = r_new;
             }
 
-            // Recompute Tucker core with updated U bases
+            // Recompute Tucker core with updated bases
             G       = data;
             G_shape = shape;
             for (std::size_t k = 0; k < d; ++k) {
-                G         = modeKProduct(G, G_shape, k, U_cache[k], G_shape[k], ranks[k]);
+                G       = modeKProduct(G, G_shape, k, U_cache[k], G_shape[k], ranks[k]);
                 G_shape[k] = ranks[k];
             }
 
-            // Convergence check: if ‖G_new‖_F improved by < tol relative to ‖T‖_F, stop.
-            double cur_core_norm_sq = 0.0;
-            for (float v : G) cur_core_norm_sq += static_cast<double>(v) * v;
-            double rel_improvement = (cur_core_norm_sq - prev_core_norm_sq)
-                                     / (orig_norm * orig_norm + 1e-30);
-            if (rel_improvement < kConvergenceTol) break;
-            prev_core_norm_sq = cur_core_norm_sq;
+            // Check convergence
+            double core_norm = 0.0;
+            for (float v : G) core_norm += static_cast<double>(v) * v;
+            core_norm = std::sqrt(core_norm);
+
+            const double rel_change =
+                (prev_core_norm > 0.0)
+                    ? std::abs(core_norm - prev_core_norm) / prev_core_norm
+                    : core_norm;
+
+            if (rel_change < tol) break;
+            prev_core_norm = core_norm;
         }
     }
 

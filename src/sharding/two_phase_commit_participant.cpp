@@ -310,7 +310,7 @@ size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
 
             if (release_locks_) {
                 try { release_locks_(txn_id); }
-                catch (...) {}
+                catch (const std::exception&) {}
             }
 
             txn.state = ParticipantTxnState::ABORTED;

@@ -115,7 +115,7 @@ std::optional<HistoryRecord> HistoryManager::deserializeHistoryRecord(std::strin
         rec.value     = hexToBytes(j.value("value", std::string{}));
         rec.txn_id    = j.value("txn_id", uint64_t{0});
         return rec;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -285,7 +285,7 @@ std::optional<ConflictRecord> ConflictManager::deserializeConflictRecord(std::st
         rec.theirs_value = hexToBytes(j.value("theirs_hex", std::string{}));
         rec.type         = j.value("type", std::string{});
         return rec;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -352,7 +352,7 @@ std::optional<ConflictSet> ConflictManager::deserializeConflictSet(std::string_v
         set.conflict_record_ids = j.value("conflict_record_ids", std::vector<std::string>{});
         set.affected_keys     = j.value("affected_keys", std::vector<std::string>{});
         return set;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

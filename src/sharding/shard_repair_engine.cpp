@@ -17,6 +17,7 @@
  */
 
 #include "sharding/shard_repair_engine.h"
+#include <stdexcept>
 #include "sharding/shard_resource_manager.h"
 #include "utils/expected.h"
 #include <spdlog/spdlog.h>
@@ -642,7 +643,7 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
         if (doc_list_provider_) {
             try {
                 doc_ids = doc_list_provider_(shard_info.shard_id);
-            } catch (...) {}
+            } catch (const std::exception&) {}
         }
 
         for (const auto& doc_id : doc_ids) {

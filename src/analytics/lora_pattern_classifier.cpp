@@ -122,7 +122,7 @@ PatternResult LoRAPatternClassifier::parseInferenceResponse(const std::string &j
             result.confidence    = std::stod(json.substr(pos), &consumed);
             // Clamp to [0, 1].
             result.confidence = std::max(0.0, std::min(1.0, result.confidence));
-        } catch (...) {
+        } catch (const std::exception&) {
             result.confidence = 0.0;
         }
     }
@@ -277,11 +277,8 @@ std::string LoRAPatternClassifier::selectAdapter(const std::string &context) {
     }
 
     std::vector<double> ctx_emb;
-    try {
-        ctx_emb = embedding_fn_(context);
-    } catch (...) {
-        return domains_.front().adapter_id;
-    }
+    try { ctx_emb = embedding_fn_(context); }
+    catch (const std::exception&) { return domains_.front().adapter_id; }
 
     std::string best_id;
     double best_sim = -1.0;
@@ -316,7 +313,7 @@ PatternResult LoRAPatternClassifier::classify(const std::vector<DataPoint> &even
     std::string response;
     try {
         response = inference_fn_(aid, prompt);
-    } catch (...) {
+    } catch (const std::exception&) {
         return automlFallback(events, aid);
     }
     return parseInferenceResponse(response, aid);

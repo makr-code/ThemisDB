@@ -167,9 +167,25 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
             case PaxosWALEntryType::ACCEPTED:
                 s.accepted_round = entry.round;
                 if (entry.data.contains("value")) {
-                    s.accepted_value = decodeAcceptedValueFromWalPayload(entry.data["value"]);
+                    const auto& logged_value = entry.data["value"];
+                    if (logged_value.is_object() &&
+                        logged_value.contains("data") &&
+                        logged_value["data"].is_object() &&
+                        logged_value["data"].contains("raw_command") &&
+                        logged_value["data"]["raw_command"].is_string())
+                    {
+                        s.accepted_value = logged_value["data"]["raw_command"].get<std::string>();
+                    } else if (logged_value.is_object() &&
+                               logged_value.contains("operation") &&
+                               logged_value["operation"].is_string())
+                    {
+                        // Backward-compatible recovery path for old records.
+                        s.accepted_value = logged_value["operation"].get<std::string>();
+                    } else {
+                        s.accepted_value = logged_value.dump();
+                    }
                 } else {
-                    s.accepted_value = decodeAcceptedValueFromWalPayload(entry.data);
+                    s.accepted_value = entry.data.dump();
                 }
                 break;
             case PaxosWALEntryType::COMMIT:
@@ -232,7 +248,19 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
     s.accepted_round = ballot_round;
     s.accepted_value = value;
 
-    const auto entry = buildConsensusEntryFromAcceptedValue(value, slot, ballot_round);
+    ConsensusLogEntry entry;
+    entry.index = slot;
+    entry.term = ballot_round;
+    entry.operation = "PAXOS_ACCEPT_COMMAND";
+    entry.timestamp = std::chrono::system_clock::now();
+
+    json payload = json::object();
+    payload["raw_command"] = value;
+    json parsed = json::parse(value, nullptr, false);
+    if (!parsed.is_discarded()) {
+        payload["parsed_command"] = std::move(parsed);
+    }
+    entry.data = std::move(payload);
 
     LSN lsn = wal_->logAccept(slot, ballot_round, node_state_.node_id, entry);
     if (config_.sync_on_write) wal_->flush();

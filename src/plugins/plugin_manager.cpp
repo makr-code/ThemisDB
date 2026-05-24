@@ -10,6 +10,7 @@
  */
 
 #include "plugins/plugin_manager.h"
+#include <stdexcept>
 #include "plugins/plugin_dependency_resolver.h"
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_health_monitor.h"
@@ -411,7 +412,7 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                     if (!legacy.name.empty()) {
                         manifest = legacy;
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Fallback parsing failed; keep manifest as nullopt
                 }
             }
@@ -1099,7 +1100,7 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
             nlohmann::json cfg;
             cfg["restored_state"] = saved_state;
             init_config = cfg.dump();
-        } catch (...) {
+        } catch (const std::exception&) {
             init_config = "{}";
         }
     }

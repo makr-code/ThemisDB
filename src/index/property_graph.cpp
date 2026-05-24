@@ -45,7 +45,7 @@ namespace {
             }
             return labels;
         }
-    } catch (const std::exception&) {
+    } catch (...) {
         // Backward-compatible fallback below (legacy comma-separated encoding).
     }
 

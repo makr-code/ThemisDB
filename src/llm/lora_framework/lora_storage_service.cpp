@@ -10,6 +10,7 @@
  */
 
 #include "llm/lora_framework/lora_storage_service.h"
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <fstream>
 #include <filesystem>
@@ -157,7 +158,7 @@ public:
                 try {
                     int num = std::stoi(v.substr(1));
                     max_version = std::max(max_version, num);
-                } catch (...) {}
+                } catch (const std::exception&) {}
             }
         }
         

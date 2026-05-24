@@ -10,6 +10,7 @@
  */
 
 #include "server/llm_api_handler.h"
+#include <stdexcept>
 #include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
 #include "governance/policy_engine.h"

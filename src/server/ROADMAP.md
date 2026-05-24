@@ -46,7 +46,14 @@ v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTT
   - Tests: `tests/test_connector_mode_api.cpp` (17 live API tests; latest validation: 15 passed, 2 skipped due runtime/model readiness conditions)
 
 ## In Progress 🚧
-*(none currently in progress – all Phase 1–6 items completed)*
+- [~] P0 security/code-quality gap remediation wave (Target: Q2 2026)
+  - [x] Remove token-value logging from `AuthMiddleware::authorize` and `HttpServer::handlePiiDeleteByUuid` (CWE-532 hardening; scanner `hardcoded_secret` false-positive hotspot reduction)
+  - [x] Remove Authorization header value logging and ad-hoc `[AUTH-DBG]` stderr traces in `HttpServer::requireAccess` (CWE-532 hardening)
+  - [x] Remove auth decision detail logging (`user_id`/`reason`) and token-validation diagnostics from `HttpServer` PII delete auth flow (CWE-532 hardening)
+  - [x] Remove startup `validateToken` debug block in `HttpServer` constructor (residual GAP-011 artifact; logged `user_id`/`reason` on every server start with no operational value)
+  - [x] Add STUB/SIMULATION NOTE to HTTP/2 server-push `ResponseBuffer` raw `new` pattern (nghttp2 C API constraint; see FUTURE_ENHANCEMENTS.md §HTTP2 BufferManagement)
+  - [x] Expand GAP-013 regression test suite (+4 tests: `InsufficientScope_ReasonDoesNotEchoToken`, `ValidateToken_ReasonDoesNotEchoToken`, `ConcurrentDenyRequests_NoCrossContamination`)
+  - [~] Continue CRITICAL gap triage in `ai_working/gap_scan_v3_server.json` by true-positive priority (auth, memory, concurrency)
 
 ## Planned Features 📋
 
@@ -206,4 +213,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `AdaptiveRateLimiter` – Token-Bucket-Ratenlimiter mit dynamischer Anpassung; nur im Test geprüft
   > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
-

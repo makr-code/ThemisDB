@@ -113,7 +113,7 @@ std::vector<FederatedSearch::Result> FederatedSearch::search(
             THEMIS_ERROR("FederatedSearch: tenant '{}' search failed: {}",
                          tid, e.what());
             stats.skipped = true;
-        } catch (...) {
+        } catch (const std::exception&) {
             THEMIS_ERROR("FederatedSearch: tenant '{}' search failed with unknown error",
                          tid);
             stats.skipped = true;

@@ -33,7 +33,7 @@ namespace {
                 std::cerr << "CRITICAL ERROR: Function registry initialization failed: " 
                           << ex.what() << std::endl;
                 std::cerr << "The application may not function correctly." << std::endl;
-            } catch (...) {
+            } catch (const std::exception&) {
                 std::cerr << "CRITICAL ERROR: Function registry initialization failed with unknown exception" 
                           << std::endl;
             }
@@ -238,7 +238,7 @@ nlohmann::json LetEvaluator::evaluateFieldAccess(
                 if (idx < baseValue.size()) {
                     return baseValue[idx];
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // fallthrough to null
             }
         }
@@ -265,7 +265,7 @@ nlohmann::json LetEvaluator::getNestedValue(
                 } else {
                     return nlohmann::json(nullptr);
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 return nlohmann::json(nullptr);
             }
         } else {
@@ -605,7 +605,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             [&](const nlohmann::json& v) -> nlohmann::json {
             if (v.is_string()) {
                 try { return nlohmann::json::parse(v.get<std::string>()); }
-                catch (...) {}
+                catch (const std::exception&) {}
             }
             return v;
         };
@@ -707,7 +707,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
         try {
             return testWithin(g1, g2);
-        } catch (...) {
+        } catch (const std::exception&) {
             // If geometry cannot be parsed, fail open (do not drop the document).
             return true;
         }
@@ -1485,7 +1485,7 @@ double LetEvaluator::toNumber(const nlohmann::json& value) const {
     if (value.is_string()) {
         try {
             return std::stod(value.get<std::string>());
-        } catch (...) {
+        } catch (const std::exception&) {
             return 0.0;
         }
     }

@@ -645,7 +645,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
         if (std::regex_search(query, m2, re_limit)) {
             try {
                 metadata.limit = std::stoull(m2[1].str());
-            } catch (...) {
+            } catch (const std::exception&) {
                 metadata.limit = 100;
             }
         }

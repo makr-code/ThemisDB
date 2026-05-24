@@ -20,6 +20,26 @@
 
 namespace themis::sharding {
 
+// ============================================================================
+// LZ4 bridges (stub #295)
+// ============================================================================
+
+void SecureTransportClient::setLz4CompressFn(Lz4CompressFn fn) {
+    lz4CompressFn_ = std::move(fn);
+}
+
+void SecureTransportClient::clearLz4CompressFn() {
+    lz4CompressFn_ = nullptr;
+}
+
+void SecureTransportClient::setLz4DecompressFn(Lz4DecompressFn fn) {
+    lz4DecompressFn_ = std::move(fn);
+}
+
+void SecureTransportClient::clearLz4DecompressFn() {
+    lz4DecompressFn_ = nullptr;
+}
+
 SecureTransportClient::SecureTransportClient(const Config& config)
     : config_(config) {
     
@@ -76,17 +96,21 @@ bool SecureTransportClient::compressData(const std::string& data,
             }
         }
         if (config_.compression == Config::CompressionType::LZ4) {
-            const int acceleration = std::max(1, config_.compression_level);
-            auto compressed_bytes = utils::lz4_compress(data, acceleration);
-            if (!compressed_bytes.empty() && compressed_bytes.size() < data.size()) {
-                compressed = std::string(compressed_bytes.begin(), compressed_bytes.end());
-                if (compression_codec != nullptr) {
-                    *compression_codec = "lz4";
-                }
+            const auto compressed_bytes = utils::lz4_compress_safe(
+                reinterpret_cast<const uint8_t*>(data.data()),
+                data.size(),
+                std::max(1, config_.compression_level));
+            if (compressed_bytes && !compressed_bytes->empty() &&
+                compressed_bytes->size() < data.size()) {
+                compressed = std::string(compressed_bytes->begin(), compressed_bytes->end());
                 spdlog::debug("SecureTransportClient: LZ4 compressed {} -> {} bytes (ratio: {:.2f}x)",
                              data.size(), compressed.size(),
                              static_cast<double>(data.size()) / compressed.size());
                 return true;
+            }
+            if (!compressed_bytes) {
+                spdlog::warn("SecureTransportClient: LZ4 compression unavailable: {}",
+                             compressed_bytes.error().message());
             }
         }
     } catch (const std::exception& e) {
@@ -130,6 +154,7 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
         if (compressData(payload.data, compressed_data, &compression_codec)) {
             transfer_data = compressed_data;
             compressed = true;
+            compression_codec = (config_.compression == Config::CompressionType::LZ4) ? "lz4" : "zstd";
             result.bytes_compressed = compressed_data.size();
             result.compression_ratio = static_cast<double>(original_size) / compressed_data.size();
         } else {

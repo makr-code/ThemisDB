@@ -17,6 +17,7 @@
  */
 
 #include "llm/kv_prefix_transfer_manager.h"
+#include <stdexcept>
 
 #include <spdlog/spdlog.h>
 
@@ -58,7 +59,7 @@ KVPrefixTransferManager::KVPrefixTransferManager(
                 if (custom) {
                     return custom;
                 }
-            } catch (...) {
+            } catch (const std::exception&) {
                 // fail-closed: default back to NullKVStateSerializer
             }
         }

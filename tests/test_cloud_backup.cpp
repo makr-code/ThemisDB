@@ -37,16 +37,16 @@ protected:
         setS3DeleteFn({});
         setS3ListFn({});
         setS3ExistsFn({});
-        setGCSUploadFn({});
-        setGCSDownloadFn({});
-        setGCSDeleteFn({});
-        setGCSListFn({});
-        setGCSExistsFn({});
         setAzureUploadFn({});
         setAzureDownloadFn({});
         setAzureDeleteFn({});
         setAzureListFn({});
         setAzureExistsFn({});
+        setGCSUploadFn({});
+        setGCSDownloadFn({});
+        setGCSDeleteFn({});
+        setGCSListFn({});
+        setGCSExistsFn({});
 
         // Create unique temporary paths for each test
         auto temp_base = std::filesystem::temp_directory_path();
@@ -86,16 +86,16 @@ protected:
         setS3DeleteFn({});
         setS3ListFn({});
         setS3ExistsFn({});
-        setGCSUploadFn({});
-        setGCSDownloadFn({});
-        setGCSDeleteFn({});
-        setGCSListFn({});
-        setGCSExistsFn({});
         setAzureUploadFn({});
         setAzureDownloadFn({});
         setAzureDeleteFn({});
         setAzureListFn({});
         setAzureExistsFn({});
+        setGCSUploadFn({});
+        setGCSDownloadFn({});
+        setGCSDeleteFn({});
+        setGCSListFn({});
+        setGCSExistsFn({});
 
         coordinator_.reset();
         cloud_agent_.reset();
@@ -593,7 +593,7 @@ TEST_F(CloudBackupTest, DeleteBackupUsesS3DeleteCallbackWithoutMockMode) {
     EXPECT_TRUE(called);
 }
 
-TEST_F(CloudBackupTest, CreateBackupUsesGCSUploadCallbackWithoutMockMode) {
+TEST_F(CloudBackupTest, CreateAndRestoreUseGCSCallbacksWithoutMockMode) {
     unsetenv("THEMIS_CLOUD_BACKUP_MOCK");
 
     CloudBackupConfig config;
@@ -606,153 +606,103 @@ TEST_F(CloudBackupTest, CreateBackupUsesGCSUploadCallbackWithoutMockMode) {
         cloud_agent_, backup_manager_, config
     );
 
-    bool called = false;
-    setGCSUploadFn([&called](const std::string& bucket,
-                             const std::string& local_path,
-                             const std::string& remote_path,
-                             const std::map<std::string, std::string>&) {
-        called = true;
+    bool upload_called = false;
+    setGCSUploadFn([&upload_called](const std::string& bucket,
+                                    const std::string& local_path,
+                                    const std::string& remote_path,
+                                    const std::map<std::string, std::string>& metadata) {
+        upload_called = true;
         EXPECT_EQ(bucket, "test-bucket");
-        EXPECT_EQ(remote_path, "backup-for-gcs-upload-callback/shard1");
+        EXPECT_EQ(remote_path, "backup-for-gcs-upload-download-callback/shard1");
         EXPECT_TRUE(std::filesystem::exists(local_path));
+        EXPECT_EQ(metadata.at("backup_id"), "backup-for-gcs-upload-download-callback");
+        EXPECT_EQ(metadata.at("shard_id"), "shard1");
         return true;
     });
 
     std::vector<std::string> shard_ids = {"shard1"};
-    bool success = coordinator_->createBackup("backup-for-gcs-upload-callback", shard_ids);
-    EXPECT_TRUE(success);
-    EXPECT_TRUE(called);
-}
+    ASSERT_TRUE(coordinator_->createBackup("backup-for-gcs-upload-download-callback", shard_ids));
+    EXPECT_TRUE(upload_called);
 
-TEST_F(CloudBackupTest, RestoreBackupUsesGCSDownloadCallbackWithoutMockMode) {
-    unsetenv("THEMIS_CLOUD_BACKUP_MOCK");
-
-    CloudBackupConfig config;
-    config.provider = "gcs";
-    config.gcs_project_id = "test-project";
-    config.gcs_bucket = "test-bucket";
-    config.local_backup_dir = local_backup_dir_.string();
-
-    coordinator_ = std::make_unique<CloudBackupCoordinator>(
-        cloud_agent_, backup_manager_, config
-    );
-
-    std::vector<std::string> shard_ids = {"shard1"};
-    ASSERT_TRUE(coordinator_->createBackup("backup-for-gcs-download-callback", shard_ids));
-
-    bool called = false;
-    setGCSDownloadFn([&called](const std::string& bucket,
-                               const std::string& remote_path,
-                               const std::string& local_path) {
-        called = true;
+    bool download_called = false;
+    setGCSDownloadFn([&download_called](const std::string& bucket,
+                                        const std::string& remote_path,
+                                        const std::string& local_path) {
+        download_called = true;
         EXPECT_EQ(bucket, "test-bucket");
-        EXPECT_EQ(remote_path, "backup-for-gcs-download-callback/shard1");
+        EXPECT_EQ(remote_path, "backup-for-gcs-upload-download-callback/shard1");
         std::ofstream out(local_path);
         out << "callback-download";
         return out.good();
     });
 
-    bool success = coordinator_->restoreBackup("backup-for-gcs-download-callback", shard_ids);
-    EXPECT_TRUE(success);
-    EXPECT_TRUE(called);
+    bool restored = coordinator_->restoreBackup("backup-for-gcs-upload-download-callback", shard_ids);
+    EXPECT_TRUE(restored);
+    EXPECT_TRUE(download_called);
 }
 
-TEST_F(CloudBackupTest, CreateBackupUsesAzureUploadCallbackWithoutMockMode) {
+TEST_F(CloudBackupTest, CreateAndRestoreAndDeleteUseAzureCallbacksWithoutMockMode) {
     unsetenv("THEMIS_CLOUD_BACKUP_MOCK");
 
     CloudBackupConfig config;
     config.provider = "azure";
-    config.azure_account = "test-account";
-    config.azure_container = "test-container";
+    config.azure_account = "testaccount";
+    config.azure_container = "testcontainer";
     config.local_backup_dir = local_backup_dir_.string();
 
     coordinator_ = std::make_unique<CloudBackupCoordinator>(
         cloud_agent_, backup_manager_, config
     );
 
-    bool called = false;
-    setAzureUploadFn([&called](const std::string& account_name,
-                               const std::string& container,
-                               const std::string& local_path,
-                               const std::string& remote_path,
-                               const std::map<std::string, std::string>&) {
-        called = true;
-        EXPECT_EQ(account_name, "test-account");
-        EXPECT_EQ(container, "test-container");
-        EXPECT_EQ(remote_path, "backup-for-azure-upload-callback/shard1");
+    bool upload_called = false;
+    setAzureUploadFn([&upload_called](const std::string& account,
+                                      const std::string& container,
+                                      const std::string& local_path,
+                                      const std::string& remote_path,
+                                      const std::map<std::string, std::string>& metadata) {
+        upload_called = true;
+        EXPECT_EQ(account, "testaccount");
+        EXPECT_EQ(container, "testcontainer");
         EXPECT_TRUE(std::filesystem::exists(local_path));
+        EXPECT_EQ(remote_path, "backup-for-azure-callback/shard1");
+        EXPECT_EQ(metadata.at("backup_id"), "backup-for-azure-callback");
         return true;
     });
 
     std::vector<std::string> shard_ids = {"shard1"};
-    bool success = coordinator_->createBackup("backup-for-azure-upload-callback", shard_ids);
-    EXPECT_TRUE(success);
-    EXPECT_TRUE(called);
-}
+    ASSERT_TRUE(coordinator_->createBackup("backup-for-azure-callback", shard_ids));
+    EXPECT_TRUE(upload_called);
 
-TEST_F(CloudBackupTest, RestoreBackupUsesAzureDownloadCallbackWithoutMockMode) {
-    unsetenv("THEMIS_CLOUD_BACKUP_MOCK");
-
-    CloudBackupConfig config;
-    config.provider = "azure";
-    config.azure_account = "test-account";
-    config.azure_container = "test-container";
-    config.local_backup_dir = local_backup_dir_.string();
-
-    coordinator_ = std::make_unique<CloudBackupCoordinator>(
-        cloud_agent_, backup_manager_, config
-    );
-
-    std::vector<std::string> shard_ids = {"shard1"};
-    ASSERT_TRUE(coordinator_->createBackup("backup-for-azure-download-callback", shard_ids));
-
-    bool called = false;
-    setAzureDownloadFn([&called](const std::string& account_name,
-                                 const std::string& container,
-                                 const std::string& remote_path,
-                                 const std::string& local_path) {
-        called = true;
-        EXPECT_EQ(account_name, "test-account");
-        EXPECT_EQ(container, "test-container");
-        EXPECT_EQ(remote_path, "backup-for-azure-download-callback/shard1");
+    bool download_called = false;
+    setAzureDownloadFn([&download_called](const std::string& account,
+                                          const std::string& container,
+                                          const std::string& remote_path,
+                                          const std::string& local_path) {
+        download_called = true;
+        EXPECT_EQ(account, "testaccount");
+        EXPECT_EQ(container, "testcontainer");
+        EXPECT_EQ(remote_path, "backup-for-azure-callback/shard1");
         std::ofstream out(local_path);
-        out << "callback-download";
+        out << "azure-callback-download";
         return out.good();
     });
 
-    bool success = coordinator_->restoreBackup("backup-for-azure-download-callback", shard_ids);
-    EXPECT_TRUE(success);
-    EXPECT_TRUE(called);
-}
+    bool restored = coordinator_->restoreBackup("backup-for-azure-callback", shard_ids);
+    EXPECT_TRUE(restored);
+    EXPECT_TRUE(download_called);
 
-TEST_F(CloudBackupTest, DeleteBackupUsesAzureDeleteCallbackWithoutMockMode) {
-    unsetenv("THEMIS_CLOUD_BACKUP_MOCK");
-
-    CloudBackupConfig config;
-    config.provider = "azure";
-    config.azure_account = "test-account";
-    config.azure_container = "test-container";
-    config.local_backup_dir = local_backup_dir_.string();
-
-    coordinator_ = std::make_unique<CloudBackupCoordinator>(
-        cloud_agent_, backup_manager_, config
-    );
-
-    std::vector<std::string> shard_ids = {"shard1"};
-    ASSERT_TRUE(coordinator_->createBackup("backup-for-azure-delete-callback", shard_ids));
-
-    bool called = false;
-    setAzureDeleteFn([&called](const std::string& account_name,
-                               const std::string& container,
-                               const std::string& remote_path) {
-        called = true;
-        EXPECT_EQ(account_name, "test-account");
-        EXPECT_EQ(container, "test-container");
-        EXPECT_EQ(remote_path, "backup-for-azure-delete-callback/shard1");
+    bool delete_called = false;
+    setAzureDeleteFn([&delete_called](const std::string& account,
+                                      const std::string& container,
+                                      const std::string& remote_path) {
+        delete_called = true;
+        EXPECT_EQ(account, "testaccount");
+        EXPECT_EQ(container, "testcontainer");
+        EXPECT_EQ(remote_path, "backup-for-azure-callback/shard1");
         return true;
     });
 
-    bool deleted = coordinator_->deleteBackup("backup-for-azure-delete-callback");
+    bool deleted = coordinator_->deleteBackup("backup-for-azure-callback");
     EXPECT_TRUE(deleted);
-    EXPECT_TRUE(called);
+    EXPECT_TRUE(delete_called);
 }

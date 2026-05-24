@@ -277,7 +277,7 @@ public:
      * @brief Prefetch memory for HNSW graph traversal
      * @param node_ids Node IDs to prefetch
      */
-    static void prefetchNodes(const std::vector<size_t>& node_ids);
+    static void prefetchNodes([[maybe_unused]] const std::vector<size_t>& node_ids);
     
     /**
      * @brief Get optimal cache-line size for platform

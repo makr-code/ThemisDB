@@ -10,6 +10,7 @@
  */
 
 #include "timeseries/hypertable.h"
+#include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include <sstream>
@@ -151,7 +152,7 @@ std::vector<std::pair<int64_t, std::string>> Hypertable::query(
                         std::string data(value);
                         results.emplace_back(timestamp, data);
                     }
-                } catch (...) {
+                } catch (const std::exception&) {
                     // Skip invalid keys
                 }
             }
@@ -224,7 +225,7 @@ std::pair<int64_t, int64_t> Hypertable::parseChunkTimeRange(const std::string& c
             int64_t start_time = std::stoll(timestamp_str);
             int64_t end_time = start_time + config_.chunk_interval_seconds;
             return {start_time, end_time};
-        } catch (...) {
+        } catch (const std::exception&) {
             // Invalid chunk name
         }
     }

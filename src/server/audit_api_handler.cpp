@@ -10,6 +10,7 @@
  */
 
 #include "server/audit_api_handler.h"
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <algorithm>

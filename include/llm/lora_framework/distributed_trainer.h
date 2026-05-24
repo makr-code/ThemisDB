@@ -127,14 +127,18 @@ public:
     using BroadcastFn = std::function<void(std::vector<float>&)>;
 
     /**
-     * @brief Function type for CPU-side gradient AllReduce.
+     * @brief Function type for CPU gradient all-reduce.
      *
-     * Inject a real MPI_Allreduce / Gloo allreduce via setAllReduceCpuFn().
-     * The function must perform the sum-and-divide-by-world-size reduction
-     * in-place across all ranks.  It must not throw; exceptions are caught
-     * and logged as errors.
+     * Callers inject a real MPI_Allreduce / Gloo allreduce via
+     * setAllReduceCpuFn().  The injected function receives the local gradient
+     * vector and must perform an in-place SUM-then-divide-by-world_size across
+     * all ranks.  When not injected, allreduce_cpu() falls back to local
+     * scaling, which is only correct for single-process (world_size == 1)
+     * builds.
+     *
+     * @param data Gradient vector to reduce in-place.
      */
-    using AllReduceCpuFn = std::function<void(std::vector<float>&)>;
+    using AllReduceCpuFn = std::function<void(std::vector<float>& data)>;
     explicit DistributedTrainer(const DistributedConfig& config);
     ~DistributedTrainer();
     
@@ -209,19 +213,15 @@ public:
     void setBroadcastFn(BroadcastFn fn);
 
     /**
-     * @brief Inject a real CPU-side gradient AllReduce (MPI/Gloo).
+     * @brief Inject a real CPU all-reduce implementation (MPI/Gloo).
      *
-     * When set, allreduce_cpu() delegates to this function instead of
-     * the local scale-only fallback.  The function must perform the
-     * sum-and-divide-by-world-size reduction in-place across all ranks.
-     * Pass an empty function to revert to the local fallback.
-     *
-     * @param fn Callable that performs the actual AllReduce in-place.
+     * When set, allreduce_cpu() delegates to this function so that gradients
+     * are summed across all ranks and divided by world_size before the
+     * optimizer step.  Must be called before the first training step when
+     * world_size > 1.
+     * @param fn Callable that performs the collective sum-reduce in-place.
      */
     void setAllReduceCpuFn(AllReduceCpuFn fn);
-
-    /// Clear the injected AllReduce implementation (reverts to local scaling).
-    void clearAllReduceCpuFn();
     
     /**
      * @brief Get distributed configuration
@@ -280,9 +280,9 @@ private:
     void allreduce_cpu(std::vector<float>& data);
     void broadcast_cpu(std::vector<float>& data);
 
-    std::optional<BarrierFn>      barrier_fn_;
-    std::optional<BroadcastFn>    broadcast_fn_;
-    std::optional<AllReduceCpuFn> allreduce_cpu_fn_;
+    std::optional<BarrierFn>        barrier_fn_;
+    std::optional<BroadcastFn>      broadcast_fn_;
+    std::optional<AllReduceCpuFn>   allreduce_cpu_fn_;
 };
 
 /**

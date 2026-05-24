@@ -51,6 +51,13 @@ public:
     
     // IContentProcessorPlugin interface
     PluginInfo getInfo() const override;
+    /**
+     * @brief Initialize the processor from plugin configuration.
+     * @param config Thumbnail, keyframe, subtitle, and scene-detection settings.
+     * @return `true` when configuration is accepted and the processor is ready; `false`
+     *         when required thumbnail dimensions are non-positive or would overflow the
+     *         internal RGB thumbnail buffer sizing.
+     */
     bool initialize(const PluginConfig& config) override;
     void shutdown() override;
     bool canProcess(const std::string& mime_type) const override;

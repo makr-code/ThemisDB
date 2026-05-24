@@ -620,7 +620,7 @@ bool NCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
     if (fn) [[unlikely]] {
         try {
             return fn(send, recv, count, op, stream);
-        } catch (...) {
+        } catch (const std::exception&) {
             return false;
         }
     }

@@ -18,12 +18,15 @@
 #define THEMIS_PLUGIN_EXPORTS
 
 #include "content/geo_processor.h"
+#include <exception>
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <sstream>
 #include <chrono>
 #include <fstream>
 #include <filesystem>
+#include <stdexcept>
 
 #ifdef THEMIS_ENABLE_GDAL
 #include <gdal/gdal.h>
@@ -907,4 +910,3 @@ THEMIS_CONTENT_PLUGIN(GeoProcessor)
 
 } // namespace content
 } // namespace themis
-
