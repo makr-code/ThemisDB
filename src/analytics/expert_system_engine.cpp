@@ -245,16 +245,22 @@ ExpertSystemEngine::matchAllConditions(const HornClause &rule, const std::vector
 // ML confidence (static, called WITHOUT holding mutex_)
 // ──────────────────────────────────────────────────────────────────────────────
 
-/*static*/ double ExpertSystemEngine::mlConfidenceNoLock(ModelServingEngine *scorer, const ScorerFn &scorer_fn,
-                                                         const std::string &model_name, const std::string &model_ver,
-                                                         const HornClause &rule, const std::vector<Fact> &matched) {
+/*static*/ double ExpertSystemEngine::mlConfidenceNoLock(
+    ModelServingEngine*      scorer,
+    const ScorerFn&          scorer_fn,
+    const std::string&       model_name,
+    const std::string&       model_ver,
+    const HornClause&        rule,
+    const std::vector<Fact>& matched
+) {
     if (scorer_fn) {
         try {
             return scorer_fn(rule, matched);
-        } catch (...) {
+        } catch (const std::exception&) {
             return 1.0;
-        } // Fallback: treat as confident
+        }
     }
+
     if (scorer && rule.ml_confidence_threshold > 0.0) {
         try {
             DataPoint dp;
@@ -262,17 +268,17 @@ ExpertSystemEngine::matchAllConditions(const HornClause &rule, const std::vector
             dp.set("condition_count", static_cast<double>(rule.conditions.size()));
             dp.set("match_count", static_cast<double>(matched.size()));
             dp.set("priority", static_cast<double>(rule.priority));
-            std::string label = scorer->predict(model_name, model_ver, dp);
-            // Interpret numeric label as confidence.
+            const std::string label = scorer->predict(model_name, model_ver, dp);
             try {
                 return std::stod(label);
-            } catch (...) {
+            } catch (const std::exception&) {
                 return 1.0;
             }
-        } catch (...) {
-            return 1.0; // Scorer unavailable → fire rule deterministically
+        } catch (const std::exception&) {
+            return 1.0;
         }
     }
+
     return 1.0;
 }
 

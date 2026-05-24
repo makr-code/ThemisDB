@@ -206,7 +206,7 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
             for (auto& f : c.data) f = readF32();
         }
         return t;
-    } catch (...) {
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -898,6 +898,15 @@ double TensorTrainDecomposer::cosineSimilarity(const TTTrain& a, const TTTrain& 
     if (na < 1e-12 || nb < 1e-12) return 0.0;
     double ip = innerProduct(a, b);
     return ip / (na * nb);
+}
+
+void TensorTrainDecomposer::truncatedSVDShared(
+    const std::vector<float>& mat, std::size_t m, std::size_t n,
+    double delta, std::size_t max_rank_cap,
+    std::vector<float>& U, std::vector<float>& S, std::vector<float>& Vt,
+    std::size_t& rank_out)
+{
+    truncatedSVD(mat, m, n, delta, max_rank_cap, U, S, Vt, rank_out);
 }
 
 } // namespace themis::storage

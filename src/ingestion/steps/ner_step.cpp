@@ -178,15 +178,17 @@ public:
     Result<void> execute(ExtractionContext& ctx, const StepConfig& cfg) override {
         if (!ctx.hasText() && !ctx.hasChunks()) return {};
 
+        const json& config_json = cfg.config.is_object() ? cfg.config : json::object();
+
         // Config
         std::vector<std::string> requested_types;
-        if (cfg.config.contains("entity_types") && cfg.config["entity_types"].is_array()) {
-            for (const auto& t : cfg.config["entity_types"])
+        if (config_json.contains("entity_types") && config_json["entity_types"].is_array()) {
+            for (const auto& t : config_json["entity_types"])
                 requested_types.push_back(t.get<std::string>());
         }
-        const bool use_llm    = cfg.config.value("use_llm", false);
-        const std::string lang = cfg.config.value("language", std::string("de"));
-        const double conf_min  = cfg.config.value("confidence", 0.8);
+        const bool use_llm    = config_json.value("use_llm", false);
+        const std::string lang = config_json.value("language", std::string("de"));
+        const double conf_min  = config_json.value("confidence", 0.8);
 
         // Determine texts to process
         std::vector<std::pair<std::string, std::string>> texts_with_refs;

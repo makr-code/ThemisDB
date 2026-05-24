@@ -757,3 +757,4 @@ bool FieldEncryption::needsReEncryption(const EncryptedBlob& blob, const std::st
 
 }  // namespace themis
 
+

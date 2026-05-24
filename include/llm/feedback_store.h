@@ -14,6 +14,7 @@
 #include <memory>
 #include <cstdint>
 #include <chrono>
+#include <functional>
 #include <nlohmann/json.hpp>
 #include "llm/i_feedback_plugin.h"
 
@@ -72,6 +73,8 @@ enum class ValidationStatus {
  */
 class FeedbackStore {
 public:
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+
     /**
      * @brief Feedback entry structure
      */
@@ -152,22 +155,15 @@ public:
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
 
     /**
-     * @brief Inject a runtime spam-keywords provider.
+     * @brief Set spam-keyword provider callback for runtime-configurable spam detection.
      *
-     * When set, `getSpamKeywords()` delegates to the injected function instead
-     * of returning the compile-time static keyword list.  The function receives
-     * no arguments and must return a non-empty vector of lowercase keyword
-     * strings to match against feedback text.
+     * When set, the provider is queried during validation and its returned keyword list
+     * is used for substring-based spam matching. If the provider is not set, throws, or
+     * returns an empty list, FeedbackStore falls back to the built-in default keywords.
      *
-     * @param fn  Callable that returns the current spam keyword list, or
-     *            `nullptr` to revert to the built-in static list.
-     *
-     * Thread-safety: the provider function pointer is stored atomically; it is
-     * safe to call `setSpamKeywordsProvider()` from any thread.
+     * @param provider Callback returning the current spam keywords.
      */
-    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
-    static void setSpamKeywordsProvider(SpamKeywordsProviderFn fn);
-    static void clearSpamKeywordsProvider();
+    static void setSpamKeywordsProvider(SpamKeywordsProviderFn provider);
 
     /**
      * @brief Store a new feedback entry
@@ -236,6 +232,25 @@ public:
     static ValidationStatus validateFeedback(const FeedbackEntry& feedback);
 
     /**
+     * @brief Type alias for injecting a dynamic spam keyword list.
+     */
+    using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
+
+    /**
+     * @brief Install a runtime spam keywords provider.
+     *
+     * When set, getSpamKeywords() returns the result of this callable instead
+     * of the built-in static list, enabling runtime keyword updates.
+     * @param fn Callable returning a vector of lowercase spam keyword strings.
+     */
+    static void setSpamKeywordsProviderFn(SpamKeywordsProviderFn fn);
+
+    /**
+     * @brief Remove the spam keywords provider bridge (reverts to static list).
+     */
+    static void clearSpamKeywordsProviderFn();
+
+    /**
      * @brief Clear all feedback entries
      */
     void clear();
@@ -298,7 +313,7 @@ public:
      *
      * @return Active spam-keyword list used by feedback validation.
      */
-    static const std::vector<std::string>& getSpamKeywords();
+    static std::vector<std::string> getSpamKeywords();
 
 private:
     rocksdb::TransactionDB* db_;
@@ -313,9 +328,10 @@ private:
                                   const std::string& adapter_id) const;
     std::string generateId() const;
     
+    // Spam detection configuration (deprecated, use plugin instead)
     static bool isLikelySpam(const std::string& text);
     
-    // Helper: Apply plugin validation if available; may modify feedback on MODIFY result
+    // Helper: Apply plugin validation if available
     ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 

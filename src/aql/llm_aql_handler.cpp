@@ -813,24 +813,28 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                                         // "text" or "content" field; fall back to the raw JSON if absent.
                                         // Without storage, doc.content carries the pk for downstream lookup.
                                         if (impl_->storage_) {
-                                            auto raw = impl_->storage_->get(result.pk);
-                                            if (raw.has_value()) {
-                                                std::string raw_str(raw.value().begin(), raw.value().end());
-                                                try {
-                                                    auto doc_json = nlohmann::json::parse(raw_str);
-                                                    if (doc_json.contains("text") && doc_json["text"].is_string()) {
-                                                        doc.content = doc_json["text"].get<std::string>();
-                                                    } else if (doc_json.contains("content")
-                                                               && doc_json["content"].is_string()) {
-                                                        doc.content = doc_json["content"].get<std::string>();
-                                                    } else {
+                                            try {
+                                                auto raw = impl_->storage_->get(result.pk);
+                                                if (raw.has_value()) {
+                                                    std::string raw_str(raw.value().begin(), raw.value().end());
+                                                    try {
+                                                        auto doc_json = nlohmann::json::parse(raw_str);
+                                                        if (doc_json.contains("text")
+                                                            && doc_json["text"].is_string()) {
+                                                            doc.content = doc_json["text"].get<std::string>();
+                                                        } else if (doc_json.contains("content")
+                                                                   && doc_json["content"].is_string()) {
+                                                            doc.content = doc_json["content"].get<std::string>();
+                                                        } else {
+                                                            doc.content = raw_str;
+                                                        }
+                                                    } catch (...) {
                                                         doc.content = raw_str;
                                                     }
-                                                } catch (...) {
-                                                    doc.content = raw_str;
+                                                } else {
+                                                    doc.content = result.pk;
                                                 }
-                                            } else {
-                                                spdlog::warn("RAG: document not found in storage for pk={}", result.pk);
+                                            } catch (const std::exception&) {
                                                 doc.content = result.pk;
                                             }
                                         } else {
@@ -1426,59 +1430,27 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
 
 std::vector<LLMAQLHandler::BatchNLToAQLResult>
 LLMAQLHandler::translateBatchNLToAQL(const std::vector<BatchNLToAQLRequest> &requests,
-                                     std::size_t max_concurrent_requests) {
-    const std::size_t n = requests.size();
-    if (n == 0) {
-        return {};
+                                     [[maybe_unused]] std::size_t max_concurrent_requests) {
+    std::vector<BatchNLToAQLResult> results;
+    results.reserve(requests.size());
+
+    for (const auto& req : requests) {
+        BatchNLToAQLResult result;
+        try {
+            result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
+            result.success = true;
+        } catch (const std::exception& e) {
+            result.aql_query.clear();
+            result.error = e.what();
+            result.success = false;
+        } catch (...) {
+            result.aql_query.clear();
+            result.error = "Unknown exception during translation";
+            result.success = false;
+        }
+        results.push_back(std::move(result));
     }
 
-    // Determine effective concurrency – default to hardware thread count.
-    const std::size_t hw_concurrency
-        = std::max(static_cast<std::size_t>(1u), static_cast<std::size_t>(std::thread::hardware_concurrency()));
-    const std::size_t concurrency = (max_concurrent_requests == 0) ? hw_concurrency : max_concurrent_requests;
-
-    // Launch at most min(n, concurrency) worker threads so the number of live
-    // threads is directly bounded — no unbounded thread-per-request creation.
-    // Each worker pulls the next unprocessed request via a shared atomic index,
-    // which avoids lambda reference captures into the range-for loop variable.
-    const std::size_t num_workers = std::min(n, concurrency);
-
-    // Pre-allocate result storage indexed by request position.  Workers write
-    // to distinct slots, so no mutex is required for the results vector.
-    std::vector<BatchNLToAQLResult> results(n);
-
-    // Shared work index: each worker atomically claims the next request slot.
-    std::atomic<std::size_t> work_index{0};
-
-    // Launch the worker pool and wait for all workers to finish.
-    std::vector<std::future<void>> workers;
-    workers.reserve(num_workers);
-
-    for (std::size_t w = 0; w < num_workers; ++w) {
-        workers.push_back(std::async(std::launch::async, [this, &requests, &results, &work_index, n]() {
-            std::size_t idx;
-            while ((idx = work_index.fetch_add(1, std::memory_order_relaxed)) < n) {
-                const BatchNLToAQLRequest &req = requests[idx];
-                BatchNLToAQLResult &result     = results[idx];
-                try {
-                    result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
-                    result.success   = true;
-                } catch (const std::exception &e) {
-                    result.aql_query.clear();
-                    result.error   = e.what();
-                    result.success = false;
-                } catch (...) {
-                    result.aql_query.clear();
-                    result.error   = "Unknown exception during translation";
-                    result.success = false;
-                }
-            }
-        }));
-    }
-
-    for (auto &w : workers) {
-        w.get();
-    }
     return results;
 }
 
@@ -1738,7 +1710,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
                     result.score = std::stof(line.substr(7));
                     // Clamp to [0, 1]
                     result.score = std::max(0.0f, std::min(1.0f, result.score));
-                } catch (...) {
+                } catch (const std::exception&) {
                     result.score = -1.0f;
                 }
                 in_suggestions = false;

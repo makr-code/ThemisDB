@@ -1165,3 +1165,4 @@ static int s_geo_cpu_backend_anchor = (register_builtin_cpu_backend(), 0);
 
 } // namespace geo
 } // namespace themis
+

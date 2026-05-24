@@ -169,7 +169,7 @@ std::optional<std::string> PIIPseudonymizer::revealPII(const std::string& pii_uu
         
         return original;
         
-    } catch (const std::exception&) {
+    } catch (...) {
         return std::nullopt;
     }
 }
@@ -303,4 +303,5 @@ size_t PIIPseudonymizer::eraseAllPIIForEntity(const std::string& entity_pk) {
 
 } // namespace utils
 } // namespace themis
+
 

@@ -17,6 +17,7 @@
 #include <cctype>
 #include <cstdlib>
 #include <fstream>
+#include <functional>
 #include <yaml-cpp/yaml.h>
 #include <filesystem>
 #include <spdlog/spdlog.h>
@@ -417,7 +418,7 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
         
         // If PKI client is configured, use signed loading
         if (pki_client_) {
-            auto engine_result = PIIDetectionEngineFactory::createSigned(
+            auto engine_result = themis::utils::PIIDetectionEngineFactory::createSigned(
                 engine_type, engine_config, *pki_client_);
             
             if (!engine_result) {
@@ -430,9 +431,9 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
                 
                 if (allow_fallback && engine_type == "regex") {
                     spdlog::warn("PIIDetector: Falling back to unsigned regex engine");
-                    auto unsigned_result = PIIDetectionEngineFactory::createUnsigned(engine_type);
+                    auto unsigned_result = themis::utils::PIIDetectionEngineFactory::createUnsigned(engine_type);
                     if (unsigned_result) {
-                        engine = std::move(*unsigned_result);
+                        engine = std::move(unsigned_result.value());
                         if (!engine->initialize(engine_config)) {
                             spdlog::error(
                                 "PIIDetector: Fallback engine '{}' initialization failed: {}",
@@ -447,12 +448,12 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
                     return false;
                 }
             } else {
-                engine = std::move(*engine_result);
+                engine = std::move(engine_result.value());
             }
         } else {
             // No PKI client - load unsigned (expected for local/dev setups)
             spdlog::info("PIIDetector: Loading engine '{}' without PKI verification", engine_type);
-            auto engine_result = PIIDetectionEngineFactory::createUnsigned(engine_type);
+            auto engine_result = themis::utils::PIIDetectionEngineFactory::createUnsigned(engine_type);
             
             if (!engine_result) {
                 spdlog::error("PIIDetector: Failed to create engine '{}': {}", 
@@ -460,7 +461,7 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
                 return false;
             }
             
-            engine = std::move(*engine_result);
+            engine = std::move(engine_result.value());
             
             if (!engine->initialize(engine_config)) {
                 spdlog::error("PIIDetector: Engine '{}' initialization failed: {}", 

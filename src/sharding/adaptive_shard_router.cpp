@@ -327,13 +327,8 @@ void AdaptiveShardRouter::updateAdaptiveConfig(const AdaptiveConfig& config) {
 }
 
 void AdaptiveShardRouter::setNlpContextFn(NlpContextFn fn) {
-    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+    std::lock_guard<std::mutex> lock(nlp_context_fn_mutex_);
     nlp_context_fn_ = std::move(fn);
-}
-
-void AdaptiveShardRouter::clearNlpContextFn() {
-    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
-    nlp_context_fn_ = nullptr;
 }
 
 CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
@@ -341,39 +336,27 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
 ) {
     CapabilityMatcher::QueryContext context;
     context.query_text = query;
-    
-    // Extract keywords
     context.keywords = matcher_->extractKeywords(query);
 
-    NlpContextFn nlp_context_fn;
+    // Prefer injected NLP/ML enrichment when available.
     {
-        std::lock_guard<std::mutex> lock(domain_scores_mutex_);
-        nlp_context_fn = nlp_context_fn_;
-    }
-
-    if (nlp_context_fn) {
-        try {
-            auto enriched = nlp_context_fn(query);
-            if (enriched.has_value()) {
-                CapabilityMatcher::QueryContext merged = std::move(*enriched);
-                if (merged.query_text.empty()) {
-                    merged.query_text = query;
-                }
-                if (merged.keywords.empty()) {
-                    merged.keywords = context.keywords;
-                }
-                return merged;
+        std::lock_guard<std::mutex> lock(nlp_context_fn_mutex_);
+        if (nlp_context_fn_.has_value()) {
+            try {
+                nlp_context_fn_.value()(query, context);
+                return context;
+            } catch (const std::exception& e) {
+                spdlog::warn("AdaptiveShardRouter: NLP context fn failed: {}; "
+                             "falling back to pattern matching", e.what());
             }
-        } catch (const std::exception&) {
-            // Fail closed to deterministic heuristic fallback below.
         }
     }
-
-    // For now, do simple pattern matching for common terms
-    std::string query_lower = query;
-    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), 
-                  [](unsigned char c) { return std::tolower(c); });
     
+    // Fallback heuristic path for deployments without an injected NLP service.
+    std::string query_lower = query;
+    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+
     // Detect regions (example patterns)
     if (query_lower.find("hamburg") != std::string::npos) {
         context.regions.push_back("hamburg");
@@ -384,7 +367,7 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     if (query_lower.find("münchen") != std::string::npos || query_lower.find("munich") != std::string::npos) {
         context.regions.push_back("munich");
     }
-    
+
     // Detect domains (example patterns)
     if (query_lower.find("baurecht") != std::string::npos || query_lower.find("building") != std::string::npos) {
         context.domains.push_back("construction");
@@ -392,7 +375,7 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     if (query_lower.find("recht") != std::string::npos || query_lower.find("legal") != std::string::npos) {
         context.domains.push_back("law");
     }
-    
+
     return context;
 }
 

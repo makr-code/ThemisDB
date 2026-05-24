@@ -845,3 +845,4 @@ extern "C" {
         delete plugin;
     }
 }
+
