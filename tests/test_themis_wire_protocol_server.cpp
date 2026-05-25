@@ -208,6 +208,67 @@ static uint16_t reserve_loopback_port(boost::asio::io_context& ioc) {
     return acceptor.local_endpoint().port();
 }
 
+// Installs minimal non-throwing wire callbacks so start() passes fail-closed
+// callback validation in lifecycle tests.
+struct ScopedWireStartCallbacks {
+    ScopedWireStartCallbacks() {
+        setWireAqlExecFn([](const std::string&, const std::string&) {
+            return std::string{"{\"results\":[],\"has_more\":false}"};
+        });
+        setWireCursorNextFn([](const std::string&) {
+            return std::string{"{\"results\":[],\"has_more\":false}"};
+        });
+        setWireCursorCloseFn([](const std::string&) {
+            return true;
+        });
+        setWireGeoQueryFn([](const std::string&, double, double, double, int) {
+            return std::string{"[]"};
+        });
+        setWireTSQueryFn([](const std::string&, int64_t, int64_t) {
+            return std::string{"[]"};
+        });
+        setWireGraphTraversalFn([](const std::string&, const std::string&, int) {
+            return std::string{"[]"};
+        });
+
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+        // WireProtocolServer::start() now enforces protobuf callback presence.
+        WireProtocolSession::setQueryAqlFn(
+            [](const std::string&) -> std::vector<std::string> {
+                return {};
+            });
+        WireProtocolSession::setGeoQueryFn(
+            [](const v1::GeoQueryRequest&) -> v1::GeoQueryResponse {
+                return {};
+            });
+        WireProtocolSession::setTimeseriesQueryFn(
+            [](const v1::TimeSeriesQueryRequest&) -> v1::TimeSeriesQueryResponse {
+                return {};
+            });
+        WireProtocolSession::setGraphTraverseFn(
+            [](std::string_view) -> std::string {
+                return {};
+            });
+#endif
+    }
+
+    ~ScopedWireStartCallbacks() {
+        setWireAqlExecFn({});
+        setWireCursorNextFn({});
+        setWireCursorCloseFn({});
+        setWireGeoQueryFn({});
+        setWireTSQueryFn({});
+        setWireGraphTraversalFn({});
+
+    #if THEMIS_WIRE_V1_PB_HEADER_FOUND
+        WireProtocolSession::setQueryAqlFn({});
+        WireProtocolSession::setGeoQueryFn({});
+        WireProtocolSession::setTimeseriesQueryFn({});
+        WireProtocolSession::setGraphTraverseFn({});
+    #endif
+    }
+};
+
 } // anonymous namespace
 
 // ===========================================================================
@@ -381,6 +442,7 @@ TEST(WireProtocolServer, InitialStatistics) {
 
 TEST(WireProtocolServer, StartStop) {
     boost::asio::io_context ioc;
+    ScopedWireStartCallbacks callbacks;
     WireProtocolServer server(ioc, 0);
 
     // start() must not throw; stop() must be safe to call after start().
@@ -400,6 +462,7 @@ TEST(WireProtocolServer, StopBeforeStart) {
 TEST(WireProtocolServer, DoubleStart) {
     // start() called twice must be safe (idempotent).
     boost::asio::io_context ioc;
+    ScopedWireStartCallbacks callbacks;
     WireProtocolServer server(ioc, 0);
     EXPECT_NO_THROW({
         server.start();
@@ -413,6 +476,7 @@ TEST(WireProtocolServer, Sessions_Pruned_After_Disconnect) {
     constexpr int kConnectionCount = 100;
 
     boost::asio::io_context server_ioc;
+    ScopedWireStartCallbacks callbacks;
     const uint16_t port = reserve_loopback_port(server_ioc);
     WireProtocolServer server(server_ioc, port);
 
