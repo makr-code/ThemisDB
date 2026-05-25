@@ -1044,29 +1044,20 @@ void DistributedTransactionManager::batchFlushLoop() {
         THEMIS_DEBUG("DistributedTransactionManager [{}] batch-flush: {} transactions",
                      coordinator_id_, batch.size());
 
-        // Launch Phase 1 for every queued transaction in parallel.
-        // Each Phase-1 internally dispatches participant calls to the thread
-        // pool, so this outer layer of parallelism batches across transactions.
-        std::vector<std::future<bool>> phase1_futures;
-        phase1_futures.reserve(batch.size());
-
+        // Execute Phase-1 directly in the flush thread.
+        // runPhase1Unlocked() already parallelizes participant calls via the
+        // worker pool (or std::async in legacy mode). Submitting the whole
+        // Phase-1 call into the same worker pool can deadlock under load when
+        // workers block while waiting on nested pool tasks.
         for (auto& entry : batch) {
-            const TransactionId tid = entry.txn_id;
-            phase1_futures.push_back(submitTask([this, tid]() -> bool {
-                return runPhase1Unlocked(tid);
-            }));
-        }
-
-        // Deliver results back to the waiting callers.
-        for (size_t i = 0; i < batch.size(); ++i) {
             bool result = false;
             try {
-                result = phase1_futures[i].get();
+                result = runPhase1Unlocked(entry.txn_id);
             } catch (...) {
                 result = false;
             }
             try {
-                batch[i].result.set_value(result);
+                entry.result.set_value(result);
             } catch (...) {}
         }
     }
