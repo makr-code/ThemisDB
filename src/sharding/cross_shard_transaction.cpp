@@ -32,6 +32,7 @@
 #include <fstream>
 #include <thread>
 #include <chrono>
+#include <filesystem>
 
 namespace themisdb {
 namespace sharding {
@@ -55,7 +56,8 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     // CST-4 fix: Reject startup if transaction_log_path_ is not an absolute
     // path.  A /tmp fallback could silently lose transaction logs after a
     // reboot and mask misconfiguration in production.
-    if (transaction_log_path_.empty() || transaction_log_path_[0] != '/') {
+    if (transaction_log_path_.empty() ||
+        !std::filesystem::path(transaction_log_path_).is_absolute()) {
         const std::string msg =
             "CrossShardTransactionCoordinator: transaction_log_path is not "
             "configured with an absolute path (got: '" + transaction_log_path_ +
@@ -219,41 +221,43 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     TransactionProtocol protocol,
     IsolationLevel isolation_level
 ) {
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
-    
-    // Check if transaction already exists
-    if (transactions_.find(transaction_id) != transactions_.end()) {
-        spdlog::warn("Transaction {} already exists", transaction_id);
-        return false;
+    {
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+
+        // Check if transaction already exists
+        if (transactions_.find(transaction_id) != transactions_.end()) {
+            spdlog::warn("Transaction {} already exists", transaction_id);
+            return false;
+        }
+
+        // Create new transaction
+        CrossShardTransaction txn;
+        txn.transaction_id = transaction_id;
+        txn.protocol = protocol;
+        txn.isolation_level = isolation_level;
+        txn.state = TransactionState::ACTIVE;
+        txn.start_time = std::chrono::system_clock::now();
+
+        // Assign snapshot timestamp for MVCC isolation
+        // For snapshot isolation, use TrueTime to get a globally consistent timestamp
+        if (truetime_ && (isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
+                          isolation_level == IsolationLevel::SERIALIZABLE)) {
+            auto tt_now = truetime_->now();
+            // Use the latest bound to ensure we read the most recent committed data
+            txn.snapshot_timestamp = tt_now.latest.count();
+
+            spdlog::info("Transaction {} assigned snapshot timestamp {} (MVCC enabled)",
+                        transaction_id, txn.snapshot_timestamp);
+        } else {
+            // For other isolation levels, use system time
+            txn.snapshot_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                std::chrono::system_clock::now().time_since_epoch()
+            ).count();
+        }
+
+        transactions_[transaction_id] = txn;
+        total_transactions_++;
     }
-    
-    // Create new transaction
-    CrossShardTransaction txn;
-    txn.transaction_id = transaction_id;
-    txn.protocol = protocol;
-    txn.isolation_level = isolation_level;
-    txn.state = TransactionState::ACTIVE;
-    txn.start_time = std::chrono::system_clock::now();
-    
-    // Assign snapshot timestamp for MVCC isolation
-    // For snapshot isolation, use TrueTime to get a globally consistent timestamp
-    if (truetime_ && (isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||
-                      isolation_level == IsolationLevel::SERIALIZABLE)) {
-        auto tt_now = truetime_->now();
-        // Use the latest bound to ensure we read the most recent committed data
-        txn.snapshot_timestamp = tt_now.latest.count();
-        
-        spdlog::info("Transaction {} assigned snapshot timestamp {} (MVCC enabled)", 
-                    transaction_id, txn.snapshot_timestamp);
-    } else {
-        // For other isolation levels, use system time
-        txn.snapshot_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count();
-    }
-    
-    transactions_[transaction_id] = txn;
-    total_transactions_++;
     
     // Phase 2.3.3: Log to WAL if enabled
     if (transaction_wal_) {
@@ -509,6 +513,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     auto txn = it->second;
     txn.state = TransactionState::ABORTING;
     it->second.state = TransactionState::ABORTING;
+    lock.unlock();
     persistTransactionState(transaction_id, TransactionState::ABORTING);
     
     // Phase 2.3.4: Log ABORT decision to WAL
@@ -520,8 +525,6 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
             spdlog::warn("Failed to log ABORT to WAL: {}", e.what());
         }
     }
-    
-    lock.unlock();
     
     // Send abort requests to all participants using the local copy.
     for (auto& [shard_id, participant] : txn.participants) {
@@ -540,23 +543,25 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     }
     
     lock.lock();
+    bool should_persist_aborted = false;
     // Re-look-up after re-acquiring the lock so we update the live entry, not the copy.
     auto it2 = transactions_.find(transaction_id);
     if (it2 != transactions_.end()) {
         it2->second.state = TransactionState::ABORTED;
         it2->second.end_time = std::chrono::system_clock::now();
         aborted_transactions_++;
+        should_persist_aborted = true;
+    }
+    lock.unlock();
+
+    if (should_persist_aborted) {
         persistTransactionState(transaction_id, TransactionState::ABORTED);
     }
     
     // Phase 2.3.4: Check if snapshot needed
     if (transaction_wal_ && transaction_wal_->shouldCreateSnapshot(operations_since_snapshot_.load())) {
-        lock.unlock();
         createPeriodicSnapshot();
-        lock.lock();
     }
-    
-    lock.unlock();
     
     // Replicate abort state via consensus
     if (consensus_) {

@@ -58,11 +58,17 @@ static std::shared_ptr<HardwareMigrationManager> makeManager(
     return std::make_shared<HardwareMigrationManager>(cfg, topo, ring);
 }
 
+static AdminAPI makeAdminApiForTests() {
+    AdminAPI::Config cfg{};
+    cfg.require_signatures = false;
+    return AdminAPI(cfg);
+}
+
 // ============================================================================
 // SHP5-01: migrate-hardware returns 501 when no manager is attached
 // ============================================================================
 TEST(ShardingPhase5, SHP501_MigrateHardwareNoManager) {
-    AdminAPI api(AdminAPI::Config{});
+    auto api = makeAdminApiForTests();
     auto resp = api.handleRequest("POST",
         "/api/v1/shards/shard-1/migrate-hardware",
         {{"new_endpoint", "10.0.0.2:9090"}},
@@ -80,7 +86,7 @@ TEST(ShardingPhase5, SHP502_MigrateHardwareMissingEndpoint) {
     auto topo = makeTopologyWithShard("shard-1", "10.0.0.1:9090");
     ring->addShard("shard-1");
 
-    AdminAPI api(AdminAPI::Config{});
+    auto api = makeAdminApiForTests();
     api.setMigrationManager(makeManager(topo, ring));
 
     auto resp = api.handleRequest("POST",
@@ -100,7 +106,7 @@ TEST(ShardingPhase5, SHP503_MigrateHardwareSuccess) {
     auto topo = makeTopologyWithShard("shard-1", "10.0.0.1:9090");
     ring->addShard("shard-1");
 
-    AdminAPI api(AdminAPI::Config{});
+    auto api = makeAdminApiForTests();
     api.setMigrationManager(makeManager(topo, ring));
 
     auto resp = api.handleRequest("POST",
@@ -122,7 +128,7 @@ TEST(ShardingPhase5, SHP504_MigrateHardwareCustomHandler) {
     auto ring = makeRing();
     auto topo = makeTopologyWithShard("shard-1", "10.0.0.1:9090");
 
-    AdminAPI api(AdminAPI::Config{});
+    auto api = makeAdminApiForTests();
     api.setMigrationManager(makeManager(topo, ring));
     api.registerMigrateHardwareHandler([](const nlohmann::json& body) {
         return nlohmann::json{

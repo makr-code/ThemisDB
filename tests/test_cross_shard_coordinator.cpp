@@ -25,6 +25,7 @@
 #include "sharding/orphan_detector.h"
 #include "sharding/shard_rpc_client.h"
 #include <atomic>
+#include <filesystem>
 #include <memory>
 #include <thread>
 #include <chrono>
@@ -36,6 +37,15 @@
 #endif
 
 using namespace themisdb::sharding;
+
+namespace {
+
+std::string makeTempTxnLogPath(const std::string& prefix) {
+    return (std::filesystem::temp_directory_path() /
+            (prefix + std::to_string(::getpid()) + ".jsonl")).string();
+}
+
+}  // namespace
 
 // ============================================================================
 // DISABLED: MockConsensusModule Test Infrastructure
@@ -156,8 +166,7 @@ protected:
     void SetUp() override {
         auto consensus = std::make_shared<MockConsensusModule>();
         CrossShardTransactionConfig config;
-        config.transaction_log_path =
-            std::string("/tmp/themisdb_cscoord_") + std::to_string(::getpid()) + ".jsonl";
+        config.transaction_log_path = makeTempTxnLogPath("themisdb_cscoord_");
         coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
         coordinator_->initialize();
         coordinator_->start();
@@ -191,8 +200,7 @@ protected:
 #endif
         auto consensus = std::make_shared<MockConsensusModule>();
         CrossShardTransactionConfig config;
-        config.transaction_log_path =
-            std::string("/tmp/themisdb_calvin_") + std::to_string(::getpid()) + ".jsonl";
+        config.transaction_log_path = makeTempTxnLogPath("themisdb_calvin_");
         config.calvin_epoch_duration = std::chrono::milliseconds(10);
         config.calvin_enable_deterministic_lock_order = true;
         coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
@@ -345,8 +353,7 @@ protected:
 #endif
         auto consensus = std::make_shared<MockConsensusModule>();
         CrossShardTransactionConfig config;
-        config.transaction_log_path =
-            std::string("/tmp/themisdb_percolator_") + std::to_string(::getpid()) + ".jsonl";
+        config.transaction_log_path = makeTempTxnLogPath("themisdb_percolator_");
         config.default_protocol = TransactionProtocol::PERCOLATOR;
         coordinator_ = std::make_shared<CrossShardTransactionCoordinator>(config, consensus);
         coordinator_->initialize();
@@ -528,8 +535,7 @@ protected:
     void SetUp() override {
         auto consensus = std::make_shared<MockConsensusModule>();
         CrossShardTransactionConfig config;
-        config.transaction_log_path =
-            std::string("/tmp/themisdb_coord_id_") + std::to_string(::getpid()) + ".jsonl";
+        config.transaction_log_path = makeTempTxnLogPath("themisdb_coord_id_");
         config.coordinator_id = "node-42";
         coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
         coordinator_->initialize();
@@ -576,8 +582,7 @@ TEST(CoordinatorIdConfigTest, EmptyCoordinatorIdNoCrash) {
 #endif
     auto consensus = std::make_shared<MockConsensusModule>();
     CrossShardTransactionConfig cfg;
-    cfg.transaction_log_path =
-        std::string("/tmp/themisdb_coord_empty_") + std::to_string(::getpid()) + ".jsonl";
+    cfg.transaction_log_path = makeTempTxnLogPath("themisdb_coord_empty_");
     // coordinator_id intentionally left empty
     CrossShardTransactionCoordinator coordinator(cfg, consensus);
     ASSERT_TRUE(coordinator.initialize());

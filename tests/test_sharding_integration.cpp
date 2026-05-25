@@ -47,7 +47,7 @@ protected:
     void SetUp() override {
         // Create topology
         ShardTopology::Config topology_config;
-        topology_config.metadata_endpoint = "http://localhost:2379";
+        topology_config.metadata_endpoint = "";
         topology_config.cluster_name = "integration-test";
         topology_config.enable_health_checks = false;
         topology_ = std::make_shared<ShardTopology>(topology_config);

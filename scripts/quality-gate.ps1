@@ -151,15 +151,22 @@ function Invoke-External {
     Write-Info "Command: $display"
     $nativeErrorVar = Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue
     $previousNativeErrorMode = $null
+    $previousErrorActionPreference = $ErrorActionPreference
     if ($nativeErrorVar) {
         $previousNativeErrorMode = $PSNativeCommandUseErrorActionPreference
         $PSNativeCommandUseErrorActionPreference = $false
     }
 
+    # Windows PowerShell can treat native stderr lines as terminating errors when
+    # ErrorActionPreference is Stop. Keep stderr in the captured output and rely on
+    # LASTEXITCODE for pass/fail.
+    $ErrorActionPreference = 'Continue'
+
     try {
         $output = & $Command @Arguments 2>&1
     }
     finally {
+        $ErrorActionPreference = $previousErrorActionPreference
         if ($nativeErrorVar) {
             $PSNativeCommandUseErrorActionPreference = $previousNativeErrorMode
         }

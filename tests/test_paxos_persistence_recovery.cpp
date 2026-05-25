@@ -370,10 +370,10 @@ TEST_F(PaxosPersistenceRecoveryTest, PSR10_AcceptWalCarriesStructuredPayload) {
     ASSERT_TRUE(accept_it->data.contains("value"));
     ASSERT_TRUE(accept_it->data["value"].contains("data"));
     const auto& value_data = accept_it->data["value"]["data"];
-    ASSERT_TRUE(value_data.contains("raw_value"));
-    EXPECT_EQ(value_data["raw_value"], accepted_value);
-    EXPECT_EQ(value_data["accepted_round"], 12);
-    EXPECT_EQ(value_data["slot"], 55);
+    ASSERT_TRUE(value_data.contains("raw_command"));
+    EXPECT_EQ(value_data["raw_command"], accepted_value);
+    ASSERT_TRUE(value_data.contains("parsed_command"));
+    EXPECT_EQ(value_data["parsed_command"]["operation"], "UPSERT");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

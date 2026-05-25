@@ -213,6 +213,9 @@ DistributedTransactionManager::prepareDistributed(const TransactionId& txn_id) {
     if (all_voted_commit) {
         txn->state = DistributedTxnState::PREPARED;
         logToWAL(themis::sharding::WALEntryType::PREPARE_TX, txn_id);
+        if (wal_) {
+            wal_->flush();
+        }
         THEMIS_DEBUG("DistributedTransactionManager [{}] txn={} PREPARED", coordinator_id_, txn_id);
         return DistributedTxnStatus::OK();
     } else {
@@ -382,9 +385,39 @@ DistributedTxnStatus DistributedTransactionManager::applyAbort(const Transaction
 
 size_t DistributedTransactionManager::recoverInDoubtTransactions() {
     if (!wal_) {
-        THEMIS_DEBUG("DistributedTransactionManager [{}] recoverInDoubtTransactions: WAL disabled",
+        THEMIS_DEBUG("DistributedTransactionManager [{}] recoverInDoubtTransactions: WAL disabled; "
+                     "recovering in-memory in-doubt transactions only",
                      coordinator_id_);
-        return 0;
+
+        struct PendingAbort {
+            TransactionId txn_id;
+            std::vector<Participant> participants;
+        };
+
+        std::vector<PendingAbort> pending;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            for (auto& [tid, txn] : transactions_) {
+                if (txn.state != DistributedTxnState::PREPARING &&
+                    txn.state != DistributedTxnState::PREPARED) {
+                    continue;
+                }
+                txn.state = DistributedTxnState::ABORTING;
+                pending.push_back(PendingAbort{tid, txn.participants});
+            }
+        }
+
+        for (const auto& item : pending) {
+            runPhase2Unlocked(item.txn_id, item.participants, /*do_commit=*/false);
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (auto* txn = findTransaction(item.txn_id)) {
+                txn->state = DistributedTxnState::ABORTED;
+            }
+            ++stat_recovered_;
+            ++stat_aborted_;
+        }
+
+        return pending.size();
     }
 
     THEMIS_INFO("DistributedTransactionManager [{}] starting in-doubt recovery", coordinator_id_);
@@ -674,6 +707,22 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
 
     for (const auto& part : parts) {
         if (!part.callback) {
+            const bool has_remote_phase2_bridge =
+                static_cast<bool>(config_.phase2_rpc_fn) ||
+                static_cast<bool>(config_.remote_phase2_dispatch) ||
+                static_cast<bool>(getRpcPhase2Fn());
+
+            if (has_remote_phase2_bridge) {
+                // #279 compatibility: callback-less remote participants can be
+                // resolved in Phase-2 via dispatcher, so they do not cast a
+                // blocking Phase-1 vote.
+                const std::string nid = part.node_id;
+                futures.push_back(submitTask([nid]() -> VoteResult {
+                    return {nid, /*voted=*/false, /*can_commit=*/true};
+                }));
+                continue;
+            }
+
             // DTM-1 fix: Remote participant without a registered callback cannot
             // be contacted for a PREPARE vote.  Treat as ABORT vote (safe
             // conservative choice) rather than unconditionally granting COMMIT.
@@ -707,6 +756,7 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
 
     // Collect votes with deadline.
     bool all_commit = true;
+    size_t definitive_votes = 0;
     std::string abort_reason;
 
     for (auto& fut : futures) {
@@ -728,16 +778,25 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
         {
             std::lock_guard<std::mutex> lock(mutex_);
             auto* txn = findTransaction(txn_id);
-            if (txn) {
+            if (txn && result.voted) {
                 txn->votes[result.node_id] = result.can_commit;
             }
         }
         vote_cv_.notify_all();
 
-        if (!result.can_commit) {
+        if (result.voted) {
+            ++definitive_votes;
+        }
+
+        if (result.voted && !result.can_commit) {
             all_commit   = false;
             abort_reason = "Participant " + result.node_id + " voted ABORT";
         }
+    }
+
+    if (all_commit && definitive_votes == 0) {
+        all_commit = false;
+        abort_reason = "No participant returned a definitive PREPARE vote";
     }
 
     if (!all_commit) {
@@ -768,17 +827,24 @@ void DistributedTransactionManager::runPhase2Unlocked(
 
     for (const auto& part : parts) {
         if (!part.callback) {
-            // Remote participant: deliver Phase-2 decision via the injected RPC
-            // bridge when an endpoint is known.  Without the bridge the
-            // coordinator's WAL already records the decision, so
-            // recoverInDoubtTransactions() can re-drive delivery after restart.
-            if (!part.endpoint.empty() && config_.phase2_rpc_fn) {
-                const std::string ep  = part.endpoint;
-                const std::string nid = part.node_id;
-                const std::string tid = txn_id;
-                const std::string cid = coordinator_id_;
-                const bool        dc  = do_commit;
-                auto& rpc_fn = *config_.phase2_rpc_fn;
+            // Remote participant: deliver Phase-2 decision via one of the configured
+            // bridges (new Phase2RpcFn, legacy static RpcPhase2Fn, or
+            // remote_phase2_dispatch).
+            const std::string ep  = part.endpoint;
+            const std::string nid = part.node_id;
+            const std::string tid = txn_id;
+            const std::string cid = coordinator_id_;
+            const bool        dc  = do_commit;
+
+            if (ep.empty()) {
+                THEMIS_WARN("DistributedTransactionManager [{}] skipping Phase-2 {} for remote "
+                            "participant node={} — empty endpoint",
+                            coordinator_id_, do_commit ? "COMMIT" : "ABORT", part.node_id);
+                continue;
+            }
+
+            if (config_.phase2_rpc_fn) {
+                auto rpc_fn = *config_.phase2_rpc_fn;
                 futures.push_back(submitTask([rpc_fn, ep, nid, tid, cid, dc]() {
                     try {
                         rpc_fn(ep, tid, dc);
@@ -787,12 +853,41 @@ void DistributedTransactionManager::runPhase2Unlocked(
                                      dc ? "COMMIT" : "ABORT", nid, tid, cid, ex.what());
                     }
                 }));
-            } else {
-                THEMIS_WARN("DistributedTransactionManager [{}] skipping Phase-2 {} for remote "
-                            "participant node={} endpoint='{}' — no Phase2RpcFn injected",
-                            coordinator_id_, do_commit ? "COMMIT" : "ABORT",
-                            part.node_id, part.endpoint);
+                continue;
             }
+
+            if (config_.remote_phase2_dispatch) {
+                auto remote_dispatch = config_.remote_phase2_dispatch;
+                futures.push_back(submitTask([remote_dispatch, ep, nid, tid, cid, dc]() {
+                    try {
+                        const bool delivered = remote_dispatch(tid, nid, ep, dc);
+                        if (!delivered) {
+                            THEMIS_WARN("2PC remote_phase2_dispatch {} returned false for node={} txn={} coordinator={}",
+                                        dc ? "COMMIT" : "ABORT", nid, tid, cid);
+                        }
+                    } catch (const std::exception& ex) {
+                        THEMIS_ERROR("2PC remote_phase2_dispatch {} threw for node={} txn={} coordinator={}: {}",
+                                     dc ? "COMMIT" : "ABORT", nid, tid, cid, ex.what());
+                    }
+                }));
+                continue;
+            }
+
+            if (auto legacy_rpc_fn = getRpcPhase2Fn()) {
+                futures.push_back(submitTask([legacy_rpc_fn, ep, nid, tid, cid, dc]() {
+                    try {
+                        legacy_rpc_fn(ep, tid, dc);
+                    } catch (const std::exception& ex) {
+                        THEMIS_ERROR("2PC legacy Phase-2 RPC {} threw for node={} txn={} coordinator={}: {}",
+                                     dc ? "COMMIT" : "ABORT", nid, tid, cid, ex.what());
+                    }
+                }));
+                continue;
+            }
+
+            THEMIS_WARN("DistributedTransactionManager [{}] skipping Phase-2 {} for remote "
+                        "participant node={} endpoint='{}' — no remote dispatcher configured",
+                        coordinator_id_, do_commit ? "COMMIT" : "ABORT", part.node_id, part.endpoint);
             continue;
         }
         IDistributedParticipantCallback* cb  = part.callback;

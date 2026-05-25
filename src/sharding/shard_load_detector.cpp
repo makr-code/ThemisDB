@@ -400,6 +400,10 @@ void ShardLoadDetector::recordRebalanceTriggered() {
 }
 
 bool ShardLoadDetector::isInCooldown() const {
+    if (last_rebalance_time_ == std::chrono::system_clock::time_point::min()) {
+        return false;
+    }
+
     auto now = std::chrono::system_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         now - last_rebalance_time_
