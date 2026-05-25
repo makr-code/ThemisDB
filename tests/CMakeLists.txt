@@ -2585,7 +2585,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     get_filename_component(_GRAPH_DISTRIBUTED_RUNTIME_DIR "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}" ABSOLUTE)
     file(MAKE_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}")
 
-    add_executable(test_graph_distributed EXCLUDE_FROM_ALL
+    add_executable(test_graph_distributed
         test_graph_distributed.cpp
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
@@ -2633,7 +2633,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
     )
 
     # Focused target for the shared_mutex upgrade concurrency stress test.
-    add_executable(test_graph_distributed_shared_mutex_focused EXCLUDE_FROM_ALL
+    add_executable(test_graph_distributed_shared_mutex_focused
         test_graph_distributed.cpp
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp

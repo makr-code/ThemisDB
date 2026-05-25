@@ -29,6 +29,7 @@
 #include <algorithm>
 #include <functional>
 #include <cctype>
+#include <filesystem>
 
 // ---------------------------------------------------------------------------
 // Minimal re-implementation of relevant types (mirrors importer_interface.h)
@@ -975,16 +976,26 @@ TEST(SQLiteValidateSourceFile, ValidDumpFile) {
 static const char* kFixturePath =
     "tests/fixtures/importers/sample_sqlite3.sql";
 
-/// Fallback absolute path (used when CWD is the build directory).
-static const char* kFixtureAbsPath =
-    "/home/runner/work/ThemisDB/ThemisDB/tests/fixtures/importers/sample_sqlite3.sql";
-
 static std::string getFixturePath() {
     {
         std::ifstream f(kFixturePath);
         if (f.is_open()) return kFixturePath;
     }
-    return kFixtureAbsPath;
+
+    // Fallback: resolve relative to this test source file location.
+    const auto source_based =
+        (std::filesystem::path(__FILE__).parent_path() /
+         "fixtures/importers/sample_sqlite3.sql").lexically_normal();
+    {
+        std::ifstream f(source_based.string());
+        if (f.is_open()) return source_based.string();
+    }
+
+    // Last fallback for out-of-tree execution from build folders.
+    const auto cwd_based =
+        (std::filesystem::current_path() /
+         "../tests/fixtures/importers/sample_sqlite3.sql").lexically_normal();
+    return cwd_based.string();
 }
 
 TEST(SQLiteFixture, FileExists) {

@@ -300,7 +300,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetStats(
 ) {
     auto span = Tracer::startSpan("handleGetStats");
     try {
-        nlohmann::json stats;
+        nlohmann::json stats = nlohmann::json::object();
 
         // Integration stats
         if (integration_) {

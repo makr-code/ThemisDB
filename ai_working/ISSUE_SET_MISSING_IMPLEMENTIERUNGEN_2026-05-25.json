@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-05-25",
+  "source": [
+    "ai_working/SPRINT_BACKLOG_MISSING_IMPLEMENTIERUNGEN_2026-05-25.md",
+    "ai_working/TODO_MISSING_IMPLEMENTIERUNGEN_2026-05-25.md"
+  ],
+  "issues": [
+    {
+      "id": "ISSUE-01",
+      "title": "[DTX] 2PC Phase-2 fuer Remote-Teilnehmer fail-closed verdrahten",
+      "labels": ["area:transaction", "priority:P0", "type:implementation", "risk:consistency"],
+      "milestone": "v2.0.0"
+    },
+    {
+      "id": "ISSUE-02",
+      "title": "[Wire/Protobuf] AQL/Cursor/Geo/TS/Graph produktiv anbinden statt 501/503",
+      "labels": ["area:themis", "area:network", "priority:P0", "type:implementation", "risk:api-parity"],
+      "milestone": "v2.0.0"
+    },
+    {
+      "id": "ISSUE-03",
+      "title": "[Wire/JSON] Graph/AQL/Geo auf Startup-validierte Pflichtabhaengigkeiten umstellen",
+      "labels": ["area:network", "priority:P0", "type:implementation", "risk:api-parity"],
+      "milestone": "v2.0.0"
+    },
+    {
+      "id": "ISSUE-04",
+      "title": "[Backup/Cloud] S3/Azure/GCS Provider von Placeholder auf Produktionspfade umstellen",
+      "labels": ["area:sharding", "area:storage", "priority:P1", "type:implementation", "risk:data-protection"],
+      "milestone": "v2.3.0"
+    },
+    {
+      "id": "ISSUE-05",
+      "title": "[PITR] WAL-Replay als verpflichtenden Standardpfad integrieren",
+      "labels": ["area:storage", "priority:P1", "type:implementation", "risk:data-correctness"],
+      "milestone": "v2.1.0"
+    },
+    {
+      "id": "ISSUE-06",
+      "title": "[LLM/Distributed] AllReduce/Broadcast bei world_size>1 verpflichtend verdrahten",
+      "labels": ["area:llm", "priority:P1", "type:implementation", "risk:training-correctness"],
+      "milestone": "v2.2.0"
+    },
+    {
+      "id": "ISSUE-07",
+      "title": "[Sharding Transport] LZ4-Kompressionspfad vollstaendig implementieren",
+      "labels": ["area:sharding", "priority:P2", "type:implementation", "risk:performance"],
+      "milestone": "v2.1.0"
+    },
+    {
+      "id": "ISSUE-08",
+      "title": "[Wire Bootstrapping] Zentrale Verdrahtung der Bridge-Setter mit Startvalidierung",
+      "labels": ["area:network", "area:themis", "priority:P2", "type:hardening", "risk:operability"],
+      "milestone": "v2.0.0"
+    }
+  ]
+}

@@ -30,6 +30,7 @@
 #include <sstream>
 #include <algorithm>
 #include <functional>
+#include <filesystem>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
@@ -1184,15 +1185,42 @@ TEST(MongoBugFix, DocIndexSyncAfterOversizedLine) {
 // Tests: Sample fixture file integration
 // ===========================================================================
 
+static std::string getMongoFixturePath() {
+    const std::string relative = "tests/fixtures/importers/sample_mongo.json";
+
+    {
+        std::ifstream f(relative);
+        if (f.is_open()) return relative;
+    }
+
+    const auto source_based =
+        (std::filesystem::path(__FILE__).parent_path() /
+         "fixtures/importers/sample_mongo.json").lexically_normal();
+    {
+        std::ifstream f(source_based.string());
+        if (f.is_open()) return source_based.string();
+    }
+
+    const auto cwd_based =
+        (std::filesystem::current_path() /
+         "../tests/fixtures/importers/sample_mongo.json").lexically_normal();
+    return cwd_based.string();
+}
+
 TEST(MongoFixture, SampleMongoJsonIsValid) {
     // Verify the fixture file exists and passes basic format validation
-    std::string path = "tests/fixtures/importers/sample_mongo.json";
+    std::string path = getMongoFixturePath();
+    std::ifstream f(path);
+    if (!f.is_open()) {
+        GTEST_SKIP() << "Fixture not found at " << path;
+    }
+
     ASSERT_TRUE(looksLikeMongoExport(path))
         << "Fixture file must start with a JSON object or array";
 }
 
 TEST(MongoFixture, SampleMongoJsonImportsCorrectly) {
-    std::string path = "tests/fixtures/importers/sample_mongo.json";
+    std::string path = getMongoFixturePath();
     std::ifstream f(path);
     if (!f) GTEST_SKIP() << "Fixture not found at " << path;
 

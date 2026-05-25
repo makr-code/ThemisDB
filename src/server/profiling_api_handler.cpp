@@ -108,6 +108,9 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_queries(
     if (!get_query_param_int(std::string(req.target()), "limit", 100, limit)) {
         return make_error_response(http::status::bad_request, "invalid limit");
     }
+    if (limit < 0) {
+        return make_error_response(http::status::bad_request, "invalid limit");
+    }
     
     auto profiles = query_profiler_->get_all_profiles();
     
@@ -135,6 +138,9 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_slow_queries(
     
     int threshold_ms = 1000;
     if (!get_query_param_int(std::string(req.target()), "threshold_ms", 1000, threshold_ms)) {
+        return make_error_response(http::status::bad_request, "invalid threshold_ms");
+    }
+    if (threshold_ms < 0) {
         return make_error_response(http::status::bad_request, "invalid threshold_ms");
     }
     
@@ -366,16 +372,33 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
         return true;
     }
 
-    const std::string needle = param_name + "=";
-    auto pos = target.find(needle, query_pos + 1);
-    if (pos == std::string::npos) {
-        return true;
+    const std::string query = target.substr(query_pos + 1);
+    size_t pos = 0;
+    bool found = false;
+    std::string value_str;
+
+    while (pos <= query.size()) {
+        const size_t amp = query.find('&', pos);
+        const size_t token_end = (amp == std::string::npos) ? query.size() : amp;
+        if (token_end > pos) {
+            const std::string token = query.substr(pos, token_end - pos);
+            const size_t eq = token.find('=');
+            const std::string key = (eq == std::string::npos) ? token : token.substr(0, eq);
+            if (key == param_name) {
+                value_str = (eq == std::string::npos) ? "" : token.substr(eq + 1);
+                found = true;
+                break;
+            }
+        }
+        if (amp == std::string::npos) {
+            break;
+        }
+        pos = amp + 1;
     }
 
-    pos += needle.length();
-    size_t end = target.find('&', pos);
-    std::string value_str = (end == std::string::npos) ? 
-        target.substr(pos) : target.substr(pos, end - pos);
+    if (!found) {
+        return true;
+    }
 
     try {
         value = std::stoi(value_str);

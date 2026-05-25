@@ -38,8 +38,8 @@ public:
         for (char c : input) {
             switch (c) {
                 case '&':  output += "&amp;"; break;
-                case '<':  output += "<"; break;
-                case '>':  output += ">"; break;
+                case '<':  output += "&lt;"; break;
+                case '>':  output += "&gt;"; break;
                 case '"':  output += "&quot;"; break;
                 case '\'': output += "&#x27;"; break;
                 case '/':  output += "&#x2F;"; break;
