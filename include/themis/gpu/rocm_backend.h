@@ -142,8 +142,9 @@ public:
      * On systems without HIP records a virtual stream entry so that
      * `hasStream()` / `streamNames()` still work correctly.
      *
-     * @return ok == false when a stream with @p name already exists or when
-     *         `hipStreamCreate` fails.
+    * @return ok == false only when a stream with @p name already exists.
+    *         If HIP stream creation fails at runtime, a virtual stream entry
+    *         is registered so fallback execution remains available.
      */
     Result createStream(const std::string& name, int device_index = 0);
 

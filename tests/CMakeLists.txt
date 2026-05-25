@@ -20583,8 +20583,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_opencl_erasure_coder_parity.cpp"
             themis_core
             spdlog::spdlog
             Threads::Threads
-            ${OpenCL_LIBRARIES}
         )
+
+        if(TARGET OpenCL::OpenCL)
+            target_link_libraries(test_opencl_erasure_coder_parity_focused PRIVATE OpenCL::OpenCL)
+        elseif(OpenCL_LIBRARIES)
+            target_link_libraries(test_opencl_erasure_coder_parity_focused PRIVATE ${OpenCL_LIBRARIES})
+        elseif(WIN32)
+            target_link_libraries(test_opencl_erasure_coder_parity_focused PRIVATE OpenCL)
+        endif()
 
         target_compile_definitions(test_opencl_erasure_coder_parity_focused PRIVATE
             THEMIS_TEST_BUILD=1
@@ -22015,6 +22022,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_online_schema_migration.cpp")
     message(STATUS "Adding Storage: OnlineSchemaMigration focused tests")
     add_executable(test_online_schema_migration_focused
         test_online_schema_migration.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/online_schema_migration.cpp
     )
     target_include_directories(test_online_schema_migration_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -23212,7 +23220,7 @@ else()
 endif()
 
 # CUDA HNSW Large-k focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp" AND THEMIS_ENABLE_CUDA)
     message(STATUS "Adding CUDA HNSW Large-k focused tests (acceleration, Issue #132, v1.8.0)")
 
     add_executable(test_cuda_hnsw_large_k_focused
@@ -23241,7 +23249,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
         TIMEOUT 120
     )
 else()
-    message(STATUS "CUDA HNSW Large-k focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+        message(STATUS "CUDA HNSW Large-k focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
+    else()
+        message(STATUS "CUDA HNSW Large-k focused tests skipped (THEMIS_ENABLE_CUDA disabled)")
+    endif()
 endif()
 
 # Compute interfaces focused tests
@@ -23573,6 +23585,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_egov_data_driven.cpp")
 
         add_executable(test_egov_data_driven_focused
             test_egov_data_driven.cpp
+            ${THEMIS_ROOT_DIR}/src/analytics/llm_process_analyzer.cpp
         )
 
         target_include_directories(test_egov_data_driven_focused PRIVATE
@@ -25461,6 +25474,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp
         test_project_collaboration_concurrent.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/in_memory_project_audit_log.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/nvme_manager.cpp
     )
 
     target_include_directories(test_project_collaboration_concurrent PRIVATE
@@ -26475,6 +26490,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp
         test_project_collaboration_concurrent.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
         ${CMAKE_SOURCE_DIR}/src/projects/project_lifecycle.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/nvme_manager.cpp
     )
 
     target_include_directories(test_project_collaboration_concurrent_focused PRIVATE
@@ -27516,6 +27533,7 @@ endif()
 
 add_executable(test_wasm_runtime_injector
     ${THEMIS_ROOT_DIR}/tests/test_wasm_runtime_injector.cpp
+    ${THEMIS_ROOT_DIR}/src/plugins/wasm_plugin_loader.cpp
 )
 target_link_libraries(test_wasm_runtime_injector
     PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -28455,6 +28473,47 @@ macro(_tensor_focused_test _name)
         add_executable(${_name}_focused
             ${THEMIS_ROOT_DIR}/tests/${_name}.cpp
         )
+        if("${_name}" STREQUAL "test_gguf_metadata")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/storage/gguf_metadata.cpp
+            )
+        elseif("${_name}" STREQUAL "test_adalora_tt_bridge")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
+                ${THEMIS_ROOT_DIR}/src/training/adalora_tt_bridge.cpp
+                ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
+            )
+        elseif("${_name}" STREQUAL "test_tensor_hiss_structural_search")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/tensor/tnsr_task.cpp
+            )
+        elseif("${_name}" STREQUAL "test_tensor_utr")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/tensor/utr_converter.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/hyper_index_builder.cpp
+                ${THEMIS_ROOT_DIR}/src/storage/hierarchical_tucker_decomposer.cpp
+            )
+        elseif("${_name}" STREQUAL "test_tensor_ht")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/storage/hierarchical_tucker_decomposer.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/ht_index.cpp
+            )
+        elseif("${_name}" STREQUAL "test_tensor_recompress")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp
+            )
+        elseif("${_name}" STREQUAL "test_tensor_phase3")
+            target_sources(${_name}_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
+                ${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp
+                ${THEMIS_ROOT_DIR}/src/rag/flare_retrieval.cpp
+                ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_pipeline.cpp
+                ${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/tensor_butterfly_operator.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
+                ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
+            )
+        endif()
         target_link_libraries(${_name}_focused
             PRIVATE themis_core GTest::gtest GTest::gtest_main
         )

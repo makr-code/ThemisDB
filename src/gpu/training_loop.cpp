@@ -75,6 +75,9 @@ GPUTrainingLoop::EpochStats GPUTrainingLoop::run(const std::vector<Batch> &batch
         history_.push_back(rec);
 
         ++step_;
+        if (config_.max_steps > 0 && step_ >= config_.max_steps) {
+            stopped_ = true;
+        }
         ++local_steps;
         last_loss_ = loss;
         sum_loss += loss;

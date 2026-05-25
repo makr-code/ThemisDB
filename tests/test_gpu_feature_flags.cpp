@@ -44,12 +44,12 @@ TEST_F(FeatureFlagsTest, FeatureName_AllKnown) {
 }
 
 // ---------------------------------------------------------------------------
-// getAll() returns all 10 features
+// getAll() returns all registered features
 // ---------------------------------------------------------------------------
 
 TEST_F(FeatureFlagsTest, GetAll_Returns10Entries) {
     const auto all = GPUFeatureFlags::GetInstance().getAll();
-    EXPECT_EQ(10u, all.size());
+    EXPECT_EQ(14u, all.size());
 }
 
 TEST_F(FeatureFlagsTest, GetAll_NoneOverridden_Initially) {
@@ -192,7 +192,8 @@ TEST_F(FeatureFlagsTest, GetAll_ContainsCorrectNames) {
     const std::vector<std::string> expected = {
         "MEMORY_POOL", "ASYNC_LAUNCHER", "MULTI_GPU", "TENSOR_OPS",
         "POLICY_GATE", "AUDIT_LOG", "METRICS", "LOAD_BALANCER",
-        "KERNEL_VALIDATOR", "ALERTS"
+        "KERNEL_VALIDATOR", "ALERTS", "WASM_SANDBOX", "MIG_MANAGER",
+        "VULKAN_BACKEND", "PEER_TO_PEER"
     };
     auto all = GPUFeatureFlags::GetInstance().getAll();
     ASSERT_EQ(expected.size(), all.size());
