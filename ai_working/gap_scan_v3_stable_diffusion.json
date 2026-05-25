@@ -1,12 +1,12 @@
 {
   "stable_diffusion": {
-    "total": 250,
-    "severity_critical": 9,
+    "total": 242,
+    "severity_critical": 5,
     "severity_high": 178,
-    "severity_medium": 63,
+    "severity_medium": 59,
     "by_category": {
       "memory": 5,
-      "reliability": 11,
+      "reliability": 3,
       "raii": 2,
       "container": 13,
       "type_conversion": 43,
@@ -22,7 +22,7 @@
       "src\\stable_diffusion\\sd_plugin.cpp": [
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 93,
+          "line": 94,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto crc32_of = [&](const uint8_t* data, size_t len) -> uint32_t {",
@@ -31,7 +31,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 96,
+          "line": 97,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "crc = kCrcTable[(crc ^ data[i]) & 0xFFu] ^ (crc >> 8);",
@@ -40,7 +40,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 101,
+          "line": 102,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "auto adler32_of = [](const uint8_t* data, size_t len) -> uint32_t {",
@@ -49,7 +49,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 104,
+          "line": 105,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "s1 = (s1 + data[i]) % 65521u;",
@@ -58,7 +58,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 387,
+          "line": 388,
           "type": "delete_no_nullptr",
           "severity": "HIGH",
           "snippet": "delete p;",
@@ -67,16 +67,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 48,
+          "line": 49,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -85,34 +76,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 277,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(generate_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 286,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(generate_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 299,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(generate_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 382,
+          "line": 383,
           "type": "smart_ptr_misuse",
           "severity": "CRITICAL",
           "snippet": "return new themis::imggen::SDPlugin();",
@@ -121,7 +85,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 387,
+          "line": 388,
           "type": "manual_cleanup",
           "severity": "MEDIUM",
           "snippet": "delete p;",
@@ -130,7 +94,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 112,
+          "line": 113,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x >> 24));",
@@ -139,7 +103,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 113,
+          "line": 114,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x >> 16));",
@@ -148,7 +112,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 114,
+          "line": 115,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x >>  8));",
@@ -157,7 +121,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 115,
+          "line": 116,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x      ));",
@@ -166,7 +130,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 118,
+          "line": 119,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x     ));",
@@ -175,7 +139,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 119,
+          "line": 120,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "v.push_back(static_cast<uint8_t>(x >> 8));",
@@ -184,7 +148,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 156,
+          "line": 157,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idat_payload.push_back(0x78u);",
@@ -193,7 +157,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 157,
+          "line": 158,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "idat_payload.push_back(0x01u);",
@@ -202,7 +166,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 290,
+          "line": 291,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "results.push_back(generateLocked(p, cfg));",
@@ -213,7 +177,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 73,
+          "line_number": 74,
           "line_content": "oss << std::hex << std::setfill('0') << std::setw(16) << hash;",
           "context": [
             "    }",
@@ -231,7 +195,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 87,
+          "line_number": 88,
           "line_content": "c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);",
           "context": [
             "            uint32_t c = n;",
@@ -249,7 +213,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 96,
+          "line_number": 97,
           "line_content": "crc = kCrcTable[(crc ^ data[i]) & 0xFFu] ^ (crc >> 8);",
           "context": [
             "        uint32_t crc = 0xFFFFFFFFu;",
@@ -267,7 +231,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 104,
+          "line_number": 105,
           "line_content": "s1 = (s1 + data[i]) % 65521u;",
           "context": [
             "        uint32_t s1 = 1u, s2 = 0u;",
@@ -285,7 +249,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 105,
+          "line_number": 106,
           "line_content": "s2 = (s2 + s1)      % 65521u;",
           "context": [
             "        for (size_t i = 0; i < len; ++i) {",
@@ -303,7 +267,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 107,
+          "line_number": 108,
           "line_content": "return (s2 << 16) | s1;",
           "context": [
             "            s2 = (s2 + s1)      % 65521u;",
@@ -321,7 +285,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 112,
+          "line_number": 113,
           "line_content": "v.push_back(static_cast<uint8_t>(x >> 24));",
           "context": [
             "    // \u2500\u2500 Write helpers \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
@@ -339,7 +303,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 113,
+          "line_number": 114,
           "line_content": "v.push_back(static_cast<uint8_t>(x >> 16));",
           "context": [
             "    auto put_be32 = [](std::vector<uint8_t>& v, uint32_t x) {",
@@ -357,7 +321,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 114,
+          "line_number": 115,
           "line_content": "v.push_back(static_cast<uint8_t>(x >>  8));",
           "context": [
             "        v.push_back(static_cast<uint8_t>(x >> 24));",
@@ -375,7 +339,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 119,
+          "line_number": 120,
           "line_content": "v.push_back(static_cast<uint8_t>(x >> 8));",
           "context": [
             "    auto put_le16 = [](std::vector<uint8_t>& v, uint16_t x) {",
@@ -393,7 +357,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 143,
+          "line_number": 144,
           "line_content": "const size_t src_off = y * row_bytes;",
           "context": [
             "    for (size_t y = 0; y < num_rows; ++y) {",
@@ -411,7 +375,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 189,
+          "line_number": 190,
           "line_content": "ihdr[0]  = static_cast<uint8_t>(width  >> 24); ihdr[1]  = static_cast<uint8_t>(width  >> 16);",
           "context": [
             "    //       + compression(1) + filter(1) + interlace(1) = 13 bytes",
@@ -429,7 +393,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 190,
+          "line_number": 191,
           "line_content": "ihdr[2]  = static_cast<uint8_t>(width  >>  8); ihdr[3]  = static_cast<uint8_t>(width       );",
           "context": [
             "    uint8_t ihdr[13];",
@@ -447,7 +411,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 191,
+          "line_number": 192,
           "line_content": "ihdr[4]  = static_cast<uint8_t>(height >> 24); ihdr[5]  = static_cast<uint8_t>(height >> 16);",
           "context": [
             "    ihdr[0]  = static_cast<uint8_t>(width  >> 24); ihdr[1]  = static_cast<uint8_t>(width  >> 16);",
@@ -465,7 +429,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 192,
+          "line_number": 193,
           "line_content": "ihdr[6]  = static_cast<uint8_t>(height >>  8); ihdr[7]  = static_cast<uint8_t>(height      );",
           "context": [
             "    ihdr[2]  = static_cast<uint8_t>(width  >>  8); ihdr[3]  = static_cast<uint8_t>(width       );",
@@ -483,7 +447,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 88,
+          "line_number": 89,
           "line_content": "t[n] = c;",
           "context": [
             "            for (int k = 0; k < 8; ++k)",
@@ -501,7 +465,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 96,
+          "line_number": 97,
           "line_content": "crc = kCrcTable[(crc ^ data[i]) & 0xFFu] ^ (crc >> 8);",
           "context": [
             "        uint32_t crc = 0xFFFFFFFFu;",
@@ -519,7 +483,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 104,
+          "line_number": 105,
           "line_content": "s1 = (s1 + data[i]) % 65521u;",
           "context": [
             "        uint32_t s1 = 1u, s2 = 0u;",
@@ -537,7 +501,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 124,
+          "line_number": 125,
           "line_content": "const uint8_t type[4],",
           "context": [
             "    // Append a PNG chunk: 4-byte length + 4-byte type + data + 4-byte CRC-32.",
@@ -555,7 +519,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 188,
+          "line_number": 189,
           "line_content": "uint8_t ihdr[13];",
           "context": [
             "    // IHDR: width(4) + height(4) + bit_depth(1) + color_type(1)",
@@ -573,7 +537,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 189,
+          "line_number": 190,
           "line_content": "ihdr[0]  = static_cast<uint8_t>(width  >> 24); ihdr[1]  = static_cast<uint8_t>(width  >> 16);",
           "context": [
             "    //       + compression(1) + filter(1) + interlace(1) = 13 bytes",
@@ -591,7 +555,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 190,
+          "line_number": 191,
           "line_content": "ihdr[2]  = static_cast<uint8_t>(width  >>  8); ihdr[3]  = static_cast<uint8_t>(width       );",
           "context": [
             "    uint8_t ihdr[13];",
@@ -609,7 +573,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 191,
+          "line_number": 192,
           "line_content": "ihdr[4]  = static_cast<uint8_t>(height >> 24); ihdr[5]  = static_cast<uint8_t>(height >> 16);",
           "context": [
             "    ihdr[0]  = static_cast<uint8_t>(width  >> 24); ihdr[1]  = static_cast<uint8_t>(width  >> 16);",
@@ -627,7 +591,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 192,
+          "line_number": 193,
           "line_content": "ihdr[6]  = static_cast<uint8_t>(height >>  8); ihdr[7]  = static_cast<uint8_t>(height      );",
           "context": [
             "    ihdr[2]  = static_cast<uint8_t>(width  >>  8); ihdr[3]  = static_cast<uint8_t>(width       );",
@@ -645,7 +609,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 193,
+          "line_number": 194,
           "line_content": "ihdr[8]  = 8u;   // bit depth: 8",
           "context": [
             "    ihdr[4]  = static_cast<uint8_t>(height >> 24); ihdr[5]  = static_cast<uint8_t>(height >> 16);",
@@ -663,7 +627,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 194,
+          "line_number": 195,
           "line_content": "ihdr[9]  = 2u;   // color type: RGB truecolor",
           "context": [
             "    ihdr[6]  = static_cast<uint8_t>(height >>  8); ihdr[7]  = static_cast<uint8_t>(height      );",
@@ -681,7 +645,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 195,
+          "line_number": 196,
           "line_content": "ihdr[10] = 0u;   // compression method: deflate",
           "context": [
             "    ihdr[8]  = 8u;   // bit depth: 8",
@@ -699,7 +663,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 196,
+          "line_number": 197,
           "line_content": "ihdr[11] = 0u;   // filter method: adaptive",
           "context": [
             "    ihdr[9]  = 2u;   // color type: RGB truecolor",
@@ -717,7 +681,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 197,
+          "line_number": 198,
           "line_content": "ihdr[12] = 0u;   // interlace: none",
           "context": [
             "    ihdr[10] = 0u;   // compression method: deflate",
@@ -735,7 +699,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 198,
+          "line_number": 199,
           "line_content": "static const uint8_t kIHDR[4] = {'I','H','D','R'};",
           "context": [
             "    ihdr[11] = 0u;   // filter method: adaptive",
@@ -753,7 +717,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 202,
+          "line_number": 203,
           "line_content": "static const uint8_t kIDAT[4] = {'I','D','A','T'};",
           "context": [
             "",
@@ -771,7 +735,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 208,
+          "line_number": 209,
           "line_content": "static const uint8_t kIEND[4] = {'I','E','N','D'};",
           "context": [
             "",
@@ -789,7 +753,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 45,
+          "line_number": 46,
           "var_name": "cfg",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -798,7 +762,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 53,
+          "line_number": 54,
           "var_name": "generator_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -807,7 +771,7 @@
           "gap_type": "uninitialized_array",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 188,
+          "line_number": 189,
           "var_name": "ihdr",
           "context": "Array declared without initialization",
           "reason": "Array contains garbage values; use with zeros or explicit init"
@@ -816,7 +780,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 238,
+          "line_number": 239,
           "var_name": "sanitized",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -825,7 +789,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 252,
+          "line_number": 253,
           "var_name": "generator_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -834,7 +798,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 321,
+          "line_number": 322,
           "var_name": "sanitized",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -843,7 +807,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 335,
+          "line_number": 336,
           "var_name": "generator_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -852,7 +816,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 359,
+          "line_number": 360,
           "var_name": "generator_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -861,17 +825,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 25,
-          "class_name": "Unknown",
-          "function_name": "SDPlugin",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 33,
+          "line_number": 26,
           "class_name": "Unknown",
           "function_name": "SDPlugin",
           "issue": "Virtual function called in constructor",
@@ -901,7 +855,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 39,
+          "line_number": 36,
+          "class_name": "Unknown",
+          "function_name": "SDPlugin",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
+          "line_number": 40,
           "class_name": "Unknown",
           "function_name": "generator_",
           "issue": "Virtual function called in constructor",
@@ -911,7 +875,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 41,
+          "line_number": 42,
           "class_name": "Unknown",
           "function_name": "sanitizer_",
           "issue": "Virtual function called in constructor",
@@ -921,7 +885,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 47,
+          "line_number": 48,
           "class_name": "Unknown",
           "function_name": "initialize",
           "issue": "Virtual function called in constructor",
@@ -931,7 +895,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 59,
+          "line_number": 60,
           "class_name": "Unknown",
           "function_name": "initialize",
           "issue": "Virtual function called in constructor",
@@ -941,7 +905,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 65,
+          "line_number": 66,
           "class_name": "Unknown",
           "function_name": "isPromptAllowed",
           "issue": "Virtual function called in constructor",
@@ -951,7 +915,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 73,
+          "line_number": 74,
           "class_name": "Unknown",
           "function_name": "sha256Hex",
           "issue": "Virtual function called in constructor",
@@ -961,7 +925,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 79,
+          "line_number": 80,
           "class_name": "Unknown",
           "function_name": "setfill",
           "issue": "Virtual function called in constructor",
@@ -971,7 +935,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 146,
+          "line_number": 147,
           "class_name": "Unknown",
           "function_name": "filtered",
           "issue": "Virtual function called in constructor",
@@ -981,7 +945,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 148,
+          "line_number": 149,
           "class_name": "Unknown",
           "function_name": "filtered",
           "issue": "Virtual function called in constructor",
@@ -991,7 +955,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 165,
+          "line_number": 166,
           "class_name": "Unknown",
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
@@ -1001,7 +965,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 216,
+          "line_number": 217,
           "class_name": "Unknown",
           "function_name": "append_chunk",
           "issue": "Virtual function called in constructor",
@@ -1011,7 +975,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 261,
+          "line_number": 262,
           "class_name": "Unknown",
           "function_name": "generate",
           "issue": "Virtual function called in constructor",
@@ -1021,7 +985,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 275,
+          "line_number": 276,
           "class_name": "Unknown",
           "function_name": "what",
           "issue": "Virtual function called in constructor",
@@ -1031,7 +995,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 283,
+          "line_number": 284,
           "class_name": "Unknown",
           "function_name": "generate",
           "issue": "Virtual function called in constructor",
@@ -1041,7 +1005,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 297,
+          "line_number": 298,
           "class_name": "Unknown",
           "function_name": "reserve",
           "issue": "Virtual function called in constructor",
@@ -1051,7 +1015,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 344,
+          "line_number": 345,
           "class_name": "Unknown",
           "function_name": "generateImg2Img",
           "issue": "Virtual function called in constructor",
@@ -1061,7 +1025,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 358,
+          "line_number": 359,
           "class_name": "Unknown",
           "function_name": "what",
           "issue": "Virtual function called in constructor",
@@ -1071,7 +1035,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 362,
+          "line_number": 363,
           "class_name": "Unknown",
           "function_name": "getModelId",
           "issue": "Virtual function called in constructor",
@@ -1081,7 +1045,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line_number": 382,
+          "line_number": 383,
           "class_name": "Unknown",
           "function_name": "themis_imggen_create",
           "issue": "Virtual function called in constructor",
@@ -1089,7 +1053,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 111,
+          "line": 112,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1098,7 +1062,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 111,
+          "line": 112,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1107,7 +1071,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 155,
+          "line": 156,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1116,7 +1080,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 289,
+          "line": 290,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1125,7 +1089,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin.cpp",
-          "line": 289,
+          "line": 290,
           "category": "performance",
           "severity": "HIGH",
           "pattern": "lock_in_loop",
@@ -1133,50 +1097,10 @@
           "context": "for (const auto& p : prompts) {"
         }
       ],
-      "src\\stable_diffusion\\sd_config.cpp": [
-        {
-          "file": "src\\stable_diffusion\\sd_config.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\stable_diffusion\\sd_config.cpp",
-          "line_number": 17,
-          "class_name": "Unknown",
-          "function_name": "fromJson",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\stable_diffusion\\sd_config.cpp",
-          "line_number": 34,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        }
-      ],
       "src\\stable_diffusion\\sd_plugin_registrar.cpp": [
         {
           "file": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line": 48,
+          "line": 49,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -1185,7 +1109,7 @@
         },
         {
           "file": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line": 82,
+          "line": 83,
           "type": "uninitialized_access",
           "severity": "HIGH",
           "snippet": "return [](SDPlugin& plugin, const json& config) -> bool {",
@@ -1196,7 +1120,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 36,
+          "line_number": 37,
           "var_name": "config",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1205,7 +1129,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 41,
+          "line_number": 42,
           "var_name": "config",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1214,7 +1138,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 43,
+          "line_number": 44,
           "var_name": "config",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1223,7 +1147,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 44,
+          "line_number": 45,
           "var_name": "sd_plugin_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1232,7 +1156,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 64,
+          "line_number": 65,
           "var_name": "plugin",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1241,7 +1165,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 66,
+          "line_number": 67,
           "var_name": "plugin",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1250,7 +1174,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 67,
+          "line_number": 68,
           "var_name": "plugin",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -1259,7 +1183,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 83,
+          "line_number": 84,
           "var_name": "plugin",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1268,20 +1192,10 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 85,
+          "line_number": 86,
           "var_name": "plugin",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 22,
-          "class_name": "Unknown",
-          "function_name": "SDPluginAdapter",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
@@ -1297,7 +1211,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 25,
+          "line_number": 24,
           "class_name": "Unknown",
           "function_name": "SDPluginAdapter",
           "issue": "Virtual function called in constructor",
@@ -1307,7 +1221,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 35,
+          "line_number": 26,
+          "class_name": "Unknown",
+          "function_name": "SDPluginAdapter",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
+          "line_number": 36,
           "class_name": "Unknown",
           "function_name": "getCapabilities",
           "issue": "Virtual function called in constructor",
@@ -1317,7 +1241,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 40,
+          "line_number": 41,
           "class_name": "Unknown",
           "function_name": "initialize",
           "issue": "Virtual function called in constructor",
@@ -1327,7 +1251,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 53,
+          "line_number": 54,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1337,7 +1261,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 62,
+          "line_number": 63,
           "class_name": "Unknown",
           "function_name": "shutdown",
           "issue": "Virtual function called in constructor",
@@ -1347,7 +1271,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 73,
+          "line_number": 74,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1357,7 +1281,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 76,
+          "line_number": 77,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1367,7 +1291,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 81,
+          "line_number": 82,
           "class_name": "Unknown",
           "function_name": "createAdapter",
           "issue": "Virtual function called in constructor",
@@ -1377,7 +1301,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 93,
+          "line_number": 94,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1387,7 +1311,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\sd_plugin_registrar.cpp",
-          "line_number": 104,
+          "line_number": 105,
           "class_name": "Unknown",
           "function_name": "enableHotPlug",
           "issue": "Virtual function called in constructor",
@@ -1395,24 +1319,6 @@
         }
       ],
       "src\\stable_diffusion\\sd_prompt_sanitizer.cpp": [
-        {
-          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
-          "line": 41,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "if (!f.is_open()) {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
         {
           "file": "src\\stable_diffusion\\sd_prompt_sanitizer.cpp",
           "line": 42,
@@ -1608,7 +1514,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 493,
+          "line_number": 495,
           "line_content": "(static_cast<uint32_t>(buf[pos])     << 24) |",
           "context": [
             "    while (pos + 12u <= buf.size()) {",
@@ -1626,7 +1532,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 494,
+          "line_number": 496,
           "line_content": "(static_cast<uint32_t>(buf[pos + 1]) << 16) |",
           "context": [
             "        const uint32_t len =",
@@ -1644,7 +1550,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 495,
+          "line_number": 497,
           "line_content": "(static_cast<uint32_t>(buf[pos + 2]) <<  8) |",
           "context": [
             "            (static_cast<uint32_t>(buf[pos])     << 24) |",
@@ -1654,42 +1560,6 @@
             "        if (buf.size() < pos + 12u + len) break;"
           ],
           "pattern_matched": "(static_cast<uint32_t>(buf[pos + 2]) <<  8) |",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 516,
-          "line_content": "(static_cast<uint32_t>(buf[pos])     << 24) |",
-          "context": [
-            "    while (pos + 12u <= buf.size()) {",
-            "        const uint32_t len =",
-            "            (static_cast<uint32_t>(buf[pos])     << 24) |",
-            "            (static_cast<uint32_t>(buf[pos + 1]) << 16) |",
-            "            (static_cast<uint32_t>(buf[pos + 2]) <<  8) |"
-          ],
-          "pattern_matched": "(static_cast<uint32_t>(buf[pos])     << 24) |",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 517,
-          "line_content": "(static_cast<uint32_t>(buf[pos + 1]) << 16) |",
-          "context": [
-            "        const uint32_t len =",
-            "            (static_cast<uint32_t>(buf[pos])     << 24) |",
-            "            (static_cast<uint32_t>(buf[pos + 1]) << 16) |",
-            "            (static_cast<uint32_t>(buf[pos + 2]) <<  8) |",
-            "             static_cast<uint32_t>(buf[pos + 3]);"
-          ],
-          "pattern_matched": "(static_cast<uint32_t>(buf[pos + 1]) << 16) |",
           "conversion_from": "",
           "conversion_to": "",
           "reason": "Shift operation detected (verify shift count < bitwidth)"
@@ -1699,6 +1569,42 @@
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
           "line_number": 518,
+          "line_content": "(static_cast<uint32_t>(buf[pos])     << 24) |",
+          "context": [
+            "    while (pos + 12u <= buf.size()) {",
+            "        const uint32_t len =",
+            "            (static_cast<uint32_t>(buf[pos])     << 24) |",
+            "            (static_cast<uint32_t>(buf[pos + 1]) << 16) |",
+            "            (static_cast<uint32_t>(buf[pos + 2]) <<  8) |"
+          ],
+          "pattern_matched": "(static_cast<uint32_t>(buf[pos])     << 24) |",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line_number": 519,
+          "line_content": "(static_cast<uint32_t>(buf[pos + 1]) << 16) |",
+          "context": [
+            "        const uint32_t len =",
+            "            (static_cast<uint32_t>(buf[pos])     << 24) |",
+            "            (static_cast<uint32_t>(buf[pos + 1]) << 16) |",
+            "            (static_cast<uint32_t>(buf[pos + 2]) <<  8) |",
+            "             static_cast<uint32_t>(buf[pos + 3]);"
+          ],
+          "pattern_matched": "(static_cast<uint32_t>(buf[pos + 1]) << 16) |",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line_number": 520,
           "line_content": "(static_cast<uint32_t>(buf[pos + 2]) <<  8) |",
           "context": [
             "            (static_cast<uint32_t>(buf[pos])     << 24) |",
@@ -1716,7 +1622,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 538,
+          "line_number": 540,
           "line_content": "(static_cast<uint32_t>(buf[pos])     << 24) |",
           "context": [
             "    // Length of IHDR data must be 13",
@@ -1734,7 +1640,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 539,
+          "line_number": 541,
           "line_content": "(static_cast<uint32_t>(buf[pos + 1]) << 16) |",
           "context": [
             "    const uint32_t len =",
@@ -1752,7 +1658,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 540,
+          "line_number": 542,
           "line_content": "(static_cast<uint32_t>(buf[pos + 2]) <<  8) |",
           "context": [
             "        (static_cast<uint32_t>(buf[pos])     << 24) |",
@@ -1770,7 +1676,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 546,
+          "line_number": 548,
           "line_content": "(static_cast<int>(buf[pos + 8])  << 24) |",
           "context": [
             "        buf[pos + 6] != 'D' || buf[pos + 7] != 'R') return {-1, -1};",
@@ -1788,7 +1694,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 546,
+          "line_number": 548,
           "line_content": "(static_cast<int>(buf[pos + 8])  << 24) |",
           "context": [
             "        buf[pos + 6] != 'D' || buf[pos + 7] != 'R') return {-1, -1};",
@@ -1798,78 +1704,6 @@
             "        (static_cast<int>(buf[pos + 10]) <<  8) |"
           ],
           "pattern_matched": "(static_cast<int>(buf[pos + 8])  << 24) |",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
-          "severity": "MEDIUM",
-          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 547,
-          "line_content": "(static_cast<int>(buf[pos + 9])  << 16) |",
-          "context": [
-            "    const int w =",
-            "        (static_cast<int>(buf[pos + 8])  << 24) |",
-            "        (static_cast<int>(buf[pos + 9])  << 16) |",
-            "        (static_cast<int>(buf[pos + 10]) <<  8) |",
-            "         static_cast<int>(buf[pos + 11]);"
-          ],
-          "pattern_matched": "(static_cast<int>(buf[pos + 9])  << 16) |",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 547,
-          "line_content": "(static_cast<int>(buf[pos + 9])  << 16) |",
-          "context": [
-            "    const int w =",
-            "        (static_cast<int>(buf[pos + 8])  << 24) |",
-            "        (static_cast<int>(buf[pos + 9])  << 16) |",
-            "        (static_cast<int>(buf[pos + 10]) <<  8) |",
-            "         static_cast<int>(buf[pos + 11]);"
-          ],
-          "pattern_matched": "(static_cast<int>(buf[pos + 9])  << 16) |",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
-          "severity": "MEDIUM",
-          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 548,
-          "line_content": "(static_cast<int>(buf[pos + 10]) <<  8) |",
-          "context": [
-            "        (static_cast<int>(buf[pos + 8])  << 24) |",
-            "        (static_cast<int>(buf[pos + 9])  << 16) |",
-            "        (static_cast<int>(buf[pos + 10]) <<  8) |",
-            "         static_cast<int>(buf[pos + 11]);",
-            "    const int h ="
-          ],
-          "pattern_matched": "(static_cast<int>(buf[pos + 10]) <<  8) |",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 548,
-          "line_content": "(static_cast<int>(buf[pos + 10]) <<  8) |",
-          "context": [
-            "        (static_cast<int>(buf[pos + 8])  << 24) |",
-            "        (static_cast<int>(buf[pos + 9])  << 16) |",
-            "        (static_cast<int>(buf[pos + 10]) <<  8) |",
-            "         static_cast<int>(buf[pos + 11]);",
-            "    const int h ="
-          ],
-          "pattern_matched": "(static_cast<int>(buf[pos + 10]) <<  8) |",
           "conversion_from": "",
           "conversion_to": "",
           "reason": "Shift operation detected (verify shift count < bitwidth)"
@@ -1879,6 +1713,78 @@
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
           "line_number": 549,
+          "line_content": "(static_cast<int>(buf[pos + 9])  << 16) |",
+          "context": [
+            "    const int w =",
+            "        (static_cast<int>(buf[pos + 8])  << 24) |",
+            "        (static_cast<int>(buf[pos + 9])  << 16) |",
+            "        (static_cast<int>(buf[pos + 10]) <<  8) |",
+            "         static_cast<int>(buf[pos + 11]);"
+          ],
+          "pattern_matched": "(static_cast<int>(buf[pos + 9])  << 16) |",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line_number": 549,
+          "line_content": "(static_cast<int>(buf[pos + 9])  << 16) |",
+          "context": [
+            "    const int w =",
+            "        (static_cast<int>(buf[pos + 8])  << 24) |",
+            "        (static_cast<int>(buf[pos + 9])  << 16) |",
+            "        (static_cast<int>(buf[pos + 10]) <<  8) |",
+            "         static_cast<int>(buf[pos + 11]);"
+          ],
+          "pattern_matched": "(static_cast<int>(buf[pos + 9])  << 16) |",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line_number": 550,
+          "line_content": "(static_cast<int>(buf[pos + 10]) <<  8) |",
+          "context": [
+            "        (static_cast<int>(buf[pos + 8])  << 24) |",
+            "        (static_cast<int>(buf[pos + 9])  << 16) |",
+            "        (static_cast<int>(buf[pos + 10]) <<  8) |",
+            "         static_cast<int>(buf[pos + 11]);",
+            "    const int h ="
+          ],
+          "pattern_matched": "(static_cast<int>(buf[pos + 10]) <<  8) |",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line_number": 550,
+          "line_content": "(static_cast<int>(buf[pos + 10]) <<  8) |",
+          "context": [
+            "        (static_cast<int>(buf[pos + 8])  << 24) |",
+            "        (static_cast<int>(buf[pos + 9])  << 16) |",
+            "        (static_cast<int>(buf[pos + 10]) <<  8) |",
+            "         static_cast<int>(buf[pos + 11]);",
+            "    const int h ="
+          ],
+          "pattern_matched": "(static_cast<int>(buf[pos + 10]) <<  8) |",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line_number": 551,
           "line_content": "static_cast<int>(buf[pos + 11]);",
           "context": [
             "        (static_cast<int>(buf[pos + 9])  << 16) |",
@@ -1896,7 +1802,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 551,
+          "line_number": 553,
           "line_content": "(static_cast<int>(buf[pos + 12]) << 24) |",
           "context": [
             "         static_cast<int>(buf[pos + 11]);",
@@ -1914,7 +1820,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 551,
+          "line_number": 553,
           "line_content": "(static_cast<int>(buf[pos + 12]) << 24) |",
           "context": [
             "         static_cast<int>(buf[pos + 11]);",
@@ -1924,78 +1830,6 @@
             "        (static_cast<int>(buf[pos + 14]) <<  8) |"
           ],
           "pattern_matched": "(static_cast<int>(buf[pos + 12]) << 24) |",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
-          "severity": "MEDIUM",
-          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 552,
-          "line_content": "(static_cast<int>(buf[pos + 13]) << 16) |",
-          "context": [
-            "    const int h =",
-            "        (static_cast<int>(buf[pos + 12]) << 24) |",
-            "        (static_cast<int>(buf[pos + 13]) << 16) |",
-            "        (static_cast<int>(buf[pos + 14]) <<  8) |",
-            "         static_cast<int>(buf[pos + 15]);"
-          ],
-          "pattern_matched": "(static_cast<int>(buf[pos + 13]) << 16) |",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 552,
-          "line_content": "(static_cast<int>(buf[pos + 13]) << 16) |",
-          "context": [
-            "    const int h =",
-            "        (static_cast<int>(buf[pos + 12]) << 24) |",
-            "        (static_cast<int>(buf[pos + 13]) << 16) |",
-            "        (static_cast<int>(buf[pos + 14]) <<  8) |",
-            "         static_cast<int>(buf[pos + 15]);"
-          ],
-          "pattern_matched": "(static_cast<int>(buf[pos + 13]) << 16) |",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "CAST_TO_SMALLER_TYPE",
-          "severity": "MEDIUM",
-          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 553,
-          "line_content": "(static_cast<int>(buf[pos + 14]) <<  8) |",
-          "context": [
-            "        (static_cast<int>(buf[pos + 12]) << 24) |",
-            "        (static_cast<int>(buf[pos + 13]) << 16) |",
-            "        (static_cast<int>(buf[pos + 14]) <<  8) |",
-            "         static_cast<int>(buf[pos + 15]);",
-            "    return {w, h};"
-          ],
-          "pattern_matched": "(static_cast<int>(buf[pos + 14]) <<  8) |",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Explicit cast to int detected (verify no overflow on source)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 553,
-          "line_content": "(static_cast<int>(buf[pos + 14]) <<  8) |",
-          "context": [
-            "        (static_cast<int>(buf[pos + 12]) << 24) |",
-            "        (static_cast<int>(buf[pos + 13]) << 16) |",
-            "        (static_cast<int>(buf[pos + 14]) <<  8) |",
-            "         static_cast<int>(buf[pos + 15]);",
-            "    return {w, h};"
-          ],
-          "pattern_matched": "(static_cast<int>(buf[pos + 14]) <<  8) |",
           "conversion_from": "",
           "conversion_to": "",
           "reason": "Shift operation detected (verify shift count < bitwidth)"
@@ -2005,6 +1839,78 @@
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
           "line_number": 554,
+          "line_content": "(static_cast<int>(buf[pos + 13]) << 16) |",
+          "context": [
+            "    const int h =",
+            "        (static_cast<int>(buf[pos + 12]) << 24) |",
+            "        (static_cast<int>(buf[pos + 13]) << 16) |",
+            "        (static_cast<int>(buf[pos + 14]) <<  8) |",
+            "         static_cast<int>(buf[pos + 15]);"
+          ],
+          "pattern_matched": "(static_cast<int>(buf[pos + 13]) << 16) |",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line_number": 554,
+          "line_content": "(static_cast<int>(buf[pos + 13]) << 16) |",
+          "context": [
+            "    const int h =",
+            "        (static_cast<int>(buf[pos + 12]) << 24) |",
+            "        (static_cast<int>(buf[pos + 13]) << 16) |",
+            "        (static_cast<int>(buf[pos + 14]) <<  8) |",
+            "         static_cast<int>(buf[pos + 15]);"
+          ],
+          "pattern_matched": "(static_cast<int>(buf[pos + 13]) << 16) |",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line_number": 555,
+          "line_content": "(static_cast<int>(buf[pos + 14]) <<  8) |",
+          "context": [
+            "        (static_cast<int>(buf[pos + 12]) << 24) |",
+            "        (static_cast<int>(buf[pos + 13]) << 16) |",
+            "        (static_cast<int>(buf[pos + 14]) <<  8) |",
+            "         static_cast<int>(buf[pos + 15]);",
+            "    return {w, h};"
+          ],
+          "pattern_matched": "(static_cast<int>(buf[pos + 14]) <<  8) |",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Explicit cast to int detected (verify no overflow on source)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line_number": 555,
+          "line_content": "(static_cast<int>(buf[pos + 14]) <<  8) |",
+          "context": [
+            "        (static_cast<int>(buf[pos + 12]) << 24) |",
+            "        (static_cast<int>(buf[pos + 13]) << 16) |",
+            "        (static_cast<int>(buf[pos + 14]) <<  8) |",
+            "         static_cast<int>(buf[pos + 15]);",
+            "    return {w, h};"
+          ],
+          "pattern_matched": "(static_cast<int>(buf[pos + 14]) <<  8) |",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "CAST_TO_SMALLER_TYPE",
+          "severity": "MEDIUM",
+          "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
+          "line_number": 556,
           "line_content": "static_cast<int>(buf[pos + 15]);",
           "context": [
             "        (static_cast<int>(buf[pos + 13]) << 16) |",
@@ -2022,7 +1928,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 584,
+          "line_number": 586,
           "line_content": "std::vector<uint8_t> px(2 * 3 * 3, 128u);  // 2\u00d73 grey image",
           "context": [
             "TEST(SDPluginFocusedTests, P2_PngContainsIdatChunk) {",
@@ -2040,7 +1946,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 592,
+          "line_number": 594,
           "line_content": "<< \"PNG output must contain an IDAT chunk with pixel data\";",
           "context": [
             "    ASSERT_TRUE(img.success);",
@@ -2058,7 +1964,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 601,
+          "line_number": 603,
           "line_content": "std::vector<uint8_t> px(4 * 7 * 3, 0u);",
           "context": [
             "TEST(SDPluginFocusedTests, P3_PngIhdrDimensionsMatchRequest) {",
@@ -2076,7 +1982,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 642,
+          "line_number": 644,
           "line_content": "<< \"SDStubGenerator::generateImg2Img must return the input pixel data\";",
           "context": [
             "    const auto result = g.generateImg2Img(\"prompt\", cfg, out_w, out_h, out_seed);",
@@ -2094,7 +2000,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 658,
+          "line_number": 660,
           "line_content": "EXPECT_EQ(result.size(), static_cast<size_t>(8 * 8 * 3));",
           "context": [
             "    EXPECT_EQ(out_w, 8);",
@@ -2112,7 +2018,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 368,
+          "line_number": 370,
           "line_content": "EXPECT_TRUE(results[0].success);",
           "context": [
             "                                          SDGenerationConfig{});",
@@ -2130,7 +2036,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 369,
+          "line_number": 371,
           "line_content": "EXPECT_FALSE(results[1].success);",
           "context": [
             "    ASSERT_EQ(results.size(), 3u);",
@@ -2148,7 +2054,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 370,
+          "line_number": 372,
           "line_content": "EXPECT_TRUE(results[2].success);",
           "context": [
             "    EXPECT_TRUE(results[0].success);",
@@ -2166,7 +2072,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 488,
+          "line_number": 490,
           "line_content": "bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {",
           "context": [
             "// Returns true when buf contains a PNG chunk with the given 4-byte type.",
@@ -2184,7 +2090,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 493,
+          "line_number": 495,
           "line_content": "(static_cast<uint32_t>(buf[pos])     << 24) |",
           "context": [
             "    while (pos + 12u <= buf.size()) {",
@@ -2202,7 +2108,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 516,
+          "line_number": 518,
           "line_content": "(static_cast<uint32_t>(buf[pos])     << 24) |",
           "context": [
             "    while (pos + 12u <= buf.size()) {",
@@ -2220,7 +2126,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 538,
+          "line_number": 540,
           "line_content": "(static_cast<uint32_t>(buf[pos])     << 24) |",
           "context": [
             "    // Length of IHDR data must be 13",
@@ -2238,7 +2144,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 572,
+          "line_number": 574,
           "line_content": "EXPECT_EQ(img.png_data[0], 0x89u);",
           "context": [
             "    ASSERT_GE(img.png_data.size(), 8u);",
@@ -2256,7 +2162,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 573,
+          "line_number": 575,
           "line_content": "EXPECT_EQ(img.png_data[1], static_cast<uint8_t>('P'));",
           "context": [
             "    // PNG magic: 89 50 4E 47 0D 0A 1A 0A",
@@ -2274,7 +2180,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 574,
+          "line_number": 576,
           "line_content": "EXPECT_EQ(img.png_data[2], static_cast<uint8_t>('N'));",
           "context": [
             "    EXPECT_EQ(img.png_data[0], 0x89u);",
@@ -2292,7 +2198,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 575,
+          "line_number": 577,
           "line_content": "EXPECT_EQ(img.png_data[3], static_cast<uint8_t>('G'));",
           "context": [
             "    EXPECT_EQ(img.png_data[1], static_cast<uint8_t>('P'));",
@@ -2310,7 +2216,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 576,
+          "line_number": 578,
           "line_content": "EXPECT_EQ(img.png_data[4], 0x0Du);",
           "context": [
             "    EXPECT_EQ(img.png_data[2], static_cast<uint8_t>('N'));",
@@ -2328,7 +2234,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 577,
+          "line_number": 579,
           "line_content": "EXPECT_EQ(img.png_data[5], 0x0Au);",
           "context": [
             "    EXPECT_EQ(img.png_data[3], static_cast<uint8_t>('G'));",
@@ -2346,7 +2252,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 578,
+          "line_number": 580,
           "line_content": "EXPECT_EQ(img.png_data[6], 0x1Au);",
           "context": [
             "    EXPECT_EQ(img.png_data[4], 0x0Du);",
@@ -2364,7 +2270,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 579,
+          "line_number": 581,
           "line_content": "EXPECT_EQ(img.png_data[7], 0x0Au);",
           "context": [
             "    EXPECT_EQ(img.png_data[5], 0x0Au);",
@@ -2382,7 +2288,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 596,
+          "line_number": 598,
           "line_content": "EXPECT_EQ(idat[0], 0x78u);",
           "context": [
             "    EXPECT_FALSE(idat.empty());",
@@ -2400,7 +2306,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 419,
+          "line_number": 421,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak"
@@ -2409,7 +2315,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 432,
+          "line_number": 434,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak"
@@ -2418,7 +2324,7 @@
           "gap_type": "resource_leaked_in_exception",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 444,
+          "line_number": 446,
           "class_name": "",
           "issue": "Raw new without smart pointer protection",
           "reason": "Exception before delete causes resource leak"
@@ -2427,7 +2333,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 201,
+          "line_number": 203,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2436,7 +2342,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 219,
+          "line_number": 221,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2445,7 +2351,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 233,
+          "line_number": 235,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2454,7 +2360,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 283,
+          "line_number": 285,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2463,7 +2369,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 337,
+          "line_number": 339,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2472,7 +2378,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 350,
+          "line_number": 352,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2481,7 +2387,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 362,
+          "line_number": 364,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2490,7 +2396,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 384,
+          "line_number": 386,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2499,7 +2405,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 420,
+          "line_number": 422,
           "var_name": "raw_gen",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2508,7 +2414,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 428,
+          "line_number": 430,
           "var_name": "raw_gen",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2517,7 +2423,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 433,
+          "line_number": 435,
           "var_name": "raw_gen",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2526,7 +2432,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 440,
+          "line_number": 442,
           "var_name": "raw_gen",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2535,7 +2441,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 445,
+          "line_number": 447,
           "var_name": "raw_gen",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2544,7 +2450,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 451,
+          "line_number": 453,
           "var_name": "raw_gen",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2553,7 +2459,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 452,
+          "line_number": 454,
           "var_name": "raw_gen",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2562,7 +2468,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 475,
+          "line_number": 477,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2571,7 +2477,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 489,
+          "line_number": 491,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2580,7 +2486,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 497,
+          "line_number": 499,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2589,7 +2495,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 498,
+          "line_number": 500,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2598,7 +2504,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 512,
+          "line_number": 514,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2607,7 +2513,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 520,
+          "line_number": 522,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2616,7 +2522,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 521,
+          "line_number": 523,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2625,7 +2531,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 534,
+          "line_number": 536,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2634,7 +2540,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 542,
+          "line_number": 544,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2643,7 +2549,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 543,
+          "line_number": 545,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -2652,7 +2558,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 564,
+          "line_number": 566,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2661,7 +2567,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 585,
+          "line_number": 587,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2670,7 +2576,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 602,
+          "line_number": 604,
           "var_name": "g",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -2679,7 +2585,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 58,
+          "line_number": 60,
           "class_name": "ThrowingGenerator",
           "function_name": "initialize",
           "issue": "Virtual function called in constructor",
@@ -2689,7 +2595,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 69,
+          "line_number": 71,
           "class_name": "ThrowingGenerator",
           "function_name": "getModelId",
           "issue": "Virtual function called in constructor",
@@ -2699,7 +2605,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 80,
+          "line_number": 82,
           "class_name": "ThrowingGenerator",
           "function_name": "EXPECT_EQ",
           "issue": "Virtual function called in constructor",
@@ -2709,7 +2615,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 90,
+          "line_number": 92,
           "class_name": "ThrowingGenerator",
           "function_name": "fromJson",
           "issue": "Virtual function called in constructor",
@@ -2719,7 +2625,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 102,
+          "line_number": 104,
           "class_name": "ThrowingGenerator",
           "function_name": "EXPECT_GE",
           "issue": "Virtual function called in constructor",
@@ -2729,7 +2635,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 122,
+          "line_number": 124,
           "class_name": "ThrowingGenerator",
           "function_name": "EXPECT_TRUE",
           "issue": "Virtual function called in constructor",
@@ -2739,7 +2645,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 202,
+          "line_number": 204,
           "class_name": "ThrowingGenerator",
           "function_name": "TEST",
           "issue": "Virtual function called in constructor",
@@ -2749,7 +2655,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 220,
+          "line_number": 222,
           "class_name": "ThrowingGenerator",
           "function_name": "p",
           "issue": "Virtual function called in constructor",
@@ -2759,7 +2665,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 234,
+          "line_number": 236,
           "class_name": "ThrowingGenerator",
           "function_name": "TEST",
           "issue": "Virtual function called in constructor",
@@ -2769,7 +2675,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 284,
+          "line_number": 286,
           "class_name": "ThrowingGenerator",
           "function_name": "TEST",
           "issue": "Virtual function called in constructor",
@@ -2779,7 +2685,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 338,
+          "line_number": 340,
           "class_name": "ThrowingGenerator",
           "function_name": "initialize",
           "issue": "Virtual function called in constructor",
@@ -2789,7 +2695,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 351,
+          "line_number": 353,
           "class_name": "ThrowingGenerator",
           "function_name": "generate",
           "issue": "Virtual function called in constructor",
@@ -2799,7 +2705,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 363,
+          "line_number": 365,
           "class_name": "ThrowingGenerator",
           "function_name": "generateBatch",
           "issue": "Virtual function called in constructor",
@@ -2809,7 +2715,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 385,
+          "line_number": 387,
           "class_name": "ThrowingGenerator",
           "function_name": "initialize",
           "issue": "Virtual function called in constructor",
@@ -2819,7 +2725,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 476,
+          "line_number": 478,
           "class_name": "ThrowingGenerator",
           "function_name": "EXPECT_EQ",
           "issue": "Virtual function called in constructor",
@@ -2829,7 +2735,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 565,
+          "line_number": 567,
           "class_name": "ThrowingGenerator",
           "function_name": "TEST",
           "issue": "Virtual function called in constructor",
@@ -2839,7 +2745,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 586,
+          "line_number": 588,
           "class_name": "ThrowingGenerator",
           "function_name": "EXPECT_EQ",
           "issue": "Virtual function called in constructor",
@@ -2849,7 +2755,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line_number": 603,
+          "line_number": 605,
           "class_name": "ThrowingGenerator",
           "function_name": "png_idat_data",
           "issue": "Virtual function called in constructor",
@@ -2857,7 +2763,7 @@
         },
         {
           "file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line": 542,
+          "line": 544,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -2866,7 +2772,7 @@
         },
         {
           "file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line": 543,
+          "line": 545,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -2875,7 +2781,7 @@
         },
         {
           "file": "src\\stable_diffusion\\tests\\test_sd_plugin.cpp",
-          "line": 544,
+          "line": 546,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -3037,6 +2943,28 @@
           "line_number": 138,
           "class_name": "Unknown",
           "function_name": "TEST",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        }
+      ],
+      "src\\stable_diffusion\\sd_config.cpp": [
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\stable_diffusion\\sd_config.cpp",
+          "line_number": 17,
+          "class_name": "Unknown",
+          "function_name": "fromJson",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\stable_diffusion\\sd_config.cpp",
+          "line_number": 34,
+          "class_name": "Unknown",
+          "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         }

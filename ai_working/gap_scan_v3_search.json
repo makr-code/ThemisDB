@@ -1,12 +1,12 @@
 {
   "search": {
-    "total": 1301,
-    "severity_critical": 39,
+    "total": 1244,
+    "severity_critical": 21,
     "severity_high": 944,
-    "severity_medium": 318,
+    "severity_medium": 279,
     "by_category": {
       "security": 1,
-      "reliability": 126,
+      "reliability": 69,
       "concurrency": 6,
       "raii": 3,
       "container": 91,
@@ -33,15 +33,6 @@
           "snippet": "THEMIS_DEBUG(\"AutocompleteEngine::suggest('{}') -> {} suggestions\", prefix, combined.size());",
           "description": "Potential null pointer dereference",
           "remediation": "Add null check before dereferencing"
-        },
-        {
-          "file": "src\\search\\autocomplete.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\search\\autocomplete.cpp",
@@ -596,15 +587,6 @@
       "src\\search\\conversational_search.cpp": [
         {
           "file": "src\\search\\conversational_search.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\conversational_search.cpp",
           "line": 30,
           "type": "uncaught_exception",
           "severity": "HIGH",
@@ -831,15 +813,6 @@
         }
       ],
       "src\\search\\cross_lingual_search.cpp": [
-        {
-          "file": "src\\search\\cross_lingual_search.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "src\\search\\cross_lingual_search.cpp",
           "line": 31,
@@ -1468,15 +1441,6 @@
       "src\\search\\distributed_hybrid_search.cpp": [
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
           "line": 43,
           "type": "uncaught_exception",
           "severity": "HIGH",
@@ -1510,33 +1474,6 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 132,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "remote_shards.reserve(healthy_shards.size());",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 133,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "for (const auto& shard : healthy_shards) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\distributed_hybrid_search.cpp",
-          "line": 170,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::future_status::ready) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\search\\distributed_hybrid_search.cpp",
@@ -2326,82 +2263,10 @@
       "src\\search\\faceted_search.cpp": [
         {
           "file": "src\\search\\faceted_search.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 22,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::pair<SecondaryIndexManager::Status, FacetResult>",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 50,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (!scan_status.ok) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
           "line": 52,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "table, column, scan_status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 92,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::pair<SecondaryIndexManager::Status, std::vector<FacetResult>>",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 105,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::pair<SecondaryIndexManager::Status, FacetResult>",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 142,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::pair<SecondaryIndexManager::Status, std::vector<std::string>>",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 175,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::pair<SecondaryIndexManager::Status, std::vector<std::string>>",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\faceted_search.cpp",
-          "line": 201,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::pair<SecondaryIndexManager::Status, std::vector<FacetResult>>",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
@@ -3044,15 +2909,6 @@
       "src\\search\\federated_search.cpp": [
         {
           "file": "src\\search\\federated_search.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\federated_search.cpp",
           "line": 28,
           "type": "uncaught_exception",
           "severity": "HIGH",
@@ -3504,15 +3360,6 @@
       "src\\search\\fuzzy_matcher.cpp": [
         {
           "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
           "line": 34,
           "type": "uncaught_exception",
           "severity": "HIGH",
@@ -3528,24 +3375,6 @@
           "snippet": "throw std::invalid_argument(\"FuzzyMatcher: ngram_size must be > 0\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 45,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::pair<SecondaryIndexManager::Status, std::vector<FuzzyMatch>>",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\fuzzy_matcher.cpp",
-          "line": 61,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (!status.ok) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "gap_type": "SHIFT_OVERFLOW",
@@ -4203,15 +4032,6 @@
       "src\\search\\hybrid_search.cpp": [
         {
           "file": "src\\search\\hybrid_search.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
           "line": 52,
           "type": "uncaught_exception",
           "severity": "HIGH",
@@ -4299,42 +4119,6 @@
           "snippet": "throw std::invalid_argument(\"HybridSearch: Config::default_column must not be empty\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 126,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (status.ok) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 139,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "THEMIS_WARN(\"BM25 search failed: {}\", status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 155,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (status.ok) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\hybrid_search.cpp",
-          "line": 170,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "THEMIS_WARN(\"Vector search failed: {}\", status.message);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\search\\hybrid_search.cpp",
@@ -5109,15 +4893,6 @@
       "src\\search\\learning_to_rank.cpp": [
         {
           "file": "src\\search\\learning_to_rank.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\learning_to_rank.cpp",
           "line": 26,
           "type": "uncaught_exception",
           "severity": "HIGH",
@@ -5400,15 +5175,6 @@
       "src\\search\\llm_query_rewriter.cpp": [
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
           "line": 29,
           "type": "uncaught_exception",
           "severity": "HIGH",
@@ -5427,48 +5193,12 @@
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 51,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "RewrittenQuery LlmQueryRewriter::rewrite(const std::string& query) const {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 81,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "THEMIS_WARN(\"LlmQueryRewriter: all {} rewrite(s) failed overlap \"",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 95,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "THEMIS_DEBUG(\"LlmQueryRewriter::rewrite('{}') -> {} rewrites\",",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
           "line": 105,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\search\\llm_query_rewriter.cpp",
-          "line": 276,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "THEMIS_DEBUG(\"LlmQueryRewriter: discarding rewrite (overlap={:.3f} < {:.3f}): '{}'\",",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
         {
           "file": "src\\search\\llm_query_rewriter.cpp",
@@ -6520,15 +6250,6 @@
       "src\\search\\llm_reranker.cpp": [
         {
           "file": "src\\search\\llm_reranker.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\llm_reranker.cpp",
           "line": 30,
           "type": "uncaught_exception",
           "severity": "HIGH",
@@ -7335,15 +7056,6 @@
       "src\\search\\multi_field_search.cpp": [
         {
           "file": "src\\search\\multi_field_search.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\multi_field_search.cpp",
           "line": 32,
           "type": "uncaught_exception",
           "severity": "HIGH",
@@ -7359,15 +7071,6 @@
           "snippet": "throw std::invalid_argument(",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\multi_field_search.cpp",
-          "line": 126,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (!status.ok) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\search\\multi_field_search.cpp",
@@ -7689,15 +7392,6 @@
         }
       ],
       "src\\search\\multi_modal_search.cpp": [
-        {
-          "file": "src\\search\\multi_modal_search.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "src\\search\\multi_modal_search.cpp",
           "line": 33,
@@ -8332,33 +8026,6 @@
       "src\\search\\negative_keyword_filter.cpp": [
         {
           "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 98,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "std::pair<SecondaryIndexManager::Status, std::vector<std::string>>",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
-          "line": 134,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (!status.ok) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\negative_keyword_filter.cpp",
           "line": 137,
           "type": "no_health_check",
           "severity": "MEDIUM",
@@ -8682,15 +8349,6 @@
         }
       ],
       "src\\search\\neural_sparse_retrieval.cpp": [
-        {
-          "file": "src\\search\\neural_sparse_retrieval.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "src\\search\\neural_sparse_retrieval.cpp",
           "line": 29,
@@ -9277,15 +8935,6 @@
       "src\\search\\personalized_ranker.cpp": [
         {
           "file": "src\\search\\personalized_ranker.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
           "line": 26,
           "type": "uncaught_exception",
           "severity": "HIGH",
@@ -9310,69 +8959,6 @@
           "snippet": "throw std::invalid_argument(\"PersonalizedRanker: boost_weight must be >= 0\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 42,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 77,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 116,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 138,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 150,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 155,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\personalized_ranker.cpp",
-          "line": 160,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
         {
           "file": "src\\search\\personalized_ranker.cpp",
@@ -9627,15 +9213,6 @@
         }
       ],
       "src\\search\\query_expander.cpp": [
-        {
-          "file": "src\\search\\query_expander.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "src\\search\\query_expander.cpp",
           "line": 28,
@@ -11886,84 +11463,12 @@
       "src\\search\\search_analytics.cpp": [
         {
           "file": "src\\search\\search_analytics.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
           "line": 26,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "throw std::invalid_argument(\"SearchAnalytics: max_events must be > 0\");",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 45,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 63,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 75,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 86,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 134,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 159,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\search\\search_analytics.cpp",
-          "line": 164,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(mu_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
         {
           "file": "src\\search\\search_analytics.cpp",
@@ -12403,16 +11908,7 @@
       "src\\search\\search_highlighter.cpp": [
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 219,
+          "line": 220,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -12421,7 +11917,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 285,
+          "line": 286,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -12439,7 +11935,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 44,
+          "line": 45,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(std::move(current));",
@@ -12448,7 +11944,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 56,
+          "line": 57,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "tokens.push_back(std::move(current));",
@@ -12457,7 +11953,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 109,
+          "line": 110,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "while ((pos = lower_text.find(term, pos)) != std::string::npos) {",
@@ -12466,7 +11962,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 111,
+          "line": 112,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "matches.push_back({pos, pos + term.size(), ti});",
@@ -12475,7 +11971,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 181,
+          "line": 182,
           "type": "o_n_squared",
           "severity": "HIGH",
           "snippet": "while ((pos = search_text.find(term, pos)) != std::string::npos) {",
@@ -12484,7 +11980,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 196,
+          "line": 197,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(ranges.front());",
@@ -12493,7 +11989,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 202,
+          "line": 203,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "merged.push_back(ranges[i]);",
@@ -12502,7 +11998,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 252,
+          "line": 253,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "lower_terms.push_back(std::move(lt));",
@@ -12513,7 +12009,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 63,
+          "line_number": 64,
           "line_content": "const std::vector<std::pair<size_t, size_t>>& offsets,",
           "context": [
             "std::string SearchHighlighter::applyHighlight(",
@@ -12531,7 +12027,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 127,
+          "line_number": 128,
           "line_content": "size_t window_start = (m.start > window_size / 4)",
           "context": [
             "    size_t max_start = text.size() - window_size;",
@@ -12549,7 +12045,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 154,
+          "line_number": 155,
           "line_content": "std::vector<std::pair<size_t, size_t>>",
           "context": [
             "// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
@@ -12567,7 +12063,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 168,
+          "line_number": 169,
           "line_content": "std::vector<std::pair<size_t, size_t>> ranges;",
           "context": [
             "    }",
@@ -12585,7 +12081,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 195,
+          "line_number": 196,
           "line_content": "std::vector<std::pair<size_t, size_t>> merged;",
           "context": [
             "",
@@ -12621,7 +12117,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 258,
+          "line_number": 259,
           "line_content": "while (offset > 0 && !std::isspace(static_cast<unsigned char>(text[offset]))) {",
           "context": [
             "",
@@ -12639,7 +12135,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 264,
+          "line_number": 265,
           "line_content": "while (end_offset < text.size() && !std::isspace(static_cast<unsigned char>(text[end_offset]))) {",
           "context": [
             "        size_t end_offset = std::min(offset + window_size, text.size());",
@@ -12657,7 +12153,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 67,
+          "line_number": 68,
           "var_name": "cursor",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12666,17 +12162,8 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 74,
+          "line_number": 75,
           "var_name": "cursor",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 92,
-          "var_name": "lower_text",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
@@ -12693,7 +12180,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 103,
+          "line_number": 94,
           "var_name": "lower_text",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12702,7 +12189,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 108,
+          "line_number": 104,
           "var_name": "lower_text",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12711,8 +12198,8 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 136,
-          "var_name": "window_start",
+          "line_number": 109,
+          "var_name": "lower_text",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
@@ -12729,7 +12216,16 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 142,
+          "line_number": 138,
+          "var_name": "window_start",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 143,
           "var_name": "score",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12738,7 +12234,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 157,
+          "line_number": 158,
           "var_name": "search_text",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12747,7 +12243,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 161,
+          "line_number": 162,
           "var_name": "search_text",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12756,7 +12252,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 171,
+          "line_number": 172,
           "var_name": "uch",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12765,7 +12261,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 174,
+          "line_number": 175,
           "var_name": "term",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12774,7 +12270,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 177,
+          "line_number": 178,
           "var_name": "term",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12783,7 +12279,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 215,
+          "line_number": 216,
           "var_name": "ranges",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12792,7 +12288,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 217,
+          "line_number": 218,
           "var_name": "ranges",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12801,7 +12297,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 237,
+          "line_number": 238,
           "var_name": "lt",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12810,7 +12306,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 246,
+          "line_number": 247,
           "var_name": "lt",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12819,7 +12315,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 249,
+          "line_number": 250,
           "var_name": "lt",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -12828,17 +12324,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 25,
-          "class_name": "Unknown",
-          "function_name": "SearchHighlighter",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 28,
+          "line_number": 26,
           "class_name": "Unknown",
           "function_name": "SearchHighlighter",
           "issue": "Virtual function called in constructor",
@@ -12858,7 +12344,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 35,
+          "line_number": 30,
           "class_name": "Unknown",
           "function_name": "SearchHighlighter",
           "issue": "Virtual function called in constructor",
@@ -12868,7 +12354,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 42,
+          "line_number": 36,
+          "class_name": "Unknown",
+          "function_name": "SearchHighlighter",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 43,
           "class_name": "Unknown",
           "function_name": "tokenize",
           "issue": "Virtual function called in constructor",
@@ -12878,19 +12374,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 44,
+          "line_number": 45,
           "class_name": "Unknown",
           "function_name": "tokenize",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 48,
-          "class_name": "Unknown",
-          "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -12908,77 +12394,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 56,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 61,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 89,
-          "class_name": "Unknown",
-          "function_name": "append",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 103,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 118,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 155,
-          "class_name": "Unknown",
-          "function_name": "findMatchRanges",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 164,
-          "class_name": "Unknown",
-          "function_name": "findMatchRanges",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 177,
+          "line_number": 50,
           "class_name": "Unknown",
           "function_name": "for",
           "issue": "Virtual function called in constructor",
@@ -12988,67 +12404,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 191,
-          "class_name": "Unknown",
-          "function_name": "while",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 200,
-          "class_name": "Unknown",
-          "function_name": "sort",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 212,
-          "class_name": "Unknown",
-          "function_name": "push_back",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 229,
-          "class_name": "Unknown",
-          "function_name": "catch",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 249,
-          "class_name": "Unknown",
-          "function_name": "reserve",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 252,
-          "class_name": "Unknown",
-          "function_name": "reserve",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 258,
+          "line_number": 57,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -13058,7 +12414,97 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 262,
+          "line_number": 62,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 90,
+          "class_name": "Unknown",
+          "function_name": "append",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 104,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 119,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 156,
+          "class_name": "Unknown",
+          "function_name": "findMatchRanges",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 165,
+          "class_name": "Unknown",
+          "function_name": "findMatchRanges",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 178,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 192,
+          "class_name": "Unknown",
+          "function_name": "while",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 201,
+          "class_name": "Unknown",
+          "function_name": "sort",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 213,
           "class_name": "Unknown",
           "function_name": "push_back",
           "issue": "Virtual function called in constructor",
@@ -13068,7 +12514,57 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\search\\search_highlighter.cpp",
-          "line_number": 264,
+          "line_number": 230,
+          "class_name": "Unknown",
+          "function_name": "catch",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 250,
+          "class_name": "Unknown",
+          "function_name": "reserve",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 253,
+          "class_name": "Unknown",
+          "function_name": "reserve",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 259,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 263,
+          "class_name": "Unknown",
+          "function_name": "push_back",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\search\\search_highlighter.cpp",
+          "line_number": 265,
           "class_name": "Unknown",
           "function_name": "bestWindowOffset",
           "issue": "Virtual function called in constructor",
@@ -13076,7 +12572,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 43,
+          "line": 44,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -13085,7 +12581,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 110,
+          "line": 111,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -13094,7 +12590,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 110,
+          "line": 111,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -13103,7 +12599,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 182,
+          "line": 183,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -13112,7 +12608,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 182,
+          "line": 183,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -13121,7 +12617,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 201,
+          "line": 202,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -13130,7 +12626,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 251,
+          "line": 252,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -13139,21 +12635,12 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 251,
+          "line": 252,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
           "description": "vector::push_back in loop without prior reserve()",
           "context": "lower_terms.push_back(std::move(lt));"
-        },
-        {
-          "file": "src\\search\\search_highlighter.cpp",
-          "line": 73,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_health_check",
-          "description": "Service without health check endpoint",
-          "context": "for (auto& [start, end] : offsets) {"
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
@@ -13162,11 +12649,20 @@
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
           "description": "Service without health check endpoint",
+          "context": "for (auto& [start, end] : offsets) {"
+        },
+        {
+          "file": "src\\search\\search_highlighter.cpp",
+          "line": 75,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_health_check",
+          "description": "Service without health check endpoint",
           "context": "if (start > text.size() || end > text.size() || start >= end) continue;"
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 76,
+          "line": 77,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13175,7 +12671,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 78,
+          "line": 79,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13184,7 +12680,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 95,
+          "line": 96,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13193,7 +12689,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 96,
+          "line": 97,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13202,7 +12698,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 117,
+          "line": 118,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13211,7 +12707,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 119,
+          "line": 120,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13220,7 +12716,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 124,
+          "line": 125,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13229,7 +12725,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 125,
+          "line": 126,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13238,7 +12734,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 127,
+          "line": 128,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13247,7 +12743,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 128,
+          "line": 129,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13256,7 +12752,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 129,
+          "line": 130,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13265,7 +12761,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 131,
+          "line": 132,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13274,7 +12770,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 135,
+          "line": 136,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13283,7 +12779,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 136,
+          "line": 137,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -13292,7 +12788,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 110,
+          "line": 111,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -13301,7 +12797,7 @@
         },
         {
           "file": "src\\search\\search_highlighter.cpp",
-          "line": 182,
+          "line": 183,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -13310,15 +12806,6 @@
         }
       ],
       "src\\search\\search_result_stream.cpp": [
-        {
-          "file": "src\\search\\search_result_stream.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "src\\search\\search_result_stream.cpp",
           "line": 30,

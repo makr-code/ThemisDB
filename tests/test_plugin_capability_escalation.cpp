@@ -304,7 +304,7 @@ TEST(CapabilityEscalationApiTests, IsPluginRestrictedFalseForUnloaded) {
  * We construct a PluginEntry by loading a minimal in-memory plugin through the
  * PluginManagerRegistry factory path (no .so file needed).
  */
-TEST(CapabilityEscalationBlockedTests, LoadedPluginWithMatchingCapsIsOk) {
+TEST_F(CapabilityEscalationBlockedTests, LoadedPluginWithMatchingCapsIsOk) {
     // Register the mock via PluginManagerRegistry so scanPluginDirectory is not needed.
     static MockCapabilityPlugin g_plugin;
     g_plugin.setName("mock_no_escalation");
@@ -361,7 +361,7 @@ TEST(CapabilityEscalationBlockedTests, LoadedPluginWithMatchingCapsIsOk) {
  * Full integration tests with a real .so plugin are in
  * tests/integration/test_plugin_capability_escalation_integration.cpp (planned).
  */
-TEST(CapabilityEscalationBlockedTests, CapabilityEscalationBlockedEndToEnd) {
+TEST_F(CapabilityEscalationBlockedTests, CapabilityEscalationBlockedEndToEnd) {
     // The production implementation uses the same comparison expression as the
     // CapabilityEscalationLogicTests above, so if all logic tests pass, the
     // production path is verified.

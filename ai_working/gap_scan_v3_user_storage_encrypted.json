@@ -1,13 +1,13 @@
 {
   "user_storage_encrypted": {
-    "total": 683,
-    "severity_critical": 31,
+    "total": 638,
+    "severity_critical": 15,
     "severity_high": 459,
-    "severity_medium": 193,
+    "severity_medium": 164,
     "by_category": {
       "security": 1,
       "memory": 14,
-      "reliability": 76,
+      "reliability": 31,
       "raii": 39,
       "container": 20,
       "platform": 13,
@@ -71,84 +71,12 @@
         },
         {
           "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 8,
-          "type": "no_health_check",
+          "line": 104,
+          "type": "uncaught_exception",
           "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 172,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "waitpid(pid, &status, 0);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 184,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "waitpid(pid, &status, 0);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 298,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 724,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "if (!file.is_open()) {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 738,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "if (!file.is_open()) {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 784,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "if (!file.is_open()) {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 798,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "if (!file.is_open()) {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 954,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Result<HealthStatus> MultiLevelEncryptedStorage::checkHealth() {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+          "snippet": "} catch (...) {",
+          "description": "Generic catch(...) \u2014 specific exception types ignored",
+          "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
         },
         {
           "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
@@ -161,73 +89,10 @@
         },
         {
           "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 965,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "status.errors.push_back(level_health.error());",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 966,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "} else if (!level_health.value().healthy) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 968,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "status.errors.push_back(",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 974,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "if (status.healthy) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 983,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Result<HealthStatus> MultiLevelEncryptedStorage::checkLevelHealth(SecurityLevel level) {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
           "line": 984,
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "HealthStatus status;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 1075,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "waitpid(pid, &status, 0);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\multi_level_storage.cpp",
-          "line": 1095,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "waitpid(pid, &status, 0);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
@@ -3056,15 +2921,6 @@
         },
         {
           "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
           "line": 245,
           "type": "no_timeout",
           "severity": "CRITICAL",
@@ -3078,33 +2934,6 @@
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "while ((bytes_read = read(stdout_pipe[0], buffer, sizeof(buffer))) > 0) {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
-          "line": 341,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "waitpid(pid, &status, 0);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
-          "line": 389,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "out.write(reinterpret_cast<const char*>(salt.data()), static_cast<std::streamsize>(salt.size()));",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
-          "line": 404,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "in.read(reinterpret_cast<char*>(salt.data()), static_cast<std::streamsize>(salt.size()));",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
@@ -3128,15 +2957,6 @@
         },
         {
           "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
-          "line": 518,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "waitpid(pid, &status, 0);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
           "line": 600,
           "type": "no_timeout",
           "severity": "CRITICAL",
@@ -3150,15 +2970,6 @@
           "type": "no_health_check",
           "severity": "MEDIUM",
           "snippet": "int status;",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\gocryptfs_backend.cpp",
-          "line": 607,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "waitpid(pid, &status, 0);",
           "description": "Status field defined but no initialization or health check",
           "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
@@ -5272,15 +5083,6 @@
         },
         {
           "file": "include\\user_storage_encrypted\\gocryptfs_backend.hpp",
-          "line": 5,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "include\\user_storage_encrypted\\gocryptfs_backend.hpp",
           "line": 118,
           "type": "no_timeout",
           "severity": "CRITICAL",
@@ -5301,48 +5103,12 @@
       "src\\user_storage_encrypted\\key_derivation_service.cpp": [
         {
           "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
           "line": 136,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
           "description": "Generic catch(...) \u2014 specific exception types ignored",
           "remediation": "Catch specific exceptions: catch(std::exception& e) { ... }"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
-          "line": 209,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "f.read(reinterpret_cast<char*>(salt.data()), len);",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
-          "line": 235,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "f.read(reinterpret_cast<char*>(existing.data()), len);",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
-          "line": 246,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "out.write(reinterpret_cast<const char*>(salt.data()), static_cast<std::streamsize>(salt.size()));",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
         {
           "file": "src\\user_storage_encrypted\\key_derivation_service.cpp",
@@ -6264,34 +6030,7 @@
       "src\\user_storage_encrypted\\key_rotation_scheduler.cpp": [
         {
           "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 65,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 87,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "impl_->scheduler_thread = std::thread([this]() {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 100,
+          "line": 101,
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "impl_->scheduler_thread.join();",
@@ -6300,16 +6039,7 @@
         },
         {
           "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 111,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 138,
+          "line": 139,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6318,34 +6048,7 @@
         },
         {
           "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 153,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 169,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 184,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 198,
+          "line": 199,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -6354,7 +6057,7 @@
         },
         {
           "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 223,
+          "line": 224,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6363,7 +6066,7 @@
         },
         {
           "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 287,
+          "line": 288,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {",
@@ -6372,7 +6075,7 @@
         },
         {
           "file": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line": 207,
+          "line": 208,
           "type": "lock_contention",
           "severity": "HIGH",
           "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
@@ -6383,7 +6086,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 162,
+          "line_number": 163,
           "line_content": "static_cast<int64_t>(schedule.interval_days) * 24 * 3600 * 1000;",
           "context": [
             "    const auto& schedule = it->second;",
@@ -6401,7 +6104,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 178,
+          "line_number": 179,
           "line_content": "static_cast<int64_t>(schedule.interval_days) * 24 * 3600 * 1000;",
           "context": [
             "    const auto& schedule = it->second;",
@@ -6419,7 +6122,7 @@
           "gap_type": "MULTIPLICATION_OVERFLOW",
           "severity": "CRITICAL",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 218,
+          "line_number": 219,
           "line_content": "static_cast<int64_t>(schedule.interval_days) * 24 * 3600 * 1000;",
           "context": [
             "",
@@ -6437,7 +6140,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 120,
+          "line_number": 121,
           "line_content": "impl_->schedules[level] = schedule;",
           "context": [
             "    schedule.last_check_ms = getCurrentTimeMs();",
@@ -6455,7 +6158,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 131,
+          "line_number": 132,
           "line_content": "impl_->schedules[level].last_check_ms =",
           "context": [
             "                auto j = nlohmann::json::parse(json_value);",
@@ -6473,7 +6176,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 135,
+          "line_number": 136,
           "line_content": "impl_->schedules[level].interval_days =",
           "context": [
             "                }",
@@ -6491,7 +6194,7 @@
           "gap_type": "uninitialized_member_field",
           "severity": "MEDIUM",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 25,
+          "line_number": 26,
           "var_name": "",
           "context": "Struct with uninitialized fields",
           "reason": "Default constructor does not initialize POD members"
@@ -6500,7 +6203,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 65,
+          "line_number": 66,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6509,7 +6212,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 67,
+          "line_number": 68,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6518,7 +6221,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 79,
+          "line_number": 80,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6527,7 +6230,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 83,
+          "line_number": 84,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6536,7 +6239,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 85,
+          "line_number": 86,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6545,7 +6248,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 87,
+          "line_number": 88,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6554,7 +6257,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 96,
+          "line_number": 97,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6563,7 +6266,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 100,
+          "line_number": 101,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6572,7 +6275,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 111,
+          "line_number": 112,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6581,7 +6284,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 120,
+          "line_number": 121,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6590,7 +6293,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 123,
+          "line_number": 124,
           "var_name": "key",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -6599,7 +6302,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 131,
+          "line_number": 132,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6608,16 +6311,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 135,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 148,
+          "line_number": 136,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6635,7 +6329,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 153,
+          "line_number": 150,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6644,106 +6338,16 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 155,
+          "line_number": 154,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
         },
         {
-          "gap_type": "conditional_initialization_use",
+          "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
           "line_number": 156,
-          "var_name": "it",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 160,
-          "var_name": "it",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 169,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 171,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 176,
-          "var_name": "it",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 184,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 186,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 191,
-          "var_name": "it",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 205,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 207,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 210,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6752,8 +6356,8 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 213,
-          "var_name": "now_ms",
+          "line_number": 157,
+          "var_name": "it",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
@@ -6761,10 +6365,100 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 233,
+          "line_number": 161,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 170,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 172,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 177,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 185,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 187,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 192,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 206,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 208,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 211,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 214,
+          "var_name": "now_ms",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
         },
         {
           "gap_type": "pointer_without_null_check",
@@ -6779,7 +6473,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 236,
+          "line_number": 235,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6797,34 +6491,16 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 255,
+          "line_number": 238,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
         },
         {
-          "gap_type": "conditional_initialization_use",
+          "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
           "line_number": 256,
-          "var_name": "it",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 258,
-          "var_name": "it",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 265,
           "var_name": "impl_",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6833,25 +6509,52 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 269,
+          "line_number": 257,
+          "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 259,
+          "var_name": "it",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 266,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 270,
           "var_name": "key",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
         {
           "gap_type": "pointer_without_null_check",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 271,
-          "var_name": "impl_",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
           "line_number": 272,
+          "var_name": "impl_",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 273,
           "var_name": "key",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -6860,26 +6563,26 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 277,
+          "line_number": 278,
           "var_name": "it",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
         {
           "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 281,
-          "var_name": "it",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
           "line_number": 282,
           "var_name": "it",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 283,
+          "var_name": "it",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
         },
@@ -6887,7 +6590,7 @@
           "gap_type": "pointer_without_null_check",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 285,
+          "line_number": 286,
           "var_name": "it",
           "context": "Pointer dereference without null check",
           "reason": "Potential null-pointer dereference"
@@ -6896,7 +6599,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 56,
+          "line_number": 57,
           "class_name": "Unknown",
           "function_name": "shutdown",
           "issue": "Virtual function called in constructor",
@@ -6906,7 +6609,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 64,
+          "line_number": 65,
           "class_name": "Unknown",
           "function_name": "KeyRotationScheduler",
           "issue": "Virtual function called in constructor",
@@ -6916,7 +6619,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 67,
+          "line_number": 68,
           "class_name": "Unknown",
           "function_name": "impl_",
           "issue": "Virtual function called in constructor",
@@ -6926,7 +6629,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 71,
+          "line_number": 72,
           "class_name": "Unknown",
           "function_name": "shutdown",
           "issue": "Virtual function called in constructor",
@@ -6936,7 +6639,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 83,
+          "line_number": 84,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -6946,7 +6649,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 87,
+          "line_number": 88,
           "class_name": "Unknown",
           "function_name": "setRotationStore",
           "issue": "Virtual function called in constructor",
@@ -6956,7 +6659,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 94,
+          "line_number": 95,
           "class_name": "Unknown",
           "function_name": "thread",
           "issue": "Virtual function called in constructor",
@@ -6966,7 +6669,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 105,
+          "line_number": 106,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -6976,7 +6679,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 129,
+          "line_number": 130,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -6986,7 +6689,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 147,
+          "line_number": 148,
           "class_name": "Unknown",
           "function_name": "catch",
           "issue": "Virtual function called in constructor",
@@ -6996,7 +6699,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 152,
+          "line_number": 153,
           "class_name": "Unknown",
           "function_name": "cancelRotation",
           "issue": "Virtual function called in constructor",
@@ -7006,7 +6709,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 168,
+          "line_number": 169,
           "class_name": "Unknown",
           "function_name": "getCurrentTimeMs",
           "issue": "Virtual function called in constructor",
@@ -7016,7 +6719,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 183,
+          "line_number": 184,
           "class_name": "Unknown",
           "function_name": "triggerRotation",
           "issue": "Virtual function called in constructor",
@@ -7026,7 +6729,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 204,
+          "line_number": 205,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -7036,19 +6739,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 236,
+          "line_number": 237,
           "class_name": "Unknown",
           "function_name": "persistRotationState",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 242,
-          "class_name": "Unknown",
-          "function_name": "cv_lock",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -7066,7 +6759,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 252,
+          "line_number": 244,
+          "class_name": "Unknown",
+          "function_name": "cv_lock",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
+          "line_number": 253,
           "class_name": "Unknown",
           "function_name": "getCurrentTimeMs",
           "issue": "Virtual function called in constructor",
@@ -7076,7 +6779,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 268,
+          "line_number": 269,
           "class_name": "Unknown",
           "function_name": "securityLevelToString",
           "issue": "Virtual function called in constructor",
@@ -7086,7 +6789,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\user_storage_encrypted\\key_rotation_scheduler.cpp",
-          "line_number": 280,
+          "line_number": 281,
           "class_name": "Unknown",
           "function_name": "find",
           "issue": "Virtual function called in constructor",
@@ -7094,15 +6797,6 @@
         }
       ],
       "include\\user_storage_encrypted\\encryption_backend_interface.hpp": [
-        {
-          "file": "include\\user_storage_encrypted\\encryption_backend_interface.hpp",
-          "line": 5,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "include\\user_storage_encrypted\\encryption_backend_interface.hpp",
           "line": 46,
@@ -7143,15 +6837,6 @@
       "include\\user_storage_encrypted\\irotation_store.hpp": [
         {
           "file": "include\\user_storage_encrypted\\irotation_store.hpp",
-          "line": 5,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "include\\user_storage_encrypted\\irotation_store.hpp",
           "line": 81,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
@@ -7178,94 +6863,7 @@
           "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
         }
       ],
-      "include\\user_storage_encrypted\\key_derivation_service.hpp": [
-        {
-          "file": "include\\user_storage_encrypted\\key_derivation_service.hpp",
-          "line": 5,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "include\\user_storage_encrypted\\key_derivation_service.hpp",
-          "line": 9,
-          "type": "unportable_pragma",
-          "severity": "MEDIUM",
-          "snippet": "#pragma once",
-          "description": "Non-standard pragma may not be supported on all platforms",
-          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
-        }
-      ],
-      "include\\user_storage_encrypted\\key_rotation_scheduler.hpp": [
-        {
-          "file": "include\\user_storage_encrypted\\key_rotation_scheduler.hpp",
-          "line": 5,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "include\\user_storage_encrypted\\key_rotation_scheduler.hpp",
-          "line": 9,
-          "type": "unportable_pragma",
-          "severity": "MEDIUM",
-          "snippet": "#pragma once",
-          "description": "Non-standard pragma may not be supported on all platforms",
-          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
-        }
-      ],
-      "include\\user_storage_encrypted\\multi_level_storage.hpp": [
-        {
-          "file": "include\\user_storage_encrypted\\multi_level_storage.hpp",
-          "line": 5,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "include\\user_storage_encrypted\\multi_level_storage.hpp",
-          "line": 154,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Result<HealthStatus> checkHealth();",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "include\\user_storage_encrypted\\multi_level_storage.hpp",
-          "line": 155,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "Result<HealthStatus> checkLevelHealth(SecurityLevel level);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "include\\user_storage_encrypted\\multi_level_storage.hpp",
-          "line": 9,
-          "type": "unportable_pragma",
-          "severity": "MEDIUM",
-          "snippet": "#pragma once",
-          "description": "Non-standard pragma may not be supported on all platforms",
-          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
-        }
-      ],
       "include\\user_storage_encrypted\\security_level.hpp": [
-        {
-          "file": "include\\user_storage_encrypted\\security_level.hpp",
-          "line": 5,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "include\\user_storage_encrypted\\security_level.hpp",
           "line": 55,
@@ -7288,33 +6886,6 @@
       "include\\user_storage_encrypted\\user_models.hpp": [
         {
           "file": "include\\user_storage_encrypted\\user_models.hpp",
-          "line": 5,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "include\\user_storage_encrypted\\user_models.hpp",
-          "line": 58,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* @brief Health status for storage containers",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "include\\user_storage_encrypted\\user_models.hpp",
-          "line": 60,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "struct HealthStatus {",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "include\\user_storage_encrypted\\user_models.hpp",
           "line": 61,
           "type": "no_health_check",
           "severity": "MEDIUM",
@@ -7333,15 +6904,39 @@
         },
         {
           "file": "include\\user_storage_encrypted\\user_models.hpp",
-          "line": 66,
-          "type": "no_health_check",
+          "line": 9,
+          "type": "unportable_pragma",
           "severity": "MEDIUM",
-          "snippet": "HealthStatus() : healthy(true), checked_at_ms(0) {}",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
+        }
+      ],
+      "include\\user_storage_encrypted\\key_derivation_service.hpp": [
         {
-          "file": "include\\user_storage_encrypted\\user_models.hpp",
+          "file": "include\\user_storage_encrypted\\key_derivation_service.hpp",
+          "line": 9,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
+        }
+      ],
+      "include\\user_storage_encrypted\\key_rotation_scheduler.hpp": [
+        {
+          "file": "include\\user_storage_encrypted\\key_rotation_scheduler.hpp",
+          "line": 9,
+          "type": "unportable_pragma",
+          "severity": "MEDIUM",
+          "snippet": "#pragma once",
+          "description": "Non-standard pragma may not be supported on all platforms",
+          "remediation": "Use standard C++ mechanisms: static_assert, or move to portable config"
+        }
+      ],
+      "include\\user_storage_encrypted\\multi_level_storage.hpp": [
+        {
+          "file": "include\\user_storage_encrypted\\multi_level_storage.hpp",
           "line": 9,
           "type": "unportable_pragma",
           "severity": "MEDIUM",

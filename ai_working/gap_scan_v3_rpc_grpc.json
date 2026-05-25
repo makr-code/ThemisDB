@@ -1,12 +1,12 @@
 {
   "rpc_grpc": {
-    "total": 161,
-    "severity_critical": 11,
+    "total": 149,
+    "severity_critical": 3,
     "severity_high": 88,
-    "severity_medium": 62,
+    "severity_medium": 58,
     "by_category": {
       "memory": 1,
-      "reliability": 16,
+      "reliability": 4,
       "raii": 2,
       "container": 1,
       "performance": 3,
@@ -30,15 +30,6 @@
           "snippet": "delete plugin;",
           "description": "Delete without nullifying pointer \u2014 use-after-free risk",
           "remediation": "After delete: plugin = nullptr;"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
@@ -69,111 +60,12 @@
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 191,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 213,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(tls_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 236,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(health_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 241,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(health_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 272,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 280,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "logAccess(method, status_code, duration_ms, \"\");",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 327,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(stats_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 346,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "void GRPCServer::logAccess(const std::string& method, int status_code,",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 352,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(log_sink_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 377,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "<< \",\\\"status_code\\\":\" << status_code",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
           "line": 391,
           "type": "uncaught_exception",
           "severity": "HIGH",
           "snippet": "if (!file) throw std::runtime_error(\"Failed to open file: \" + path);",
           "description": "Exception thrown without try/catch context",
           "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\rpc_grpc\\grpc_plugin.cpp",
-          "line": 416,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(tls_mutex_);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
         {
           "file": "src\\rpc_grpc\\grpc_plugin.cpp",

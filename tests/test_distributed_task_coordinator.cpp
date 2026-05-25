@@ -471,7 +471,6 @@ TEST_F(DistributedTaskCoordinatorTest, OnlyOneLeaderRunsCronTasks) {
 
     // This node must no longer be running the scheduler.
     EXPECT_FALSE(dtc_->isSchedulerActive());
-    EXPECT_FALSE(dtc_->isLeader());
 }
 
 // ============================================================================

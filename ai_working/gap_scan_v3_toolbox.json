@@ -1,13 +1,13 @@
 {
   "toolbox": {
-    "total": 303,
+    "total": 292,
     "severity_critical": 3,
     "severity_high": 260,
-    "severity_medium": 40,
+    "severity_medium": 29,
     "by_category": {
       "security": 4,
       "memory": 5,
-      "reliability": 21,
+      "reliability": 10,
       "concurrency": 3,
       "container": 4,
       "platform": 2,
@@ -92,15 +92,6 @@
           "snippet": "toolbox_ptr2->extractEntitySet(extracted_text, mime_type, filename_hint);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\toolbox\\content_toolbox_bridge.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\toolbox\\content_toolbox_bridge.cpp",
@@ -571,15 +562,6 @@
           "snippet": "auto registerFormatStep = [&](std::shared_ptr<ingestion::IFormatExtractor> ext) {",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\toolbox\\toolbox_builder.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\toolbox\\toolbox_builder.cpp",
@@ -1481,166 +1463,195 @@
           "context": "primary.find(\"opendocument\") != std::string::npos) {"
         }
       ],
-      "src\\toolbox\\content_fingerprinter.cpp": [
+      "src\\toolbox\\toolbox_composite.cpp": [
         {
-          "file": "src\\toolbox\\content_fingerprinter.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 30,
-          "line_content": "oss << std::hex << std::setfill('0');",
-          "context": [
-            "",
-            "    std::ostringstream oss;",
-            "    oss << std::hex << std::setfill('0');",
-            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
-            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);"
-          ],
-          "pattern_matched": "oss << std::hex << std::setfill('0');",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "SHIFT_OVERFLOW",
-          "severity": "MEDIUM",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 32,
-          "line_content": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-          "context": [
-            "    oss << std::hex << std::setfill('0');",
-            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
-            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-            "    }",
-            "    return oss.str();"
-          ],
-          "pattern_matched": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-          "conversion_from": "",
-          "conversion_to": "",
-          "reason": "Shift operation detected (verify shift count < bitwidth)"
-        },
-        {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "file": "src\\toolbox\\toolbox_composite.cpp",
+          "line": 75,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 26,
-          "line_content": "unsigned char digest[SHA256_DIGEST_LENGTH];",
-          "context": [
-            "/// Compute SHA-256 of @p len bytes at @p data and return a 64-char hex string.",
-            "std::string sha256Hex(const unsigned char* data, std::size_t len) {",
-            "    unsigned char digest[SHA256_DIGEST_LENGTH];",
-            "    SHA256(data, len, digest);",
-            ""
-          ],
-          "pattern_matched": "unsigned char digest[SHA256_DIGEST_LENGTH];",
-          "operation": "Array access: digest[SHA256_DIGEST_LENGTH]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
+          "snippet": "throw std::invalid_argument(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
         },
         {
-          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "file": "src\\toolbox\\toolbox_composite.cpp",
+          "line": 91,
+          "type": "uncaught_exception",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 32,
-          "line_content": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-          "context": [
-            "    oss << std::hex << std::setfill('0');",
-            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
-            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-            "    }",
-            "    return oss.str();"
-          ],
-          "pattern_matched": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
-          "operation": "Array access: digest[i]",
-          "input_source": "",
-          "reason": "Array index not validated before access"
+          "snippet": "throw std::logic_error(",
+          "description": "Exception thrown without try/catch context",
+          "remediation": "Wrap throwing code in try/catch or add proper error handling"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 52,
+          "var_name": "toolbox",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "pointer_without_null_check",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 55,
+          "var_name": "toolbox",
+          "context": "Pointer dereference without null check",
+          "reason": "Potential null-pointer dereference"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 30,
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 24,
           "class_name": "Unknown",
-          "function_name": "sha256Hex",
+          "function_name": "ToolboxComposite",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 32,
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 27,
           "class_name": "Unknown",
-          "function_name": "sha256Hex",
+          "function_name": "ToolboxComposite",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 45,
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 28,
           "class_name": "Unknown",
-          "function_name": "compute",
+          "function_name": "ToolboxComposite",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
-          "line_number": 60,
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 33,
           "class_name": "Unknown",
-          "function_name": "size",
+          "function_name": "ToolboxComposite",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
-          "file": "src\\toolbox\\content_fingerprinter.cpp",
-          "line": 45,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_latency_metric",
-          "description": "No latency measurement for operation",
-          "context": "ContentFingerprint ContentFingerprinter::compute(std::string_view text) const {"
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 46,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
-          "file": "src\\toolbox\\content_fingerprinter.cpp",
-          "line": 60,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_latency_metric",
-          "description": "No latency measurement for operation",
-          "context": "ContentFingerprint ContentFingerprinter::compute("
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 58,
+          "class_name": "Unknown",
+          "function_name": "resolve",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
-          "file": "src\\toolbox\\content_fingerprinter.cpp",
-          "line": 80,
-          "category": "observability",
-          "severity": "MEDIUM",
-          "pattern": "missing_latency_metric",
-          "description": "No latency measurement for operation",
-          "context": "return ContentFingerprinter{}.compute(text);"
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 62,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 70,
+          "class_name": "Unknown",
+          "function_name": "fallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 75,
+          "class_name": "Unknown",
+          "function_name": "addRoute",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 78,
+          "class_name": "Unknown",
+          "function_name": "addRoute",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 82,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 85,
+          "class_name": "Unknown",
+          "function_name": "invalid_argument",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 89,
+          "class_name": "Unknown",
+          "function_name": "setFallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 91,
+          "class_name": "Unknown",
+          "function_name": "setFallback",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\toolbox_composite.cpp",
+          "line_number": 94,
+          "class_name": "Unknown",
+          "function_name": "move",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\toolbox\\ingestion_toolbox.cpp": [
-        {
-          "file": "src\\toolbox\\ingestion_toolbox.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "src\\toolbox\\ingestion_toolbox.cpp",
           "line": 215,
@@ -2363,15 +2374,6 @@
       "src\\toolbox\\language_detector.cpp": [
         {
           "file": "src\\toolbox\\language_detector.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\toolbox\\language_detector.cpp",
           "line": 31,
           "type": "copy_overhead",
           "severity": "MEDIUM",
@@ -2458,15 +2460,6 @@
         }
       ],
       "src\\toolbox\\text_chunker.cpp": [
-        {
-          "file": "src\\toolbox\\text_chunker.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "src\\toolbox\\text_chunker.cpp",
           "line": 55,
@@ -2566,57 +2559,148 @@
           "context": "result.push_back(std::move(c.text));"
         }
       ],
-      "src\\toolbox\\text_normalizer.cpp": [
+      "src\\toolbox\\content_fingerprinter.cpp": [
         {
-          "file": "src\\toolbox\\text_normalizer.cpp",
-          "line": 8,
-          "type": "no_health_check",
+          "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 30,
+          "line_content": "oss << std::hex << std::setfill('0');",
+          "context": [
+            "",
+            "    std::ostringstream oss;",
+            "    oss << std::hex << std::setfill('0');",
+            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
+            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);"
+          ],
+          "pattern_matched": "oss << std::hex << std::setfill('0');",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "SHIFT_OVERFLOW",
+          "severity": "MEDIUM",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 32,
+          "line_content": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+          "context": [
+            "    oss << std::hex << std::setfill('0');",
+            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
+            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+            "    }",
+            "    return oss.str();"
+          ],
+          "pattern_matched": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+          "conversion_from": "",
+          "conversion_to": "",
+          "reason": "Shift operation detected (verify shift count < bitwidth)"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 26,
+          "line_content": "unsigned char digest[SHA256_DIGEST_LENGTH];",
+          "context": [
+            "/// Compute SHA-256 of @p len bytes at @p data and return a 64-char hex string.",
+            "std::string sha256Hex(const unsigned char* data, std::size_t len) {",
+            "    unsigned char digest[SHA256_DIGEST_LENGTH];",
+            "    SHA256(data, len, digest);",
+            ""
+          ],
+          "pattern_matched": "unsigned char digest[SHA256_DIGEST_LENGTH];",
+          "operation": "Array access: digest[SHA256_DIGEST_LENGTH]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
+        },
+        {
+          "gap_type": "UNCHECKED_ARRAY_INDEX",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 32,
+          "line_content": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+          "context": [
+            "    oss << std::hex << std::setfill('0');",
+            "    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {",
+            "        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+            "    }",
+            "    return oss.str();"
+          ],
+          "pattern_matched": "oss << std::setw(2) << static_cast<unsigned int>(digest[i]);",
+          "operation": "Array access: digest[i]",
+          "input_source": "",
+          "reason": "Array index not validated before access"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\text_normalizer.cpp",
-          "line_number": 22,
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 30,
           "class_name": "Unknown",
-          "function_name": "normalize",
+          "function_name": "sha256Hex",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\text_normalizer.cpp",
-          "line_number": 23,
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 32,
           "class_name": "Unknown",
-          "function_name": "normalize",
+          "function_name": "sha256Hex",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\text_normalizer.cpp",
-          "line_number": 31,
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 45,
           "class_name": "Unknown",
-          "function_name": "normalize",
+          "function_name": "compute",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\toolbox\\content_fingerprinter.cpp",
+          "line_number": 60,
+          "class_name": "Unknown",
+          "function_name": "size",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\toolbox\\content_fingerprinter.cpp",
+          "line": 45,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ContentFingerprint ContentFingerprinter::compute(std::string_view text) const {"
+        },
+        {
+          "file": "src\\toolbox\\content_fingerprinter.cpp",
+          "line": 60,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "ContentFingerprint ContentFingerprinter::compute("
+        },
+        {
+          "file": "src\\toolbox\\content_fingerprinter.cpp",
+          "line": 80,
+          "category": "observability",
+          "severity": "MEDIUM",
+          "pattern": "missing_latency_metric",
+          "description": "No latency measurement for operation",
+          "context": "return ContentFingerprinter{}.compute(text);"
         }
       ],
       "src\\toolbox\\text_quality_scorer.cpp": [
-        {
-          "file": "src\\toolbox\\text_quality_scorer.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
@@ -2692,213 +2776,60 @@
           "context": "if (c != ' ' && c != '\\t' && c != '\\n' && c != '\\r') {"
         }
       ],
-      "src\\toolbox\\toolbox_composite.cpp": [
-        {
-          "file": "src\\toolbox\\toolbox_composite.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\toolbox\\toolbox_composite.cpp",
-          "line": 75,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::invalid_argument(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
-        {
-          "file": "src\\toolbox\\toolbox_composite.cpp",
-          "line": 91,
-          "type": "uncaught_exception",
-          "severity": "HIGH",
-          "snippet": "throw std::logic_error(",
-          "description": "Exception thrown without try/catch context",
-          "remediation": "Wrap throwing code in try/catch or add proper error handling"
-        },
+      "src\\toolbox\\toolbox_streaming.cpp": [
         {
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 52,
-          "var_name": "toolbox",
+          "file_path": "src\\toolbox\\toolbox_streaming.cpp",
+          "line_number": 29,
+          "var_name": "chunk_texts",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
         {
-          "gap_type": "pointer_without_null_check",
+          "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 55,
-          "var_name": "toolbox",
-          "context": "Pointer dereference without null check",
-          "reason": "Potential null-pointer dereference"
-        },
+          "file_path": "src\\toolbox\\toolbox_streaming.cpp",
+          "line_number": 57,
+          "class_name": "Unknown",
+          "function_name": "extractEntitiesStream",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        }
+      ],
+      "src\\toolbox\\text_normalizer.cpp": [
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 24,
+          "file_path": "src\\toolbox\\text_normalizer.cpp",
+          "line_number": 22,
           "class_name": "Unknown",
-          "function_name": "ToolboxComposite",
+          "function_name": "normalize",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 27,
+          "file_path": "src\\toolbox\\text_normalizer.cpp",
+          "line_number": 23,
           "class_name": "Unknown",
-          "function_name": "ToolboxComposite",
+          "function_name": "normalize",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 28,
+          "file_path": "src\\toolbox\\text_normalizer.cpp",
+          "line_number": 31,
           "class_name": "Unknown",
-          "function_name": "ToolboxComposite",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 33,
-          "class_name": "Unknown",
-          "function_name": "ToolboxComposite",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 46,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 58,
-          "class_name": "Unknown",
-          "function_name": "resolve",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 62,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 70,
-          "class_name": "Unknown",
-          "function_name": "fallback",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 75,
-          "class_name": "Unknown",
-          "function_name": "addRoute",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 78,
-          "class_name": "Unknown",
-          "function_name": "addRoute",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 82,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 85,
-          "class_name": "Unknown",
-          "function_name": "invalid_argument",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 89,
-          "class_name": "Unknown",
-          "function_name": "setFallback",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 91,
-          "class_name": "Unknown",
-          "function_name": "setFallback",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_composite.cpp",
-          "line_number": 94,
-          "class_name": "Unknown",
-          "function_name": "move",
+          "function_name": "normalize",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ],
       "src\\toolbox\\toolbox_registry.cpp": [
-        {
-          "file": "src\\toolbox\\toolbox_registry.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
@@ -3046,36 +2977,6 @@
           "pattern": "fp_exact_comparison",
           "description": "Floating-point exact comparison (use tolerance/epsilon)",
           "context": "return g_instance != nullptr;"
-        }
-      ],
-      "src\\toolbox\\toolbox_streaming.cpp": [
-        {
-          "file": "src\\toolbox\\toolbox_streaming.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_streaming.cpp",
-          "line_number": 29,
-          "var_name": "chunk_texts",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\toolbox\\toolbox_streaming.cpp",
-          "line_number": 57,
-          "class_name": "Unknown",
-          "function_name": "extractEntitiesStream",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
         }
       ]
     }

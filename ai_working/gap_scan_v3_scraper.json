@@ -1,13 +1,13 @@
 {
   "scraper": {
-    "total": 459,
-    "severity_critical": 9,
+    "total": 448,
+    "severity_critical": 7,
     "severity_high": 313,
-    "severity_medium": 137,
+    "severity_medium": 128,
     "by_category": {
       "security": 1,
       "memory": 2,
-      "reliability": 33,
+      "reliability": 22,
       "raii": 8,
       "container": 34,
       "platform": 4,
@@ -41,15 +41,6 @@
           "snippet": "buf->data.append(ptr, size * nmemb);",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\scraper\\scraper_api_client.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
         },
         {
           "file": "src\\scraper\\scraper_api_client.cpp",
@@ -805,7 +796,7 @@
       "src\\scraper\\scraper_search_engine.cpp": [
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 360,
+          "line": 361,
           "type": "pointer_arithmetic",
           "severity": "HIGH",
           "snippet": "v.push_back(\"//*[@data-result]\");",
@@ -814,16 +805,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 371,
+          "line": 372,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -832,7 +814,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 437,
+          "line": 438,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -841,7 +823,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 453,
+          "line": 454,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
           "snippet": "} catch (...) {}",
@@ -850,7 +832,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 275,
+          "line": 276,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "result.push_back(std::move(sf));",
@@ -859,7 +841,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 413,
+          "line": 414,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "if (!item.url.empty()) page.items.push_back(std::move(item));",
@@ -868,7 +850,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 476,
+          "line": 477,
           "type": "copy_overhead",
           "severity": "MEDIUM",
           "snippet": "page.items.push_back(std::move(item));",
@@ -877,7 +859,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 219,
+          "line": 220,
           "type": "string_concat_loop",
           "severity": "MEDIUM",
           "snippet": "if (c == '>')      { in_tag = false; out += ' '; continue; }",
@@ -888,7 +870,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 38,
+          "line_number": 39,
           "line_content": "out << c;",
           "context": [
             "    for (unsigned char c : s) {",
@@ -906,7 +888,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 40,
+          "line_number": 41,
           "line_content": "out << '%'",
           "context": [
             "            out << c;",
@@ -924,7 +906,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 41,
+          "line_number": 42,
           "line_content": "<< std::hex << std::uppercase",
           "context": [
             "        } else {",
@@ -942,7 +924,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 42,
+          "line_number": 43,
           "line_content": "<< std::setw(2) << std::setfill('0')",
           "context": [
             "            out << '%'",
@@ -960,7 +942,7 @@
           "gap_type": "CAST_TO_SMALLER_TYPE",
           "severity": "MEDIUM",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 43,
+          "line_number": 44,
           "line_content": "<< static_cast<int>(c);",
           "context": [
             "                << std::hex << std::uppercase",
@@ -978,7 +960,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 43,
+          "line_number": 44,
           "line_content": "<< static_cast<int>(c);",
           "context": [
             "                << std::hex << std::uppercase",
@@ -996,7 +978,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 90,
+          "line_number": 91,
           "line_content": "qs << (first ? \"\" : \"&\") << urlEncode(k) << \"=\" << urlEncode(v);",
           "context": [
             "    bool first = true;",
@@ -1014,7 +996,7 @@
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 205,
+          "line_number": 206,
           "line_content": "if (!txt.empty()) { out << txt << ' '; }",
           "context": [
             "                child.type() == pugi::node_cdata) {",
@@ -1032,7 +1014,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 290,
+          "line_number": 291,
           "line_content": "const std::size_t vs = act + 8;",
           "context": [
             "        const std::size_t act = form_html.find(\"action=\\\"\");",
@@ -1050,7 +1032,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 323,
+          "line_number": 324,
           "line_content": "pos = form_end + 1;",
           "context": [
             "        }",
@@ -1068,7 +1050,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 465,
+          "line_number": 466,
           "line_content": "const std::size_t vs = hi + 6;",
           "context": [
             "        const std::size_t hi = tag.find(\"href=\\\"\");",
@@ -1086,7 +1068,7 @@
           "gap_type": "ARITHMETIC_OVERFLOW",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 480,
+          "line_number": 481,
           "line_content": "pos = ae + 1;",
           "context": [
             "            }",
@@ -1104,7 +1086,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 262,
+          "line_number": 263,
           "line_content": "if (!name.empty()) sf.hidden_fields[name] = val;",
           "context": [
             "",
@@ -1122,7 +1104,7 @@
           "gap_type": "UNCHECKED_ARRAY_INDEX",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 316,
+          "line_number": 317,
           "line_content": "if (!name.empty()) sf.hidden_fields[name] = attr(\"value\");",
           "context": [
             "            const std::string ph   = attr(\"placeholder\");",
@@ -1140,7 +1122,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 52,
+          "line_number": 53,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1149,7 +1131,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 62,
+          "line_number": 63,
           "var_name": "slash",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1158,7 +1140,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 94,
+          "line_number": 95,
           "var_name": "first",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1167,7 +1149,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 119,
+          "line_number": 120,
           "var_name": "tl",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1176,7 +1158,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 159,
+          "line_number": 160,
           "var_name": "pl",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1185,17 +1167,8 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 164,
+          "line_number": 165,
           "var_name": "pl",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 218,
-          "var_name": "in_tag",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
         },
@@ -1212,7 +1185,16 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 263,
+          "line_number": 220,
+          "var_name": "in_tag",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_search_engine.cpp",
+          "line_number": 264,
           "var_name": "type",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1221,7 +1203,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 283,
+          "line_number": 284,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1230,7 +1212,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 370,
+          "line_number": 371,
           "var_name": "rank",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1239,7 +1221,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 429,
+          "line_number": 430,
           "var_name": "nxn",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1248,7 +1230,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 461,
+          "line_number": 462,
           "var_name": "pos",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1257,7 +1239,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 469,
+          "line_number": 470,
           "var_name": "ae",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1266,7 +1248,7 @@
           "gap_type": "conditional_initialization_use",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 496,
+          "line_number": 497,
           "var_name": "qs",
           "context": "Variable initialized conditionally",
           "reason": "Use outside conditional block may use uninitialized value"
@@ -1275,7 +1257,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 37,
+          "line_number": 38,
           "class_name": "Unknown",
           "function_name": "urlEncode",
           "issue": "Virtual function called in constructor",
@@ -1285,19 +1267,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 42,
+          "line_number": 43,
           "class_name": "Unknown",
           "function_name": "urlEncode",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 75,
-          "class_name": "Unknown",
-          "function_name": "if",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -1315,7 +1287,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 94,
+          "line_number": 77,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_search_engine.cpp",
+          "line_number": 95,
           "class_name": "Unknown",
           "function_name": "urlEncode",
           "issue": "Virtual function called in constructor",
@@ -1325,7 +1307,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 105,
+          "line_number": 106,
           "class_name": "Unknown",
           "function_name": "for",
           "issue": "Virtual function called in constructor",
@@ -1335,17 +1317,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 107,
-          "class_name": "Unknown",
-          "function_name": "resolveUrl",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 110,
+          "line_number": 108,
           "class_name": "Unknown",
           "function_name": "resolveUrl",
           "issue": "Virtual function called in constructor",
@@ -1365,7 +1337,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 114,
+          "line_number": 112,
           "class_name": "Unknown",
           "function_name": "resolveUrl",
           "issue": "Virtual function called in constructor",
@@ -1375,7 +1347,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 194,
+          "line_number": 115,
+          "class_name": "Unknown",
+          "function_name": "resolveUrl",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_search_engine.cpp",
+          "line_number": 195,
           "class_name": "Unknown",
           "function_name": "for",
           "issue": "Virtual function called in constructor",
@@ -1385,19 +1367,9 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 230,
+          "line_number": 231,
           "class_name": "Unknown",
           "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 248,
-          "class_name": "Unknown",
-          "function_name": "for",
           "issue": "Virtual function called in constructor",
           "reason": "Undefined behavior: vptr not yet fully initialized"
         },
@@ -1415,7 +1387,17 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 275,
+          "line_number": 250,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_search_engine.cpp",
+          "line_number": 276,
           "class_name": "Unknown",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1425,7 +1407,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 333,
+          "line_number": 334,
           "class_name": "Unknown",
           "function_name": "parseResults",
           "issue": "Virtual function called in constructor",
@@ -1435,7 +1417,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 413,
+          "line_number": 414,
           "class_name": "selector",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1445,7 +1427,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 448,
+          "line_number": 449,
           "class_name": "selector",
           "function_name": "select_nodes",
           "issue": "Virtual function called in constructor",
@@ -1455,7 +1437,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 451,
+          "line_number": 452,
           "class_name": "selector",
           "function_name": "select_nodes",
           "issue": "Virtual function called in constructor",
@@ -1465,7 +1447,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 476,
+          "line_number": 477,
           "class_name": "selector",
           "function_name": "find",
           "issue": "Virtual function called in constructor",
@@ -1475,7 +1457,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 492,
+          "line_number": 493,
           "class_name": "selector",
           "function_name": "buildSearchUrl",
           "issue": "Virtual function called in constructor",
@@ -1485,7 +1467,7 @@
           "gap_type": "virtual_call_in_ctor_dtor",
           "severity": "HIGH",
           "file_path": "src\\scraper\\scraper_search_engine.cpp",
-          "line_number": 503,
+          "line_number": 504,
           "class_name": "selector",
           "function_name": "if",
           "issue": "Virtual function called in constructor",
@@ -1493,7 +1475,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 251,
+          "line": 252,
           "category": "audit_logging",
           "severity": "HIGH",
           "pattern": "hardcoded_output",
@@ -1502,7 +1484,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 218,
+          "line": 219,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1511,7 +1493,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 218,
+          "line": 219,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "string_concat_loop",
@@ -1520,7 +1502,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 274,
+          "line": 275,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1529,7 +1511,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 412,
+          "line": 413,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1538,7 +1520,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 412,
+          "line": 413,
           "category": "performance",
           "severity": "MEDIUM",
           "pattern": "missing_vector_reserve",
@@ -1547,7 +1529,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 130,
+          "line": 131,
           "category": "observability",
           "severity": "MEDIUM",
           "pattern": "missing_health_check",
@@ -1556,7 +1538,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 64,
+          "line": 65,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1565,7 +1547,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 120,
+          "line": 121,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1574,7 +1556,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 159,
+          "line": 160,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1583,7 +1565,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 189,
+          "line": 190,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1592,7 +1574,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 281,
+          "line": 282,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1601,7 +1583,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 289,
+          "line": 290,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1610,7 +1592,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 292,
+          "line": 293,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1619,7 +1601,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 299,
+          "line": 300,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1628,7 +1610,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 301,
+          "line": 302,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1637,7 +1619,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 309,
+          "line": 310,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1646,7 +1628,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 320,
+          "line": 321,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1655,7 +1637,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 459,
+          "line": 460,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1664,7 +1646,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 464,
+          "line": 465,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1673,7 +1655,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 467,
+          "line": 468,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1682,7 +1664,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 474,
+          "line": 475,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1691,7 +1673,7 @@
         },
         {
           "file": "src\\scraper\\scraper_search_engine.cpp",
-          "line": 499,
+          "line": 500,
           "category": "determinism",
           "severity": "HIGH",
           "pattern": "fp_exact_comparison",
@@ -1700,24 +1682,6 @@
         }
       ],
       "src\\scraper\\gov_source_catalog.cpp": [
-        {
-          "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\scraper\\gov_source_catalog.cpp",
-          "line": 108,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "if (!f.is_open())",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
         {
           "file": "src\\scraper\\gov_source_catalog.cpp",
           "line": 109,
@@ -2211,338 +2175,7 @@
           "context": "\"Brandenburg state law\" },"
         }
       ],
-      "src\\scraper\\scraper_config.cpp": [
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 38,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "g.keywords.push_back(kw.as<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 71,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "o.queries.push_back(q.as<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 107,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "o.source_ids.push_back(s.as<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 123,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "cfg.seed_urls.push_back(u.as<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 127,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "cfg.whitelist.push_back(u.as<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 131,
-          "type": "copy_overhead",
-          "severity": "MEDIUM",
-          "snippet": "cfg.blacklist.push_back(u.as<std::string>());",
-          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
-          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 45,
-          "var_name": "rm",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 190,
-          "var_name": "suffix",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 193,
-          "var_name": "suffix",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 195,
-          "var_name": "suffix",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "conditional_initialization_use",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 218,
-          "var_name": "whitelist",
-          "context": "Variable initialized conditionally",
-          "reason": "Use outside conditional block may use uninitialized value"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 140,
-          "class_name": "Unknown",
-          "function_name": "for",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 143,
-          "class_name": "Unknown",
-          "function_name": "loadFromFile",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 146,
-          "class_name": "Unknown",
-          "function_name": "loadFromFile",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 151,
-          "class_name": "Unknown",
-          "function_name": "LoadFile",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 155,
-          "class_name": "Unknown",
-          "function_name": "catch",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 158,
-          "class_name": "Unknown",
-          "function_name": "else",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 161,
-          "class_name": "Unknown",
-          "function_name": "runtime_error",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 162,
-          "class_name": "Unknown",
-          "function_name": "loadFromYaml",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 166,
-          "class_name": "Unknown",
-          "function_name": "Load",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 170,
-          "class_name": "Unknown",
-          "function_name": "catch",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 180,
-          "class_name": "Unknown",
-          "function_name": "effectiveSearchQueries",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 183,
-          "class_name": "Unknown",
-          "function_name": "UrlPolicy",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 188,
-          "class_name": "Unknown",
-          "function_name": "UrlPolicy",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "gap_type": "virtual_call_in_ctor_dtor",
-          "severity": "HIGH",
-          "file_path": "src\\scraper\\scraper_config.cpp",
-          "line_number": 209,
-          "class_name": "Unknown",
-          "function_name": "if",
-          "issue": "Virtual function called in constructor",
-          "reason": "Undefined behavior: vptr not yet fully initialized"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 37,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "g.keywords.push_back(kw.as<std::string>());"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 70,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "o.queries.push_back(q.as<std::string>());"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 106,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "o.source_ids.push_back(s.as<std::string>());"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 122,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "cfg.seed_urls.push_back(u.as<std::string>());"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 126,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "cfg.whitelist.push_back(u.as<std::string>());"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 130,
-          "category": "performance",
-          "severity": "MEDIUM",
-          "pattern": "missing_vector_reserve",
-          "description": "vector::push_back in loop without prior reserve()",
-          "context": "cfg.blacklist.push_back(u.as<std::string>());"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 211,
-          "category": "determinism",
-          "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "if (url.compare(0, 7, \"http://\") != 0 &&"
-        },
-        {
-          "file": "src\\scraper\\scraper_config.cpp",
-          "line": 212,
-          "category": "determinism",
-          "severity": "HIGH",
-          "pattern": "fp_exact_comparison",
-          "description": "Floating-point exact comparison (use tolerance/epsilon)",
-          "context": "url.compare(0, 8, \"https://\") != 0) {"
-        }
-      ],
       "src\\scraper\\scraper_js_renderer.cpp": [
-        {
-          "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "src\\scraper\\scraper_js_renderer.cpp",
           "line": 158,
@@ -2558,24 +2191,6 @@
           "type": "no_timeout",
           "severity": "CRITICAL",
           "snippet": "while ((n = ::read(pipefd[0], buf.data(), buf.size())) > 0)",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 176,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "::waitpid(pid, &status, 0);",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\scraper\\scraper_js_renderer.cpp",
-          "line": 195,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "FILE* pipe = _popen(cmd.c_str(), \"r\");",
           "description": "file_io without timeout \u2014 can block indefinitely",
           "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
@@ -3254,15 +2869,6 @@
       "src\\scraper\\scraper_llm_evaluator.cpp": [
         {
           "file": "src\\scraper\\scraper_llm_evaluator.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\scraper\\scraper_llm_evaluator.cpp",
           "line": 38,
           "type": "uncaught_exception",
           "severity": "MEDIUM",
@@ -3626,15 +3232,6 @@
       "src\\scraper\\scraper_metadata_writer.cpp": [
         {
           "file": "src\\scraper\\scraper_metadata_writer.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\scraper\\scraper_metadata_writer.cpp",
           "line": 189,
           "type": "no_timeout",
           "severity": "CRITICAL",
@@ -3868,15 +3465,6 @@
         }
       ],
       "src\\scraper\\scraper_plugin.cpp": [
-        {
-          "file": "src\\scraper\\scraper_plugin.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "file": "src\\scraper\\scraper_plugin.cpp",
           "line": 169,
@@ -4858,6 +4446,319 @@
           "pattern": "fp_exact_comparison",
           "description": "Floating-point exact comparison (use tolerance/epsilon)",
           "context": "return e != std::string::npos"
+        }
+      ],
+      "src\\scraper\\scraper_config.cpp": [
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 38,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "g.keywords.push_back(kw.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 71,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "o.queries.push_back(q.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 107,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "o.source_ids.push_back(s.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 123,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cfg.seed_urls.push_back(u.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 127,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cfg.whitelist.push_back(u.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 131,
+          "type": "copy_overhead",
+          "severity": "MEDIUM",
+          "snippet": "cfg.blacklist.push_back(u.as<std::string>());",
+          "description": "push_back in loop \u2014 consider pre-allocating with reserve()",
+          "remediation": "Call vector.reserve(expected_size) before loop to avoid reallocations"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 45,
+          "var_name": "rm",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 190,
+          "var_name": "suffix",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 193,
+          "var_name": "suffix",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 195,
+          "var_name": "suffix",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "conditional_initialization_use",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 218,
+          "var_name": "whitelist",
+          "context": "Variable initialized conditionally",
+          "reason": "Use outside conditional block may use uninitialized value"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 140,
+          "class_name": "Unknown",
+          "function_name": "for",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 143,
+          "class_name": "Unknown",
+          "function_name": "loadFromFile",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 146,
+          "class_name": "Unknown",
+          "function_name": "loadFromFile",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 151,
+          "class_name": "Unknown",
+          "function_name": "LoadFile",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 155,
+          "class_name": "Unknown",
+          "function_name": "catch",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 158,
+          "class_name": "Unknown",
+          "function_name": "else",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 161,
+          "class_name": "Unknown",
+          "function_name": "runtime_error",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 162,
+          "class_name": "Unknown",
+          "function_name": "loadFromYaml",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 166,
+          "class_name": "Unknown",
+          "function_name": "Load",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 170,
+          "class_name": "Unknown",
+          "function_name": "catch",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 180,
+          "class_name": "Unknown",
+          "function_name": "effectiveSearchQueries",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 183,
+          "class_name": "Unknown",
+          "function_name": "UrlPolicy",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 188,
+          "class_name": "Unknown",
+          "function_name": "UrlPolicy",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "gap_type": "virtual_call_in_ctor_dtor",
+          "severity": "HIGH",
+          "file_path": "src\\scraper\\scraper_config.cpp",
+          "line_number": 209,
+          "class_name": "Unknown",
+          "function_name": "if",
+          "issue": "Virtual function called in constructor",
+          "reason": "Undefined behavior: vptr not yet fully initialized"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 37,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "g.keywords.push_back(kw.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 70,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "o.queries.push_back(q.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 106,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "o.source_ids.push_back(s.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 122,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cfg.seed_urls.push_back(u.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 126,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cfg.whitelist.push_back(u.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 130,
+          "category": "performance",
+          "severity": "MEDIUM",
+          "pattern": "missing_vector_reserve",
+          "description": "vector::push_back in loop without prior reserve()",
+          "context": "cfg.blacklist.push_back(u.as<std::string>());"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 211,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "if (url.compare(0, 7, \"http://\") != 0 &&"
+        },
+        {
+          "file": "src\\scraper\\scraper_config.cpp",
+          "line": 212,
+          "category": "determinism",
+          "severity": "HIGH",
+          "pattern": "fp_exact_comparison",
+          "description": "Floating-point exact comparison (use tolerance/epsilon)",
+          "context": "url.compare(0, 8, \"https://\") != 0) {"
         }
       ]
     }

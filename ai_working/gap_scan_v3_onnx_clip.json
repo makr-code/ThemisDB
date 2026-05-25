@@ -1,13 +1,12 @@
 {
   "onnx_clip": {
-    "total": 175,
-    "severity_critical": 26,
+    "total": 163,
+    "severity_critical": 15,
     "severity_high": 128,
-    "severity_medium": 21,
+    "severity_medium": 20,
     "by_category": {
       "security": 2,
       "memory": 3,
-      "reliability": 12,
       "concurrency": 16,
       "raii": 4,
       "container": 4,
@@ -64,114 +63,6 @@
           "snippet": "EmbeddingResult r = impl_->computeEmbedding(dummy, nullptr,",
           "description": "Pointer/array access without bounds validation",
           "remediation": "Add bounds check before dereferencing"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 8,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 65,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "if (!file.is_open()) {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 80,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "while (file.read(buf, sizeof(buf)) || file.gcount() > 0) {",
-          "description": "file_io without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 299,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 367,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 372,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 377,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 386,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 418,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 464,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 471,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
-        },
-        {
-          "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",
-          "line": 525,
-          "type": "no_timeout",
-          "severity": "CRITICAL",
-          "snippet": "std::lock_guard<std::mutex> lock(impl_->mutex);",
-          "description": "mutex_lock without timeout \u2014 can block indefinitely",
-          "remediation": "Add timeout parameter (e.g., wait_for(timeout), with_timeout())"
         },
         {
           "file": "src\\onnx_clip\\onnx_clip_plugin.cpp",

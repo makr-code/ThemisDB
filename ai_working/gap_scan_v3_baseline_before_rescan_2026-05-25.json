@@ -1,0 +1,332 @@
+{
+  "created_at": "2026-05-25T17:35:36.899186Z",
+  "source_summary_date": "2026-05-21T06:18:22.098070",
+  "criterion": {
+    "total_lt": 50,
+    "critical_lt": 5
+  },
+  "summary": {
+    "total_gaps": 194852,
+    "critical": 11778,
+    "high": 142775,
+    "actionable": 154553,
+    "modules_scanned": 62
+  },
+  "production_ready_modules_count": 2,
+  "production_ready_modules": [
+    "ai",
+    "document"
+  ],
+  "module_stats": {
+    "acceleration": {
+      "total": 4270,
+      "critical": 236,
+      "high": 3011
+    },
+    "ai": {
+      "total": 21,
+      "critical": 3,
+      "high": 17
+    },
+    "analytics": {
+      "total": 7030,
+      "critical": 273,
+      "high": 4712
+    },
+    "api": {
+      "total": 1100,
+      "critical": 26,
+      "high": 849
+    },
+    "aql": {
+      "total": 2867,
+      "critical": 106,
+      "high": 2117
+    },
+    "auth": {
+      "total": 3391,
+      "critical": 183,
+      "high": 2601
+    },
+    "base": {
+      "total": 1434,
+      "critical": 73,
+      "high": 1099
+    },
+    "cache": {
+      "total": 1966,
+      "critical": 157,
+      "high": 1638
+    },
+    "cdc": {
+      "total": 1333,
+      "critical": 105,
+      "high": 1032
+    },
+    "chaos": {
+      "total": 78,
+      "critical": 18,
+      "high": 54
+    },
+    "chimera": {
+      "total": 487,
+      "critical": 39,
+      "high": 307
+    },
+    "config": {
+      "total": 814,
+      "critical": 45,
+      "high": 618
+    },
+    "content": {
+      "total": 4597,
+      "critical": 140,
+      "high": 3407
+    },
+    "core": {
+      "total": 658,
+      "critical": 30,
+      "high": 525
+    },
+    "distributed_knowledge": {
+      "total": 425,
+      "critical": 44,
+      "high": 339
+    },
+    "document": {
+      "total": 23,
+      "critical": 0,
+      "high": 20
+    },
+    "ethics_ai": {
+      "total": 1240,
+      "critical": 69,
+      "high": 774
+    },
+    "exporters": {
+      "total": 1667,
+      "critical": 96,
+      "high": 1196
+    },
+    "failover": {
+      "total": 245,
+      "critical": 26,
+      "high": 192
+    },
+    "geo": {
+      "total": 1448,
+      "critical": 45,
+      "high": 1089
+    },
+    "governance": {
+      "total": 2876,
+      "critical": 162,
+      "high": 1685
+    },
+    "gpu": {
+      "total": 2052,
+      "critical": 269,
+      "high": 1433
+    },
+    "graph": {
+      "total": 3213,
+      "critical": 127,
+      "high": 2375
+    },
+    "importers": {
+      "total": 3288,
+      "critical": 72,
+      "high": 2489
+    },
+    "index": {
+      "total": 8772,
+      "critical": 367,
+      "high": 6485
+    },
+    "ingestion": {
+      "total": 3461,
+      "critical": 178,
+      "high": 2462
+    },
+    "llama_cpp": {
+      "total": 195,
+      "critical": 18,
+      "high": 126
+    },
+    "llm": {
+      "total": 24531,
+      "critical": 2188,
+      "high": 18803
+    },
+    "maintenance": {
+      "total": 457,
+      "critical": 33,
+      "high": 351
+    },
+    "metadata": {
+      "total": 1376,
+      "critical": 60,
+      "high": 993
+    },
+    "network": {
+      "total": 3318,
+      "critical": 241,
+      "high": 2497
+    },
+    "observability": {
+      "total": 2547,
+      "critical": 157,
+      "high": 1796
+    },
+    "onnx_clip": {
+      "total": 175,
+      "critical": 26,
+      "high": 128
+    },
+    "performance": {
+      "total": 2900,
+      "critical": 283,
+      "high": 1988
+    },
+    "plugins": {
+      "total": 949,
+      "critical": 93,
+      "high": 687
+    },
+    "process": {
+      "total": 2146,
+      "critical": 16,
+      "high": 1388
+    },
+    "projects": {
+      "total": 379,
+      "critical": 33,
+      "high": 260
+    },
+    "prompt_engineering": {
+      "total": 3236,
+      "critical": 146,
+      "high": 2148
+    },
+    "query": {
+      "total": 15519,
+      "critical": 698,
+      "high": 12920
+    },
+    "rag": {
+      "total": 6742,
+      "critical": 454,
+      "high": 4652
+    },
+    "replication": {
+      "total": 2876,
+      "critical": 400,
+      "high": 1737
+    },
+    "rpc_grpc": {
+      "total": 161,
+      "critical": 11,
+      "high": 88
+    },
+    "scheduler": {
+      "total": 1784,
+      "critical": 119,
+      "high": 1173
+    },
+    "scraper": {
+      "total": 459,
+      "critical": 9,
+      "high": 313
+    },
+    "search": {
+      "total": 1301,
+      "critical": 39,
+      "high": 944
+    },
+    "security": {
+      "total": 5048,
+      "critical": 310,
+      "high": 3774
+    },
+    "server": {
+      "total": 19261,
+      "critical": 668,
+      "high": 13980
+    },
+    "sharding": {
+      "total": 11078,
+      "critical": 1076,
+      "high": 7770
+    },
+    "stable_diffusion": {
+      "total": 250,
+      "critical": 9,
+      "high": 178
+    },
+    "storage": {
+      "total": 7494,
+      "critical": 543,
+      "high": 5681
+    },
+    "temporal": {
+      "total": 2249,
+      "critical": 146,
+      "high": 1468
+    },
+    "tensor": {
+      "total": 1231,
+      "critical": 128,
+      "high": 906
+    },
+    "themis": {
+      "total": 1301,
+      "critical": 65,
+      "high": 835
+    },
+    "timeseries": {
+      "total": 1867,
+      "critical": 87,
+      "high": 1407
+    },
+    "toolbox": {
+      "total": 303,
+      "critical": 3,
+      "high": 260
+    },
+    "training": {
+      "total": 2048,
+      "critical": 105,
+      "high": 1556
+    },
+    "transaction": {
+      "total": 2526,
+      "critical": 144,
+      "high": 1890
+    },
+    "updates": {
+      "total": 1927,
+      "critical": 165,
+      "high": 1313
+    },
+    "user_storage_encrypted": {
+      "total": 683,
+      "critical": 31,
+      "high": 459
+    },
+    "utils": {
+      "total": 4496,
+      "critical": 195,
+      "high": 3239
+    },
+    "voice": {
+      "total": 2246,
+      "critical": 162,
+      "high": 1639
+    },
+    "whisper": {
+      "total": 325,
+      "critical": 12,
+      "high": 273
+    }
+  }
+}

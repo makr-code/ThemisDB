@@ -1,26 +1,16 @@
 {
   "document": {
-    "total": 23,
+    "total": 22,
     "severity_critical": 0,
     "severity_high": 20,
-    "severity_medium": 3,
+    "severity_medium": 2,
     "by_category": {
-      "reliability": 1,
       "type_conversion": 2,
       "uninitialized": 6,
       "oop_design": 14
     },
     "by_file": {
       "src\\document\\round_trip_editor.cpp": [
-        {
-          "file": "src\\document\\round_trip_editor.cpp",
-          "line": 5,
-          "type": "no_health_check",
-          "severity": "MEDIUM",
-          "snippet": "* Status: Production Ready",
-          "description": "Status field defined but no initialization or health check",
-          "remediation": "Initialize status to UNKNOWN and implement periodic health checks"
-        },
         {
           "gap_type": "SHIFT_OVERFLOW",
           "severity": "MEDIUM",

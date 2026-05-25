@@ -10,6 +10,7 @@
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_interface.h"
+#include "acceleration/plugin_security.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
 #include <fstream>
@@ -75,6 +76,12 @@ protected:
         std::ofstream file(manifest_path);
         file << manifest.dump(2);
         file.close();
+
+        themis::acceleration::PluginSecurityPolicy policy;
+        themis::acceleration::PluginSecurityVerifier verifier(policy);
+        std::string manifest_hash = verifier.calculateFileHash(manifest_path);
+        std::ofstream sig_file(manifest_path + ".sig");
+        sig_file << manifest_hash;
     }
     
     void modifyManifest(const std::string& name) {
@@ -93,6 +100,13 @@ protected:
         std::ofstream outfile(manifest_path);
         outfile << manifest.dump(2);
         outfile.close();
+
+        themis::acceleration::PluginSecurityPolicy policy;
+        themis::acceleration::PluginSecurityVerifier verifier(policy);
+        std::string manifest_hash = verifier.calculateFileHash(manifest_path);
+        std::ofstream sig_file(manifest_path + ".sig");
+        sig_file << manifest_hash;
+        sig_file.close();
     }
     
     void deleteManifest(const std::string& name) {
