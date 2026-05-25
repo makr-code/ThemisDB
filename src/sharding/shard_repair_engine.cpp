@@ -614,7 +614,11 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
     // Case 1: Single-document repair
     if (!job.document_id.empty()) {
         ++job.documents_scanned;
+        auto start = std::chrono::steady_clock::now();
         bool ok = repairDocument(job.document_id, job.collection);
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start);
+        updateMetricsAfterRepair(ok, elapsed);
         if (ok) {
             ++job.documents_repaired;
         } else {

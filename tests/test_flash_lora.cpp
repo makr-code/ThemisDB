@@ -19,7 +19,7 @@
 #if SKIP_FLASH_LORA_TESTS
 
 TEST(DummyFlashLoRA, DisabledOnMSVC) {
-    GTEST_SKIP() << "FlashLoRA GPU tests are temporarily disabled on MSVC while porting.";
+    GTEST_SKIP() << "capability:flash_lora_gpu_tests_enabled=false;reason=msvc_porting_in_progress";
 }
 
 #else
@@ -114,7 +114,7 @@ protected:
 
 TEST_F(FlashLoRATest, IsAvailable_CUDA) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     bool available = FlashLoRA::is_available(cuda_device_);

@@ -168,7 +168,7 @@ protected:
     void SetUp() override {
         backend_ = std::make_unique<VulkanVectorBackend>();
         if (!backend_->initialize() || !backend_->isAvailable()) {
-            GTEST_SKIP() << "Vulkan hardware not available — skipping hardware test";
+            GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_hardware_not_available_for_hardware_test";
         }
     }
 
@@ -310,7 +310,7 @@ TEST_F(VulkanComputeShaderHardeningHwTest, DoubleStagingBuffer_ManyConsecutiveDi
 #else // !THEMIS_ENABLE_VULKAN
 
 TEST(VulkanComputeShaderHardening, VulkanNotCompiled) {
-    GTEST_SKIP() << "Vulkan backend not compiled (THEMIS_ENABLE_VULKAN not set)";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=themis_enable_vulkan_not_set";
 }
 
 #endif // THEMIS_ENABLE_VULKAN

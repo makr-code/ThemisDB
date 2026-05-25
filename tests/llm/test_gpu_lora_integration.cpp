@@ -86,7 +86,7 @@ TEST_F(GPULoRAIntegrationTest, BackendInitialization) {
         llm::LazyModelLoader loader(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -119,7 +119,7 @@ TEST_F(GPULoRAIntegrationTest, GPULayerConfiguration) {
         llm::LazyModelLoader loader(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -140,7 +140,7 @@ TEST_F(GPULoRAIntegrationTest, VRAMLimitConfiguration) {
         llm::LazyModelLoader loader(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -170,7 +170,7 @@ TEST_F(GPULoRAIntegrationTest, LoRAAPIAvailability) {
         }
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -197,7 +197,7 @@ TEST_F(GPULoRAIntegrationTest, MultiLoRAManagerGPUConfig) {
         llm::MultiLoRAManager manager(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -223,7 +223,7 @@ TEST_F(GPULoRAIntegrationTest, LoRAInitializationMethod) {
     void* fake_model = reinterpret_cast<void*>(0x1234);
     EXPECT_FALSE(manager.initializeLoRAWithModel("nonexistent_lora", fake_model));
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -247,7 +247,7 @@ TEST_F(GPULoRAIntegrationTest, LlamaWrapperGPUConfig) {
         llm::LlamaWrapper wrapper(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -273,7 +273,7 @@ TEST_F(GPULoRAIntegrationTest, LlamaWrapperLoRAConfig) {
         llm::LlamaWrapper wrapper(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -329,7 +329,7 @@ TEST_F(GPULoRAIntegrationTest, CompleteGPULoRAConfiguration) {
         EXPECT_EQ(caps.supports_lora, themis_llama_lora_available());
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -354,7 +354,7 @@ TEST_F(GPULoRAIntegrationTest, ConfigurationLogging) {
         llm::LlamaWrapper wrapper(config);
     });
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 

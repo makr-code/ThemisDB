@@ -80,7 +80,7 @@ TEST(TensorRouterDecide, TIM04_MediumDimMediumKappaYieldsHybrid) {
     TensorRouter::DataProfile p;
     p.dim            = 1024;
     p.num_vectors    = 50000;
-    p.kappa_estimate = 2.8;   // ≥ 1.3 but < 1.7 → HYBRID
+    p.kappa_estimate = 1.5;   // ≥ 1.3 but < 1.7 → HYBRID
 
     EXPECT_EQ(TensorRouter::decide(p), TensorRouter::Route::HYBRID);
 }

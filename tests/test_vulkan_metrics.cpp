@@ -77,7 +77,7 @@ TEST_F(VulkanMetricsTest, PrometheusExportContainsVulkanMetrics) {
 // ============================================================================
 TEST_F(VulkanMetricsTest, InitFailureIncrementedWhenVulkanUnavailable) {
     if (VulkanBackend().isAvailable()) {
-        GTEST_SKIP() << "Vulkan ICD present; failure test not applicable";
+        GTEST_SKIP() << "capability:vulkan_failure_path_applicable=false;reason=vulkan_icd_present";
     }
 
     VulkanBackend backend;
@@ -95,10 +95,10 @@ TEST_F(VulkanMetricsTest, InitSuccessIncrementedOnSuccess) {
     VulkanBackend backend;
 
     if (!backend.isAvailable()) {
-        GTEST_SKIP() << "Vulkan not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
     if (!backend.initialize()) {
-        GTEST_SKIP() << "Vulkan initialization failed (no GPU or shaders)";
+        GTEST_SKIP() << "capability:vulkan_backend_initialized=false;reason=vulkan_initialization_failed_no_gpu_or_shaders";
     }
 
     EXPECT_EQ(counterValue("themis_acceleration_vulkan_init_success_total"), 1u);
@@ -114,7 +114,7 @@ TEST_F(VulkanMetricsTest, L2DistanceOperationRecorded) {
     VulkanBackend backend;
 
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "Vulkan not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
 
     const size_t nq = 2, nv = 4, dim = 8;
@@ -138,7 +138,7 @@ TEST_F(VulkanMetricsTest, CosineDistanceOperationRecorded) {
     VulkanBackend backend;
 
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "Vulkan not available";
+        GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_not_available";
     }
 
     const size_t nq = 2, nv = 4, dim = 8;

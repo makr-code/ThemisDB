@@ -153,7 +153,7 @@ TEST_F(GPUModuleTest, Allocate_TenantQuota_Enforced) {
         // Keep the suite stable and avoid false negatives in those environments.
         mod.deallocate("tenant_limited", 600 * 1024);
         mgr.RemoveTenantQuota("tenant_limited");
-        GTEST_SKIP() << "Tenant quota enforcement is soft in this runtime path";
+        GTEST_SKIP() << "capability:tenant_quota_hard_enforcement=false;reason=soft_quota_runtime_policy";
     }
     EXPECT_FALSE(second_ok);
 
@@ -261,7 +261,7 @@ TEST_F(GPUModuleTest, PolicyDisabled_AllowsAllCallers) {
     if (!allocated) {
         // In some runtime paths allocation can still be denied due memory
         // backend constraints unrelated to the policy gate.
-        GTEST_SKIP() << "Policy gate disabled, but allocation unavailable in this runtime path";
+        GTEST_SKIP() << "capability:backend_runtime_available=false;reason=allocation_unavailable_with_policy_gate_disabled";
     }
     EXPECT_TRUE(allocated);
     mod.deallocate("", 1024);

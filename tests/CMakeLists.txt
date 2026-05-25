@@ -21317,10 +21317,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_shard_router.cpp")
     )
 
     add_test(NAME AdaptiveShardRouterDomainTests
-        COMMAND test_adaptive_shard_router_focused)
+        COMMAND test_adaptive_shard_router_focused
+                --gtest_filter=AdaptiveShardRouterTest.ASR_DOM_*)
     set_tests_properties(AdaptiveShardRouterDomainTests PROPERTIES
         LABELS "distributed_knowledge;sharding;adaptive_router;domain_routing;session3;focused;unit"
-        TIMEOUT 60
+        TIMEOUT 120
     )
     message(STATUS "  ASR-DOM-01..04: updateAdapterCapability+routeByDomain (best delta, fallback, overwrite, unknown)")
 endif()

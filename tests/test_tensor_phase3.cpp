@@ -236,7 +236,9 @@ TEST(TensorContractionEnginePhase3, TCP03_project_matches_dense) {
     auto proj  = TensorContractionEngine::project(train, 1);
     auto recon = proj.reconstruct();
 
-    auto ref = denseProject(data, {2, 3, 4}, 1);
+    // Compare against dense projection of the *same reconstructed input train*
+    // to avoid attributing upstream TT approximation error to project().
+    auto ref = denseProject(train.reconstruct(), {2, 3, 4}, 1);
     ASSERT_EQ(recon.size(), ref.size());
     for (std::size_t i = 0; i < ref.size(); ++i) {
         EXPECT_NEAR(recon[i], ref[i], 0.5f)

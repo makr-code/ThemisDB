@@ -427,7 +427,7 @@ TEST(BackendCapabilityContract, RegistryContainsVulkanWhenAvailable) {
     auto& registry = BackendRegistry::instance();
     auto* vk = registry.getBackend(BackendType::VULKAN);
     if (vk == nullptr) {
-        GTEST_SKIP() << "No Vulkan ICD available on this system; skipping registration check";
+        GTEST_SKIP() << "capability:vulkan_icd_available=false;reason=no_vulkan_icd_for_registration_check";
     }
     EXPECT_EQ(vk->type(), BackendType::VULKAN);
     auto caps = vk->getCapabilities();
@@ -442,7 +442,7 @@ TEST(BackendCapabilityContract, RegistryBestVectorBackendPrefersVulkanOverCPU) {
     auto& registry = BackendRegistry::instance();
     auto* vk = registry.getBackend(BackendType::VULKAN);
     if (vk == nullptr) {
-        GTEST_SKIP() << "No Vulkan ICD available on this system";
+        GTEST_SKIP() << "capability:vulkan_icd_available=false;reason=no_vulkan_icd_available_on_system";
     }
     auto* best = registry.getBestVectorBackend();
     ASSERT_NE(best, nullptr);

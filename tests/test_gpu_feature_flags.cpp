@@ -136,7 +136,7 @@ TEST_F(FeatureFlagsTest, CommunityOrAbove_CoreFeatures_AreEnabled) {
     // These features should be enabled in Community and above.
     const auto ed = themis::edition::GetEditionType();
     if (ed == themis::edition::EditionType::UNKNOWN) {
-        GTEST_SKIP() << "Unknown edition, skipping default checks";
+        GTEST_SKIP() << "capability:edition_known=false;reason=unknown_edition";
     }
     auto& ff = GPUFeatureFlags::GetInstance();
     EXPECT_TRUE(ff.isEnabled(GPUFeatureFlags::Feature::MEMORY_POOL));

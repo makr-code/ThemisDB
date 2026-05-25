@@ -42,34 +42,34 @@ TEST(VulkanDispatchReliability, BeginCommandBufferFailurePropagatesAsException) 
     // In a non-mock Vulkan environment this test verifies the *compilation*
     // of the new checked path and documents the intended contract.
     // A full failure-injection variant requires the Vulkan Mock ICD.
-    GTEST_SKIP() << "REL-01: failure injection requires Vulkan Mock ICD; "
+    GTEST_SKIP() << "capability:vulkan_mock_icd_available=false;reason=rel_01_failure_injection_requires_mock_icd;details="
                     "compile-path verified via code review";
 }
 
 TEST(VulkanDispatchReliability, EndCommandBufferFailurePropagatesAsException) {
     // REL-02
-    GTEST_SKIP() << "REL-02: failure injection requires Vulkan Mock ICD; "
+    GTEST_SKIP() << "capability:vulkan_mock_icd_available=false;reason=rel_02_failure_injection_requires_mock_icd;details="
                     "compile-path verified via code review";
 }
 
 TEST(VulkanDispatchReliability, QueueSubmitFailurePropagatesAsException) {
     // REL-03
-    GTEST_SKIP() << "REL-03: failure injection requires Vulkan Mock ICD; "
+    GTEST_SKIP() << "capability:vulkan_mock_icd_available=false;reason=rel_03_failure_injection_requires_mock_icd;details="
                     "compile-path verified via code review";
 }
 
 #else // !THEMIS_ENABLE_VULKAN
 
 TEST(VulkanDispatchReliability, VulkanNotAvailable_BeginCommandBuffer) {
-    GTEST_SKIP() << "REL-01: THEMIS_ENABLE_VULKAN not set";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=rel_01_themis_enable_vulkan_not_set";
 }
 
 TEST(VulkanDispatchReliability, VulkanNotAvailable_EndCommandBuffer) {
-    GTEST_SKIP() << "REL-02: THEMIS_ENABLE_VULKAN not set";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=rel_02_themis_enable_vulkan_not_set";
 }
 
 TEST(VulkanDispatchReliability, VulkanNotAvailable_QueueSubmit) {
-    GTEST_SKIP() << "REL-03: THEMIS_ENABLE_VULKAN not set";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=rel_03_themis_enable_vulkan_not_set";
 }
 
 #endif // THEMIS_ENABLE_VULKAN
@@ -93,7 +93,7 @@ TEST(VulkanDispatchReliability, REL04_EnumeratePhysicalDevicesChecked_Documented
     // branch is covered by the hardware test suite when THEMIS_ENABLE_VULKAN
     // is set and a GPU is present.
 #ifndef THEMIS_ENABLE_VULKAN
-    GTEST_SKIP() << "REL-04: THEMIS_ENABLE_VULKAN not set; contract documented";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=rel_04_themis_enable_vulkan_not_set";
 #else
     GTEST_SKIP() << "REL-04: runtime branch requires failure-injection driver; "
                     "compile-path verified via code review";

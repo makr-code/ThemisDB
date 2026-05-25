@@ -29,7 +29,7 @@ protected:
         backend_ = std::make_unique<VulkanBackend>();
         
         if (!backend_->initialize() || !backend_->isAvailable()) {
-            GTEST_SKIP() << "Vulkan backend not available";
+            GTEST_SKIP() << "capability:vulkan_runtime_available=false;reason=vulkan_backend_not_available";
         }
     }
     
@@ -388,7 +388,7 @@ TEST(VulkanFallbackOrder, VulkanInFallbackChain) {
 #else
 
 TEST(VulkanBackendTest, VulkanNotCompiled) {
-    GTEST_SKIP() << "Vulkan backend not compiled";
+    GTEST_SKIP() << "capability:vulkan_compiled=false;reason=vulkan_backend_not_compiled";
 }
 
 // Even without Vulkan SDK, the fallback chain must include VULKAN entry.

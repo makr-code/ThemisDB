@@ -158,7 +158,7 @@ TEST(CudaGeoKernelDispatch, WithCudaTable_ContainmentReturnsNotDispatchedWithout
     // cuda*Malloc path.  On a machine WITH a GPU this test must be skipped.
     CUDAGeoBackend backend;
     if (backend.isAvailable()) {
-        GTEST_SKIP() << "Skipping no-device test: CUDA device is present";
+        GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_device_present";
     }
 
     GeoKernelDispatch d = backend.populateGeoDispatch();
@@ -174,7 +174,7 @@ TEST(CudaGeoKernelDispatch, WithCudaTable_ContainmentReturnsNotDispatchedWithout
 TEST(CudaGeoKernelDispatch, WithCudaTable_DistanceReturnsNotDispatchedWithoutDevice) {
     CUDAGeoBackend backend;
     if (backend.isAvailable()) {
-        GTEST_SKIP() << "Skipping no-device test: CUDA device is present";
+        GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_device_present";
     }
 
     GeoKernelDispatch d = backend.populateGeoDispatch();

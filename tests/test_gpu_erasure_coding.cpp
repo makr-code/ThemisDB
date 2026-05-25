@@ -263,7 +263,7 @@ TEST_F(GPUErasureCodingTest, Statistics) {
 TEST_F(GPUErasureCodingTest, DISABLED_PerformanceBenchmark) {
     // Only run if GPU is available
     if (!gpu_available_) {
-        GTEST_SKIP() << "GPU not available, skipping performance test";
+        GTEST_SKIP() << "capability:backend_runtime_available=false;reason=gpu_not_available_for_performance_test";
     }
     
     auto gpu_coder = std::make_unique<GPUErasureCoder>(

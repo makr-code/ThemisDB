@@ -17,7 +17,7 @@
 #if SKIP_LORA_GPU_TESTS
 
 TEST(DummyLoraGpu, DisabledOnMSVC) {
-    GTEST_SKIP() << "GPU LoRA tests are temporarily disabled on MSVC while porting.";
+    GTEST_SKIP() << "capability:gpu_lora_tests_enabled=false;reason=msvc_porting_in_progress";
 }
 
 #else
@@ -385,7 +385,7 @@ TEST_F(LoRAGPUTest, GPUMemoryManager_Stats) {
 
 TEST_F(LoRAGPUTest, CUDA_Availability) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available, skipping test";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     VRAMAllocator allocator(BackendType::CUDA);
@@ -395,7 +395,7 @@ TEST_F(LoRAGPUTest, CUDA_Availability) {
 
 TEST_F(LoRAGPUTest, CUDA_BasicOperations) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available, skipping test";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     VRAMAllocator allocator(BackendType::CUDA);
@@ -427,7 +427,7 @@ TEST_F(LoRAGPUTest, CUDA_BasicOperations) {
 
 TEST_F(LoRAGPUTest, HIP_Availability) {
     if (!has_hip_) {
-        GTEST_SKIP() << "HIP not available, skipping test";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_not_available";
     }
     
     VRAMAllocator allocator(BackendType::HIP);
@@ -437,7 +437,7 @@ TEST_F(LoRAGPUTest, HIP_Availability) {
 
 TEST_F(LoRAGPUTest, HIP_BasicOperations) {
     if (!has_hip_) {
-        GTEST_SKIP() << "HIP not available, skipping test";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_not_available";
     }
     
     VRAMAllocator allocator(BackendType::HIP);

@@ -69,6 +69,13 @@ WorkloadFingerprintEngine::classify(
     else if (stats.avg_rows_per_query >= 10000) olapScore += 0.15;
     if (stats.write_ratio < 0.10)           olapScore += 0.10;
 
+    // OLAP should represent read-heavy analytical workloads. Strong write-heavy
+    // or bulk-ingest patterns are more indicative of BATCH and should reduce
+    // OLAP affinity to avoid ambiguous classifications.
+    if (stats.write_ratio >= 0.50 || stats.bulk_insert_count > 0) {
+        olapScore *= 0.20;
+    }
+
     // ── BATCH score ─────────────────────────────────────────────────────────
     // Periodic bulk inserts, high write ratio.
     double batchScore = 0.0;
@@ -111,8 +118,21 @@ WorkloadFingerprintEngine::classify(
         pattern    = WorkloadPattern::UNKNOWN;
         confidence = 0.0;
     } else {
-        pattern    = kPatternMap[domIdx];
-        confidence = vec[domIdx];
+        pattern = kPatternMap[domIdx];
+
+        // Confidence as dominance against the runner-up class.
+        // This keeps confidence expressive even when the normalized 4-way
+        // distribution is softened by residual MIXED mass.
+        double first = vec[domIdx];
+        double second = 0.0;
+        for (std::size_t i = 0; i < vec.size(); ++i) {
+            if (i == domIdx) {
+                continue;
+            }
+            second = std::max(second, vec[i]);
+        }
+        const double denom = first + second;
+        confidence = (denom > 1e-12) ? (first / denom) : 0.0;
     }
 
     WorkloadFingerprint fp;

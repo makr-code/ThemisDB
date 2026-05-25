@@ -99,7 +99,7 @@ TEST(HipAnnKernels, Backend_TypeIsHIP) {
 TEST(HipAnnKernels, ComputeDistances_NullQueryReturnsEmpty) {
     HIPVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "HIP hardware not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
     const float vectors[] = {1.f, 0.f};
     auto result = backend.computeDistances(nullptr, 1, 2, vectors, 1, true);
@@ -110,7 +110,7 @@ TEST(HipAnnKernels, ComputeDistances_NullQueryReturnsEmpty) {
 TEST(HipAnnKernels, ComputeDistances_ZeroDimReturnsEmpty) {
     HIPVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "HIP hardware not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
     const float q[] = {1.f};
     const float v[] = {1.f};
@@ -122,7 +122,7 @@ TEST(HipAnnKernels, ComputeDistances_ZeroDimReturnsEmpty) {
 TEST(HipAnnKernels, BatchKnnSearch_ZeroKReturnsEmptyNeighbours) {
     HIPVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "HIP hardware not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
     const float q[] = {1.f, 0.f};
     const float v[] = {1.f, 0.f, 0.f, 1.f};
@@ -140,7 +140,7 @@ TEST(HipAnnKernels, BatchKnnSearch_ZeroKReturnsEmptyNeighbours) {
 TEST(HipAnnKernels, L2Distance_CorrectValues_OnDevice) {
     HIPVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "HIP hardware not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
 
     // q0 = (1, 0), q1 = (0, 1)
@@ -171,7 +171,7 @@ TEST(HipAnnKernels, L2Distance_CorrectValues_OnDevice) {
 TEST(HipAnnKernels, BatchKnnSearch_ReturnsTopKNeighbors) {
     HIPVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "HIP hardware not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
 
     // Query: (1, 0, 0, 0)
@@ -200,7 +200,7 @@ TEST(HipAnnKernels, BatchKnnSearch_ReturnsTopKNeighbors) {
 TEST(HipAnnKernels, DeviceInfo_WhenInitialized_IsPopulated) {
     HIPVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "HIP hardware not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
 
     auto info = backend.getDeviceInfo();
@@ -248,7 +248,7 @@ TEST(HipGeoBackend, GeoDispatch_AllSlotsPopulated) {
 TEST(HipGeoBackend, BatchDistances_ZeroCountReturnsEmpty) {
     HIPGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "HIP hardware not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
     auto result = backend.batchDistances(nullptr, nullptr, nullptr, nullptr, 0, true);
     EXPECT_TRUE(result.empty());
@@ -258,7 +258,7 @@ TEST(HipGeoBackend, BatchDistances_ZeroCountReturnsEmpty) {
 TEST(HipGeoBackend, BatchPointInPolygon_ZeroPointsReturnsEmpty) {
     HIPGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "HIP hardware not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
     auto result = backend.batchPointInPolygon(nullptr, nullptr, 0, nullptr, 0);
     EXPECT_TRUE(result.empty());
@@ -268,7 +268,7 @@ TEST(HipGeoBackend, BatchPointInPolygon_ZeroPointsReturnsEmpty) {
 TEST(HipGeoBackend, BatchDistances_HaversineKnownPair) {
     HIPGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "HIP hardware not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
 
     // New York (40.7128 N, 74.0060 W) → Los Angeles (34.0522 N, 118.2437 W)
@@ -289,7 +289,7 @@ TEST(HipGeoBackend, BatchDistances_HaversineKnownPair) {
 TEST(HipGeoBackend, BatchPointInPolygon_InsideAndOutside) {
     HIPGeoBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "HIP hardware not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_hardware_not_available";
     }
 
     // Unit square with vertices at (lat=0,lon=0)→(1,0)→(1,1)→(0,1)

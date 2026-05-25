@@ -98,7 +98,7 @@ TEST_F(MultiGPUVectorIndexTest, InitializationWithCPUFallback) {
     // The test validates the API works correctly
     if (!initialized) {
         // Expected in environments without GPU hardware
-        GTEST_SKIP() << "Skipping test - no GPU hardware available";
+        GTEST_SKIP() << "capability:gpu_hardware_available=false;reason=no_gpu_hardware_available";
     }
 }
 
@@ -112,7 +112,7 @@ TEST_F(MultiGPUVectorIndexTest, AddAndSearchVectors) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed (likely no GPU hardware)";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed_or_no_gpu_hardware";
     }
     
     // Add vectors
@@ -142,7 +142,7 @@ TEST_F(MultiGPUVectorIndexTest, BatchAddVectors) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     // Batch add
@@ -162,7 +162,7 @@ TEST_F(MultiGPUVectorIndexTest, RemoveVector) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     // Add vectors
@@ -184,7 +184,7 @@ TEST_F(MultiGPUVectorIndexTest, UpdateVector) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     // Add initial vector
@@ -205,7 +205,7 @@ TEST_F(MultiGPUVectorIndexTest, PartitionStrategyRoundRobin) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     EXPECT_EQ(index.getPartitionStrategy(), 
@@ -231,7 +231,7 @@ TEST_F(MultiGPUVectorIndexTest, PartitionStrategyHashBased) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     index.setPartitionStrategy(MultiGPUVectorIndex::PartitionStrategy::HASH_BASED);
@@ -251,7 +251,7 @@ TEST_F(MultiGPUVectorIndexTest, PartitionStrategyBalanced) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     index.addVectorBatch(testIds, testVectors);
@@ -272,7 +272,7 @@ TEST_F(MultiGPUVectorIndexTest, BatchSearch) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     index.addVectorBatch(testIds, testVectors);
@@ -297,7 +297,7 @@ TEST_F(MultiGPUVectorIndexTest, Statistics) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     index.addVectorBatch(testIds, testVectors);
@@ -321,7 +321,7 @@ TEST_F(MultiGPUVectorIndexTest, GetActiveGPUs) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     auto activeGPUs = index.getActiveGPUs();
@@ -338,7 +338,7 @@ TEST_F(MultiGPUVectorIndexTest, SetEfSearch) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     // Change efSearch parameter
@@ -359,7 +359,7 @@ TEST_F(MultiGPUVectorIndexTest, Rebalance) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     index.addVectorBatch(testIds, testVectors);
@@ -381,7 +381,7 @@ TEST_F(MultiGPUVectorIndexTest, SearchResultsIncludeSourceGPU) {
     MultiGPUVectorIndex index(config);
     
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
     
     index.addVectorBatch(testIds, testVectors);
@@ -404,7 +404,7 @@ TEST_F(MultiGPUVectorIndexTest, BatchSearch_ParallelResults_MatchSequential) {
     MultiGPUVectorIndex index(config);
 
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
 
     index.addVectorBatch(testIds, testVectors);
@@ -439,7 +439,7 @@ TEST_F(MultiGPUVectorIndexTest, Statistics_UtilizationTracked_AfterSearch) {
     MultiGPUVectorIndex index(config);
 
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
 
     index.addVectorBatch(testIds, testVectors);
@@ -469,7 +469,7 @@ TEST_F(MultiGPUVectorIndexTest, Statistics_UtilizationTracked_AfterBatchSearch) 
     MultiGPUVectorIndex index(config);
 
     if (!index.initialize(dimension)) {
-        GTEST_SKIP() << "Skipping test - initialization failed";
+        GTEST_SKIP() << "capability:multi_gpu_index_initialized=false;reason=initialization_failed";
     }
 
     index.addVectorBatch(testIds, testVectors);

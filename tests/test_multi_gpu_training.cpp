@@ -34,7 +34,7 @@ protected:
         
         // Skip tests if no GPUs available
         if (ctx_->num_gpus() == 0) {
-            GTEST_SKIP() << "No GPUs available for multi-GPU training tests";
+            GTEST_SKIP() << "capability:multi_gpu_runtime_available=false;reason=no_gpus_available_for_training_tests";
         }
         
         // Setup trainer config
@@ -263,12 +263,12 @@ TEST(MultiGPUTrainingCPUTest, CPUFallback) {
     if (ctx.num_gpus() != 0) {
         // On systems with GPUs, this API does not enforce CPU-only mode.
         // Skip to avoid asserting an incorrect assumption about num_gpus().
-        GTEST_SKIP() << "GPUs detected; cannot force CPU-only mode with current MultiGPUContext API";
+        GTEST_SKIP() << "capability:cpu_only_mode_enforceable=false;reason=gpu_detected_and_api_cannot_force_cpu_only";
     }
     
     // In a true CPU-only environment, verify that no GPUs are reported and skip training.
     EXPECT_EQ(ctx.num_gpus(), 0);
     
     // This test demonstrates graceful handling when no GPUs are available.
-    GTEST_SKIP() << "CPU-only mode: No GPUs to train on";
+    GTEST_SKIP() << "capability:multi_gpu_runtime_available=false;reason=cpu_only_mode_no_gpus";
 }

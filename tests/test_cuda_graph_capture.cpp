@@ -166,7 +166,7 @@ TEST(CudaGraphCapture, GraphCache_ReplaceExistingEntry) {
 TEST(CudaGraphCapture, BatchKnnSearchWithGraph_MatchesBatchKnnSearch_L2) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     // Query: [1, 0, 0]  Vectors: unit basis
@@ -199,7 +199,7 @@ TEST(CudaGraphCapture, BatchKnnSearchWithGraph_MatchesBatchKnnSearch_L2) {
 TEST(CudaGraphCapture, BatchKnnSearchWithGraph_MatchesBatchKnnSearch_Cosine) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     const float queries[] = {1.f, 0.f};
@@ -231,7 +231,7 @@ TEST(CudaGraphCapture, BatchKnnSearchWithGraph_MatchesBatchKnnSearch_Cosine) {
 TEST(CudaGraphCapture, BatchKnnSearchWithGraph_GraphCachedOnSecondCall) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     const float queries[] = {1.f, 0.f};
@@ -256,7 +256,7 @@ TEST(CudaGraphCapture, BatchKnnSearchWithGraph_GraphCachedOnSecondCall) {
 TEST(CudaGraphCapture, BatchKnnSearchWithGraph_DifferentShapeAddsEntry) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     const float q1[] = {1.f, 0.f};
@@ -274,7 +274,7 @@ TEST(CudaGraphCapture, BatchKnnSearchWithGraph_DifferentShapeAddsEntry) {
 TEST(CudaGraphCapture, BatchKnnSearchWithGraph_NullQueryReturnsEmpty) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     const float vectors[] = {1.f, 0.f};
     auto result = backend.batchKnnSearchWithGraph(
@@ -286,7 +286,7 @@ TEST(CudaGraphCapture, BatchKnnSearchWithGraph_NullQueryReturnsEmpty) {
 TEST(CudaGraphCapture, BatchKnnSearchWithGraph_ZeroDimReturnsEmpty) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     const float data[] = {1.f};
     auto result = backend.batchKnnSearchWithGraph(
@@ -298,7 +298,7 @@ TEST(CudaGraphCapture, BatchKnnSearchWithGraph_ZeroDimReturnsEmpty) {
 TEST(CudaGraphCapture, BatchKnnSearchWithGraph_KLargerThanVectorsClamped) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
     const float queries[] = {1.f, 0.f};
     const float vectors[] = {1.f, 0.f,  0.f, 1.f}; // 2 vectors
@@ -315,7 +315,7 @@ TEST(CudaGraphCapture, BatchKnnSearchWithGraph_KLargerThanVectorsClamped) {
 TEST(CudaGraphCapture, BatchKnnSearchWithGraph_ReplayProducesSameResultAsFirstCall) {
     CUDAVectorBackend backend;
     if (!backend.isAvailable() || !backend.initialize()) {
-        GTEST_SKIP() << "CUDA hardware not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_hardware_not_available";
     }
 
     const float queries[] = {0.5f, 0.5f};

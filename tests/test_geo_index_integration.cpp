@@ -260,7 +260,7 @@ TEST_F(GeoIndexIntegrationTest, GpuBackendIsAvailableAndFunctional) {
     EXPECT_STREQ(gpu_backend->name(), "gpu_spatial");
     // isAvailable() must not crash regardless of hardware presence.
     if (!gpu_backend->isAvailable()) {
-        GTEST_SKIP() << "No GPU backend available on this machine; skipping GPU-functional test.";
+        GTEST_SKIP() << "capability:gpu_backend_available=false;reason=no_gpu_backend_available_on_machine";
     }
 
     // Wire it into the spatial index manager and confirm the exact-check path works.

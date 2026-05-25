@@ -11,6 +11,7 @@
 #include "themis/gpu/feature_flags.h"
 #include "themis/gpu/memory_manager.h"
 #include "themis/gpu/mig_manager.h"
+#include <sstream>
 
 using namespace themis::gpu;
 
@@ -26,6 +27,29 @@ static void resetMemoryManager() {
     if (used > 0) {
         mgr.DeallocateGPU(used);
     }
+}
+
+static std::string compiledBackendSummary() {
+    std::ostringstream oss;
+    oss << "cuda=";
+#ifdef THEMIS_ENABLE_CUDA
+    oss << "1";
+#else
+    oss << "0";
+#endif
+    oss << ",hip=";
+#ifdef THEMIS_ENABLE_HIP
+    oss << "1";
+#else
+    oss << "0";
+#endif
+    oss << ",vulkan=";
+#ifdef THEMIS_ENABLE_VULKAN
+    oss << "1";
+#else
+    oss << "0";
+#endif
+    return oss.str();
 }
 
 // ---------------------------------------------------------------------------
@@ -74,7 +98,8 @@ TEST_F(GPUAdminAPITest, GetStats_ReflectsAllocation) {
     const uint64_t kAllocBytes = 512ULL * 1024 * 1024;
     const bool allocated = mgr.TryAllocateGPU(kAllocBytes, "admin_test");
     if (!allocated) {
-        GTEST_SKIP() << "GPU allocation unavailable in this edition/runtime";
+        GTEST_SKIP() << "capability:backend_runtime_available=false;reason=gpu_allocation_unavailable;compiled_backends="
+                     << compiledBackendSummary();
     }
 
     // Validate the allocation on the manager itself first.
@@ -103,7 +128,8 @@ TEST_F(GPUAdminAPITest, GetTenants_ContainsTenantEntry) {
     const uint64_t kTenantAlloc = 256ULL * 1024 * 1024;
     const bool allocated = mgr.TryAllocateGPU(kTenantAlloc, "tag", "tenant_alpha");
     if (!allocated) {
-        GTEST_SKIP() << "GPU tenant allocation unavailable in this edition/runtime";
+        GTEST_SKIP() << "capability:tenant_allocation_available=false;reason=tenant_gpu_allocation_unavailable;compiled_backends="
+                     << compiledBackendSummary();
     }
 
     const auto tenant_stats = mgr.GetTenantStats("tenant_alpha");
@@ -114,7 +140,7 @@ TEST_F(GPUAdminAPITest, GetTenants_ContainsTenantEntry) {
     const auto json = api.getTenantsJson();
 
     if (json == "[]") {
-        GTEST_SKIP() << "Tenant stats not visible across module boundary in this build layout";
+        GTEST_SKIP() << "capability:tenant_stats_visibility=false;reason=module_boundary_visibility";
     }
 
     EXPECT_NE(std::string::npos, json.find("tenant_alpha"));
@@ -245,7 +271,8 @@ TEST_F(GPUAdminAPITest, GetMIGInstances_WithPartition_ContainsExpectedFields) {
     std::string id;
     const auto create_status = mig.createPartition(0, "1g.5gb", id, {dev});
     if (create_status != MIGManager::Status::OK) {
-        GTEST_SKIP() << "MIG partition creation unavailable in this build/runtime";
+        GTEST_SKIP() << "capability:mig_available=false;reason=mig_partition_creation_unavailable;compiled_backends="
+                     << compiledBackendSummary();
     }
     ASSERT_EQ(mig.assignToTenant(id, "tenant_x"), MIGManager::Status::OK);
 

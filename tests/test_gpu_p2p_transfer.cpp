@@ -293,7 +293,7 @@ TEST_F(P2PTransferTest, Transfer_CPUFallback_CopiesData) {
     EXPECT_EQ(stats.cpu_fallback_transfers, 1u);
     EXPECT_EQ(stats.failed_transfers, 0u);
 #else
-    GTEST_SKIP() << "skipped on hardware path";
+    GTEST_SKIP() << "capability:stub_path_active=false;reason=hardware_path_active";
 #endif
 }
 
@@ -319,7 +319,7 @@ TEST_F(P2PTransferTest, Transfer_CPUFallback_MultipleTransfers_StatsAccumulate) 
     EXPECT_EQ(stats.bytes_transferred, 5u * sizeof(src));
     EXPECT_EQ(stats.cpu_fallback_transfers, 5u);
 #else
-    GTEST_SKIP() << "skipped on hardware path";
+    GTEST_SKIP() << "capability:stub_path_active=false;reason=hardware_path_active";
 #endif
 }
 
@@ -439,6 +439,6 @@ TEST_F(P2PTransferTest, ConcurrentTransfers_CPUFallback_NoRaces) {
     for (auto& th : threads) th.join();
     EXPECT_EQ(successes.load(), kThreads * kIter);
 #else
-    GTEST_SKIP() << "skipped on hardware path";
+    GTEST_SKIP() << "capability:stub_path_active=false;reason=hardware_path_active";
 #endif
 }

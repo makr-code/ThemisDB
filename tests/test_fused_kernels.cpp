@@ -18,7 +18,7 @@
 #if SKIP_FUSED_KERNEL_TESTS
 
 TEST(DummyFusedKernels, DisabledOnMSVC) {
-    GTEST_SKIP() << "Fused kernel GPU tests are temporarily disabled on MSVC while porting.";
+    GTEST_SKIP() << "capability:fused_kernel_gpu_tests_enabled=false;reason=msvc_porting_in_progress";
 }
 
 #else
@@ -82,7 +82,7 @@ protected:
 
 TEST_F(FusedKernelsTest, FusedForward_CUDA_AccuracyTest) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     // Create two layers: one with fused kernels, one without
@@ -114,7 +114,7 @@ TEST_F(FusedKernelsTest, FusedForward_CUDA_AccuracyTest) {
 
 TEST_F(FusedKernelsTest, FusedForward_HIP_AccuracyTest) {
     if (!has_hip_) {
-        GTEST_SKIP() << "HIP not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_not_available";
     }
     
     // Create two layers: one with fused kernels, one without
@@ -148,7 +148,7 @@ TEST_F(FusedKernelsTest, FusedForward_HIP_AccuracyTest) {
 
 TEST_F(FusedKernelsTest, FusedBackward_CUDA_GradientsTest) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     // Create two layers: one with fused kernels, one without
@@ -203,7 +203,7 @@ TEST_F(FusedKernelsTest, FusedBackward_CUDA_GradientsTest) {
 
 TEST_F(FusedKernelsTest, FusedBackward_HIP_GradientsTest) {
     if (!has_hip_) {
-        GTEST_SKIP() << "HIP not available";
+        GTEST_SKIP() << "capability:hip_runtime_available=false;reason=hip_not_available";
     }
     
     // Create two layers: one with fused kernels, one without
@@ -254,7 +254,7 @@ TEST_F(FusedKernelsTest, FusedBackward_HIP_GradientsTest) {
 
 TEST_F(FusedKernelsTest, FusedOptimizer_CUDA_WithoutMomentum) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     // Create a simple parameter tensor
@@ -298,7 +298,7 @@ TEST_F(FusedKernelsTest, FusedOptimizer_CUDA_WithoutMomentum) {
 
 TEST_F(FusedKernelsTest, FusedOptimizer_CUDA_WithMomentum) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     // Create a simple parameter tensor
@@ -347,7 +347,7 @@ TEST_F(FusedKernelsTest, FusedOptimizer_CUDA_WithMomentum) {
 
 TEST_F(FusedKernelsTest, FullTrainingLoop_CUDA_FusedVsUnfused) {
     if (!has_cuda_) {
-        GTEST_SKIP() << "CUDA not available";
+        GTEST_SKIP() << "capability:cuda_runtime_available=false;reason=cuda_not_available";
     }
     
     // Create layers and optimizers
