@@ -758,6 +758,12 @@ public:
                    backup_id, shard_ids.size());
         
         try {
+            if (!storage_provider_) {
+                THEMIS_ERROR("Cloud backup failed: provider '{}' is not fully configured",
+                             config_.provider);
+                return false;
+            }
+
             // 1. Create local backup using BackupManager
             auto timestamp = std::chrono::system_clock::now();
             std::string local_backup_dir = config_.local_backup_dir + "/" + backup_id;
@@ -834,6 +840,12 @@ public:
                    backup_id, shard_ids.size());
         
         try {
+            if (!storage_provider_) {
+                THEMIS_ERROR("Cloud backup restore failed: provider '{}' is not fully configured",
+                             config_.provider);
+                return false;
+            }
+
             // 1. Check if backup exists in catalog
             auto it = backup_catalog_.find(backup_id);
             if (it == backup_catalog_.end()) {
@@ -872,6 +884,12 @@ public:
     
     bool deleteBackup(const std::string& backup_id) {
         THEMIS_INFO("Deleting cloud backup: {}", backup_id);
+
+        if (!storage_provider_) {
+            THEMIS_ERROR("Cloud backup deletion failed: provider '{}' is not fully configured",
+                         config_.provider);
+            return false;
+        }
         
         auto it = backup_catalog_.find(backup_id);
         if (it == backup_catalog_.end()) {
@@ -880,10 +898,11 @@ public:
         }
         
         // Delete from cloud storage
-        if (storage_provider_) {
-            for (const auto& shard_id : it->second.shard_ids) {
-                std::string remote_path = config_.backup_prefix + "/" + backup_id + "/" + shard_id;
-                storage_provider_->deleteObject(remote_path);
+        for (const auto& shard_id : it->second.shard_ids) {
+            std::string remote_path = config_.backup_prefix + "/" + backup_id + "/" + shard_id;
+            if (!storage_provider_->deleteObject(remote_path)) {
+                THEMIS_ERROR("Failed to delete backup object from provider: {}", remote_path);
+                return false;
             }
         }
         
@@ -962,18 +981,58 @@ public:
     
 private:
     void initializeStorageProvider() {
+        auto has_s3_callbacks = []() {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            return static_cast<bool>(g_s3_upload_fn) &&
+                   static_cast<bool>(g_s3_download_fn) &&
+                   static_cast<bool>(g_s3_delete_fn) &&
+                   static_cast<bool>(g_s3_list_fn) &&
+                   static_cast<bool>(g_s3_exists_fn);
+        };
+        auto has_azure_callbacks = []() {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            return static_cast<bool>(g_azure_upload_fn) &&
+                   static_cast<bool>(g_azure_download_fn) &&
+                   static_cast<bool>(g_azure_delete_fn) &&
+                   static_cast<bool>(g_azure_list_fn) &&
+                   static_cast<bool>(g_azure_exists_fn);
+        };
+        auto has_gcs_callbacks = []() {
+            std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
+            return static_cast<bool>(g_gcs_upload_fn) &&
+                   static_cast<bool>(g_gcs_download_fn) &&
+                   static_cast<bool>(g_gcs_delete_fn) &&
+                   static_cast<bool>(g_gcs_list_fn) &&
+                   static_cast<bool>(g_gcs_exists_fn);
+        };
+
         if (config_.provider == "s3") {
+            if (!has_s3_callbacks()) {
+                THEMIS_ERROR("S3 provider requires upload/download/delete/list/exists callbacks");
+                storage_provider_.reset();
+                return;
+            }
             storage_provider_ = std::make_unique<S3StorageProvider>(
                 config_.s3_bucket,
                 config_.s3_region,
                 config_.s3_endpoint
             );
         } else if (config_.provider == "azure") {
+            if (!has_azure_callbacks()) {
+                THEMIS_ERROR("Azure provider requires upload/download/delete/list/exists callbacks");
+                storage_provider_.reset();
+                return;
+            }
             storage_provider_ = std::make_unique<AzureStorageProvider>(
                 config_.azure_account,
                 config_.azure_container
             );
         } else if (config_.provider == "gcs") {
+            if (!has_gcs_callbacks()) {
+                THEMIS_ERROR("GCS provider requires upload/download/delete/list/exists callbacks");
+                storage_provider_.reset();
+                return;
+            }
             storage_provider_ = std::make_unique<GCSStorageProvider>(
                 config_.gcs_project_id,
                 config_.gcs_bucket

@@ -559,7 +559,8 @@ private:
     bool runPhase1Unlocked(const TransactionId& txn_id);
 
     /// Run Phase 2: send COMMIT or ABORT to all participants (mutex NOT held).
-    void runPhase2Unlocked(
+    /// @return true when all participants were reached before deadline; false otherwise.
+    bool runPhase2Unlocked(
         const TransactionId&            txn_id,
         const std::vector<Participant>& parts,
         bool                            do_commit

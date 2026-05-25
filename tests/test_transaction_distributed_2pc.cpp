@@ -761,6 +761,7 @@ TEST(Distributed2PCPerfTests, BatchedPrepareWindowGroupsTransactions) {
     DistributedTxnManagerConfig cfg;
     cfg.worker_thread_count  = 4;
     cfg.prepare_batch_window = std::chrono::milliseconds(30);
+    cfg.prepare_timeout      = std::chrono::milliseconds(15000);
     DistributedTransactionManager mgr("perf-coord-batch", cfg);
 
     std::vector<std::unique_ptr<MockParticipant>> participants(N);

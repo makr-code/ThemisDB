@@ -923,8 +923,8 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     }
 
 #if THEMIS_WIRE_V1_PB_HEADER_FOUND
-    AqlQueryFn fn;
-    {
+    AqlQueryFn fn = aql_query_fn_;
+    if (!fn) {
         std::lock_guard<std::mutex> lock(s_bridge_mutex);
         fn = s_query_aql_fn;
     }
@@ -1102,8 +1102,8 @@ void WireProtocolSession::handle_geo_query(
     }
 
 #if THEMIS_WIRE_V1_PB_HEADER_FOUND
-    GeoQueryFn fn;
-    {
+    GeoQueryFn fn = geo_query_fn_;
+    if (!fn) {
         std::lock_guard<std::mutex> lock(s_bridge_mutex);
         fn = s_geo_query_fn;
     }
@@ -1147,8 +1147,8 @@ void WireProtocolSession::handle_timeseries_query(
     }
 
 #if THEMIS_WIRE_V1_PB_HEADER_FOUND
-    TimeseriesQueryFn fn;
-    {
+    TimeseriesQueryFn fn = timeseries_query_fn_;
+    if (!fn) {
         std::lock_guard<std::mutex> lock(s_bridge_mutex);
         fn = s_timeseries_query_fn;
     }
@@ -1307,8 +1307,8 @@ void WireProtocolSession::handle_graph_traverse(std::string_view raw_payload) {
     }
 
 #if THEMIS_WIRE_V1_PB_HEADER_FOUND
-    GraphTraverseFn fn;
-    {
+    GraphTraverseFn fn = graph_traverse_fn_;
+    if (!fn) {
         std::lock_guard<std::mutex> lock(s_bridge_mutex);
         fn = s_graph_traverse_fn;
     }
@@ -1499,6 +1499,24 @@ WireProtocolServer::~WireProtocolServer() {
 }
 
 void WireProtocolServer::start() {
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        const bool has_aql = static_cast<bool>(aql_query_fn_) || static_cast<bool>(s_query_aql_fn);
+        const bool has_geo = static_cast<bool>(geo_query_fn_) || static_cast<bool>(s_geo_query_fn);
+        const bool has_ts = static_cast<bool>(timeseries_query_fn_) || static_cast<bool>(s_timeseries_query_fn);
+        const bool has_graph = static_cast<bool>(graph_traverse_fn_) || static_cast<bool>(s_graph_traverse_fn);
+        if (!has_aql || !has_geo || !has_ts || !has_graph) {
+            std::cerr << "[WireV1] Start refused: missing required protobuf wire callbacks "
+                      << "(aql=" << has_aql
+                      << ", geo=" << has_geo
+                      << ", timeseries=" << has_ts
+                      << ", graph=" << has_graph << ")\n";
+            return;
+        }
+    }
+#endif
+
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         if (running_) return;

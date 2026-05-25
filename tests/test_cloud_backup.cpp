@@ -31,6 +31,66 @@ using namespace themis::sharding;
 
 class CloudBackupTest : public ::testing::Test {
 protected:
+    void installDefaultCloudCallbacks() {
+        setS3UploadFn([](const std::string&, const std::string&, const std::string&,
+                         const std::map<std::string, std::string>&) {
+            return true;
+        });
+        setS3DownloadFn([](const std::string&, const std::string&, const std::string& local_path) {
+            std::ofstream out(local_path);
+            out << "s3-default-download";
+            return out.good();
+        });
+        setS3DeleteFn([](const std::string&, const std::string&) {
+            return true;
+        });
+        setS3ListFn([](const std::string&, const std::string&) {
+            return std::vector<std::string>{};
+        });
+        setS3ExistsFn([](const std::string&, const std::string&) {
+            return true;
+        });
+
+        setAzureUploadFn([](const std::string&, const std::string&, const std::string&,
+                            const std::string&, const std::map<std::string, std::string>&) {
+            return true;
+        });
+        setAzureDownloadFn([](const std::string&, const std::string&, const std::string&,
+                              const std::string& local_path) {
+            std::ofstream out(local_path);
+            out << "azure-default-download";
+            return out.good();
+        });
+        setAzureDeleteFn([](const std::string&, const std::string&, const std::string&) {
+            return true;
+        });
+        setAzureListFn([](const std::string&, const std::string&, const std::string&) {
+            return std::vector<std::string>{};
+        });
+        setAzureExistsFn([](const std::string&, const std::string&, const std::string&) {
+            return true;
+        });
+
+        setGCSUploadFn([](const std::string&, const std::string&, const std::string&,
+                          const std::map<std::string, std::string>&) {
+            return true;
+        });
+        setGCSDownloadFn([](const std::string&, const std::string&, const std::string& local_path) {
+            std::ofstream out(local_path);
+            out << "gcs-default-download";
+            return out.good();
+        });
+        setGCSDeleteFn([](const std::string&, const std::string&) {
+            return true;
+        });
+        setGCSListFn([](const std::string&, const std::string&) {
+            return std::vector<std::string>{};
+        });
+        setGCSExistsFn([](const std::string&, const std::string&) {
+            return true;
+        });
+    }
+
     void SetUp() override {
         setS3UploadFn({});
         setS3DownloadFn({});
@@ -47,6 +107,8 @@ protected:
         setGCSDeleteFn({});
         setGCSListFn({});
         setGCSExistsFn({});
+
+        installDefaultCloudCallbacks();
 
         // Create unique temporary paths for each test
         auto temp_base = std::filesystem::temp_directory_path();
@@ -418,6 +480,12 @@ TEST_F(CloudBackupTest, BackupWithEncryption) {
 TEST_F(CloudBackupTest, WithoutMockModeFails) {
     // Disable mock mode
     unsetenv("THEMIS_CLOUD_BACKUP_MOCK");
+
+    setS3UploadFn({});
+    setS3DownloadFn({});
+    setS3DeleteFn({});
+    setS3ListFn({});
+    setS3ExistsFn({});
     
     CloudBackupConfig config;
     config.provider = "s3";

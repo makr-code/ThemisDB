@@ -184,6 +184,20 @@ void WireProtocolServer::start() {
                   << std::endl;
         return;
     }
+
+    const bool has_query_engine = static_cast<bool>(query_engine_);
+    bool has_geo_callback = false;
+    {
+        std::lock_guard<std::mutex> lock(g_network_geo_fn_mutex);
+        has_geo_callback = static_cast<bool>(g_network_geo_query_fn);
+    }
+    const bool has_geo_backend = static_cast<bool>(spatial_index_) || has_geo_callback;
+    if (!has_query_engine || !has_geo_backend) {
+        std::cerr << "[WireProtocol] Startup refused: missing required runtime backends "
+                  << "(query_engine=" << has_query_engine
+                  << ", geo_backend=" << has_geo_backend << ").\n";
+        return;
+    }
     
     running_.store(true, std::memory_order_release);
 

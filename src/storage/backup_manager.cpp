@@ -1807,9 +1807,9 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
         }
 
         // Step 2: Replay WAL segments between the snapshot boundary and
-        // pitr_options.target_time via the injected WalReplayFn (Stub #249
-        // injection API).  Without an injected function this step is skipped
-        // and restore accuracy is bounded by snapshot granularity.
+        // pitr_options.target_time via the injected WalReplayFn.
+        // Fail-closed: PITR requires WAL replay to satisfy the requested
+        // target timestamp boundary.
         if (wal_replay_fn_) {
             THEMIS_INFO("PITR: replaying WAL segments up to target time via injected WalReplayFn");
             if (!wal_replay_fn_(backup_path.string(), pitr_options.target_time, ec)) {
@@ -1818,19 +1818,10 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
             }
             THEMIS_INFO("PITR: WAL replay completed successfully");
         } else {
-            // STUB/SIMULATION NOTE:
-            // Purpose: Allow PITR to succeed when no WAL replay function has been
-            //          injected.  Snapshot selection (Step 1) still provides
-            //          near-PITR accuracy without replaying individual WAL records.
-            // Activation: `wal_replay_fn_` is null (default — no WAL reader integrated).
-            // Production Delta: Data written between the snapshot boundary and
-            //                   pitr_options.target_time is not replayed; restore
-            //                   accuracy is bounded by snapshot granularity (typically
-            //                   minutes).
-            // Removal Plan: Inject a real WAL replay engine via setWalReplayFn();
-            //               see src/storage/FUTURE_ENHANCEMENTS.md §PITR WAL Replay.
-            THEMIS_WARN("PITR: WAL replay skipped — no WalReplayFn injected; "
-                        "restore accuracy bounded by snapshot granularity (Stub #249)");
+            THEMIS_ERROR("PITR: no WalReplayFn injected; refusing restore because target "
+                         "time cannot be guaranteed without WAL replay");
+            ec = std::make_error_code(std::errc::operation_not_supported);
+            return false;
         }
         return true;
 

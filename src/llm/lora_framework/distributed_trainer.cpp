@@ -62,6 +62,22 @@ bool DistributedTrainer::initialize() {
         spdlog::error("Invalid rank: {} (world_size={})", config_.rank, config_.world_size);
         return false;
     }
+
+    if (!allreduce_cpu_fn_) {
+        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
+                      "setAllReduceCpuFn()", config_.world_size);
+        return false;
+    }
+    if (!broadcast_fn_) {
+        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
+                      "setBroadcastFn()", config_.world_size);
+        return false;
+    }
+    if (!barrier_fn_) {
+        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
+                      "setBarrierFn()", config_.world_size);
+        return false;
+    }
     
     initialized_ = true;
     spdlog::info("Distributed training initialized successfully");
@@ -218,12 +234,14 @@ void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
         return;
     }
 
-    // Fallback: local scale — only correct when world_size == 1.
     if (config_.world_size > 1) {
-        spdlog::warn("DistributedTrainer::allreduce_cpu called without AllReduceCpuFn "
-                     "(world_size={}); gradients are scaled locally only — inject "
-                     "setAllReduceCpuFn() for genuine multi-rank training", config_.world_size);
+        spdlog::error("DistributedTrainer::allreduce_cpu called without AllReduceCpuFn "
+                      "(world_size={}); refusing local fallback in multi-rank mode",
+                      config_.world_size);
+        return;
     }
+
+    // Single-process fallback.
     const float scale = 1.0f / static_cast<float>(config_.world_size);
     for (float& val : data) {
         val *= scale;
@@ -237,19 +255,11 @@ void DistributedTrainer::broadcast_cpu(std::vector<float>& data) {
         return;
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow multi-rank training to proceed past the broadcast call in
-    //          single-process CPU mode where actual inter-process communication
-    //          is not needed (all "ranks" share the same address space).
-    // Activation: Called whenever NCCL/RCCL/Gloo are absent and no BroadcastFn
-    //             has been injected via setBroadcastFn() (default build without
-    //             MPI/Gloo).
-    // Production Delta: No data is sent to any rank.  In a true multi-process
-    //                   setup (e.g. mpirun with world_size > 1) all non-master
-    //                   ranks will continue with stale parameters; training
-    //                   diverges immediately.  Single-process builds are unaffected.
-    // Removal Plan: Inject a real MPI_Bcast/Gloo broadcast via setBroadcastFn() at
-    //               startup.  See src/llm/FUTURE_ENHANCEMENTS.md §DistributedTrainer BroadcastCPU.
+    if (config_.world_size > 1) {
+        spdlog::error("DistributedTrainer::broadcast_cpu called without BroadcastFn "
+                      "(world_size={}); refusing no-op fallback in multi-rank mode",
+                      config_.world_size);
+    }
 }
 
 // ============================================================================

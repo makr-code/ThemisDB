@@ -42,6 +42,19 @@ void SecureTransportClient::clearLz4DecompressFn() {
 
 SecureTransportClient::SecureTransportClient(const Config& config)
     : config_(config) {
+
+    // Default LZ4 bridge uses the in-tree codec; tests may replace this path.
+    setLz4CompressFn([this](const std::string& input, std::string& output) {
+        const auto compressed_bytes = utils::lz4_compress_safe(
+            reinterpret_cast<const uint8_t*>(input.data()),
+            input.size(),
+            std::max(1, config_.compression_level));
+        if (!compressed_bytes || compressed_bytes->empty()) {
+            return false;
+        }
+        output.assign(compressed_bytes->begin(), compressed_bytes->end());
+        return true;
+    });
     
     // Create mTLS client if certificates provided
     if (!config_.cert_path.empty()) {
@@ -96,21 +109,17 @@ bool SecureTransportClient::compressData(const std::string& data,
             }
         }
         if (config_.compression == Config::CompressionType::LZ4) {
-            const auto compressed_bytes = utils::lz4_compress_safe(
-                reinterpret_cast<const uint8_t*>(data.data()),
-                data.size(),
-                std::max(1, config_.compression_level));
-            if (compressed_bytes && !compressed_bytes->empty() &&
-                compressed_bytes->size() < data.size()) {
-                compressed = std::string(compressed_bytes->begin(), compressed_bytes->end());
+            std::string lz4_output;
+            const bool compressed_ok = lz4CompressFn_ && lz4CompressFn_(data, lz4_output);
+            if (compressed_ok && !lz4_output.empty() && lz4_output.size() < data.size()) {
+                compressed = std::move(lz4_output);
                 spdlog::debug("SecureTransportClient: LZ4 compressed {} -> {} bytes (ratio: {:.2f}x)",
                              data.size(), compressed.size(),
                              static_cast<double>(data.size()) / compressed.size());
                 return true;
             }
-            if (!compressed_bytes) {
-                spdlog::warn("SecureTransportClient: LZ4 compression unavailable: {}",
-                             compressed_bytes.error().message());
+            if (!compressed_ok) {
+                spdlog::warn("SecureTransportClient: LZ4 compression unavailable");
             }
         }
     } catch (const std::exception& e) {
