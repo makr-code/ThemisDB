@@ -205,6 +205,13 @@ LoRALayer::LoRALayer(size_t in_dim, size_t out_dim, size_t rank, float scaling)
     , rank_(rank)
     , scaling_(scaling) {
     
+    if (in_dim == 0 || out_dim == 0 || rank == 0) {
+        throw std::invalid_argument(
+            "LoRALayer: in_dim, out_dim, and rank must all be > 0 (got in_dim=" +
+            std::to_string(in_dim) + ", out_dim=" + std::to_string(out_dim) +
+            ", rank=" + std::to_string(rank) + ")");
+    }
+    
     name_ = "LoRALayer_" + std::to_string(in_dim) + "x" + std::to_string(out_dim) + 
             "_r" + std::to_string(rank);
     
@@ -314,6 +321,12 @@ AttentionLoRA::AttentionLoRA(size_t dim, size_t rank,
     , apply_to_k_(apply_to_k)
     , apply_to_v_(apply_to_v)
     , apply_to_o_(apply_to_o) {
+    
+    if (dim == 0 || rank == 0) {
+        throw std::invalid_argument(
+            "AttentionLoRA: dim and rank must be > 0 (got dim=" +
+            std::to_string(dim) + ", rank=" + std::to_string(rank) + ")");
+    }
     
     spdlog::info("Created AttentionLoRA: dim={}, rank={}, q={}, k={}, v={}, o={}",
                 dim, rank, apply_to_q, apply_to_k, apply_to_v, apply_to_o);
