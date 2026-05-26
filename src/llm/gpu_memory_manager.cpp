@@ -116,7 +116,14 @@ private:
     void freeGPUMemory() {
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
-            cudaSetDevice(gpu_device_id_);
+            cudaError_t set_device_err = cudaSetDevice(gpu_device_id_);
+            if (set_device_err != cudaSuccess) {
+                spdlog::error("MemoryHolder::freeGPUMemory: cudaSetDevice({}) failed: {}. "
+                              "Skipping secure clear and attempting cudaFree on current device.",
+                              gpu_device_id_, cudaGetErrorString(set_device_err));
+                CUDA_CHECK(cudaFree(ptr_));
+                return;
+            }
             security::VRAMSecureClear::secureClearCUDA(ptr_, bytes_);
             CUDA_CHECK(cudaFree(ptr_));
         } else {

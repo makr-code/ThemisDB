@@ -255,6 +255,12 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-101: `multi_gpu.cpp` `GPUTopology::detect()` now checks `cudaDeviceCanAccessPeer()` for each CUDA device pair; probe failures are logged and treated as no peer access instead of silently consuming an unchecked result.
 - REL-102: `multi_gpu.cpp` `GPUTopology::detect()` now checks `hipDeviceCanAccessPeer()` for each HIP device pair; probe failures are logged and treated as no peer access instead of silently consuming an unchecked result.
 
+**Status (W1-L16):** REL-103..REL-106 fixed —
+- REL-103: `lora_framework/gpu_memory.cpp` `detect_backends()` now checks `cudaRuntimeGetVersion()` and logs failures; backend version falls back to `"unknown"` on error.
+- REL-104: `lora_framework/gpu_memory.cpp` `detect_backends()` now checks `hipGetDeviceProperties()` and logs failures before reading device metadata.
+- REL-105: `lora_framework/gpu_memory.cpp` `detect_backends()` now checks `hipRuntimeGetVersion()` and logs failures; backend version falls back to `"unknown"` on error.
+- REL-106: `gpu_memory_manager.cpp` `detail::MemoryHolder::freeGPUMemory()` now checks `cudaSetDevice()` before secure-clear/free and logs failures with a guarded cleanup fallback.
+
 ---
 
 ## 📋 Implementation Priority

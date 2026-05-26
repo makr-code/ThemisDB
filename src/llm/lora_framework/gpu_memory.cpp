@@ -252,10 +252,16 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
                 info.compute_units = prop.multiProcessorCount;
             }
             
-            int runtime_version;
-            cudaRuntimeGetVersion(&runtime_version);
-            info.version = std::to_string(runtime_version / 1000) + "." + 
-                          std::to_string((runtime_version % 100) / 10);
+            int runtime_version = 0;
+            cudaError_t runtime_err = cudaRuntimeGetVersion(&runtime_version);
+            if (runtime_err != cudaSuccess) {
+                spdlog::warn("GPUMemoryManager: cudaRuntimeGetVersion failed: {}",
+                             cudaGetErrorString(runtime_err));
+                info.version = "unknown";
+            } else {
+                info.version = std::to_string(runtime_version / 1000) + "." +
+                              std::to_string((runtime_version % 100) / 10);
+            }
         }
         
         backends.push_back(info);
@@ -273,17 +279,27 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
         if (err == hipSuccess && device_count > 0) {
             info.available = true;
             
-            hipDeviceProp_t prop;
-            hipGetDeviceProperties(&prop, 0);
-            
-            info.device_name = prop.name;
-            info.vram_bytes = prop.totalGlobalMem;
-            info.compute_units = prop.multiProcessorCount;
-            
-            int runtime_version;
-            hipRuntimeGetVersion(&runtime_version);
-            info.version = std::to_string(runtime_version / 1000) + "." + 
-                          std::to_string((runtime_version % 100) / 10);
+            hipDeviceProp_t prop{};
+            hipError_t prop_err = hipGetDeviceProperties(&prop, 0);
+            if (prop_err != hipSuccess) {
+                spdlog::warn("GPUMemoryManager: hipGetDeviceProperties failed: {}",
+                             hipGetErrorString(prop_err));
+            } else {
+                info.device_name = prop.name;
+                info.vram_bytes = prop.totalGlobalMem;
+                info.compute_units = prop.multiProcessorCount;
+            }
+
+            int runtime_version = 0;
+            hipError_t runtime_err = hipRuntimeGetVersion(&runtime_version);
+            if (runtime_err != hipSuccess) {
+                spdlog::warn("GPUMemoryManager: hipRuntimeGetVersion failed: {}",
+                             hipGetErrorString(runtime_err));
+                info.version = "unknown";
+            } else {
+                info.version = std::to_string(runtime_version / 1000) + "." +
+                              std::to_string((runtime_version % 100) / 10);
+            }
         }
         
         backends.push_back(info);
