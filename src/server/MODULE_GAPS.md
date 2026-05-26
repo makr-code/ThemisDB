@@ -24,6 +24,12 @@ python tools/gap_audit_pipeline_v2.py
   - Connection-admission hardening: `onAccept` now atomically reserves a connection slot (`compare_exchange_weak`) before session creation, preventing over-admission races around `max_connections` under concurrent accepts.
   - Gap delta intent: reduce `data_race` (Session/SslSession armReadTimer, hot-reload), `iterator_invalidation` (audit_rate_buckets_), and `no_timeout` (write/shutdown async paths) findings for `http_server.cpp` in next server rescan.
 
+- **W1-S02b (2026-05-26) – `src/server/http2_session.cpp`, `include/server/http2_session.h`, `src/server/http_server.cpp`**
+  - HTTP/2 admission parity: accept-path reserved connection slots are now transferred into `Http2Session` via `connection_slot_reserved` instead of being decremented before session start. This keeps accounting symmetric with HTTP/1.1/TLS sessions and removes a transient undercount window for HTTP/2 accepts.
+  - `Http2Session` now participates in `active_connections_` ownership semantics: constructor increments only when no reservation was pre-held, destructor always decrements.
+  - Added focused protocol-level tests in `tests/test_http2_protocol.cpp` that verify reserved-slot transfer and unreserved-session ownership accounting semantics.
+  - Gap delta intent: reduce `data_race`/admission-accounting drift around `max_connections` for HTTP/2 accept paths in next server rescan.
+
 - **W1-S01 (2026-05-26) – `src/server/query_api_handler.cpp`**
   - Data-race hardening: thread-safe access for runtime-injected `IndexRecommender`, `StatisticsCollector`, and masking policy snapshots in request paths.
   - Timeout hardening: explicit timeout aborts added for traversal BFS and LET projection fallback prefix-scan paths (`timeout_ms`).
