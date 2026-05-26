@@ -79,13 +79,16 @@ static uint32_t checked_u32_size(size_t value, const char* context) {
     if (value > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
         throw std::overflow_error(std::string(context) + ": value exceeds uint32 range");
     }
-
-    static void wait_for_pipeline_or_throw(VulkanComputePipeline* pipeline, const char* context) {
-        if (!pipeline->wait(kVulkanKernelWaitTimeoutNs)) {
-            throw std::runtime_error(std::string(context) + ": timed out waiting for Vulkan kernel execution");
-        }
-    }
     return static_cast<uint32_t>(value);
+}
+
+static void wait_for_pipeline_or_throw(VulkanComputePipeline* pipeline, const char* context) {
+    if (pipeline == nullptr) {
+        throw std::invalid_argument(std::string(context) + ": pipeline is null");
+    }
+    if (!pipeline->wait(kVulkanKernelWaitTimeoutNs)) {
+        throw std::runtime_error(std::string(context) + ": timed out waiting for Vulkan kernel execution");
+    }
 }
 
 struct FusedForwardBufferCache {
