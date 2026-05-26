@@ -149,8 +149,15 @@ bool RCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
     
     ncclGroupEnd();
     
-    // Wait for completion
-    hipStreamSynchronize(stream);
+    // Wait for completion — REL-14: check hipStreamSynchronize return value
+    {
+        hipError_t sync_err = hipStreamSynchronize(stream);
+        if (sync_err != hipSuccess) {
+            spdlog::error("RCCL allreduce stream sync failed: {}",
+                          hipGetErrorString(sync_err));
+            return false;
+        }
+    }
     
     // Average if requested
     if (average && world_size_ > 1) {
@@ -209,7 +216,15 @@ bool RCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]]
         return false;
     }
     
-    hipStreamSynchronize(stream);
+    // REL-15: check hipStreamSynchronize return value in broadcast
+    {
+        hipError_t sync_err = hipStreamSynchronize(stream);
+        if (sync_err != hipSuccess) {
+            spdlog::error("RCCL broadcast stream sync failed: {}",
+                          hipGetErrorString(sync_err));
+            return false;
+        }
+    }
     return true;
 #else
     spdlog::error("RCCL not enabled at compile time");
@@ -246,7 +261,14 @@ void RCCLBackend::barrier() {
         spdlog::error("RCCL barrier allreduce failed: {}", ncclGetErrorString(result));
     }
     
-    hipStreamSynchronize(stream);
+    // REL-16: check hipStreamSynchronize return value in barrier
+    {
+        hipError_t sync_err = hipStreamSynchronize(stream);
+        if (sync_err != hipSuccess) {
+            spdlog::error("RCCL barrier stream sync failed: {}",
+                          hipGetErrorString(sync_err));
+        }
+    }
 #endif
 #endif
 }
@@ -285,9 +307,16 @@ bool RCCLBackend::initialize_rccl() {
 #ifdef THEMIS_ENABLE_RCCL
     spdlog::info("Initializing RCCL backend (rank {}/{})", rank_, world_size_);
     
-    // Set device
+    // Set device — REL-17: check hipSetDevice return value
     Device device = ctx_.get_device(rank_);
-    hipSetDevice(device.id);
+    {
+        hipError_t set_err = hipSetDevice(device.id);
+        if (set_err != hipSuccess) {
+            spdlog::error("RCCL init: hipSetDevice({}) failed: {}",
+                          device.id, hipGetErrorString(set_err));
+            return false;
+        }
+    }
     
     // Create HIP stream
     hipStream_t stream;

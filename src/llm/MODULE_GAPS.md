@@ -166,6 +166,23 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - Added focused hardening tests in `tests/test_lora_kernel_interface_hardening.cpp` for uninitialized
   fail-fast behavior and concurrent lifecycle lock-timeout regression coverage.
 
+**Status (v1.22.0-pre — W1-L03b):** REL-10..REL-19 fixed — stream sync + device-set reliability:
+- REL-10: `cudaStreamSynchronize` return value now checked in `NCCLBackend::allreduce()`; error logged and `false` returned.
+- REL-11: `cudaStreamSynchronize` return value now checked in `NCCLBackend::broadcast()`; error logged and `false` returned.
+- REL-12: `cudaStreamSynchronize` return value now checked in `NCCLBackend::barrier()`; error logged.
+- REL-13: `cudaSetDevice` return value now checked in `NCCLBackend::initialize_nccl()`; error logged and `false` returned.
+- REL-14: `hipStreamSynchronize` return value now checked in `RCCLBackend::allreduce()`; error logged and `false` returned.
+- REL-15: `hipStreamSynchronize` return value now checked in `RCCLBackend::broadcast()`; error logged and `false` returned.
+- REL-16: `hipStreamSynchronize` return value now checked in `RCCLBackend::barrier()`; error logged.
+- REL-17: `hipSetDevice` return value now checked in `RCCLBackend::initialize_rccl()`; error logged and `false` returned.
+- REL-18: `hipGetDeviceProperties`, `hipRuntimeGetVersion`, `cudaRuntimeGetVersion` return values now checked in
+  `gpu_memory.cpp::get_available_backends()`; `hipDeviceProp_t` zero-initialised; warnings logged on failure.
+- REL-19: `cudaSetDevice`/`hipSetDevice` return values now checked before kernel dispatch in `multi_gpu_trainer.cpp`;
+  on failure, GPU kernel dispatch is skipped and CPU fallback is used instead.
+
+**OOP-01:** `~LLMPluginAdapter() override = default;` added to `llm_plugin_interface.h` to close override
+destructor gap for the concrete `LLMPluginAdapter` class.
+
 ---
 
 ## 📋 Implementation Priority

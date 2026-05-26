@@ -149,8 +149,15 @@ bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
     
     ncclGroupEnd();
     
-    // Wait for completion
-    cudaStreamSynchronize(stream);
+    // Wait for completion — REL-10: check cudaStreamSynchronize return value
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("NCCL allreduce stream sync failed: {}",
+                          cudaGetErrorString(sync_err));
+            return false;
+        }
+    }
     
     // Average if requested
     if (average && world_size_ > 1) {
@@ -209,7 +216,15 @@ bool NCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]]
         return false;
     }
     
-    cudaStreamSynchronize(stream);
+    // REL-11: check cudaStreamSynchronize return value in broadcast
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("NCCL broadcast stream sync failed: {}",
+                          cudaGetErrorString(sync_err));
+            return false;
+        }
+    }
     return true;
 #else
     spdlog::error("NCCL not enabled at compile time");
@@ -246,7 +261,14 @@ void NCCLBackend::barrier() {
         spdlog::error("NCCL barrier allreduce failed: {}", ncclGetErrorString(result));
     }
     
-    cudaStreamSynchronize(stream);
+    // REL-12: check cudaStreamSynchronize return value in barrier
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("NCCL barrier stream sync failed: {}",
+                          cudaGetErrorString(sync_err));
+        }
+    }
 #endif
 #endif
 }
@@ -285,9 +307,16 @@ bool NCCLBackend::initialize_nccl() {
 #ifdef THEMIS_ENABLE_NCCL
     spdlog::info("Initializing NCCL backend (rank {}/{})", rank_, world_size_);
     
-    // Set device
+    // Set device — REL-13: check cudaSetDevice return value
     Device device = ctx_.get_device(rank_);
-    cudaSetDevice(device.id);
+    {
+        cudaError_t set_err = cudaSetDevice(device.id);
+        if (set_err != cudaSuccess) {
+            spdlog::error("NCCL init: cudaSetDevice({}) failed: {}",
+                          device.id, cudaGetErrorString(set_err));
+            return false;
+        }
+    }
     
     // Create CUDA stream
     cudaStream_t stream;
