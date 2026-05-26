@@ -18,6 +18,7 @@
 #include "utils/logger.h"
 #include <boost/beast/http.hpp>
 #include <openssl/ssl.h>
+#include <chrono>
 #include <cstring>
 
 namespace themis {
@@ -90,6 +91,8 @@ Http2Session::Http2Session(
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
     , ng2_session_(nullptr)
+    , read_timer_(stream_.get_executor())
+    , write_timer_(stream_.get_executor())
     , max_concurrent_streams_(max_concurrent_streams)
     , initial_window_size_(initial_window_size)
     , next_push_stream_id_(2) // Server push streams start at 2 (even numbers)
@@ -112,6 +115,7 @@ void Http2Session::start() {
 
 void Http2Session::doHandshake() {
     auto self = shared_from_this();
+    armReadTimer();
     stream_.async_handshake(
         boost::asio::ssl::stream_base::server,
         [this, self](boost::system::error_code ec) {
@@ -121,6 +125,7 @@ void Http2Session::doHandshake() {
 }
 
 void Http2Session::onHandshake(boost::system::error_code ec) {
+    cancelReadTimer();
     if (ec) {
         THEMIS_ERROR("HTTP/2 TLS handshake failed: {}", ec.message());
         return;
@@ -175,6 +180,7 @@ void Http2Session::onHandshake(boost::system::error_code ec) {
 
 void Http2Session::doRead() {
     auto self = shared_from_this();
+    armReadTimer();
     stream_.async_read_some(
         boost::asio::buffer(read_buffer_),
         [this, self](boost::system::error_code ec, std::size_t bytes_transferred) {
@@ -184,6 +190,7 @@ void Http2Session::doRead() {
 }
 
 void Http2Session::onRead(boost::system::error_code ec, std::size_t bytes_transferred) {
+    cancelReadTimer();
     if (ec) {
         if (ec != boost::asio::error::eof) {
             THEMIS_ERROR("HTTP/2 read error: {}", ec.message());
@@ -217,6 +224,7 @@ void Http2Session::doWrite() {
     write_buffer_.assign(data, data + datalen);
     
     auto self = shared_from_this();
+    armWriteTimer();
     boost::asio::async_write(
         stream_,
         boost::asio::buffer(write_buffer_),
@@ -227,11 +235,62 @@ void Http2Session::doWrite() {
 }
 
 void Http2Session::onWrite(boost::system::error_code ec, std::size_t bytes_transferred) {
+    cancelWriteTimer();
     if (ec) {
         THEMIS_ERROR("HTTP/2 write error: {}", ec.message());
         return;
     }
     THEMIS_DEBUG("HTTP/2 wrote {} bytes", bytes_transferred);
+}
+
+void Http2Session::armReadTimer() {
+    const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
+    if (timeout_ms == 0) return;
+    read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
+    read_timer_.async_wait([self = shared_from_this()](const boost::system::error_code& ec) {
+        if (!ec) {
+            const uint32_t timeout = self->server_->hot_request_timeout_ms_.load(std::memory_order_relaxed);
+            THEMIS_WARN("HTTP/2 handshake/read timeout ({}ms) - closing connection", timeout);
+            boost::system::error_code close_ec;
+            self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) {
+                THEMIS_DEBUG("HTTP/2 timeout shutdown error: {}", close_ec.message());
+            }
+            self->stream_.lowest_layer().close(close_ec);
+            if (close_ec) {
+                THEMIS_DEBUG("HTTP/2 timeout close error: {}", close_ec.message());
+            }
+        }
+    });
+}
+
+void Http2Session::cancelReadTimer() {
+    read_timer_.cancel();
+}
+
+void Http2Session::armWriteTimer() {
+    const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
+    if (timeout_ms == 0) return;
+    write_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
+    write_timer_.async_wait([self = shared_from_this()](const boost::system::error_code& ec) {
+        if (!ec) {
+            const uint32_t timeout = self->server_->hot_request_timeout_ms_.load(std::memory_order_relaxed);
+            THEMIS_WARN("HTTP/2 write timeout ({}ms) - closing connection", timeout);
+            boost::system::error_code close_ec;
+            self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) {
+                THEMIS_DEBUG("HTTP/2 write-timeout shutdown error: {}", close_ec.message());
+            }
+            self->stream_.lowest_layer().close(close_ec);
+            if (close_ec) {
+                THEMIS_DEBUG("HTTP/2 write-timeout close error: {}", close_ec.message());
+            }
+        }
+    });
+}
+
+void Http2Session::cancelWriteTimer() {
+    write_timer_.cancel();
 }
 
 // ============================================================================

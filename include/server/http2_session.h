@@ -78,6 +78,10 @@ private:
     void onRead(boost::system::error_code ec, std::size_t bytes_transferred);
     void doWrite();
     void onWrite(boost::system::error_code ec, std::size_t bytes_transferred);
+    void armReadTimer();
+    void cancelReadTimer();
+    void armWriteTimer();
+    void cancelWriteTimer();
     
     // nghttp2 callbacks
     static ssize_t sendCallback(nghttp2_session* session, const uint8_t* data,
@@ -135,6 +139,8 @@ private:
     std::array<uint8_t, 16384> read_buffer_;
     std::vector<uint8_t> write_buffer_;
     std::unordered_map<int32_t, StreamData> streams_;
+    net::steady_timer read_timer_;  // handshake + read timeout guard
+    net::steady_timer write_timer_; // write timeout guard
     // Per-stream response buffers for RAII lifetime management (stub #298).
     std::unordered_map<int32_t, std::shared_ptr<ResponseBuffer>> response_buffers_;
     

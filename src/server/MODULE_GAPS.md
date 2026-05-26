@@ -27,8 +27,9 @@ python tools/gap_audit_pipeline_v2.py
 - **W1-S02b (2026-05-26) – `src/server/http2_session.cpp`, `include/server/http2_session.h`, `src/server/http_server.cpp`**
   - HTTP/2 admission parity: accept-path reserved connection slots are now transferred into `Http2Session` via `connection_slot_reserved` instead of being decremented before session start. This keeps accounting symmetric with HTTP/1.1/TLS sessions and removes a transient undercount window for HTTP/2 accepts.
   - `Http2Session` now participates in `active_connections_` ownership semantics: constructor increments only when no reservation was pre-held, destructor always decrements.
+  - Timeout hardening: HTTP/2 handshake/read/write paths now arm/cancel per-connection timeout guards via `hot_request_timeout_ms_` (read and write timers), preventing indefinite hangs on stalled peers.
   - Added focused protocol-level tests in `tests/test_http2_protocol.cpp` that verify reserved-slot transfer and unreserved-session ownership accounting semantics.
-  - Gap delta intent: reduce `data_race`/admission-accounting drift around `max_connections` for HTTP/2 accept paths in next server rescan.
+  - Gap delta intent: reduce `data_race`/admission-accounting drift around `max_connections` and `no_timeout` findings for HTTP/2 accept/I-O paths in next server rescan.
 
 - **W1-S01 (2026-05-26) – `src/server/query_api_handler.cpp`**
   - Data-race hardening: thread-safe access for runtime-injected `IndexRecommender`, `StatisticsCollector`, and masking policy snapshots in request paths.

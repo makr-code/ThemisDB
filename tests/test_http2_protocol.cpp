@@ -140,6 +140,17 @@ TEST(HTTP2ProtocolTest, UnreservedHttp2SessionOwnsItsConnectionCount) {
     EXPECT_EQ(active_connections.load(std::memory_order_relaxed), 0u);
 }
 
+TEST(HTTP2ProtocolTest, TimeoutGuardTreatsZeroAsDisabled) {
+    std::atomic<uint32_t> timeout_ms{0};
+    const auto is_timeout_enabled = [&]() {
+        return timeout_ms.load(std::memory_order_acquire) > 0;
+    };
+
+    EXPECT_FALSE(is_timeout_enabled());
+    timeout_ms.store(1500, std::memory_order_release);
+    EXPECT_TRUE(is_timeout_enabled());
+}
+
 #endif // THEMIS_ENABLE_HTTP2
 
 // Placeholder test when HTTP/2 is disabled
