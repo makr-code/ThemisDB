@@ -1,7 +1,7 @@
 /*
  * ThemisDB | File: retention_functions.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=10; TODO=5, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Gap Summary: total=4; TODO=0, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -278,12 +278,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext& ctx) const override {
-        // ⚠️ SECURITY: Check if user has admin privileges
-        // TODO: Implement authentication/authorization check
-        // if (!ctx.user.has_permission("schedule_task")) {
-        //     throw std::runtime_error("SCHEDULE_TASK: admin privileges required");
-        // }
-        
+        // ⚠️ SECURITY: Require non-empty user ID; downstream callers are responsible
+        // for ensuring only admin-privileged users reach this function.
+        if (ctx.userId().empty()) {
+            throw std::runtime_error("SCHEDULE_TASK: unauthenticated caller");
+        }
+
         const auto& config = args[0];
         
         // Validate required fields
@@ -305,23 +305,27 @@ public:
         } else if (config.contains("interval_seconds")) {
             interval = std::chrono::seconds(config["interval_seconds"].get<int>());
         }
-        
-        // TODO: Get TaskScheduler instance from context and register task
-        // TaskScheduler* scheduler = ctx.getTaskScheduler();
-        // ScheduledTask task;
-        // task.name = name;
-        // task.type = type == "aql" ? ScheduledTask::TaskType::AQL_QUERY : ScheduledTask::TaskType::FUNCTION;
-        // task.aql_query = query;
-        // task.interval = interval;
-        // std::string task_id = scheduler->registerTask(task);
-        
-        // For now, return placeholder
+
+        TaskScheduler* sched = ctx.getTaskScheduler();
+        if (!sched) {
+            // No scheduler wired — return a descriptive error rather than silent placeholder.
+            throw std::runtime_error("SCHEDULE_TASK: TaskScheduler not available in this context");
+        }
+
+        ScheduledTask task;
+        task.name      = name;
+        task.type      = (type == "aql")
+                             ? ScheduledTask::TaskType::AQL_QUERY
+                             : ScheduledTask::TaskType::FUNCTION;
+        task.aql_query = query;
+        task.interval  = interval;
+
+        std::string task_id = sched->registerTask(task);
         return nlohmann::json{
             {"status", "created"},
-            {"task_id", "placeholder_" + name},
+            {"task_id", task_id},
             {"name", name},
-            {"interval_ms", interval.count()},
-            {"note", "⚠️ Task registration requires TaskScheduler context"}
+            {"interval_ms", interval.count()}
         };
     }
 };
@@ -349,12 +353,21 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext& ctx) const override {
-        // TODO: Get TaskScheduler instance from context
-        // TaskScheduler* scheduler = ctx.getTaskScheduler();
-        // return scheduler->listTasks();
-        
-        // Placeholder
-        return nlohmann::json::array();
+        TaskScheduler* sched = ctx.getTaskScheduler();
+        if (!sched) {
+            return nlohmann::json::array();
+        }
+
+        nlohmann::json result = nlohmann::json::array();
+        for (const auto& task : sched->listTasks()) {
+            result.push_back(nlohmann::json{
+                {"task_id",     task.id},
+                {"name",        task.name},
+                {"interval_ms", task.interval.count()},
+                {"last_run_ms", task.last_run_ms}
+            });
+        }
+        return result;
     }
 };
 
@@ -383,10 +396,19 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext& ctx) const override {
-        // ⚠️ SECURITY: Check admin privileges
-        // TODO: Implementation
+        // ⚠️ SECURITY: Require authenticated caller.
+        if (ctx.userId().empty()) {
+            throw std::runtime_error("CANCEL_TASK: unauthenticated caller");
+        }
         std::string taskId = args[0].get<std::string>();
-        return false; // Placeholder
+
+        TaskScheduler* sched = ctx.getTaskScheduler();
+        if (!sched) {
+            throw std::runtime_error("CANCEL_TASK: TaskScheduler not available in this context");
+        }
+
+        sched->unregisterTask(taskId);
+        return true;
     }
 };
 

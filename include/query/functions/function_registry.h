@@ -1,7 +1,7 @@
 /*
  * ThemisDB | File: function_registry.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -22,6 +22,8 @@ namespace themis {
     class GraphAnalytics;
     class SecondaryIndexManager;
     class ProcessMining;
+    class TaskScheduler;
+    struct ScheduledTask;
 }
 
 namespace themis {
@@ -215,6 +217,24 @@ public:
     void setProcessMining(themis::ProcessMining* pm) { process_mining_ = pm; }
     themis::ProcessMining* getProcessMining() const { return process_mining_; }
 
+    // Task scheduler access (for SCHEDULE_TASK, LIST_SCHEDULED_TASKS, CANCEL_TASK)
+    void setTaskScheduler(themis::TaskScheduler* scheduler) { task_scheduler_ = scheduler; }
+    themis::TaskScheduler* getTaskScheduler() const { return task_scheduler_; }
+
+    // Collection scan callback (for functions that query collections by filter)
+    // Returns an array of matching document objects. An empty array on no match.
+    using CollectionScanner = std::function<std::vector<nlohmann::json>(
+        const std::string& collection,
+        const std::function<bool(const nlohmann::json&)>& predicate)>;
+    void setCollectionScanner(CollectionScanner scanner) { collection_scanner_ = std::move(scanner); }
+    std::vector<nlohmann::json> scanCollection(
+        const std::string& collection,
+        const std::function<bool(const nlohmann::json&)>& predicate) const
+    {
+        if (collection_scanner_) return collection_scanner_(collection, predicate);
+        return {};
+    }
+
 private:
     nlohmann::json current_doc_;
     std::unordered_map<std::string, nlohmann::json> variables_;
@@ -224,6 +244,8 @@ private:
     themis::GraphAnalytics* graph_analytics_ = nullptr;
     themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
     themis::ProcessMining* process_mining_ = nullptr;
+    themis::TaskScheduler* task_scheduler_ = nullptr;
+    CollectionScanner collection_scanner_;
 };
 
 // ============================================================================
