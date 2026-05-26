@@ -275,6 +275,12 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - `lora_framework/kernels/quantization_kernels.cu` — `(int)block_size` replaced with
   `static_cast<int>(block_size)` in NF4 and INT8 quantization launch helpers
 
+**Status (v1.22.0-pre — batch 33):** Third batch of type_conversion fixes:
+- `lora_framework/kernels/cuda_fused_kernels.cu` — 3× `(int)(rank - tile_start)` replaced with
+  `static_cast<int>(rank - tile_start)` in tiled forward kernels
+- `lora_framework/kernels/hip_fused_kernels.cpp` — `(int)(rank - tile_start)` replaced with
+  `static_cast<int>(rank - tile_start)` in tiled forward kernel
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)
