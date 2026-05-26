@@ -122,6 +122,15 @@ VoiceApiHandler::VoiceApiHandler(
     std::shared_ptr<themis::AuthMiddleware> auth)
     : voice_assistant_(std::move(voice_assistant)),
       auth_(std::move(auth)) {
+    // Precondition: voice_assistant must be non-null.  All handler methods
+    // directly call voice_assistant_->...  and provide no null fallback.
+    // Failing fast here surfaces the programming error at construction time
+    // rather than at the first request, which would produce a less informative
+    // crash deep inside a request handler.
+    if (!voice_assistant_) {
+        throw std::invalid_argument(
+            "VoiceApiHandler: voice_assistant must be a non-null shared_ptr");
+    }
     // Initialize HTTP client pool for downloading audio from URLs
     utils::HTTPClientPool::Config http_config;
     http_config.max_connections = 10;
@@ -197,6 +206,14 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleRequest");
+    if (!voice_assistant_) {
+        return createErrorResponse(
+            http::status::service_unavailable,
+            "Service Unavailable",
+            "Voice assistant backend is not initialized"
+        );
+    }
+
     // Validate authentication
     if (!validateBearerToken(req)) {
         return createErrorResponse(
@@ -1712,13 +1729,13 @@ http::response<http::string_body> VoiceApiHandler::handleHealth(
 bool VoiceApiHandler::validateBearerToken(
     const http::request<http::string_body>& req
 ) {
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return false;
     }
 
     const auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size()));
+        std::string_view(auth_header.data(), auth_header.size()));
     if (!token || token->empty()) {
         return false;
     }
@@ -1884,6 +1901,10 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     // Validate URL format - parseURL will handle this
     if (url.empty()) {
         throw std::invalid_argument("URL cannot be empty");
+    }
+
+    if (!http_client_pool_) {
+        throw std::runtime_error("HTTP client pool is not initialized");
     }
     
     // SSRF Protection: Parse URL and validate host to prevent access to internal resources

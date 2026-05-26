@@ -127,21 +127,25 @@ bool CrossShardTransactionCoordinator::initialize() {
         snapshot_manager_.reset();
     }
     
-    // Phase 2.3.3: Recover from WAL and snapshot
-    if (transaction_wal_ && snapshot_manager_) {
-        if (!recoverFromWAL()) {
-            spdlog::error("Failed to recover from WAL");
-            return false;
-        }
-    } else {
-        // Fallback: Attempt to recover from legacy file-based persistence
-        if (!recoverFromFailure()) {
-            spdlog::error("Failed to recover from previous coordinator failure");
-            return false;
-        }
+    const auto recovery_result = runRecoveryBackend("initialize");
+    if (!recovery_result.ok) {
+        return false;
     }
-    
-    spdlog::info("Cross-shard transaction coordinator initialized");
+
+    spdlog::info(
+        "Cross-shard transaction coordinator initialized "
+        "(backend={}, backend_available={}, recovery_ms={}, pending={}, "
+        "snapshot_restored={}, wal_replayed={}, stale={}, resume={}, failures={}, in_doubt={})",
+        recovery_result.backend,
+        recovery_result.backend_available,
+        recovery_result.elapsed_ms,
+        recovery_result.details.pending_transactions,
+        recovery_result.details.snapshot_transactions_restored,
+        recovery_result.details.wal_entries_replayed,
+        recovery_result.details.stale_transactions_detected,
+        recovery_result.details.resume_candidates,
+        recovery_result.details.failed_operations,
+        recovery_result.details.in_doubt_transactions);
     return true;
 }
 
@@ -178,13 +182,9 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     };
 
     const auto before = count_in_doubt();
-    const bool use_wal_recovery = (transaction_wal_ && snapshot_manager_);
-    const auto* backend = use_wal_recovery ? "WAL/snapshot" : "legacy file-log";
-    const auto ok = use_wal_recovery ? recoverFromWAL() : recoverFromFailure();
-    if (!ok) {
-        spdlog::error(
-            "CrossShardTransactionCoordinator: in-doubt recovery failed (backend={})",
-            backend);
+    const auto recovery_result = runRecoveryBackend("recoverInDoubtTransactions");
+    const auto* backend = recovery_result.backend;
+    if (!recovery_result.ok) {
         return 0;
     }
 
@@ -192,14 +192,98 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     if (after > before) {
         spdlog::warn(
             "CrossShardTransactionCoordinator: in-doubt count increased during recovery "
-            "(backend={}, before={}, after={}); returning conservative resolved=0",
+            "(backend={}, before={}, after={}, recovery_ms={}, pending={}, "
+            "snapshot_restored={}, wal_replayed={}, stale={}, resume={}, failures={}, in_doubt={}); "
+            "returning conservative resolved=0",
             backend,
             before,
-            after);
+            after,
+            recovery_result.elapsed_ms,
+            recovery_result.details.pending_transactions,
+            recovery_result.details.snapshot_transactions_restored,
+            recovery_result.details.wal_entries_replayed,
+            recovery_result.details.stale_transactions_detected,
+            recovery_result.details.resume_candidates,
+            recovery_result.details.failed_operations,
+            recovery_result.details.in_doubt_transactions);
         return 0;
     }
 
-    return before - after;
+    const auto resolved = before - after;
+    spdlog::info(
+        "CrossShardTransactionCoordinator: in-doubt recovery finished "
+        "(backend={}, before={}, after={}, resolved={}, recovery_ms={}, pending={}, "
+        "snapshot_restored={}, wal_replayed={}, stale={}, resume={}, failures={}, in_doubt={})",
+        backend,
+        before,
+        after,
+        resolved,
+        recovery_result.elapsed_ms,
+        recovery_result.details.pending_transactions,
+        recovery_result.details.snapshot_transactions_restored,
+        recovery_result.details.wal_entries_replayed,
+        recovery_result.details.stale_transactions_detected,
+        recovery_result.details.resume_candidates,
+        recovery_result.details.failed_operations,
+        recovery_result.details.in_doubt_transactions);
+
+    return resolved;
+}
+
+CrossShardTransactionCoordinator::RecoveryRunResult
+CrossShardTransactionCoordinator::runRecoveryBackend(const char* context) {
+    RecoveryRunResult result;
+    result.backend_available = static_cast<bool>(transaction_wal_ && snapshot_manager_);
+
+    const auto start = std::chrono::steady_clock::now();
+    if (!result.backend_available) {
+        result.ok = true;
+        result.elapsed_ms = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - start)
+                .count());
+        spdlog::warn(
+            "Recovery backend unavailable during {} "
+            "(backend={}, persistence_enabled={}, wal_initialized={}, snapshot_initialized={}); "
+            "skipping recovery",
+            context,
+            result.backend,
+            config_.enable_persistence,
+            static_cast<bool>(transaction_wal_),
+            static_cast<bool>(snapshot_manager_));
+        return result;
+    }
+
+    result.ok = recoverFromWAL(&result.details);
+    result.elapsed_ms = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start)
+            .count());
+
+    if (!result.ok) {
+        spdlog::error(
+            "Recovery backend failed (backend={}, context={}, elapsed_ms={})",
+            result.backend,
+            context,
+            result.elapsed_ms);
+    } else {
+        spdlog::info(
+            "Recovery backend completed successfully "
+            "(backend={}, context={}, elapsed_ms={}, pending={}, snapshot_restored={}, "
+            "wal_replayed={}, stale={}, resume={}, failures={}, in_doubt={})",
+            result.backend,
+            context,
+            result.elapsed_ms,
+            result.details.pending_transactions,
+            result.details.snapshot_transactions_restored,
+            result.details.wal_entries_replayed,
+            result.details.stale_transactions_detected,
+            result.details.resume_candidates,
+            result.details.failed_operations,
+            result.details.in_doubt_transactions);
+    }
+
+    return result;
 }
 
 void CrossShardTransactionCoordinator::stop() {
@@ -903,26 +987,78 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
         }
     }
     
-    bool all_committed = true;
+    const auto failClosedAbortRemaining = [this, &txn](std::string_view reason) {
+        txn.state = TransactionState::ABORTING;
+
+        if (transaction_wal_) {
+            try {
+                transaction_wal_->logAbort(txn.transaction_id, std::string(reason));
+                operations_since_snapshot_++;
+            } catch (const std::exception& e) {
+                spdlog::error("execute2PC [{}]: WAL ABORT log failed during fail-closed handling: {}",
+                             txn.transaction_id,
+                             e.what());
+            }
+        }
+
+        for (auto& [remaining_shard_id, remaining_participant] : txn.participants) {
+            if (remaining_participant.committed) {
+                continue;
+            }
+
+            const bool aborted = sendAbort(remaining_shard_id, txn.transaction_id);
+            remaining_participant.aborted = aborted;
+            if (!aborted) {
+                spdlog::error("execute2PC [{}]: fail-closed abort RPC failed for shard {}",
+                             txn.transaction_id,
+                             remaining_shard_id);
+            }
+
+            if (transaction_wal_ && aborted) {
+                try {
+                    transaction_wal_->logAborted(txn.transaction_id, remaining_shard_id);
+                    operations_since_snapshot_++;
+                } catch (const std::exception& e) {
+                    spdlog::error("execute2PC [{}]: WAL ABORTED log failed for shard {}: {}",
+                                 txn.transaction_id,
+                                 remaining_shard_id,
+                                 e.what());
+                }
+            }
+        }
+    };
+
     for (auto& [shard_id, participant] : txn.participants) {
         bool committed = sendCommit(shard_id, txn.transaction_id);
         participant.committed = committed;
-        
-        // Phase 2.3.3: Log COMMITTED response to WAL
-        if (transaction_wal_ && committed) {
+
+        if (!committed) {
+            spdlog::error("execute2PC [{}]: Commit failed for shard {} - failing closed",
+                         txn.transaction_id,
+                         shard_id);
+            failClosedAbortRemaining("phase2_commit_failed");
+            return false;
+        }
+
+        // Phase 2.3.3: Log COMMITTED response to WAL.
+        // Fail-closed: if the coordinator cannot durably record a participant
+        // commit acknowledgement, do not continue committing additional shards.
+        if (transaction_wal_) {
             try {
                 transaction_wal_->logCommitted(txn.transaction_id, shard_id);
                 operations_since_snapshot_++;
             } catch (const std::exception& e) {
-                spdlog::warn("Failed to log COMMITTED to WAL: {}", e.what());
+                spdlog::error("execute2PC [{}]: WAL COMMITTED log failed for shard {}: {} - failing closed",
+                             txn.transaction_id,
+                             shard_id,
+                             e.what());
+                failClosedAbortRemaining("phase2_wal_ack_log_failed");
+                return false;
             }
         }
-        
-        if (!committed) {
-            all_committed = false;
-            spdlog::error("Commit failed for shard {} in transaction {}", 
+
+        spdlog::info("Shard {} committed transaction {}",
                          shard_id, txn.transaction_id);
-        }
     }
     
     // Phase 2.3.3: Check if snapshot needed
@@ -930,7 +1066,7 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
         createPeriodicSnapshot();
     }
     
-    return all_committed;
+    return true;
 }
 
 bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
@@ -953,27 +1089,32 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
 
     // Phase 2: PreCommit
     //
-    // When a precommit_callback_ has been injected (real mTLS RPC layer), each
-    // participant is instructed to durably persist its prepared state before the
-    // coordinator proceeds to Phase 3.  This gives 3PC its non-blocking property:
-    // if the coordinator crashes after all participants acknowledge PreCommit,
-    // any surviving participant can unilaterally proceed to commit.
-    //
-    // Without an injected callback we fall back to the 2PC-equivalent behaviour
-    // (treat Phase-1 PREPARED state as a proxy for PreCommit acknowledgement) and
-    // emit a warning so operators know the full 3PC guarantee is absent.
+    // Each participant must durably persist PREPARED state before Phase 3.
+    // Missing PreCommit callback is treated as hard misconfiguration and
+    // therefore fails closed.
     if (!precommit_cb) {
-        // STUB/SIMULATION NOTE (CST-6):
-        // Purpose: Three-Phase Commit (3PC) protocol — Phase 2 (PreCommit) falls
-        //          back to 2PC-equivalent when no PreCommit RPC callback is injected.
-        // Activation: precommit_callback_ is null (no setPreCommitCallback() call).
-        // Production Delta: 3PC non-blocking property is absent; coordinator crash
-        //          after Phase 2 leaves participants in PREPARED state (same as 2PC).
-        // Removal Plan: Inject a real PreCommit RPC via setPreCommitCallback() once
-        //          the shard RPC layer exposes sendPreCommit().  CST-6 (Q3 2026).
-        spdlog::warn("execute3PC [{}]: no PreCommit RPC callback injected (CST-6). "
-                     "Falling back to 2PC-equivalent behaviour — 3PC non-blocking "
-                     "property is NOT guaranteed.", txn.transaction_id);
+        spdlog::error("execute3PC [{}]: missing PreCommit RPC callback; failing closed",
+                      txn.transaction_id);
+        txn.state = TransactionState::ABORTING;
+        for (auto& [shard_id, participant] : txn.participants) {
+            const bool aborted = sendAbort(shard_id, txn.transaction_id);
+            participant.aborted = aborted;
+            if (!aborted) {
+                spdlog::error("execute3PC [{}]: fail-closed abort RPC failed for shard {}",
+                              txn.transaction_id, shard_id);
+            }
+        }
+
+        if (transaction_wal_) {
+            try {
+                transaction_wal_->logAbort(txn.transaction_id, "precommit_callback_missing");
+                operations_since_snapshot_++;
+            } catch (const std::exception& e) {
+                spdlog::error("execute3PC [{}]: failed to log fail-closed ABORT to WAL: {}",
+                              txn.transaction_id, e.what());
+            }
+        }
+        return false;
     }
 
     txn.state = TransactionState::COMMITTING;
@@ -985,7 +1126,6 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
             nlohmann::json precommit_data = {
                 {"protocol", "3PC"},
                 {"phase", "PRE_COMMIT"},
-                {"stub", !static_cast<bool>(precommit_cb)},
                 {"participants", nlohmann::json::array()}
             };
             for (const auto& [shard_id, participant] : txn.participants) {
@@ -1003,30 +1143,24 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     bool all_precommitted = true;
     for (auto& [shard_id, participant] : txn.participants) {
         bool precommitted = false;
-        if (precommit_cb) {
-            // Invoke the real PreCommit RPC for this participant.
-            // Exceptions are treated as NACK per the contract documented on
-            // setPreCommitCallback(): "must not throw; exceptions treated as NACK".
-            try {
-                precommitted = precommit_cb(shard_id, txn.transaction_id);
-            } catch (const std::exception& ex) {
-                spdlog::error("PreCommit callback threw for shard {} txn={}: {} — treating as NACK",
-                              shard_id, txn.transaction_id, ex.what());
-                precommitted = false;
-            } catch (...) {
-                spdlog::error("PreCommit callback threw unknown exception for shard {} txn={} — treating as NACK",
-                              shard_id, txn.transaction_id);
-                precommitted = false;
-            }
-        } else {
-            // CST-6 fallback: treat Phase-1 PREPARED state as PreCommit ack.
-            precommitted = participant.prepared;
+        // Invoke the real PreCommit RPC for this participant.
+        // Exceptions are treated as NACK per the contract documented on
+        // setPreCommitCallback(): "must not throw; exceptions treated as NACK".
+        try {
+            precommitted = precommit_cb(shard_id, txn.transaction_id);
+        } catch (const std::exception& ex) {
+            spdlog::error("PreCommit callback threw for shard {} txn={}: {} — treating as NACK",
+                          shard_id, txn.transaction_id, ex.what());
+            precommitted = false;
+        } catch (...) {
+            spdlog::error("PreCommit callback threw unknown exception for shard {} txn={} — treating as NACK",
+                          shard_id, txn.transaction_id);
+            precommitted = false;
         }
 
         if (transaction_wal_ && precommitted) {
             try {
-                const std::string phase_tag = precommit_cb ? "pre_committed" : "pre_committed_stub";
-                transaction_wal_->logPrepared(txn.transaction_id, shard_id, true, phase_tag);
+                transaction_wal_->logPrepared(txn.transaction_id, shard_id, true, "pre_committed");
                 operations_since_snapshot_++;
             } catch (const std::exception& e) {
                 spdlog::error("Failed to log PRE_COMMITTED to WAL for txn={} shard={}: {}",
@@ -1987,220 +2121,10 @@ bool CrossShardTransactionCoordinator::persistTransactionState(
     }
 }
 
-std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::loadPendingTransactions() {
-    std::vector<CrossShardTransaction> pending_transactions;
-    
-    try {
-        std::ifstream log_file(transaction_log_path_);
-        if (!log_file.is_open()) {
-            spdlog::info("No transaction log file found at {}", transaction_log_path_);
-            return pending_transactions;
-        }
-        
-        std::string line;
-        std::map<std::string, CrossShardTransaction> txn_map;
-        
-        // Read all log entries
-        while (std::getline(log_file, line)) {
-            if (line.empty()) continue;
-            
-            try {
-                auto log_entry = nlohmann::json::parse(line);
-                
-                std::string txn_id = log_entry["transaction_id"];
-                int state_int = log_entry["state"];
-                TransactionState state = static_cast<TransactionState>(state_int);
-                
-                // Check if we've seen this transaction before
-                auto it = txn_map.find(txn_id);
-                if (it == txn_map.end()) {
-                    // New transaction
-                    CrossShardTransaction txn;
-                    txn.transaction_id = txn_id;
-                    txn.protocol = static_cast<TransactionProtocol>(log_entry["protocol"].get<int>());
-                    txn.isolation_level = static_cast<IsolationLevel>(log_entry["isolation_level"].get<int>());
-                    txn.state = state;
-                    
-                    // Restore MVCC timestamps
-                    txn.snapshot_timestamp = log_entry.value("snapshot_timestamp", 0L);
-                    txn.commit_timestamp = log_entry.value("commit_timestamp", 0L);
-                    
-                    // Restore participants
-                    if (log_entry.contains("participants")) {
-                        for (const auto& p : log_entry["participants"]) {
-                            ShardParticipant participant;
-                            participant.shard_id = p["shard_id"];
-                            participant.endpoint = p["endpoint"];
-                            participant.prepared = p.value("prepared", false);
-                            participant.committed = p.value("committed", false);
-                            participant.aborted = p.value("aborted", false);
-                            
-                            txn.participants[participant.shard_id] = participant;
-                        }
-                    }
-                    
-                    txn_map[txn_id] = txn;
-                } else {
-                    // Update existing transaction state
-                    it->second.state = state;
-                    
-                    // Update MVCC timestamps (use value() with default for consistency)
-                    it->second.snapshot_timestamp = log_entry.value("snapshot_timestamp", 0L);
-                    it->second.commit_timestamp = log_entry.value("commit_timestamp", 0L);
-                    
-                    // Update participant states
-                    if (log_entry.contains("participants")) {
-                        for (const auto& p : log_entry["participants"]) {
-                            std::string shard_id = p["shard_id"];
-                            auto& participant = it->second.participants[shard_id];
-                            participant.prepared = p.value("prepared", false);
-                            participant.committed = p.value("committed", false);
-                            participant.aborted = p.value("aborted", false);
-                        }
-                    }
-                }
-                
-            } catch (const std::exception& e) {
-                spdlog::error("Failed to parse log entry: {}", e.what());
-                continue;
-            }
-        }
-        
-        log_file.close();
-        
-        // Filter for pending transactions (not in final state)
-        for (const auto& [txn_id, txn] : txn_map) {
-            if (txn.state != TransactionState::COMMITTED && 
-                txn.state != TransactionState::ABORTED) {
-                pending_transactions.push_back(txn);
-                spdlog::info("Found pending transaction: {} in state {}", 
-                           txn_id, static_cast<int>(txn.state));
-            }
-        }
-        
-        spdlog::info("Loaded {} pending transactions from log", pending_transactions.size());
-        
-    } catch (const std::exception& e) {
-        spdlog::error("Failed to load pending transactions: {}", e.what());
-    }
-    
-    return pending_transactions;
-}
-
-bool CrossShardTransactionCoordinator::recoverFromFailure() {
-    spdlog::info("Starting coordinator recovery from failure");
-    
-    // Load pending transactions from log
-    auto pending = loadPendingTransactions();
-    
-    if (pending.empty()) {
-        spdlog::info("No pending transactions to recover");
-        return true;
-    }
-    
-    spdlog::info("Recovering {} pending transactions", pending.size());
-    
-    int recovered = 0;
-    int aborted = 0;
-    
-    for (auto& txn : pending) {
-        spdlog::info("Recovering transaction {} in state {}", 
-                    txn.transaction_id, static_cast<int>(txn.state));
-        
-        // Restore transaction to in-memory map
-        {
-            std::lock_guard<std::mutex> lock(transactions_mutex_);
-            transactions_[txn.transaction_id] = txn;
-        }
-        
-        // Apply recovery logic based on state
-        switch (txn.state) {
-            case TransactionState::ACTIVE:
-            case TransactionState::PREPARING:
-                // Transaction was in progress but not prepared
-                // Safe to abort
-                spdlog::info("Aborting unprepared transaction {}", txn.transaction_id);
-                abort(txn.transaction_id);
-                aborted++;
-                break;
-                
-            case TransactionState::PREPARED:
-                // All participants prepared - we can commit or abort
-                // For safety, try to commit if all participants are prepared
-                spdlog::info("Attempting to commit prepared transaction {}", txn.transaction_id);
-                if (commit(txn.transaction_id)) {
-                    recovered++;
-                } else {
-                    spdlog::warn("Failed to commit prepared transaction {}, aborting", 
-                               txn.transaction_id);
-                    abort(txn.transaction_id);
-                    aborted++;
-                }
-                break;
-                
-            case TransactionState::COMMITTING:
-                // Commit was in progress - try to complete it
-                spdlog::info("Completing commit for transaction {}", txn.transaction_id);
-                
-                // Send commit to any participants that haven't committed yet
-                {
-                    bool all_committed = true;
-                    for (auto& [shard_id, participant] : txn.participants) {
-                        if (!participant.committed) {
-                            bool success = sendCommit(shard_id, txn.transaction_id);
-                            if (success) {
-                                std::lock_guard<std::mutex> lock(transactions_mutex_);
-                                transactions_[txn.transaction_id].participants[shard_id].committed = true;
-                            } else {
-                                all_committed = false;
-                            }
-                        }
-                    }
-                    
-                    if (all_committed) {
-                        std::lock_guard<std::mutex> lock(transactions_mutex_);
-                        transactions_[txn.transaction_id].state = TransactionState::COMMITTED;
-                        transactions_[txn.transaction_id].end_time = std::chrono::system_clock::now();
-                        committed_transactions_++;
-                        persistTransactionState(txn.transaction_id, TransactionState::COMMITTED);
-                        recovered++;
-                    } else {
-                        spdlog::warn("Could not complete all commits for transaction {}", 
-                                   txn.transaction_id);
-                        aborted++;
-                    }
-                }
-                break;
-                
-            case TransactionState::ABORTING:
-                // Abort was in progress - complete it
-                spdlog::info("Completing abort for transaction {}", txn.transaction_id);
-                abort(txn.transaction_id);
-                aborted++;
-                break;
-                
-            case TransactionState::COMMITTED:
-            case TransactionState::ABORTED:
-                // Already in final state
-                recovered++;
-                break;
-                
-            case TransactionState::UNKNOWN:
-            default:
-                // Unknown state - abort for safety
-                spdlog::error("Transaction {} in unknown state, aborting", txn.transaction_id);
-                abort(txn.transaction_id);
-                aborted++;
-                break;
-        }
-    }
-    
-    spdlog::info("Recovery complete: {} recovered, {} aborted", recovered, aborted);
-    return true;
-}
-
 // Phase 2.3.3: Recover from WAL and snapshot
-bool CrossShardTransactionCoordinator::recoverFromWAL() {
+bool CrossShardTransactionCoordinator::recoverFromWAL(
+    BackendRecoveryStats* stats
+) {
     if (!transaction_wal_ || !snapshot_manager_) {
         spdlog::warn("WAL or snapshot manager not available, skipping WAL recovery");
         return true;
@@ -2264,6 +2188,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
 
         // Restore active transactions from snapshot
         std::lock_guard<std::mutex> lock(transactions_mutex_);
+        uint64_t restored_from_snapshot = 0;
         for (const auto& txn_entry : snapshot.active_transactions) {
             CrossShardTransaction txn;
             txn.transaction_id = txn_entry.transaction_id;
@@ -2283,6 +2208,11 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
             }
             
             transactions_[txn.transaction_id] = txn;
+            ++restored_from_snapshot;
+        }
+
+        if (stats) {
+            stats->snapshot_transactions_restored = restored_from_snapshot;
         }
         
         last_applied_lsn_ = snapshot.last_applied_lsn;
@@ -2296,6 +2226,9 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
     // Step 2: Replay WAL from last_applied_lsn
     try {
         auto wal_entries = transaction_wal_->readEntries(last_applied_lsn_);
+        if (stats) {
+            stats->wal_entries_replayed = wal_entries.size();
+        }
         spdlog::info("Replaying {} WAL entries from LSN {}", 
                 wal_entries.size(), last_applied_lsn_.toString());
         
@@ -2399,48 +2332,60 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
     
     // Step 3: Resume in-flight transactions based on their state
     // Phase 2.3.4: Automatic transaction resumption with timeout handling
-    std::lock_guard<std::mutex> lock(transactions_mutex_);
-    
     auto now = std::chrono::system_clock::now();
     std::vector<std::string> transactions_to_resume;
     std::vector<std::string> transactions_to_timeout;
-    
-    for (const auto& [txn_id, txn] : transactions_) {
-        // Check for timeout (default: 5 minutes)
-        auto age = std::chrono::duration_cast<std::chrono::seconds>(now - txn.start_time);
-        if (age.count() > 300) {  // 5 minutes
-            spdlog::warn("Transaction {} is stale (age: {}s), will abort", txn_id, age.count());
-            transactions_to_timeout.push_back(txn_id);
-            continue;
+
+    {
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        for (const auto& [txn_id, txn] : transactions_) {
+            // Check for timeout (default: 5 minutes)
+            auto age = std::chrono::duration_cast<std::chrono::seconds>(now - txn.start_time);
+            if (age.count() > 300) {  // 5 minutes
+                spdlog::warn("Transaction {} is stale (age: {}s), will abort", txn_id, age.count());
+                transactions_to_timeout.push_back(txn_id);
+                continue;
+            }
+
+            switch (txn.state) {
+                case TransactionState::PREPARING:
+                    spdlog::info("Transaction {} recovered in PREPARING state - will resend prepare", 
+                                txn_id);
+                    transactions_to_resume.push_back(txn_id);
+                    break;
+                case TransactionState::PREPARED:
+                    spdlog::info("Transaction {} recovered in PREPARED state - will make commit decision", 
+                                txn_id);
+                    transactions_to_resume.push_back(txn_id);
+                    break;
+                case TransactionState::COMMITTING:
+                    spdlog::info("Transaction {} recovered in COMMITTING state - will complete commit", 
+                                txn_id);
+                    transactions_to_resume.push_back(txn_id);
+                    break;
+                case TransactionState::ABORTING:
+                    spdlog::info("Transaction {} recovered in ABORTING state - will complete abort", 
+                                txn_id);
+                    transactions_to_resume.push_back(txn_id);
+                    break;
+                case TransactionState::COMMITTED:
+                case TransactionState::ABORTED:
+                    // Final states - can be cleaned up eventually
+                    break;
+                default:
+                    break;
+            }
         }
-        
-        switch (txn.state) {
-            case TransactionState::PREPARING:
-                spdlog::info("Transaction {} recovered in PREPARING state - will resend prepare", 
-                            txn_id);
-                transactions_to_resume.push_back(txn_id);
-                break;
-            case TransactionState::PREPARED:
-                spdlog::info("Transaction {} recovered in PREPARED state - will make commit decision", 
-                            txn_id);
-                transactions_to_resume.push_back(txn_id);
-                break;
-            case TransactionState::COMMITTING:
-                spdlog::info("Transaction {} recovered in COMMITTING state - will complete commit", 
-                            txn_id);
-                transactions_to_resume.push_back(txn_id);
-                break;
-            case TransactionState::ABORTING:
-                spdlog::info("Transaction {} recovered in ABORTING state - will complete abort", 
-                            txn_id);
-                transactions_to_resume.push_back(txn_id);
-                break;
-            case TransactionState::COMMITTED:
-            case TransactionState::ABORTED:
-                // Final states - can be cleaned up eventually
-                break;
-            default:
-                break;
+
+        if (stats) {
+            stats->in_doubt_transactions = static_cast<uint64_t>(std::count_if(
+                transactions_.begin(),
+                transactions_.end(),
+                [](const auto& kv) {
+                    const auto state = kv.second.state;
+                    return state != TransactionState::COMMITTED &&
+                           state != TransactionState::ABORTED;
+                }));
         }
     }
     
@@ -2455,6 +2400,9 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
                 }
                 // Will be aborted in background
             } catch (const std::exception& e) {
+                if (stats) {
+                    ++stats->failed_operations;
+                }
                 spdlog::error("Failed to abort stale transaction {}: {}", txn_id, e.what());
             }
         }
@@ -2471,6 +2419,13 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
         // 4. For ABORTING: Re-send abort to any non-aborted participants
     }
     
+    if (stats) {
+        stats->stale_transactions_detected = transactions_to_timeout.size();
+        stats->resume_candidates = transactions_to_resume.size();
+        stats->pending_transactions =
+            stats->stale_transactions_detected + stats->resume_candidates;
+    }
+
     spdlog::info("Transaction coordinator recovery complete");
     return true;
 }

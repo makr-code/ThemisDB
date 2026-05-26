@@ -224,6 +224,7 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
                     spdlog::warn("GPUTopology: cudaDeviceCanAccessPeer({},{}) failed: {}",
                                  devices[i].device_id, devices[j].device_id,
                                  cudaGetErrorString(cap_err));
+                    can_access_peer = 0;
                 }
                 
                 if (can_access_peer) {
@@ -269,6 +270,7 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
                     spdlog::warn("GPUTopology: hipDeviceCanAccessPeer({},{}) failed: {}",
                                  devices[i].device_id, devices[j].device_id,
                                  hipGetErrorString(cap_err));
+                    can_access_peer = 0;
                 }
                 
                 if (can_access_peer) {
@@ -291,4 +293,3 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

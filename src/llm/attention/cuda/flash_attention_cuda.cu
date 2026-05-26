@@ -1,6 +1,7 @@
 #include "llm/attention/cuda/flash_attention_cuda.h"
 #include <cuda_runtime.h>
 #include <cuda_fp16.h>
+#include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cmath>
 

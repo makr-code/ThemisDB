@@ -144,7 +144,14 @@ public:
     
     /**
      * @brief Initialize distributed training
-     * @return true if successful
+        *
+        * Fail-closed validation:
+        * - world_size must be >= 1
+        * - rank must satisfy 0 <= rank < world_size
+        * - for world_size > 1, collective callbacks must be injected via
+        *   setAllReduceCpuFn(), setBroadcastFn(), and setBarrierFn().
+        *
+        * @return true if successful
      */
     bool initialize();
     

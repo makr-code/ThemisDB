@@ -73,7 +73,6 @@ bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
                          gpu_id, cudaGetErrorString(set_err));
             continue;
         }
-
         GPUDevice device;
         device.device_id = gpu_id;
         
@@ -134,12 +133,11 @@ bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
                          gpu_id, hipGetErrorString(set_err));
             continue;
         }
-
         GPUDevice device;
         device.device_id = gpu_id;
         
         // Query device properties
-        hipDeviceProp_t prop;
+        hipDeviceProp_t prop{};
         if (hipGetDeviceProperties(&prop, gpu_id) == hipSuccess) {
             device.total_vram_bytes = prop.totalGlobalMem;
             device.compute_capability = prop.major * 10 + prop.minor;
@@ -643,4 +641,3 @@ MultiGPUMemoryCoordinator::getHealthStatus() const {
 
 } // namespace llm
 } // namespace themis
-

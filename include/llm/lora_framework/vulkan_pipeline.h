@@ -96,11 +96,13 @@ public:
     void dispatch(uint32_t group_x, uint32_t group_y = 1, uint32_t group_z = 1);
     
     /**
-     * @brief Wait for pipeline execution to complete
-     * @param timeout_ns Timeout in nanoseconds
-     * @return true if completed within timeout
+     * @brief Wait for pipeline execution to complete.
+     * @param timeout_ns Maximum time to wait in nanoseconds.
+     *   Defaults to 30 s, which is a safe upper bound for a single compute kernel.
+     *   Pass `UINT64_MAX` to wait indefinitely (discouraged — risks deadlock on GPU hang).
+     * @return true if completed within timeout, false on timeout/failure or missing fence.
      */
-    bool wait(uint64_t timeout_ns = 30000000000ULL);
+    bool wait(uint64_t timeout_ns = 30'000'000'000ULL);
     
     /**
      * @brief Check if pipeline is ready

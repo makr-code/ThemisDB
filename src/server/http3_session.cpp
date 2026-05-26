@@ -123,7 +123,11 @@ void Http3Handler::start() {
     THEMIS_INFO("HTTP/3 handler started, waiting for QUIC connections");
     doAccept();
     
-    // Start cleanup timer (every 30 seconds)
+    // Start cleanup timer (every 30 seconds).
+    // Lifetime assumption: Http3Handler's io_context must be stopped (or this
+    // object's stop() must be called) before the handler is destroyed.  stop()
+    // cancels the timer; the async_wait callback checks the error code and will
+    // not call cleanupInactiveSessions() for operation_aborted completions.
     cleanup_timer_.expires_after(std::chrono::seconds(30));
     cleanup_timer_.async_wait([this](boost::system::error_code ec) {
         if (!ec) {
@@ -161,10 +165,10 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
     }
     
     try {
-        std::string session_key = remote_endpoint_.address().to_string() + ":" + 
+        std::string session_key = remote_endpoint_.address().to_string() + ":" +
                                   std::to_string(remote_endpoint_.port());
         std::string client_ip   = remote_endpoint_.address().to_string();
-        
+
         auto it = sessions_.find(session_key);
         if (it != sessions_.end()) {
             // Existing session – known IP:port
@@ -180,6 +184,14 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
                     if (sess_it != sessions_.end()) {
                         THEMIS_INFO("HTTP/3 connection migration detected: {} -> {}", cid_it->second, session_key);
                         auto session = sess_it->second;
+                        // Defensive null guard: sessions_ values are always created via make_shared;
+                        // the guard makes the invariant explicit for static analysers.
+                        if (!session) {
+                            THEMIS_ERROR("HTTP/3: null session ptr in CID migration path for key '{}'", cid_it->second);
+                            sessions_.erase(sess_it);
+                            doAccept();
+                            return;
+                        }
                         // Notify session and re-index under the new address
                         session->onPathMigration(remote_endpoint_);
                         sessions_[session_key] = session;
@@ -218,7 +230,6 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
     
     doAccept(); // Continue accepting
 }
-
 void Http3Handler::cleanupInactiveSessions() {
     for (auto it = sessions_.begin(); it != sessions_.end(); ) {
         if (!it->second->isActive()) {

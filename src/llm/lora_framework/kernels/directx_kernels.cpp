@@ -284,6 +284,8 @@ void launch_matmul_shader(
         buffer_B.upload(B, size_B);
         
         // Create descriptors
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
         const size_t elems_C = checked_mul_size(static_cast<size_t>(M), static_cast<size_t>(N), "launch_matmul_shader");
@@ -365,6 +367,8 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         buffer_B.upload(B, byte_size);
         
         // Create descriptors
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
         const uint32_t size_u32 = checked_u32_size(size, "launch_add_shader");
@@ -439,6 +443,8 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         buffer_A.upload(A, byte_size);
         buffer_B.upload(B, byte_size);
         
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
         const uint32_t size_u32 = checked_u32_size(size, "launch_multiply_shader");
@@ -504,6 +510,8 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
         
         buffer_A.upload(A, byte_size);
         
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
         const uint32_t size_u32 = checked_u32_size(size, "launch_scalar_multiply_shader");
@@ -569,6 +577,8 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
         
         buffer_input.upload(input, byte_size);
         
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
         const uint32_t size_u32 = checked_u32_size(size, "launch_transpose_shader");
@@ -650,6 +660,8 @@ void launch_lora_grad_A_shader(
         buffer_grad_output.upload(grad_output, size_grad_output);
         
         // Create descriptors
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
         const size_t elems_grad_A = checked_mul_size(static_cast<size_t>(K), static_cast<size_t>(N), "launch_lora_grad_A_shader");
@@ -752,6 +764,8 @@ void launch_lora_grad_B_shader(
         buffer_grad_h.upload(grad_h, size_grad_h);
         
         // Create descriptors
+        // Explicit null guard: descriptors is non-null when initialized==true; made explicit for static analysis.
+        if (!g_directx_state.descriptors) { throw std::runtime_error("DirectX: descriptor heap not initialized"); }
         g_directx_state.descriptors->reset();
         
         uint32_t uav_grad_A = g_directx_state.descriptors->create_uav(

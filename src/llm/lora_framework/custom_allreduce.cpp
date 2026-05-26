@@ -231,10 +231,14 @@ void CustomAllReduce::enable_p2p_access() {
                 if (i == j) continue;
                 
                 int can_access = 0;
-                cudaDeviceCanAccessPeer(&can_access, 
-                                       ctx_.get_device(i).id, 
-                                       ctx_.get_device(j).id);
-                
+                if (cudaDeviceCanAccessPeer(&can_access,
+                                            ctx_.get_device(i).id,
+                                            ctx_.get_device(j).id) != cudaSuccess) {
+                    spdlog::warn("CustomAllReduce: cudaDeviceCanAccessPeer({},{}) failed; skipping P2P",
+                                 i, j);
+                    can_access = 0;
+                }
+
                 if (can_access) {
                     // REL-38: check cudaSetDevice return value before enabling P2P
                     cudaError_t set_err = cudaSetDevice(ctx_.get_device(i).id);
@@ -268,10 +272,14 @@ void CustomAllReduce::enable_p2p_access() {
                 if (i == j) continue;
                 
                 int can_access = 0;
-                hipDeviceCanAccessPeer(&can_access, 
-                                      ctx_.get_device(i).id, 
-                                      ctx_.get_device(j).id);
-                
+                if (hipDeviceCanAccessPeer(&can_access,
+                                           ctx_.get_device(i).id,
+                                           ctx_.get_device(j).id) != hipSuccess) {
+                    spdlog::warn("CustomAllReduce: hipDeviceCanAccessPeer({},{}) failed; skipping P2P",
+                                 i, j);
+                    can_access = 0;
+                }
+
                 if (can_access) {
                     // REL-39: check hipSetDevice return value before enabling P2P
                     hipError_t set_err = hipSetDevice(ctx_.get_device(i).id);

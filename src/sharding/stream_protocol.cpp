@@ -28,12 +28,12 @@
 #include <filesystem>
 
 // Optional: LZ4 compression (conditional compilation)
-#ifdef THEMIS_ENABLE_LZ4
+#ifdef THEMIS_HAS_LZ4
 #include <lz4.h>
 #endif
 
 // Optional: Zstd compression (conditional compilation)
-#ifdef THEMIS_ENABLE_ZSTD
+#ifdef THEMIS_HAS_ZSTD
 #include <zstd.h>
 #endif
 
@@ -363,7 +363,7 @@ std::vector<uint8_t> StreamCompressor::compress(
         return data;
     }
     
-#ifdef THEMIS_ENABLE_LZ4
+#ifdef THEMIS_HAS_LZ4
     if (algorithm == CompressionAlgorithm::LZ4) {
         int max_dst_size = LZ4_compressBound(static_cast<int>(data.size()));
         std::vector<uint8_t> compressed(max_dst_size);
@@ -382,7 +382,7 @@ std::vector<uint8_t> StreamCompressor::compress(
     }
 #endif
 
-#ifdef THEMIS_ENABLE_ZSTD
+#ifdef THEMIS_HAS_ZSTD
     if (algorithm == CompressionAlgorithm::ZSTD) {
         size_t max_dst_size = ZSTD_compressBound(data.size());
         std::vector<uint8_t> compressed(max_dst_size);
@@ -415,7 +415,7 @@ std::vector<uint8_t> StreamCompressor::decompress(
         return data;
     }
     
-#ifdef THEMIS_ENABLE_LZ4
+#ifdef THEMIS_HAS_LZ4
     if (algorithm == CompressionAlgorithm::LZ4) {
         std::vector<uint8_t> decompressed(uncompressed_size);
         
@@ -433,7 +433,7 @@ std::vector<uint8_t> StreamCompressor::decompress(
     }
 #endif
 
-#ifdef THEMIS_ENABLE_ZSTD
+#ifdef THEMIS_HAS_ZSTD
     if (algorithm == CompressionAlgorithm::ZSTD) {
         std::vector<uint8_t> decompressed(uncompressed_size);
         
@@ -459,11 +459,11 @@ bool StreamCompressor::isSupported(CompressionAlgorithm algorithm) {
     switch (algorithm) {
         case CompressionAlgorithm::NONE:
             return true;
-#ifdef THEMIS_ENABLE_LZ4
+#ifdef THEMIS_HAS_LZ4
         case CompressionAlgorithm::LZ4:
             return true;
 #endif
-#ifdef THEMIS_ENABLE_ZSTD
+#ifdef THEMIS_HAS_ZSTD
         case CompressionAlgorithm::ZSTD:
             return true;
 #endif
