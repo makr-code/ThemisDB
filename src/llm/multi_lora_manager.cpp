@@ -373,7 +373,7 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
     // The raw pointer returned by getLoRA() is unsafe to use after the lock is released
     // (another thread may call unloadLoRA and free the LoRASlot).  Instead, we inline
     // the lookup here and copy mutable fields to stack-local variables before releasing.
-    llama_lora_adapter* adapter_handle = nullptr;
+    void* adapter_handle = nullptr;
     float scale = 0.0f;
     ApplyAdapterFn apply_fn_copy;
     bool has_adapter = false;
@@ -462,7 +462,7 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
 
 bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
     // Same lock-then-snapshot pattern as applyLoRA to prevent use-after-free.
-    llama_lora_adapter* adapter_handle = nullptr;
+    void* adapter_handle = nullptr;
     RemoveAdapterFn remove_fn_copy;
     bool has_adapter = false;
 

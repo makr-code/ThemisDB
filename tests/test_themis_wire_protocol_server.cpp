@@ -569,6 +569,46 @@ TEST(WireProtocolServer, Sessions_Pruned_After_Disconnect) {
     io_thread.join();
 }
 
+TEST(WireProtocolServer, SingleThreadedIoContextPrunesSessionsAfterDisconnect) {
+    using tcp = boost::asio::ip::tcp;
+
+    boost::asio::io_context server_ioc;
+    ScopedWireStartCallbacks callbacks;
+    const uint16_t port = reserve_loopback_port(server_ioc);
+    WireProtocolServer server(server_ioc, port);
+
+    server.start();
+
+    boost::asio::io_context client_ioc;
+    tcp::socket client(client_ioc);
+    client.connect(tcp::endpoint(boost::asio::ip::address_v4::loopback(), port));
+
+    const auto accept_deadline = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+    while (server.total_connections() != 1u &&
+           std::chrono::steady_clock::now() < accept_deadline) {
+        server_ioc.poll();
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+
+    EXPECT_EQ(server.total_connections(), 1u);
+    EXPECT_EQ(server.active_sessions(), 1u);
+
+    boost::system::error_code ec;
+    client.shutdown(tcp::socket::shutdown_both, ec);
+    client.close(ec);
+
+    const auto disconnect_deadline = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+    while (server.active_sessions() != 0u &&
+           std::chrono::steady_clock::now() < disconnect_deadline) {
+        server_ioc.poll();
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+
+    EXPECT_EQ(server.active_sessions(), 0u);
+
+    server.stop();
+}
+
 // ===========================================================================
 // Checksum – public-facing coverage notes
 // ===========================================================================
