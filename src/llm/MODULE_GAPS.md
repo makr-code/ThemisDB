@@ -201,6 +201,40 @@ src/llm/MODULE_GAPS.md  ← You are here
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-L07: Flash LoRA + Flash Attention CUDA — Sync/Memory Reliability Checks
+
+**Scope:** `src/llm/lora_framework/flash_lora.cpp`, `src/llm/attention/cuda/flash_attention_cuda.cu`
+**Ticket:** W1-L07 · Priority P1
+
+### Fixes Applied
+
+#### 1. `flash_lora.cpp` — unchecked `cudaDeviceSynchronize()` in forward/backward (REL-49..50)
+
+**Root cause:** Both forward and backward paths launched CUDA kernels and then called
+`cudaDeviceSynchronize()` without checking return values.
+
+**Fix:**
+- Added explicit `cudaError_t sync_err` checks after synchronize calls.
+- On failure, throws `std::runtime_error` including `cudaGetErrorString(sync_err)`.
+
+#### 2. `flash_attention_cuda.cu` — unchecked `cudaMemGetInfo()` in `getMemoryStats()` (REL-51)
+
+**Root cause:** `getMemoryStats()` read memory stats via `cudaMemGetInfo` without checking errors.
+
+**Fix:**
+- Added return-value check for `cudaMemGetInfo`.
+- Throws `std::runtime_error` on failure with CUDA error text.
+
+#### 3. `flash_attention_cuda.cu` — unchecked `cudaFree()` in `freeWorkspace()` cleanup path (REL-52)
+
+**Root cause:** Workspace cleanup called `cudaFree(d_workspace_)` without checking return value.
+
+**Fix:**
+- Added checked `cudaFree` with warning log on failure (non-throwing cleanup path).
+- Added `spdlog` include for diagnostic logging.
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-L06: Multi-GPU Coordinator + VRAM Allocator — Runtime Reliability Checks
 
 **Scope:** `src/llm/multi_gpu_memory_coordinator.cpp`, `src/llm/lora_framework/vram_allocator.cpp`  
