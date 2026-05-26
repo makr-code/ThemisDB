@@ -67,6 +67,9 @@ Security-sensitive input validation gaps found by static analysis:
 | W1-L01b-ND-02 | `null_dereference` | `evictLRU`: same unsigned underflow class as ND-01 — `total_vram_bytes_ -= lru_lora->vram_bytes` had no guard. Per-GPU VRAM accounting for `primary_gpu` was also missing entirely. Fixed by adding underflow guards for both `total_vram_bytes_` and `gpu_vram_usage_[primary_gpu]`. | `multi_lora_manager.cpp` |
 | W1-L01c-ND-03 | `null_dereference` | `unloadLoRA`, `evictResourceAware`, `balanceGPULoad`, and `migrateLoRAToGPU` still contained unchecked `size_t` VRAM decrements. Fixed by guarding each source-GPU / total-VRAM subtraction against underflow and zeroing on skew instead of wrapping to `UINT64_MAX`. | `multi_lora_manager.cpp` |
 | W1-L01c-REL-01 | `reliability` | `balanceGPULoad`: `usage_ratio` divided byte usage by `max_vram_per_gpu_mb` (MB units), making almost every non-zero GPU look overloaded. Fixed by comparing bytes-to-bytes using `max_vram_per_gpu_bytes`. | `multi_lora_manager.cpp` |
+| W1-L01d-ND-04 | `null_dereference` | `~MultiLoRAManager` cleanup loop still used unchecked `size_t` decrement for `total_vram_bytes_` and did not decrement `gpu_vram_usage_[primary_gpu]`. Fixed by underflow-guarded decrements for both totals and per-GPU usage. | `multi_lora_manager.cpp` |
+| W1-L01d-REL-02 | `reliability` | `balanceGPULoad` could divide by zero when `gpu_vram_usage_` was empty; `selectGPUForLoRA` MODEL_PARALLEL free-space math (`max_vram - usage`) could underflow. Fixed by early-empty return and saturating free-space calculations. | `multi_lora_manager.cpp` |
+| W1-L01d-REL-03 | `reliability` | Multi-GPU capacity checks in `balanceGPULoad`, `selectGPUForLoRA`, and `checkGPUHealthAndMigrate` used `usage + need <= max`, which can overflow on skewed counters. Fixed by rewriting to subtraction-safe form: `need <= max && usage <= max - need`. | `multi_lora_manager.cpp` |
 
 ### Previously addressed (v1.20.0 / v1.20.1)
 

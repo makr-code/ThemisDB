@@ -171,11 +171,26 @@ MultiLoRAManager::~MultiLoRAManager() {
         }
         
         // Update memory tracking
-        if (lora->vram_bytes > 0 && total_vram_bytes_ >= lora->vram_bytes) {
-            total_vram_bytes_ -= lora->vram_bytes;
+        if (lora->vram_bytes > 0) {
+            if (total_vram_bytes_ >= lora->vram_bytes) {
+                total_vram_bytes_ -= lora->vram_bytes;
+            } else {
+                total_vram_bytes_ = 0;  // underflow guard
+            }
+
+            if (lora->primary_gpu >= 0) {
+                auto gpu_it = gpu_vram_usage_.find(lora->primary_gpu);
+                if (gpu_it != gpu_vram_usage_.end()) {
+                    if (gpu_it->second >= lora->vram_bytes) {
+                        gpu_it->second -= lora->vram_bytes;
+                    } else {
+                        gpu_it->second = 0;  // underflow guard
+                    }
+                }
+            }
         }
         
-        spdlog::debug("LoRA {} cleaned up: freed {} MB", id, lora->vram_bytes / (1024*1024));
+        spdlog::debug("LoRA {} cleaned up: freed {} MB", id, lora->vram_bytes / BYTES_PER_MB);
     }
     loras_.clear();
     
@@ -1776,6 +1791,10 @@ size_t MultiLoRAManager::balanceGPULoad() {
     if (config_.multi_gpu.devices.size() < 2) {
         return 0;  // Nothing to balance with single GPU
     }
+
+    if (gpu_vram_usage_.empty()) {
+        return 0;  // No tracked usage available for balancing
+    }
     
     // Calculate average VRAM usage
     size_t total_usage = 0;
@@ -1817,7 +1836,8 @@ size_t MultiLoRAManager::balanceGPULoad() {
                 // Try to move to underloaded GPU
                 for (int target_gpu : underloaded_gpus) {
                     // FIND-015: Use named constant for byte to MB conversion
-                    if (gpu_vram_usage_[target_gpu] + lora->vram_bytes < max_vram_per_gpu_bytes) {
+                    if (lora->vram_bytes <= max_vram_per_gpu_bytes &&
+                        gpu_vram_usage_[target_gpu] <= max_vram_per_gpu_bytes - lora->vram_bytes) {
                         
                         spdlog::info("Moving LoRA {} from GPU {} to GPU {}", 
                                      lora_id, overloaded_gpu, target_gpu);
@@ -1871,7 +1891,7 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
     
     // FIND-015: Use named constant for byte to MB conversion
     // Pre-compute max VRAM per GPU in bytes to avoid repeated multiplication
-    const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+    const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
     
     switch (config_.multi_gpu.strategy) {
         case MultiGPUStrategy::ROUND_ROBIN: {
@@ -1886,7 +1906,8 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
             }
             
             // Check if GPU has capacity
-            if (gpu_vram_usage_[selected_gpu] + vram_bytes <= max_vram_per_gpu_bytes) {
+            if (vram_bytes <= max_vram_per_gpu_bytes &&
+                gpu_vram_usage_[selected_gpu] <= max_vram_per_gpu_bytes - vram_bytes) {
                 return selected_gpu;
             }
             
@@ -1896,7 +1917,8 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
                     spdlog::error("GPU {} not in tracking map, initializing", gpu_id);
                     gpu_vram_usage_[gpu_id] = 0;
                 }
-                if (gpu_vram_usage_[gpu_id] + vram_bytes <= max_vram_per_gpu_bytes) {
+                if (vram_bytes <= max_vram_per_gpu_bytes &&
+                    gpu_vram_usage_[gpu_id] <= max_vram_per_gpu_bytes - vram_bytes) {
                     return gpu_id;
                 }
             }
@@ -1933,7 +1955,9 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
                 gpu_vram_usage_[best_gpu] = 0;
             }
             
-            size_t max_free = max_vram_per_gpu_bytes - gpu_vram_usage_[best_gpu];
+            size_t max_free = (max_vram_per_gpu_bytes > gpu_vram_usage_[best_gpu])
+                ? (max_vram_per_gpu_bytes - gpu_vram_usage_[best_gpu])
+                : 0;
             
             for (size_t i = 1; i < config_.multi_gpu.devices.size(); ++i) {
                 int gpu_id = config_.multi_gpu.devices[i];
@@ -1944,7 +1968,9 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
                     gpu_vram_usage_[gpu_id] = 0;
                 }
                 
-                size_t free = max_vram_per_gpu_bytes - gpu_vram_usage_[gpu_id];
+                size_t free = (max_vram_per_gpu_bytes > gpu_vram_usage_[gpu_id])
+                    ? (max_vram_per_gpu_bytes - gpu_vram_usage_[gpu_id])
+                    : 0;
                 if (free > max_free) {
                     max_free = free;
                     best_gpu = gpu_id;
@@ -2841,7 +2867,8 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
                 // FIND-015: Use named constant for byte to MB conversion
                 // Check capacity
                 size_t max_vram = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
-                if (gpu_vram_usage_[target_gpu] + lora->vram_bytes <= max_vram) {
+                if (lora->vram_bytes <= max_vram &&
+                    gpu_vram_usage_[target_gpu] <= max_vram - lora->vram_bytes) {
                     spdlog::info("Auto-migrating LoRA {} from failed GPU {} to GPU {}",
                                  lora_id, unhealthy_gpu, target_gpu);
 
@@ -3143,10 +3170,10 @@ bool MultiLoRAManager::fuseLoRAsInternal(
     fused_lora->scale = 1.0f;
     
     // Check VRAM budget
-    if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
+    if (total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
         spdlog::warn("Fused LoRA would exceed VRAM budget, attempting eviction");
         while (loras_.size() > 0 && 
-               total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * 1024 * 1024) {
+               total_vram_bytes_ + fused_lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
             evictLRU();
         }
     }
