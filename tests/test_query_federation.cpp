@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -97,6 +98,30 @@ protected:
     std::shared_ptr<InstrumentedShardRouter>  router;
     std::unique_ptr<QueryFederation>          fed;
 };
+
+TEST(QueryFederationConstructorValidationTest, NullRouter_DefaultConstructorThrows) {
+    std::shared_ptr<ShardRouter> null_router;
+    EXPECT_THROW((void)QueryFederation(null_router), std::invalid_argument);
+}
+
+TEST(QueryFederationConstructorValidationTest, NullRouter_ConfigConstructorThrows) {
+    std::shared_ptr<ShardRouter> null_router;
+    QueryFederation::Config cfg;
+    EXPECT_THROW((void)QueryFederation(null_router, cfg), std::invalid_argument);
+}
+
+TEST(QueryFederationConstructorValidationTest, NullRouter_ShardingManagerConstructorThrows) {
+    std::shared_ptr<ShardRouter> null_router;
+    auto& mgr = ShardingManager::GetInstance();
+    EXPECT_THROW((void)QueryFederation(null_router, mgr), std::invalid_argument);
+}
+
+TEST(QueryFederationConstructorValidationTest, NullRouter_ShardingManagerConfigConstructorThrows) {
+    std::shared_ptr<ShardRouter> null_router;
+    auto& mgr = ShardingManager::GetInstance();
+    QueryFederation::Config cfg;
+    EXPECT_THROW((void)QueryFederation(null_router, mgr, cfg), std::invalid_argument);
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Point-lookup routes to exactly 1 shard
@@ -335,4 +360,3 @@ TEST(QueryFederationRAGTest, QF_RAG_05_BuildPromptContextContainsShardPrefixes) 
     EXPECT_NE(prompt.find("[Shard: shard-beta]"), std::string::npos)
         << "Prompt context must include [Shard: shard-beta] prefix";
 }
-

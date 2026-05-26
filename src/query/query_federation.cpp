@@ -23,6 +23,14 @@
 namespace {
     // Threshold for using partition pruning strategy
     constexpr size_t PARTITION_PRUNING_THRESHOLD = 5;
+
+    [[nodiscard]] std::shared_ptr<themis::sharding::ShardRouter> requireShardRouter(
+        std::shared_ptr<themis::sharding::ShardRouter> shard_router) {
+        if (!shard_router) {
+            throw std::invalid_argument("QueryFederation: shard_router cannot be null");
+        }
+        return shard_router;
+    }
 }
 
 namespace themis::query {
@@ -35,7 +43,7 @@ QueryFederation::QueryFederation(
 QueryFederation::QueryFederation(
     std::shared_ptr<sharding::ShardRouter> shard_router,
     const Config& config
-) : shard_router_(std::move(shard_router)),
+) : shard_router_(requireShardRouter(std::move(shard_router))),
     sharding_manager_(nullptr),
     config_(config)
 {
@@ -54,7 +62,7 @@ QueryFederation::QueryFederation(
     std::shared_ptr<sharding::ShardRouter> shard_router,
     sharding::ShardingManager& sharding_manager,
     const Config& config
-) : shard_router_(std::move(shard_router)),
+) : shard_router_(requireShardRouter(std::move(shard_router))),
     sharding_manager_(&sharding_manager),
     config_(config)
 {
