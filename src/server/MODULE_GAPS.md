@@ -17,6 +17,19 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-26)
 
+- **W1-S12 (2026-05-26) – `include/server/postgres_session.h`, `src/server/postgres_session.cpp`**
+  - PostgreSQL wire session concurrency hardening: lifecycle flags (`isAuthenticated_`,
+    `inStartup_`, `copyInProgress_`, `transactionState_`) now use atomic state, and
+    `stop()` is idempotent and marshals socket shutdown onto the socket executor.
+  - Write-path hardening: response writes now enqueue through executor-dispatched
+    `enqueueWrite(...)`, serialize access to `writeQueue_`, and prevent overlapping
+    `async_write` starts during concurrent response generation.
+  - Mutable session registries (`preparedStatements_`, `portals_`, COPY buffers) now
+    use dedicated mutex protection so parse/bind/describe/execute/close/COPY handlers
+    no longer race on shared maps and buffers.
+  - Gap delta intent: reduce PostgreSQL wire `data_race` / async write ordering /
+    lifecycle shutdown findings in the next server rescan.
+
 - **W1-S11 (2026-05-26) – `src/server/http_server.cpp`, `src/server/AUDIT.md`**
   - Routing-layer auth enforcement: added `requireAccess` gates in the routing switch
     for 6 endpoints that previously had neither routing-level nor handler-level auth:
