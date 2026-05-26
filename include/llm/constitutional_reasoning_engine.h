@@ -45,13 +45,13 @@ struct ConstitutionalPrinciple {
     std::string id;
     std::string name;
     std::string description;
-    int priority;                      ///< Higher = more important
+    int priority = 0;                  ///< Higher = more important
     std::string critique_prompt;       ///< Prompt for self-critique
     std::string revision_prompt;       ///< Prompt for self-revision
     
     // Metadata
     std::string source;                ///< e.g., "UN Human Rights Art. 1"
-    bool domain_agnostic;              ///< true if universal principle
+    bool domain_agnostic = false;              ///< true if universal principle
 };
 
 /**
@@ -68,18 +68,18 @@ struct ConstitutionalReasoningResult {
     
     // Revision results
     std::string revised_response;                 ///< Revised output
-    bool was_revised;                             ///< true if revision occurred
+    bool was_revised = false;                             ///< true if revision occurred
     std::string revision_reasoning;               ///< Explanation of revision
     
     // Quality metrics
-    float original_score;                         ///< Score before revision (0-1)
-    float revised_score;                          ///< Score after revision (0-1)
-    float improvement;                            ///< Improvement delta
+    float original_score = 0.0f;                         ///< Score before revision (0-1)
+    float revised_score = 0.0f;                          ///< Score after revision (0-1)
+    float improvement = 0.0f;                            ///< Improvement delta
     
     // Metadata
     std::chrono::milliseconds critique_time;
     std::chrono::milliseconds revision_time;
-    int iterations;                               ///< Number of critique-revision cycles
+    int iterations = 0;                               ///< Number of critique-revision cycles
 };
 
 /**

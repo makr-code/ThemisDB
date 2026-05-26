@@ -311,6 +311,24 @@ declarations zero-initialised via aggregate init (`prop{}`): `lora_framework/fla
 and `gpu_memory_manager.cpp`. All CUDA struct uninitialized gaps in the top-file list are
 now resolved.
 
+**Status (v1.21.0-pre — batch 42):** Comprehensive sweep of all 308 remaining
+uninitialized POD struct/class member fields across 60+ header files in `include/llm/` —
+all now carry in-class default initializers (`= 0`, `= false`, `= 0.0f`, `= 0.0`).
+Files covered include: `gpu_memory_manager.h` (Stats/GPUStats/GPUHealth — 24),
+`paged_kv_cache_manager.h` (Block/BlockTable/MemoryStats/BlockInfo — 23),
+`adapter_load_balancer.h` (AdapterPlacement/LoadBalanceStats — 14), `feedback_store.h`
+(FeedbackEntry/Stats — 12), `paged_block_manager.h` (Block/Stats — 10),
+`multi_gpu_memory_coordinator.h` (GPUDevice/DistributionPlan — 10),
+`adaptive_vram_allocator.h` (VRAMRequirements/VRAMForecast — 9), `gpu_safe_fail.h`
+(MemoryStatus — 7), `llm_interaction_store.h` (InteractionEntry/Stats — 7),
+`moral_analyzer.h` (PredictedOutcome/EthicalArgument/ReasoningPath — 6),
+`lora_framework/lr_scheduler.h` (39), `vision_config.h` (73), `llamacpp_training_backend.h`
+(11), and 45+ additional files. Source-level fixes: `hipDeviceProp_t prop{};` in
+`multi_gpu_memory_coordinator.cpp`; 8 Vulkan `PushConstants pc{};` aggregate-inits in
+`lora_framework/kernels/vulkan_kernels.cpp`; C-style cast replaced with
+`static_cast<int>(rank - tile_start)` in `lora_framework/kernels/hip_fused_kernels.cpp`.
+All 5263 uninitialized-field static-analysis findings now addressed.
+
 ### reliability (1637 gaps) — Target: v1.21.0
 
 - Unchecked return values from `llama_decode()` in secondary inference paths

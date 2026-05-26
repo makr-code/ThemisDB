@@ -170,13 +170,13 @@ public:
 
 private:
     std::string name_ = "GPULoRALayer";
-    size_t in_dim_;
-    size_t out_dim_;
-    size_t rank_;
-    float scaling_;
+    size_t in_dim_ = 0;
+    size_t out_dim_ = 0;
+    size_t rank_ = 0;
+    float scaling_ = 0.0f;
     Device device_;
-    bool use_fused_kernels_;
-    bool use_flash_lora_;
+    bool use_fused_kernels_ = false;
+    bool use_flash_lora_ = false;
     
     // Gradient checkpointing
     bool use_checkpointing_ = false;
@@ -251,9 +251,9 @@ public:
     size_t num_parameters() const { return parameters_.size(); }
 
 private:
-    float learning_rate_;
-    float momentum_;
-    float weight_decay_;
+    float learning_rate_ = 0.0f;
+    float momentum_ = 0.0f;
+    float weight_decay_ = 0.0f;
     std::vector<GPUTensor*> parameters_;
     
     // Momentum buffers (in VRAM, only allocated if momentum > 0)

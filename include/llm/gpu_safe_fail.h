@@ -246,13 +246,13 @@ public:
     };
     
     struct MemoryStatus {
-        size_t total_bytes;
-        size_t used_bytes;
-        size_t free_bytes;
-        float usage_percent;
-        PressureLevel pressure;
-        bool should_trigger_gc;    // Should trigger garbage collection
-        bool should_block_new;     // Should block new allocations
+        size_t total_bytes = 0;
+        size_t used_bytes = 0;
+        size_t free_bytes = 0;
+        float usage_percent = 0.0f;
+        PressureLevel pressure = PressureLevel::NORMAL;
+        bool should_trigger_gc = false;    // Should trigger garbage collection
+        bool should_block_new = false;     // Should block new allocations
     };
     
     explicit MemoryPressureMonitor(size_t total_memory_bytes);
@@ -270,7 +270,7 @@ public:
     std::string getRecommendedAction() const;
     
 private:
-    size_t total_memory_bytes_;
+    size_t total_memory_bytes_ = 0;
     std::atomic<size_t> used_memory_bytes_{0};
     // mutex_ removed: used_memory_bytes_ is std::atomic, all other reads/writes
     // use only total_memory_bytes_ (const after construction) or the atomic.

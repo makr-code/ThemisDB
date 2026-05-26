@@ -84,10 +84,10 @@ struct GGUFSTConfig {
 /// GGUF-ST Section Header
 struct SectionHeader {
     char magic[4];          // Section identifier
-    uint32_t version;       // Section format version
-    uint64_t data_size;     // Size of data following header
-    uint32_t flags;         // Compression flags, etc.
-    uint32_t reserved;      // Reserved for future use
+    uint32_t version = 0;       // Section format version
+    uint64_t data_size = 0;     // Size of data following header
+    uint32_t flags = 0;         // Compression flags, etc.
+    uint32_t reserved = 0;      // Reserved for future use
 };
 
 /// GGUF-ST Adapter - Read/Write hybrid format adapters

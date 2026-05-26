@@ -137,7 +137,7 @@ bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
         device.device_id = gpu_id;
         
         // Query device properties
-        hipDeviceProp_t prop;
+        hipDeviceProp_t prop{};
         if (hipGetDeviceProperties(&prop, gpu_id) == hipSuccess) {
             device.total_vram_bytes = prop.totalGlobalMem;
             device.compute_capability = prop.major * 10 + prop.minor;

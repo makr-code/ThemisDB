@@ -82,8 +82,8 @@ public:
 private:
     void refillTokens();
     
-    size_t capacity_;           ///< Bucket capacity (burst size)
-    size_t refill_rate_;        ///< Tokens per minute
+    size_t capacity_ = 0;           ///< Bucket capacity (burst size)
+    size_t refill_rate_ = 0;        ///< Tokens per minute
     mutable std::atomic<size_t> tokens_; ///< Available tokens
     mutable std::chrono::steady_clock::time_point last_refill_;
     mutable std::mutex mutex_;
@@ -113,10 +113,10 @@ public:
      * @brief Get remaining quota for a user
      */
     struct QuotaRemaining {
-        size_t daily_requests_remaining;
-        size_t monthly_requests_remaining;
-        size_t inference_minutes_remaining;
-        size_t vram_hours_remaining;
+        size_t daily_requests_remaining = 0;
+        size_t monthly_requests_remaining = 0;
+        size_t inference_minutes_remaining = 0;
+        size_t vram_hours_remaining = 0;
     };
     QuotaRemaining getRemainingQuota(const std::string& user_id) const;
     

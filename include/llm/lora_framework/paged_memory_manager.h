@@ -133,7 +133,7 @@ private:
         cache_.erase(lru);
     }
     
-    size_t capacity_;
+    size_t capacity_ = 0;
     std::unordered_map<Key, Value> cache_;
 };
 
@@ -271,7 +271,7 @@ private:
     PageID next_page_id_ = 1;
     
     // Active set size (max pages on GPU)
-    size_t active_set_size_;
+    size_t active_set_size_ = 0;
     
     // Access counter for LRU
     uint64_t access_counter_ = 0;

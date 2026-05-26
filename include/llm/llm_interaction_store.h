@@ -44,9 +44,9 @@ public:
         std::vector<std::string> reasoning_chain; // CoT steps
         std::string response;                  // Final LLM response
         std::string model_version;             // e.g., "gpt-4o-mini"
-        int64_t timestamp_ms;                  // Creation timestamp
-        int latency_ms;                        // Response latency
-        int token_count;                       // Total tokens used
+        int64_t timestamp_ms = 0;              // Creation timestamp
+        int latency_ms = 0;                    // Response latency
+        int token_count = 0;                   // Total tokens used
         nlohmann::json metadata;               // Additional fields (feedback, user_id, etc.)
 
         // Serialization
@@ -62,10 +62,10 @@ public:
     };
 
     struct Stats {
-        size_t total_interactions;
-        int64_t total_tokens;
-        double avg_latency_ms;
-        size_t total_size_bytes;
+        size_t total_interactions = 0;
+        int64_t total_tokens = 0;
+        double avg_latency_ms = 0.0;
+        size_t total_size_bytes = 0;
     };
 
     /**

@@ -45,13 +45,13 @@ public:
      * @brief GPU device information
      */
     struct GPUDevice {
-        int device_id;
-        size_t total_vram_bytes;
-        size_t available_vram_bytes;
-        int compute_capability;
-        bool is_healthy;
-        float temperature_celsius;
-        float utilization_percent;
+        int device_id = 0;
+        size_t total_vram_bytes = 0;
+        size_t available_vram_bytes = 0;
+        int compute_capability = 0;
+        bool is_healthy = false;
+        float temperature_celsius = 0.0f;
+        float utilization_percent = 0.0f;
     };
 
     /**
@@ -62,18 +62,18 @@ public:
         std::vector<int> gpu_ids;
         
         // Tensor parallelism details
-        int tensor_parallel_size;
+        int tensor_parallel_size = 1;
         std::vector<size_t> shard_sizes;  // Per-GPU shard sizes
         
         // Pipeline parallelism details
-        int pipeline_parallel_size;
+        int pipeline_parallel_size = 1;
         std::vector<std::vector<int>> layer_assignments;  // Layers per GPU
         
         // Load balancing
         std::vector<int> batch_assignments;  // Batch size per GPU
         
         // Communication topology
-        bool enable_p2p;
+        bool enable_p2p = false;
         std::vector<std::pair<int, int>> p2p_pairs;  // GPU pairs for P2P
         
         std::string description;  // Human-readable description

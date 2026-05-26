@@ -488,7 +488,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         uint32_t rows;    // unused for add
         uint32_t cols;    // unused for add
         uint32_t scalar;  // unused for add
-    } pc;
+    } pc{};
     
     pc.size = static_cast<uint32_t>(size);
     pc.op = 0; // add operation
@@ -532,7 +532,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         uint32_t rows;
         uint32_t cols;
         uint32_t scalar;
-    } pc;
+    } pc{};
     
     pc.size = static_cast<uint32_t>(size);
     pc.op = 2; // multiply operation
@@ -575,7 +575,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
         uint32_t rows;
         uint32_t cols;
         uint32_t scalar_bits;
-    } pc;
+    } pc{};
     
     pc.size = static_cast<uint32_t>(size);
     pc.op = 4; // scalar multiply operation
@@ -617,7 +617,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
         uint32_t rows;
         uint32_t cols;
         uint32_t scalar;
-    } pc;
+    } pc{};
     
     size_t total_size = rows * cols;
     pc.size = static_cast<uint32_t>(total_size);
@@ -665,7 +665,7 @@ void launch_lora_grad_A_shader(
         uint32_t out_dim;
         uint32_t scaling_bits;
         uint32_t compute_mode; // 0 = grad_A
-    } pc;
+    } pc{};
     
     pc.batch_size = static_cast<uint32_t>(M);
     pc.in_dim = 0; // Not used for grad_A
@@ -724,7 +724,7 @@ void launch_lora_grad_B_shader(
         uint32_t out_dim;
         uint32_t scaling_bits;
         uint32_t compute_mode; // 1 = grad_B
-    } pc;
+    } pc{};
     
     pc.batch_size = static_cast<uint32_t>(M);
     pc.in_dim = static_cast<uint32_t>(D);
@@ -792,7 +792,7 @@ void launch_embedding_lookup_shader(
         uint32_t seq_len;
         uint32_t hidden_dim;
         uint32_t vocab_size;
-    } pc;
+    } pc{};
 
     pc.batch_size = static_cast<uint32_t>(batch_size);
     pc.seq_len = static_cast<uint32_t>(seq_len);
@@ -847,7 +847,7 @@ void launch_sequence_mean_shader(
         uint32_t seq_len;
         uint32_t hidden_dim;
         uint32_t reserved;
-    } pc;
+    } pc{};
 
     pc.batch_size = static_cast<uint32_t>(batch_size);
     pc.seq_len = static_cast<uint32_t>(seq_len);

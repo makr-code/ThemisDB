@@ -54,7 +54,7 @@ public:
         std::string name;
         std::string description;
         std::string description_en;
-        int priority;
+        int priority = 0;
     };
     
     /**

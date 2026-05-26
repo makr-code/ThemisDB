@@ -83,7 +83,7 @@ inline bool is_mixed_precision(DType dtype) {
  */
 inline uint16_t fp32_to_fp16_bits(float value) {
     // IEEE 754 half precision conversion (simplified)
-    uint32_t bits;
+    uint32_t bits = 0;
     std::memcpy(&bits, &value, sizeof(float));
     
     uint32_t sign = (bits >> 16) & 0x8000;
@@ -117,7 +117,7 @@ inline float fp16_bits_to_fp32(uint16_t value) {
         // Zero or denormal
         if (mantissa == 0) {
             uint32_t bits = sign;
-            float result;
+            float result = 0.0f;
             std::memcpy(&result, &bits, sizeof(float));
             return result;
         }
@@ -126,13 +126,13 @@ inline float fp16_bits_to_fp32(uint16_t value) {
     } else if (exponent == 31) {
         // Infinity or NaN
         uint32_t bits = sign | 0x7F800000 | (mantissa << 13);
-        float result;
+        float result = 0.0f;
         std::memcpy(&result, &bits, sizeof(float));
         return result;
     }
     
     uint32_t bits = sign | ((exponent - 15 + 127) << 23) | (mantissa << 13);
-    float result;
+    float result = 0.0f;
     std::memcpy(&result, &bits, sizeof(float));
     return result;
 }
@@ -146,7 +146,7 @@ inline float fp16_bits_to_fp32(uint16_t value) {
  * @return BF16 value (stored in uint16_t)
  */
 inline uint16_t fp32_to_bf16_bits(float value) {
-    uint32_t bits;
+    uint32_t bits = 0;
     std::memcpy(&bits, &value, sizeof(float));
     
     // BF16 is just upper 16 bits of FP32
@@ -164,7 +164,7 @@ inline uint16_t fp32_to_bf16_bits(float value) {
  */
 inline float bf16_bits_to_fp32(uint16_t value) {
     uint32_t bits = static_cast<uint32_t>(value) << 16;
-    float result;
+    float result = 0.0f;
     std::memcpy(&result, &bits, sizeof(float));
     return result;
 }

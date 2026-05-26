@@ -158,8 +158,8 @@ private:
     Config config_;
     Stats stats_;
     
-    int current_step_;
-    int accumulation_counter_;
+    int current_step_ = 0;
+    int accumulation_counter_ = 0;
     
     // Compute loss (MSE)
     float compute_loss(const GPUTensor& output, const GPUTensor& target);

@@ -41,9 +41,9 @@ enum class PrecisionMode {
  */
 struct ModelArchitecture {
     std::string model_name;
-    size_t num_parameters;
-    size_t num_layers;
-    size_t hidden_dim;
+    size_t num_parameters = 0;
+    size_t num_layers = 0;
+    size_t hidden_dim = 0;
     std::vector<std::string> layer_types;  // e.g., ["attention", "mlp", ...]
     std::vector<size_t> layer_sizes;       // Size in bytes per layer
 };
@@ -61,9 +61,9 @@ public:
      */
     struct PrecisionInfo {
         PrecisionMode mode;
-        float accuracy_retention;  // 0.0 - 1.0 (1.0 = 100% accuracy)
-        float memory_reduction;    // 0.0 - 1.0 (0.5 = 50% reduction)
-        size_t bytes_per_param;    // Bytes per parameter
+        float accuracy_retention = 0.0f;  // 0.0 - 1.0 (1.0 = 100% accuracy)
+        float memory_reduction = 0.0f;    // 0.0 - 1.0 (0.5 = 50% reduction)
+        size_t bytes_per_param = 0;       // Bytes per parameter
         std::string description;   // Human-readable description
     };
 
@@ -71,7 +71,7 @@ public:
      * @brief Per-layer precision configuration
      */
     struct LayerPrecisionConfig {
-        size_t layer_id;
+        size_t layer_id = 0;
         PrecisionMode precision;
         std::string rationale;  // Why this precision was chosen
     };

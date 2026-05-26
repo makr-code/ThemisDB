@@ -99,11 +99,11 @@ namespace TargetModules {
 
 // Training step result
 struct TrainingStepResult {
-    float loss;                          // Training loss
-    float grad_norm;                     // Gradient norm (for monitoring)
-    int num_tokens;                      // Number of tokens processed
-    float learning_rate;                 // Current learning rate
-    bool success;                        // Whether step succeeded
+    float loss = 0.0f;                          // Training loss
+    float grad_norm = 0.0f;                     // Gradient norm (for monitoring)
+    int num_tokens = 0;                      // Number of tokens processed
+    float learning_rate = 0.0f;                 // Current learning rate
+    bool success = false;                        // Whether step succeeded
     std::string error_message;           // Error details if failed
     
     nlohmann::json toJSON() const {
@@ -120,10 +120,10 @@ struct TrainingStepResult {
 
 // Evaluation result
 struct EvaluationResult {
-    float loss;                          // Evaluation loss
-    float perplexity;                    // Perplexity
-    int num_tokens;                      // Number of tokens evaluated
-    bool success;                        // Whether evaluation succeeded
+    float loss = 0.0f;                          // Evaluation loss
+    float perplexity = 0.0f;                    // Perplexity
+    int num_tokens = 0;                      // Number of tokens evaluated
+    bool success = false;                        // Whether evaluation succeeded
     std::string error_message;           // Error details if failed
     
     nlohmann::json toJSON() const {
@@ -139,8 +139,8 @@ struct EvaluationResult {
 
 // Checkpoint data structure
 struct CheckpointData {
-    int epoch;                           // Current epoch
-    int global_step;                     // Global training step
+    int epoch = 0;                           // Current epoch
+    int global_step = 0;                     // Global training step
     std::map<std::string, std::vector<float>> lora_weights;  // LoRA weight matrices
     std::map<std::string, std::vector<float>> optimizer_state;  // Optimizer state (momentum, etc.)
     TrainingMetrics metrics;             // Training metrics at checkpoint

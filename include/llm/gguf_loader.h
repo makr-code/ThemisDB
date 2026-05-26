@@ -68,8 +68,8 @@ struct TensorMetadata {
     std::string name;
     std::vector<int64_t> shape;
     GGMLType type;      // GGML quantization type
-    size_t offset;      // Offset in GGUF file
-    size_t size;        // Size in bytes
+    size_t offset = 0;      // Offset in GGUF file
+    size_t size = 0;        // Size in bytes
     
     // Helper to get type as string
     std::string type_string() const;
@@ -77,12 +77,12 @@ struct TensorMetadata {
 
 // GGUF file metadata
 struct GGUFMetadata {
-    uint32_t version;
+    uint32_t version = 0;
     std::string architecture;  // "llama", "mistral", etc.
     std::unordered_map<std::string, std::string> config;
     std::vector<TensorMetadata> tensors;
-    size_t total_size;
-    size_t data_offset;  // Offset where tensor data starts
+    size_t total_size = 0;
+    size_t data_offset = 0;  // Offset where tensor data starts
 };
 
 // GGUF Loader - parses GGUF files and loads into ThemisDB
@@ -147,9 +147,9 @@ private:
     GGUFMetadata metadata_;
     std::string filepath_;
     std::string last_error_;  // Set on parseFile() failure
-    int fd_;  // File descriptor for mmap
+    int fd_ = 0;  // File descriptor for mmap
     void* mmap_base_;
-    size_t mmap_size_;
+    size_t mmap_size_ = 0;
     std::vector<uint8_t> file_buffer_; // Windows fallback buffer
     RocksDBWrapper* db_ = nullptr;  // Not owned
     

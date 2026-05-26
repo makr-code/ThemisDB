@@ -85,10 +85,10 @@ public:
      * @brief Get current statistics
      */
     struct Stats {
-        size_t current_batch_size;
-        float vram_utilization_pct;
-        int oom_events;
-        float avg_gpu_utilization;
+        size_t current_batch_size = 0;
+        float vram_utilization_pct = 0.0f;
+        int oom_events = 0;
+        float avg_gpu_utilization = 0.0f;
     };
     
     Stats getStats() const;
@@ -119,8 +119,8 @@ public:
 private:
     Config config_;
     ::themis::llm::GPUMemoryManager* mem_manager_;
-    size_t current_batch_size_;
-    int oom_count_;
+    size_t current_batch_size_ = 0;
+    int oom_count_ = 0;
     std::vector<float> recent_utilizations_;
     
     // Calibration state

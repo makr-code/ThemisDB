@@ -200,8 +200,8 @@ private:
     clip_ctx* clip_ctx_;           ///< CLIP context (opaque pointer)
     std::string model_path_;       ///< Path to CLIP model file
     std::string model_id_;         ///< Model identifier for tracking
-    int verbosity_;                ///< Logging verbosity
-    bool initialized_;             ///< Initialization status
+    int verbosity_ = 0;                ///< Logging verbosity
+    bool initialized_ = false;             ///< Initialization status
     
     // Configuration and monitoring
     std::shared_ptr<VisionConfig> config_;                    ///< Vision configuration
