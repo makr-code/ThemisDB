@@ -251,6 +251,10 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-99: `kernel_fusion.cu` `launchFlashAttentionBackward()` now checks all three `cudaMemsetAsync()` calls (dQ, dK, dV) and returns early with an error log if any memset fails, preventing the backward kernel from launching with un-zeroed gradient buffers.
 - REL-100: `lora_framework/kernels/quantization_kernels.cu` `launch_quantize_nf4_kernel()` now checks `cudaMemsetAsync()`/`cudaMemset()` and propagates the error return value instead of silently proceeding with un-zeroed NF4 output.
 
+**Status (W1-L15):** REL-101..REL-102 fixed —
+- REL-101: `multi_gpu.cpp` `GPUTopology::detect()` now checks `cudaDeviceCanAccessPeer()` for each CUDA device pair; probe failures are logged and treated as no peer access instead of silently consuming an unchecked result.
+- REL-102: `multi_gpu.cpp` `GPUTopology::detect()` now checks `hipDeviceCanAccessPeer()` for each HIP device pair; probe failures are logged and treated as no peer access instead of silently consuming an unchecked result.
+
 ---
 
 ## 📋 Implementation Priority
