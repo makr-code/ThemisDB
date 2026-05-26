@@ -337,6 +337,14 @@ destructor gap for the concrete `LLMPluginAdapter` class.
 - Additionally, W1-L11 paths now log CUDA error strings for all checked `cudaMemsetAsync` and
   FlashAttention launch-failure branches.
 
+**Status (v1.22.0-pre — W1-L13):** REL-83..REL-84 fixed — compute-capability probe reliability:
+- REL-83: `mixed_precision_inference.cpp::isSupported()` now checks both
+  `cudaDeviceGetAttribute` calls before using SM-major/minor values; CUDA query failures now
+  return `false` instead of deriving support from potentially stale/default values.
+- REL-84: `acceleration/cuda/tensor_core_matmul.cu::launchINT8MatmulKernel()` now checks both
+  `cudaDeviceGetAttribute` calls before gating INT8 Tensor Core execution on SM version; failed
+  attribute queries now take the existing non-accelerated early-return path.
+
 ---
 
 ## 📋 Implementation Priority
