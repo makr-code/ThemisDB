@@ -15,6 +15,37 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-S02 Follow-up: Authorization Header Iterator-Free Sweep
+
+**Scope:** `src/server/http_server.cpp`  
+**Ticket:** W1-S02 · Priority P0  
+
+### Fixes Applied
+
+#### 1. Iterator-free Authorization header access expanded across HTTP core paths (`iterator_invalidation`)
+
+**Root cause:** Multiple HTTP/session/auth/PII/WebSocket code paths still used
+`req.find(http::field::authorization)` / `request_.find(...)` iterators for bearer-token
+extraction. Although these call-sites did not mutate the request in-place, they remained
+scanner hotspots and retained iterator-based patterns already removed in other W1-S02 paths.
+
+**Fix:**
+- Replaced remaining iterator-based Authorization header reads with
+  `req[http::field::authorization]` or `request_[http::field::authorization]`.
+- Updated token extraction call-sites to consume `std::string_view(auth_header.data(), auth_header.size())`.
+- Applied consistently in:
+  - metrics token gate
+  - auth session endpoints
+  - audit rate-limit key derivation
+  - scope/access helpers
+  - PII auth context + reveal/delete handlers
+  - HTTP/HTTPS WebSocket upgrade auth checks
+
+**Impact:** Further reduces iterator-invalidation scanner noise in `http_server.cpp` while
+preserving endpoint authorization behaviour.
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-S02 Follow-up: Authorization Header Iterator-Free Access
 
 **Scope:** `src/server/http_server.cpp`  

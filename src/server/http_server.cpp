@@ -4256,10 +4256,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
                     const std::string expected_tok{tok_env};
                     if (!expected_tok.empty()) {
-                        auto it = req.find(http::field::authorization);
-                        if (it != req.end()) {
+                        const auto auth_header = req[http::field::authorization];
+                        if (!auth_header.empty()) {
                             auto bearer = themis::AuthMiddleware::extractBearerToken(
-                                std::string_view(it->value().data(), it->value().size()));
+                                std::string_view(auth_header.data(), auth_header.size()));
                             token_ok = (bearer && *bearer == expected_tok);
                         }
                     }
@@ -7760,12 +7760,12 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -7805,12 +7805,12 @@ http::response<http::string_body> HttpServer::handleSessionList(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -7836,12 +7836,12 @@ http::response<http::string_body> HttpServer::handleSessionRevokeById(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -7867,12 +7867,12 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
         if (!session_api_) {
             return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
         }
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(it->value().data(), it->value().size()));
+            std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -8565,8 +8565,8 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
         if (audit_rate_limit_per_minute_ == 0) return std::nullopt;
         // Determine bucket key: Authorization header if present, else "anon"
         std::string key = std::string(route_key) + ":";
-        auto it = req.find(http::field::authorization);
-        if (it != req.end()) key += std::string(it->value()); else key += "anon";
+        const auto auth_header = req[http::field::authorization];
+        if (!auth_header.empty()) key += std::string(auth_header); else key += "anon";
         auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now()).time_since_epoch().count();
         const uint64_t window_ms = 60ull * 1000ull;
@@ -8787,8 +8787,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
 ) {
     if (!auth_ || !auth_->isEnabled()) return std::nullopt; // No auth configured
 
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
         res.set(http::field::content_type, "application/json");
@@ -8798,7 +8798,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
     res.prepare_payload();
         return res;
     }
-    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
     if (!token) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -8846,8 +8846,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
     // 1) Scope-based authorization (if auth enabled)
     std::string user_id = "";
     if (auth_enabled) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
             res.set(http::field::content_type, "application/json");
@@ -8859,17 +8859,17 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
         }
         // Log Authorization header presence for this DELETE request
         try {
-            std::string auth_hdr = std::string(it->value());
+            std::string auth_hdr = std::string(auth_header);
             auto mask = [](const std::string& s) {
                 if (s.size() <= 8) return s;
                 return s.substr(0,4) + "..." + s.substr(s.size()-4);
             };
             THEMIS_INFO("handlePiiDeleteByUuid: Authorization header='{}'", mask(auth_hdr));
         } catch (...) {}
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
         // Log presence of Authorization header for debugging (mask token)
         try {
-            std::string auth_hdr = std::string(it->value());
+            std::string auth_hdr = std::string(auth_header);
             auto mask = [](const std::string& s) {
                 if (s.size() <= 8) return s;
                 return s.substr(0,4) + "..." + s.substr(s.size()-4);
@@ -8981,14 +8981,14 @@ HttpServer::AuthContext HttpServer::extractAuthContext(const http::request<http:
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -9038,8 +9038,8 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     // Authorization: allow tokens with scope 'pii:reveal' OR 'admin'
     std::string user_id = "";
     if (auth_ && auth_->isEnabled()) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
             res.set(http::field::content_type, "application/json");
@@ -9049,7 +9049,7 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -9161,8 +9161,8 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
     // Authorization: require pii:write or admin (erase is a write operation)
     std::string user_id;
     if (auth_ && auth_->isEnabled()) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
+        const auto auth_header = req[http::field::authorization];
+        if (auth_header.empty()) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
             res.set(http::field::content_type, "application/json");
@@ -9171,7 +9171,7 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(it->value().data(), it->value().size()));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -10977,8 +10977,8 @@ void HttpServer::Session::processRequest() {
             // via the WebSocket upgrade path.
             std::string ws_auth_token;
             if (server_->auth_ && server_->auth_->isEnabled()) {
-                auto auth_it = request_.find(http::field::authorization);
-                if (auth_it == request_.end()) {
+                const auto auth_header = request_[http::field::authorization];
+                if (auth_header.empty()) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
                     response_.set(http::field::content_type, "application/json");
@@ -10989,7 +10989,7 @@ void HttpServer::Session::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_it->value().data(), auth_it->value().size()));
+                    std::string_view(auth_header.data(), auth_header.size()));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -11289,8 +11289,8 @@ void HttpServer::SslSession::processRequest() {
             // accepting the WebSocket handshake.
             std::string ws_auth_token;
             if (server_->auth_ && server_->auth_->isEnabled()) {
-                auto auth_it = request_.find(http::field::authorization);
-                if (auth_it == request_.end()) {
+                const auto auth_header = request_[http::field::authorization];
+                if (auth_header.empty()) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
                     response_.set(http::field::content_type, "application/json");
@@ -11301,7 +11301,7 @@ void HttpServer::SslSession::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_it->value().data(), auth_it->value().size()));
+                    std::string_view(auth_header.data(), auth_header.size()));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
