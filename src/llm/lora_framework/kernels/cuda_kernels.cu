@@ -5,6 +5,7 @@
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 #include <device_launch_parameters.h>
+#include <cstdio>
 
 namespace themis {
 namespace llm {
@@ -428,7 +429,11 @@ cudaError_t launch_check_inf_nan_kernel(
     err = cudaMemset(d_overflow, 0, sizeof(int));
     if (err != cudaSuccess) {
         security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
-        cudaFree(d_overflow);
+        cudaError_t free_err = cudaFree(d_overflow);
+        if (free_err != cudaSuccess) {
+            std::fprintf(stderr, "launch_check_inf_nan_kernel cleanup cudaFree failed: %s\n",
+                         cudaGetErrorString(free_err));
+        }
         return err;
     }
     
@@ -440,7 +445,11 @@ cudaError_t launch_check_inf_nan_kernel(
     err = cudaGetLastError();
     if (err != cudaSuccess) {
         security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
-        cudaFree(d_overflow);
+        cudaError_t free_err = cudaFree(d_overflow);
+        if (free_err != cudaSuccess) {
+            std::fprintf(stderr, "launch_check_inf_nan_kernel cleanup cudaFree failed: %s\n",
+                         cudaGetErrorString(free_err));
+        }
         return err;
     }
     
@@ -450,7 +459,14 @@ cudaError_t launch_check_inf_nan_kernel(
     
     // Securely clear before freeing
     security::VRAMSecureClear::secureClearCUDA(d_overflow, sizeof(int));
-    cudaFree(d_overflow);
+    cudaError_t free_err = cudaFree(d_overflow);
+    if (free_err != cudaSuccess) {
+        std::fprintf(stderr, "launch_check_inf_nan_kernel cleanup cudaFree failed: %s\n",
+                     cudaGetErrorString(free_err));
+        if (err == cudaSuccess) {
+            err = free_err;
+        }
+    }
     
     if (err != cudaSuccess) {
         return err;

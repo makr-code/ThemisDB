@@ -188,6 +188,16 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 **Status (W1-L08):** REL-52 fixed —
 - REL-52: `flash_attention_cuda.cu` `FlashAttentionCUDA::freeWorkspace()` now checks `cudaFree()` and logs failures in cleanup (non-throwing destructor path).
 
+**Status (W1-L09):** REL-53..REL-60 fixed —
+- REL-53: `cuda_kernels.cu` `launch_check_inf_nan_kernel()` now checks `cudaFree()` in the `cudaMemset` failure cleanup path and logs cleanup errors.
+- REL-54: `cuda_kernels.cu` `launch_check_inf_nan_kernel()` now checks `cudaFree()` in the kernel-launch failure cleanup path and logs cleanup errors.
+- REL-55: `cuda_kernels.cu` `launch_check_inf_nan_kernel()` now checks final `cudaFree()` after host copy; propagates cleanup failure when no prior error exists.
+- REL-56: `hip_kernels.cpp` `launch_check_inf_nan_kernel()` now checks `hipFree()` in the `hipMemset` failure cleanup path and logs cleanup errors.
+- REL-57: `hip_kernels.cpp` `launch_check_inf_nan_kernel()` now checks `hipFree()` in the kernel-launch failure cleanup path and logs cleanup errors.
+- REL-58: `hip_kernels.cpp` `launch_check_inf_nan_kernel()` now checks final `hipFree()` after host copy; propagates cleanup failure when no prior error exists.
+- REL-59: `quantization_kernels.cu` `GPUMemoryManager::freeDevice()` now checks `cudaFree()` and logs failures.
+- REL-60: `quantization_kernels.cu` `GPUMemoryManager::freePinned()` now checks `cudaFreeHost()` and logs failures.
+
 ---
 
 ## 📋 Implementation Priority

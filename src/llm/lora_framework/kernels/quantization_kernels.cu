@@ -603,13 +603,21 @@ void* GPUMemoryManager::allocatePinnedHost(size_t size) {
 
 void GPUMemoryManager::freeDevice(void* ptr) {
     if (ptr) {
-        cudaFree(ptr);
+        cudaError_t err = cudaFree(ptr);
+        if (err != cudaSuccess) {
+            spdlog::error("GPUMemoryManager::freeDevice: cudaFree failed: {}",
+                          cudaGetErrorString(err));
+        }
     }
 }
 
 void GPUMemoryManager::freePinned(void* ptr) {
     if (ptr) {
-        cudaFreeHost(ptr);
+        cudaError_t err = cudaFreeHost(ptr);
+        if (err != cudaSuccess) {
+            spdlog::error("GPUMemoryManager::freePinned: cudaFreeHost failed: {}",
+                          cudaGetErrorString(err));
+        }
     }
 }
 

@@ -15,6 +15,7 @@
 #include "security/vram_secure_clear.h"
 #include <hip/hip_runtime.h>
 #include <rocblas/rocblas.h>
+#include <cstdio>
 
 namespace themis {
 namespace llm {
@@ -435,7 +436,11 @@ hipError_t launch_check_inf_nan_kernel(
     err = hipMemset(d_overflow, 0, sizeof(int));
     if (err != hipSuccess) {
         security::VRAMSecureClear::secureClearHIP(d_overflow, sizeof(int));
-        hipFree(d_overflow);
+        hipError_t free_err = hipFree(d_overflow);
+        if (free_err != hipSuccess) {
+            std::fprintf(stderr, "launch_check_inf_nan_kernel cleanup hipFree failed: %s\n",
+                         hipGetErrorString(free_err));
+        }
         return err;
     }
     
@@ -447,7 +452,11 @@ hipError_t launch_check_inf_nan_kernel(
     err = hipGetLastError();
     if (err != hipSuccess) {
         security::VRAMSecureClear::secureClearHIP(d_overflow, sizeof(int));
-        hipFree(d_overflow);
+        hipError_t free_err = hipFree(d_overflow);
+        if (free_err != hipSuccess) {
+            std::fprintf(stderr, "launch_check_inf_nan_kernel cleanup hipFree failed: %s\n",
+                         hipGetErrorString(free_err));
+        }
         return err;
     }
     
@@ -457,7 +466,14 @@ hipError_t launch_check_inf_nan_kernel(
     
     // Securely clear before freeing
     security::VRAMSecureClear::secureClearHIP(d_overflow, sizeof(int));
-    hipFree(d_overflow);
+    hipError_t free_err = hipFree(d_overflow);
+    if (free_err != hipSuccess) {
+        std::fprintf(stderr, "launch_check_inf_nan_kernel cleanup hipFree failed: %s\n",
+                     hipGetErrorString(free_err));
+        if (err == hipSuccess) {
+            err = free_err;
+        }
+    }
     
     if (err != hipSuccess) {
         return err;
@@ -863,4 +879,3 @@ hipError_t launch_sgd_update_kernel(
 } // namespace themis
 
 #endif // THEMIS_ENABLE_HIP
-
