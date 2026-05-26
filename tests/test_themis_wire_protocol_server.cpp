@@ -208,6 +208,19 @@ static uint16_t reserve_loopback_port(boost::asio::io_context& ioc) {
     return acceptor.local_endpoint().port();
 }
 
+// The free setWire* bridge APIs are intentionally kept for compatibility
+// coverage and are explicitly deprecated in the public header.
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 struct ScopedGenericWireBridgesOnly {
     ScopedGenericWireBridgesOnly() {
         setWireAqlExecFn([](const std::string&, const std::string&) {
@@ -1031,4 +1044,12 @@ TEST(DeprecatedWireSessionBridgeTest, NullptrClearIsIdempotent) {
     setWireGraphTraversalFn(nullptr);
     SUCCEED();
 }
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
 

@@ -1930,6 +1930,15 @@ set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
     TIMEOUT 60
 )
 
+# Deprecated free wire bridge API compatibility tests (subset of AllTests)
+# Covers: DeprecatedWireSessionBridgeTest.*
+add_test(NAME ThemisWireDeprecatedBridgeTests
+    COMMAND themis_tests --gtest_filter=DeprecatedWireSessionBridgeTest*)
+set_tests_properties(ThemisWireDeprecatedBridgeTests PROPERTIES
+    LABELS "wire;protocol;themis;deprecated;unit"
+    TIMEOUT 60
+)
+
 # Build info and module availability tests (subset of AllTests)
 # Covers: getBuildConfiguration(), isModuleCompiledIn(), getCompiledModules(),
 #         getDisabledModules(), getVersionSummary(), formatBuildInfo(),
