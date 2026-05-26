@@ -1037,7 +1037,10 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
         // Token is valid
         return true;
     } catch (...) {
-        // Token validation failed (expired, invalid signature, etc.)
+        // Token validation failed (expired, invalid signature, etc.).
+        // Log at DEBUG level to avoid flooding logs with expected auth failures,
+        // but provide a hook for diagnosing misconfigured tokens.
+        THEMIS_DEBUG("LLMApiHandler: JWT validation exception — treating token as invalid");
         return false;
     }
 }
@@ -1703,7 +1706,9 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
             });
         }
     } catch (...) {
-        // If listing fails, return an empty list rather than an error
+        // If listing fails, return an empty list rather than an error.
+        // Log at WARN level so model enumeration failures can be diagnosed.
+        THEMIS_WARN("LLMApiHandler: handleOpenAIListModels: exception while listing models — returning empty list");
     }
 
     json response_json{

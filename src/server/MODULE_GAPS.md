@@ -15,6 +15,69 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-S06: LLM Handler + HTTP/3 Session — Exception Boundaries
+
+**Scope:** `src/server/llm_api_handler.cpp`, `src/server/http3_session.cpp`  
+**Ticket:** W1-S06 · Priority P2  
+
+### Fixes Applied
+
+#### 1. Silent `catch (...)` blocks — `llm_api_handler.cpp` (uncaught_exception / CWE-390)
+
+**Root cause:** Two `catch (...)` blocks discarded exceptions silently without any diagnostic
+output, making production issues hard to diagnose.
+
+- **JWT validation** (`validateBearerToken`): `jwt_validator_->parseAndValidate(*token)`
+  threw an unknown exception (e.g., from an expired/malformed token, or from an underlying
+  OpenSSL error). The existing comment said "Token validation failed" but logged nothing.
+- **Model listing** (`handleOpenAIListModels`): `plugin_mgr.listModels()` threw an unknown
+  exception. The intent was to return an empty list rather than an error, but the failure
+  was completely invisible in production logs.
+
+**Fix:**
+- JWT catch block: Added `THEMIS_DEBUG(...)` log ("treating token as invalid") so that
+  misconfigured JWT validators surface in debug-level logs without flooding production logs.
+- Model listing catch block: Added `THEMIS_WARN(...)` log so that model enumeration failures
+  are visible at WARN level while preserving the empty-list fallback behaviour.
+- Other `catch (...)` blocks (`std::stoi` / `std::stoul` in query-parameter parsing) are
+  intentionally silent — the default value is safe and no diagnostic is needed.
+
+#### 2. Null session guard — `Http3Handler::onPacketReceived()` CID migration path (null_dereference)
+
+**Root cause:** After a QUIC connection-ID migration, `sessions_[cid_it->second]` was
+retrieved as `auto session = sess_it->second`. Sessions are always stored via `make_shared`,
+so the value is guaranteed non-null, but static analysers flagged the subsequent
+`session->handlePacket(...)` as a potential null dereference because they cannot see into
+the insertion path.
+
+**Fix:** Added an explicit null check on `session` with an early return and an error log.
+Added a Doxygen-compatible comment explaining the invariant.
+
+#### 3. `cleanup_timer_` `[this]` capture lifetime documented (no_timeout / lifetime)
+
+**Root cause:** `Http3Handler::start()` and `cleanupInactiveSessions()` use `[this]`
+captures in `cleanup_timer_.async_wait(...)` callbacks. Static analysers flag these as
+"no_timeout" or potential dangling-pointer callbacks.
+
+**Assessment:**
+- `Http3Handler::stop()` calls `cleanup_timer_.cancel()` which delivers
+  `boost::asio::error::operation_aborted` to the pending callback. The lambda checks
+  `if (!ec)` and will not call `cleanupInactiveSessions()` for aborted completions.
+- The pattern is safe AS LONG AS `stop()` is called before the `Http3Handler` is destroyed
+  and the io_context is stopped before the object's memory is freed.
+
+**Fix:** Added an explicit lifetime-assumption comment to the `start()` timer setup.
+
+### Gap Delta (estimated)
+
+| Type | Before | After |
+|---|---|---|
+| uncaught_exception MEDIUM (llm) | 5 | 2 improved (log added); 3 intentionally silent (documented) |
+| null_dereference HIGH (http3) | 5 | 1 explicit guard added; 4 false positives (guarded before use) |
+| no_timeout CRITICAL (http3) | 2 | Documented as false positives (timer expiry IS set) |
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-S05: Cache Admin + SSE Manager — Shared Container Safety
 
 **Scope:** `src/server/sse_connection_manager.cpp`, `src/server/cache_admin_api_handler.cpp`  
