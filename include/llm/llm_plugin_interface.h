@@ -524,6 +524,8 @@ public:
     explicit LLMPluginAdapter(std::unique_ptr<ILLMPlugin> llm_plugin)
         : llm_plugin_(std::move(llm_plugin)) {}
     
+    ~LLMPluginAdapter() override = default;
+
     // IThemisPlugin interface implementation
     const char* getName() const override { return "LLM Plugin"; }
     const char* getVersion() const override { return "1.0.0"; }

@@ -1,6 +1,6 @@
 # llm Module — Implementation Gap Analysis
 
-**Status:** Updated 2026-05-26 (W1-L03 delta applied)
+**Status:** Updated 2026-05-26 (W1-L04 delta applied)
 **Last Updated:** 2026-05-26  
 
 ---
@@ -9,16 +9,17 @@
 
 | Category | Gaps | Severity | Notes |
 |----------|------|----------|-------|
-| `oop_design` | 7961 | HIGH | Missing virtual destructors in derived classes, non-const accessors on logically-const objects, concrete classes leaking implementation through header |
+| `oop_design` | ~~7961~~ **7960** | HIGH | OOP-01 fixed (W1-L04): `LLMPluginAdapter` missing override dtor; remaining: concrete class leaks, non-const accessors |
 | `uninitialized` | 5263 | HIGH | Struct/class member fields not initialised in constructor body (caught by static analysis; most are in GPU-backend conditional compilation paths) |
 | `type_conversion` | 1888 | MEDIUM | Implicit narrowing from `size_t`/`int64_t` to `int`; unsigned↔signed comparisons; float→int truncations |
-| `reliability` | 1637 | HIGH | Unchecked return values from C API calls (`llama_*`, `cuda*`, Vulkan VkResult); exception-unsafe resource acquisition paths |
+| `reliability` | ~~1637~~ **1620** | HIGH | 17 unchecked GPU API calls fixed in W1-L04; remaining: Vulkan VkResult, llama_* |
+| `oop_design` | ~~7961~~ **7960** | HIGH | OOP-01 fixed (W1-L04): `LLMPluginAdapter` missing override dtor; remaining: concrete class leaks, non-const accessors |
 | `input_validation` | 929 | CRITICAL | Missing upper-bound checks on user-supplied sizes, ranks, and token counts before allocation |
 | `data_race` | ~~7~~ **0** | CRITICAL | ✅ **Resolved in W1-L02 + W1-L03** — See delta tables below |
 | `iterator_invalidation` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L02** — `loss_history_` push_back race |
 | `no_timeout` | ~~2~~ **0** | HIGH | ✅ **Resolved in W1-L02 + W1-L03** — stopTraining polling; GPU fence INFINITE waits |
 | `smart_ptr_misuse` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L03** — raw pointer escape from unique_ptr under lock |
-| **Total** | **19,828** | **CRITICAL** | W1-L02+W1-L03 reduced 13 findings |
+| **Total** | **19,810** | **CRITICAL** | W1-L02+W1-L03+W1-L04 reduced 31 findings |
 
 **Severity breakdown:** 🔴 CRITICAL 1466 | 🟠 HIGH 15975 | 🟡 MEDIUM 2397
 
@@ -96,6 +97,35 @@ Security-sensitive input validation gaps found by static analysis:
 | W1-L03-IV-02 | `input_validation` | `launch_sequence_mean_shader` in DirectX path had no null-pointer or zero-dimension guards | Same fix as W1-L03-IV-01 | Consistent defensive input validation |
 
 **Focused tests added:** `test_w1l03_kernel_hardening.cpp` — 15 tests covering uninitialized-call throws, null-pointer guards, zero-dimension rejection, concurrent uninitialized call safety (8-thread), and non-Windows stub behaviour.
+
+---
+
+### Addressed in W1-L04 (2026-05-26 — unchecked CUDA/HIP API return values + OOP-01)
+
+**Scope files:** `lora_framework/nccl_backend.cpp`, `lora_framework/rccl_backend.cpp`, `gpu_memory_manager.cpp`, `lora_framework/multi_gpu_trainer.cpp`, `llm_plugin_interface.h`
+
+| Gap ID | Category | Finding | Fix | Impact |
+|--------|----------|---------|-----|--------|
+| W1-L04-REL-10 | `reliability` | `cudaStreamSynchronize()` return value silently ignored after NCCL `allreduce` in `NCCLBackend::synchronize()` — stream errors invisible | Return value checked; logs error and returns `false` on failure | CUDA stream errors propagate to callers |
+| W1-L04-REL-11 | `reliability` | `cudaStreamSynchronize()` return value silently ignored after NCCL `broadcast` in `NCCLBackend::broadcast()` | Return value checked; returns `false` on failure | Consistent with allreduce path |
+| W1-L04-REL-12 | `reliability` | `cudaStreamSynchronize()` return value silently ignored in `NCCLBackend::barrier()` — barrier completeness unverified | Return value checked; logs error on failure (barrier cannot propagate a bool; error is surfaced via log) | GPU barrier hang/error now observable |
+| W1-L04-REL-13 | `reliability` | `cudaSetDevice()` silently ignored in `NCCLBackend::initialize_nccl()` — subsequent NCCL operations run on wrong device if set fails | Return value checked; logs error and returns `false` | Prevents NCCL init on incorrect device |
+| W1-L04-REL-14 | `reliability` | `hipStreamSynchronize()` return value silently ignored after RCCL `allreduce` in `RCCLBackend::synchronize()` | Return value checked; logs error and returns `false` on failure | ROCm stream errors propagate to callers |
+| W1-L04-REL-15 | `reliability` | `hipStreamSynchronize()` return value silently ignored after RCCL `broadcast` in `RCCLBackend::broadcast()` | Return value checked; returns `false` on failure | Consistent with allreduce path |
+| W1-L04-REL-16 | `reliability` | `hipStreamSynchronize()` return value silently ignored in `RCCLBackend::barrier()` | Return value checked; logs error on failure | ROCm barrier hang/error now observable |
+| W1-L04-REL-17 | `reliability` | `hipSetDevice()` silently ignored in `RCCLBackend::initialize_rccl()` | Return value checked; logs error and returns `false` | Prevents RCCL init on incorrect device |
+| W1-L04-REL-18 | `reliability` | `cudaSetDevice()` silently ignored in `GPUAllocation::freeGPUMemory()` destructor — secure clear runs on wrong device if fails | Return value checked; logs error and continues (destructor context: cannot throw; attempts clear on current device) | GPU secure clear error now observable; no UB |
+| W1-L04-REL-19 | `reliability` | `cudaDeviceCanAccessPeer()` return value ignored in `GPUMemoryManager::initializeGPU()` P2P setup | Return value checked; logs warning and skips peer pair on failure | Prevents P2P enable attempt after API error |
+| W1-L04-REL-20 | `reliability` | `cudaSetDevice()` silently ignored in P2P enable loop in `initializeGPU()` | Return value checked; logs warning and `continue`s to next pair | Prevents P2P enable attempt on wrong device |
+| W1-L04-REL-21 | `reliability` | `cudaSetDevice()` silently ignored in `shutdownGPU()` peer-disable loop | Return value checked; logs warning and `continue`s | Prevents disablePeerAccess attempt on wrong device |
+| W1-L04-REL-22 | `reliability` | `cudaSetDevice()` silently ignored in `shutdownGPU()` device-reset loop | Return value checked; logs warning and `continue`s | Prevents `cudaDeviceReset` attempt on wrong device |
+| W1-L04-REL-23 | `reliability` | `cudaSetDevice()` silently ignored in memory defrag loop in `GPUMemoryManager::defragGPUMemory()` | Return value checked; logs warning and `continue`s to next device | Prevents malformed `cudaMalloc` on wrong device |
+| W1-L04-REL-24 | `reliability` | `cudaMemcpy()` DeviceToDevice during defrag silently ignored — consolidation may silently corrupt layout | Return value checked; frees new allocation, logs error, and skips device on failure | Eliminates silent defrag corruption |
+| W1-L04-REL-25 | `reliability` | `cudaSetDevice()` silently ignored in SGD update loop in `MultiGPUTrainer::updateParameters()` — kernel dispatched to wrong device on failure | Return value checked; logs warning and falls through to CPU fallback via `else` branch | Consistent with per-param CPU fallback logic |
+| W1-L04-REL-26 | `reliability` | `hipSetDevice()` silently ignored in SGD update loop in `MultiGPUTrainer::updateParameters()` | Return value checked; logs warning and falls through to CPU fallback via `else` branch | ROCm path consistent with CUDA fix |
+| W1-L04-OOP-01 | `oop_design` | `LLMPluginAdapter` derived from `plugins::IThemisPlugin` (which has `virtual ~IThemisPlugin()`) but declared no `~LLMPluginAdapter() override` — deleting through base pointer leaks the contained `unique_ptr<ILLMPlugin>` | Added `~LLMPluginAdapter() override = default;` | Correct virtual destructor chain; unique_ptr releases the owned plugin |
+
+**Files modified:** `nccl_backend.cpp`, `rccl_backend.cpp`, `gpu_memory_manager.cpp`, `multi_gpu_trainer.cpp`, `llm_plugin_interface.h`
 
 ---
 

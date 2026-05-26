@@ -150,7 +150,14 @@ bool RCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
     ncclGroupEnd();
     
     // Wait for completion
-    hipStreamSynchronize(stream);
+    {
+        hipError_t sync_err = hipStreamSynchronize(stream);
+        if (sync_err != hipSuccess) {
+            spdlog::error("hipStreamSynchronize failed after RCCL allreduce: {}",
+                          hipGetErrorString(sync_err));
+            return false;
+        }
+    }
     
     // Average if requested
     if (average && world_size_ > 1) {
@@ -209,7 +216,14 @@ bool RCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]]
         return false;
     }
     
-    hipStreamSynchronize(stream);
+    {
+        hipError_t sync_err = hipStreamSynchronize(stream);
+        if (sync_err != hipSuccess) {
+            spdlog::error("hipStreamSynchronize failed after RCCL broadcast: {}",
+                          hipGetErrorString(sync_err));
+            return false;
+        }
+    }
     return true;
 #else
     spdlog::error("RCCL not enabled at compile time");
@@ -246,7 +260,13 @@ void RCCLBackend::barrier() {
         spdlog::error("RCCL barrier allreduce failed: {}", ncclGetErrorString(result));
     }
     
-    hipStreamSynchronize(stream);
+    {
+        hipError_t sync_err = hipStreamSynchronize(stream);
+        if (sync_err != hipSuccess) {
+            spdlog::error("hipStreamSynchronize failed in RCCL barrier: {}",
+                          hipGetErrorString(sync_err));
+        }
+    }
 #endif
 #endif
 }
@@ -287,7 +307,14 @@ bool RCCLBackend::initialize_rccl() {
     
     // Set device
     Device device = ctx_.get_device(rank_);
-    hipSetDevice(device.id);
+    {
+        hipError_t dev_err = hipSetDevice(device.id);
+        if (dev_err != hipSuccess) {
+            spdlog::error("hipSetDevice({}) failed in initialize_rccl: {}",
+                          device.id, hipGetErrorString(dev_err));
+            return false;
+        }
+    }
     
     // Create HIP stream
     hipStream_t stream;

@@ -150,7 +150,14 @@ bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
     ncclGroupEnd();
     
     // Wait for completion
-    cudaStreamSynchronize(stream);
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("cudaStreamSynchronize failed after NCCL allreduce: {}",
+                          cudaGetErrorString(sync_err));
+            return false;
+        }
+    }
     
     // Average if requested
     if (average && world_size_ > 1) {
@@ -209,7 +216,14 @@ bool NCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]]
         return false;
     }
     
-    cudaStreamSynchronize(stream);
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("cudaStreamSynchronize failed after NCCL broadcast: {}",
+                          cudaGetErrorString(sync_err));
+            return false;
+        }
+    }
     return true;
 #else
     spdlog::error("NCCL not enabled at compile time");
@@ -246,7 +260,13 @@ void NCCLBackend::barrier() {
         spdlog::error("NCCL barrier allreduce failed: {}", ncclGetErrorString(result));
     }
     
-    cudaStreamSynchronize(stream);
+    {
+        cudaError_t sync_err = cudaStreamSynchronize(stream);
+        if (sync_err != cudaSuccess) {
+            spdlog::error("cudaStreamSynchronize failed in NCCL barrier: {}",
+                          cudaGetErrorString(sync_err));
+        }
+    }
 #endif
 #endif
 }
@@ -287,7 +307,14 @@ bool NCCLBackend::initialize_nccl() {
     
     // Set device
     Device device = ctx_.get_device(rank_);
-    cudaSetDevice(device.id);
+    {
+        cudaError_t dev_err = cudaSetDevice(device.id);
+        if (dev_err != cudaSuccess) {
+            spdlog::error("cudaSetDevice({}) failed in initialize_nccl: {}",
+                          device.id, cudaGetErrorString(dev_err));
+            return false;
+        }
+    }
     
     // Create CUDA stream
     cudaStream_t stream;
