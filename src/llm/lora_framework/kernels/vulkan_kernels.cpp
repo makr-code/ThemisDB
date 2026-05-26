@@ -74,6 +74,13 @@ static size_t checked_float_bytes_2d(size_t rows, size_t cols, const char* conte
     return checked_mul_size(elems, sizeof(float), context);
 }
 
+static uint32_t checked_u32_size(size_t value, const char* context) {
+    if (value > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+        throw std::overflow_error(std::string(context) + ": value exceeds uint32 range");
+    }
+    return static_cast<uint32_t>(value);
+}
+
 struct FusedForwardBufferCache {
     VulkanContext* context = nullptr;
     size_t size_input = 0;
@@ -521,7 +528,8 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         uint32_t scalar;  // unused for add
     } pc;
     
-    pc.size = static_cast<uint32_t>(size);
+    const uint32_t size_u32 = checked_u32_size(size, "launch_add_shader");
+    pc.size = size_u32;
     pc.op = 0; // add operation
     pc.rows = 0;
     pc.cols = 0;
@@ -544,7 +552,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     pipeline->set_push_constants(&pc, sizeof(pc));
     
     // Dispatch with workgroup size 256
-    uint32_t groups = (static_cast<uint32_t>(size) + 255) / 256;
+    uint32_t groups = (size_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
     
     pipeline->wait();
@@ -569,7 +577,8 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         uint32_t scalar;
     } pc;
     
-    pc.size = static_cast<uint32_t>(size);
+    const uint32_t size_u32 = checked_u32_size(size, "launch_multiply_shader");
+    pc.size = size_u32;
     pc.op = 2; // multiply operation
     pc.rows = 0;
     pc.cols = 0;
@@ -591,7 +600,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     
     pipeline->set_push_constants(&pc, sizeof(pc));
     
-    uint32_t groups = (static_cast<uint32_t>(size) + 255) / 256;
+    uint32_t groups = (size_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
     
     pipeline->wait();
@@ -616,7 +625,8 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
         uint32_t scalar_bits;
     } pc;
     
-    pc.size = static_cast<uint32_t>(size);
+    const uint32_t size_u32 = checked_u32_size(size, "launch_scalar_multiply_shader");
+    pc.size = size_u32;
     pc.op = 4; // scalar multiply operation
     pc.rows = 0;
     pc.cols = 0;
@@ -637,7 +647,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     
     pipeline->set_push_constants(&pc, sizeof(pc));
     
-    uint32_t groups = (static_cast<uint32_t>(size) + 255) / 256;
+    uint32_t groups = (size_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
     
     pipeline->wait();
@@ -663,7 +673,8 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     } pc;
     
     size_t total_size = checked_mul_size(static_cast<size_t>(rows), static_cast<size_t>(cols), "launch_transpose_shader");
-    pc.size = static_cast<uint32_t>(total_size);
+    const uint32_t total_size_u32 = checked_u32_size(total_size, "launch_transpose_shader");
+    pc.size = total_size_u32;
     pc.op = 5; // transpose operation
     pc.rows = static_cast<uint32_t>(rows);
     pc.cols = static_cast<uint32_t>(cols);
@@ -684,7 +695,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     
     pipeline->set_push_constants(&pc, sizeof(pc));
     
-    uint32_t groups = (static_cast<uint32_t>(total_size) + 255) / 256;
+    uint32_t groups = (total_size_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
     
     pipeline->wait();
@@ -848,6 +859,7 @@ void launch_embedding_lookup_shader(
     const size_t total_tokens = checked_mul_size(static_cast<size_t>(batch_size), static_cast<size_t>(seq_len), "launch_embedding_lookup_shader");
     const size_t output_elems = checked_mul_size(total_tokens, static_cast<size_t>(hidden_dim), "launch_embedding_lookup_shader");
     const size_t embedding_elems = checked_mul_size(static_cast<size_t>(vocab_size), static_cast<size_t>(hidden_dim), "launch_embedding_lookup_shader");
+    const uint32_t total_tokens_u32 = checked_u32_size(total_tokens, "launch_embedding_lookup_shader");
 
     VulkanComputePipeline* pipeline = get_pipeline("embedding_lookup", sizeof(PushConstants));
 
@@ -863,7 +875,7 @@ void launch_embedding_lookup_shader(
     pipeline->bind_buffer(2, buf_output);
     pipeline->set_push_constants(&pc, sizeof(pc));
 
-    const uint32_t groups = (static_cast<uint32_t>(total_tokens) + 255) / 256;
+    const uint32_t groups = (total_tokens_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
 
     pipeline->wait();
@@ -902,6 +914,7 @@ void launch_sequence_mean_shader(
         static_cast<size_t>(hidden_dim),
         "launch_sequence_mean_shader");
     const size_t output_elems = checked_mul_size(static_cast<size_t>(batch_size), static_cast<size_t>(hidden_dim), "launch_sequence_mean_shader");
+    const uint32_t output_elems_u32 = checked_u32_size(output_elems, "launch_sequence_mean_shader");
 
     VulkanComputePipeline* pipeline = get_pipeline("sequence_mean", sizeof(PushConstants));
 
@@ -913,7 +926,7 @@ void launch_sequence_mean_shader(
     pipeline->bind_buffer(1, buf_output);
     pipeline->set_push_constants(&pc, sizeof(pc));
 
-    const uint32_t groups = (static_cast<uint32_t>(output_elems) + 255) / 256;
+    const uint32_t groups = (output_elems_u32 + 255u) / 256u;
     pipeline->dispatch(groups, 1, 1);
 
     pipeline->wait();
