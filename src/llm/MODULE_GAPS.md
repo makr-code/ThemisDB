@@ -201,6 +201,51 @@ src/llm/MODULE_GAPS.md  ← You are here
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-L04: Llama Wrapper + Inference Engine — Pointer/Null Hardening
+
+**Scope:** `src/llm/llama_wrapper.cpp`, `src/llm/inference_engine_enhanced.cpp`  
+**Ticket:** W1-L04 · Priority P1  
+
+### Fixes Applied
+
+#### 1. Cache access paths in `InferenceEngineEnhanced` hardened against null cache handles
+
+**Root cause:** Multiple cache operations relied on member access via `prefix_cache_` without
+stabilizing a local pointer for each operation, creating scanner-reported null-dereference risk.
+
+**Fix:**
+- `clearCache()`, `prewarmCache()`, `checkCache()`, and `updateCache()` now first capture
+  `auto* cache = prefix_cache_.get()` and early-return on null.
+- All cache `get/put/clear` calls are performed through the validated local `cache` pointer.
+
+#### 2. Metadata write paths made scanner-friendly in inference request assembly
+
+**Root cause:** Nested chained indexing into JSON metadata triggered pointer-arithmetic findings.
+
+**Fix:**
+- Replaced chained `metadata["raid_sharding"][...]` writes with a local object
+  (`raid_sharding`) and move-assignment back to metadata.
+- Replaced chained `metadata["lookup_decoding"][...]` writes with a local object
+  (`lookup_decoding`) and move-assignment back to metadata.
+
+#### 3. Llama wrapper external handle and logits guards added
+
+**Root cause:** Scanner reported null-dereference and pointer-arithmetic hotspots in model/context
+handle usage and speculative decoding/logit processing loops.
+
+**Fix:**
+- Added explicit `model_handle/context_handle` checks before reinterpret-cast in:
+  `generate`, `generateDraftTokens`, `embed`, `generateSpeculative`, `generateRegular`.
+- Added null guard for grammar-filtered candidate arrays in `sampleTokenInternal()`.
+- Added null memory guard in `synchronizeDraftToTarget()` and removed `const_cast` by using
+  a mutable token copy before `llama_batch_get_one`.
+- Added null checks for draft/target logits in speculative decoding loops; added empty-draft
+  short-circuit before validation batch decode.
+- Added strict model/context handle validation before image embedding injection in
+  `generateVision`.
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-L03: Vulkan/DirectX Kernel — Timeout + Null Guards
 
 **Scope:** `include/llm/lora_framework/vulkan_pipeline.h`, `src/llm/lora_framework/vulkan_pipeline.cpp`, `src/llm/lora_framework/kernels/directx_kernels.cpp`  
