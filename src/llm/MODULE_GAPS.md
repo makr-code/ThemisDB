@@ -325,6 +325,18 @@ destructor gap for the concrete `LLMPluginAdapter` class.
 - REL-78: `cudaPeekAtLastError` launch status is now checked after
   `flashAttentionBackwardKernel<<<...>>>` in `kernel_fusion.cu::launchFlashAttentionBackward()`.
 
+**Status (v1.22.0-pre — W1-L12):** REL-79..REL-82 fixed — fused-kernel launcher reliability:
+- REL-79: `cudaPeekAtLastError` launch status is now checked after
+  `fusedQKVProjectionKernel<<<...>>>` in `kernel_fusion.cu::launchFusedQKVProjection()`.
+- REL-80: `cudaPeekAtLastError` launch status is now checked after
+  `fusedRoPEKernel<<<...>>>` in `kernel_fusion.cu::launchFusedRoPE()`.
+- REL-81: `cudaPeekAtLastError` launch status is now checked after
+  `fusedLayerNormLinearKernel<<<...>>>` in `kernel_fusion.cu::launchFusedLayerNormLinear()`.
+- REL-82: `cudaPeekAtLastError` launch status is now checked after
+  `fusedGatedFFNKernel<<<...>>>` in `kernel_fusion.cu::launchFusedGatedFFN()`.
+- Additionally, W1-L11 paths now log CUDA error strings for all checked `cudaMemsetAsync` and
+  FlashAttention launch-failure branches.
+
 ---
 
 ## 📋 Implementation Priority
