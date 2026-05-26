@@ -23,6 +23,11 @@ namespace vulkan {
  * - src/acceleration/vulkan/shaders/lora/matmul.comp
  * - src/acceleration/vulkan/shaders/lora/elementwise.comp
  * - src/acceleration/vulkan/shaders/lora/gradient.comp
+ *
+ * Error behavior:
+ * - Throws std::runtime_error when backend state cannot be acquired/initialized.
+ * - Throws std::invalid_argument on null pointers or invalid dimensions.
+ * - Throws std::overflow_error when workload byte-size calculations overflow.
  */
 
 /**

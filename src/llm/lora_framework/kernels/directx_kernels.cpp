@@ -28,6 +28,7 @@
 #include <cstring>
 #include <mutex>
 #include <chrono>
+#include <limits>
 
 namespace themis {
 namespace lora {
@@ -148,6 +149,18 @@ static void ensure_directx_ready_or_throw() {
     }
 }
 
+static size_t checked_mul_size(size_t lhs, size_t rhs, const char* context) {
+    if (lhs != 0 && rhs > (std::numeric_limits<size_t>::max() / lhs)) {
+        throw std::overflow_error(std::string(context) + ": size overflow");
+    }
+    return lhs * rhs;
+}
+
+static size_t checked_float_bytes_2d(size_t rows, size_t cols, const char* context) {
+    const size_t elems = checked_mul_size(rows, cols, context);
+    return checked_mul_size(elems, sizeof(float), context);
+}
+
 bool initialize_directx_lora(int adapter_id) {
     auto lock = lock_directx_state_or_throw();
     if (g_directx_state.initialized) {
@@ -232,6 +245,12 @@ void launch_matmul_shader(
     int M, int N, int K, float alpha) {
     auto lock = lock_directx_state_or_throw();
     ensure_directx_ready_or_throw();
+    if (!A || !B || !C) {
+        throw std::invalid_argument("launch_matmul_shader received null pointer");
+    }
+    if (M <= 0 || N <= 0 || K <= 0) {
+        throw std::invalid_argument("launch_matmul_shader received invalid dimensions");
+    }
     
     try {
         // Get or create pipeline
@@ -244,9 +263,9 @@ void launch_matmul_shader(
         );
         
         // Create buffers
-        size_t size_A = M * K * sizeof(float);
-        size_t size_B = K * N * sizeof(float);
-        size_t size_C = M * N * sizeof(float);
+        size_t size_A = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(K), "launch_matmul_shader");
+        size_t size_B = checked_float_bytes_2d(static_cast<size_t>(K), static_cast<size_t>(N), "launch_matmul_shader");
+        size_t size_C = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(N), "launch_matmul_shader");
         
         DirectXBuffer buffer_A(g_directx_state.context.get(), size_A);
         DirectXBuffer buffer_B(g_directx_state.context.get(), size_B);
@@ -305,6 +324,12 @@ void launch_matmul_shader(
 void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     auto lock = lock_directx_state_or_throw();
     ensure_directx_ready_or_throw();
+    if (!A || !B || !C) {
+        throw std::invalid_argument("launch_add_shader received null pointer");
+    }
+    if (size == 0) {
+        throw std::invalid_argument("launch_add_shader received invalid size");
+    }
     
     try {
         // Get or create pipeline
@@ -317,7 +342,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         );
         
         // Create buffers
-        size_t byte_size = size * sizeof(float);
+        size_t byte_size = checked_mul_size(size, sizeof(float), "launch_add_shader");
         
         DirectXBuffer buffer_A(g_directx_state.context.get(), byte_size);
         DirectXBuffer buffer_B(g_directx_state.context.get(), byte_size);
@@ -377,6 +402,12 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
 void launch_multiply_shader(const float* A, const float* B, float* C, size_t size) {
     auto lock = lock_directx_state_or_throw();
     ensure_directx_ready_or_throw();
+    if (!A || !B || !C) {
+        throw std::invalid_argument("launch_multiply_shader received null pointer");
+    }
+    if (size == 0) {
+        throw std::invalid_argument("launch_multiply_shader received invalid size");
+    }
     
     try {
         // Use elementwise pipeline with op=2 for multiply
@@ -386,7 +417,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
             5, 1, 2
         );
         
-        size_t byte_size = size * sizeof(float);
+        size_t byte_size = checked_mul_size(size, sizeof(float), "launch_multiply_shader");
         
         DirectXBuffer buffer_A(g_directx_state.context.get(), byte_size);
         DirectXBuffer buffer_B(g_directx_state.context.get(), byte_size);
@@ -435,6 +466,12 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
 void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_t size) {
     auto lock = lock_directx_state_or_throw();
     ensure_directx_ready_or_throw();
+    if (!A || !B) {
+        throw std::invalid_argument("launch_scalar_multiply_shader received null pointer");
+    }
+    if (size == 0) {
+        throw std::invalid_argument("launch_scalar_multiply_shader received invalid size");
+    }
     
     try {
         // Use elementwise pipeline with op=4 for scalar multiply
@@ -444,7 +481,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
             5, 1, 2
         );
         
-        size_t byte_size = size * sizeof(float);
+        size_t byte_size = checked_mul_size(size, sizeof(float), "launch_scalar_multiply_shader");
         
         DirectXBuffer buffer_A(g_directx_state.context.get(), byte_size);
         DirectXBuffer buffer_B(g_directx_state.context.get(), byte_size);
@@ -493,6 +530,12 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
 void launch_transpose_shader(const float* input, float* output, int rows, int cols) {
     auto lock = lock_directx_state_or_throw();
     ensure_directx_ready_or_throw();
+    if (!input || !output) {
+        throw std::invalid_argument("launch_transpose_shader received null pointer");
+    }
+    if (rows <= 0 || cols <= 0) {
+        throw std::invalid_argument("launch_transpose_shader received invalid dimensions");
+    }
     
     try {
         // Use elementwise pipeline with op=5 for transpose
@@ -502,8 +545,8 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
             5, 1, 2
         );
         
-        size_t size = rows * cols;
-        size_t byte_size = size * sizeof(float);
+        size_t size = checked_mul_size(static_cast<size_t>(rows), static_cast<size_t>(cols), "launch_transpose_shader");
+        size_t byte_size = checked_mul_size(size, sizeof(float), "launch_transpose_shader");
         
         DirectXBuffer buffer_input(g_directx_state.context.get(), byte_size);
         DirectXBuffer buffer_output(g_directx_state.context.get(), byte_size);
@@ -554,6 +597,12 @@ void launch_lora_grad_A_shader(
     int M, int K, int N, float scaling) {
     auto lock = lock_directx_state_or_throw();
     ensure_directx_ready_or_throw();
+    if (!h || !grad_output || !grad_A) {
+        throw std::invalid_argument("launch_lora_grad_A_shader received null pointer");
+    }
+    if (M <= 0 || K <= 0 || N <= 0) {
+        throw std::invalid_argument("launch_lora_grad_A_shader received invalid dimensions");
+    }
     
     try {
         // Get or create pipeline
@@ -567,9 +616,9 @@ void launch_lora_grad_A_shader(
         
         // Create buffers
         // For grad_A: h is (M, K), grad_output is (M, N), output grad_A is (K, N)
-        size_t size_h = M * K * sizeof(float);
-        size_t size_grad_output = M * N * sizeof(float);
-        size_t size_grad_A = K * N * sizeof(float);
+        size_t size_h = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(K), "launch_lora_grad_A_shader");
+        size_t size_grad_output = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(N), "launch_lora_grad_A_shader");
+        size_t size_grad_A = checked_float_bytes_2d(static_cast<size_t>(K), static_cast<size_t>(N), "launch_lora_grad_A_shader");
         
         DirectXBuffer buffer_h(g_directx_state.context.get(), size_h);
         DirectXBuffer buffer_grad_output(g_directx_state.context.get(), size_grad_output);
@@ -649,6 +698,12 @@ void launch_lora_grad_B_shader(
     int M, int D, int K) {
     auto lock = lock_directx_state_or_throw();
     ensure_directx_ready_or_throw();
+    if (!input || !grad_h || !grad_B) {
+        throw std::invalid_argument("launch_lora_grad_B_shader received null pointer");
+    }
+    if (M <= 0 || D <= 0 || K <= 0) {
+        throw std::invalid_argument("launch_lora_grad_B_shader received invalid dimensions");
+    }
     
     try {
         // Get or create pipeline
@@ -660,9 +715,9 @@ void launch_lora_grad_B_shader(
         
         // Create buffers
         // For grad_B: input is (M, D), grad_h is (M, K), output grad_B is (D, K)
-        size_t size_input = M * D * sizeof(float);
-        size_t size_grad_h = M * K * sizeof(float);
-        size_t size_grad_B = D * K * sizeof(float);
+        size_t size_input = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(D), "launch_lora_grad_B_shader");
+        size_t size_grad_h = checked_float_bytes_2d(static_cast<size_t>(M), static_cast<size_t>(K), "launch_lora_grad_B_shader");
+        size_t size_grad_B = checked_float_bytes_2d(static_cast<size_t>(D), static_cast<size_t>(K), "launch_lora_grad_B_shader");
         
         DirectXBuffer buffer_input(g_directx_state.context.get(), size_input);
         DirectXBuffer buffer_grad_h(g_directx_state.context.get(), size_grad_h);
@@ -747,12 +802,18 @@ void launch_embedding_lookup_shader(
     int vocab_size) {
     auto lock = lock_directx_state_or_throw();
     ensure_directx_ready_or_throw();
+    if (!output || !token_ids || !embedding_weights) {
+        throw std::invalid_argument("launch_embedding_lookup_shader received null pointer");
+    }
+    if (batch_size <= 0 || seq_len <= 0 || hidden_dim <= 0 || vocab_size <= 0) {
+        throw std::invalid_argument("launch_embedding_lookup_shader received invalid dimensions");
+    }
     
     try {
         // Calculate sizes
-        size_t total_tokens = batch_size * seq_len;
-        size_t output_size = total_tokens * hidden_dim;
-        size_t embedding_matrix_size = vocab_size * hidden_dim;
+        size_t total_tokens = checked_mul_size(static_cast<size_t>(batch_size), static_cast<size_t>(seq_len), "launch_embedding_lookup_shader");
+        size_t output_size = checked_mul_size(total_tokens, static_cast<size_t>(hidden_dim), "launch_embedding_lookup_shader");
+        size_t embedding_matrix_size = checked_mul_size(static_cast<size_t>(vocab_size), static_cast<size_t>(hidden_dim), "launch_embedding_lookup_shader");
         
         // Create buffers
         DirectXBuffer buffer_token_ids(g_directx_state.context.get(), total_tokens * sizeof(float), DirectXBuffer::Usage::DeviceLocal);
@@ -815,11 +876,20 @@ void launch_sequence_mean_shader(
     int hidden_dim) {
     auto lock = lock_directx_state_or_throw();
     ensure_directx_ready_or_throw();
+    if (!output || !input) {
+        throw std::invalid_argument("launch_sequence_mean_shader received null pointer");
+    }
+    if (batch_size <= 0 || seq_len <= 0 || hidden_dim <= 0) {
+        throw std::invalid_argument("launch_sequence_mean_shader received invalid dimensions");
+    }
     
     try {
         // Calculate sizes
-        size_t input_size = batch_size * seq_len * hidden_dim;
-        size_t output_size = batch_size * hidden_dim;
+        size_t input_size = checked_mul_size(
+            checked_mul_size(static_cast<size_t>(batch_size), static_cast<size_t>(seq_len), "launch_sequence_mean_shader"),
+            static_cast<size_t>(hidden_dim),
+            "launch_sequence_mean_shader");
+        size_t output_size = checked_mul_size(static_cast<size_t>(batch_size), static_cast<size_t>(hidden_dim), "launch_sequence_mean_shader");
         
         // Create buffers
         DirectXBuffer buffer_input(g_directx_state.context.get(), input_size * sizeof(float), DirectXBuffer::Usage::DeviceLocal);

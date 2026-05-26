@@ -161,6 +161,10 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - Serialized lifecycle-sensitive access to cached `std::unique_ptr` resources (context, descriptors,
   pipeline cache) to reduce `data_race` and `smart_ptr_misuse` risk in concurrent init/dispatch/cleanup.
 - Enforced centralized state validation before dispatch to keep resource lifetime deterministic.
+- Added strict null/dimension validation and checked byte-size arithmetic in kernel launch paths to
+  fail fast on invalid inputs and prevent allocation-size overflow.
+- Added focused hardening tests in `tests/test_lora_kernel_interface_hardening.cpp` for uninitialized
+  fail-fast behavior and concurrent lifecycle lock-timeout regression coverage.
 
 ---
 
