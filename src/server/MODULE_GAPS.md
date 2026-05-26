@@ -15,6 +15,87 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-S04: Retry / Timeout / Uncaught-Exception Hardening
+
+**Scope:** `src/server/postgres_session.cpp`, `src/server/rpc/rpc_service_impl.cpp`  
+**Ticket:** W1-S04 · Priority P1  
+
+### Fixes Applied
+
+#### 1. Buffer bounds validation — PostgreSQL Execute/Describe/Close messages (pointer_arithmetic / CWE-125)
+
+**Root cause:** The wire-protocol dispatch loop in `onRead()` parsed the `'E'` (Execute),
+`'D'` (Describe), and `'C'` (Close) messages by advancing `offset` after reading a
+null-terminated portal/statement name, then immediately accessing `buffer_[offset]` (for
+`'D'`/`'C'`) or `buffer_[offset] … buffer_[offset+3]` (for `'E'`) without verifying that
+the remaining buffer is large enough. A malformed or truncated packet from an attacker or a
+buggy client could cause an out-of-bounds read (OOB-R / CWE-125).
+
+**Fix:**
+
+```cpp
+// Execute ('E'): guard before reading 4-byte maxRows
+if (offset + 4 > bytes_transferred) {
+    sendErrorResponse("ERROR", "08P01", "Malformed Execute message: missing maxRows field");
+    break;
+}
+// Describe ('D') / Close ('C'): guard before reading type byte + name
+if (offset + 2 > bytes_transferred) {
+    sendErrorResponse("ERROR", "08P01", "Malformed Describe/Close message");
+    break;
+}
+```
+
+Also corrected the `int32_t maxRows` byte-shift expression to use `static_cast<uint8_t>`
+casts to prevent sign-extension on platforms where `char` is signed.
+
+#### 2. Uncaught exception chain — `translateQuery()` (uncaught_exception / CWE-248)
+
+**Root cause:** `translateQuery()` calls `parseSelectQuery()`, `parseInsertQuery()`,
+`parseUpdateQuery()`, `parseDeleteQuery()` — all of which throw `std::runtime_error` on
+malformed input. Static analysis flagged the throw sites as "uncaught_exception" because
+the callee functions lack internal try/catch blocks. All callers of `translateQuery()` are
+already wrapped in `try { … } catch (const std::exception& e) { sendErrorResponse(…) }`,
+so there is no actual abort risk. The documentation comment was missing, and the error
+message for the unsupported-statement case was not including the statement text (making
+debugging difficult).
+
+**Fix:**
+- Added an explanatory comment to `translateQuery()` documenting the exception contract
+  (exceptions propagate to caller catch blocks that convert them to PostgreSQL
+  `ErrorResponse` messages with SQLSTATE 42601).
+- Changed the unsupported-statement error from `"Unsupported SQL statement type"` to
+  `"Unsupported SQL statement type: <first-32-chars>"` to improve diagnostics.
+
+#### 3. Lambda-scope storage null guard — `handleGetCollectionMetadata()` (null_dereference)
+
+**Root cause:** `handleGetCollectionMetadata()` validates `storage` with `if (!storage)` at
+the function level, then later constructs a `json result` using a immediately-invoked lambda
+`[&] { … }()` that calls `storage->scanPrefix(…)`. Static analysers that evaluate the
+lambda body independently (without visibility into the outer scope's null check) flagged
+this as a potential null dereference.
+
+**Fix:** Added an explicit `if (storage)` guard inside the lambda body with a comment
+explaining that `storage` was already validated above. The lambda now compiles as trivially
+safe from any analysis perspective.
+
+### Retry / Timeout Assessment
+
+| Component | Retry applicability | Timeout applicability |
+|---|---|---|
+| `postgres_session.cpp` | Not applicable — session-layer protocol handler; individual queries are stateful with the client and cannot be silently retried. Transient query-engine errors produce `ErrorResponse` (SQLSTATE 08006) + `ReadyForQuery` so the client can retry at its own discretion. | Handled by the Boost.Asio socket timer inherited from the parent `Session` (`armReadTimer`). Individual SQL parse steps complete in O(query-length) time and cannot block indefinitely. |
+| `rpc_service_impl.cpp` | Handler calls are fully synchronous; retry belongs at the gRPC/HTTP client level. Per-handler errors are returned as structured `RPCErrorCode` responses. | gRPC deadline propagation is the responsibility of the transport layer (ThemisRPCServer). No in-handler retry budget is needed. |
+
+### Gap Delta (estimated)
+
+| Type | Before | After |
+|---|---|---|
+| pointer_arithmetic HIGH (postgres) | 18 | Reduced: 3 Execute/Describe/Close OOB guards added |
+| uncaught_exception HIGH (postgres) | 11 | Documented as properly caught at callers; error message improved |
+| null_dereference HIGH (rpc) | 2 | 1 storage lambda guard added; 1 already guarded (false positive documented) |
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-S03: Null/Pointer-Guard Standardisation
 
 **Scope:** `src/server/mcp_server.cpp`, `src/server/voice_api_handler.cpp`,
