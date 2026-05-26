@@ -236,7 +236,14 @@ void CustomAllReduce::enable_p2p_access() {
                                        ctx_.get_device(j).id);
                 
                 if (can_access) {
-                    cudaSetDevice(ctx_.get_device(i).id);
+                    // REL-38: check cudaSetDevice return value before enabling P2P
+                    cudaError_t set_err = cudaSetDevice(ctx_.get_device(i).id);
+                    if (set_err != cudaSuccess) {
+                        spdlog::warn("CustomAllReduce::enable_p2p_access: cudaSetDevice({}) failed: {}",
+                                     ctx_.get_device(i).id, cudaGetErrorString(set_err));
+                        p2p_enabled_ = false;
+                        continue;
+                    }
                     cudaError_t err = cudaDeviceEnablePeerAccess(ctx_.get_device(j).id, 0);
                     if (err != cudaSuccess && err != cudaErrorPeerAccessAlreadyEnabled) {
                         spdlog::warn("Failed to enable P2P access from GPU {} to {}: {}", 
@@ -266,7 +273,14 @@ void CustomAllReduce::enable_p2p_access() {
                                       ctx_.get_device(j).id);
                 
                 if (can_access) {
-                    hipSetDevice(ctx_.get_device(i).id);
+                    // REL-39: check hipSetDevice return value before enabling P2P
+                    hipError_t set_err = hipSetDevice(ctx_.get_device(i).id);
+                    if (set_err != hipSuccess) {
+                        spdlog::warn("CustomAllReduce::enable_p2p_access: hipSetDevice({}) failed: {}",
+                                     ctx_.get_device(i).id, hipGetErrorString(set_err));
+                        p2p_enabled_ = false;
+                        continue;
+                    }
                     hipError_t err = hipDeviceEnablePeerAccess(ctx_.get_device(j).id, 0);
                     if (err != hipSuccess && err != hipErrorPeerAccessAlreadyEnabled) {
                         spdlog::warn("Failed to enable P2P access from GPU {} to {}: {}", 

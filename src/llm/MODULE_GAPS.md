@@ -214,6 +214,38 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-33: Vision prefix prefill path now logs explicit warning when `llama_decode` fails in
   `llama_wrapper.cpp::generateVision()`, preventing silent degradation before image embedding injection.
 
+**Status (v1.22.0-pre — W1-L06):** REL-34..REL-48 fixed — multi-GPU set-device, topology-detect, P2P enable, and Vulkan RAII:
+- REL-34: `cudaSetDevice` return value now checked in `multi_gpu.cpp::synchronize_all()`; failures are
+  logged and the device skipped (preventing a blind `cudaDeviceSynchronize` on the wrong device).
+- REL-35: `hipSetDevice` return value now checked in `multi_gpu.cpp::synchronize_all()`; failures are
+  logged and the device skipped.
+- REL-36: `cudaDeviceCanAccessPeer` return value now captured and checked in
+  `multi_gpu.cpp::GPUTopology::detect()`; failures are logged with device IDs.
+- REL-37: `hipDeviceCanAccessPeer` return value now captured and checked in
+  `multi_gpu.cpp::GPUTopology::detect()`; failures are logged with device IDs.
+- REL-38: `cudaSetDevice` return value now checked before `cudaDeviceEnablePeerAccess` in
+  `custom_allreduce.cpp::enable_p2p_access()`; on failure, `p2p_enabled_` is cleared and loop continues.
+- REL-39: `hipSetDevice` return value now checked before `hipDeviceEnablePeerAccess` in
+  `custom_allreduce.cpp::enable_p2p_access()`; on failure, `p2p_enabled_` is cleared and loop continues.
+- REL-40: `cudaSetDevice` return value now checked in `multi_gpu_memory_coordinator.cpp::initialize()`;
+  failed GPU selection is logged and that GPU skipped.
+- REL-41: `hipSetDevice` return value now checked in `multi_gpu_memory_coordinator.cpp::initialize()`;
+  failed GPU selection is logged and that GPU skipped.
+- REL-42: `cudaSetDevice(src_gpu)` now checked before forward P2P enable in
+  `multi_gpu_memory_coordinator.cpp::enableP2P()`; failures increment fail_count and skip the P2P call.
+- REL-43: `cudaSetDevice(dst_gpu)` now checked before backward P2P enable in
+  `multi_gpu_memory_coordinator.cpp::enableP2P()`; failures increment fail_count and skip the P2P call.
+- REL-44: `hipSetDevice(src_gpu)` now checked before forward P2P enable in
+  `multi_gpu_memory_coordinator.cpp::enableP2P()`; failures increment fail_count and skip the P2P call.
+- REL-45: `hipSetDevice(dst_gpu)` now checked before backward P2P enable in
+  `multi_gpu_memory_coordinator.cpp::enableP2P()`; failures increment fail_count and skip the P2P call.
+- REL-46: `cudaSetDevice` return value now checked in `multi_gpu_memory_coordinator.cpp::synchronizeAll()`;
+  failures are logged and the device skipped.
+- REL-47: `hipSetDevice` return value now checked in `multi_gpu_memory_coordinator.cpp::synchronizeAll()`;
+  failures are logged and the device skipped.
+- REL-48: Vulkan allocator init in `vram_allocator.cpp` replaced raw `new`/`delete` pair with
+  `std::make_unique<VulkanAllocContext>()` + `release()`; exception-unsafe manual cleanup path eliminated.
+
 **OOP-01:** `~LLMPluginAdapter() override = default;` added to `llm_plugin_interface.h` to close override
 destructor gap for the concrete `LLMPluginAdapter` class.
 
