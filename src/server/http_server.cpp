@@ -2281,16 +2281,13 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
                     if (ssl_ctx_) {
 #ifdef THEMIS_ENABLE_HTTP2
                         if (config_.enable_http2) {
-                            if (connection_slot_reserved) {
-                                active_connections_.fetch_sub(1, std::memory_order_release);
-                                connection_slot_reserved = false;
-                            }
-                            std::make_shared<Http2Session>(
+                            Http2Handler::createSession(
                                 std::move(socket),
                                 *ssl_ctx_,
                                 this,
                                 config_.http2_max_concurrent_streams,
-                                config_.http2_initial_window_size
+                                config_.http2_initial_window_size,
+                                connection_slot_reserved
                             )->start();
                         } else {
                             std::make_shared<SslSession>(

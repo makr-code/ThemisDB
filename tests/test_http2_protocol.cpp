@@ -14,6 +14,7 @@
 #ifdef THEMIS_ENABLE_HTTP2
 
 #include "server/http2_session.h"
+#include <atomic>
 #include <string>
 #include <vector>
 
@@ -99,6 +100,44 @@ TEST(HTTP2ProtocolTest, ConfigurationDefaults) {
     EXPECT_FALSE(config.enable_http2) << "HTTP/2 should be OFF by default";
     EXPECT_EQ(config.max_concurrent_streams, 100);
     EXPECT_FALSE(config.enable_server_push) << "Server push should be OFF by default";
+}
+
+TEST(HTTP2ProtocolTest, ReservedAdmissionSlotTransfersToHttp2Session) {
+    std::atomic<uint64_t> active_connections{1};  // slot already reserved on accept
+
+    const auto ctor_accounting = [&](bool connection_slot_reserved) {
+        if (!connection_slot_reserved) {
+            active_connections.fetch_add(1, std::memory_order_relaxed);
+        }
+    };
+    const auto dtor_accounting = [&]() {
+        active_connections.fetch_sub(1, std::memory_order_relaxed);
+    };
+
+    ctor_accounting(true);
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), 1u);
+
+    dtor_accounting();
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), 0u);
+}
+
+TEST(HTTP2ProtocolTest, UnreservedHttp2SessionOwnsItsConnectionCount) {
+    std::atomic<uint64_t> active_connections{0};
+
+    const auto ctor_accounting = [&](bool connection_slot_reserved) {
+        if (!connection_slot_reserved) {
+            active_connections.fetch_add(1, std::memory_order_relaxed);
+        }
+    };
+    const auto dtor_accounting = [&]() {
+        active_connections.fetch_sub(1, std::memory_order_relaxed);
+    };
+
+    ctor_accounting(false);
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), 1u);
+
+    dtor_accounting();
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), 0u);
 }
 
 #endif // THEMIS_ENABLE_HTTP2

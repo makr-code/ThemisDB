@@ -37,12 +37,26 @@ class HttpServer;
  */
 class Http2Session : public std::enable_shared_from_this<Http2Session> {
 public:
+    /**
+     * @brief Construct an HTTP/2 session bound to one accepted TLS socket.
+     *
+     * @param socket Accepted TCP socket already selected for HTTP/2 handling.
+     * @param ssl_ctx TLS context used for the HTTP/2 TLS handshake.
+     * @param server Owning HTTP server instance; must remain valid for the
+     *        session lifetime.
+     * @param max_concurrent_streams Maximum concurrent HTTP/2 streams allowed.
+     * @param initial_window_size Initial per-stream flow-control window size.
+     * @param connection_slot_reserved When true, accept-path admission already
+     *        reserved one `active_connections_` slot and the constructor must
+     *        not increment it again. The destructor still releases the slot.
+     */
     Http2Session(
         tcp::socket socket,
         boost::asio::ssl::context& ssl_ctx,
         HttpServer* server,
         uint32_t max_concurrent_streams,
-        uint32_t initial_window_size
+        uint32_t initial_window_size,
+        bool connection_slot_reserved = false
     );
     
     ~Http2Session();
@@ -162,7 +176,8 @@ public:
         boost::asio::ssl::context& ssl_ctx,
         HttpServer* server,
         uint32_t max_concurrent_streams = 100,
-        uint32_t initial_window_size = 65535
+        uint32_t initial_window_size = 65535,
+        bool connection_slot_reserved = false
     );
 };
 

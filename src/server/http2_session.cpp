@@ -66,11 +66,12 @@ std::shared_ptr<Http2Session> Http2Handler::createSession(
     boost::asio::ssl::context& ssl_ctx,
     HttpServer* server,
     uint32_t max_concurrent_streams,
-    uint32_t initial_window_size
+    uint32_t initial_window_size,
+    bool connection_slot_reserved
 ) {
     return std::make_shared<Http2Session>(
         std::move(socket), ssl_ctx, server,
-        max_concurrent_streams, initial_window_size
+        max_concurrent_streams, initial_window_size, connection_slot_reserved
     );
 }
 
@@ -83,7 +84,8 @@ Http2Session::Http2Session(
     boost::asio::ssl::context& ssl_ctx,
     HttpServer* server,
     uint32_t max_concurrent_streams,
-    uint32_t initial_window_size
+    uint32_t initial_window_size,
+    bool connection_slot_reserved
 )
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
@@ -92,12 +94,16 @@ Http2Session::Http2Session(
     , initial_window_size_(initial_window_size)
     , next_push_stream_id_(2) // Server push streams start at 2 (even numbers)
 {
+    if (!connection_slot_reserved) {
+        server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 Http2Session::~Http2Session() {
     if (ng2_session_) {
         nghttp2_session_del(ng2_session_);
     }
+    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
 }
 
 void Http2Session::start() {
