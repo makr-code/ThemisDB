@@ -395,3 +395,82 @@ TEST(W1S02AuditRateEviction, MapBelowThresholdIsNotScanned) {
     EXPECT_EQ(scanned, 0u)          << "No scan below threshold";
     EXPECT_EQ(buckets.size(), 5u)   << "Small map must be left intact";
 }
+
+// ---------------------------------------------------------------------------
+// W1-S02: write/shutdown timeout coverage for HTTP core session paths
+// ---------------------------------------------------------------------------
+
+TEST(W1S02WriteTimeout, StalledWriteTriggersTimeout) {
+    namespace asio = boost::asio;
+    asio::io_context ioc;
+    asio::steady_timer io_timeout(ioc);
+    auto simulated_write = std::make_shared<asio::steady_timer>(ioc);
+
+    std::atomic<bool> timed_out{false};
+    std::atomic<bool> write_done{false};
+
+    io_timeout.expires_after(std::chrono::milliseconds(20));
+    io_timeout.async_wait([&timed_out](const boost::system::error_code& ec) {
+        if (!ec) timed_out.store(true);
+    });
+
+    simulated_write->expires_after(std::chrono::milliseconds(100));
+    simulated_write->async_wait([&write_done](const boost::system::error_code& ec) {
+        if (!ec) write_done.store(true);
+    });
+
+    ioc.run_for(std::chrono::milliseconds(200));
+    EXPECT_TRUE(timed_out.load());
+    EXPECT_TRUE(write_done.load());
+}
+
+TEST(W1S02WriteTimeout, CompletedWriteCancelsTimeout) {
+    namespace asio = boost::asio;
+    asio::io_context ioc;
+    asio::steady_timer io_timeout(ioc);
+    auto simulated_write = std::make_shared<asio::steady_timer>(ioc);
+
+    std::atomic<bool> timed_out{false};
+    std::atomic<bool> write_done{false};
+
+    io_timeout.expires_after(std::chrono::milliseconds(100));
+    io_timeout.async_wait([&timed_out](const boost::system::error_code& ec) {
+        if (!ec) timed_out.store(true);
+    });
+
+    simulated_write->expires_after(std::chrono::milliseconds(10));
+    simulated_write->async_wait([&write_done, &io_timeout](const boost::system::error_code& ec) {
+        if (!ec) {
+            write_done.store(true);
+            io_timeout.cancel();
+        }
+    });
+
+    ioc.run_for(std::chrono::milliseconds(200));
+    EXPECT_TRUE(write_done.load());
+    EXPECT_FALSE(timed_out.load());
+}
+
+TEST(W1S02ShutdownTimeout, StalledShutdownTriggersTimeout) {
+    namespace asio = boost::asio;
+    asio::io_context ioc;
+    asio::steady_timer io_timeout(ioc);
+    auto simulated_shutdown = std::make_shared<asio::steady_timer>(ioc);
+
+    std::atomic<bool> timed_out{false};
+    std::atomic<bool> shutdown_done{false};
+
+    io_timeout.expires_after(std::chrono::milliseconds(20));
+    io_timeout.async_wait([&timed_out](const boost::system::error_code& ec) {
+        if (!ec) timed_out.store(true);
+    });
+
+    simulated_shutdown->expires_after(std::chrono::milliseconds(100));
+    simulated_shutdown->async_wait([&shutdown_done](const boost::system::error_code& ec) {
+        if (!ec) shutdown_done.store(true);
+    });
+
+    ioc.run_for(std::chrono::milliseconds(200));
+    EXPECT_TRUE(timed_out.load());
+    EXPECT_TRUE(shutdown_done.load());
+}

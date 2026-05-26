@@ -10865,7 +10865,7 @@ void HttpServer::Session::armReadTimer() {
         if (!ec) {
             // Timer fired before I/O completed: cancel the pending socket operation
             const uint32_t t = self->server_->hot_request_timeout_ms_.load(std::memory_order_relaxed);
-            THEMIS_WARN("Request read timeout ({}ms) - closing connection", t);
+            THEMIS_WARN("Request I/O timeout ({}ms) - closing connection", t);
             beast::error_code close_ec;
             self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
@@ -11080,6 +11080,8 @@ void HttpServer::Session::processRequest() {
 
 void HttpServer::Session::doWrite() {
     bool close = response_.need_eof();
+    // W1-S02: arm per-connection timeout for potentially blocking async writes.
+    armReadTimer();
     http::async_write(
         socket_,
         response_,
@@ -11097,6 +11099,7 @@ void HttpServer::Session::onWrite(
     std::size_t bytes_transferred
 ) {
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec) {
         THEMIS_ERROR("Write error: {}", ec.message());
@@ -11139,7 +11142,7 @@ void HttpServer::SslSession::armReadTimer() {
     read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
         if (!ec) {
             const uint32_t t = self->server_->hot_request_timeout_ms_.load(std::memory_order_relaxed);
-            THEMIS_WARN("Request read timeout ({}ms) - closing TLS connection", t);
+            THEMIS_WARN("Request I/O timeout ({}ms) - closing TLS connection", t);
             beast::error_code close_ec;
             self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());
@@ -11394,6 +11397,8 @@ void HttpServer::SslSession::processRequest() {
 
 void HttpServer::SslSession::doWrite() {
     bool close = response_.need_eof();
+    // W1-S02: arm per-connection timeout for potentially blocking TLS writes.
+    armReadTimer();
     http::async_write(
         stream_,
         response_,
@@ -11411,6 +11416,7 @@ void HttpServer::SslSession::onWrite(
     std::size_t bytes_transferred
 ) {
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec) {
         THEMIS_ERROR("SSL write error: {}", ec.message());
@@ -11427,9 +11433,12 @@ void HttpServer::SslSession::onWrite(
 }
 
 void HttpServer::SslSession::doShutdown() {
+    // W1-S02: prevent indefinite async_shutdown hang on stalled peers.
+    armReadTimer();
     stream_.async_shutdown(
         beast::bind_front_handler(
             [self = shared_from_this()](beast::error_code ec) {
+                self->cancelReadTimer();
                 if (ec && ec != boost::asio::error::eof) {
                     THEMIS_ERROR("SSL shutdown error: {}", ec.message());
                 }
