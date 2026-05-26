@@ -375,3 +375,40 @@ TEST(QueryFederationAnalysisTest, AnalyzeQueryExtractsKeyRange) {
     EXPECT_GT(total_after, total_before)
         << "Range query should have been executed";
 }
+
+TEST(QueryFederationAnalysisTest, AnalyzeQueryPreservesExplicitLimit) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(FOR d IN col FILTER d.status == "open" LIMIT 17 RETURN d)");
+
+    ASSERT_TRUE(meta.limit.has_value());
+    EXPECT_EQ(*meta.limit, 17u);
+    EXPECT_FALSE(meta.offset.has_value());
+}
+
+TEST(QueryFederationAnalysisTest, AnalyzeQueryExtractsOffsetAndLimit) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(FOR d IN col FILTER d.status == "open" LIMIT 5, 17 RETURN d)");
+
+    ASSERT_TRUE(meta.offset.has_value());
+    ASSERT_TRUE(meta.limit.has_value());
+    EXPECT_EQ(*meta.offset, 5u);
+    EXPECT_EQ(*meta.limit, 17u);
+}
+
+TEST(QueryFederationAnalysisTest, AnalyzeQueryDoesNotDuplicateTableAndFilterMetadata) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(FOR d IN orders FILTER d.status == "open" RETURN d)");
+
+    EXPECT_EQ(meta.tables.size(), 1u);
+    EXPECT_EQ(meta.tables.front(), "orders");
+    EXPECT_EQ(std::count(meta.predicates.begin(), meta.predicates.end(), "filter_present"), 1);
+}

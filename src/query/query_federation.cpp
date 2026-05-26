@@ -547,6 +547,15 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
 ) {
     QueryMetadata metadata;
     metadata.query_text = query;
+    const auto push_unique = [](std::vector<std::string>& values,
+                                const std::string& value) {
+        if (value.empty()) {
+            return;
+        }
+        if (std::find(values.begin(), values.end(), value) == values.end()) {
+            values.push_back(value);
+        }
+    };
 
     // ── Collection name ──────────────────────────────────────────────────────
     // Match:  FOR <var> IN <collection>
@@ -556,7 +565,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
         std::sregex_iterator end;
         for (; it != end; ++it) {
             if (it->size() > 1) {
-                metadata.tables.push_back((*it)[1].str());
+                push_unique(metadata.tables, (*it)[1].str());
             }
         }
     }
@@ -583,58 +592,60 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
             std::regex::icase);
         std::smatch m;
         if (std::regex_search(query, m, re_point)) {
-            QueryMetadata::ShardKeyPredicate pred;
-            pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::POINT;
-            pred.collection = col;
-            pred.key_value  = m[1].str();
-            metadata.shard_key_predicate = std::move(pred);
-            metadata.predicates.push_back("shard_key_point");
+            if (m.size() > 1) {
+                QueryMetadata::ShardKeyPredicate pred;
+                pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::POINT;
+                pred.collection = col;
+                pred.key_value  = m[1].str();
+                metadata.shard_key_predicate = std::move(pred);
+                push_unique(metadata.predicates, "shard_key_point");
+            }
         } else {
             // Range lookup: ... _key >= "<min>" AND ... _key <= "<max>"
             std::regex re_range(
                 R"(FILTER\s+\w+\._key\s*>=\s*[\"']([^\"']+)[\"']\s+AND\s+\w+\._key\s*<=\s*[\"']([^\"']+)[\"'])",
                 std::regex::icase);
             if (std::regex_search(query, m, re_range)) {
-                QueryMetadata::ShardKeyPredicate pred;
-                pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::RANGE;
-                pred.collection = col;
-                pred.key_min    = m[1].str();
-                pred.key_max    = m[2].str();
-                metadata.shard_key_predicate = std::move(pred);
-                metadata.predicates.push_back("shard_key_range");
+                if (m.size() > 2) {
+                    QueryMetadata::ShardKeyPredicate pred;
+                    pred.kind       = QueryMetadata::ShardKeyPredicate::Kind::RANGE;
+                    pred.collection = col;
+                    pred.key_min    = m[1].str();
+                    pred.key_max    = m[2].str();
+                    metadata.shard_key_predicate = std::move(pred);
+                    push_unique(metadata.predicates, "shard_key_range");
+                }
             }
         }
     }
 
     // ── Generic FILTER ────────────────────────────────────────────────────────
-    if (query.find("FILTER") != std::string::npos &&
-        metadata.predicates.empty()) {
-        metadata.predicates.push_back("filter_present");
+    if (query.find("FILTER") != std::string::npos) {
+        push_unique(metadata.predicates, "filter_present");
     }
 
     // ── Aggregations ─────────────────────────────────────────────────────────
     // ---- Collection extraction -------------------------------------------------
     // Pattern: FOR <var> IN <collection>
-    size_t for_pos = query.find("FOR");
-    size_t in_pos  = query.find(" IN ");
-    if (for_pos != std::string::npos && in_pos != std::string::npos
-            && in_pos > for_pos) {
-        size_t start = in_pos + 4;
-        size_t end   = query.find_first_of(" \n\t", start);
-        if (end == std::string::npos) end = query.size();
-        if (end > start) {
-            metadata.tables.push_back(query.substr(start, end - start));
+    if (metadata.tables.empty()) {
+        size_t for_pos = query.find("FOR");
+        size_t in_pos  = query.find(" IN ");
+        if (for_pos != std::string::npos && in_pos != std::string::npos
+                && in_pos > for_pos) {
+            size_t start = in_pos + 4;
+            size_t end   = query.find_first_of(" \n\t", start);
+            if (end == std::string::npos) end = query.size();
+            if (end > start) {
+                push_unique(metadata.tables, query.substr(start, end - start));
+            }
         }
     }
 
     // ---- Predicate / aggregation extraction ------------------------------------
-    if (query.find("FILTER") != std::string::npos) {
-        metadata.predicates.push_back("filter_present");
-    }
     if (query.find("COLLECT") != std::string::npos ||
         query.find("COUNT")   != std::string::npos ||
         query.find("SUM")     != std::string::npos) {
-        metadata.aggregations.push_back("aggregation_present");
+        push_unique(metadata.aggregations, "aggregation_present");
     }
 
     // ── Joins ─────────────────────────────────────────────────────────────────
@@ -644,20 +655,21 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
 
     // ── LIMIT ────────────────────────────────────────────────────────────────
     {
-        std::regex re_limit(R"(LIMIT\s+(\d+))", std::regex::icase);
+        std::regex re_limit(R"(LIMIT\s+(\d+)(?:\s*,\s*(\d+))?)", std::regex::icase);
         std::smatch m2;
         if (std::regex_search(query, m2, re_limit)) {
             try {
-                metadata.limit = std::stoull(m2[1].str());
+                if (m2.size() > 2 && m2[2].matched) {
+                    metadata.offset = std::stoull(m2[1].str());
+                    metadata.limit = std::stoull(m2[2].str());
+                } else if (m2.size() > 1) {
+                    metadata.limit = std::stoull(m2[1].str());
+                }
             } catch (...) {
-                metadata.limit = 100;
+                metadata.limit.reset();
+                metadata.offset.reset();
             }
         }
-    }
-
-    // ---- LIMIT extraction ------------------------------------------------------
-    if (query.find("LIMIT") != std::string::npos) {
-        metadata.limit = 100;
     }
 
     // ---- Shard-key predicate extraction ----------------------------------------
