@@ -2309,13 +2309,13 @@ void MultiLoRAManager::stopEvictionThread() {
                 [this]() { return eviction_thread_done_.load(); });
         }
         if (!done) {
-            spdlog::error("Eviction thread did not stop within {}s timeout; detaching to avoid hang",
+            // Safety-first: never detach here because this thread captures `this`
+            // and would become a use-after-free risk during destruction.
+            // We still emit the timeout event for observability, then join.
+            spdlog::error("Eviction thread did not stop within {}s timeout; waiting for safe join",
                           kJoinTimeout.count());
-            eviction_thread_->detach();
-            eviction_thread_.reset();
-            return;
         }
-        eviction_thread_->join();  // guaranteed to return immediately now
+        eviction_thread_->join();
     }
 
     eviction_thread_.reset();
