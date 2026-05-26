@@ -1297,6 +1297,31 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             spdlog::warn("QLoRA not enabled in configuration, falling back to standard training");
             return trainOnTheFly(adapter_id, data, hyperparameters);
         }
+
+        bool expected = false;
+        if (!impl_->is_training_.compare_exchange_strong(expected, true,
+                                                         std::memory_order_acq_rel,
+                                                         std::memory_order_acquire)) {
+            result.success = false;
+            result.error_message = "Training already in progress";
+            spdlog::warn("trainWithQuantization rejected: {}", result.error_message);
+            return result;
+        }
+        impl_->stop_requested_.store(false, std::memory_order_release);
+
+        struct ScopedTrainingSlot {
+            Impl* impl = nullptr;
+            ~ScopedTrainingSlot() {
+                if (!impl) {
+                    return;
+                }
+                {
+                    std::lock_guard<std::mutex> lock(impl->stop_mutex_);
+                    impl->is_training_.store(false, std::memory_order_release);
+                }
+                impl->stop_cv_.notify_all();
+            }
+        } training_slot{impl_.get()};
         
         spdlog::info("Starting GPU-accelerated QLoRA training for adapter: {}", adapter_id);
         spdlog::info("  Quantization type: {}", qlora_config.quantization_type);
@@ -2024,6 +2049,30 @@ TrainingResult LoRATrainingService::trainDistributed(
         spdlog::error(result.error_message);
         return result;
     }
+
+    bool expected = false;
+    if (!impl_->is_training_.compare_exchange_strong(expected, true,
+                                                     std::memory_order_acq_rel,
+                                                     std::memory_order_acquire)) {
+        result.error_message = "Training already in progress";
+        spdlog::warn("trainDistributed rejected: {}", result.error_message);
+        return result;
+    }
+    impl_->stop_requested_.store(false, std::memory_order_release);
+
+    struct ScopedTrainingSlot {
+        Impl* impl = nullptr;
+        ~ScopedTrainingSlot() {
+            if (!impl) {
+                return;
+            }
+            {
+                std::lock_guard<std::mutex> lock(impl->stop_mutex_);
+                impl->is_training_.store(false, std::memory_order_release);
+            }
+            impl->stop_cv_.notify_all();
+        }
+    } training_slot{impl_.get()};
     
     try {
         auto start_time = std::chrono::system_clock::now();
@@ -2119,10 +2168,12 @@ TrainingResult LoRATrainingService::trainDistributed(
         
         // Track last step result for per-shard loss
         DistributedTrainingCoordinator::StepResult last_step_result;
+        bool stopped_by_request = false;
         
         // Progress callback to monitor training
         coordinator->setProgressCallback(
-            [&](int step, const DistributedTrainingCoordinator::StepResult& step_result) {
+            [total_steps, configured_participant_shards](int step,
+                                                          const DistributedTrainingCoordinator::StepResult& step_result) {
                 if (step_result.success) {
                     spdlog::info("Step {}/{} completed in {:.2f}ms (sync: {:.2f}ms)", 
                                step, total_steps, 
@@ -2144,6 +2195,13 @@ TrainingResult LoRATrainingService::trainDistributed(
         
         // Execute training loop
         for (int step = 0; step < total_steps; ++step) {
+            if (impl_->stop_requested_.load(std::memory_order_acquire)) {
+                stopped_by_request = true;
+                result.error_message = "Distributed training stopped by user request";
+                spdlog::info("{}", result.error_message);
+                break;
+            }
+
             auto step_result = coordinator->executeStep();
             
             if (!step_result.success) {
@@ -2172,10 +2230,19 @@ TrainingResult LoRATrainingService::trainDistributed(
                     int retry_count = 0;
                     const int max_retries = 3;
                     while (retry_count < max_retries) {
+                        if (impl_->stop_requested_.load(std::memory_order_acquire)) {
+                            stopped_by_request = true;
+                            result.error_message = "Distributed training stopped by user request";
+                            spdlog::info("{}", result.error_message);
+                            break;
+                        }
                         spdlog::info("Retrying step {} (attempt {})", step, retry_count + 1);
                         step_result = coordinator->executeStep();
                         if (step_result.success) break;
                         retry_count++;
+                    }
+                    if (stopped_by_request) {
+                        break;
                     }
                     if (!step_result.success) {
                         spdlog::error("Step {} failed after {} retries", step, max_retries);
@@ -2214,7 +2281,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         auto shard_states = coordinator->getShardStates();
         
         // Populate result
-        result.success = (successful_steps > 0);
+        result.success = (!stopped_by_request && successful_steps > 0);
         result.final_loss = !loss_history.empty() ? loss_history.back() : 0.0f;
         
         // Calculate actual training time from start to finish
