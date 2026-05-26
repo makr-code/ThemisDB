@@ -185,6 +185,9 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-50: `flash_lora.cpp` `FlashLoRA::backward()` now checks `cudaDeviceSynchronize()` and throws on failure.
 - REL-51: `flash_attention_cuda.cu` `FlashAttentionCUDA::getMemoryStats()` now checks `cudaMemGetInfo()` and throws on failure.
 
+**Status (W1-L08):** REL-52 fixed —
+- REL-52: `flash_attention_cuda.cu` `FlashAttentionCUDA::freeWorkspace()` now checks `cudaFree()` and logs failures in cleanup (non-throwing destructor path).
+
 ---
 
 ## 📋 Implementation Priority
