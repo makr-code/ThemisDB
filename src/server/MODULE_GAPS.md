@@ -17,6 +17,16 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-19)
 
+- **W1-S06 (2026-05-26) – `src/server/async_job_api_handler.cpp`, `include/server/async_job_api_handler.h`**
+  - Concurrency-access encapsulation: added `AsyncJobRegistry` snapshot/cancel helpers
+    (`getJsonSnapshot`, `allJsonSnapshots`, `requestCancel`) so route handlers no longer
+    directly fetch mutable job pointers for list/status/cancel paths.
+  - Handler hardening: `handleList`, `handleGetStatus`, and `handleCancel` now operate
+    on registry-provided snapshots/results, reducing lock-hand-off surface between
+    registry map access and per-record mutation.
+  - Gap delta intent: reduce async-job `data_race`/iterator-handling false-positive
+    hotspots and keep thread-safe access centralized in the registry boundary.
+
 - **W1-S05 (2026-05-26) – `src/server/websocket_session.cpp`, `include/server/websocket_session.h`**
   - Executor-affinity hardening: public `send()` / `sendBinary()` now always
     marshal onto the WebSocket stream executor via `net::dispatch(...)` before
