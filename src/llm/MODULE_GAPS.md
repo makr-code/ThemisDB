@@ -1,7 +1,7 @@
 # llm Module — Implementation Gap Analysis
 
-**Status:** Updated 2026-05-21  
-**Last Updated:** 2026-05-21  
+**Status:** Updated 2026-05-26 (W1-L02 delta applied)
+**Last Updated:** 2026-05-26  
 
 ---
 
@@ -14,7 +14,10 @@
 | `type_conversion` | 1888 | MEDIUM | Implicit narrowing from `size_t`/`int64_t` to `int`; unsigned↔signed comparisons; float→int truncations |
 | `reliability` | 1637 | HIGH | Unchecked return values from C API calls (`llama_*`, `cuda*`, Vulkan VkResult); exception-unsafe resource acquisition paths |
 | `input_validation` | 929 | CRITICAL | Missing upper-bound checks on user-supplied sizes, ranks, and token counts before allocation |
-| **Total** | **19,838** | **CRITICAL** | Auto-generated from `gap_scan_v3_llm.json` |
+| `data_race` | ~~7~~ **0** | CRITICAL | ✅ **Resolved in W1-L02** — See delta table below |
+| `iterator_invalidation` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L02** — `loss_history_` push_back race |
+| `no_timeout` | ~~2~~ **0** | HIGH | ✅ **Resolved in W1-L02** — stopTraining polling + unenforced timeout |
+| **Total** | **19,828** | **CRITICAL** | W1-L02 reduced 10 findings |
 
 **Severity breakdown:** 🔴 CRITICAL 1466 | 🟠 HIGH 15975 | 🟡 MEDIUM 2397
 
@@ -51,6 +54,27 @@ Security-sensitive input validation gaps found by static analysis:
 ---
 
 ## 🔴 CRITICAL Fixes — Status
+
+### Addressed in W1-L02 (2026-05-26 — critical parallel path hardening)
+
+**Scope file:** `lora_framework/lora_training_service.cpp`
+
+| Gap ID | Category | Finding | Fix | Impact |
+|--------|----------|---------|-----|--------|
+| W1-L02-DR-01 | `data_race` | TOCTOU race: `is_training_.load()` check + manual `store(true)` allowed two concurrent callers to both pass before either set the flag | Replaced with `is_training_.compare_exchange_strong()` — atomic check-and-set in a single operation | Eliminates double-start race |
+| W1-L02-DR-02 | `data_race` | `current_metrics_` fields written by training thread while `getMetrics()` can read from another thread (no synchronisation) | Added `metrics_mutex_`; all writes inside the training loop and all reads in `getMetrics()` now hold the lock | Eliminates TSan-detectable race on `TrainingMetrics` |
+| W1-L02-DR-03 | `data_race` | `training_callback_` written via `registerCallback()` and read inside the training loop without any lock | `registerCallback()` now acquires `metrics_mutex_`; callback copy + invocation inside the loop uses a lock-guarded snapshot | Eliminates callback pointer race |
+| W1-L02-DR-04 | `data_race` | `config_.target_modules` mutated inside `trainOnTheFly()` (Phi-3 detection branch) while external thread can call `getTrainingConfig()` | `trainOnTheFly()` takes a full `Config` snapshot under `config_mutex_` at entry and operates on `local_config`; shared `config_` is never mutated inside the training loop | Eliminates config mutation race |
+| W1-L02-DR-05 | `data_race` | `setTrainingConfig()` / `getTrainingConfig()` / `setHyperparameters()` / `getHyperparameters()` accessed `config_` without a lock | Added `config_mutex_` guards to all four methods | Consistent external config access |
+| W1-L02-DR-06 | `data_race` | `saveCheckpoint()` read `current_metrics_` and `loss_history_` without a lock | Snapshot taken under `metrics_mutex_` before file I/O | Consistent checkpoint state |
+| W1-L02-DR-07 | `data_race` | GPU `trainWithQuantization()` callback wrote to `impl_->current_metrics_` directly without a lock | Callback now acquires `metrics_mutex_` for the write and invokes the user callback outside the lock | Consistent GPU training metrics |
+| W1-L02-II-01 | `iterator_invalidation` | `loss_history_.push_back()` (training thread) raced with `saveCheckpoint()`'s vector copy; a concurrent reallocation could invalidate the checkpoint's iterator | Both the `push_back()` and the checkpoint copy are now guarded by `metrics_mutex_` | Eliminates concurrent vector reallocation hazard |
+| W1-L02-NT-01 | `no_timeout` | `stopTraining()` busy-polled with 100 ms sleeps; after the 30 s timeout it logged "stopped" even though `is_training_` was still `true` | Replaced spin-loop with `std::condition_variable::wait_for`; on timeout `is_training_` is force-cleared to prevent permanent stuck state | Efficient wait + reliable post-timeout cleanup |
+| W1-L02-NT-02 | `no_timeout` | `is_training_.store(false)` inside the training thread was not guaranteed to be visible to `stopTraining()`'s wait predicate without a fence | Store now happens under `stop_mutex_` (the same mutex the CV waits on), followed by `stop_cv_.notify_all()` | Correct happens-before relationship |
+
+**Focused tests added:** `ConcurrentGetMetricsIsRaceFree`, `StopTrainingClearsIsTraining`, `ConcurrentRegisterCallbackIsRaceFree`, `ConcurrentTrainCallsAreSerialised`
+
+---
 
 ### Addressed in this PR (v1.20.0 / v1.20.1)
 
