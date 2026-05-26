@@ -171,6 +171,10 @@ private:
     void doRead();
     void onRead(beast::error_code ec, std::size_t bytes_transferred);
     void onWrite(beast::error_code ec, std::size_t bytes_transferred);
+    void sendOnExecutor(std::string message);
+    void sendBinaryOnExecutor(std::vector<uint8_t> data);
+    void startWriteLocked();
+    void closeInternalErrorOnExecutor();
     void processMessage(const std::string& message);
     void processBinaryMessage(const std::vector<uint8_t>& data);
     void doClose();

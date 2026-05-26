@@ -397,6 +397,32 @@ void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
 }
 
 void WebSocketSession::send(const std::string& message) {
+    auto self = shared_from_this();
+    if (is_tls_) {
+        net::dispatch(ws_tls_->get_executor(), [self, message]() mutable {
+            self->sendOnExecutor(std::move(message));
+        });
+    } else {
+        net::dispatch(ws_plain_->get_executor(), [self, message]() mutable {
+            self->sendOnExecutor(std::move(message));
+        });
+    }
+}
+
+void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
+    auto self = shared_from_this();
+    if (is_tls_) {
+        net::dispatch(ws_tls_->get_executor(), [self, data]() mutable {
+            self->sendBinaryOnExecutor(std::move(data));
+        });
+    } else {
+        net::dispatch(ws_plain_->get_executor(), [self, data]() mutable {
+            self->sendBinaryOnExecutor(std::move(data));
+        });
+    }
+}
+
+void WebSocketSession::sendOnExecutor(std::string message) {
     bool close_now = false;
     {
         std::lock_guard<std::mutex> lock(write_mutex_);
@@ -414,49 +440,21 @@ void WebSocketSession::send(const std::string& message) {
             // If there is no in-flight write, onWrite will never run; close now.
             close_now = !writing_;
         } else {
-            write_queue_.push({message, /*is_binary=*/false});
+            write_queue_.push({std::move(message), /*is_binary=*/false});
             
             if (!writing_) {
                 writing_ = true;
-                
-                if (is_tls_) {
-                    ws_tls_->text(true);
-                    ws_tls_->async_write(
-                        net::buffer(write_queue_.front().data),
-                        beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-                    );
-                } else {
-                    ws_plain_->text(true);
-                    ws_plain_->async_write(
-                        net::buffer(write_queue_.front().data),
-                        beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-                    );
-                }
+                startWriteLocked();
             }
         }
     }
 
     if (close_now) {
-        auto self = shared_from_this();
-        if (is_tls_) {
-            net::dispatch(ws_tls_->get_executor(), [self]() {
-                beast::error_code close_ec;
-                self->ws_tls_->close(websocket::close_code::internal_error, close_ec);
-                std::lock_guard<std::mutex> lock(self->write_mutex_);
-                self->close_due_to_backpressure_ = false;
-            });
-        } else {
-            net::dispatch(ws_plain_->get_executor(), [self]() {
-                beast::error_code close_ec;
-                self->ws_plain_->close(websocket::close_code::internal_error, close_ec);
-                std::lock_guard<std::mutex> lock(self->write_mutex_);
-                self->close_due_to_backpressure_ = false;
-            });
-        }
+        closeInternalErrorOnExecutor();
     }
 }
 
-void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
+void WebSocketSession::sendBinaryOnExecutor(std::vector<uint8_t> data) {
     bool close_now = false;
     {
         std::lock_guard<std::mutex> lock(write_mutex_);
@@ -475,42 +473,47 @@ void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
             
             if (!writing_) {
                 writing_ = true;
-                
-                if (is_tls_) {
-                    ws_tls_->binary(true);
-                    ws_tls_->async_write(
-                        net::buffer(write_queue_.front().data),
-                        beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-                    );
-                } else {
-                    ws_plain_->binary(true);
-                    ws_plain_->async_write(
-                        net::buffer(write_queue_.front().data),
-                        beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-                    );
-                }
+                startWriteLocked();
             }
         }
     }
 
     if (close_now) {
-        auto self = shared_from_this();
-        if (is_tls_) {
-            net::dispatch(ws_tls_->get_executor(), [self]() {
-                beast::error_code close_ec;
-                self->ws_tls_->close(websocket::close_code::internal_error, close_ec);
-                std::lock_guard<std::mutex> lock(self->write_mutex_);
-                self->close_due_to_backpressure_ = false;
-            });
-        } else {
-            net::dispatch(ws_plain_->get_executor(), [self]() {
-                beast::error_code close_ec;
-                self->ws_plain_->close(websocket::close_code::internal_error, close_ec);
-                std::lock_guard<std::mutex> lock(self->write_mutex_);
-                self->close_due_to_backpressure_ = false;
-            });
-        }
+        closeInternalErrorOnExecutor();
     }
+}
+
+void WebSocketSession::startWriteLocked() {
+    if (write_queue_.empty()) {
+        return;
+    }
+
+    auto& front = write_queue_.front();
+    if (is_tls_) {
+        ws_tls_->text(!front.is_binary);
+        ws_tls_->async_write(
+            net::buffer(front.data),
+            beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
+        );
+    } else {
+        ws_plain_->text(!front.is_binary);
+        ws_plain_->async_write(
+            net::buffer(front.data),
+            beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
+        );
+    }
+}
+
+void WebSocketSession::closeInternalErrorOnExecutor() {
+    beast::error_code close_ec;
+    if (is_tls_) {
+        ws_tls_->close(websocket::close_code::internal_error, close_ec);
+    } else {
+        ws_plain_->close(websocket::close_code::internal_error, close_ec);
+    }
+
+    std::lock_guard<std::mutex> lock(write_mutex_);
+    close_due_to_backpressure_ = false;
 }
 
 void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferred) {
@@ -530,20 +533,7 @@ void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferr
     
     // Check if there are more messages to send
     if (!write_queue_.empty()) {
-        const auto& next = write_queue_.front();
-        if (is_tls_) {
-            ws_tls_->text(!next.is_binary);
-            ws_tls_->async_write(
-                net::buffer(next.data),
-                beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-            );
-        } else {
-            ws_plain_->text(!next.is_binary);
-            ws_plain_->async_write(
-                net::buffer(next.data),
-                beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
-            );
-        }
+        startWriteLocked();
     } else {
         writing_ = false;
 

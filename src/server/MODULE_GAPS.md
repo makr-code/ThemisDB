@@ -17,6 +17,19 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-19)
 
+- **W1-S05 (2026-05-26) – `src/server/websocket_session.cpp`, `include/server/websocket_session.h`**
+  - Executor-affinity hardening: public `send()` / `sendBinary()` now always
+    marshal onto the WebSocket stream executor via `net::dispatch(...)` before
+    touching Beast stream state. This removes cross-thread direct `async_write`
+    and `set text()/binary()` calls from external threads (manager/poller paths).
+  - Added private helpers (`sendOnExecutor`, `sendBinaryOnExecutor`,
+    `startWriteLocked`, `closeInternalErrorOnExecutor`) so write-queue mutation
+    and stream writes run on the same executor context.
+  - `onWrite()` now reuses `startWriteLocked()` for the next frame, keeping the
+    write-start logic single-source and reducing divergence risk.
+  - Gap delta intent: reduce async thread-affinity / data-race findings in
+    WebSocket write paths during the next server audit rescan.
+
 - **W1-S04 (2026-05-26) – `src/server/websocket_session.cpp`**
   - Back-pressure close robustness: `send()` / `sendBinary()` now detect the
     `queue full + !writing_` state and explicitly dispatch a 1011 close on the
