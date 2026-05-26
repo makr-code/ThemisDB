@@ -122,6 +122,15 @@ VoiceApiHandler::VoiceApiHandler(
     std::shared_ptr<themis::AuthMiddleware> auth)
     : voice_assistant_(std::move(voice_assistant)),
       auth_(std::move(auth)) {
+    // Precondition: voice_assistant must be non-null.  All handler methods
+    // directly call voice_assistant_->...  and provide no null fallback.
+    // Failing fast here surfaces the programming error at construction time
+    // rather than at the first request, which would produce a less informative
+    // crash deep inside a request handler.
+    if (!voice_assistant_) {
+        throw std::invalid_argument(
+            "VoiceApiHandler: voice_assistant must be a non-null shared_ptr");
+    }
     // Initialize HTTP client pool for downloading audio from URLs
     utils::HTTPClientPool::Config http_config;
     http_config.max_connections = 10;
@@ -1720,13 +1729,13 @@ http::response<http::string_body> VoiceApiHandler::handleHealth(
 bool VoiceApiHandler::validateBearerToken(
     const http::request<http::string_body>& req
 ) {
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return false;
     }
 
     const auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size()));
+        std::string_view(auth_header.data(), auth_header.size()));
     if (!token || token->empty()) {
         return false;
     }

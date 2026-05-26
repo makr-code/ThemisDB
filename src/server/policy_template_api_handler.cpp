@@ -219,15 +219,15 @@ bool PolicyTemplateApiHandler::checkAuth(
     }
     
     // Extract authorization header
-    auto auth_it = req.find(http::field::authorization);
-    if (auth_it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         THEMIS_WARN("Missing Authorization header for policy template endpoint");
         return false;
     }
     
     // Extract Bearer token
-    std::string auth_header(auth_it->value());
-    auto token = AuthMiddleware::extractBearerToken(auth_header);
+    std::string auth_str(auth_header.data(), auth_header.size());
+    auto token = AuthMiddleware::extractBearerToken(auth_str);
     
     if (!token) {
         THEMIS_WARN("Invalid Authorization header format for policy template endpoint");

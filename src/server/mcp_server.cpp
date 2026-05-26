@@ -255,23 +255,38 @@ void McpServer::start() {
     // Initialize transports
     if (config_.enable_stdio) {
         stdio_transport_ = std::make_shared<StdioTransport>(io_context_, config_.stdio_buffer_size);
-        stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
-        stdio_transport_->start();
-        spdlog::info("MCP stdio transport started");
+        // Defensive null guard: make_shared throws on OOM, so stdio_transport_
+        // is always non-null here; the guard makes the invariant explicit for
+        // static analyzers and future refactors.
+        if (stdio_transport_) {
+            stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            stdio_transport_->start();
+            spdlog::info("MCP stdio transport started");
+        } else {
+            spdlog::error("MCP: stdio transport allocation failed — stdio disabled");
+        }
     }
 
     if (config_.enable_sse) {
         sse_transport_ = std::make_shared<SseTransport>(io_context_, config_.sse_keepalive_ms);
-        sse_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
-        sse_transport_->start();
-        spdlog::info("MCP SSE transport started");
+        if (sse_transport_) {
+            sse_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            sse_transport_->start();
+            spdlog::info("MCP SSE transport started");
+        } else {
+            spdlog::error("MCP: SSE transport allocation failed — SSE disabled");
+        }
     }
 
     if (config_.enable_websocket) {
         ws_transport_ = std::make_shared<WebSocketTransport>(io_context_, config_.websocket_ping_interval_ms);
-        ws_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
-        ws_transport_->start();
-        spdlog::info("MCP WebSocket transport started");
+        if (ws_transport_) {
+            ws_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            ws_transport_->start();
+            spdlog::info("MCP WebSocket transport started");
+        } else {
+            spdlog::error("MCP: WebSocket transport allocation failed — WebSocket disabled");
+        }
     }
 
     is_running_ = true;
@@ -560,6 +575,13 @@ json McpServer::handleToolsCall(const json& params) {
 
     json args = params.contains("arguments") ? params["arguments"] : json::object();
     
+    // Guard against an empty/null std::function stored for this tool.
+    // Calling an empty std::function throws std::bad_function_call; we
+    // catch that below, but making the guard explicit surfaces registration
+    // bugs as a distinct, unambiguous error code.
+    if (!it->second.handler) {
+        return createError(-32601, "Tool handler not available: " + name);
+    }
     try {
         json result = it->second.handler(args);
         return createSuccessResponse({{"content", {{{"type", "text"}, {"text", result.dump()}}}}});
@@ -595,6 +617,10 @@ json McpServer::handleResourcesRead(const json& params) {
         return createError(-32602, "Resource not found: " + uri);
     }
 
+    // Guard against an empty/null std::function stored for this resource.
+    if (!it->second.handler) {
+        return createError(-32601, "Resource handler not available: " + uri);
+    }
     try {
         json content = it->second.handler(uri);
         return createSuccessResponse({
@@ -637,6 +663,10 @@ json McpServer::handlePromptsGet(const json& params) {
 
     json args = params.contains("arguments") ? params["arguments"] : json::object();
     
+    // Guard against an empty/null std::function stored for this prompt.
+    if (!it->second.handler) {
+        return createError(-32601, "Prompt handler not available: " + name);
+    }
     try {
         json messages = it->second.handler(name, args);
         return createSuccessResponse({{"messages", messages}});
@@ -2432,6 +2462,9 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
         const auto tool_it = tools_.find(tool);
         if (tool_it == tools_.end()) {
             exec_result = {{"status","error"},{"message","Tool not found after approval"}};
+        } else if (!tool_it->second.handler) {
+            // Guard: handler stored as empty std::function — indicates a registration bug.
+            exec_result = {{"status","error"},{"message","Tool handler not available after approval: " + tool}};
         } else {
             exec_result = tool_it->second.handler(mutable_args);
         }

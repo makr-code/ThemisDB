@@ -949,10 +949,10 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             // Extrahiere einfache FILTER-Pr�dikate auf v/e im Format: FILTER v.<field> == <literal|funktion> oder FILTER e.<field> == <literal|funktion>
             struct SimplePred {
                 enum class Op { Eq, Neq, Lt, Lte, Gt, Gte };
-                char var; // 'v' oder 'e'
+                char var = '\0'; // 'v' or 'e'
                 std::string field;
-                nlohmann::json literal; // als JSON-Literal
-                Op op;
+                nlohmann::json literal; // as JSON literal
+                Op op = Op::Eq;
             };
             // Unterst�tzte Funktionsauswertung zur Reduktion auf Literale
             std::function<bool(std::shared_ptr<themis::query::Expression>, nlohmann::json&)> evalExprToLiteral;
@@ -3405,8 +3405,8 @@ std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     }
     
     // Extract and validate token
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
         res.set(http::field::content_type, "application/json");
@@ -3417,7 +3417,7 @@ std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     }
     
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return makeErrorResponse(http::status::unauthorized, "Invalid Authorization header format", req);
@@ -3441,14 +3441,14 @@ QueryApiHandler::AuthContext QueryApiHandler::extractAuthContext(const http::req
     }
     
     // Extract Authorization header
-    auto it = req.find(http::field::authorization);
-    if (it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return ctx; // No token -> empty context
     }
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(it->value().data(), it->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -3540,9 +3540,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         http::request<http::string_body> aql_req{http::verb::post, "/query/aql", req.version()};
         aql_req.set(http::field::content_type, "application/json");
         // Forward Authorization header so auth is properly propagated
-        auto auth_it = req.find(http::field::authorization);
-        if (auth_it != req.end()) {
-            aql_req.set(http::field::authorization, auth_it->value());
+        const auto auth_fwd = req[http::field::authorization];
+        if (!auth_fwd.empty()) {
+            aql_req.set(http::field::authorization, auth_fwd);
         }
         json aql_body = {{"query", aql_query}};
         aql_req.body() = aql_body.dump();

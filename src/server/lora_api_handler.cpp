@@ -980,12 +980,12 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
 // ═══════════════════════════════════════════════════════════
 
 bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>& req) {
-    const auto auth_it = req.find(http::field::authorization);
-    if (auth_it == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return false;
     }
 
-    auto token = AuthMiddleware::extractBearerToken(auth_it->value());
+    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
     if (!token) {
         return false;
     }
