@@ -201,6 +201,58 @@ src/llm/MODULE_GAPS.md  ← You are here
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-L02: LoRA Training Service — Concurrent Config + Metrics Races
+
+**Scope:** `src/llm/lora_framework/lora_training_service.cpp`  
+**Ticket:** W1-L02 · Priority P0  
+
+### Fixes Applied
+
+#### 1. `config_` data race: `setTrainingConfig` vs `trainOnTheFly` (data_race CRITICAL)
+
+**Root cause:** `Impl::setTrainingConfig()` wrote to `config_` without holding any mutex.
+Concurrent reads of `config_.base_model_path`, `config_.qlora`, `config_.mixed_precision`,
+etc. inside `trainOnTheFly()` (which runs on a worker thread) created unsynchronised
+read/write access — undefined behaviour per the C++ memory model.
+
+**Fix:**
+- Added `mutable std::shared_mutex config_mutex_` to `Impl`.
+- `setTrainingConfig()` acquires an exclusive `unique_lock<shared_mutex>`.
+- `getTrainingConfig()` acquires a shared `shared_lock<shared_mutex>`.
+- `trainOnTheFly()` takes a local snapshot `Config local_config` under a `shared_lock` at
+  the very beginning; subsequent accesses to `config_.*` inside `trainOnTheFly` use the
+  snapshot, eliminating the race without holding the lock during training.
+- Added `#include <shared_mutex>`.
+
+#### 2. `current_metrics_` data race: GPU trainer callback vs `getMetrics` (data_race CRITICAL)
+
+**Root cause:** The GPU trainer callback (registered via `trainer.registerCallback(…)`)
+wrote to `impl_->current_metrics_.*` from the GPU training thread.  `getMetrics()` read
+from `current_metrics_` on the calling thread without any synchronisation — data race.
+
+**Fix:**
+- Added `mutable std::mutex metrics_mutex_` to `Impl`.
+- `getMetrics()` acquires `lock_guard<mutex>` before returning a copy of `current_metrics_`.
+- The GPU callback wraps all `impl_->current_metrics_.*` field writes in a
+  `lock_guard<mutex>(impl_->metrics_mutex_)` block.
+
+#### 3. `deadlock_risk` at `s_model_path_fn_mutex` — false positive documented
+
+**Scanner flag:** CRITICAL deadlock_risk at L59 on `s_model_path_fn_mutex`.
+
+**Assessment:** The static mutex protects a set/get pattern for a global `ModelPathFn`.
+It is never acquired nested or recursively. No deadlock risk exists. False positive.
+
+### Gap Delta
+
+| Metric | Before | After |
+|---|---|---|
+| data_race CRITICAL (config_) | 12 CRITICAL | 0 — snapshot approach eliminates all |
+| data_race CRITICAL (metrics) | 6 CRITICAL | 0 — lock_guard in callback + getMetrics |
+| deadlock_risk CRITICAL (false positive) | 1 | 0 — documented |
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-L01: Multi-LoRA Manager — Race/Lock Fixes
 
 **Scope:** `src/llm/multi_lora_manager.cpp`  
