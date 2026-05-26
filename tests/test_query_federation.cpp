@@ -61,6 +61,26 @@ public:
     int scatter_gather_call_count = 0;
 };
 
+class QueryResultShardRouter : public InstrumentedShardRouter {
+public:
+    using InstrumentedShardRouter::InstrumentedShardRouter;
+
+    nlohmann::json executeQuery(const std::string& /*query*/) override {
+        if (next_result_index_ >= queued_results_.size()) {
+            return nlohmann::json::array();
+        }
+        return queued_results_[next_result_index_++];
+    }
+
+    void queueResult(nlohmann::json result) {
+        queued_results_.push_back(std::move(result));
+    }
+
+private:
+    std::vector<nlohmann::json> queued_results_;
+    size_t next_result_index_ = 0;
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Test fixture: 3-shard cluster
 // ─────────────────────────────────────────────────────────────────────────────
@@ -145,6 +165,39 @@ TEST(QueryFederationJoinValidationTest, InvalidRightCollectionNameThrows) {
     EXPECT_THROW(
         federation.executeJoin("users", "orders FILTER 1==1", "user_id"),
         std::invalid_argument);
+}
+
+TEST(QueryFederationJoinValidationTest, EmptyJoinConditionThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    EXPECT_THROW(
+        federation.executeJoin("users", "orders", "   \t"),
+        std::invalid_argument);
+}
+
+TEST(QueryFederationJoinValidationTest, OversizedShuffleJoinInputThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<QueryResultShardRouter>(resolver);
+
+    QueryFederation::Config cfg;
+    cfg.max_result_size_bytes = 64;
+    cfg.broadcast_threshold_bytes = 1;
+
+    const std::string oversized_payload(128, 'x');
+    router->queueResult(nlohmann::json::array(
+        {nlohmann::json{{"user_id", "1"}, {"payload", oversized_payload}}}));
+
+    QueryFederation federation(router, cfg);
+
+    EXPECT_THROW(
+        federation.executeJoin("users", "orders", "user_id"),
+        std::runtime_error);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

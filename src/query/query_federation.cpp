@@ -53,6 +53,27 @@ namespace {
         }
         return true;
     }
+
+    void enforceJsonSizeLimit(const nlohmann::json& value,
+                              uint64_t max_bytes,
+                              std::string_view context) {
+        const auto estimated_bytes = static_cast<uint64_t>(value.dump().size());
+        if (estimated_bytes > max_bytes) {
+            throw std::runtime_error(
+                "QueryFederation: " + std::string(context) +
+                " exceeds max_result_size_bytes limit");
+        }
+    }
+
+    void enforceAccumulatedSizeLimit(uint64_t accumulated_bytes,
+                                     uint64_t max_bytes,
+                                     std::string_view context) {
+        if (accumulated_bytes > max_bytes) {
+            throw std::runtime_error(
+                "QueryFederation: " + std::string(context) +
+                " exceeds max_result_size_bytes limit");
+        }
+    }
 }
 
 namespace themis::query {
@@ -369,6 +390,10 @@ nlohmann::json QueryFederation::executeJoin(
         throw std::invalid_argument(
             "QueryFederation::executeJoin: right_collection must be a valid AQL identifier");
     }
+    if (join_condition.find_first_not_of(" \t\r\n") == std::string::npos) {
+        throw std::invalid_argument(
+            "QueryFederation::executeJoin: join_condition cannot be empty");
+    }
 
     spdlog::info("Executing cross-shard JOIN: {} ⋈ {} ON {}",
                  left_collection, right_collection, join_condition);
@@ -415,6 +440,12 @@ nlohmann::json QueryFederation::executeJoin(
             right_field = left_field;
         }
     }
+    if (left_field.empty() || right_field.empty()) {
+        throw std::invalid_argument(
+            "QueryFederation::executeJoin: join_condition must resolve to non-empty field names");
+    }
+
+    uint64_t estimated_result_bytes = 0;
 
     if (config_.enable_broadcast_join && 
         std::min(left_size, right_size) < config_.broadcast_threshold_bytes) {
@@ -434,6 +465,8 @@ nlohmann::json QueryFederation::executeJoin(
         // 1. Fetch small table completely.
         const nlohmann::json small_data =
             shard_router_->executeQuery("FOR doc IN " + small_table + " RETURN doc");
+        enforceJsonSizeLimit(
+            small_data, config_.max_result_size_bytes, "broadcast join build-side input");
 
         // Build hash table keyed by the join field from the small side.
         std::unordered_map<std::string, std::vector<nlohmann::json>> hash_table;
@@ -450,6 +483,8 @@ nlohmann::json QueryFederation::executeJoin(
         // 2. Fetch large table and probe the hash table.
         const nlohmann::json large_data =
             shard_router_->executeQuery("FOR doc IN " + large_table + " RETURN doc");
+        enforceJsonSizeLimit(
+            large_data, config_.max_result_size_bytes, "broadcast join probe-side input");
 
         result = nlohmann::json::array();
         if (large_data.is_array()) {
@@ -471,6 +506,11 @@ nlohmann::json QueryFederation::executeJoin(
                             (left_is_small ? right_collection : left_collection) + "_" + k;
                         if (!merged.contains(rk)) merged[rk] = v;
                     }
+                    estimated_result_bytes += static_cast<uint64_t>(merged.dump().size());
+                    enforceAccumulatedSizeLimit(
+                        estimated_result_bytes,
+                        config_.max_result_size_bytes,
+                        "broadcast join result");
                     result.push_back(std::move(merged));
                 }
             }
@@ -490,6 +530,10 @@ nlohmann::json QueryFederation::executeJoin(
             shard_router_->executeQuery("FOR doc IN " + left_collection + " RETURN doc");
         const nlohmann::json right_data =
             shard_router_->executeQuery("FOR doc IN " + right_collection + " RETURN doc");
+        enforceJsonSizeLimit(
+            left_data, config_.max_result_size_bytes, "shuffle join left-side input");
+        enforceJsonSizeLimit(
+            right_data, config_.max_result_size_bytes, "shuffle join right-side input");
 
         std::unordered_map<std::string, std::vector<nlohmann::json>> hash_table;
         if (left_data.is_array()) {
@@ -520,6 +564,11 @@ nlohmann::json QueryFederation::executeJoin(
                         const std::string rk = right_collection + "_" + k;
                         if (!merged.contains(rk)) merged[rk] = v;
                     }
+                    estimated_result_bytes += static_cast<uint64_t>(merged.dump().size());
+                    enforceAccumulatedSizeLimit(
+                        estimated_result_bytes,
+                        config_.max_result_size_bytes,
+                        "shuffle join result");
                     result.push_back(std::move(merged));
                 }
             }
