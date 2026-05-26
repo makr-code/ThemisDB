@@ -287,7 +287,12 @@ bool NCCLBackend::initialize_nccl() {
     
     // Set device
     Device device = ctx_.get_device(rank_);
-    cudaSetDevice(device.id);
+    cudaError_t set_device_err = cudaSetDevice(device.id);
+    if (set_device_err != cudaSuccess) {
+        spdlog::error("Failed to set CUDA device {} for NCCL rank {}: {}",
+                      device.id, rank_, cudaGetErrorString(set_device_err));
+        return false;
+    }
     
     // Create CUDA stream
     cudaStream_t stream;

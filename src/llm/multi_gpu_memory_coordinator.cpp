@@ -66,7 +66,12 @@ bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
             continue;
         }
         
-        cudaSetDevice(gpu_id);
+        cudaError_t set_device_err = cudaSetDevice(gpu_id);
+        if (set_device_err != cudaSuccess) {
+            spdlog::warn("Failed to set CUDA device {} during coordinator initialization: {}",
+                         gpu_id, cudaGetErrorString(set_device_err));
+            continue;
+        }
         
         GPUDevice device;
         device.device_id = gpu_id;
@@ -121,7 +126,12 @@ bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
             continue;
         }
         
-        hipSetDevice(gpu_id);
+        hipError_t set_device_err = hipSetDevice(gpu_id);
+        if (set_device_err != hipSuccess) {
+            spdlog::warn("Failed to set HIP device {} during coordinator initialization: {}",
+                         gpu_id, hipGetErrorString(set_device_err));
+            continue;
+        }
         
         GPUDevice device;
         device.device_id = gpu_id;
@@ -345,7 +355,13 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
             
             // Enable P2P in both directions
             if (can_access_forward) {
-                cudaSetDevice(src_gpu);
+                cudaError_t set_device_err = cudaSetDevice(src_gpu);
+                if (set_device_err != cudaSuccess) {
+                    spdlog::warn("  Failed to set CUDA device {} before enabling P2P to {}: {}",
+                                 src_gpu, dst_gpu, cudaGetErrorString(set_device_err));
+                    fail_count++;
+                    continue;
+                }
                 cudaError_t p2p_err = cudaDeviceEnablePeerAccess(dst_gpu, 0);
                 if (p2p_err == cudaSuccess || p2p_err == cudaErrorPeerAccessAlreadyEnabled) {
                     spdlog::info("  P2P enabled: GPU {} -> GPU {}", src_gpu, dst_gpu);
@@ -361,7 +377,13 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
             }
             
             if (can_access_backward) {
-                cudaSetDevice(dst_gpu);
+                cudaError_t set_device_err = cudaSetDevice(dst_gpu);
+                if (set_device_err != cudaSuccess) {
+                    spdlog::warn("  Failed to set CUDA device {} before enabling P2P to {}: {}",
+                                 dst_gpu, src_gpu, cudaGetErrorString(set_device_err));
+                    fail_count++;
+                    continue;
+                }
                 cudaError_t p2p_err = cudaDeviceEnablePeerAccess(src_gpu, 0);
                 if (p2p_err == cudaSuccess || p2p_err == cudaErrorPeerAccessAlreadyEnabled) {
                     spdlog::info("  P2P enabled: GPU {} -> GPU {}", dst_gpu, src_gpu);
@@ -408,7 +430,13 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
             
             // Enable P2P in both directions
             if (can_access_forward) {
-                hipSetDevice(src_gpu);
+                hipError_t set_device_err = hipSetDevice(src_gpu);
+                if (set_device_err != hipSuccess) {
+                    spdlog::warn("  Failed to set HIP device {} before enabling P2P to {}: {}",
+                                 src_gpu, dst_gpu, hipGetErrorString(set_device_err));
+                    fail_count++;
+                    continue;
+                }
                 hipError_t p2p_err = hipDeviceEnablePeerAccess(dst_gpu, 0);
                 if (p2p_err == hipSuccess || p2p_err == hipErrorPeerAccessAlreadyEnabled) {
                     spdlog::info("  P2P enabled: GPU {} -> GPU {}", src_gpu, dst_gpu);
@@ -418,10 +446,19 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
                                  src_gpu, dst_gpu, hipGetErrorString(p2p_err));
                     fail_count++;
                 }
+            } else {
+                spdlog::warn("  P2P not supported: GPU {} -> GPU {}", src_gpu, dst_gpu);
+                fail_count++;
             }
             
             if (can_access_backward) {
-                hipSetDevice(dst_gpu);
+                hipError_t set_device_err = hipSetDevice(dst_gpu);
+                if (set_device_err != hipSuccess) {
+                    spdlog::warn("  Failed to set HIP device {} before enabling P2P to {}: {}",
+                                 dst_gpu, src_gpu, hipGetErrorString(set_device_err));
+                    fail_count++;
+                    continue;
+                }
                 hipError_t p2p_err = hipDeviceEnablePeerAccess(src_gpu, 0);
                 if (p2p_err == hipSuccess || p2p_err == hipErrorPeerAccessAlreadyEnabled) {
                     spdlog::info("  P2P enabled: GPU {} -> GPU {}", dst_gpu, src_gpu);
@@ -429,6 +466,9 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
                 } else {
                     spdlog::warn("  Failed to enable P2P: GPU {} -> GPU {} - {}", 
                                  dst_gpu, src_gpu, hipGetErrorString(p2p_err));
+                    fail_count++;
+                } else {
+                    spdlog::warn("  P2P not supported: GPU {} -> GPU {}", dst_gpu, src_gpu);
                     fail_count++;
                 }
             }
@@ -565,7 +605,12 @@ void MultiGPUMemoryCoordinator::synchronizeAll() {
 #ifdef THEMIS_ENABLE_CUDA
     // Synchronize all GPUs
     for (const auto& gpu : impl_->gpus_) {
-        cudaSetDevice(gpu.device_id);
+        cudaError_t set_device_err = cudaSetDevice(gpu.device_id);
+        if (set_device_err != cudaSuccess) {
+            spdlog::warn("Failed to set CUDA device {} before synchronize - {}",
+                         gpu.device_id, cudaGetErrorString(set_device_err));
+            continue;
+        }
         cudaError_t err = cudaDeviceSynchronize();
         if (err != cudaSuccess) {
             spdlog::warn("Failed to synchronize GPU {} - {}", 
@@ -576,7 +621,12 @@ void MultiGPUMemoryCoordinator::synchronizeAll() {
 #elif defined(THEMIS_ENABLE_HIP)
     // Synchronize all GPUs
     for (const auto& gpu : impl_->gpus_) {
-        hipSetDevice(gpu.device_id);
+        hipError_t set_device_err = hipSetDevice(gpu.device_id);
+        if (set_device_err != hipSuccess) {
+            spdlog::warn("Failed to set HIP device {} before synchronize - {}",
+                         gpu.device_id, hipGetErrorString(set_device_err));
+            continue;
+        }
         hipError_t err = hipDeviceSynchronize();
         if (err != hipSuccess) {
             spdlog::warn("Failed to synchronize GPU {} - {}", 
@@ -601,4 +651,3 @@ MultiGPUMemoryCoordinator::getHealthStatus() const {
 
 } // namespace llm
 } // namespace themis
-

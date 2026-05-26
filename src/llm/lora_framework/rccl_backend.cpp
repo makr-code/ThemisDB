@@ -287,7 +287,12 @@ bool RCCLBackend::initialize_rccl() {
     
     // Set device
     Device device = ctx_.get_device(rank_);
-    hipSetDevice(device.id);
+    hipError_t set_device_err = hipSetDevice(device.id);
+    if (set_device_err != hipSuccess) {
+        spdlog::error("Failed to set HIP device {} for RCCL rank {}: {}",
+                      device.id, rank_, hipGetErrorString(set_device_err));
+        return false;
+    }
     
     // Create HIP stream
     hipStream_t stream;

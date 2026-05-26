@@ -206,6 +206,18 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-65: `gpu_memory_manager.cpp` `GPUMemoryManager::defragmentModelGPU()` now checks `cudaSetDevice()` before consolidated allocation and skips safely on failure.
 - REL-66: `gpu_memory_manager.cpp` `GPUMemoryManager::defragmentModelGPU()` now checks `cudaMemcpy()` in copy loop and validates cleanup `cudaFree()` when copy fails.
 
+**Status (W1-L11):** REL-67..REL-76 fixed —
+- REL-67: `nccl_backend.cpp` `NCCLBackend::initialize_nccl()` now checks `cudaSetDevice()` and aborts initialization on failure.
+- REL-68: `rccl_backend.cpp` `RCCLBackend::initialize_rccl()` now checks `hipSetDevice()` and aborts initialization on failure.
+- REL-69: `multi_gpu_memory_coordinator.cpp` `initialize()` now checks `cudaSetDevice()` per requested GPU and skips invalid setup attempts.
+- REL-70: `multi_gpu_memory_coordinator.cpp` `initialize()` now checks `hipSetDevice()` per requested GPU and skips invalid setup attempts.
+- REL-71: `multi_gpu_memory_coordinator.cpp` `enableP2P()` now checks `cudaSetDevice()` before forward peer-access enable.
+- REL-72: `multi_gpu_memory_coordinator.cpp` `enableP2P()` now checks `cudaSetDevice()` before backward peer-access enable.
+- REL-73: `multi_gpu_memory_coordinator.cpp` `enableP2P()` now checks `hipSetDevice()` before forward peer-access enable.
+- REL-74: `multi_gpu_memory_coordinator.cpp` `enableP2P()` now checks `hipSetDevice()` before backward peer-access enable.
+- REL-75: `multi_gpu_memory_coordinator.cpp` `synchronizeAll()` now checks `cudaSetDevice()` before `cudaDeviceSynchronize()`.
+- REL-76: `multi_gpu_memory_coordinator.cpp` `synchronizeAll()` now checks `hipSetDevice()` before `hipDeviceSynchronize()`.
+
 ---
 
 ## 📋 Implementation Priority
