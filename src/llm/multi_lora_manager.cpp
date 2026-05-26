@@ -997,10 +997,29 @@ size_t MultiLoRAManager::evictLRU(size_t /*target_vram_mb*/) {
     
     // FIND-015: Use named constant for byte to MB conversion
     size_t freed_vram = lru_lora->vram_bytes / BYTES_PER_MB;
-    
+
     spdlog::info("Evicting LRU LoRA: {} (freed {} MB VRAM)", lru_id, freed_vram);
-    
-    total_vram_bytes_ -= lru_lora->vram_bytes;
+
+    // W1-L01b underflow guard: total_vram_bytes_ is a size_t; unguarded
+    // subtraction wraps to UINT64_MAX if accounting is ever skewed.
+    if (total_vram_bytes_ >= lru_lora->vram_bytes) {
+        total_vram_bytes_ -= lru_lora->vram_bytes;
+    } else {
+        total_vram_bytes_ = 0;  // underflow guard
+    }
+
+    // Also correct per-GPU accounting for the evicted LoRA's primary GPU.
+    if (lru_lora->primary_gpu >= 0) {
+        auto gpu_it = gpu_vram_usage_.find(lru_lora->primary_gpu);
+        if (gpu_it != gpu_vram_usage_.end()) {
+            if (gpu_it->second >= lru_lora->vram_bytes) {
+                gpu_it->second -= lru_lora->vram_bytes;
+            } else {
+                gpu_it->second = 0;  // underflow guard
+            }
+        }
+    }
+
     evictions_++;
     
     loras_.erase(lru_id);
