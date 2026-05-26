@@ -752,6 +752,14 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
             }
         }
     }
+    // SQL-style fallback: FROM <collection>
+    if (metadata.tables.empty()) {
+        std::regex re_from(R"(\bFROM\s+(\w+))", std::regex::icase);
+        std::smatch m_from;
+        if (std::regex_search(query, m_from, re_from) && m_from.size() > 1) {
+            push_unique(metadata.tables, m_from[1].str());
+        }
+    }
 
     // ---- Predicate / aggregation extraction ------------------------------------
     if (query_upper.find("COLLECT") != std::string::npos ||
@@ -762,7 +770,26 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
 
     // ── Joins ─────────────────────────────────────────────────────────────────
     if (query_upper.find("JOIN") != std::string::npos) {
-        metadata.joins.push_back("join_present");
+        std::regex re_join_table(R"(\bJOIN\s+(\w+))", std::regex::icase);
+        std::smatch m_join_table;
+        if (std::regex_search(query, m_join_table, re_join_table) &&
+            m_join_table.size() > 1) {
+            push_unique(metadata.tables, m_join_table[1].str());
+        }
+
+        std::regex re_join_on(
+            R"(\bON\s+([A-Za-z_][A-Za-z0-9_\.]*)\s*(?:==|=)\s*([A-Za-z_][A-Za-z0-9_\.]*))",
+            std::regex::icase);
+        std::smatch m_join_on;
+        if (std::regex_search(query, m_join_on, re_join_on) && m_join_on.size() > 2) {
+            push_unique(
+                metadata.joins,
+                m_join_on[1].str() + " = " + m_join_on[2].str());
+        } else {
+            spdlog::warn(
+                "QueryFederation: JOIN detected without parseable ON condition; "
+                "falling back from JOIN strategy");
+        }
     }
 
     // ── LIMIT ────────────────────────────────────────────────────────────────

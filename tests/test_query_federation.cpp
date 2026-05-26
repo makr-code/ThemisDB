@@ -196,6 +196,42 @@ TEST(QueryFederationJoinValidationTest, EmptyJoinConditionThrows) {
         std::invalid_argument);
 }
 
+TEST(QueryFederationPlanningTest, JoinWithoutOnFallsBackToScatterGather) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    const auto plan = federation.createExecutionPlan(
+        "SELECT * FROM users JOIN orders");
+
+    EXPECT_EQ(plan.strategy, QueryFederation::ExecutionPlan::Strategy::SCATTER_GATHER);
+}
+
+TEST(QueryFederationExecutionTest, SqlJoinWithOnConditionProducesJoinedRows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<QueryResultShardRouter>(resolver);
+
+    router->queueResult(nlohmann::json::array({
+        nlohmann::json{{"user_id", "u1"}, {"name", "alice"}}
+    }));
+    router->queueResult(nlohmann::json::array({
+        nlohmann::json{{"user_id", "u1"}, {"order_id", "o1"}}
+    }));
+
+    QueryFederation federation(router);
+    const auto result = federation.execute(
+        "SELECT * FROM users JOIN orders ON users.user_id = orders.user_id");
+
+    ASSERT_TRUE(result.is_array());
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0]["users_user_id"], "u1");
+    EXPECT_EQ(result[0]["orders_order_id"], "o1");
+}
+
 TEST(QueryFederationJoinValidationTest, OversizedShuffleJoinInputThrows) {
     auto topology = std::make_shared<ShardTopology>();
     auto ring     = std::make_shared<ConsistentHashRing>();
