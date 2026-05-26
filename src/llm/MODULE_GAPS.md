@@ -201,6 +201,44 @@ src/llm/MODULE_GAPS.md  ← You are here
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-L06: Multi-GPU Coordinator + VRAM Allocator — Runtime Reliability Checks
+
+**Scope:** `src/llm/multi_gpu_memory_coordinator.cpp`, `src/llm/lora_framework/vram_allocator.cpp`  
+**Ticket:** W1-L06 · Priority P1
+
+### Fixes Applied
+
+#### 1. `multi_gpu_memory_coordinator.cpp` — unchecked `cudaSetDevice`/`hipSetDevice` in device init loop (REL-41..42)
+
+**Root cause:** During GPU discovery/initialization, `cudaSetDevice(gpu_id)` and `hipSetDevice(gpu_id)`
+were called without checking return values before subsequent memory/property queries.
+
+**Fix:**
+- Added checked `set_device_err` handling for both CUDA and HIP init loops.
+- On failure, logs warning and skips the problematic GPU safely.
+- Zero-initialized HIP device properties (`hipDeviceProp_t prop{}`) before query.
+
+#### 2. `multi_gpu_memory_coordinator.cpp` — unchecked set-device in `enableP2P()` and `synchronizeAll()` (REL-43..46)
+
+**Root cause:** P2P enablement and multi-GPU synchronization switched active devices via
+`cudaSetDevice`/`hipSetDevice` without validating success.
+
+**Fix:**
+- Added explicit return-value checks for all set-device calls in CUDA/HIP P2P enablement paths.
+- Added explicit return-value checks for all set-device calls in `synchronizeAll()`.
+- On failure, logs warning, increments failure counters (P2P path), and continues safely.
+
+#### 3. `vram_allocator.cpp` — unchecked `cudaFree`/`hipFree` in backend release path (REL-47..48)
+
+**Root cause:** `VRAMAllocator::release_backend_ptr_()` called `cudaFree` / `hipFree` without checking
+return values in secure-clear cleanup path.
+
+**Fix:**
+- Wrapped CUDA/HIP free calls with result checks and warning logs on failure.
+- Cleanup remains noexcept and best-effort, but now surfaces backend release failures.
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-L05: GPU Memory + Multi-GPU — Unchecked Runtime API Calls
 
 **Scope:** `src/llm/lora_framework/gpu_memory.cpp`, `src/llm/lora_framework/multi_gpu.cpp`, `src/llm/lora_framework/custom_allreduce.cpp`  
