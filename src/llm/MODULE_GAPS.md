@@ -70,6 +70,9 @@ Security-sensitive input validation gaps found by static analysis:
 | W1-L01d-ND-04 | `null_dereference` | `~MultiLoRAManager` cleanup loop still used unchecked `size_t` decrement for `total_vram_bytes_` and did not decrement `gpu_vram_usage_[primary_gpu]`. Fixed by underflow-guarded decrements for both totals and per-GPU usage. | `multi_lora_manager.cpp` |
 | W1-L01d-REL-02 | `reliability` | `balanceGPULoad` could divide by zero when `gpu_vram_usage_` was empty; `selectGPUForLoRA` MODEL_PARALLEL free-space math (`max_vram - usage`) could underflow. Fixed by early-empty return and saturating free-space calculations. | `multi_lora_manager.cpp` |
 | W1-L01d-REL-03 | `reliability` | Multi-GPU capacity checks in `balanceGPULoad`, `selectGPUForLoRA`, and `checkGPUHealthAndMigrate` used `usage + need <= max`, which can overflow on skewed counters. Fixed by rewriting to subtraction-safe form: `need <= max && usage <= max - need`. | `multi_lora_manager.cpp` |
+| W1-L01e-ND-05 | `null_dereference` | `batchInferenceMultiLoRA`: `llama_model_get_vocab()` result was used without null-check and `llama_vocab_n_tokens()` result was assumed positive. Fixed by fail-closed checks that return per-request error responses when vocab retrieval/size is invalid. | `multi_lora_manager.cpp` |
+| W1-L01e-ND-06 | `null_dereference` | `batchInferenceMultiLoRA`: `llama_get_logits_ith()` return pointer was dereferenced (`logits[0]`) without null-check. Fixed by null-guard and structured error response when logits access fails. | `multi_lora_manager.cpp` |
+| W1-L01e-DR-07 | `data_race` | `batchInferenceMultiLoRA`: trailing usage-stat update referenced mutable LoRA state without synchronization (and via stale pointer variable). Fixed by re-looking up under `mutex_` and updating `last_used`/`use_count` inside lock scope. | `multi_lora_manager.cpp` |
 
 ### Previously addressed (v1.20.0 / v1.20.1)
 

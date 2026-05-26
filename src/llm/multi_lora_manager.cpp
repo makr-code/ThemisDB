@@ -602,9 +602,27 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     }
 
     const struct llama_vocab* vocab = llama_model_get_vocab(lmodel);
+    if (!vocab) {
+        spdlog::error("batchInferenceMultiLoRA: llama_model_get_vocab returned null");
+        std::vector<InferenceResponse> error_responses(requests.size());
+        for (auto& r : error_responses) {
+            r.success = false;
+            r.error_message = "llama_model_get_vocab failed";
+        }
+        return error_responses;
+    }
     const int32_t n_vocab    = llama_vocab_n_tokens(vocab);
     const int32_t eos_token  = llama_vocab_eos(vocab);
     const int32_t ctx_size   = static_cast<int32_t>(llama_n_ctx(model_context));
+    if (n_vocab <= 0) {
+        spdlog::error("batchInferenceMultiLoRA: invalid vocab size {}", n_vocab);
+        std::vector<InferenceResponse> error_responses(requests.size());
+        for (auto& r : error_responses) {
+            r.success = false;
+            r.error_message = "invalid vocabulary size";
+        }
+        return error_responses;
+    }
 
     // Prepare responses vector in request order
     std::vector<InferenceResponse> responses(requests.size());
@@ -717,6 +735,11 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             for (int tok_idx = 0; tok_idx < max_new_tokens; ++tok_idx) {
                 // Greedy sampling: argmax over vocabulary logits
                 float* logits = llama_get_logits_ith(model_context, -1);
+                if (!logits) {
+                    response.success = false;
+                    response.error_message = "llama_get_logits_ith returned null";
+                    break;
+                }
                 int32_t next_token = 0;
                 float   best_logit = logits[0];
                 for (int32_t v = 1; v < n_vocab; ++v) {
@@ -772,8 +795,14 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             removeLoRA(lora_id, model_context);
 
         // Update usage statistics
-        lora->last_used = std::chrono::system_clock::now();
-        lora->use_count += indices.size();
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            auto it = loras_.find(lora_id);
+            if (it != loras_.end()) {
+                it->second->last_used = std::chrono::system_clock::now();
+                it->second->use_count += indices.size();
+            }
+        }
     }
 
     spdlog::info("Multi-LoRA batch inference completed: {} responses", responses.size());
