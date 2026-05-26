@@ -470,9 +470,13 @@ void VulkanComputePipeline::dispatch(uint32_t group_x, uint32_t group_y, uint32_
     }
 }
 
-void VulkanComputePipeline::wait() {
+void VulkanComputePipeline::wait(uint64_t timeout_ns) {
     if (fence_ != VK_NULL_HANDLE) {
-        context_->wait_for_fence(fence_);
+        if (!context_->wait_for_fence(fence_, timeout_ns)) {
+            throw std::runtime_error(
+                "VulkanComputePipeline::wait(): GPU fence timed out or Vulkan error — "
+                "possible GPU hang or device lost");
+        }
     }
 }
 

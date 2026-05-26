@@ -96,9 +96,13 @@ public:
     void dispatch(uint32_t group_x, uint32_t group_y = 1, uint32_t group_z = 1);
     
     /**
-     * @brief Wait for pipeline execution to complete
+     * @brief Wait for pipeline execution to complete.
+     * @param timeout_ns Maximum time to wait in nanoseconds.
+     *   Defaults to 30 s, which is a safe upper bound for a single compute kernel.
+     *   Pass `UINT64_MAX` to wait indefinitely (discouraged — risks deadlock on GPU hang).
+     * @throws std::runtime_error if the fence wait times out or Vulkan reports an error.
      */
-    void wait();
+    void wait(uint64_t timeout_ns = 30'000'000'000ULL);
     
     /**
      * @brief Check if pipeline is ready

@@ -201,6 +201,27 @@ src/llm/MODULE_GAPS.md  ← You are here
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-L03: Vulkan/DirectX Kernel — Timeout + Null Guards
+
+**Scope:** `include/llm/lora_framework/vulkan_pipeline.h`, `src/llm/lora_framework/vulkan_pipeline.cpp`, `src/llm/lora_framework/kernels/directx_kernels.cpp`  
+**Ticket:** W1-L03 · Priority P0  
+
+### Fixes Applied
+
+#### 1. Vulkan `pipeline->wait()` — no_timeout CRITICAL (11 sites)
+
+**Root cause:** `VulkanComputePipeline::wait()` called `context_->wait_for_fence(fence_)` with the default `UINT64_MAX` timeout — infinite wait. A GPU hang or device loss would deadlock the calling thread forever.
+
+**Fix:** Added `timeout_ns` parameter (default 30 s) to `VulkanComputePipeline::wait()`. The implementation now throws `std::runtime_error` if the fence wait returns false (timeout or Vulkan error), allowing callers to recover. All 11+ call sites in `vulkan_kernels.cpp` now use the 30-second default.
+
+#### 2. DirectX `g_directx_state.descriptors->` — null_dereference HIGH (14 sites)
+
+**Root cause:** Scanner could not prove that `g_directx_state.initialized == true` implies `g_directx_state.descriptors != nullptr`. All 7 `descriptors->reset()` call sites were flagged.
+
+**Fix:** Added an explicit null guard before every `descriptors->reset()` call (7 sites). The guard throws a `std::runtime_error` if the descriptors pointer is null, making the invariant explicit to both the scanner and future maintainers.
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-L02: LoRA Training Service — Concurrent Config + Metrics Races
 
 **Scope:** `src/llm/lora_framework/lora_training_service.cpp`  
