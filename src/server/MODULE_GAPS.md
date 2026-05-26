@@ -15,7 +15,99 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
-## ✅ Recent Remediation (2026-05-26) — W1-S02: Concurrency Hotspots
+## ✅ Recent Remediation (2026-05-26) — W1-S03: Null/Pointer-Guard Standardisation
+
+**Scope:** `src/server/mcp_server.cpp`, `src/server/voice_api_handler.cpp`,
+           `include/server/voice_api_handler.h`  
+**Ticket:** W1-S03 · Priority P1  
+
+### Fixes Applied
+
+#### 1. Null `std::function` guard — MCP tool/resource/prompt dispatch (null_dereference / CWE-476)
+
+**Root cause:** `McpServer::handleToolsCall()`, `McpServer::handleResourcesRead()`, and
+`McpServer::handlePromptsGet()` dispatched through `it->second.handler(…)` without first
+checking whether the stored `std::function` was non-empty. A default-constructed or
+explicitly-emptied handler would cause `std::bad_function_call` (silently caught by the
+outer `catch` block, but producing an opaque `-32000 Tool execution failed` JSON-RPC error
+rather than the more informative `-32601 handler not available` error). The same risk
+existed in the post-approval re-dispatch path (`McpServer::handleAiApprove()`).
+
+**Fix:**
+
+```cpp
+// Before each handler call:
+if (!it->second.handler) {
+    return createError(-32601, "Tool handler not available: " + name);
+}
+```
+
+Applies to:
+- `handleToolsCall()` — `ToolHandler`
+- `handleResourcesRead()` — `ResourceHandler`
+- `handlePromptsGet()` — `PromptHandler`
+- `handleAiApprove()` post-approval re-dispatch — `ToolHandler`
+
+#### 2. Defensive null guard — MCP transport pointer usage (null_dereference / CWE-476)
+
+**Root cause:** `McpServer::start()` created transport objects with `std::make_shared` and
+immediately called methods on the result without an explicit null check. `std::make_shared`
+never returns `nullptr` (it throws `std::bad_alloc` on OOM), so the practical risk was
+zero, but the pattern was flagged by the static analyser and the invariant was not explicit.
+
+**Fix:** Added explicit `if (transport_ptr_)` guards after each `make_shared` call.
+Includes an `spdlog::error` fallback path documenting the unreachable branch.
+
+#### 3. Constructor null guard — `VoiceApiHandler::voice_assistant_` (null_dereference / CWE-476)
+
+**Root cause:** `VoiceApiHandler` stores `voice_assistant_` as a `shared_ptr` taken from the
+caller. All handler methods (handleSynthesize, handleVoiceCommand, handleStreamCommand,
+handleWakeWordDetect, handleRecordCall, handleGenerateProtocol, handleGetSession,
+handleUpdateSessionContext, handleDeleteSession, handleGetVoices, handleCreateMacro,
+handleListMacros, handleGetMacro, handleUpdateMacro, handleDeleteMacro, handleListRecordings,
+handleGetRecording, handleSearchTranscripts, handleStats, handleAuthEnroll, handleAuthVerify,
+handleAuthAuthenticate, handleAuthIdentify, handleAuthListProfiles, handleAuthDeleteProfile)
+all dereference `voice_assistant_` without a null check. Passing `nullptr` to the constructor
+would cause a hard crash on the first request to any of these endpoints.
+
+**Fix:**
+
+```cpp
+// In constructor body, immediately after member initialisation:
+if (!voice_assistant_) {
+    throw std::invalid_argument(
+        "VoiceApiHandler: voice_assistant must be a non-null shared_ptr");
+}
+```
+
+Failing fast at construction time surfaces the programming error at the call site rather
+than producing a segfault deep inside a request handler. Matching `@throws` Doxygen
+annotation added to the header declaration.
+
+### Gap Delta (estimated, mcp_server.cpp + voice_api_handler.cpp)
+
+| Type | Before | After |
+|---|---|---|
+| null_dereference (HIGH) | 7 (mcp) + 7 (voice) = 14 | 7 mcp → 0 real; voice guarded at ctor |
+| pointer_arithmetic (HIGH) | 16 (mcp) + 25 (voice) = 41 | Structural false-positives documented; real risks guarded |
+
+### Remaining False Positives (documented, not fixed)
+
+The scanner flags the following patterns as `null_dereference` or `pointer_arithmetic`
+even though they are correctly guarded:
+
+- `(*body)["options"]`, `(*body)["custom_fields"]` in voice_api_handler.cpp — all preceded
+  by `body->contains(…)` guard; `body` is `std::optional<json>` not a raw pointer.
+- `db_->isOpen()` in mcp_server.cpp at L1544/1556/1565 — all inside blocks already guarded
+  by `if (!db_ || !db_->isOpen())` at function entry.
+- Range-for structured bindings on `clients_` and `sessions_` maps in mcp_server.cpp — these
+  are value accesses on unordered_map, not unsafe pointer arithmetic.
+- `result.metadata.*` field accesses in toolLLMComplete at L1720–1725 — value-type struct
+  member access, not pointer dereference.
+
+---
+
+
 
 **Scope:** `src/server/http_server.cpp`, `include/server/http_server.h`  
 **Ticket:** W1-S02 · Priority P0  
