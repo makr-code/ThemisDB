@@ -369,6 +369,20 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 - `lora_framework/kernels/hip_fused_kernels.cpp` — `(int)(rank - tile_start)` replaced with
   `static_cast<int>(rank - tile_start)` in tiled forward kernel
 
+**Status (v1.22.0-pre — W1-L04 null_dereference batch):** Null-pointer guards added to all
+`llama_get_logits_ith` call sites that lacked an explicit check:
+- `llama_wrapper.cpp` main generation loop (line ~1079) — `if (!logits) break` added before
+  `sampleTokenInternal` and `getProbability` calls.
+- `llama_wrapper.cpp` speculative draft loop (~2272) — `if (!draft_logits) break` added before
+  `sampleTokenInternal` call.
+- `llama_wrapper.cpp` speculative validation loop (~2306) — `if (!target_logits) break` added
+  before `getProbability(target_logits, ...)` call (most critical: direct null deref without guard).
+- `llama_wrapper.cpp` embedding generation path (~2516) — `if (!logits) break` added.
+
+**Status (v1.22.0-pre — W1-L05 pointer_arithmetic batch):** Out-of-bounds array access fixed:
+- `aql_train_parser.cpp` TRAIN OUTPUT clause parsing (~line 715) — `tokenize(output_clause)[0]`
+  replaced with a local `output_tokens` vector + empty-check guard before index 0 is accessed.
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)
