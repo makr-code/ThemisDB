@@ -341,7 +341,12 @@ void FlashAttentionCUDA::allocateWorkspace() {
 
 void FlashAttentionCUDA::freeWorkspace() {
     if (d_workspace_) {
-        cudaFree(d_workspace_);
+        // REL-67: check cudaFree return value in freeWorkspace
+        cudaError_t free_err = cudaFree(d_workspace_);
+        if (free_err != cudaSuccess) {
+            spdlog::warn("FlashAttentionCUDA::freeWorkspace: cudaFree failed: {}",
+                         cudaGetErrorString(free_err));
+        }
         d_workspace_ = nullptr;
     }
 }

@@ -942,7 +942,12 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
                 offset += alloc.vram_bytes;
             }
             if (!copy_ok) {
-                cudaFree(new_ptr);
+                // REL-66: check cudaFree return value in defragment cleanup path
+                cudaError_t free_err = cudaFree(new_ptr);
+                if (free_err != cudaSuccess) {
+                    spdlog::warn("Defrag: cudaFree of scratch buffer failed: {}",
+                                 cudaGetErrorString(free_err));
+                }
                 continue;
             }
         } else {

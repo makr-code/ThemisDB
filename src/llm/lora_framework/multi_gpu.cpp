@@ -163,7 +163,12 @@ void MultiGPUContext::synchronize_all() const {
                              device.device_id, cudaGetErrorString(set_err));
                 continue;
             }
-            cudaDeviceSynchronize();
+            // REL-62: check cudaDeviceSynchronize return value
+            cudaError_t sync_err = cudaDeviceSynchronize();
+            if (sync_err != cudaSuccess) {
+                spdlog::warn("MultiGPUContext::synchronize_all: cudaDeviceSynchronize({}) failed: {}",
+                             device.device_id, cudaGetErrorString(sync_err));
+            }
         }
 #endif
 #ifdef THEMIS_ENABLE_HIP
@@ -175,7 +180,12 @@ void MultiGPUContext::synchronize_all() const {
                              device.device_id, hipGetErrorString(set_err));
                 continue;
             }
-            hipDeviceSynchronize();
+            // REL-63: check hipDeviceSynchronize return value
+            hipError_t sync_err = hipDeviceSynchronize();
+            if (sync_err != hipSuccess) {
+                spdlog::warn("MultiGPUContext::synchronize_all: hipDeviceSynchronize({}) failed: {}",
+                             device.device_id, hipGetErrorString(sync_err));
+            }
         }
 #endif
     }

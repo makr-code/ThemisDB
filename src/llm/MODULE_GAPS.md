@@ -283,6 +283,21 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 **OOP-01:** `~LLMPluginAdapter() override = default;` added to `llm_plugin_interface.h` to close override
 destructor gap for the concrete `LLMPluginAdapter` class.
 
+**Status (v1.22.0-pre — W1-L09):** REL-62..REL-67 fixed — remaining unchecked CUDA/HIP cleanup calls:
+- REL-62: `cudaDeviceSynchronize` return value now checked in `lora_framework/multi_gpu.cpp::synchronize_all`
+  (CUDA path); failures are logged per-device and the loop continues with the remaining devices.
+- REL-63: `hipDeviceSynchronize` return value now checked in `lora_framework/multi_gpu.cpp::synchronize_all`
+  (HIP path); failures are logged per-device and the loop continues with the remaining devices.
+- REL-64: `cudaFree` return value now checked in `lora_framework/vram_allocator.cpp::release_backend_ptr_`
+  (CUDA path); failures are logged via `spdlog::error`.
+- REL-65: `hipFree` return value now checked in `lora_framework/vram_allocator.cpp::release_backend_ptr_`
+  (HIP path); failures are logged via `spdlog::error`.
+- REL-66: `cudaFree` of scratch buffer now checked in `gpu_memory_manager.cpp::defragment` cleanup path;
+  failures are logged via `spdlog::warn`.
+- REL-67: `cudaFree` return value now checked in
+  `attention/cuda/flash_attention_cuda.cu::FlashAttentionCUDA::freeWorkspace()`; failures are logged via
+  `spdlog::warn` and `d_workspace_` is still cleared to `nullptr` to prevent double-free.
+
 ---
 
 ## 📋 Implementation Priority
