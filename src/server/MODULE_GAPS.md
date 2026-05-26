@@ -15,6 +15,26 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-S02 Follow-up: Authorization Header Iterator-Free Access
+
+**Scope:** `src/server/http_server.cpp`  
+**Ticket:** W1-S02 · Priority P0  
+
+### Fixes Applied
+
+#### 1. Iterator-invalidation scanner hotspot reduction in task endpoints (`iterator_invalidation`)
+
+**Root cause:** `TasksPost` and `TasksExecutePost` used `req.find(http::field::authorization)` and
+held iterators for header access. While `http::request` is not mutated in these code paths, this
+pattern is repeatedly scanner-flagged as potential iterator invalidation.
+
+**Fix:**
+- Replaced iterator-based header reads with iterator-free direct access via
+  `req[http::field::authorization]`.
+- Token extraction and authorization logic are unchanged; only header access pattern changed.
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-S07: Scanner Noise Triage
 
 **Scope:** `src/server/http_server.cpp`, `src/server/query_api_handler.cpp`  

@@ -6278,10 +6278,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 for (const auto& g : auth_ctx.groups) {
                     scheduler_ctx.roles.insert(g);
                 }
-                auto it = req.find(http::field::authorization);
-                if (it != req.end()) {
+                auto auth_header = req[http::field::authorization];
+                if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(it->value().data(), it->value().size()));
+                        std::string_view(auth_header.data(), auth_header.size()));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:register");
                         if (authz.authorized) {
@@ -6463,10 +6463,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 for (const auto& g : auth_ctx.groups) {
                     scheduler_ctx.roles.insert(g);
                 }
-                auto it = req.find(http::field::authorization);
-                if (it != req.end()) {
+                auto auth_header = req[http::field::authorization];
+                if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(it->value().data(), it->value().size()));
+                        std::string_view(auth_header.data(), auth_header.size()));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:execute");
                         if (authz.authorized) {
