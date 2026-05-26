@@ -15,6 +15,64 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-S05: Cache Admin + SSE Manager — Shared Container Safety
+
+**Scope:** `src/server/sse_connection_manager.cpp`, `src/server/cache_admin_api_handler.cpp`  
+**Ticket:** W1-S05 · Priority P1  
+
+### Fixes Applied
+
+#### 1. Data race — SSE `backgroundPollTask()` buffer-full check (data_race / CWE-362)
+
+**Root cause:** `backgroundPollTask()` first snapshotted active connections under a brief
+`shared_lock<shared_mutex>`, releasing the lock, and then performed the buffer-full
+early-exit check (`conn->buffered_events.size() >= config_.max_buffered_events`) on the
+shared `Connection` struct **outside the lock**. Concurrent calls to
+`pollEventsWithSequences()` or `pollRawEventsWithSequences()` hold the exclusive lock while
+erasing elements from `conn->buffered_events`, creating a data race on the vector.
+
+**Fix:** Moved the buffer-full predicate into the snapshot loop inside the
+`shared_lock` scope. The check now reads `conn->buffered_events.size()` under the shared
+lock, which is safe because the write side (`backgroundPollTask()` write path) acquires the
+exclusive lock before modifying `buffered_events`. Added an explanatory comment.
+
+#### 2. False positives documented — `cache_admin_api_handler.cpp` (data_race)
+
+**Scanner flags:** 16 CRITICAL data_race alerts on `cache_->getHealthStatus()`,
+`cache_->invalidate()`, `cache_->getTenantStats()`, etc.
+
+**Assessment:** `AdaptiveQueryCache` is a fully thread-safe implementation with internal
+synchronisation across `l1_mutex_` (shared_mutex), `l2_mutex_`, `l3_mutex_`,
+`tenant_mutex_`, and `coordinator_mutex_`. All public methods acquire the appropriate lock
+before accessing internal state. No external lock is needed in `CacheAdminApiHandler`.
+The scanner flags arise because the tool cannot trace into the shared_ptr target to inspect
+its internal locking discipline.
+
+**Fix:** Added a thread-safety clarification comment above the endpoint handlers section
+documenting the invariant. No code change required.
+
+#### 3. False positives documented — SSE iterator_invalidation (iterator_invalidation)
+
+**Scanner flags:** 2 CRITICAL iterator_invalidation alerts at `connections_.find()` calls in
+`unregisterConnection()` (L96) and `backgroundPollTask()` (L360).
+
+**Assessment:** Both accesses are performed under the exclusive `connections_mutex_` lock and
+the iterator is not retained after the `erase()` call. There is no iterator invalidation
+risk. The scanner analyses the `erase` call without tracking that the invalidated iterator
+is immediately discarded.
+
+**Fix:** False positives — no code change required. The existing lock discipline is correct.
+
+### Gap Delta (estimated)
+
+| Type | Before | After |
+|---|---|---|
+| data_race CRITICAL (sse) | 5 | 1 real race fixed (L335); 4 false positives documented |
+| data_race CRITICAL (cache_admin) | 16 | 0 real races; all 16 documented as false positives |
+| iterator_invalidation CRITICAL (sse) | 2 | 0 real gaps; both documented as false positives |
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-S04: Retry / Timeout / Uncaught-Exception Hardening
 
 **Scope:** `src/server/postgres_session.cpp`, `src/server/rpc/rpc_service_impl.cpp`  

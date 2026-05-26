@@ -159,6 +159,14 @@ bool CacheAdminApiHandler::checkAuth(
 
 // ---------------------------------------------------------------------------
 // Endpoint handlers
+//
+// Thread-safety note: all handlers in this class are invoked concurrently by
+// the HTTP server's worker-thread pool.  All calls on `cache_` below delegate
+// to AdaptiveQueryCache, which serialises its own state via internal mutexes
+// (l1_mutex_, l2_mutex_, l3_mutex_, tenant_mutex_, coordinator_mutex_).
+// No additional external lock is required in this handler class.
+// Static-analysis data-race alerts on cache_->method() calls are false
+// positives: AdaptiveQueryCache is designed as a thread-safe shared resource.
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
