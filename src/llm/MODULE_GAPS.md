@@ -236,6 +236,16 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-88: `gpu_memory_manager.cpp` `shutdownGPU()` now checks `cudaSetDevice()` and `cudaDeviceDisablePeerAccess()` during peer-access teardown.
 - REL-89: `gpu_memory_manager.cpp` `shutdownGPU()` now checks `cudaSetDevice()` before device reset.
 
+**Status (W1-L13):** REL-90..REL-97 fixed —
+- REL-90: `nccl_backend.cpp` `NCCLBackend::allreduce()` now checks `ncclGroupStart()` before entering grouped collectives.
+- REL-91: `nccl_backend.cpp` `NCCLBackend::allreduce()` now checks `ncclGroupEnd()` both on normal path and error-unwind path.
+- REL-92: `nccl_backend.cpp` now checks `cudaStreamSynchronize()` in `allreduce()`, `broadcast()`, and `barrier()` and propagates/logs failures.
+- REL-93: `nccl_backend.cpp` `NCCLBackend::get_version()` now checks `ncclGetVersion()` and returns a safe fallback string on failure.
+- REL-94: `rccl_backend.cpp` `RCCLBackend::allreduce()` now checks `ncclGroupStart()` before entering grouped collectives.
+- REL-95: `rccl_backend.cpp` `RCCLBackend::allreduce()` now checks `ncclGroupEnd()` both on normal path and error-unwind path.
+- REL-96: `rccl_backend.cpp` now checks `hipStreamSynchronize()` in `allreduce()`, `broadcast()`, and `barrier()` and propagates/logs failures.
+- REL-97: `rccl_backend.cpp` `RCCLBackend::get_version()` now checks `ncclGetVersion()` and returns a safe fallback string on failure.
+
 ---
 
 ## 📋 Implementation Priority

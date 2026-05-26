@@ -118,7 +118,11 @@ bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
     cudaStream_t stream = static_cast<cudaStream_t>(cuda_stream_);
     
     // Group API for efficient communication
-    ncclGroupStart();
+    ncclResult_t group_start_result = ncclGroupStart();
+    if (group_start_result != ncclSuccess) {
+        spdlog::error("NCCL group start failed: {}", ncclGetErrorString(group_start_result));
+        return false;
+    }
     
     for (auto* tensor : tensors) {
         if (!tensor || tensor->device().type != DeviceType::CUDA) {
@@ -142,15 +146,28 @@ bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
         
         if (result != ncclSuccess) {
             spdlog::error("NCCL allreduce failed: {}", ncclGetErrorString(result));
-            ncclGroupEnd();
+            ncclResult_t group_end_result = ncclGroupEnd();
+            if (group_end_result != ncclSuccess) {
+                spdlog::error("NCCL group end failed after allreduce error: {}",
+                              ncclGetErrorString(group_end_result));
+            }
             return false;
         }
     }
     
-    ncclGroupEnd();
+    ncclResult_t group_end_result = ncclGroupEnd();
+    if (group_end_result != ncclSuccess) {
+        spdlog::error("NCCL group end failed: {}", ncclGetErrorString(group_end_result));
+        return false;
+    }
     
     // Wait for completion
-    cudaStreamSynchronize(stream);
+    cudaError_t stream_sync_result = cudaStreamSynchronize(stream);
+    if (stream_sync_result != cudaSuccess) {
+        spdlog::error("NCCL stream synchronize failed: {}",
+                      cudaGetErrorString(stream_sync_result));
+        return false;
+    }
     
     // Average if requested
     if (average && world_size_ > 1) {
@@ -209,7 +226,12 @@ bool NCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]]
         return false;
     }
     
-    cudaStreamSynchronize(stream);
+    cudaError_t stream_sync_result = cudaStreamSynchronize(stream);
+    if (stream_sync_result != cudaSuccess) {
+        spdlog::error("NCCL broadcast stream synchronize failed: {}",
+                      cudaGetErrorString(stream_sync_result));
+        return false;
+    }
     return true;
 #else
     spdlog::error("NCCL not enabled at compile time");
@@ -246,7 +268,11 @@ void NCCLBackend::barrier() {
         spdlog::error("NCCL barrier allreduce failed: {}", ncclGetErrorString(result));
     }
     
-    cudaStreamSynchronize(stream);
+    cudaError_t stream_sync_result = cudaStreamSynchronize(stream);
+    if (stream_sync_result != cudaSuccess) {
+        spdlog::error("NCCL barrier stream synchronize failed: {}",
+                      cudaGetErrorString(stream_sync_result));
+    }
 #endif
 #endif
 }
@@ -267,7 +293,11 @@ std::string NCCLBackend::get_version() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
     int version = 0;
-    ncclGetVersion(&version);
+    ncclResult_t version_result = ncclGetVersion(&version);
+    if (version_result != ncclSuccess) {
+        spdlog::error("Failed to get NCCL version: {}", ncclGetErrorString(version_result));
+        return "Unknown (ncclGetVersion failed)";
+    }
     int major = version / 10000;
     int minor = (version % 10000) / 100;
     int patch = version % 100;

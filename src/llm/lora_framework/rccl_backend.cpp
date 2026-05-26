@@ -118,7 +118,11 @@ bool RCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
     hipStream_t stream = static_cast<hipStream_t>(hip_stream_);
     
     // Group API for efficient communication
-    ncclGroupStart();
+    ncclResult_t group_start_result = ncclGroupStart();
+    if (group_start_result != ncclSuccess) {
+        spdlog::error("RCCL group start failed: {}", ncclGetErrorString(group_start_result));
+        return false;
+    }
     
     for (auto* tensor : tensors) {
         if (!tensor || tensor->device().type != DeviceType::HIP) {
@@ -142,15 +146,28 @@ bool RCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [
         
         if (result != ncclSuccess) {
             spdlog::error("RCCL allreduce failed: {}", ncclGetErrorString(result));
-            ncclGroupEnd();
+            ncclResult_t group_end_result = ncclGroupEnd();
+            if (group_end_result != ncclSuccess) {
+                spdlog::error("RCCL group end failed after allreduce error: {}",
+                              ncclGetErrorString(group_end_result));
+            }
             return false;
         }
     }
     
-    ncclGroupEnd();
+    ncclResult_t group_end_result = ncclGroupEnd();
+    if (group_end_result != ncclSuccess) {
+        spdlog::error("RCCL group end failed: {}", ncclGetErrorString(group_end_result));
+        return false;
+    }
     
     // Wait for completion
-    hipStreamSynchronize(stream);
+    hipError_t stream_sync_result = hipStreamSynchronize(stream);
+    if (stream_sync_result != hipSuccess) {
+        spdlog::error("RCCL stream synchronize failed: {}",
+                      hipGetErrorString(stream_sync_result));
+        return false;
+    }
     
     // Average if requested
     if (average && world_size_ > 1) {
@@ -209,7 +226,12 @@ bool RCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]]
         return false;
     }
     
-    hipStreamSynchronize(stream);
+    hipError_t stream_sync_result = hipStreamSynchronize(stream);
+    if (stream_sync_result != hipSuccess) {
+        spdlog::error("RCCL broadcast stream synchronize failed: {}",
+                      hipGetErrorString(stream_sync_result));
+        return false;
+    }
     return true;
 #else
     spdlog::error("RCCL not enabled at compile time");
@@ -246,7 +268,11 @@ void RCCLBackend::barrier() {
         spdlog::error("RCCL barrier allreduce failed: {}", ncclGetErrorString(result));
     }
     
-    hipStreamSynchronize(stream);
+    hipError_t stream_sync_result = hipStreamSynchronize(stream);
+    if (stream_sync_result != hipSuccess) {
+        spdlog::error("RCCL barrier stream synchronize failed: {}",
+                      hipGetErrorString(stream_sync_result));
+    }
 #endif
 #endif
 }
@@ -267,7 +293,11 @@ std::string RCCLBackend::get_version() {
 #ifdef THEMIS_ENABLE_HIP
 #ifdef THEMIS_ENABLE_RCCL
     int version = 0;
-    ncclGetVersion(&version);
+    ncclResult_t version_result = ncclGetVersion(&version);
+    if (version_result != ncclSuccess) {
+        spdlog::error("Failed to get RCCL version: {}", ncclGetErrorString(version_result));
+        return "Unknown (ncclGetVersion failed)";
+    }
     int major = version / 10000;
     int minor = (version % 10000) / 100;
     int patch = version % 100;
