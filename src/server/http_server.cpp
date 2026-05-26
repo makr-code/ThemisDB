@@ -2247,39 +2247,75 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
+        bool connection_slot_reserved = false;
+
+        // W1-S02: reserve a connection slot atomically at admission to avoid
+        // accept-time races that can exceed max_connections under contention.
+        if (config_.max_connections > 0) {
+            uint64_t observed = active_connections_.load(std::memory_order_relaxed);
+            while (observed < config_.max_connections) {
+                if (active_connections_.compare_exchange_weak(
+                        observed,
+                        observed + 1,
+                        std::memory_order_acq_rel,
+                        std::memory_order_relaxed)) {
+                    connection_slot_reserved = true;
+                    break;
+                }
+            }
+        }
+
         // Enforce max_connections limit: close the socket immediately if exceeded
-        if (config_.max_connections > 0 &&
-            active_connections_.load(std::memory_order_relaxed) >= config_.max_connections) {
+        if (config_.max_connections > 0 && !connection_slot_reserved) {
             THEMIS_WARN("Max connections ({}) reached - rejecting new connection",
                 config_.max_connections);
             beast::error_code close_ec;
             socket.shutdown(tcp::socket::shutdown_both, close_ec);
             socket.close(close_ec);
         } else {
-            // Create new session for this connection.
-            // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
-            if (config_.enable_tls) {
-                std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
-                if (ssl_ctx_) {
+            try {
+                // Create new session for this connection.
+                // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
+                if (config_.enable_tls) {
+                    std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+                    if (ssl_ctx_) {
 #ifdef THEMIS_ENABLE_HTTP2
-                    if (config_.enable_http2) {
-                        std::make_shared<Http2Session>(
-                            std::move(socket),
-                            *ssl_ctx_,
-                            this,
-                            config_.http2_max_concurrent_streams,
-                            config_.http2_initial_window_size
-                        )->start();
-                    } else {
-                        std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-                    }
+                        if (config_.enable_http2) {
+                            if (connection_slot_reserved) {
+                                active_connections_.fetch_sub(1, std::memory_order_release);
+                                connection_slot_reserved = false;
+                            }
+                            std::make_shared<Http2Session>(
+                                std::move(socket),
+                                *ssl_ctx_,
+                                this,
+                                config_.http2_max_concurrent_streams,
+                                config_.http2_initial_window_size
+                            )->start();
+                        } else {
+                            std::make_shared<SslSession>(
+                                std::move(socket), *ssl_ctx_, this, connection_slot_reserved)->start();
+                        }
 #else
-                    std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+                        std::make_shared<SslSession>(
+                            std::move(socket), *ssl_ctx_, this, connection_slot_reserved)->start();
 #endif
+                        connection_slot_reserved = false; // counted by session dtor
+                    } else {
+                        THEMIS_WARN("TLS enabled but SSL context unavailable; rejecting new connection");
+                    }
+                } else {
+                    // Plain HTTP/1.1 without TLS
+                    std::make_shared<Session>(
+                        std::move(socket), this, connection_slot_reserved)->start();
+                    connection_slot_reserved = false; // counted by session dtor
                 }
-            } else {
-                // Plain HTTP/1.1 without TLS
-                std::make_shared<Session>(std::move(socket), this)->start();
+            } catch (const std::exception& ex) {
+                THEMIS_ERROR("Failed to start session: {}", ex.what());
+            }
+
+            if (connection_slot_reserved) {
+                active_connections_.fetch_sub(1, std::memory_order_release);
             }
         }
     }
@@ -10842,12 +10878,14 @@ void HttpServer::ensurePIIPseudonymizer() {
 // Session Implementation
 // ============================================================================
 
-HttpServer::Session::Session(tcp::socket socket, HttpServer* server)
+HttpServer::Session::Session(tcp::socket socket, HttpServer* server, bool connection_slot_reserved)
     : socket_(std::move(socket))
     , server_(server)
     , read_timer_(socket_.get_executor())
 {
-    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    if (!connection_slot_reserved) {
+        server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 HttpServer::Session::~Session() {
@@ -11120,12 +11158,14 @@ void HttpServer::Session::onWrite(
 // SSL Session Implementation
 // ============================================================================
 
-HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server)
+HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server, bool connection_slot_reserved)
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
     , read_timer_(stream_.get_executor())
 {
-    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    if (!connection_slot_reserved) {
+        server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 HttpServer::SslSession::~SslSession() {

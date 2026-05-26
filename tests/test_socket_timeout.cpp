@@ -474,3 +474,55 @@ TEST(W1S02ShutdownTimeout, StalledShutdownTriggersTimeout) {
     EXPECT_TRUE(timed_out.load());
     EXPECT_TRUE(shutdown_done.load());
 }
+
+TEST(W1S02ConnectionAdmission, RejectsWhenLimitReached) {
+    std::atomic<uint64_t> active_connections{5};
+    const uint64_t max_connections = 5;
+
+    bool reserved = false;
+    uint64_t observed = active_connections.load(std::memory_order_relaxed);
+    while (observed < max_connections) {
+        if (active_connections.compare_exchange_weak(
+                observed, observed + 1,
+                std::memory_order_acq_rel,
+                std::memory_order_relaxed)) {
+            reserved = true;
+            break;
+        }
+    }
+
+    EXPECT_FALSE(reserved);
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), max_connections);
+}
+
+TEST(W1S02ConnectionAdmission, ConcurrentReservationsDoNotExceedLimit) {
+    constexpr uint64_t max_connections = 32;
+    std::atomic<uint64_t> active_connections{0};
+    std::atomic<uint64_t> reserved_count{0};
+
+    constexpr size_t kThreads = 128;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+
+    for (size_t i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&]() {
+            uint64_t observed = active_connections.load(std::memory_order_relaxed);
+            while (observed < max_connections) {
+                if (active_connections.compare_exchange_weak(
+                        observed, observed + 1,
+                        std::memory_order_acq_rel,
+                        std::memory_order_relaxed)) {
+                    reserved_count.fetch_add(1, std::memory_order_relaxed);
+                    return;
+                }
+            }
+        });
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    EXPECT_EQ(active_connections.load(std::memory_order_relaxed), max_connections);
+    EXPECT_EQ(reserved_count.load(std::memory_order_relaxed), max_connections);
+}

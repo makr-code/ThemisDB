@@ -21,6 +21,7 @@ python tools/gap_audit_pipeline_v2.py
   - Data-race hardening: introduced `std::atomic<uint32_t> hot_request_timeout_ms_` as an atomic shadow for `config_.request_timeout_ms`. Hot-reload path (request thread) now writes via `store(release)`; `Session::armReadTimer()` and `SslSession::armReadTimer()` now read via `load(acquire)`. Eliminates the data race between hot-reload and I/O-thread timer arming.
   - Iterator-invalidation / unbounded growth fix: `enforceAuditRateLimit` now performs amortised eviction of stale `audit_rate_buckets_` entries (entries older than 2 × window_ms) under the existing `audit_rate_mutex_`, triggered when the bucket map exceeds 128 entries. Prevents unbounded memory growth under adversarial request patterns.
   - No-timeout hardening: `Session::doWrite()` / `SslSession::doWrite()` now arm the same per-connection timeout guard used for reads, and `onWrite()` cancels it after completion. `SslSession::doShutdown()` now also arms/cancels the guard to avoid indefinite shutdown hangs on stalled peers.
+  - Connection-admission hardening: `onAccept` now atomically reserves a connection slot (`compare_exchange_weak`) before session creation, preventing over-admission races around `max_connections` under concurrent accepts.
   - Gap delta intent: reduce `data_race` (Session/SslSession armReadTimer, hot-reload), `iterator_invalidation` (audit_rate_buckets_), and `no_timeout` (write/shutdown async paths) findings for `http_server.cpp` in next server rescan.
 
 - **W1-S01 (2026-05-26) – `src/server/query_api_handler.cpp`**
