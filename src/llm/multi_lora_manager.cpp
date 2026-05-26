@@ -279,9 +279,25 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     }
     
     // Update memory usage
-    if (lora->vram_bytes > 0 && total_vram_bytes_ >= lora->vram_bytes) {
-        total_vram_bytes_ -= lora->vram_bytes;
-        spdlog::debug("Released {} MB of VRAM", lora->vram_bytes / (1024*1024));
+    if (lora->vram_bytes > 0) {
+        if (total_vram_bytes_ >= lora->vram_bytes) {
+            total_vram_bytes_ -= lora->vram_bytes;
+        } else {
+            total_vram_bytes_ = 0;  // underflow guard
+        }
+
+        if (lora->primary_gpu >= 0) {
+            auto gpu_it = gpu_vram_usage_.find(lora->primary_gpu);
+            if (gpu_it != gpu_vram_usage_.end()) {
+                if (gpu_it->second >= lora->vram_bytes) {
+                    gpu_it->second -= lora->vram_bytes;
+                } else {
+                    gpu_it->second = 0;  // underflow guard
+                }
+            }
+        }
+
+        spdlog::debug("Released {} MB of VRAM", lora->vram_bytes / BYTES_PER_MB);
     }
     
     loras_.erase(it);
@@ -1772,8 +1788,11 @@ size_t MultiLoRAManager::balanceGPULoad() {
     std::vector<int> overloaded_gpus;
     std::vector<int> underloaded_gpus;
     
+    const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
     for (const auto& [gpu_id, usage] : gpu_vram_usage_) {
-        float usage_ratio = static_cast<float>(usage) / config_.multi_gpu.max_vram_per_gpu_mb;
+        float usage_ratio = max_vram_per_gpu_bytes > 0
+            ? static_cast<float>(usage) / static_cast<float>(max_vram_per_gpu_bytes)
+            : 0.0f;
         if (usage_ratio > config_.multi_gpu.load_balance_threshold) {
             overloaded_gpus.push_back(gpu_id);
         } else if (usage < avg_usage * 0.8f) {
@@ -1798,14 +1817,18 @@ size_t MultiLoRAManager::balanceGPULoad() {
                 // Try to move to underloaded GPU
                 for (int target_gpu : underloaded_gpus) {
                     // FIND-015: Use named constant for byte to MB conversion
-                    size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * BYTES_PER_MB;
                     if (gpu_vram_usage_[target_gpu] + lora->vram_bytes < max_vram_per_gpu_bytes) {
                         
                         spdlog::info("Moving LoRA {} from GPU {} to GPU {}", 
                                      lora_id, overloaded_gpu, target_gpu);
                         
                         // Update tracking
-                        gpu_vram_usage_[overloaded_gpu] -= lora->vram_bytes;
+                        auto& overloaded_usage = gpu_vram_usage_[overloaded_gpu];
+                        if (overloaded_usage >= lora->vram_bytes) {
+                            overloaded_usage -= lora->vram_bytes;
+                        } else {
+                            overloaded_usage = 0;  // underflow guard
+                        }
                         gpu_vram_usage_[target_gpu] += lora->vram_bytes;
                         lora->primary_gpu = target_gpu;
                         lora->assigned_gpus = {target_gpu};
@@ -2531,9 +2554,20 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
                            "Resource-aware eviction");
         
         // Update memory tracking
-        total_vram_bytes_ -= candidate.lora->vram_bytes;
+        if (total_vram_bytes_ >= candidate.lora->vram_bytes) {
+            total_vram_bytes_ -= candidate.lora->vram_bytes;
+        } else {
+            total_vram_bytes_ = 0;  // underflow guard
+        }
         if (candidate.lora->primary_gpu >= 0) {
-            gpu_vram_usage_[candidate.lora->primary_gpu] -= candidate.lora->vram_bytes;
+            auto gpu_it = gpu_vram_usage_.find(candidate.lora->primary_gpu);
+            if (gpu_it != gpu_vram_usage_.end()) {
+                if (gpu_it->second >= candidate.lora->vram_bytes) {
+                    gpu_it->second -= candidate.lora->vram_bytes;
+                } else {
+                    gpu_it->second = 0;  // underflow guard
+                }
+            }
         }
         
         evictions_++;
@@ -2699,7 +2733,12 @@ bool MultiLoRAManager::migrateLoRAToGPU(const std::string& lora_id, int target_g
     
     // Update VRAM accounting to reflect the new placement.
     if (source_gpu >= 0) {
-        gpu_vram_usage_[source_gpu] -= lora->vram_bytes;
+        auto& source_usage = gpu_vram_usage_[source_gpu];
+        if (source_usage >= lora->vram_bytes) {
+            source_usage -= lora->vram_bytes;
+        } else {
+            source_usage = 0;  // underflow guard
+        }
     }
     gpu_vram_usage_[target_gpu] += lora->vram_bytes;
     
