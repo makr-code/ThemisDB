@@ -11,6 +11,7 @@
 #include "security/query_masking_policy.h"
 
 #include <memory>
+#include <mutex>
 #include <string>
 #include <optional>
 #include <boost/beast/http.hpp>
@@ -96,6 +97,12 @@ public:
      * @brief Handle POST /query request
      * 
      * Executes a structured query with filters, projections, and sorting.
+        * Supports optional request timeouts via `timeout_ms` in the request body.
+        *
+        * Timeout behavior:
+        * - `timeout_ms == 0`: no handler-level timeout enforcement
+        * - `timeout_ms > 0`: handler aborts long-running response materialization with HTTP 408
+        * - values above the server limit are rejected with HTTP 400
      * 
      * @param req HTTP request with query specification
      * @return HTTP response with query results
@@ -168,6 +175,7 @@ public:
      */
     void setQueryMaskingPolicy(
         std::shared_ptr<security::QueryMaskingPolicy> policy) noexcept {
+        std::lock_guard<std::mutex> lock(masking_policy_mutex_);
         masking_policy_ = std::move(policy);
     }
 
@@ -185,6 +193,7 @@ private:
     bool feature_llm_store_{false};
     IndexRecommender*   index_recommender_{nullptr};   ///< Optional; non-owning
     StatisticsCollector* stats_collector_{nullptr};    ///< Optional; non-owning
+    mutable std::mutex masking_policy_mutex_;
     std::shared_ptr<security::QueryMaskingPolicy> masking_policy_;  ///< Optional PII masking
 
     // Helper methods

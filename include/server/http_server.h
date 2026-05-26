@@ -1172,6 +1172,7 @@ private:
     std::atomic<uint64_t> error_count_{0};
     std::atomic<uint64_t> active_requests_{0}; // In-flight request counter for graceful shutdown
     std::atomic<uint64_t> active_connections_{0}; // Open TCP connections
+    std::atomic<uint32_t> request_timeout_ms_runtime_{30000}; // lock-free runtime view for sessions
     std::chrono::steady_clock::time_point start_time_;
 
     // Audit rate limiting state

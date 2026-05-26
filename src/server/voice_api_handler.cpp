@@ -197,6 +197,14 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleRequest");
+    if (!voice_assistant_) {
+        return createErrorResponse(
+            http::status::service_unavailable,
+            "Service Unavailable",
+            "Voice assistant backend is not initialized"
+        );
+    }
+
     // Validate authentication
     if (!validateBearerToken(req)) {
         return createErrorResponse(
@@ -1884,6 +1892,10 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     // Validate URL format - parseURL will handle this
     if (url.empty()) {
         throw std::invalid_argument("URL cannot be empty");
+    }
+
+    if (!http_client_pool_) {
+        throw std::runtime_error("HTTP client pool is not initialized");
     }
     
     // SSRF Protection: Parse URL and validate host to prevent access to internal resources

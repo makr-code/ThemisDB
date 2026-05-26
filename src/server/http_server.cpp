@@ -275,6 +275,7 @@ HttpServer::HttpServer(
     , redundancy_manager_(std::move(redundancy_manager))
     , hash_ring_(std::move(hash_ring))
     , shard_topology_(std::move(shard_topology))
+    , request_timeout_ms_runtime_(config.request_timeout_ms)
     , ioc_(static_cast<int>(config_.num_threads))
     , acceptor_(ioc_)
     , start_time_(std::chrono::steady_clock::now())
@@ -8647,6 +8648,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                 auto timeout = body["request_timeout_ms"].get<uint32_t>();
                 if (timeout >= 1000 && timeout <= 300000) { // 1s - 5min range
                     config_.request_timeout_ms = timeout;
+                    request_timeout_ms_runtime_.store(timeout, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: request_timeout_ms set to {}", timeout);
                 } else {
                     return makeErrorResponse(http::status::bad_request, "request_timeout_ms must be 1000-300000", req);
@@ -8704,7 +8706,7 @@ http::response<http::string_body> HttpServer::handleConfig(
             {"server", {
                 {"port", config_.port},
                 {"threads", config_.num_threads},
-                {"request_timeout_ms", config_.request_timeout_ms}
+                {"request_timeout_ms", request_timeout_ms_runtime_.load(std::memory_order_relaxed)}
             }},
             {"features", {
                 {"semantic_cache", config_.feature_semantic_cache},
@@ -10838,15 +10840,16 @@ HttpServer::Session::~Session() {
 }
 
 void HttpServer::Session::armReadTimer() {
-    if (server_->config_.request_timeout_ms == 0) return;
+    const uint32_t timeout_ms = server_->request_timeout_ms_runtime_.load(std::memory_order_relaxed);
+    if (timeout_ms == 0) return;
     read_timer_.expires_after(
-        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+        std::chrono::milliseconds(timeout_ms)
     );
-    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+    read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
             // Timer fired before I/O completed: cancel the pending socket operation
             THEMIS_WARN("Request read timeout ({}ms) - closing connection",
-                self->server_->config_.request_timeout_ms);
+                timeout_ms);
             beast::error_code close_ec;
             self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
@@ -11111,14 +11114,15 @@ HttpServer::SslSession::~SslSession() {
 }
 
 void HttpServer::SslSession::armReadTimer() {
-    if (server_->config_.request_timeout_ms == 0) return;
+    const uint32_t timeout_ms = server_->request_timeout_ms_runtime_.load(std::memory_order_relaxed);
+    if (timeout_ms == 0) return;
     read_timer_.expires_after(
-        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+        std::chrono::milliseconds(timeout_ms)
     );
-    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+    read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
             THEMIS_WARN("Request read timeout ({}ms) - closing TLS connection",
-                self->server_->config_.request_timeout_ms);
+                timeout_ms);
             beast::error_code close_ec;
             self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());

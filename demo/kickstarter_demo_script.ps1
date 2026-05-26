@@ -4,8 +4,26 @@
 # Run this script with commentary for the video
 
 # Configuration
-$THEMISCTL = ".\build\windows-release\bin\themisctl.exe"
-$SERVER_HOST = "localhost:8765"
+function Resolve-ThemisBinary {
+    param([string]$BinaryName)
+
+    $candidates = @(
+        ".\\build\\windows-release\\bin\\$BinaryName",
+        ".\\build-msvc-windows-release\\bin\\$BinaryName",
+        ".\\build\\msvc-ninja-release\\bin\\$BinaryName"
+    )
+
+    foreach ($candidate in $candidates) {
+        if (Test-Path $candidate) {
+            return $candidate
+        }
+    }
+
+    return $null
+}
+
+$THEMISCTL = Resolve-ThemisBinary -BinaryName "themisctl.exe"
+$SERVER_HOST = "localhost"
 $DEMO_COLLECTION = "demo_articles"
 $DEMO_GRAPH = "demo_knowledge_graph"
 $DEMO_VECTORS = "demo_embeddings"
@@ -35,14 +53,14 @@ function Write-Info {
 # PRE-FLIGHT: Server starten und Demo-Daten laden
 # ============================================================================
 
-$THEMIS_SERVER  = ".\build\windows-release\bin\themis_server.exe"
+$THEMIS_SERVER  = Resolve-ThemisBinary -BinaryName "themis_server.exe"
 $SERVER_DB_PATH = ".\demo\data\themis_db"
 $SERVER_PORT    = 8765
 $serverProcess  = $null
 
 function Test-ServerRunning {
     try {
-        $out = & $THEMISCTL schema --host $SERVER_HOST 2>&1
+        $out = & $THEMISCTL schema --host $SERVER_HOST --port $SERVER_PORT 2>&1
         return ($LASTEXITCODE -eq 0)
     } catch {
         return $false
@@ -50,7 +68,11 @@ function Test-ServerRunning {
 }
 
 if (-not (Test-Path $THEMISCTL)) {
-    Write-Host "[ABORT] themisctl.exe nicht gefunden: $THEMISCTL" -ForegroundColor Red
+    Write-Host "[ABORT] themisctl.exe nicht gefunden in bekannten Build-Ordnern." -ForegroundColor Red
+    Write-Host "        Erwartete Orte:" -ForegroundColor Gray
+    Write-Host "        - .\\build\\windows-release\\bin\\themisctl.exe" -ForegroundColor Gray
+    Write-Host "        - .\\build-msvc-windows-release\\bin\\themisctl.exe" -ForegroundColor Gray
+    Write-Host "        - .\\build\\msvc-ninja-release\\bin\\themisctl.exe" -ForegroundColor Gray
     Write-Host "        Zuerst bauen: cmake --build --preset windows-release" -ForegroundColor Gray
     exit 1
 }
@@ -59,7 +81,7 @@ if (-not (Test-ServerRunning)) {
     Write-Host "[PRE-FLIGHT] Starte ThemisDB Server..." -ForegroundColor Cyan
 
     if (-not (Test-Path $THEMIS_SERVER)) {
-        Write-Host "[ABORT] themis_server.exe nicht gefunden: $THEMIS_SERVER" -ForegroundColor Red
+        Write-Host "[ABORT] themis_server.exe nicht gefunden in bekannten Build-Ordnern." -ForegroundColor Red
         exit 1
     }
 
@@ -95,7 +117,7 @@ if (-not (Test-ServerRunning)) {
     }
     Write-Host ""
 } else {
-    Write-Host "[PRE-FLIGHT] Server bereits erreichbar unter $SERVER_HOST." -ForegroundColor Green
+    Write-Host "[PRE-FLIGHT] Server bereits erreichbar unter ${SERVER_HOST}:$SERVER_PORT." -ForegroundColor Green
     Write-Host ""
 }
 
@@ -116,7 +138,7 @@ Write-Header "ThemisDB Multi-Model Database - Live Demo"
 # SECTION 1: System Status & Schema
 # ============================================================================
 Write-Section "[1] Checking ThemisDB Server Status..."
-& $THEMISCTL schema --host $SERVER_HOST 2>$null | Select-Object -First 20
+& $THEMISCTL schema --host $SERVER_HOST --port $SERVER_PORT 2>$null | Select-Object -First 20
 Write-Info "Server is running and responding to queries."
 
 # ============================================================================
@@ -131,7 +153,7 @@ Write-Host "    LIMIT 5" -ForegroundColor Gray
 Write-Host "    RETURN { title: doc.title, published: doc.published, score: doc.relevance }" -ForegroundColor Gray
 Write-Host ""
 Write-Host "Results:" -ForegroundColor Cyan
-& $THEMISCTL query --host $SERVER_HOST `
+& $THEMISCTL query --host $SERVER_HOST --port $SERVER_PORT `
   "FOR doc IN $DEMO_COLLECTION FILTER doc.title LIKE '%AI%' OR doc.content LIKE '%machine learning%' SORT doc.published DESC LIMIT 5 RETURN { title: doc.title, published: doc.published, score: doc.relevance }"
 Write-Host ""
 
@@ -141,7 +163,7 @@ Write-Host ""
 Write-Section "[3] Vector Search - Semantic Similarity"
 Write-Host "Query: Find 5 most similar articles to 'neural network optimization'" -ForegroundColor Cyan
 Write-Host ""
-& $THEMISCTL query --host $SERVER_HOST `
+& $THEMISCTL query --host $SERVER_HOST --port $SERVER_PORT `
   "FOR doc IN $DEMO_VECTORS LET similarity = COSINE_SIMILARITY(doc.embedding, @query_embedding) FILTER similarity > 0.7 SORT similarity DESC LIMIT 5 RETURN { title: doc.title, similarity: ROUND(similarity, 3) }" `
   --bind-var query_embedding="[0.1, -0.2, 0.8, ...]"
 Write-Host ""
@@ -158,7 +180,7 @@ Write-Host "  FOR paper IN 1..2 OUTBOUND researcher._id graph_edges" -Foreground
 Write-Host "    FILTER paper.type == 'paper'" -ForegroundColor Gray
 Write-Host "    RETURN { researcher: researcher.name, paper: paper.title, citations: paper.citation_count }" -ForegroundColor Gray
 Write-Host ""
-& $THEMISCTL query --host $SERVER_HOST `
+& $THEMISCTL query --host $SERVER_HOST --port $SERVER_PORT `
   "FOR researcher IN $DEMO_GRAPH FILTER researcher.type == 'researcher' FOR paper IN 1..2 OUTBOUND researcher._id graph_edges FILTER paper.type == 'paper' RETURN { researcher: researcher.name, paper: paper.title, citations: paper.citation_count } LIMIT 8"
 Write-Host ""
 
@@ -173,7 +195,7 @@ Write-Host "ThemisDB LLM Agent processes this and executes:" -ForegroundColor Ye
   --collection $DEMO_COLLECTION `
   --top-k 3 `
   "What are the latest papers on quantum computing by MIT?" `
-  --host $SERVER_HOST
+    --host $SERVER_HOST --port $SERVER_PORT
 Write-Host ""
 
 # ============================================================================
@@ -182,7 +204,7 @@ Write-Host ""
 Write-Section "[6] Multi-Model Data Fusion - Documents + Vectors + Graph"
 Write-Host "Query: Researcher + their papers (vector similarity) + collaboration network" -ForegroundColor Cyan
 Write-Host ""
-& $THEMISCTL query --host $SERVER_HOST `
+& $THEMISCTL query --host $SERVER_HOST --port $SERVER_PORT `
   "FOR researcher IN $DEMO_GRAPH FILTER researcher.type == 'researcher' LET papers = (FOR paper IN $DEMO_VECTORS FILTER paper.author_id == researcher._id LET sim = COSINE_SIMILARITY(paper.embedding, @topic_embedding) FILTER sim > 0.6 RETURN { title: paper.title, similarity: sim }) LET collaborators = (FOR collab IN 1 OUTBOUND researcher._id graph_edges FILTER collab.type == 'researcher' RETURN collab.name) RETURN { researcher: researcher.name, paper_count: LENGTH(papers), top_papers: SLICE(papers, 0, 2), collaborators: collaborators } LIMIT 5" `
   --bind-var topic_embedding="[0.2, 0.5, -0.1, ...]"
 Write-Host ""
@@ -191,7 +213,7 @@ Write-Host ""
 # SECTION 7: Performance & Statistics
 # ============================================================================
 Write-Section "[7] System Performance Metrics"
-& $THEMISCTL admin stats --host $SERVER_HOST | Select-String -Pattern "queries|throughput|latency|cache"
+& $THEMISCTL admin stats --host $SERVER_HOST --port $SERVER_PORT | Select-String -Pattern "queries|throughput|latency|cache"
 Write-Host ""
 
 # ============================================================================
@@ -200,7 +222,7 @@ Write-Host ""
 Write-Section "[8] Automatic Index Recommendation"
 Write-Host "ThemisDB analyzes query patterns and recommends optimizations:" -ForegroundColor Yellow
 Write-Host ""
-& $THEMISCTL index recommend --host $SERVER_HOST --collection $DEMO_COLLECTION
+& $THEMISCTL index recommend --host $SERVER_HOST --port $SERVER_PORT $DEMO_COLLECTION
 Write-Host ""
 
 # ============================================================================
