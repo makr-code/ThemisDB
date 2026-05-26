@@ -186,6 +186,27 @@ Security-sensitive input validation gaps found by static analysis:
 
 ---
 
+### Addressed in W1-L08 (2026-05-26 — CUDA/HIP cleanup + allocator reliability hardening)
+
+**Scope files:** `lora_framework/kernels/cuda_kernels.cu`, `lora_framework/kernels/hip_kernels.cpp`, `lora_framework/kernels/quantization_kernels.cu`, `llm/lora_framework/quantization_kernels.h`
+
+| Gap ID | Category | Finding | Fix | Impact |
+|--------|----------|---------|-----|--------|
+| W1-L08-REL-52 | `reliability` | `cudaFree()` result ignored during `launch_check_inf_nan_kernel()` cleanup-after-`cudaMemset` failure | Captured `cudaFree` result and return cleanup error when free fails | Prevents silent device-memory cleanup failure masking original path |
+| W1-L08-REL-53 | `reliability` | `cudaFree()` result ignored during `launch_check_inf_nan_kernel()` cleanup-after-kernel-launch failure | Captured `cudaFree` result and return cleanup error when free fails | Prevents silent cleanup failure on kernel launch error path |
+| W1-L08-REL-54 | `reliability` | Final `cudaFree()` result ignored in `launch_check_inf_nan_kernel()` success/transfer path | Captured final `cudaFree` result and return error when free fails | Prevents silent leak/cleanup failures in overflow-check helper |
+| W1-L08-REL-55 | `reliability` | `hipFree()` result ignored during `launch_check_inf_nan_kernel()` cleanup-after-`hipMemset` failure | Captured `hipFree` result and return cleanup error when free fails | Prevents silent HIP cleanup failure masking original path |
+| W1-L08-REL-56 | `reliability` | `hipFree()` result ignored during `launch_check_inf_nan_kernel()` cleanup-after-kernel-launch failure | Captured `hipFree` result and return cleanup error when free fails | Prevents silent HIP cleanup failure on kernel launch error path |
+| W1-L08-REL-57 | `reliability` | Final `hipFree()` result ignored in HIP `launch_check_inf_nan_kernel()` success/transfer path | Captured final `hipFree` result and return error when free fails | Prevents silent HIP leak/cleanup failures in overflow-check helper |
+| W1-L08-REL-58 | `reliability` | `cudaMalloc()` result ignored in `GPUMemoryManager::allocateQuantizedBuffer()` | Captured result and return `nullptr` on failure; `total_allocated_` updated only on success | Prevents false allocation accounting and null-unsafe caller assumptions |
+| W1-L08-REL-59 | `reliability` | `cudaMallocHost()` result ignored in `GPUMemoryManager::allocatePinnedHost()` | Captured result and return `nullptr` on failure | Prevents silent pinned-host allocation failures |
+| W1-L08-REL-60 | `reliability` | `cudaFree()` result ignored in `GPUMemoryManager::freeDevice()` | Captured result and explicitly short-circuit on free failure | Prevents silent free failure in device cleanup path |
+| W1-L08-REL-61 | `reliability` | `cudaFreeHost()` result ignored in `GPUMemoryManager::freePinned()` | Captured result and explicitly short-circuit on free failure | Prevents silent pinned-memory free failure |
+
+**Files modified:** `lora_framework/kernels/cuda_kernels.cu`, `lora_framework/kernels/hip_kernels.cpp`, `lora_framework/kernels/quantization_kernels.cu`, `llm/lora_framework/quantization_kernels.h`
+
+---
+
 ### Addressed in this PR (v1.20.0 / v1.20.1)
 
 | Gap | Fix | File |
@@ -293,6 +314,14 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 on failure (`flash_lora.cpp`); `cudaMemGetInfo()` in
 `FlashAttentionCUDA::getMemoryStats()` now checked and throws on failure
 (`attention/cuda/flash_attention_cuda.cu`).
+
+**Status (v1.21.0-pre — batch 34):** REL-52..REL-61 fixed — overflow-flag cleanup
+paths now validate `cudaFree`/`hipFree` return values in CUDA/HIP kernel helpers
+(`lora_framework/kernels/cuda_kernels.cu`, `lora_framework/kernels/hip_kernels.cpp`);
+`GPUMemoryManager` quantization allocators now validate `cudaMalloc`/`cudaMallocHost`
+and explicit free paths validate `cudaFree`/`cudaFreeHost`, with allocation docs updated
+to state `nullptr` on failure (`lora_framework/kernels/quantization_kernels.cu`,
+`include/llm/lora_framework/quantization_kernels.h`).
 
 ---
 

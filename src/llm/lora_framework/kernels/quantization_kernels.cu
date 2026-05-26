@@ -579,26 +579,38 @@ GPUMemoryManager& GPUMemoryManager::operator=(GPUMemoryManager&& other) noexcept
 void* GPUMemoryManager::allocateQuantizedBuffer(size_t num_params, bool use_nf4) {
     size_t size_bytes = use_nf4 ? (num_params + 1) / 2 : num_params;
     void* ptr = nullptr;
-    cudaMalloc(&ptr, size_bytes);
+    cudaError_t err = cudaMalloc(&ptr, size_bytes);
+    if (err != cudaSuccess) {
+        return nullptr;
+    }
     total_allocated_ += size_bytes;
     return ptr;
 }
 
 void* GPUMemoryManager::allocatePinnedHost(size_t size) {
     void* ptr = nullptr;
-    cudaMallocHost(&ptr, size);
+    cudaError_t err = cudaMallocHost(&ptr, size);
+    if (err != cudaSuccess) {
+        return nullptr;
+    }
     return ptr;
 }
 
 void GPUMemoryManager::freeDevice(void* ptr) {
     if (ptr) {
-        cudaFree(ptr);
+        cudaError_t err = cudaFree(ptr);
+        if (err != cudaSuccess) {
+            return;
+        }
     }
 }
 
 void GPUMemoryManager::freePinned(void* ptr) {
     if (ptr) {
-        cudaFreeHost(ptr);
+        cudaError_t err = cudaFreeHost(ptr);
+        if (err != cudaSuccess) {
+            return;
+        }
     }
 }
 

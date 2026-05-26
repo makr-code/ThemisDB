@@ -191,14 +191,14 @@ public:
      * @brief Allocate GPU memory for quantized buffer
      * @param num_params Number of parameters to store
      * @param use_nf4 True for NF4 (4-bit), false for INT8 (8-bit)
-     * @return Device pointer to allocated memory
+     * @return Device pointer to allocated memory, or nullptr on allocation failure
      */
     void* allocateQuantizedBuffer(size_t num_params, bool use_nf4);
     
     /**
      * @brief Allocate pinned host memory for fast transfers
      * @param size Size in bytes
-     * @return Host pointer to pinned memory
+     * @return Host pointer to pinned memory, or nullptr on allocation failure
      */
     void* allocatePinnedHost(size_t size);
     
