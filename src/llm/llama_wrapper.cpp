@@ -2989,36 +2989,44 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                 auto* lmodel = reinterpret_cast<llama_model*>(cached_m->model_handle);
                 std::string prefix = "USER: ";
                 std::vector<llama_token> prefix_tokens = tokenizeInternal(lmodel, prefix, true);
+                bool prefix_decode_ok = true;
                 if (!prefix_tokens.empty()) {
                     llama_batch prefix_batch = llama_batch_get_one(
                         prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
                     if (llama_decode(lctx, prefix_batch) == 0) {
                         n_past += static_cast<int>(prefix_tokens.size());
+                    } else {
+                        prefix_decode_ok = false;
+                        spdlog::warn("generateVision: failed to evaluate prompt prefix before image embedding injection");
                     }
                 }
 
                 // Inject each encoded image into the context.
                 int n_batch_size = static_cast<int>(vision_request.max_tokens > 0
                                                      ? vision_request.max_tokens : 512);
-                for (auto& emb_vec : image_embeddings) {
-                    if (emb_vec.empty()) continue;
-                    int n_patches = vision_encoder_->getNumPatches();
-                    if (n_patches <= 0) {
-                        n_patches = static_cast<int>(emb_vec.size()) /
-                                    vision_encoder_->getEmbeddingDimension();
-                    }
-                    llava_image_embed embed_data;
-                    embed_data.embed       = emb_vec.data();
-                    embed_data.n_image_pos = n_patches;
+                if (prefix_decode_ok) {
+                    for (auto& emb_vec : image_embeddings) {
+                        if (emb_vec.empty()) continue;
+                        int n_patches = vision_encoder_->getNumPatches();
+                        if (n_patches <= 0) {
+                            n_patches = static_cast<int>(emb_vec.size()) /
+                                        vision_encoder_->getEmbeddingDimension();
+                        }
+                        llava_image_embed embed_data;
+                        embed_data.embed       = emb_vec.data();
+                        embed_data.n_image_pos = n_patches;
 
-                    if (!llava_eval_image_embed(lctx, &embed_data, n_batch_size, &n_past)) {
-                        spdlog::warn("generateVision: llava_eval_image_embed failed for one image; "
-                                     "continuing with remaining images");
-                    } else {
-                        embeddings_injected = true;
-                        spdlog::debug("generateVision: injected {} image patches (n_past={})",
-                                      n_patches, n_past);
+                        if (!llava_eval_image_embed(lctx, &embed_data, n_batch_size, &n_past)) {
+                            spdlog::warn("generateVision: llava_eval_image_embed failed for one image; "
+                                         "continuing with remaining images");
+                        } else {
+                            embeddings_injected = true;
+                            spdlog::debug("generateVision: injected {} image patches (n_past={})",
+                                          n_patches, n_past);
+                        }
                     }
+                } else {
+                    spdlog::warn("generateVision: skipping image embedding injection because prompt prefix evaluation failed");
                 }
 
                 // Pass remaining text portion; the context is already positioned.
@@ -3129,5 +3137,4 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
 
 } // namespace llm
 } // namespace themis
-
 

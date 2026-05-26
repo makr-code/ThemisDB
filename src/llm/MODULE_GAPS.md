@@ -264,6 +264,9 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 **Status (W1-L17):** REL-107 fixed —
 - REL-107: `multi_gpu_memory_coordinator.cpp` HIP P2P backward-direction setup had a double-`else` syntax error (two `else` branches for the same inner `if`); restructured so the "P2P not supported" warn becomes the outer `else` of `if (can_access_backward)`, matching the forward-direction pattern and allowing HIP builds to compile.
 
+**Status (W1-L18):** REL-108 fixed —
+- REL-108: `llama_wrapper.cpp` `generateVision()` prompt-prefix prefill path used `if (llama_decode(...) == 0)` without explicit failure handling, silently continuing on decode failure. Fixed by handling the failure branch explicitly with warning logs and skipping image-embedding injection when prefix decode fails.
+
 ---
 
 ## 📋 Implementation Priority
