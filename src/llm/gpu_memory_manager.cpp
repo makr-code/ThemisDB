@@ -328,9 +328,19 @@ void GPUMemoryManager::initializeGPU() {
                         
                         // Check if peer access is possible
                         int can_access = 0;
-                        cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
+                        cudaError_t can_access_err = cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
+                        if (can_access_err != cudaSuccess) {
+                            spdlog::warn("  Failed to check P2P capability: GPU {} -> GPU {}: {}",
+                                         src_gpu, dst_gpu, cudaGetErrorString(can_access_err));
+                            continue;
+                        }
                         if (can_access) {
-                            cudaSetDevice(src_gpu);
+                            cudaError_t set_device_err = cudaSetDevice(src_gpu);
+                            if (set_device_err != cudaSuccess) {
+                                spdlog::warn("  Failed to set CUDA device {} before enabling P2P to {}: {}",
+                                             src_gpu, dst_gpu, cudaGetErrorString(set_device_err));
+                                continue;
+                            }
                             cudaError_t p2p_err = cudaDeviceEnablePeerAccess(dst_gpu, 0);
                             if (p2p_err == cudaSuccess) {
                                 spdlog::info("  P2P enabled: GPU {} -> GPU {}", src_gpu, dst_gpu);
@@ -409,11 +419,20 @@ void GPUMemoryManager::shutdownGPU() {
         if (config_.enable_peer_access && available_gpus_.size() > 1) {
             for (size_t i = 0; i < available_gpus_.size(); ++i) {
                 int src_gpu = available_gpus_[i];
-                cudaSetDevice(src_gpu);
+                cudaError_t set_device_err = cudaSetDevice(src_gpu);
+                if (set_device_err != cudaSuccess) {
+                    spdlog::warn("Failed to set CUDA device {} during peer-access shutdown: {}",
+                                 src_gpu, cudaGetErrorString(set_device_err));
+                    continue;
+                }
                 for (size_t j = 0; j < available_gpus_.size(); ++j) {
                     if (i != j) {
                         int dst_gpu = available_gpus_[j];
-                        cudaDeviceDisablePeerAccess(dst_gpu);
+                        cudaError_t disable_err = cudaDeviceDisablePeerAccess(dst_gpu);
+                        if (disable_err != cudaSuccess && disable_err != cudaErrorPeerAccessNotEnabled) {
+                            spdlog::warn("Failed to disable peer access: GPU {} -> GPU {}: {}",
+                                         src_gpu, dst_gpu, cudaGetErrorString(disable_err));
+                        }
                     }
                 }
             }
@@ -421,7 +440,12 @@ void GPUMemoryManager::shutdownGPU() {
         
         // Reset all devices
         for (int gpu_id : available_gpus_) {
-            cudaSetDevice(gpu_id);
+            cudaError_t set_device_err = cudaSetDevice(gpu_id);
+            if (set_device_err != cudaSuccess) {
+                spdlog::warn("Failed to set CUDA device {} before reset: {}",
+                             gpu_id, cudaGetErrorString(set_device_err));
+                continue;
+            }
             CUDA_CHECK(cudaDeviceReset());
         }
     }

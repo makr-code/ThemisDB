@@ -231,12 +231,24 @@ void CustomAllReduce::enable_p2p_access() {
                 if (i == j) continue;
                 
                 int can_access = 0;
-                cudaDeviceCanAccessPeer(&can_access, 
-                                       ctx_.get_device(i).id, 
-                                       ctx_.get_device(j).id);
+                cudaError_t can_access_err = cudaDeviceCanAccessPeer(&can_access, 
+                                                                      ctx_.get_device(i).id, 
+                                                                      ctx_.get_device(j).id);
+                if (can_access_err != cudaSuccess) {
+                    spdlog::warn("Failed to query CUDA P2P capability from GPU {} to {}: {}",
+                                 i, j, cudaGetErrorString(can_access_err));
+                    p2p_enabled_ = false;
+                    continue;
+                }
                 
                 if (can_access) {
-                    cudaSetDevice(ctx_.get_device(i).id);
+                    cudaError_t set_device_err = cudaSetDevice(ctx_.get_device(i).id);
+                    if (set_device_err != cudaSuccess) {
+                        spdlog::warn("Failed to set CUDA device {} before enabling P2P to {}: {}",
+                                     i, j, cudaGetErrorString(set_device_err));
+                        p2p_enabled_ = false;
+                        continue;
+                    }
                     cudaError_t err = cudaDeviceEnablePeerAccess(ctx_.get_device(j).id, 0);
                     if (err != cudaSuccess && err != cudaErrorPeerAccessAlreadyEnabled) {
                         spdlog::warn("Failed to enable P2P access from GPU {} to {}: {}", 
@@ -261,12 +273,24 @@ void CustomAllReduce::enable_p2p_access() {
                 if (i == j) continue;
                 
                 int can_access = 0;
-                hipDeviceCanAccessPeer(&can_access, 
-                                      ctx_.get_device(i).id, 
-                                      ctx_.get_device(j).id);
+                hipError_t can_access_err = hipDeviceCanAccessPeer(&can_access, 
+                                                                    ctx_.get_device(i).id, 
+                                                                    ctx_.get_device(j).id);
+                if (can_access_err != hipSuccess) {
+                    spdlog::warn("Failed to query HIP P2P capability from GPU {} to {}: {}",
+                                 i, j, hipGetErrorString(can_access_err));
+                    p2p_enabled_ = false;
+                    continue;
+                }
                 
                 if (can_access) {
-                    hipSetDevice(ctx_.get_device(i).id);
+                    hipError_t set_device_err = hipSetDevice(ctx_.get_device(i).id);
+                    if (set_device_err != hipSuccess) {
+                        spdlog::warn("Failed to set HIP device {} before enabling P2P to {}: {}",
+                                     i, j, hipGetErrorString(set_device_err));
+                        p2p_enabled_ = false;
+                        continue;
+                    }
                     hipError_t err = hipDeviceEnablePeerAccess(ctx_.get_device(j).id, 0);
                     if (err != hipSuccess && err != hipErrorPeerAccessAlreadyEnabled) {
                         spdlog::warn("Failed to enable P2P access from GPU {} to {}: {}", 

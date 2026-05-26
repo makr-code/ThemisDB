@@ -156,14 +156,32 @@ void MultiGPUContext::synchronize_all() const {
     for (const auto& device : devices_) {
 #ifdef THEMIS_ENABLE_CUDA
         if (device.type == DeviceType::CUDA) {
-            cudaSetDevice(device.device_id);
-            cudaDeviceSynchronize();
+            cudaError_t set_device_err = cudaSetDevice(device.device_id);
+            if (set_device_err != cudaSuccess) {
+                spdlog::warn("MultiGPUContext::synchronize_all: cudaSetDevice({}) failed: {}",
+                             device.device_id, cudaGetErrorString(set_device_err));
+                continue;
+            }
+            cudaError_t sync_err = cudaDeviceSynchronize();
+            if (sync_err != cudaSuccess) {
+                spdlog::warn("MultiGPUContext::synchronize_all: cudaDeviceSynchronize({}) failed: {}",
+                             device.device_id, cudaGetErrorString(sync_err));
+            }
         }
 #endif
 #ifdef THEMIS_ENABLE_HIP
         if (device.type == DeviceType::HIP) {
-            hipSetDevice(device.device_id);
-            hipDeviceSynchronize();
+            hipError_t set_device_err = hipSetDevice(device.device_id);
+            if (set_device_err != hipSuccess) {
+                spdlog::warn("MultiGPUContext::synchronize_all: hipSetDevice({}) failed: {}",
+                             device.device_id, hipGetErrorString(set_device_err));
+                continue;
+            }
+            hipError_t sync_err = hipDeviceSynchronize();
+            if (sync_err != hipSuccess) {
+                spdlog::warn("MultiGPUContext::synchronize_all: hipDeviceSynchronize({}) failed: {}",
+                             device.device_id, hipGetErrorString(sync_err));
+            }
         }
 #endif
     }
@@ -255,4 +273,3 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

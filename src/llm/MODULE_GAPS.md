@@ -218,6 +218,21 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-75: `multi_gpu_memory_coordinator.cpp` `synchronizeAll()` now checks `cudaSetDevice()` before `cudaDeviceSynchronize()`.
 - REL-76: `multi_gpu_memory_coordinator.cpp` `synchronizeAll()` now checks `hipSetDevice()` before `hipDeviceSynchronize()`.
 
+**Status (W1-L12):** REL-77..REL-89 fixed —
+- REL-77: `multi_gpu.cpp` `MultiGPUContext::synchronize_all()` now checks `cudaSetDevice()` before synchronization and logs failures.
+- REL-78: `multi_gpu.cpp` `MultiGPUContext::synchronize_all()` now checks `cudaDeviceSynchronize()` and logs failures.
+- REL-79: `multi_gpu.cpp` `MultiGPUContext::synchronize_all()` now checks `hipSetDevice()` before synchronization and logs failures.
+- REL-80: `multi_gpu.cpp` `MultiGPUContext::synchronize_all()` now checks `hipDeviceSynchronize()` and logs failures.
+- REL-81: `multi_gpu_trainer.cpp` `update_parameters()` now checks `cudaSetDevice()` before CUDA SGD kernel launch and falls back safely.
+- REL-82: `multi_gpu_trainer.cpp` `update_parameters()` now checks `hipSetDevice()` before HIP SGD kernel launch and falls back safely.
+- REL-83: `custom_allreduce.cpp` `enable_p2p_access()` now checks `cudaDeviceCanAccessPeer()` before enabling peer access.
+- REL-84: `custom_allreduce.cpp` `enable_p2p_access()` now checks `cudaSetDevice()` before CUDA peer-access enable.
+- REL-85: `custom_allreduce.cpp` `enable_p2p_access()` now checks `hipDeviceCanAccessPeer()` before enabling peer access.
+- REL-86: `custom_allreduce.cpp` `enable_p2p_access()` now checks `hipSetDevice()` before HIP peer-access enable.
+- REL-87: `gpu_memory_manager.cpp` `initializeGPU()` now checks `cudaDeviceCanAccessPeer()` and `cudaSetDevice()` in peer-access setup path.
+- REL-88: `gpu_memory_manager.cpp` `shutdownGPU()` now checks `cudaSetDevice()` and `cudaDeviceDisablePeerAccess()` during peer-access teardown.
+- REL-89: `gpu_memory_manager.cpp` `shutdownGPU()` now checks `cudaSetDevice()` before device reset.
+
 ---
 
 ## 📋 Implementation Priority

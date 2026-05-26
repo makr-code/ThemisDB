@@ -338,30 +338,34 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
 #ifdef THEMIS_ENABLE_CUDA
             if (device.type == DeviceType::CUDA && !gpu_update_successful) {
                 // Set the active CUDA device before launching the kernel
-                cudaSetDevice(device.id);
-                
-                // Use CUDA kernel for efficient GPU-side update
-                void* param_ptr = params[j]->gpu_ptr();
-                void* grad_ptr = grads[j]->gpu_ptr();
-                size_t size = params[j]->size();
-                
-                if (param_ptr && grad_ptr && size > 0) {
-                    cudaError_t err = cuda::launch_sgd_update_kernel(
-                        static_cast<float*>(param_ptr),
-                        static_cast<const float*>(grad_ptr),
-                        config_.learning_rate,
-                        size,
-                        nullptr  // Use default stream
-                    );
-                    
-                    if (err == cudaSuccess) {
-                        gpu_update_successful = true;
-                    } else {
-                        spdlog::warn("CUDA SGD kernel failed for GPU {}, param {}: {}", 
-                                     i, j, cudaGetErrorString(err));
-                    }
+                cudaError_t set_device_err = cudaSetDevice(device.id);
+                if (set_device_err != cudaSuccess) {
+                    spdlog::warn("CUDA set device failed for GPU {}, param {}: {}",
+                                 i, j, cudaGetErrorString(set_device_err));
                 } else {
-                    spdlog::warn("Invalid pointers for GPU {}, param {}, using CPU fallback", i, j);
+                    // Use CUDA kernel for efficient GPU-side update
+                    void* param_ptr = params[j]->gpu_ptr();
+                    void* grad_ptr = grads[j]->gpu_ptr();
+                    size_t size = params[j]->size();
+                    
+                    if (param_ptr && grad_ptr && size > 0) {
+                        cudaError_t err = cuda::launch_sgd_update_kernel(
+                            static_cast<float*>(param_ptr),
+                            static_cast<const float*>(grad_ptr),
+                            config_.learning_rate,
+                            size,
+                            nullptr  // Use default stream
+                        );
+                        
+                        if (err == cudaSuccess) {
+                            gpu_update_successful = true;
+                        } else {
+                            spdlog::warn("CUDA SGD kernel failed for GPU {}, param {}: {}", 
+                                         i, j, cudaGetErrorString(err));
+                        }
+                    } else {
+                        spdlog::warn("Invalid pointers for GPU {}, param {}, using CPU fallback", i, j);
+                    }
                 }
             }
 #endif
@@ -369,30 +373,34 @@ void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
 #ifdef THEMIS_ENABLE_HIP
             if (device.type == DeviceType::HIP && !gpu_update_successful) {
                 // Set the active HIP device before launching the kernel
-                hipSetDevice(device.id);
-                
-                // Use HIP kernel for efficient GPU-side update
-                void* param_ptr = params[j]->gpu_ptr();
-                void* grad_ptr = grads[j]->gpu_ptr();
-                size_t size = params[j]->size();
-                
-                if (param_ptr && grad_ptr && size > 0) {
-                    hipError_t err = hip::launch_sgd_update_kernel(
-                        static_cast<float*>(param_ptr),
-                        static_cast<const float*>(grad_ptr),
-                        config_.learning_rate,
-                        size,
-                        nullptr  // Use default stream
-                    );
-                    
-                    if (err == hipSuccess) {
-                        gpu_update_successful = true;
-                    } else {
-                        spdlog::warn("HIP SGD kernel failed for GPU {}, param {}: {}", 
-                                     i, j, hipGetErrorString(err));
-                    }
+                hipError_t set_device_err = hipSetDevice(device.id);
+                if (set_device_err != hipSuccess) {
+                    spdlog::warn("HIP set device failed for GPU {}, param {}: {}",
+                                 i, j, hipGetErrorString(set_device_err));
                 } else {
-                    spdlog::warn("Invalid pointers for GPU {}, param {}, using CPU fallback", i, j);
+                    // Use HIP kernel for efficient GPU-side update
+                    void* param_ptr = params[j]->gpu_ptr();
+                    void* grad_ptr = grads[j]->gpu_ptr();
+                    size_t size = params[j]->size();
+                    
+                    if (param_ptr && grad_ptr && size > 0) {
+                        hipError_t err = hip::launch_sgd_update_kernel(
+                            static_cast<float*>(param_ptr),
+                            static_cast<const float*>(grad_ptr),
+                            config_.learning_rate,
+                            size,
+                            nullptr  // Use default stream
+                        );
+                        
+                        if (err == hipSuccess) {
+                            gpu_update_successful = true;
+                        } else {
+                            spdlog::warn("HIP SGD kernel failed for GPU {}, param {}: {}", 
+                                         i, j, hipGetErrorString(err));
+                        }
+                    } else {
+                        spdlog::warn("Invalid pointers for GPU {}, param {}, using CPU fallback", i, j);
+                    }
                 }
             }
 #endif
