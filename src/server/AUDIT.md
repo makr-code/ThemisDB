@@ -1,11 +1,11 @@
-<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0+S1+S2 fixed; auth enforcement gates added 2026-05-26 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Server Module
 
-> ⚠️ **Auditstand:** Source code analysis 2026-04-21 found critical security vulnerabilities.
+> ✅ **Auditstand:** S0+S1+S2 resolved. Routing-layer auth enforcement gates added 2026-05-26.
 
-**Last Audit:** 2026-04-21 | **Auditor:** Copilot | **Status:** 🔴 Critical — 2×S0 unauthenticated admin endpoints + 8×S1
+**Last Audit:** 2026-05-26 | **Auditor:** Copilot | **Status:** ✅ S0+S1+S2 resolved — 0 open critical/high/medium findings
 
 ## Summary
 
@@ -15,9 +15,9 @@
 | Source Files | 116 registered |
 | Test Coverage | ✅ Present (focused test targets in tests/CMakeLists.txt) |
 | S0 Critical | ✅ 0 (HS-1 + HS-2 fixed 2026-04-21) |
-| S1 High | 🔴 8 |
+| S1 High | ✅ 0 (HS-3..HS-9 fixed 2026-05-04) |
 | S2 Medium | ✅ 0 (HS-10, HS-11, HS-12 fixed 2026-05-04) |
-| Centralized auth enforcement | 🔴 **None — every handler responsible for own auth; new handlers trivially ship without it** |
+| Centralized auth enforcement | ✅ Routing-layer gates added 2026-05-26 (W1-S11): AdminBackup, AdminRestore, ObservabilityAlerts, ObservabilityAlertSilence, ObservabilityHealth, LicenseStatus now require auth; MetricsHtml and PluginMetrics restricted to localhost/token (consistent with `/metrics`) |
 
 ## Source Files Audited
 

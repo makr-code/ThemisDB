@@ -4299,23 +4299,92 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = monitoring_api_->handleMetrics(req);
             break;
         }
-        case Route::MetricsHtml:
+        case Route::MetricsHtml: {
+            // W1-S11: Same localhost-or-metrics-token restriction as the Prometheus /metrics
+            // endpoint — the HTML view exposes the same data.
+            const std::string client_ip_mhtml = extractClientIP(req);
+            const bool from_loopback_mhtml = (client_ip_mhtml == "127.0.0.1" || client_ip_mhtml == "::1");
+            bool token_ok_mhtml = false;
+            if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
+                const std::string expected_tok{tok_env};
+                if (!expected_tok.empty()) {
+                    auto it = req.find(http::field::authorization);
+                    if (it != req.end()) {
+                        auto bearer = themis::AuthMiddleware::extractBearerToken(
+                            std::string_view(it->value().data(), it->value().size()));
+                        token_ok_mhtml = (bearer && *bearer == expected_tok);
+                    }
+                }
+            }
+            if (!from_loopback_mhtml && !token_ok_mhtml) {
+                response = makeErrorResponse(http::status::forbidden,
+                    "Metrics HTML endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
+                break;
+            }
             response = monitoring_api_->handleMetricsHtml(req);
             break;
-        case Route::PluginMetrics:
-            // Delegate to MonitoringApiHandler for plugin metrics
+        }
+        case Route::PluginMetrics: {
+            // W1-S11: Same localhost-or-metrics-token restriction as the Prometheus /metrics
+            // endpoint — plugin metrics expose comparable operational data.
+            const std::string client_ip_pm = extractClientIP(req);
+            const bool from_loopback_pm = (client_ip_pm == "127.0.0.1" || client_ip_pm == "::1");
+            bool token_ok_pm = false;
+            if (const char* tok_env = std::getenv("THEMIS_METRICS_TOKEN")) {
+                const std::string expected_tok{tok_env};
+                if (!expected_tok.empty()) {
+                    auto it = req.find(http::field::authorization);
+                    if (it != req.end()) {
+                        auto bearer = themis::AuthMiddleware::extractBearerToken(
+                            std::string_view(it->value().data(), it->value().size()));
+                        token_ok_pm = (bearer && *bearer == expected_tok);
+                    }
+                }
+            }
+            if (!from_loopback_pm && !token_ok_pm) {
+                response = makeErrorResponse(http::status::forbidden,
+                    "Plugin metrics endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
+                break;
+            }
             response = monitoring_api_->handlePluginMetrics(req);
             break;
+        }
         case Route::ObservabilityAlertsGet:
+            // W1-S11: Observability alert list exposes internal alert state — require monitoring read.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.alerts.read",
+                                              "/api/v1/observability/alerts")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityAlerts(req);
             break;
         case Route::ObservabilityAlertSilencePost:
+            // W1-S11: Silencing alerts is a write operation — require monitoring write.
+            if (auto auth_err = requireAccess(req, "monitoring:write", "monitoring.alerts.silence",
+                                              "/api/v1/observability/alerts/silence")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityAlertSilence(req);
             break;
         case Route::ObservabilityHealthGet:
+            // W1-S11: Observability health exposes internal service config (endpoint URLs,
+            // connection state) — require monitoring read.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.health.read",
+                                              "/api/v1/observability/health")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleObservabilityHealth(req);
             break;
         case Route::LicenseStatusGet:
+            // W1-S11: License status exposes organization name, edition, and masked license key —
+            // require monitoring read access.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.license.read",
+                                              "/api/v1/license/status")) {
+                response = *auth_err;
+                break;
+            }
             response = monitoring_api_->handleLicenseStatus(req);
             break;
         case Route::WalApplyPost:
@@ -4332,9 +4401,19 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleConfig(req);
             break;
         case Route::AdminBackupPost:
+            // W1-S11: Backup creates a storage checkpoint — requires admin privilege.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/admin/backup")) {
+                response = *auth_err;
+                break;
+            }
             response = admin_api_->handleBackup(req);
             break;
         case Route::AdminRestorePost:
+            // W1-S11: Restore replaces the live database — requires admin privilege.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/admin/restore")) {
+                response = *auth_err;
+                break;
+            }
             response = admin_api_->handleRestore(req);
             break;
         case Route::EntitiesGet:

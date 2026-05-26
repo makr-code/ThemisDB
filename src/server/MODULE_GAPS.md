@@ -1,7 +1,7 @@
 # server Module — Implementation Gap Analysis
 
 **Status:** In Progress  
-**Last Updated:** 2026-05-19  
+**Last Updated:** 2026-05-26  
 
 ---
 
@@ -15,7 +15,24 @@ python tools/gap_audit_pipeline_v2.py
 
 ---
 
-## ✅ Recent Remediation (2026-05-19)
+## ✅ Recent Remediation (2026-05-26)
+
+- **W1-S11 (2026-05-26) – `src/server/http_server.cpp`, `src/server/AUDIT.md`**
+  - Routing-layer auth enforcement: added `requireAccess` gates in the routing switch
+    for 6 endpoints that previously had neither routing-level nor handler-level auth:
+    - `AdminBackupPost` → requires `"admin"` scope (storage checkpoint creation)
+    - `AdminRestorePost` → requires `"admin"` scope (live-DB replacement from checkpoint)
+    - `ObservabilityAlertsGet` → requires `"monitoring:read"` (exposes internal alert state)
+    - `ObservabilityAlertSilencePost` → requires `"monitoring:write"` (mutates alert state)
+    - `ObservabilityHealthGet` → requires `"monitoring:read"` (exposes internal config/endpoints)
+    - `LicenseStatusGet` → requires `"monitoring:read"` (exposes org name + masked license key)
+  - `MetricsHtml` and `PluginMetrics` now apply the same localhost-or-`THEMIS_METRICS_TOKEN`
+    guard already enforced on the Prometheus `/metrics` endpoint, providing consistent
+    access control for all metrics-export surfaces.
+  - AUDIT.md: corrected stale summary table (S1 was shown as 🔴 8; all HS-3..HS-9 were
+    already fixed 2026-05-04); updated status header and centralized-auth row to ✅.
+  - Gap delta intent: close the "Centralized auth enforcement — None" architectural
+    finding by establishing routing-layer gates for all identified unprotected endpoints.
 
 - **W1-S10 (2026-05-26) – `include/server/mcp_server.h`, `src/server/mcp_server.cpp`**
   - MCP transport lifetime hardening: `StdioTransport`, `SseTransport`, and
