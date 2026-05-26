@@ -246,7 +246,12 @@ AttentionMemoryStats FlashAttentionCUDA::getMemoryStats() const {
     
     // Query GPU memory
     size_t free_mem, total_mem;
-    cudaMemGetInfo(&free_mem, &total_mem);
+    const cudaError_t mem_info_err = cudaMemGetInfo(&free_mem, &total_mem);
+    if (mem_info_err != cudaSuccess) {
+        throw std::runtime_error(
+            std::string("CUDA memory query failed: ") + cudaGetErrorString(mem_info_err)
+        );
+    }
     
     stats.total_memory_bytes = total_mem;
     stats.workspace_bytes = workspace_size_;

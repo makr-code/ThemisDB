@@ -246,6 +246,40 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-48: Vulkan allocator init in `vram_allocator.cpp` replaced raw `new`/`delete` pair with
   `std::make_unique<VulkanAllocContext>()` + `release()`; exception-unsafe manual cleanup path eliminated.
 
+**Status (v1.22.0-pre — W1-L07):** REL-49..REL-51 fixed — CUDA synchronize and memory-query reliability:
+- REL-49: `cudaDeviceSynchronize` return value now checked in `flash_lora.cpp::forward()`; failures throw
+  `std::runtime_error` with the CUDA error string instead of being silently ignored.
+- REL-50: `cudaDeviceSynchronize` return value now checked in `flash_lora.cpp::backward()`; failures throw
+  `std::runtime_error` with the CUDA error string instead of being silently ignored.
+- REL-51: `cudaMemGetInfo` return value now checked in `attention/cuda/flash_attention_cuda.cu::getMemoryStats()`;
+  failures throw `std::runtime_error` before reporting incomplete memory statistics.
+
+**Status (v1.22.0-pre — W1-L08):** REL-52..REL-61 fixed — quantization and overflow-buffer cleanup reliability:
+- REL-52: `cudaMalloc` return value now checked in
+  `lora_framework/kernels/quantization_kernels.cu::GPUMemoryManager::allocateQuantizedBuffer()`; failures log
+  an error and return `nullptr` without incrementing `total_allocated_`.
+- REL-53: `cudaMallocHost` return value now checked in
+  `lora_framework/kernels/quantization_kernels.cu::GPUMemoryManager::allocatePinnedHost()`; failures log an
+  error and return `nullptr`.
+- REL-54: `cudaFree` return value now checked in
+  `lora_framework/kernels/quantization_kernels.cu::GPUMemoryManager::freeDevice()`; failures are logged.
+- REL-55: `cudaFreeHost` return value now checked in
+  `lora_framework/kernels/quantization_kernels.cu::GPUMemoryManager::freePinned()`; failures are logged.
+- REL-56: Cleanup `cudaFree` after `cudaMemset` failure is now checked in
+  `lora_framework/kernels/cuda_kernels.cu::checkInfNanCUDA()`; cleanup failures are logged.
+- REL-57: Cleanup `cudaFree` after kernel-launch failure is now checked in
+  `lora_framework/kernels/cuda_kernels.cu::checkInfNanCUDA()`; cleanup failures are logged.
+- REL-58: Final cleanup `cudaFree` after overflow-result copy is now checked in
+  `lora_framework/kernels/cuda_kernels.cu::checkInfNanCUDA()`; cleanup failure is returned when no earlier CUDA
+  error occurred.
+- REL-59: Cleanup `hipFree` after `hipMemset` failure is now checked in
+  `lora_framework/kernels/hip_kernels.cpp::checkInfNanHIP()`; cleanup failures are logged.
+- REL-60: Cleanup `hipFree` after kernel-launch failure is now checked in
+  `lora_framework/kernels/hip_kernels.cpp::checkInfNanHIP()`; cleanup failures are logged.
+- REL-61: Final cleanup `hipFree` after overflow-result copy is now checked in
+  `lora_framework/kernels/hip_kernels.cpp::checkInfNanHIP()`; cleanup failure is returned when no earlier HIP
+  error occurred.
+
 **OOP-01:** `~LLMPluginAdapter() override = default;` added to `llm_plugin_interface.h` to close override
 destructor gap for the concrete `LLMPluginAdapter` class.
 
