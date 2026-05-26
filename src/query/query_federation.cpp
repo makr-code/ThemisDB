@@ -921,6 +921,18 @@ nlohmann::json QueryFederation::mergeResults(
     [[maybe_unused]] const QueryMetadata& metadata
 ) {
     nlohmann::json merged = nlohmann::json::array();
+    uint64_t estimated_merged_bytes = 0;
+
+    const auto appendMergedValue = [this, &merged, &estimated_merged_bytes](
+                                       const nlohmann::json& value,
+                                       std::string_view context) {
+        estimated_merged_bytes += static_cast<uint64_t>(value.dump().size());
+        enforceAccumulatedSizeLimit(
+            estimated_merged_bytes,
+            config_.max_result_size_bytes,
+            context);
+        merged.push_back(value);
+    };
     
     // Collect all successful results
     for (const auto& result : results) {
@@ -933,11 +945,11 @@ nlohmann::json QueryFederation::mergeResults(
         // Merge data arrays
         if (result.data.is_array()) {
             for (const auto& item : result.data) {
-                merged.push_back(item);
+                appendMergedValue(item, "merged federated result");
             }
         } else if (result.data.is_object()) {
             // Handle object results (e.g., aggregations)
-            merged.push_back(result.data);
+            appendMergedValue(result.data, "merged federated result");
         }
     }
     

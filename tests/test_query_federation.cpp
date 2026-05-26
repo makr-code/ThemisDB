@@ -81,6 +81,23 @@ private:
     size_t next_result_index_ = 0;
 };
 
+class FederatedResultShardRouter : public InstrumentedShardRouter {
+public:
+    using InstrumentedShardRouter::InstrumentedShardRouter;
+
+    std::vector<ShardResult> scatterGather(const std::string& /*query*/) override {
+        scatter_gather_call_count++;
+        return queued_results_;
+    }
+
+    void queueShardResult(ShardResult result) {
+        queued_results_.push_back(std::move(result));
+    }
+
+private:
+    std::vector<ShardResult> queued_results_;
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Test fixture: 3-shard cluster
 // ─────────────────────────────────────────────────────────────────────────────
@@ -197,6 +214,30 @@ TEST(QueryFederationJoinValidationTest, OversizedShuffleJoinInputThrows) {
 
     EXPECT_THROW(
         federation.executeJoin("users", "orders", "user_id"),
+        std::runtime_error);
+}
+
+TEST(QueryFederationExecutionLimitTest, OversizedMergedScatterGatherResultThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<FederatedResultShardRouter>(resolver);
+
+    QueryFederation::Config cfg;
+    cfg.max_result_size_bytes = 64;
+
+    const std::string oversized_payload(128, 'x');
+    ShardResult shard_result;
+    shard_result.shard_id = "shard-001";
+    shard_result.success = true;
+    shard_result.data = nlohmann::json::array(
+        {nlohmann::json{{"_key", "user-1"}, {"payload", oversized_payload}}});
+    router->queueShardResult(std::move(shard_result));
+
+    QueryFederation federation(router, cfg);
+
+    EXPECT_THROW(
+        federation.execute("FOR doc IN users RETURN doc"),
         std::runtime_error);
 }
 
