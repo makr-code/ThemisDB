@@ -574,7 +574,7 @@ private:
         beast::flat_buffer buffer_;
         http::request<http::string_body> request_;
         http::response<http::string_body> response_;
-        net::steady_timer read_timer_; // enforces request_timeout_ms
+        net::steady_timer read_timer_; ///< I/O timeout timer: armed before async_read and async_write
     };
 
     // SSL Session class for handling TLS connections
@@ -601,7 +601,7 @@ private:
         beast::flat_buffer buffer_;
         http::request<http::string_body> request_;
         http::response<http::string_body> response_;
-        net::steady_timer read_timer_; // enforces request_timeout_ms
+        net::steady_timer read_timer_; ///< I/O timeout timer: armed before async_read and async_write
     };
 
     // Request routing
@@ -1179,6 +1179,14 @@ private:
     std::mutex audit_rate_mutex_;
     std::unordered_map<std::string, RateState> audit_rate_buckets_;
     uint32_t audit_rate_limit_per_minute_{100};
+
+    // Hot-reloadable config shadows — written via POST /config (on a worker thread),
+    // read concurrently by other worker threads.  Atomic to prevent data races.
+    std::atomic<uint32_t> request_timeout_ms_live_{30000};
+    std::atomic<bool>     feature_semantic_cache_live_{false};
+    std::atomic<bool>     feature_llm_store_live_{false};
+    std::atomic<bool>     feature_cdc_live_{false};
+    std::atomic<bool>     feature_timeseries_live_{false};
     
     // Latency histogram buckets (in microseconds): 100us, 500us, 1ms, 5ms, 10ms, 50ms, 100ms, 500ms, 1s, 5s, 10s+
     std::atomic<uint64_t> latency_bucket_100us_{0};

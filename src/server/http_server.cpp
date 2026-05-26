@@ -281,6 +281,15 @@ HttpServer::HttpServer(
 {
     THEMIS_INFO("HTTP Server created with {} threads on {}:{}", 
         config_.num_threads, config_.host, config_.port);
+
+    // Initialize hot-reloadable atomic shadows from initial config values.
+    // These are the only config fields written concurrently by POST /config
+    // (hot-reload) while worker threads may read them simultaneously.
+    request_timeout_ms_live_.store(config_.request_timeout_ms, std::memory_order_relaxed);
+    feature_semantic_cache_live_.store(config_.feature_semantic_cache, std::memory_order_relaxed);
+    feature_llm_store_live_.store(config_.feature_llm_store, std::memory_order_relaxed);
+    feature_cdc_live_.store(config_.feature_cdc, std::memory_order_relaxed);
+    feature_timeseries_live_.store(config_.feature_timeseries, std::memory_order_relaxed);
     
     // Initialize Spatial Index Manager (geo MVP)
     try {
@@ -8565,7 +8574,14 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
         uint32_t count = 0;
         {
             std::lock_guard<std::mutex> lk(audit_rate_mutex_);
-            auto& st = audit_rate_buckets_[key];
+            // Use try_emplace to make the insertion intent explicit and to avoid
+            // the iterator-invalidation risk that operator[] carries: operator[]
+            // inserts a default element when the key is absent, which can trigger
+            // a rehash and invalidate all existing iterators/references.
+            // try_emplace also inserts a default element if absent but the returned
+            // iterator is always stable within this locked section.
+            auto [it, inserted] = audit_rate_buckets_.try_emplace(key);
+            auto& st = it->second;
             if (now - st.window_start_ms >= window_ms) {
                 st.window_start_ms = now;
                 st.count = 0;
@@ -8646,7 +8662,9 @@ http::response<http::string_body> HttpServer::handleConfig(
             if (body.contains("request_timeout_ms")) {
                 auto timeout = body["request_timeout_ms"].get<uint32_t>();
                 if (timeout >= 1000 && timeout <= 300000) { // 1s - 5min range
-                    config_.request_timeout_ms = timeout;
+                    // Write via atomic to prevent data race: worker threads read
+                    // request_timeout_ms_live_ concurrently in armReadTimer().
+                    request_timeout_ms_live_.store(timeout, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: request_timeout_ms set to {}", timeout);
                 } else {
                     return makeErrorResponse(http::status::bad_request, "request_timeout_ms must be 1000-300000", req);
@@ -8658,29 +8676,30 @@ http::response<http::string_body> HttpServer::handleConfig(
                 const auto& features = body["features"];
                 if (features.contains("semantic_cache")) {
                     bool enabled = features["semantic_cache"].get<bool>();
-                    config_.feature_semantic_cache = enabled;
+                    // Write via atomic to prevent data race with concurrent handler reads.
+                    feature_semantic_cache_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_semantic_cache set to {}", enabled);
                 }
                 if (features.contains("llm_store")) {
                     bool enabled = features["llm_store"].get<bool>();
-                    config_.feature_llm_store = enabled;
+                    feature_llm_store_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_llm_store set to {}", enabled);
                 }
                 if (features.contains("cdc")) {
                     bool enabled = features["cdc"].get<bool>();
-                    config_.feature_cdc = enabled;
+                    feature_cdc_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_cdc set to {}", enabled);
                 }
                 if (features.contains("timeseries")) {
                     bool enabled = features["timeseries"].get<bool>();
-                    config_.feature_timeseries = enabled;
+                    feature_timeseries_live_.store(enabled, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: feature_timeseries set to {}", enabled);
                 }
             }
             
             // 4) CDC Retention policy (auto-cleanup threshold)
             if (body.contains("cdc_retention_hours")) {
-                if (!config_.feature_cdc || !changefeed_) {
+                if (!feature_cdc_live_.load(std::memory_order_relaxed) || !changefeed_) {
                     return makeErrorResponse(http::status::bad_request, "CDC not enabled", req);
                 }
                 auto hours = body["cdc_retention_hours"].get<uint32_t>();
@@ -8704,13 +8723,13 @@ http::response<http::string_body> HttpServer::handleConfig(
             {"server", {
                 {"port", config_.port},
                 {"threads", config_.num_threads},
-                {"request_timeout_ms", config_.request_timeout_ms}
+                {"request_timeout_ms", request_timeout_ms_live_.load(std::memory_order_relaxed)}
             }},
             {"features", {
-                {"semantic_cache", config_.feature_semantic_cache},
-                {"llm_store", config_.feature_llm_store},
-                {"cdc", config_.feature_cdc},
-                {"timeseries", config_.feature_timeseries}
+                {"semantic_cache", feature_semantic_cache_live_.load(std::memory_order_relaxed)},
+                {"llm_store", feature_llm_store_live_.load(std::memory_order_relaxed)},
+                {"cdc", feature_cdc_live_.load(std::memory_order_relaxed)},
+                {"timeseries", feature_timeseries_live_.load(std::memory_order_relaxed)}
             }},
             {"rocksdb", {
                 {"db_path", storage_->getConfig().db_path},
@@ -9370,7 +9389,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
 http::response<http::string_body> HttpServer::handleLlmInteractionPost(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9427,7 +9446,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionPost(
 http::response<http::string_body> HttpServer::handleLlmInteractionList(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9498,7 +9517,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionList(
 http::response<http::string_body> HttpServer::handleLlmInteractionGet(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -9540,7 +9559,7 @@ http::response<http::string_body> HttpServer::handleLlmInteractionGet(
 http::response<http::string_body> HttpServer::handleLlmInteractionUpdateMetadata(
     const http::request<http::string_body>& req
 ) {
-    if (!config_.feature_llm_store) {
+    if (!feature_llm_store_live_.load(std::memory_order_relaxed)) {
         return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
     }
     
@@ -10611,7 +10630,7 @@ void HttpServer::applyGovernanceHeaders(
     std::string ann = (vector_index_ ? std::string("allowed") : std::string("disabled"));
     std::string content_enc = "optional";
     std::string export_perm = "allowed";
-    std::string cache_perm = (config_.feature_semantic_cache ? std::string("allowed") : std::string("disabled"));
+    std::string cache_perm = (feature_semantic_cache_live_.load(std::memory_order_relaxed) ? std::string("allowed") : std::string("disabled"));
     std::string retention_days = "365";
     std::string redaction = "none";
 
@@ -10838,15 +10857,15 @@ HttpServer::Session::~Session() {
 }
 
 void HttpServer::Session::armReadTimer() {
-    if (server_->config_.request_timeout_ms == 0) return;
-    read_timer_.expires_after(
-        std::chrono::milliseconds(server_->config_.request_timeout_ms)
-    );
-    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+    // Load the live (hot-reloadable) timeout atomically to prevent data race
+    // with the POST /config hot-reload path that writes request_timeout_ms_live_.
+    const uint32_t timeout_ms = server_->request_timeout_ms_live_.load(std::memory_order_relaxed);
+    if (timeout_ms == 0) return;
+    read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
+    read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
             // Timer fired before I/O completed: cancel the pending socket operation
-            THEMIS_WARN("Request read timeout ({}ms) - closing connection",
-                self->server_->config_.request_timeout_ms);
+            THEMIS_WARN("Request I/O timeout ({}ms) - closing connection", timeout_ms);
             beast::error_code close_ec;
             self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
@@ -11060,6 +11079,9 @@ void HttpServer::Session::processRequest() {
 }
 
 void HttpServer::Session::doWrite() {
+    // Arm the I/O timeout for the write phase (same timer as read phase; read
+    // is already complete and the timer was cancelled in onRead before we get here).
+    armReadTimer();
     bool close = response_.need_eof();
     http::async_write(
         socket_,
@@ -11077,6 +11099,7 @@ void HttpServer::Session::onWrite(
     beast::error_code ec,
     std::size_t bytes_transferred
 ) {
+    cancelReadTimer();  // Cancel the write-phase I/O timeout
     boost::ignore_unused(bytes_transferred);
 
     if (ec) {
@@ -11111,14 +11134,14 @@ HttpServer::SslSession::~SslSession() {
 }
 
 void HttpServer::SslSession::armReadTimer() {
-    if (server_->config_.request_timeout_ms == 0) return;
-    read_timer_.expires_after(
-        std::chrono::milliseconds(server_->config_.request_timeout_ms)
-    );
-    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+    // Load the live (hot-reloadable) timeout atomically to prevent data race
+    // with the POST /config hot-reload path that writes request_timeout_ms_live_.
+    const uint32_t timeout_ms = server_->request_timeout_ms_live_.load(std::memory_order_relaxed);
+    if (timeout_ms == 0) return;
+    read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
+    read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
-            THEMIS_WARN("Request read timeout ({}ms) - closing TLS connection",
-                self->server_->config_.request_timeout_ms);
+            THEMIS_WARN("Request I/O timeout ({}ms) - closing TLS connection", timeout_ms);
             beast::error_code close_ec;
             self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());
@@ -11372,6 +11395,9 @@ void HttpServer::SslSession::processRequest() {
 }
 
 void HttpServer::SslSession::doWrite() {
+    // Arm the I/O timeout for the write phase (same timer as read/handshake phase;
+    // it was cancelled in onRead/onHandshake before we get here).
+    armReadTimer();
     bool close = response_.need_eof();
     http::async_write(
         stream_,
@@ -11389,6 +11415,7 @@ void HttpServer::SslSession::onWrite(
     beast::error_code ec,
     std::size_t bytes_transferred
 ) {
+    cancelReadTimer();  // Cancel the write-phase I/O timeout
     boost::ignore_unused(bytes_transferred);
 
     if (ec) {
@@ -12053,8 +12080,14 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
 
     // ========== FEATURE-CONDITIONAL ENDPOINTS ==========
 
+    // Snapshot live atomic values once to ensure consistency within this response.
+    const bool cap_semantic_cache = feature_semantic_cache_live_.load(std::memory_order_relaxed);
+    const bool cap_llm_store      = feature_llm_store_live_.load(std::memory_order_relaxed);
+    const bool cap_cdc            = feature_cdc_live_.load(std::memory_order_relaxed);
+    const bool cap_timeseries     = feature_timeseries_live_.load(std::memory_order_relaxed);
+
     // Semantic Cache (Sprint A)
-    if (config_.feature_semantic_cache) {
+    if (cap_semantic_cache) {
         endpoints.push_back({"POST", "/cache/query",          "Semantic cache lookup (beta)"});
         endpoints.push_back({"POST", "/cache/put",            "Semantic cache store (beta)"});
         endpoints.push_back({"GET",  "/cache/stats",          "Cache statistics (beta)"});
@@ -12073,7 +12106,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     }
 
     // LLM Interaction Store (Sprint A)
-    if (config_.feature_llm_store) {
+    if (cap_llm_store) {
         endpoints.push_back({"POST", "/llm/interaction",        "Store LLM interaction"});
         endpoints.push_back({"GET",  "/llm/interaction",        "List LLM interactions"});
         endpoints.push_back({"GET",  "/llm/interaction/{id}",   "Get LLM interaction"});
@@ -12088,7 +12121,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"PUT",  "/prompt_template/{id}",     "Update prompt template"});
 
     // Changefeed / CDC (Sprint A)
-    if (config_.feature_cdc) {
+    if (cap_cdc) {
         endpoints.push_back({"GET",  "/changefeed",            "Get changefeed events"});
         endpoints.push_back({"GET",  "/changefeed/stream",     "Stream CDC events (SSE)"});
         endpoints.push_back({"POST", "/changefeed/stream/ack", "Acknowledge CDC events"});
@@ -12142,7 +12175,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     }
 
     // Time-Series Store (Sprint B)
-    if (config_.feature_timeseries) {
+    if (cap_timeseries) {
         endpoints.push_back({"POST", "/ts/put",                "Store time-series data"});
         endpoints.push_back({"POST", "/ts/query",              "Query time-series (beta)"});
         endpoints.push_back({"POST", "/ts/aggregate",          "Aggregate time-series (beta)"});
