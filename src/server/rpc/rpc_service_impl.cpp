@@ -10,6 +10,7 @@
  */
 
 #include "server/rpc_service_impl.h"
+#include <iostream>
 #include <stdexcept>
 #include "plugins/rpc_plugin_interface.h"
 #include "storage/rocksdb_wrapper.h"
@@ -1340,8 +1341,8 @@ json ThemisRPCService::handleTransactionCommit(const json& params) {
         
         // Find and commit transaction
         std::lock_guard<std::mutex> lock(transaction_mutex);
-        auto it = active_transactions.find(tx_id);
-        if (it == active_transactions.end()) {
+        auto node = active_transactions.extract(tx_id);
+        if (node.empty()) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
                 "Transaction not found: " + tx_id
@@ -1349,8 +1350,7 @@ json ThemisRPCService::handleTransactionCommit(const json& params) {
         }
         
         // Commit the transaction
-        bool success = it->second->commit();
-        active_transactions.erase(it);
+        bool success = node.mapped()->commit();
         
         if (!success) {
             return createError(
@@ -1399,8 +1399,8 @@ json ThemisRPCService::handleTransactionAbort(const json& params) {
         
         // Find and rollback transaction
         std::lock_guard<std::mutex> lock(transaction_mutex);
-        auto it = active_transactions.find(tx_id);
-        if (it == active_transactions.end()) {
+        auto node = active_transactions.extract(tx_id);
+        if (node.empty()) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
                 "Transaction not found: " + tx_id
@@ -1408,8 +1408,7 @@ json ThemisRPCService::handleTransactionAbort(const json& params) {
         }
         
         // Rollback the transaction
-        it->second->rollback();
-        active_transactions.erase(it);
+        node.mapped()->rollback();
         
         json result = {
             {"success", true},
@@ -1620,8 +1619,8 @@ json ThemisRPCService::handleStats([[maybe_unused]] const json& params) {
             if (!rocksdb_stats.empty()) {
                 stats["rocksdb_stats"] = rocksdb_stats;
             }
-        } catch (...) {
-            // Ignore errors getting stats
+        } catch (const std::exception& e) {
+            std::cerr << "[ThemisRPCService] getStats error: " << e.what() << "\n";
         }
         
         json result = {

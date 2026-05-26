@@ -172,3 +172,35 @@ No new code changes required; unknown scanner noise documented as false-positive
 **Format:** THEMIS_MODULE_GAPS_v1  
 **Generator:** ThemisDB Gap Audit Pipeline v2  
 **Auto-Generated:** Yes
+
+---
+
+**Status (v1.22.0-pre — W1-S04):** `src/server/postgres_session.cpp` + `src/server/rpc/rpc_service_impl.cpp`
+
+Findings addressed:
+
+- **postgres_session.cpp `uncaught_exception` (lines 605, 656):** Changed `catch (...)` to
+  `catch (const std::exception& e)` in `handleDescribe()`; fallback row-description path now
+  logs the parse-error message via `std::cerr` before sending the default `?column?` field.
+
+- **postgres_session.cpp `uncaught_exception` (line 1473):** Empty `catch (...) {}` inside the
+  `pg_attribute` schema-query loop replaced with `catch (const std::exception& e)` + `std::cerr`
+  logging so document-parse errors are observable rather than silently swallowed.
+
+- **postgres_session.cpp `no_retry_logic` / exception-safety (line 1181 — message dispatch):**
+  The Asio async-read lambda's message-dispatch `switch` is now wrapped in a
+  `try { … } catch (const std::exception& e)` block. Any exception that escapes a handler
+  (e.g. `handleQuery`, `handleBind`, `handleExecute`) now sends a PostgreSQL `ERROR` response
+  to the client and logs the error via `std::cerr` instead of propagating out of the Asio
+  handler and triggering `std::terminate`. `doRead()` continues to be called after the
+  catch, so the session remains alive.
+
+- **rpc_service_impl.cpp `iterator_invalidation` CRITICAL (lines 1343, 1402):** `handleTransactionCommit`
+  and `handleTransactionAbort` replaced the `find()+use iterator+erase(it)` pattern with
+  `active_transactions.extract(tx_id)` (C++17 node-handle). The element is atomically removed
+  from the map before `commit()`/`rollback()` is called; no iterator into the live map is
+  held during the operation, eliminating the iterator-invalidation risk flagged by the scanner.
+
+- **rpc_service_impl.cpp `uncaught_exception` (line 1623):** `catch (...) { // Ignore }` in
+  `handleGetStats` replaced with `catch (const std::exception& e)` that logs the error via
+  `std::cerr`; `getStats()` failures are now observable in server logs.
