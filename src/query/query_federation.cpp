@@ -16,6 +16,7 @@
 #include <regex>
 #include <set>
 #include <stdexcept>
+#include <string_view>
 #include <unordered_set>
 #include <spdlog/spdlog.h>
 
@@ -30,6 +31,27 @@ namespace {
             throw std::invalid_argument("QueryFederation: shard_router cannot be null");
         }
         return shard_router;
+    }
+
+    [[nodiscard]] bool isValidAqlIdentifier(std::string_view value) {
+        if (value.empty()) {
+            return false;
+        }
+        const auto is_ident_char = [](unsigned char c) {
+            return std::isalnum(c) != 0 || c == '_';
+        };
+
+        const unsigned char first = static_cast<unsigned char>(value.front());
+        if (!(std::isalpha(first) != 0 || first == '_')) {
+            return false;
+        }
+
+        for (size_t i = 1; i < value.size(); ++i) {
+            if (!is_ident_char(static_cast<unsigned char>(value[i]))) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
@@ -339,6 +361,15 @@ nlohmann::json QueryFederation::executeJoin(
     const std::string& right_collection,
     const std::string& join_condition
 ) {
+    if (!isValidAqlIdentifier(left_collection)) {
+        throw std::invalid_argument(
+            "QueryFederation::executeJoin: left_collection must be a valid AQL identifier");
+    }
+    if (!isValidAqlIdentifier(right_collection)) {
+        throw std::invalid_argument(
+            "QueryFederation::executeJoin: right_collection must be a valid AQL identifier");
+    }
+
     spdlog::info("Executing cross-shard JOIN: {} ⋈ {} ON {}",
                  left_collection, right_collection, join_condition);
     

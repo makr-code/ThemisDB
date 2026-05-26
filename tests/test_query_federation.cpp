@@ -123,6 +123,30 @@ TEST(QueryFederationConstructorValidationTest, NullRouter_ShardingManagerConfigC
     EXPECT_THROW((void)QueryFederation(null_router, mgr, cfg), std::invalid_argument);
 }
 
+TEST(QueryFederationJoinValidationTest, InvalidLeftCollectionNameThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    EXPECT_THROW(
+        federation.executeJoin("users RETURN 1", "orders", "user_id"),
+        std::invalid_argument);
+}
+
+TEST(QueryFederationJoinValidationTest, InvalidRightCollectionNameThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<InstrumentedShardRouter>(resolver);
+    QueryFederation federation(router);
+
+    EXPECT_THROW(
+        federation.executeJoin("users", "orders FILTER 1==1", "user_id"),
+        std::invalid_argument);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Point-lookup routes to exactly 1 shard
 // ─────────────────────────────────────────────────────────────────────────────
