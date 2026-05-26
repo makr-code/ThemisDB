@@ -49,6 +49,9 @@ struct PromWriteRequest {
      *
      * @param data  Pointer to the beginning of the serialised bytes.
      * @param size  Number of bytes.
+        * @throws      Returns an error when the payload is malformed, including
+        *              invalid/truncated protobuf wire start for the first
+        *              timeseries field.
      * @return      Decoded request or an error string.
      */
     static Result<PromWriteRequest> decode(const uint8_t* data, size_t size);

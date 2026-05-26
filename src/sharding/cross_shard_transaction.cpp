@@ -987,6 +987,47 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
         }
     }
     
+    const auto failClosedAbortRemaining = [this, &txn](std::string_view reason) {
+        txn.state = TransactionState::ABORTING;
+
+        if (transaction_wal_) {
+            try {
+                transaction_wal_->logAbort(txn.transaction_id, std::string(reason));
+                operations_since_snapshot_++;
+            } catch (const std::exception& e) {
+                spdlog::error("execute2PC [{}]: WAL ABORT log failed during fail-closed handling: {}",
+                             txn.transaction_id,
+                             e.what());
+            }
+        }
+
+        for (auto& [remaining_shard_id, remaining_participant] : txn.participants) {
+            if (remaining_participant.committed) {
+                continue;
+            }
+
+            const bool aborted = sendAbort(remaining_shard_id, txn.transaction_id);
+            remaining_participant.aborted = aborted;
+            if (!aborted) {
+                spdlog::error("execute2PC [{}]: fail-closed abort RPC failed for shard {}",
+                             txn.transaction_id,
+                             remaining_shard_id);
+            }
+
+            if (transaction_wal_ && aborted) {
+                try {
+                    transaction_wal_->logAborted(txn.transaction_id, remaining_shard_id);
+                    operations_since_snapshot_++;
+                } catch (const std::exception& e) {
+                    spdlog::error("execute2PC [{}]: WAL ABORTED log failed for shard {}: {}",
+                                 txn.transaction_id,
+                                 remaining_shard_id,
+                                 e.what());
+                }
+            }
+        }
+    };
+
     for (auto& [shard_id, participant] : txn.participants) {
         bool committed = sendCommit(shard_id, txn.transaction_id);
         participant.committed = committed;
@@ -995,6 +1036,7 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
             spdlog::error("execute2PC [{}]: Commit failed for shard {} - failing closed",
                          txn.transaction_id,
                          shard_id);
+            failClosedAbortRemaining("phase2_commit_failed");
             return false;
         }
 
@@ -1010,6 +1052,7 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
                              txn.transaction_id,
                              shard_id,
                              e.what());
+                failClosedAbortRemaining("phase2_wal_ack_log_failed");
                 return false;
             }
         }
