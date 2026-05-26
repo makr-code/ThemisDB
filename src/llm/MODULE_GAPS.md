@@ -198,6 +198,22 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
   `ncclGetVersion`/`ncclCommDestroy`/`hipStreamDestroy` return values now checked in
   `nccl_backend.cpp` and `rccl_backend.cpp`; failures are logged with fail-safe behavior.
 
+**Status (v1.22.0-pre — W1-L05):** REL-27..REL-33 fixed — backend-probe and vision-prefill reliability:
+- REL-27: `vkCreateInstance` probe return value in `gpu_memory.cpp::detect_backends()` is now captured
+  explicitly; failures are logged with `spdlog::warn` and Vulkan backend remains unavailable.
+- REL-28: First `vkEnumeratePhysicalDevices` call (count probe) now uses an explicit `VkResult` check and
+  warning on failure in `gpu_memory.cpp`.
+- REL-29: Second `vkEnumeratePhysicalDevices` call (fill probe) now checks result explicitly, tolerates
+  `VK_INCOMPLETE`, and logs failures in `gpu_memory.cpp`.
+- REL-30: Empty-device edge case after fill probe is now handled with explicit warning before skipping
+  device property reads in `gpu_memory.cpp`.
+- REL-31: Vulkan probe no-device path now logs explicit debug status to preserve deterministic backend
+  selection behavior.
+- REL-32: Vulkan probe create-failure path now logs explicit warning to improve diagnosability of
+  unavailable Vulkan backends at runtime.
+- REL-33: Vision prefix prefill path now logs explicit warning when `llama_decode` fails in
+  `llama_wrapper.cpp::generateVision()`, preventing silent degradation before image embedding injection.
+
 **OOP-01:** `~LLMPluginAdapter() override = default;` added to `llm_plugin_interface.h` to close override
 destructor gap for the concrete `LLMPluginAdapter` class.
 

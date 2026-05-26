@@ -2994,6 +2994,8 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                         prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
                     if (llama_decode(lctx, prefix_batch) == 0) {
                         n_past += static_cast<int>(prefix_tokens.size());
+                    } else {
+                        spdlog::warn("generateVision: prefix llama_decode failed; continuing without image-prefill context");
                     }
                 }
 
@@ -3129,5 +3131,4 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
 
 } // namespace llm
 } // namespace themis
-
 
