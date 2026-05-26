@@ -26,6 +26,7 @@
 #include <vector>
 #include <optional>
 #include <algorithm>
+#include <limits>
 #include <unordered_set>
 
 #include "query/query_federation.h"
@@ -411,4 +412,36 @@ TEST(QueryFederationAnalysisTest, AnalyzeQueryDoesNotDuplicateTableAndFilterMeta
     EXPECT_EQ(meta.tables.size(), 1u);
     EXPECT_EQ(meta.tables.front(), "orders");
     EXPECT_EQ(std::count(meta.predicates.begin(), meta.predicates.end(), "filter_present"), 1);
+}
+
+TEST(QueryFederationAnalysisTest, AnalyzeQuerySupportsLowercaseKeywords) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    const auto meta = fed.analyzeQuery(
+        R"(for d in orders filter d.status == "open" limit 3 return d)");
+
+    ASSERT_TRUE(meta.limit.has_value());
+    EXPECT_EQ(*meta.limit, 3u);
+    EXPECT_FALSE(meta.offset.has_value());
+    ASSERT_FALSE(meta.tables.empty());
+    EXPECT_EQ(meta.tables.front(), "orders");
+    EXPECT_EQ(std::count(meta.predicates.begin(), meta.predicates.end(), "filter_present"), 1);
+}
+
+TEST(QueryFederationAnalysisTest, ApplyGlobalOperationsClampsHugeLimitWithoutOverflow) {
+    auto router = std::make_shared<MockShardRouter>();
+    QueryFederation fed(router);
+
+    QueryFederation::QueryMetadata meta;
+    meta.offset = 1u;
+    meta.limit = std::numeric_limits<uint64_t>::max();
+
+    json merged = json::array({"a", "b", "c"});
+    const auto paged = fed.applyGlobalOperations(merged, meta);
+
+    ASSERT_TRUE(paged.is_array());
+    ASSERT_EQ(paged.size(), 2u);
+    EXPECT_EQ(paged[0], "b");
+    EXPECT_EQ(paged[1], "c");
 }

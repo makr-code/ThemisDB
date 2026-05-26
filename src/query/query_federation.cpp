@@ -12,6 +12,7 @@
 #include "query/query_federation.h"
 #include <chrono>
 #include <algorithm>
+#include <cctype>
 #include <regex>
 #include <set>
 #include <stdexcept>
@@ -547,6 +548,9 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
 ) {
     QueryMetadata metadata;
     metadata.query_text = query;
+    std::string query_upper = query;
+    std::transform(query_upper.begin(), query_upper.end(), query_upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
     const auto push_unique = [](std::vector<std::string>& values,
                                 const std::string& value) {
         if (value.empty()) {
@@ -620,7 +624,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     }
 
     // ── Generic FILTER ────────────────────────────────────────────────────────
-    if (query.find("FILTER") != std::string::npos) {
+    if (query_upper.find("FILTER") != std::string::npos) {
         push_unique(metadata.predicates, "filter_present");
     }
 
@@ -628,8 +632,8 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     // ---- Collection extraction -------------------------------------------------
     // Pattern: FOR <var> IN <collection>
     if (metadata.tables.empty()) {
-        size_t for_pos = query.find("FOR");
-        size_t in_pos  = query.find(" IN ");
+        size_t for_pos = query_upper.find("FOR");
+        size_t in_pos  = query_upper.find(" IN ");
         if (for_pos != std::string::npos && in_pos != std::string::npos
                 && in_pos > for_pos) {
             size_t start = in_pos + 4;
@@ -642,14 +646,14 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
     }
 
     // ---- Predicate / aggregation extraction ------------------------------------
-    if (query.find("COLLECT") != std::string::npos ||
-        query.find("COUNT")   != std::string::npos ||
-        query.find("SUM")     != std::string::npos) {
+    if (query_upper.find("COLLECT") != std::string::npos ||
+        query_upper.find("COUNT")   != std::string::npos ||
+        query_upper.find("SUM")     != std::string::npos) {
         push_unique(metadata.aggregations, "aggregation_present");
     }
 
     // ── Joins ─────────────────────────────────────────────────────────────────
-    if (query.find("JOIN") != std::string::npos) {
+    if (query_upper.find("JOIN") != std::string::npos) {
         metadata.joins.push_back("join_present");
     }
 
@@ -846,11 +850,16 @@ nlohmann::json QueryFederation::applyGlobalOperations(
     // Apply LIMIT and OFFSET if present
     if (metadata.limit.has_value() || metadata.offset.has_value()) {
         if (result.is_array()) {
-            size_t offset = metadata.offset.value_or(0);
-            size_t limit = metadata.limit.value_or(result.size());
-            
-            size_t start = std::min(offset, result.size());
-            size_t end = std::min(start + limit, result.size());
+            const uint64_t requested_offset = metadata.offset.value_or(0);
+            const uint64_t requested_limit =
+                metadata.limit.value_or(static_cast<uint64_t>(result.size()));
+
+            const size_t start = static_cast<size_t>(
+                std::min<uint64_t>(requested_offset, static_cast<uint64_t>(result.size())));
+            const size_t remaining = result.size() - start;
+            const size_t page_size = static_cast<size_t>(
+                std::min<uint64_t>(requested_limit, static_cast<uint64_t>(remaining)));
+            const size_t end = start + page_size;
             
             nlohmann::json paginated = nlohmann::json::array();
             for (size_t i = start; i < end; ++i) {
@@ -859,7 +868,7 @@ nlohmann::json QueryFederation::applyGlobalOperations(
             
             result = paginated;
             spdlog::debug("Applied pagination: offset={}, limit={}, result_size={}",
-                         offset, limit, result.size());
+                         requested_offset, requested_limit, result.size());
         }
     }
     
