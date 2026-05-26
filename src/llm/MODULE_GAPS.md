@@ -1,6 +1,6 @@
 # llm Module — Implementation Gap Analysis
 
-**Status:** Updated 2026-05-26 (W1-L04 delta applied)
+**Status:** Updated 2026-05-26 (W1-L05 delta applied)
 **Last Updated:** 2026-05-26  
 
 ---
@@ -12,14 +12,13 @@
 | `oop_design` | ~~7961~~ **7960** | HIGH | OOP-01 fixed (W1-L04): `LLMPluginAdapter` missing override dtor; remaining: concrete class leaks, non-const accessors |
 | `uninitialized` | 5263 | HIGH | Struct/class member fields not initialised in constructor body (caught by static analysis; most are in GPU-backend conditional compilation paths) |
 | `type_conversion` | 1888 | MEDIUM | Implicit narrowing from `size_t`/`int64_t` to `int`; unsigned↔signed comparisons; float→int truncations |
-| `reliability` | ~~1637~~ **1620** | HIGH | 17 unchecked GPU API calls fixed in W1-L04; remaining: Vulkan VkResult, llama_* |
-| `oop_design` | ~~7961~~ **7960** | HIGH | OOP-01 fixed (W1-L04): `LLMPluginAdapter` missing override dtor; remaining: concrete class leaks, non-const accessors |
+| `reliability` | ~~1637~~ **1613** | HIGH | 17 unchecked GPU API calls fixed in W1-L04 + 7 secondary-path checks in W1-L05; remaining: Vulkan VkResult, llama_* |
 | `input_validation` | 929 | CRITICAL | Missing upper-bound checks on user-supplied sizes, ranks, and token counts before allocation |
 | `data_race` | ~~7~~ **0** | CRITICAL | ✅ **Resolved in W1-L02 + W1-L03** — See delta tables below |
 | `iterator_invalidation` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L02** — `loss_history_` push_back race |
 | `no_timeout` | ~~2~~ **0** | HIGH | ✅ **Resolved in W1-L02 + W1-L03** — stopTraining polling; GPU fence INFINITE waits |
 | `smart_ptr_misuse` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L03** — raw pointer escape from unique_ptr under lock |
-| **Total** | **19,810** | **CRITICAL** | W1-L02+W1-L03+W1-L04 reduced 31 findings |
+| **Total** | **19,803** | **CRITICAL** | W1-L02+W1-L03+W1-L04+W1-L05 reduced 38 findings |
 
 **Severity breakdown:** 🔴 CRITICAL 1466 | 🟠 HIGH 15975 | 🟡 MEDIUM 2397
 
@@ -126,6 +125,24 @@ Security-sensitive input validation gaps found by static analysis:
 | W1-L04-OOP-01 | `oop_design` | `LLMPluginAdapter` derived from `plugins::IThemisPlugin` (which has `virtual ~IThemisPlugin()`) but declared no `~LLMPluginAdapter() override` — deleting through base pointer leaks the contained `unique_ptr<ILLMPlugin>` | Added `~LLMPluginAdapter() override = default;` | Correct virtual destructor chain; unique_ptr releases the owned plugin |
 
 **Files modified:** `nccl_backend.cpp`, `rccl_backend.cpp`, `gpu_memory_manager.cpp`, `multi_gpu_trainer.cpp`, `llm_plugin_interface.h`
+
+---
+
+### Addressed in W1-L05 (2026-05-26 — secondary-path reliability checks)
+
+**Scope files:** `lora_framework/gpu_memory.cpp`, `llama_wrapper.cpp`
+
+| Gap ID | Category | Finding | Fix | Impact |
+|--------|----------|---------|-----|--------|
+| W1-L05-REL-27 | `reliability` | `cudaRuntimeGetVersion()` return value ignored in backend detection (`GPUMemoryManager::detect_backends`) | Return value checked; warns on failure, version string set only on success | Avoids reporting invalid CUDA runtime version |
+| W1-L05-REL-28 | `reliability` | `hipGetDeviceProperties()` unchecked and `hipDeviceProp_t` uninitialised in backend detection | Zero-initialised `hipDeviceProp_t prop{}`; return value checked with warning path | Prevents reading undefined HIP device fields |
+| W1-L05-REL-29 | `reliability` | `hipRuntimeGetVersion()` return value ignored in backend detection | Return value checked; warns on failure, version string set only on success | Avoids reporting invalid HIP runtime version |
+| W1-L05-REL-30 | `reliability` | Vulkan backend probe ignored non-success `vkCreateInstance` result | Captured `VkResult`; explicit warning on failure | Vulkan probe failures are now diagnosable |
+| W1-L05-REL-31 | `reliability` | Vulkan backend probe ignored error details when `vkEnumeratePhysicalDevices(..., nullptr)` failed | Captured count-call `VkResult`; warning on non-success | Improves triage for Vulkan enumeration failures |
+| W1-L05-REL-32 | `reliability` | Vulkan backend probe ignored error details when `vkEnumeratePhysicalDevices(..., data)` failed | Captured fill-call `VkResult`; warning on non-success | Improves triage for Vulkan device-list retrieval failures |
+| W1-L05-REL-33 | `reliability` | Vision prefill path in `generateVision()` silently ignored `llama_decode` failures (`if (...) == 0` only) | Captured decode result; warning emitted on failure before continuing | Secondary decode failures are now observable in logs |
+
+**Files modified:** `lora_framework/gpu_memory.cpp`, `llama_wrapper.cpp`
 
 ---
 

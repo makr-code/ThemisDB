@@ -2992,8 +2992,14 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                 if (!prefix_tokens.empty()) {
                     llama_batch prefix_batch = llama_batch_get_one(
                         prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
-                    if (llama_decode(lctx, prefix_batch) == 0) {
+                    int decode_result = llama_decode(lctx, prefix_batch);
+                    if (decode_result == 0) {
                         n_past += static_cast<int>(prefix_tokens.size());
+                    } else {
+                        spdlog::warn(
+                            "generateVision: llama_decode failed during prefix prefill (error: {}); "
+                            "continuing with image embed injection",
+                            decode_result);
                     }
                 }
 
@@ -3129,5 +3135,4 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
 
 } // namespace llm
 } // namespace themis
-
 
