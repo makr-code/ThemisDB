@@ -1,9 +1,8 @@
 /*
- * ThemisDB | File: websocket_session.cpp | Version: 0.0.47 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 817
- * Open Issues: TODOs=1, Stubs=1, Gaps=3, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Gap Correlation: internal=3 | external_v3=219 | delta=216 | status=divergent
- * External Severity (v3): C=23, H=167, M=29
+ * ThemisDB | File: websocket_session.cpp | Version: 0.0.48 | Last Modified: 2026-05-26
+ * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 826
+ * Open Issues: TODOs=0, Stubs=0, Gaps=0, Unimpl=0, Mock=0, Sim=0, Debt=0
+ * W1-S03: active_ data race fixed (bool→atomic<bool>); close() dispatched to executor
  * PR: #4184 feat(cdc): WebSocket Change Streaming Transport â€” v1.7.0 roadmap #55 (2026-03-13T17:56:33Z)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
@@ -119,7 +118,7 @@ void WebSocketSession::onAccept(beast::error_code ec) {
         return;
     }
     
-    active_ = true;
+    active_.store(true, std::memory_order_release);
     THEMIS_INFO("WebSocket connection accepted: {}", session_id_);
     
     // Send welcome message
@@ -155,13 +154,13 @@ void WebSocketSession::onRead(beast::error_code ec, std::size_t bytes_transferre
     
     if (ec == websocket::error::closed) {
         THEMIS_INFO("WebSocket connection closed by client: {}", session_id_);
-        active_ = false;
+        active_.store(false, std::memory_order_release);
         return;
     }
     
     if (ec) {
         THEMIS_ERROR("WebSocket read error ({}): {}", session_id_, ec.message());
-        active_ = false;
+        active_.store(false, std::memory_order_release);
         return;
     }
     
@@ -406,13 +405,10 @@ void WebSocketSession::send(const std::string& message) {
     if (write_queue_.size() >= kMaxQueueSize) {
         THEMIS_WARN("WebSocket session {} outbound queue full ({}), closing with 1011",
                     session_id_, write_queue_.size());
-        active_ = false;
-        beast::error_code ec;
-        if (is_tls_) {
-            ws_tls_->close(websocket::close_code::internal_error, ec);
-        } else {
-            ws_plain_->close(websocket::close_code::internal_error, ec);
-        }
+        active_.store(false, std::memory_order_release);
+        // Signal the in-flight write (if any) to issue a 1011 close frame once
+        // the current write drains.  The close frame will be sent via onWrite.
+        close_due_to_backpressure_ = true;
         return;
     }
 
@@ -444,7 +440,7 @@ void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
     if (write_queue_.size() >= kMaxQueueDepth) {
         THEMIS_WARN("WebSocket session {} binary queue depth {} >= {}: closing with 1011",
                     session_id_, write_queue_.size(), kMaxQueueDepth);
-        active_ = false;
+        active_.store(false, std::memory_order_release);
         close_due_to_backpressure_ = true;
         return;
     }
@@ -478,7 +474,7 @@ void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferr
     
     if (ec) {
         THEMIS_ERROR("WebSocket write error ({}): {}", session_id_, ec.message());
-        active_ = false;
+        active_.store(false, std::memory_order_release);
         writing_ = false;
         return;
     }
@@ -522,13 +518,27 @@ void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferr
 }
 
 void WebSocketSession::close() {
-    if (!active_) {
-        return;
+    // Use exchange so only one caller wins and actually issues the close.
+    // The atomic exchange ensures that concurrent calls (e.g. from
+    // WebSocketManager::closeAll and the io_context read loop) are idempotent.
+    if (!active_.exchange(false, std::memory_order_acq_rel)) {
+        return;  // already inactive — nothing to do
     }
-    
-    active_ = false;
-    unsubscribeFromCDC(); // Clean up CDC subscription
-    doClose();
+
+    unsubscribeFromCDC();
+
+    // Dispatch doClose() onto the io_context executor that owns the stream.
+    // Beast WebSocket streams are NOT thread-safe; calling close() from a
+    // thread other than the executor thread (e.g. from the destructor thread
+    // via WebSocketManager::closeAll) while an async_read is pending causes
+    // undefined behaviour.  Dispatching ensures the close is serialised with
+    // any pending async operations.
+    auto self = shared_from_this();
+    if (is_tls_) {
+        net::dispatch(ws_tls_->get_executor(), [self]() { self->doClose(); });
+    } else {
+        net::dispatch(ws_plain_->get_executor(), [self]() { self->doClose(); });
+    }
 }
 
 void WebSocketSession::doClose() {

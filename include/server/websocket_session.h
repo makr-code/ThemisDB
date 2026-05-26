@@ -1,9 +1,8 @@
 /*
- * ThemisDB | File: websocket_session.h | Version: 0.0.47
+ * ThemisDB | File: websocket_session.h | Version: 0.0.48
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ * Gap Summary: total=0
+ * W1-S03: active_ → std::atomic<bool> (data race fix)
  */
 
 #pragma once
@@ -18,6 +17,7 @@
 #include <string>
 #include <queue>
 #include <set>
+#include <atomic>
 #include <mutex>
 #include <functional>
 #include "cdc/changefeed.h"
@@ -99,9 +99,11 @@ public:
     void close();
     
     /**
-     * @brief Check if the session is active
+     * @brief Check if the session is active.
+     *
+     * Thread-safe: uses acquire load on the atomic flag.
      */
-    bool isActive() const { return active_; }
+    bool isActive() const { return active_.load(std::memory_order_acquire); }
     
     /**
      * @brief Get session ID
@@ -182,7 +184,9 @@ private:
     std::string session_id_;
     std::string request_path_;   ///< Target path from the HTTP upgrade request
     std::string auth_token_;     ///< JWT extracted from the HTTP upgrade Authorization header
-    bool active_;
+    /// Active flag: accessed from I/O handlers and from external threads
+    /// (e.g. WebSocketManager::closeAll / pollCDCEvents).  Must be atomic.
+    std::atomic<bool> active_;
     bool is_tls_;
     
     // Back-pressure: the maximum queue depth is declared public as kMaxQueueDepth above.

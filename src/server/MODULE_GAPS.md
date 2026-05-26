@@ -17,6 +17,27 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-19)
 
+- **W1-S03 (2026-05-26) – `src/server/websocket_session.cpp`, `include/server/websocket_session.h`**
+  - Data-race fix: `active_` changed from `bool` to `std::atomic<bool>`. All reads now use
+    `load(acquire)` via `isActive()`; all writes use `store(release)` or `exchange(acq_rel)`.
+    This eliminates the data race between the io_context read/write handlers and external callers
+    such as `WebSocketManager::closeAll()` / `pollCDCEvents()`.
+  - Thread-safe `close()`: now uses `atomic::exchange` so that concurrent calls are idempotent,
+    and dispatches `doClose()` onto the stream's executor via `net::dispatch(executor, ...)`.
+    Previously, a direct synchronous call to `ws.close()` from a non-io_context thread (e.g.
+    the destructor thread) while an `async_read` was pending was undefined behaviour.
+  - `send()` back-pressure path: the synchronous `ws.close()` call inside the `write_mutex_`
+    lock (which could race with async I/O) is replaced by setting `close_due_to_backpressure_`
+    so that `onWrite()` issues the 1011 close frame once the current write drains on the
+    correct io_context thread.
+  - Gap delta intent: resolve `data_race` (WebSocket active_ flag) and `no_thread_safety`
+    (close from external thread) findings in next server rescan.
+
+- **W1-S03 (2026-05-26) – `src/server/http3_session.cpp`**
+  - GAP-019 annotation updated: `generateConnectionIdCallback` already uses `std::random_device`
+    directly for cryptographic-quality QUIC connection ID generation. Comment updated from
+    "GAP-019 open" to "GAP-019 fixed" to reflect the existing correct implementation.
+
 - **W1-S02 (2026-05-26) – `src/server/http_server.cpp`**
   - Data-race hardening: introduced `std::atomic<uint32_t> hot_request_timeout_ms_` as an atomic shadow for `config_.request_timeout_ms`. Hot-reload path (request thread) now writes via `store(release)`; `Session::armReadTimer()` and `SslSession::armReadTimer()` now read via `load(acquire)`. Eliminates the data race between hot-reload and I/O-thread timer arming.
   - Iterator-invalidation / unbounded growth fix: `enforceAuditRateLimit` now performs amortised eviction of stale `audit_rate_buckets_` entries (entries older than 2 × window_ms) under the existing `audit_rate_mutex_`, triggered when the bucket map exceeds 128 entries. Prevents unbounded memory growth under adversarial request patterns.
