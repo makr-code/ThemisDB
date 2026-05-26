@@ -273,6 +273,12 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-111: `lora_framework/lora_layers.cpp` `LoRALayer::LoRALayer()` constructor now throws `std::invalid_argument` early if `in_dim`, `out_dim`, or `rank` is zero, preventing zero-size tensor allocations that would produce degenerate layers.
 - REL-112: `lora_framework/lora_layers.cpp` `AttentionLoRA::AttentionLoRA()` constructor now throws `std::invalid_argument` early if `dim` or `rank` is zero, consistent with REL-111 and the validation already present in the Vulkan kernel entry points.
 
+**Status (W1-L20):** REL-113..REL-116 fixed —
+- REL-113: `adaptive_vram_allocator.cpp` now value-initializes `AllocationPlan` in `calculateOptimalAllocation()` and fail-closes invalid input configurations (`precision_bytes <= 0`, zero-size model dimensions, zero batch/sequence).
+- REL-114: `adaptive_vram_allocator.cpp` `calculateOptimalAllocation()` now uses checked `size_t` multiplication for model/kv/token footprint calculations and returns an explicit overflow recommendation on failure.
+- REL-115: `adaptive_vram_allocator.cpp` `allocateWithFragmentation()` now rejects null output pointers, zero-byte requests, and missing `impl_` before dereferencing internal state.
+- REL-116: `adaptive_vram_allocator.cpp` `handleOutOfMemory()` now guards `impl_` before accessing the active allocator.
+
 ---
 
 ## 📋 Implementation Priority

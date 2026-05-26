@@ -13,10 +13,21 @@
 #include "llm/active_vram_allocator.h"
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <sstream>
 
 namespace themis {
 namespace llm {
+
+namespace {
+bool checked_mul(size_t a, size_t b, size_t& out) {
+    if (a != 0 && b > std::numeric_limits<size_t>::max() / a) {
+        return false;
+    }
+    out = a * b;
+    return true;
+}
+} // namespace
 
 // Private implementation
 class AdaptiveVRAMAllocator::Impl {
@@ -37,20 +48,45 @@ AdaptiveVRAMAllocator::AllocationPlan AdaptiveVRAMAllocator::calculateOptimalAll
     const HardwareInfo& hw,
     const InferenceConfig& config
 ) {
-    AllocationPlan plan;
+    AllocationPlan plan{};
+
+    if (model.precision_bytes <= 0 || model.num_parameters == 0 || model.num_layers == 0 ||
+        model.num_kv_heads == 0 || model.head_dim == 0 || config.batch_size == 0 ||
+        config.max_seq_length == 0) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "Invalid allocation parameters.";
+        return plan;
+    }
     
     // 1. Calculate model weights size
-    plan.model_weights = static_cast<size_t>(model.num_parameters) * model.precision_bytes;
+    if (!checked_mul(model.num_parameters, static_cast<size_t>(model.precision_bytes), plan.model_weights)) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "Model weight size overflow.";
+        return plan;
+    }
     
     // 2. Calculate KV cache size per token
     // Formula: 2 × num_layers × num_kv_heads × head_dim × precision_bytes
-    plan.kv_size_per_token = 2 * model.num_layers * model.num_kv_heads * 
-                             model.head_dim * model.precision_bytes;
+    size_t kv_size = 0;
+    if (!checked_mul(2, model.num_layers, kv_size) ||
+        !checked_mul(kv_size, model.num_kv_heads, kv_size) ||
+        !checked_mul(kv_size, model.head_dim, kv_size) ||
+        !checked_mul(kv_size, static_cast<size_t>(model.precision_bytes), kv_size)) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "KV cache size overflow.";
+        return plan;
+    }
+    plan.kv_size_per_token = kv_size;
     
     // 3. Calculate static KV cache allocation
     // Allocate for batch_size × max_seq_length
-    size_t total_tokens = config.batch_size * config.max_seq_length;
-    plan.kv_cache_static = plan.kv_size_per_token * total_tokens;
+    size_t total_tokens = 0;
+    if (!checked_mul(config.batch_size, config.max_seq_length, total_tokens) ||
+        !checked_mul(plan.kv_size_per_token, total_tokens, plan.kv_cache_static)) {
+        plan.fits_in_vram = false;
+        plan.recommendation = "Static KV allocation overflow.";
+        return plan;
+    }
     
     // 4. Calculate dynamic KV cache (for growth)
     plan.kv_cache_dynamic = static_cast<size_t>(
@@ -116,10 +152,16 @@ AdaptiveVRAMAllocator::AllocationPlan AdaptiveVRAMAllocator::calculateOptimalAll
 }
 
 bool AdaptiveVRAMAllocator::allocateWithFragmentation(size_t bytes, void** ptr) {
+    if (!impl_ || ptr == nullptr || bytes == 0) {
+        return false;
+    }
     return impl_->active_allocator_.allocateWithFragmentation(bytes, ptr);
 }
 
 bool AdaptiveVRAMAllocator::handleOutOfMemory() {
+    if (!impl_) {
+        return false;
+    }
     return impl_->active_allocator_.handleOutOfMemory();
 }
 
