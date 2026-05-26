@@ -212,6 +212,13 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			"Table name cannot be empty"
 		);
 	}
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
 
 	// ── Primary-key fast path ──────────────────────────────────────────────
 	// When pk_eq is set the caller already knows the primary key.  Skip all
@@ -683,6 +690,14 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndEntities");
 	span.setAttribute("query.table", q.table);
 
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<BaseEntity>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
+
 	// ── Primary-key fast path ──────────────────────────────────────────────
 	// Avoid the double storage round-trip (executeAndKeys checks existence,
 	// then this method fetches the blob again).  With pk_eq set we do a single
@@ -817,21 +832,30 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 			"executeOrKeys: keine Disjunkte"
 		);
 	}
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
 
 	// Execute each disjunct (AND-block) and collect results
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
+	std::mutex errors_mutex;
 	std::vector<std::string> errors;
 	tbb::task_group tg;
 
 	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
 		const auto& disjunct = q.disjuncts[i];
-		tg.run([this, &disjunct, &all_lists, i, &errors]() {
+		tg.run([this, &disjunct, &all_lists, i, &errors, &errors_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute");
 			child.setAttribute("disjunct.eq_count", static_cast<int64_t>(disjunct.predicates.size()));
 			child.setAttribute("disjunct.range_count", static_cast<int64_t>(disjunct.rangePredicates.size()));
 			auto result = executeAndKeys(disjunct);
 			if (!result) {
 				THEMIS_ERROR("Parallel OR disjunct error: {}", result.error().context());
+				std::lock_guard<std::mutex> lk(errors_mutex);
 				errors.push_back(result.error().context());
 				child.setStatus(false, result.error().context());
 				return;
@@ -870,6 +894,13 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	}
 	if (q.disjuncts.empty()) {
 		return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, "executeOrKeysWithFallback: keine Disjunkte");
+	}
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
 	}
 
 	std::vector<std::vector<std::string>> all_lists(q.disjuncts.size());
@@ -1043,6 +1074,13 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 	if (orderedPredicates.empty()) {
 		return Err<std::vector<std::string>>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
 			"executeAndKeysSequential: no predicates provided");
+	}
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + table
+		);
 	}
 
 	// Starte mit erster Liste
@@ -2262,6 +2300,13 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.eq_count", static_cast<int64_t>(q.predicates.size()));
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<std::string>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
 	// If no predicates at all, must do full scan
 	if (q.predicates.empty() && q.rangePredicates.empty() && !q.orderBy.has_value()) {
 		auto keys = fullScanAndFilter_(q);
@@ -3829,6 +3874,14 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.k", static_cast<int64_t>(q.k));
 
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<VectorGeoResult>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
+
 	// Erweiterte Index-basierte Vorselektion (Equality, Range, Composite)
 	std::optional<std::vector<std::string>> indexPrefilter;
 	if (!q.extra_filters.empty()) {
@@ -4319,6 +4372,14 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeContentGeoQuery");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.fulltext", q.fulltext_query);
+
+	// QE-2: enforce collection-level access control before any I/O
+	if (collection_access_checker_ && !collection_access_checker_(q.table, collection_access_caller_id_)) {
+		return Err<std::vector<ContentGeoResult>>(
+			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+			"Access denied for collection: " + q.table
+		);
+	}
 
 	std::vector<ContentGeoResult> results;
 	if (!q.spatial_filter) {

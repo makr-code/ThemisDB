@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,9 +9,9 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04) |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26) |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | ✅ S0+S1 fixed — 0 S0, 0 S1 open |
+| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open |
 
 > **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
 > `parseExpression()`). See finding details below for confirmation.
@@ -20,6 +20,8 @@
 > (ST_Within fail-closed), PA-2 fixed (kMaxTraversalDepth=100 in parseForClause),
 > TR-1 fixed (non-literal ST_* geometry returns TranslationResult::Error),
 > TR-2 fixed (kMaxDNFDisjuncts=1000 guard before cartesian product).
+> **2026-05-26:** OI-05 (QE-2 ACL gate) wired via `collection_access_checker_` in all 8 public
+> execute* entry points. OI-06 remaining data race in `executeOrKeys` fixed (added `errors_mutex`).
 
 ## Source File Inventory
 
@@ -173,8 +175,8 @@ parse error rather than recursing further.
 | ID    | Description                                                  | Target  | Priority |
 |-------|--------------------------------------------------------------|---------|----------|
 | OI-01 | AQLParser thread-safety refactor                             | Planned | High     |
-| **OI-04** | **Add recursion depth limit to all recursive-descent functions (PA-1)** | **Immediate** | **Critical** |
-| **OI-05** | **Add ACL check on collection name in all execute* methods (QE-2)** | **Immediate** | **Critical** |
-| **OI-06** | **Fix data race on `errors` vector in `executeAndKeys` (QE-1)** | **Immediate** | **Critical** |
+| ~~**OI-04**~~ | ~~**Add recursion depth limit to all recursive-descent functions (PA-1)**~~ | ✅ **Fixed 2026-05-04** | ~~Critical~~ |
+| ~~**OI-05**~~ | ~~**Add ACL check on collection name in all execute* methods (QE-2)**~~ | ✅ **Fixed 2026-05-26** — `collection_access_checker_` wired in `executeAndKeys`, `executeAndEntities`, `executeOrKeys`, `executeOrKeysWithFallback`, `executeAndKeysSequential`, `executeAndKeysWithFallback`, `executeVectorGeoQuery`, `executeContentGeoQuery` | ~~Critical~~ |
+| ~~**OI-06**~~ | ~~**Fix data race on `errors` vector in `executeAndKeys` (QE-1)**~~ | ✅ **Fixed** — `executeAndKeys` had `errors_mutex` since 2026-05-04; `executeOrKeys` data race (missing mutex) **fixed 2026-05-26** | ~~Critical~~ |
 | OI-02 | Performance benchmarks (vectorized, federated)               | Q2 2026 | High     |
 | OI-03 | Full security audit (injection, resource exhaustion)         | Q2 2026 | High     |
