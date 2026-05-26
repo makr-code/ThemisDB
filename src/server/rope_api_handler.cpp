@@ -891,13 +891,13 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     // Enforce scope-based authorization (mirrors VectorApiHandler RBAC pattern).
     // Extract Bearer token and verify the required permission scope via
     // auth_->authorize(); deny with HTTP 403 when the scope is not granted.
-    auto auth_header = req.find(http::field::authorization);
-    if (auth_header == req.end()) {
+    const auto auth_header = req[http::field::authorization];
+    if (auth_header.empty()) {
         return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
     }
 
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header->value().data(), auth_header->value().size())
+        std::string_view(auth_header.data(), auth_header.size())
     );
     if (!token) {
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);

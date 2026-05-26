@@ -319,24 +319,28 @@ void SseConnectionManager::backgroundPollTask() {
         // Snapshot the active connection list under a brief read lock so that
         // addConnection() / removeConnection() are not blocked for the full
         // changefeed poll duration (which may involve I/O and JSON serialisation).
+        // The buffer-full early-exit check is performed here under the lock to
+        // avoid an unsynchronised read of conn->buffered_events outside the lock.
         std::vector<std::pair<uint64_t, std::shared_ptr<Connection>>> active_conns;
         {
             std::shared_lock<std::shared_mutex> lock(connections_mutex_);
             active_conns.reserve(connections_.size());
             for (auto& [id, conn] : connections_) {
-                if (conn->active) {
-                    active_conns.emplace_back(id, conn);
+                if (!conn->active) continue;
+                // Backpressure: skip non-drop-oldest connections whose buffer is
+                // already full.  This read is safe here because we hold the
+                // connections_mutex_ shared lock; the write side (pollEventsWithSequences,
+                // backgroundPollTask write path) holds the exclusive lock.
+                if (conn->buffered_events.size() >= config_.max_buffered_events
+                    && !config_.drop_oldest_on_overflow) {
+                    THEMIS_WARN("SSE connection {} buffer full, skipping poll", id);
+                    continue;
                 }
+                active_conns.emplace_back(id, conn);
             }
         }
 
         for (auto& [id, conn] : active_conns) {
-            // If buffer is full, apply backpressure policy
-            if (conn->buffered_events.size() >= config_.max_buffered_events && !config_.drop_oldest_on_overflow) {
-                THEMIS_WARN("SSE connection {} buffer full, skipping poll", id);
-                continue;
-            }
-            
             // Query new events since last sequence — without holding connections_mutex_.
             Changefeed::ListOptions options;
             options.from_sequence = conn->current_sequence;

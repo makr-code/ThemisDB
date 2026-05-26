@@ -252,10 +252,13 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
                 info.compute_units = prop.multiProcessorCount;
             }
             
-            int runtime_version;
-            cudaRuntimeGetVersion(&runtime_version);
-            info.version = std::to_string(runtime_version / 1000) + "." + 
-                          std::to_string((runtime_version % 100) / 10);
+            int runtime_version = 0;
+            if (cudaRuntimeGetVersion(&runtime_version) != cudaSuccess) {
+                spdlog::warn("GPUMemoryManager: cudaRuntimeGetVersion failed; version set to 0");
+                runtime_version = 0;
+            }
+            info.version = std::to_string(runtime_version / 1000) + "." +
+                           std::to_string((runtime_version % 100) / 10);
         }
         
         backends.push_back(info);
@@ -273,17 +276,22 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
         if (err == hipSuccess && device_count > 0) {
             info.available = true;
             
-            hipDeviceProp_t prop;
-            hipGetDeviceProperties(&prop, 0);
-            
-            info.device_name = prop.name;
-            info.vram_bytes = prop.totalGlobalMem;
-            info.compute_units = prop.multiProcessorCount;
-            
-            int runtime_version;
-            hipRuntimeGetVersion(&runtime_version);
-            info.version = std::to_string(runtime_version / 1000) + "." + 
-                          std::to_string((runtime_version % 100) / 10);
+            hipDeviceProp_t prop{};
+            if (hipGetDeviceProperties(&prop, 0) != hipSuccess) {
+                spdlog::warn("GPUMemoryManager: hipGetDeviceProperties failed; device info incomplete");
+            } else {
+                info.device_name = prop.name;
+                info.vram_bytes = prop.totalGlobalMem;
+                info.compute_units = prop.multiProcessorCount;
+            }
+
+            int runtime_version = 0;
+            if (hipRuntimeGetVersion(&runtime_version) != hipSuccess) {
+                spdlog::warn("GPUMemoryManager: hipRuntimeGetVersion failed; version set to 0");
+                runtime_version = 0;
+            }
+            info.version = std::to_string(runtime_version / 1000) + "." +
+                           std::to_string((runtime_version % 100) / 10);
         }
         
         backends.push_back(info);

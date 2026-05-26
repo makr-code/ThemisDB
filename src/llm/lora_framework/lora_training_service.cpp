@@ -38,6 +38,7 @@
 #include <atomic>
 #include <cmath>
 #include <mutex>
+#include <shared_mutex>
 #include <condition_variable>
 #include <fstream>
 #include <filesystem>
@@ -202,6 +203,14 @@ public:
         stop_requested_.store(false);
         is_training_.store(true);
         
+        // Take a local snapshot of config_ under the shared lock so that concurrent
+        // setTrainingConfig() calls cannot race with our training reads.
+        Config local_config;
+        {
+            std::shared_lock<std::shared_mutex> lock(config_mutex_);
+            local_config = config_;
+        }
+
         auto start_time = std::chrono::system_clock::now();
         
         TrainingResult result;
@@ -929,11 +938,13 @@ public:
     }
     
     void setTrainingConfig(const Config& config) {
+        std::unique_lock<std::shared_mutex> lock(config_mutex_);
         config_ = config;
         spdlog::info("Updated training configuration");
     }
     
     Config getTrainingConfig() const {
+        std::shared_lock<std::shared_mutex> lock(config_mutex_);
         return config_;
     }
     
@@ -947,6 +958,7 @@ public:
     }
     
     TrainingMetrics getMetrics() const {
+        std::lock_guard<std::mutex> lock(metrics_mutex_);
         return current_metrics_;
     }
     
@@ -1080,6 +1092,8 @@ public:
     }
 
 private:
+    mutable std::shared_mutex config_mutex_;  ///< Protects config_ for concurrent set/get vs. read during training
+    mutable std::mutex metrics_mutex_;        ///< Protects current_metrics_ for concurrent callback writes vs. getMetrics reads
     Config config_;
     std::atomic<bool> is_training_;
     std::atomic<bool> stop_requested_;
@@ -1439,11 +1453,14 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         
         // Register callback for progress updates with resource profiling
         trainer.registerCallback([this, &profiler](const GPUTrainingMetrics& metrics) {
-            impl_->current_metrics_.current_epoch = metrics.current_epoch;
-            impl_->current_metrics_.current_step = metrics.current_step;
-            impl_->current_metrics_.current_loss = metrics.current_loss;
-            impl_->current_metrics_.learning_rate = metrics.learning_rate;
-            impl_->current_metrics_.progress = metrics.progress;
+            {
+                std::lock_guard<std::mutex> lock(impl_->metrics_mutex_);
+                impl_->current_metrics_.current_epoch = metrics.current_epoch;
+                impl_->current_metrics_.current_step = metrics.current_step;
+                impl_->current_metrics_.current_loss = metrics.current_loss;
+                impl_->current_metrics_.learning_rate = metrics.learning_rate;
+                impl_->current_metrics_.progress = metrics.progress;
+            }
             
             // Take resource snapshot
             profiler->snapshot(

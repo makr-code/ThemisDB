@@ -156,14 +156,28 @@ void MultiGPUContext::synchronize_all() const {
     for (const auto& device : devices_) {
 #ifdef THEMIS_ENABLE_CUDA
         if (device.type == DeviceType::CUDA) {
-            cudaSetDevice(device.device_id);
-            cudaDeviceSynchronize();
+            if (cudaSetDevice(device.device_id) != cudaSuccess) {
+                spdlog::error("MultiGPUContext::synchronize_all: cudaSetDevice({}) failed",
+                              device.device_id);
+                continue;
+            }
+            if (cudaDeviceSynchronize() != cudaSuccess) {
+                spdlog::error("MultiGPUContext::synchronize_all: cudaDeviceSynchronize failed on device {}",
+                              device.device_id);
+            }
         }
 #endif
 #ifdef THEMIS_ENABLE_HIP
         if (device.type == DeviceType::HIP) {
-            hipSetDevice(device.device_id);
-            hipDeviceSynchronize();
+            if (hipSetDevice(device.device_id) != hipSuccess) {
+                spdlog::error("MultiGPUContext::synchronize_all: hipSetDevice({}) failed",
+                              device.device_id);
+                continue;
+            }
+            if (hipDeviceSynchronize() != hipSuccess) {
+                spdlog::error("MultiGPUContext::synchronize_all: hipDeviceSynchronize failed on device {}",
+                              device.device_id);
+            }
         }
 #endif
     }
@@ -195,7 +209,11 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
                 }
                 
                 int can_access_peer = 0;
-                cudaDeviceCanAccessPeer(&can_access_peer, devices[i].device_id, devices[j].device_id);
+                if (cudaDeviceCanAccessPeer(&can_access_peer, devices[i].device_id, devices[j].device_id) != cudaSuccess) {
+                    spdlog::warn("GPUTopology: cudaDeviceCanAccessPeer({},{}) failed; assuming no P2P",
+                                 devices[i].device_id, devices[j].device_id);
+                    can_access_peer = 0;
+                }
                 
                 if (can_access_peer) {
                     topology.has_pcie_p2p = true;
@@ -233,7 +251,11 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
                 }
                 
                 int can_access_peer = 0;
-                hipDeviceCanAccessPeer(&can_access_peer, devices[i].device_id, devices[j].device_id);
+                if (hipDeviceCanAccessPeer(&can_access_peer, devices[i].device_id, devices[j].device_id) != hipSuccess) {
+                    spdlog::warn("GPUTopology: hipDeviceCanAccessPeer({},{}) failed; assuming no P2P",
+                                 devices[i].device_id, devices[j].device_id);
+                    can_access_peer = 0;
+                }
                 
                 if (can_access_peer) {
                     topology.has_pcie_p2p = true;

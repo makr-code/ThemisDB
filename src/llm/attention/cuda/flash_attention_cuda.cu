@@ -1,6 +1,7 @@
 #include "llm/attention/cuda/flash_attention_cuda.h"
 #include <cuda_runtime.h>
 #include <cuda_fp16.h>
+#include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cmath>
 
@@ -246,7 +247,12 @@ AttentionMemoryStats FlashAttentionCUDA::getMemoryStats() const {
     
     // Query GPU memory
     size_t free_mem, total_mem;
-    cudaMemGetInfo(&free_mem, &total_mem);
+    cudaError_t err = cudaMemGetInfo(&free_mem, &total_mem);
+    if (err != cudaSuccess) {
+        throw std::runtime_error(
+            std::string("Failed to query CUDA memory stats: ") + cudaGetErrorString(err)
+        );
+    }
     
     stats.total_memory_bytes = total_mem;
     stats.workspace_bytes = workspace_size_;
@@ -336,7 +342,10 @@ void FlashAttentionCUDA::allocateWorkspace() {
 
 void FlashAttentionCUDA::freeWorkspace() {
     if (d_workspace_) {
-        cudaFree(d_workspace_);
+        cudaError_t err = cudaFree(d_workspace_);
+        if (err != cudaSuccess) {
+            spdlog::warn("FlashAttentionCUDA::freeWorkspace cudaFree failed: {}", cudaGetErrorString(err));
+        }
         d_workspace_ = nullptr;
     }
 }
