@@ -201,6 +201,60 @@ src/llm/MODULE_GAPS.md  ← You are here
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-L05: GPU Memory + Multi-GPU — Unchecked Runtime API Calls
+
+**Scope:** `src/llm/lora_framework/gpu_memory.cpp`, `src/llm/lora_framework/multi_gpu.cpp`, `src/llm/lora_framework/custom_allreduce.cpp`  
+**Ticket:** W1-L05 · Priority P1
+
+### Fixes Applied
+
+#### 1. `gpu_memory.cpp` — `cudaRuntimeGetVersion` / `hipGetDeviceProperties` / `hipRuntimeGetVersion` unchecked (REL-27..30)
+
+**Root cause:** Three GPU runtime query calls in `GPUMemoryManager::get_available_backends()` had no
+return-value check; `hipDeviceProp_t prop` was also uninitialized before `hipGetDeviceProperties`.
+
+**Fix:**
+- Added `int runtime_version = 0;` initializer before `cudaRuntimeGetVersion`; result checked;
+  logs warning and falls back to version `0.0` on failure.
+- Changed `hipDeviceProp_t prop;` to `hipDeviceProp_t prop{};` (zero-init).
+- Wrapped `hipGetDeviceProperties` in a checked `if (...) else { ... }` block; device info
+  fields only populated on success.
+- Added `int runtime_version = 0;` initializer before `hipRuntimeGetVersion`; result checked;
+  logs warning on failure.
+
+#### 2. `multi_gpu.cpp` — `synchronize_all` unchecked set-device + device-sync (REL-31..34)
+
+**Root cause:** `MultiGPUContext::synchronize_all()` called `cudaSetDevice`/`hipSetDevice` and
+`cudaDeviceSynchronize`/`hipDeviceSynchronize` without checking return values.
+
+**Fix:**
+- `cudaSetDevice` result checked; logs error and `continue`s to next device on failure.
+- `cudaDeviceSynchronize` result checked; logs error on failure but continues.
+- Same treatment for `hipSetDevice` / `hipDeviceSynchronize`.
+
+#### 3. `multi_gpu.cpp` — `cudaDeviceCanAccessPeer`/`hipDeviceCanAccessPeer` unchecked in `GPUTopology::detect` (REL-35..36)
+
+**Root cause:** Return value of `cudaDeviceCanAccessPeer` / `hipDeviceCanAccessPeer` was not checked
+in the topology detection loop; a failed call would leave `can_access_peer` uninitialised if
+the API returns an error.
+
+**Fix:**
+- Both calls now check return value; on failure, logs warning and forces `can_access_peer = 0`
+  (safe default — no P2P assumed).
+
+#### 4. `custom_allreduce.cpp` — `cudaDeviceCanAccessPeer` + `cudaSetDevice` unchecked in `enable_p2p_access` (REL-37..40)
+
+**Root cause:** `cudaDeviceCanAccessPeer` / `hipDeviceCanAccessPeer` and the following
+`cudaSetDevice` / `hipSetDevice` were called without checking return values.
+
+**Fix:**
+- `cudaDeviceCanAccessPeer` result checked; on failure, logs warning and sets `can_access = 0`.
+- `cudaSetDevice` result checked before `cudaDeviceEnablePeerAccess`; on failure, logs warning,
+  sets `p2p_enabled_ = false`, and continues.
+- Same treatment for HIP counterparts.
+
+---
+
 ## ✅ Recent Remediation (2026-05-26) — W1-L04: Llama Wrapper + Inference Engine — Pointer/Null Hardening
 
 **Scope:** `src/llm/llama_wrapper.cpp`, `src/llm/inference_engine_enhanced.cpp`  
