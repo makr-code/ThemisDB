@@ -52,10 +52,20 @@ Security-sensitive input validation gaps found by static analysis:
 
 ## 🔴 CRITICAL Fixes — Status
 
-### Addressed in this PR (v1.20.0 / v1.20.1)
+### Addressed in this PR (W1-L01 — Multi-LoRA Manager race/lock hardening)
 
-| Gap | Fix | File |
-|-----|-----|------|
+| Gap ID | Category | Fix | File |
+|--------|----------|-----|------|
+| W1-L01-DR-01 | `data_race` | `applyLoRA`: raw `LoRASlot*` from `getLoRA()` (lock released) dereferenced after lock release; `switches_++` and `is_active` written without lock. Fixed by snapshotting adapter handle/scale/fn under lock, calling external API outside lock, writing state back under a second lock guard. | `multi_lora_manager.cpp` |
+| W1-L01-DR-02 | `data_race` | `removeLoRA`: same pattern as `applyLoRA`. Fixed identically. | `multi_lora_manager.cpp` |
+| W1-L01-DR-03 | `data_race` | `fuseLoRAsAdvanced`: `fusion_cache_`, `fusion_cache_hits_/misses_`, `fusion_configs_`, `fusion_schedules_`, `total_fusions_` accessed without holding `mutex_`. Fixed by adding two scoped lock guards (cache-check section before `fuseLoRAsInternal`, cache-update+metrics section after). | `multi_lora_manager.cpp` |
+| W1-L01-DR-04 | `data_race` | `exportLoRA`: raw `LoRASlot*` from `getLoRA()` read for serialization outside the lock. Fixed by snapshotting all needed fields under the lock and serializing from the snapshot. | `multi_lora_manager.cpp` |
+| W1-L01-DR-05 | `data_race` | `batchInferenceMultiLoRA`: `lora->base_model_id` read via raw pointer returned by `getLoRA()` after lock release. Fixed by snapshotting `base_model_id` under the lock. | `multi_lora_manager.cpp` |
+| W1-L01-DR-06 | `data_race` | `evictExpired`: TOCTOU — eviction list built under lock, lock released, then `unloadLoRA` called per entry. Between the two phases a LoRA could be reloaded (fresh, not expired) and then incorrectly evicted. Fixed by performing the entire eviction — handle free, VRAM accounting, map erase — within a single lock scope. | `multi_lora_manager.cpp` |
+| W1-L01-NT-01 | `no_timeout` | `stopEvictionThread`: `eviction_thread_->join()` had no timeout and could block indefinitely. Fixed by adding `std::atomic<bool> eviction_thread_done_` (header), setting it to `false` in `startEvictionThread`, signalling it (+ `notify_all`) at the end of `evictionWorker`, and using `eviction_cv_.wait_for(lock, 5s, ...)` in `stopEvictionThread` before `join()`. Hangs > 5 s are detected and the thread is detached. | `multi_lora_manager.cpp`, `multi_lora_manager.h` |
+| W1-L01-ND-01 | `null_dereference` | `checkGPUHealthAndMigrate`: `gpu_vram_usage_[unhealthy_gpu] -= lora->vram_bytes` was an unguarded subtraction on a `size_t`; if the tracked usage was lower than `vram_bytes` (e.g. key not in map → operator[] inserts 0) the result wrapped to `UINT64_MAX`. Fixed by checking `unhealthy_usage >= lora->vram_bytes` and zeroing on underflow. | `multi_lora_manager.cpp` |
+
+
 | LoRA security validator bypass in `loadLoRAInternal` | `LoRASecurityValidator::validateMetadata()` now called before GGUF parse via `Config::security_validator` | `multi_lora_manager.cpp` |
 | IVB-01: LoRA rank bounds not re-validated after GGUF extraction | Added fail-closed rank guard (`MIN_LORA_RANK..MAX_LORA_RANK`) immediately after `lora.rank` extraction | `multi_lora_manager.cpp` |
 | IVB-02: `max_tokens` missing `n_ctx` ceiling in inference paths | Added shared context-cap helper and enforced cap in `generate`, `generateSpeculative`, `generateRegular` | `llama_wrapper.cpp` |
