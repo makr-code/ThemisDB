@@ -313,6 +313,18 @@ destructor gap for the concrete `LLMPluginAdapter` class.
 - REL-73: `cudaSetDevice` return value now checked in `gpu_memory_manager.cpp::MemoryHolder::freeGPUMemory()`
   before secure-clear/free; failures are logged and the cleanup path exits early to avoid wrong-device operations.
 
+**Status (v1.22.0-pre — W1-L11):** REL-74..REL-78 fixed — FlashAttention kernel launcher reliability:
+- REL-74: `cudaMemsetAsync` return value now checked for `d_dQ` initialization in
+  `kernel_fusion.cu::launchFlashAttentionBackward()`.
+- REL-75: `cudaMemsetAsync` return value now checked for `d_dK` initialization in
+  `kernel_fusion.cu::launchFlashAttentionBackward()`.
+- REL-76: `cudaMemsetAsync` return value now checked for `d_dV` initialization in
+  `kernel_fusion.cu::launchFlashAttentionBackward()`.
+- REL-77: `cudaPeekAtLastError` launch status is now checked after
+  `flashAttentionForwardKernel<<<...>>>` in `kernel_fusion.cu::launchFlashAttentionForward()`.
+- REL-78: `cudaPeekAtLastError` launch status is now checked after
+  `flashAttentionBackwardKernel<<<...>>>` in `kernel_fusion.cu::launchFlashAttentionBackward()`.
+
 ---
 
 ## 📋 Implementation Priority

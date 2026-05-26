@@ -584,6 +584,11 @@ void launchFlashAttentionForward(
         batch_size, num_heads, seq_len, head_dim,
         scale, is_causal
     );
+    // REL-77: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        return;
+    }
 }
 
 /**
@@ -608,9 +613,19 @@ void launchFlashAttentionBackward(
 ) {
     // Initialize gradients to zero
     size_t size = batch_size * num_heads * seq_len * head_dim * sizeof(float);
-    cudaMemsetAsync(d_dQ, 0, size, stream);
-    cudaMemsetAsync(d_dK, 0, size, stream);
-    cudaMemsetAsync(d_dV, 0, size, stream);
+    // REL-74..REL-76: check cudaMemsetAsync return values
+    cudaError_t memset_err = cudaMemsetAsync(d_dQ, 0, size, stream);
+    if (memset_err != cudaSuccess) {
+        return;
+    }
+    memset_err = cudaMemsetAsync(d_dK, 0, size, stream);
+    if (memset_err != cudaSuccess) {
+        return;
+    }
+    memset_err = cudaMemsetAsync(d_dV, 0, size, stream);
+    if (memset_err != cudaSuccess) {
+        return;
+    }
     
     dim3 blockDim(BLOCK_SIZE);
     dim3 gridDim(
@@ -625,6 +640,11 @@ void launchFlashAttentionBackward(
         batch_size, num_heads, seq_len, head_dim,
         scale, is_causal
     );
+    // REL-78: check kernel launch status
+    cudaError_t launch_err = cudaPeekAtLastError();
+    if (launch_err != cudaSuccess) {
+        return;
+    }
 }
 
 /**
