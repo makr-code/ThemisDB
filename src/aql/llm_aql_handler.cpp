@@ -201,6 +201,13 @@ void sanitizePromptInput(
         "do anything now",
         "jailbreak",
         "dan mode",
+        // Schema-block escape markers (LLM-1 hard delimiter bypass attempt)
+        "### schema_start ###",
+        "### schema_end ###",
+        "[schema_start]",
+        "[schema_end]",
+        "<schema_start>",
+        "<schema_end>",
     };
 
     for (const auto& pattern : kInjectionPatterns) {

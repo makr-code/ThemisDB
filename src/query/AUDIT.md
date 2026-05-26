@@ -81,7 +81,7 @@
 
 | Control                               | Status        | Notes                                         |
 |---------------------------------------|---------------|-----------------------------------------------|
-| AQL injection detection               | ⚠️ Partial   | Security module detector present but bypassed via LLM path (see LLM-1/LLM-2 in aql/AUDIT.md) |
+| AQL injection detection               | ⚠️ Partial   | LLM path hardened (schema delimiters + scope checks); residual risk remains when callers omit `schema_context` (warn-only) |
 | SPARQL/SQL parse-and-translate        | ✅ Complete   | No direct dialect execution                   |
 | Per-query resource limits             | ✅ Complete   | `kMaxResultSetSize=1,000,000` cap in `executeAndEntities` + `executeOrEntitiesWithFallback` (QE-4 fixed 2026-05-04) |
 | Query cancellation                    | ✅ Complete   | Via request ID                                |
