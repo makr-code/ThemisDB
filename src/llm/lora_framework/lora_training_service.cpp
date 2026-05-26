@@ -1283,9 +1283,15 @@ TrainingResult LoRATrainingService::trainWithQuantization(
     auto start_time = std::chrono::system_clock::now();
     
     try {
-        // Get configuration
-        auto params = hyperparameters.value_or(impl_->config_.default_hyperparameters);
-        auto& qlora_config = impl_->config_.qlora;
+        // Snapshot configuration under lock to avoid races with concurrent updates.
+        Config local_config;
+        {
+            std::lock_guard<std::mutex> lock(impl_->config_mutex_);
+            local_config = impl_->config_;
+        }
+
+        auto params = hyperparameters.value_or(local_config.default_hyperparameters);
+        const auto& qlora_config = local_config.qlora;
         
         if (!qlora_config.enabled) {
             spdlog::warn("QLoRA not enabled in configuration, falling back to standard training");
@@ -1303,7 +1309,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         spdlog::info("Checking model compatibility...");
         auto compat_result = ModelCompatibilityChecker::check_compatibility(
-            impl_->config_.base_model_path,
+            local_config.base_model_path,
             qlora_config.quantization_type
         );
         
@@ -1329,7 +1335,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         // Step 2: Estimate Memory Requirements
         // ===================================================================
-        size_t estimated_memory = estimateMemoryUsage(impl_->config_.base_model_path, qlora_config);
+        size_t estimated_memory = estimateMemoryUsage(local_config.base_model_path, qlora_config);
         spdlog::info("  Estimated memory usage: {:.2f} GB", estimated_memory / (1024.0 * 1024.0 * 1024.0));
         
         // ===================================================================
@@ -1339,7 +1345,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         profiler_config.enabled = true;
         profiler_config.snapshot_interval_steps = 10;
         profiler_config.log_to_file = true;
-        profiler_config.log_file = impl_->config_.checkpoint_dir + "/resource_profile_" + adapter_id + ".jsonl";
+        profiler_config.log_file = local_config.checkpoint_dir + "/resource_profile_" + adapter_id + ".jsonl";
         profiler_config.verbose_logging = false;
         profiler_config.enable_alerts = true;
         
@@ -1352,9 +1358,9 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         // ===================================================================
         // Resolve the model path: use the injected provider if available, otherwise
         // use the configured path directly.
-        std::string resolved_model_path = impl_->config_.base_model_path;
-        if (impl_->config_.model_path_provider) {
-            resolved_model_path = impl_->config_.model_path_provider(impl_->config_.base_model_path);
+        std::string resolved_model_path = local_config.base_model_path;
+        if (local_config.model_path_provider) {
+            resolved_model_path = local_config.model_path_provider(local_config.base_model_path);
         }
         auto quantized_model = loadQuantizedBaseModel(resolved_model_path, qlora_config);
         if (!quantized_model) {
@@ -1367,14 +1373,14 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         
         // Load base model adapter for real embeddings
         std::unique_ptr<BaseModelAdapter> base_model_adapter;
-        if (impl_->config_.use_base_model && 
-            !impl_->config_.base_model_path.empty()) {
+        if (local_config.use_base_model && 
+            !local_config.base_model_path.empty()) {
             
-            spdlog::info("Loading base model adapter for real embeddings: {}", impl_->config_.base_model_path);
+            spdlog::info("Loading base model adapter for real embeddings: {}", local_config.base_model_path);
             base_model_adapter = std::make_unique<BaseModelAdapter>();
             
             // Try to load model - loadModel() handles missing files gracefully
-            if (base_model_adapter->loadModel(impl_->config_.base_model_path)) {
+            if (base_model_adapter->loadModel(local_config.base_model_path)) {
                 spdlog::info("Base model adapter loaded successfully");
                 spdlog::info("  Architecture: {}", base_model_adapter->getArchitecture().architecture);
                 spdlog::info("  Vocab size: {}", base_model_adapter->getVocabSize());
@@ -1445,7 +1451,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         std::shared_ptr<ITokenizer> tokenizer;
         
         // Validate base model path
-        if (impl_->config_.base_model_path.empty()) {
+        if (local_config.base_model_path.empty()) {
             result.success = false;
             result.error_message = "base_model_path is required for GPU training. "
                 "llama.cpp tokenizer needs model file.";
@@ -1453,16 +1459,16 @@ TrainingResult LoRATrainingService::trainWithQuantization(
             return result;
         }
         
-        if (!std::filesystem::exists(impl_->config_.base_model_path)) {
+        if (!std::filesystem::exists(local_config.base_model_path)) {
             result.success = false;
-            result.error_message = "Base model file not found: " + impl_->config_.base_model_path;
+            result.error_message = "Base model file not found: " + local_config.base_model_path;
             spdlog::error(result.error_message);
             return result;
         }
         
         // Load llama.cpp tokenizer
         try {
-            tokenizer = std::make_shared<LlamaTokenizer>(impl_->config_.base_model_path);
+            tokenizer = std::make_shared<LlamaTokenizer>(local_config.base_model_path);
             spdlog::info("✓ LlamaTokenizer loaded (vocab_size={})", tokenizer->vocab_size());
         } catch (const std::exception& e) {
             result.success = false;
@@ -1507,7 +1513,7 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         training_config.momentum = params.momentum;
         training_config.weight_decay = params.weight_decay;
         training_config.device = target_device;
-        training_config.use_mixed_precision = impl_->config_.mixed_precision.mode != PrecisionMode::FP32;
+        training_config.use_mixed_precision = local_config.mixed_precision.mode != PrecisionMode::FP32;
         training_config.use_fused_kernels = true;
         
         GPUTrainingLoop trainer(training_config);
@@ -1524,10 +1530,10 @@ TrainingResult LoRATrainingService::trainWithQuantization(
         
         // Set mixed precision trainer if enabled
         if (training_config.use_mixed_precision) {
-            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(impl_->config_.mixed_precision);
+            auto mixed_precision = std::make_unique<MixedPrecisionTrainer>(local_config.mixed_precision);
             trainer.setMixedPrecisionTrainer(mixed_precision.get());
             spdlog::info("Mixed precision training enabled: mode={}", 
-                        static_cast<int>(impl_->config_.mixed_precision.mode));
+                        static_cast<int>(local_config.mixed_precision.mode));
         }
         
         // Register callback for progress updates with resource profiling.
@@ -1998,16 +2004,22 @@ TrainingResult LoRATrainingService::trainDistributed(
     TrainingResult result;
     result.adapter_id = adapter_id;
     result.success = false;
+
+    Config local_config;
+    {
+        std::lock_guard<std::mutex> lock(impl_->config_mutex_);
+        local_config = impl_->config_;
+    }
     
     // Check if distributed training is enabled
-    if (!impl_->config_.enable_distributed_training) {
+    if (!local_config.enable_distributed_training) {
         result.error_message = "Distributed training is not enabled. Set enable_distributed_training=true in config.";
         spdlog::error(result.error_message);
         return result;
     }
     
     // Validate distributed configuration
-    if (impl_->config_.participant_shards.empty()) {
+    if (local_config.participant_shards.empty()) {
         result.error_message = "No participant shards configured for distributed training";
         spdlog::error(result.error_message);
         return result;
@@ -2017,33 +2029,33 @@ TrainingResult LoRATrainingService::trainDistributed(
         auto start_time = std::chrono::system_clock::now();
         
         spdlog::info("Starting distributed training for adapter: {}", adapter_id);
-        spdlog::info("  Participant shards: {}", impl_->config_.participant_shards.size());
-        spdlog::info("  Coordinator shard: {}", impl_->config_.coordinator_shard);
+        spdlog::info("  Participant shards: {}", local_config.participant_shards.size());
+        spdlog::info("  Coordinator shard: {}", local_config.coordinator_shard);
         
         // 1. Create DistributedTrainingConfig from service config
         DistributedTrainingConfig dist_config;
         dist_config.sync_strategy = SyncStrategy::ALL_REDUCE;
         dist_config.compression = GradientCompressionType::NONE;
-        dist_config.coordinator_shard = impl_->config_.coordinator_shard;
-        dist_config.participant_shards = impl_->config_.participant_shards;
-        dist_config.gradient_accumulation_steps = impl_->config_.gradient_accumulation.accumulation_steps;
+        dist_config.coordinator_shard = local_config.coordinator_shard;
+        dist_config.participant_shards = local_config.participant_shards;
+        dist_config.gradient_accumulation_steps = local_config.gradient_accumulation.accumulation_steps;
         dist_config.sync_frequency = 1;
-        dist_config.gradient_clip_norm = impl_->config_.gradient_clipping.max_norm;
+        dist_config.gradient_clip_norm = local_config.gradient_clipping.max_norm;
         dist_config.use_mixed_precision = (
-            impl_->config_.mixed_precision.mode != PrecisionMode::FP32
+            local_config.mixed_precision.mode != PrecisionMode::FP32
         );
         dist_config.sparse_gradients = false;
         dist_config.sparse_threshold = 1e-6f;
         dist_config.max_retry_attempts = 3;
         dist_config.timeout_seconds = 300;
-        dist_config.enable_checkpointing = impl_->config_.enable_checkpointing;
-        dist_config.checkpoint_frequency = impl_->config_.checkpoint_interval_steps;
-        dist_config.checkpoint_path = impl_->config_.checkpoint_dir;
+        dist_config.enable_checkpointing = local_config.enable_checkpointing;
+        dist_config.checkpoint_frequency = local_config.checkpoint_interval_steps;
+        dist_config.checkpoint_path = local_config.checkpoint_dir;
         
         // 2. Get ShardRouter and ShardTopology from registry
         // First check if they were provided in config, otherwise get from registry
-        std::shared_ptr<themis::sharding::ShardRouter> shard_router = impl_->config_.shard_router;
-        std::shared_ptr<themis::sharding::ShardTopology> shard_topology = impl_->config_.shard_topology;
+        std::shared_ptr<themis::sharding::ShardRouter> shard_router = local_config.shard_router;
+        std::shared_ptr<themis::sharding::ShardTopology> shard_topology = local_config.shard_topology;
         
         if (!shard_router || !shard_topology) {
             // Try to get from registry
@@ -2092,7 +2104,8 @@ TrainingResult LoRATrainingService::trainDistributed(
         spdlog::info("Distributed training coordinator initialized successfully");
         
         // 5. Setup hyperparameters
-        LoRAHyperparameters hyper = hyperparameters.value_or(impl_->config_.default_hyperparameters);
+        LoRAHyperparameters hyper = hyperparameters.value_or(local_config.default_hyperparameters);
+        const int configured_participant_shards = static_cast<int>(local_config.participant_shards.size());
         
         // 6. Execute training steps with gradient synchronization
         int total_steps = hyper.num_epochs * (static_cast<int>(data.size()) / hyper.batch_size);
@@ -2124,7 +2137,7 @@ TrainingResult LoRATrainingService::trainDistributed(
                         }
                     }
                     spdlog::debug("Active shards: {}/{}", active_shards, 
-                                impl_->config_.participant_shards.size());
+                                configured_participant_shards);
                 }
             }
         );
@@ -2233,7 +2246,7 @@ TrainingResult LoRATrainingService::trainDistributed(
             }
         }
         result.metrics["active_shards"] = active_shards;
-        result.metrics["total_shards"] = static_cast<int>(impl_->config_.participant_shards.size());
+        result.metrics["total_shards"] = configured_participant_shards;
         
         // Add per-shard loss tracking from last successful step
         if (!last_step_result.per_shard_loss.empty()) {
@@ -2265,7 +2278,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         spdlog::info("Distributed training completed successfully");
         spdlog::info("  Total steps: {}", stats.total_steps_completed);
         spdlog::info("  Successful steps: {}", successful_steps);
-        spdlog::info("  Active shards: {}/{}", active_shards, impl_->config_.participant_shards.size());
+        spdlog::info("  Active shards: {}/{}", active_shards, configured_participant_shards);
         spdlog::info("  Avg sync time: {:.2f}ms", stats.avg_sync_time_ms);
         spdlog::info("  Effective speedup: {:.2f}x", stats.effective_speedup);
         
