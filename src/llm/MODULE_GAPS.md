@@ -198,6 +198,14 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-59: `quantization_kernels.cu` `GPUMemoryManager::freeDevice()` now checks `cudaFree()` and logs failures.
 - REL-60: `quantization_kernels.cu` `GPUMemoryManager::freePinned()` now checks `cudaFreeHost()` and logs failures.
 
+**Status (W1-L10):** REL-61..REL-66 fixed —
+- REL-61: `nccl_backend.cpp` `NCCLBackend::cleanup_nccl()` now checks `ncclCommDestroy()` and logs destroy failures.
+- REL-62: `nccl_backend.cpp` `NCCLBackend::cleanup_nccl()` now checks `cudaStreamDestroy()` and logs destroy failures.
+- REL-63: `rccl_backend.cpp` `RCCLBackend::cleanup_rccl()` now checks `ncclCommDestroy()` and logs destroy failures.
+- REL-64: `rccl_backend.cpp` `RCCLBackend::cleanup_rccl()` now checks `hipStreamDestroy()` and logs destroy failures.
+- REL-65: `gpu_memory_manager.cpp` `GPUMemoryManager::defragmentModelGPU()` now checks `cudaSetDevice()` before consolidated allocation and skips safely on failure.
+- REL-66: `gpu_memory_manager.cpp` `GPUMemoryManager::defragmentModelGPU()` now checks `cudaMemcpy()` in copy loop and validates cleanup `cudaFree()` when copy fails.
+
 ---
 
 ## 📋 Implementation Priority

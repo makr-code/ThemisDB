@@ -889,16 +889,40 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
-            cudaSetDevice(device_id);
+            cudaError_t set_device_err = cudaSetDevice(device_id);
+            if (set_device_err != cudaSuccess) {
+                spdlog::warn("Failed to set CUDA device {} for model {} defragmentation: {}",
+                             device_id, model_id, cudaGetErrorString(set_device_err));
+                continue;
+            }
             if (cudaMalloc(&new_ptr, total_vram) != cudaSuccess) {
                 spdlog::warn("Failed to allocate consolidated GPU memory for model {} on device {}", model_id, device_id);
                 continue;
             }
 
             size_t offset = 0;
+            bool copy_failed = false;
             for (const auto& alloc : device_allocs) {
-                cudaMemcpy(static_cast<char*>(new_ptr) + offset, alloc.gpu_ptr, alloc.vram_bytes, cudaMemcpyDeviceToDevice);
+                cudaError_t copy_err = cudaMemcpy(static_cast<char*>(new_ptr) + offset,
+                                                  alloc.gpu_ptr,
+                                                  alloc.vram_bytes,
+                                                  cudaMemcpyDeviceToDevice);
+                if (copy_err != cudaSuccess) {
+                    spdlog::warn("Failed to copy GPU allocation while defragmenting model {} on device {}: {}",
+                                 model_id, device_id, cudaGetErrorString(copy_err));
+                    copy_failed = true;
+                    break;
+                }
                 offset += alloc.vram_bytes;
+            }
+            if (copy_failed) {
+                cudaError_t free_err = cudaFree(new_ptr);
+                if (free_err != cudaSuccess) {
+                    spdlog::error("Failed to clean up temporary consolidated GPU buffer for model {} on device {}: {}",
+                                  model_id, device_id, cudaGetErrorString(free_err));
+                }
+                new_ptr = nullptr;
+                continue;
             }
         } else {
             new_ptr = std::malloc(total_vram);
