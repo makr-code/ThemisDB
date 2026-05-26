@@ -13,6 +13,7 @@
 #include "security/vram_secure_clear.h"
 #include <algorithm>
 #include <cstring>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 #include <spdlog/spdlog.h>
@@ -456,12 +457,11 @@ bool VRAMAllocator::initialize_backend() {
         case acceleration::BackendType::VULKAN:
 #ifdef THEMIS_ENABLE_VULKAN
         {
-            auto* vk_ctx = new VulkanAllocContext();
-            if (!vk_init(vk_ctx, pool_size_bytes_)) {
-                delete vk_ctx;
+            auto vk_ctx = std::make_unique<VulkanAllocContext>();
+            if (!vk_init(vk_ctx.get(), pool_size_bytes_)) {
                 return false;
             }
-            backend_context_ = vk_ctx;
+            backend_context_ = vk_ctx.release();
             return true;
         }
 #else

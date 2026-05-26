@@ -1,6 +1,6 @@
 # llm Module — Implementation Gap Analysis
 
-**Status:** Updated 2026-05-26 (W1-L05 delta applied)
+**Status:** Updated 2026-05-26 (W1-L06 delta applied)
 **Last Updated:** 2026-05-26  
 
 ---
@@ -12,13 +12,13 @@
 | `oop_design` | ~~7961~~ **7960** | HIGH | OOP-01 fixed (W1-L04): `LLMPluginAdapter` missing override dtor; remaining: concrete class leaks, non-const accessors |
 | `uninitialized` | 5263 | HIGH | Struct/class member fields not initialised in constructor body (caught by static analysis; most are in GPU-backend conditional compilation paths) |
 | `type_conversion` | 1888 | MEDIUM | Implicit narrowing from `size_t`/`int64_t` to `int`; unsigned↔signed comparisons; float→int truncations |
-| `reliability` | ~~1637~~ **1613** | HIGH | 17 unchecked GPU API calls fixed in W1-L04 + 7 secondary-path checks in W1-L05; remaining: Vulkan VkResult, llama_* |
+| `reliability` | ~~1637~~ **1598** | HIGH | 17 unchecked GPU API calls fixed in W1-L04 + 7 secondary-path checks in W1-L05 + 15 multi-GPU reliability fixes in W1-L06; remaining: Vulkan VkResult, llama_* |
 | `input_validation` | 929 | CRITICAL | Missing upper-bound checks on user-supplied sizes, ranks, and token counts before allocation |
 | `data_race` | ~~7~~ **0** | CRITICAL | ✅ **Resolved in W1-L02 + W1-L03** — See delta tables below |
 | `iterator_invalidation` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L02** — `loss_history_` push_back race |
 | `no_timeout` | ~~2~~ **0** | HIGH | ✅ **Resolved in W1-L02 + W1-L03** — stopTraining polling; GPU fence INFINITE waits |
 | `smart_ptr_misuse` | ~~1~~ **0** | HIGH | ✅ **Resolved in W1-L03** — raw pointer escape from unique_ptr under lock |
-| **Total** | **19,803** | **CRITICAL** | W1-L02+W1-L03+W1-L04+W1-L05 reduced 38 findings |
+| **Total** | **19,788** | **CRITICAL** | W1-L02+W1-L03+W1-L04+W1-L05+W1-L06 reduced 53 findings |
 
 **Severity breakdown:** 🔴 CRITICAL 1466 | 🟠 HIGH 15975 | 🟡 MEDIUM 2397
 
@@ -143,6 +143,32 @@ Security-sensitive input validation gaps found by static analysis:
 | W1-L05-REL-33 | `reliability` | Vision prefill path in `generateVision()` silently ignored `llama_decode` failures (`if (...) == 0` only) | Captured decode result; warning emitted on failure before continuing | Secondary decode failures are now observable in logs |
 
 **Files modified:** `lora_framework/gpu_memory.cpp`, `llama_wrapper.cpp`
+
+---
+
+### Addressed in W1-L06 (2026-05-26 — multi-GPU reliability + RAII hardening)
+
+**Scope files:** `lora_framework/multi_gpu.cpp`, `lora_framework/custom_allreduce.cpp`, `multi_gpu_memory_coordinator.cpp`, `lora_framework/vram_allocator.cpp`
+
+| Gap ID | Category | Finding | Fix | Impact |
+|--------|----------|---------|-----|--------|
+| W1-L06-REL-34 | `reliability` | `cudaSetDevice()` ignored in `MultiGPUContext::synchronize_all()` | Return value checked; logs warning and skips sync on failure | Prevents sync on wrong CUDA device |
+| W1-L06-REL-35 | `reliability` | `cudaDeviceSynchronize()` ignored in `MultiGPUContext::synchronize_all()` | Return value checked; logs warning on failure | Makes cross-device sync failures observable |
+| W1-L06-REL-36 | `reliability` | `hipSetDevice()` ignored in `MultiGPUContext::synchronize_all()` | Return value checked; logs warning and skips sync on failure | Prevents sync on wrong HIP device |
+| W1-L06-REL-37 | `reliability` | `hipDeviceSynchronize()` ignored in `MultiGPUContext::synchronize_all()` | Return value checked; logs warning on failure | Makes HIP sync failures observable |
+| W1-L06-REL-38 | `reliability` | `cudaDeviceCanAccessPeer()` ignored in CUDA topology detection | Return value checked; logs warning and falls back to conservative bandwidth | Prevents false P2P topology assumptions |
+| W1-L06-REL-39 | `reliability` | `hipDeviceCanAccessPeer()` ignored in HIP topology detection | Return value checked; logs warning and falls back to conservative bandwidth | Prevents false HIP P2P topology assumptions |
+| W1-L06-REL-40 | `reliability` | `cudaDeviceCanAccessPeer()` / `cudaSetDevice()` ignored during CUDA P2P setup in `CustomAllReduce` | Return values checked before enabling peer access | Prevents P2P enable on the wrong CUDA device |
+| W1-L06-REL-41 | `reliability` | `hipDeviceCanAccessPeer()` / `hipSetDevice()` ignored during HIP P2P setup in `CustomAllReduce` | Return values checked before enabling peer access | Prevents P2P enable on the wrong HIP device |
+| W1-L06-REL-42 | `reliability` | `cudaSetDevice()` ignored during CUDA GPU discovery in `MultiGPUMemoryCoordinator::initialize()` | Return value checked; failed devices skipped | Avoids querying VRAM on the wrong CUDA device |
+| W1-L06-REL-43 | `reliability` | `hipSetDevice()` ignored during HIP GPU discovery in `MultiGPUMemoryCoordinator::initialize()` | Return value checked; failed devices skipped | Avoids querying VRAM on the wrong HIP device |
+| W1-L06-REL-44 | `reliability` | `cudaSetDevice()` ignored before CUDA P2P enable in `MultiGPUMemoryCoordinator::enableP2PAccess()` | Return value checked; failed direction counted and skipped | Prevents malformed CUDA P2P enable attempts |
+| W1-L06-REL-45 | `reliability` | `hipSetDevice()` ignored before HIP P2P enable in `MultiGPUMemoryCoordinator::enableP2PAccess()` | Return value checked; failed direction counted and skipped | Prevents malformed HIP P2P enable attempts |
+| W1-L06-REL-46 | `reliability` | `cudaSetDevice()` ignored before `cudaDeviceSynchronize()` in `MultiGPUMemoryCoordinator::synchronizeAll()` | Return value checked; failed device skipped | Prevents synchronizing the wrong CUDA device |
+| W1-L06-REL-47 | `reliability` | `hipSetDevice()` ignored before `hipDeviceSynchronize()` in `MultiGPUMemoryCoordinator::synchronizeAll()` | Return value checked; failed device skipped | Prevents synchronizing the wrong HIP device |
+| W1-L06-REL-48 | `reliability` | Vulkan backend init in `VRAMAllocator::initialize_backend()` used raw `new VulkanAllocContext()` with manual delete on failure | Replaced with `std::make_unique` + `release()` handoff after successful init | Eliminates exception-unsafe raw allocation pattern in backend setup |
+
+**Files modified:** `lora_framework/multi_gpu.cpp`, `lora_framework/custom_allreduce.cpp`, `multi_gpu_memory_coordinator.cpp`, `lora_framework/vram_allocator.cpp`
 
 ---
 
