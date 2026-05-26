@@ -5,6 +5,7 @@
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 #include <cuda_fp16.h>
+#include <spdlog/spdlog.h>
 #include <algorithm>
 #include <limits>
 
@@ -579,14 +580,24 @@ GPUMemoryManager& GPUMemoryManager::operator=(GPUMemoryManager&& other) noexcept
 void* GPUMemoryManager::allocateQuantizedBuffer(size_t num_params, bool use_nf4) {
     size_t size_bytes = use_nf4 ? (num_params + 1) / 2 : num_params;
     void* ptr = nullptr;
-    cudaMalloc(&ptr, size_bytes);
+    cudaError_t err = cudaMalloc(&ptr, size_bytes);
+    if (err != cudaSuccess) {
+        spdlog::error("GPUMemoryManager::allocateQuantizedBuffer: cudaMalloc({}) failed: {}",
+                      size_bytes, cudaGetErrorString(err));
+        return nullptr;
+    }
     total_allocated_ += size_bytes;
     return ptr;
 }
 
 void* GPUMemoryManager::allocatePinnedHost(size_t size) {
     void* ptr = nullptr;
-    cudaMallocHost(&ptr, size);
+    cudaError_t err = cudaMallocHost(&ptr, size);
+    if (err != cudaSuccess) {
+        spdlog::error("GPUMemoryManager::allocatePinnedHost: cudaMallocHost({}) failed: {}",
+                      size, cudaGetErrorString(err));
+        return nullptr;
+    }
     return ptr;
 }
 

@@ -553,7 +553,12 @@ void VRAMAllocator::deallocate(void* ptr) {
                 return;
             }
             block.is_free = true;
-            allocated_bytes_ -= block.size;
+            if (allocated_bytes_ >= block.size) {
+                allocated_bytes_ -= block.size;
+            } else {
+                spdlog::warn("VRAMAllocator: allocated_bytes_ underflow detected; resetting to 0");
+                allocated_bytes_ = 0;
+            }
             
             // Periodically coalesce free blocks
             if (memory_pool_.size() > 100) {
@@ -665,7 +670,9 @@ VRAMAllocator::Stats VRAMAllocator::get_stats() const {
     Stats stats;
     stats.total_bytes = pool_size_bytes_;
     stats.allocated_bytes = allocated_bytes_;
-    stats.free_bytes = pool_size_bytes_ - allocated_bytes_;
+    stats.free_bytes = (pool_size_bytes_ >= allocated_bytes_)
+                         ? (pool_size_bytes_ - allocated_bytes_)
+                         : 0;  // underflow guard when pool is over-subscribed
     stats.peak_usage_bytes = peak_usage_bytes_;
     stats.allocation_count = memory_pool_.size();
     
@@ -794,7 +801,12 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearCUDA(ptr, block_size);
             }
-            cudaFree(ptr);
+            {
+                cudaError_t free_err = cudaFree(ptr);
+                if (free_err != cudaSuccess) {
+                    spdlog::error("VRAMAllocator: cudaFree failed: {}", cudaGetErrorString(free_err));
+                }
+            }
             break;
 #endif
 
@@ -803,7 +815,12 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearHIP(ptr, block_size);
             }
-            hipFree(ptr);
+            {
+                hipError_t free_err = hipFree(ptr);
+                if (free_err != hipSuccess) {
+                    spdlog::error("VRAMAllocator: hipFree failed: {}", hipGetErrorString(free_err));
+                }
+            }
             break;
 #endif
 

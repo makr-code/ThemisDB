@@ -194,7 +194,12 @@ MultiGPUMemoryCoordinator::distributeModelWeights(
     plan.gpu_ids = gpu_ids;
     plan.tensor_parallel_size = static_cast<int>(gpu_ids.size());
     plan.pipeline_parallel_size = 1;
-    
+
+    if (gpu_ids.empty()) {
+        spdlog::warn("MultiGPUMemoryCoordinator::distributeModelWeights: gpu_ids is empty");
+        return plan;
+    }
+
     // Split model evenly across GPUs (tensor parallelism)
     size_t shard_size = model_size_bytes / gpu_ids.size();
     for (size_t i = 0; i < gpu_ids.size(); ++i) {
@@ -226,7 +231,12 @@ MultiGPUMemoryCoordinator::distributeLayers(
     plan.gpu_ids = gpu_ids;
     plan.tensor_parallel_size = 1;
     plan.pipeline_parallel_size = static_cast<int>(gpu_ids.size());
-    
+
+    if (gpu_ids.empty()) {
+        spdlog::warn("MultiGPUMemoryCoordinator::distributeLayers: gpu_ids is empty");
+        return plan;
+    }
+
     // Distribute layers across GPUs
     size_t layers_per_gpu = num_layers / gpu_ids.size();
     size_t remaining_layers = num_layers % gpu_ids.size();

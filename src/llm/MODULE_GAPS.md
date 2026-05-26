@@ -173,6 +173,13 @@ regression tests added (`test_vulkan_dispatch_reliability.cpp`).
 now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCLBackend`
 (`rccl_backend.cpp`); errors logged via `spdlog::error` before continuing stream sync.
 
+**Status (W1-L01e):** REL-34..REL-38 fixed —
+- REL-34: `vram_allocator.cpp` `cudaFree`/`hipFree` return values now logged on failure in `release_backend_ptr_` (noexcept context; cannot throw).
+- REL-35: `vram_allocator.cpp` `allocated_bytes_ -= block.size` now underflow-safe; `get_stats()::free_bytes` uses saturating subtraction.
+- REL-36: `quantization_kernels.cu` `cudaMalloc` (allocateQuantizedBuffer) and `cudaMallocHost` (allocatePinnedHost) return values now checked with error logging.
+- REL-37: `multi_gpu_memory_coordinator.cpp` `distributeModelWeights()` guards against empty `gpu_ids` before dividing `model_size_bytes / gpu_ids.size()`.
+- REL-38: `multi_gpu_memory_coordinator.cpp` `distributeLayers()` guards against empty `gpu_ids` before dividing `num_layers / gpu_ids.size()`.
+
 ---
 
 ## 📋 Implementation Priority
