@@ -207,6 +207,7 @@ inline SimpleGraph buildGraph(const nlohmann::json& edges) {
  */
 class IsEdgeFunction : public IFunction {
 public:
+    ~IsEdgeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "IS_EDGE",
@@ -233,6 +234,7 @@ public:
  */
 class IsVertexFunction : public IFunction {
 public:
+    ~IsVertexFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "IS_VERTEX",
@@ -259,6 +261,7 @@ public:
  */
 class ParseIdentifierFunction : public IFunction {
 public:
+    ~ParseIdentifierFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PARSE_IDENTIFIER",
@@ -295,6 +298,7 @@ public:
  */
 class GraphDegreeFunction : public IFunction {
 public:
+    ~GraphDegreeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GRAPH_DEGREE",
@@ -341,6 +345,7 @@ public:
  */
 class GraphNeighborsFunction : public IFunction {
 public:
+    ~GraphNeighborsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GRAPH_NEIGHBORS",
@@ -418,6 +423,7 @@ public:
  */
 class ShortestPathFunction : public IFunction {
 public:
+    ~ShortestPathFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "SHORTEST_PATH",
@@ -526,6 +532,7 @@ public:
  */
 class GraphDistanceFunction : public IFunction {
 public:
+    ~GraphDistanceFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GRAPH_DISTANCE",
@@ -558,6 +565,7 @@ public:
  */
 class GraphConnectedFunction : public IFunction {
 public:
+    ~GraphConnectedFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "GRAPH_CONNECTED",
@@ -593,6 +601,7 @@ public:
  */
 class DegreeCentralityFunction : public IFunction {
 public:
+    ~DegreeCentralityFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "DEGREE_CENTRALITY",
@@ -652,6 +661,7 @@ public:
  */
 class PageRankFunction : public IFunction {
 public:
+    ~PageRankFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "PAGERANK",
@@ -793,6 +803,7 @@ public:
  */
 class ConnectedComponentsFunction : public IFunction {
 public:
+    ~ConnectedComponentsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CONNECTED_COMPONENTS",
@@ -857,6 +868,7 @@ public:
  */
 class ClusteringCoefficientFunction : public IFunction {
 public:
+    ~ClusteringCoefficientFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CLUSTERING_COEFFICIENT",
@@ -914,6 +926,7 @@ public:
  */
 class EdgesFunction : public IFunction {
 public:
+    ~EdgesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "EDGES",
@@ -968,6 +981,7 @@ public:
  */
 class VerticesFunction : public IFunction {
 public:
+    ~VerticesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "VERTICES",
@@ -1029,6 +1043,7 @@ private:
     static constexpr int MAX_LOUVAIN_ITERATIONS = 100;  // Prevent infinite loops
 
 public:
+    ~LouvainCommunitiesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LOUVAIN_COMMUNITIES",
@@ -1172,6 +1187,7 @@ public:
  */
 class LabelPropagationCommunitiesFunction : public IFunction {
 public:
+    ~LabelPropagationCommunitiesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "LABEL_PROPAGATION_COMMUNITIES",

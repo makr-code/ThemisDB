@@ -69,6 +69,7 @@ namespace functions {
  */
 class EthicsMakeDecisionFunction : public IFunction {
 public:
+    ~EthicsMakeDecisionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_MAKE_DECISION",
@@ -116,6 +117,7 @@ public:
  */
 class EthicsInitializeDebateFunction : public IFunction {
 public:
+    ~EthicsInitializeDebateFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_INITIALIZE_DEBATE",
@@ -167,6 +169,7 @@ public:
  */
 class EthicsEvaluateFunction : public IFunction {
 public:
+    ~EthicsEvaluateFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_EVALUATE",
@@ -204,6 +207,7 @@ public:
  */
 class EthicsEvaluateDimensionFunction : public IFunction {
 public:
+    ~EthicsEvaluateDimensionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_EVALUATE_DIMENSION",
@@ -249,6 +253,7 @@ public:
  */
 class EthicsGetArgumentsFunction : public IFunction {
 public:
+    ~EthicsGetArgumentsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_GET_ARGUMENTS",
@@ -294,6 +299,7 @@ public:
  */
 class EthicsFindSimilarDilemmasFunction : public IFunction {
 public:
+    ~EthicsFindSimilarDilemmasFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_FIND_SIMILAR_DILEMMAS",
@@ -338,6 +344,7 @@ public:
  */
 class EthicsTraverseChainFunction : public IFunction {
 public:
+    ~EthicsTraverseChainFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_TRAVERSE_CHAIN",
@@ -383,6 +390,7 @@ public:
  */
 class EthicsLoadProfileFunction : public IFunction {
 public:
+    ~EthicsLoadProfileFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_LOAD_PROFILE",
@@ -419,6 +427,7 @@ public:
  */
 class EthicsListSchoolsFunction : public IFunction {
 public:
+    ~EthicsListSchoolsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_LIST_SCHOOLS",
@@ -460,6 +469,7 @@ public:
  */
 class EthicsBuildContextFunction : public IFunction {
 public:
+    ~EthicsBuildContextFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_BUILD_CONTEXT",
@@ -506,6 +516,7 @@ public:
  */
 class EthicsStatsFunction : public IFunction {
 public:
+    ~EthicsStatsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_STATS",
@@ -541,6 +552,7 @@ public:
  */
 class EthicsMetricsFunction : public IFunction {
 public:
+    ~EthicsMetricsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "ETHICS_METRICS",

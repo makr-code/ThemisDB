@@ -23,6 +23,7 @@ namespace functions {
  */
 class DocumentFunction : public IFunction {
 public:
+    ~DocumentFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DOCUMENT",
@@ -51,6 +52,7 @@ public:
  */
 class MergeFunction : public IFunction {
 public:
+    ~MergeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MERGE",
@@ -90,6 +92,7 @@ public:
  */
 class MergeRecursiveFunction : public IFunction {
 public:
+    ~MergeRecursiveFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "MERGE_RECURSIVE",
@@ -138,6 +141,7 @@ private:
  */
 class UnsetFunction : public IFunction {
 public:
+    ~UnsetFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "UNSET",
@@ -170,6 +174,7 @@ public:
  */
 class KeepFunction : public IFunction {
 public:
+    ~KeepFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "KEEP",
@@ -206,6 +211,7 @@ public:
  */
 class HasFunction : public IFunction {
 public:
+    ~HasFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "HAS",
@@ -232,6 +238,7 @@ public:
  */
 class AttributesFunction : public IFunction {
 public:
+    ~AttributesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ATTRIBUTES",
@@ -259,6 +266,7 @@ public:
  */
 class ValuesFunction : public IFunction {
 public:
+    ~ValuesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "VALUES",
@@ -286,6 +294,7 @@ public:
  */
 class ZipFunction : public IFunction {
 public:
+    ~ZipFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ZIP",
@@ -322,6 +331,7 @@ public:
  */
 class UnzipFunction : public IFunction {
 public:
+    ~UnzipFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "UNZIP",
@@ -357,6 +367,7 @@ public:
  */
 class TypenameFunction : public IFunction {
 public:
+    ~TypenameFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TYPENAME",
@@ -392,6 +403,7 @@ public:
  */
 class IsNullFunction : public IFunction {
 public:
+    ~IsNullFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_NULL",
@@ -412,6 +424,7 @@ public:
 
 class IsBoolFunction : public IFunction {
 public:
+    ~IsBoolFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_BOOL",
@@ -432,6 +445,7 @@ public:
 
 class IsNumberFunction : public IFunction {
 public:
+    ~IsNumberFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_NUMBER",
@@ -452,6 +466,7 @@ public:
 
 class IsStringFunction : public IFunction {
 public:
+    ~IsStringFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_STRING",
@@ -472,6 +487,7 @@ public:
 
 class IsArrayFunction : public IFunction {
 public:
+    ~IsArrayFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_ARRAY",
@@ -492,6 +508,7 @@ public:
 
 class IsObjectFunction : public IFunction {
 public:
+    ~IsObjectFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "IS_OBJECT",
@@ -515,6 +532,7 @@ public:
  */
 class ToNumberFunction : public IFunction {
 public:
+    ~ToNumberFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TO_NUMBER",
@@ -535,6 +553,7 @@ public:
 
 class ToStringFunction : public IFunction {
 public:
+    ~ToStringFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TO_STRING",
@@ -555,6 +574,7 @@ public:
 
 class ToBoolFunction : public IFunction {
 public:
+    ~ToBoolFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TO_BOOL",
@@ -575,6 +595,7 @@ public:
 
 class ToArrayFunction : public IFunction {
 public:
+    ~ToArrayFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "TO_ARRAY",

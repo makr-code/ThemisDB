@@ -36,6 +36,7 @@ namespace functions {
 
 class HybridSearchFunction : public IFunction {
 public:
+    ~HybridSearchFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "HYBRID_SEARCH",
@@ -91,6 +92,7 @@ public:
 
 class EmbedFunction : public IFunction {
 public:
+    ~EmbedFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "EMBED",
@@ -124,6 +126,7 @@ public:
 
 class RerankFunction : public IFunction {
 public:
+    ~RerankFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "RERANK",
@@ -157,6 +160,7 @@ public:
 
 class ClassifyFunction : public IFunction {
 public:
+    ~ClassifyFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "CLASSIFY",
@@ -211,6 +215,7 @@ public:
 
 class ExtractEntitiesFunction : public IFunction {
 public:
+    ~ExtractEntitiesFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "EXTRACT_ENTITIES",
@@ -269,6 +274,7 @@ public:
 
 class SummarizeFunction : public IFunction {
 public:
+    ~SummarizeFunction() override = default;
     FunctionSignature signature() const override {
         return {
             "SUMMARIZE",
