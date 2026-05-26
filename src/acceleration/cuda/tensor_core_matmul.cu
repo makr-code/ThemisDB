@@ -215,8 +215,10 @@ int launchINT8MatmulKernel(
     cudaError_t ce = cudaGetDevice(&device);
     if (ce != cudaSuccess) return 1;
     int major = 0, minor = 0;
-    cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, device);
-    cudaDeviceGetAttribute(&minor, cudaDevAttrComputeCapabilityMinor, device);
+    ce = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, device);
+    if (ce != cudaSuccess) return 1;
+    ce = cudaDeviceGetAttribute(&minor, cudaDevAttrComputeCapabilityMinor, device);
+    if (ce != cudaSuccess) return 1;
     const int sm = major * 10 + minor;
     if (sm < 75) {
         // INT8 Tensor Core acceleration requires Turing (SM 7.5+).

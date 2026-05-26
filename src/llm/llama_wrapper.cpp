@@ -1080,6 +1080,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         for (int i = 0; i < max_tokens; ++i) {
             // Get logits for last token
             float* logits = llama_get_logits_ith(lctx, -1);
+            if (!logits) {
+                spdlog::error("llama_get_logits_ith returned null at step {}", i);
+                break;
+            }
             
             // Sample next token with optional grammar constraint (Phase 3.2)
             llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;
@@ -2293,7 +2297,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             for (int i = 0; i < config_.speculative_tokens; ++i) {
                 float* draft_logits = llama_get_logits_ith(draft_context_, -1);
                 if (!draft_logits) {
-                    spdlog::warn("Speculative decoding: null draft logits at position {}", i);
+                    spdlog::error("llama_get_logits_ith returned null for draft context at step {}", i);
                     break;
                 }
                 llama_token draft_token = sampleTokenInternal(
@@ -2334,7 +2338,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             for (size_t i = 0; i < draft_tokens.size(); ++i) {
                 float* target_logits = llama_get_logits_ith(target_context, static_cast<int32_t>(i));
                 if (!target_logits) {
-                    spdlog::warn("Speculative decoding: null target logits at position {}", i);
+                    spdlog::error("llama_get_logits_ith returned null for target context at validation step {}", i);
                     break;
                 }
                 
@@ -2550,6 +2554,10 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         for (int i = 0; i < max_tokens; ++i) {
             float* logits = llama_get_logits_ith(lctx, -1);
+            if (!logits) {
+                spdlog::error("llama_get_logits_ith returned null at step {}", i);
+                break;
+            }
             llama_token next_token = sampleTokenInternal(
                 lctx, lmodel, logits, n_vocab, temperature, top_p, nullptr
             );
@@ -3033,6 +3041,8 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                             prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
                         if (llama_decode(lctx, prefix_batch) == 0) {
                             n_past += static_cast<int>(prefix_tokens.size());
+                        } else {
+                            spdlog::warn("generateVision: prefix llama_decode failed; continuing without image-prefill context");
                         }
                     }
 

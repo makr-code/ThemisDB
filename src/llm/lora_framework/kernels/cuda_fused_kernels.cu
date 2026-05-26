@@ -88,7 +88,7 @@ __global__ void fused_lora_forward_kernel(
             // Accumulate contribution to output
             if (out_idx < out_dim) {
                 float partial_result = 0.0f;
-                int tile_size = min(TILE_SIZE, (int)(rank - tile_start));
+                int tile_size = min(TILE_SIZE, static_cast<int>(rank - tile_start));
                 for (int i = 0; i < tile_size; i++) {
                     int r = tile_start + i;
                     partial_result += shared_h[i] * A[r * out_dim + out_idx];
@@ -434,7 +434,7 @@ __global__ void fused_lora_forward_kernel_optimized(
             // Accumulate contribution to output with register blocking
             if (out_idx < out_dim) {
                 float partial_result = 0.0f;
-                int tile_size = min(TILE_SIZE, (int)(rank - tile_start));
+                int tile_size = min(TILE_SIZE, static_cast<int>(rank - tile_start));
                 #pragma unroll
                 for (int i = 0; i < tile_size; i++) {
                     int r = tile_start + i;
@@ -550,7 +550,7 @@ __global__ void fused_lora_forward_kernel_warp_optimized(
             // Compute partial output with bank conflict avoidance
             if (out_idx < out_dim) {
                 float partial_result = 0.0f;
-                int tile_size = min(TILE_SIZE, (int)(rank - tile_start));
+                int tile_size = min(TILE_SIZE, static_cast<int>(rank - tile_start));
                 
                 // Access shared memory with stride to avoid conflicts
                 #pragma unroll 4

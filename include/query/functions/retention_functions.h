@@ -52,6 +52,7 @@ namespace functions {
  */
 class CoefficientOfVariationFunction : public IFunction {
 public:
+    ~CoefficientOfVariationFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CV",
@@ -94,6 +95,7 @@ public:
  */
 class VarianceLevelFunction : public IFunction {
 public:
+    ~VarianceLevelFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "VARIANCE_LEVEL",
@@ -138,6 +140,7 @@ public:
  */
 class RetentionResolutionFunction : public IFunction {
 public:
+    ~RetentionResolutionFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "RETENTION_RESOLUTION",
@@ -185,6 +188,7 @@ public:
  */
 class DateSubFunction : public IFunction {
 public:
+    ~DateSubFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "DATE_SUB",
@@ -260,6 +264,7 @@ public:
  */
 class ScheduleTaskFunction : public IFunction {
 public:
+    ~ScheduleTaskFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "SCHEDULE_TASK",
@@ -348,6 +353,7 @@ public:
  */
 class ListScheduledTasksFunction : public IFunction {
 public:
+    ~ListScheduledTasksFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "LIST_SCHEDULED_TASKS",
@@ -379,6 +385,7 @@ public:
  */
 class CancelTaskFunction : public IFunction {
 public:
+    ~CancelTaskFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "CANCEL_TASK",
@@ -413,6 +420,7 @@ public:
  */
 class EstimateStorageSavingsFunction : public IFunction {
 public:
+    ~EstimateStorageSavingsFunction() override = default;
     FunctionSignature signature() const override {
         return {
             .name = "ESTIMATE_STORAGE_SAVINGS",

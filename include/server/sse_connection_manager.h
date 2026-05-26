@@ -138,7 +138,7 @@ public:
 private:
     struct Connection {
         uint64_t id;
-        uint64_t current_sequence;
+        std::atomic<uint64_t> current_sequence{0};
         std::string key_prefix;
         std::set<Changefeed::ChangeEventType> event_types;
         std::chrono::steady_clock::time_point last_activity;

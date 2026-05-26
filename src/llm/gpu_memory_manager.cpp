@@ -11,6 +11,7 @@
 
 #include "llm/gpu_memory_manager.h"
 #include <stdexcept>
+#include <limits>
 #include "utils/error_registry.h"
 #include "security/vram_secure_clear.h"
 #include <spdlog/spdlog.h>
@@ -116,7 +117,13 @@ private:
     void freeGPUMemory() {
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
-            cudaSetDevice(gpu_device_id_);
+            // REL-73: check cudaSetDevice return value before secure-clear/free
+            cudaError_t set_err = cudaSetDevice(gpu_device_id_);
+            if (set_err != cudaSuccess) {
+                spdlog::warn("MemoryHolder::freeGPUMemory: cudaSetDevice({}) failed: {}",
+                             gpu_device_id_, cudaGetErrorString(set_err));
+                return;
+            }
             security::VRAMSecureClear::secureClearCUDA(ptr_, bytes_);
             CUDA_CHECK(cudaFree(ptr_));
         } else {
@@ -328,9 +335,19 @@ void GPUMemoryManager::initializeGPU() {
                         
                         // Check if peer access is possible
                         int can_access = 0;
-                        cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
+                        cudaError_t can_access_err = cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
+                        if (can_access_err != cudaSuccess) {
+                            spdlog::warn("  P2P capability query failed: GPU {} -> GPU {}: {}",
+                                         src_gpu, dst_gpu, cudaGetErrorString(can_access_err));
+                            continue;
+                        }
                         if (can_access) {
-                            cudaSetDevice(src_gpu);
+                            cudaError_t set_err = cudaSetDevice(src_gpu);
+                            if (set_err != cudaSuccess) {
+                                spdlog::warn("  P2P setup failed: cudaSetDevice({}) failed: {}",
+                                             src_gpu, cudaGetErrorString(set_err));
+                                continue;
+                            }
                             cudaError_t p2p_err = cudaDeviceEnablePeerAccess(dst_gpu, 0);
                             if (p2p_err == cudaSuccess) {
                                 spdlog::info("  P2P enabled: GPU {} -> GPU {}", src_gpu, dst_gpu);
@@ -409,11 +426,20 @@ void GPUMemoryManager::shutdownGPU() {
         if (config_.enable_peer_access && available_gpus_.size() > 1) {
             for (size_t i = 0; i < available_gpus_.size(); ++i) {
                 int src_gpu = available_gpus_[i];
-                cudaSetDevice(src_gpu);
+                cudaError_t set_err = cudaSetDevice(src_gpu);
+                if (set_err != cudaSuccess) {
+                    spdlog::warn("shutdownGPU: cudaSetDevice({}) failed while disabling peer access: {}",
+                                 src_gpu, cudaGetErrorString(set_err));
+                    continue;
+                }
                 for (size_t j = 0; j < available_gpus_.size(); ++j) {
                     if (i != j) {
                         int dst_gpu = available_gpus_[j];
-                        cudaDeviceDisablePeerAccess(dst_gpu);
+                        cudaError_t disable_err = cudaDeviceDisablePeerAccess(dst_gpu);
+                        if (disable_err != cudaSuccess && disable_err != cudaErrorPeerAccessNotEnabled) {
+                            spdlog::warn("shutdownGPU: cudaDeviceDisablePeerAccess({} -> {}) failed: {}",
+                                         src_gpu, dst_gpu, cudaGetErrorString(disable_err));
+                        }
                     }
                 }
             }
@@ -421,7 +447,12 @@ void GPUMemoryManager::shutdownGPU() {
         
         // Reset all devices
         for (int gpu_id : available_gpus_) {
-            cudaSetDevice(gpu_id);
+            cudaError_t set_err = cudaSetDevice(gpu_id);
+            if (set_err != cudaSuccess) {
+                spdlog::warn("shutdownGPU: cudaSetDevice({}) failed before reset: {}",
+                             gpu_id, cudaGetErrorString(set_err));
+                continue;
+            }
             CUDA_CHECK(cudaDeviceReset());
         }
     }
@@ -728,7 +759,15 @@ size_t GPUMemoryManager::getFreeRAM() const {
 
 bool GPUMemoryManager::canAllocate(size_t vram_bytes, size_t ram_bytes) const {
     // Already locked by caller
-    
+
+    // Guard against size_t overflow before comparing against limits.
+    if (vram_bytes > 0 && total_vram_used_ > std::numeric_limits<size_t>::max() - vram_bytes) {
+        return false;
+    }
+    if (ram_bytes > 0 && total_ram_used_ > std::numeric_limits<size_t>::max() - ram_bytes) {
+        return false;
+    }
+
     size_t future_vram = total_vram_used_ + vram_bytes;
     size_t future_ram = total_ram_used_ + ram_bytes;
     
@@ -889,16 +928,42 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
-            cudaSetDevice(device_id);
-            if (cudaMalloc(&new_ptr, total_vram) != cudaSuccess) {
+            cudaError_t set_err = cudaSetDevice(device_id);
+            if (set_err != cudaSuccess) {
+                spdlog::warn("Defrag: cudaSetDevice({}) failed for model {}: {}",
+                             device_id, model_id, cudaGetErrorString(set_err));
+                continue;
+            }
+
+            cudaError_t alloc_err = cudaMalloc(&new_ptr, total_vram);
+            if (alloc_err != cudaSuccess) {
                 spdlog::warn("Failed to allocate consolidated GPU memory for model {} on device {}", model_id, device_id);
                 continue;
             }
 
             size_t offset = 0;
+            bool copy_ok = true;
             for (const auto& alloc : device_allocs) {
-                cudaMemcpy(static_cast<char*>(new_ptr) + offset, alloc.gpu_ptr, alloc.vram_bytes, cudaMemcpyDeviceToDevice);
+                cudaError_t copy_err = cudaMemcpy(static_cast<char*>(new_ptr) + offset,
+                                                  alloc.gpu_ptr,
+                                                  alloc.vram_bytes,
+                                                  cudaMemcpyDeviceToDevice);
+                if (copy_err != cudaSuccess) {
+                    spdlog::warn("Defrag: cudaMemcpy failed for model {} on GPU {}: {}",
+                                 model_id, device_id, cudaGetErrorString(copy_err));
+                    copy_ok = false;
+                    break;
+                }
                 offset += alloc.vram_bytes;
+            }
+            if (!copy_ok) {
+                // REL-66: check cudaFree return value in defragment cleanup path
+                cudaError_t free_err = cudaFree(new_ptr);
+                if (free_err != cudaSuccess) {
+                    spdlog::warn("Defrag: cudaFree of scratch buffer failed: {}",
+                                 cudaGetErrorString(free_err));
+                }
+                continue;
             }
         } else {
             new_ptr = std::malloc(total_vram);

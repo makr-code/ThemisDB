@@ -99,6 +99,7 @@ namespace functions {
  */
 class GraphQLFunction : public IFunction {
 public:
+    ~GraphQLFunction() override = default;
     FunctionSignature signature() const override {
         return FunctionSignature{
             .name        = "GRAPHQL",
