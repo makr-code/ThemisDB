@@ -207,6 +207,24 @@ Security-sensitive input validation gaps found by static analysis:
 
 ---
 
+### Addressed in W1-L09 (2026-05-26 — NCCL/RCCL comm-destroy + stream-destroy + VRAM free reliability hardening)
+
+**Scope files:** `lora_framework/nccl_backend.cpp`, `lora_framework/rccl_backend.cpp`, `lora_framework/vram_allocator.cpp`, `gpu_memory_manager.cpp`
+
+| Gap ID | Category | Finding | Fix | Impact |
+|--------|----------|---------|-----|--------|
+| W1-L09-REL-62 | `reliability` | `ncclCommDestroy()` return value ignored in `NCCLBackend::cleanup_nccl()` | Captured `ncclResult_t`; logs warning via `spdlog::warn` on failure | Prevents silent NCCL communicator destruction failures |
+| W1-L09-REL-63 | `reliability` | `cudaStreamDestroy()` return value ignored in `NCCLBackend::cleanup_nccl()` | Captured `cudaError_t`; logs warning via `spdlog::warn` on failure | Prevents silent CUDA stream destruction failures during NCCL cleanup |
+| W1-L09-REL-64 | `reliability` | `ncclCommDestroy()` return value ignored in `RCCLBackend::cleanup_rccl()` | Captured `ncclResult_t`; logs warning via `spdlog::warn` on failure | Prevents silent RCCL communicator destruction failures |
+| W1-L09-REL-65 | `reliability` | `hipStreamDestroy()` return value ignored in `RCCLBackend::cleanup_rccl()` | Captured `hipError_t`; logs warning via `spdlog::warn` on failure | Prevents silent HIP stream destruction failures during RCCL cleanup |
+| W1-L09-REL-66 | `reliability` | `cudaFree()` return value ignored in `VRAMAllocator::release_backend_ptr_()` CUDA branch | Captured `cudaError_t`; logs warning (noexcept function, cannot throw) | Prevents silent CUDA device-memory free failure in VRAM pool |
+| W1-L09-REL-67 | `reliability` | `hipFree()` return value ignored in `VRAMAllocator::release_backend_ptr_()` HIP branch | Captured `hipError_t`; logs warning (noexcept function, cannot throw) | Prevents silent HIP device-memory free failure in VRAM pool |
+| W1-L09-REL-68 | `reliability` | `cudaFree()` return value ignored on cleanup path after `cudaMemcpy` failure in `GPUMemoryManager::defragment()` | Captured `cudaError_t`; logs warning via `spdlog::warn` on failure | Prevents silent device-memory leak masking during defragmentation |
+
+**Files modified:** `lora_framework/nccl_backend.cpp`, `lora_framework/rccl_backend.cpp`, `lora_framework/vram_allocator.cpp`, `gpu_memory_manager.cpp`
+
+---
+
 ### Addressed in this PR (v1.20.0 / v1.20.1)
 
 | Gap | Fix | File |
@@ -322,6 +340,14 @@ paths now validate `cudaFree`/`hipFree` return values in CUDA/HIP kernel helpers
 and explicit free paths validate `cudaFree`/`cudaFreeHost`, with allocation docs updated
 to state `nullptr` on failure (`lora_framework/kernels/quantization_kernels.cu`,
 `include/llm/lora_framework/quantization_kernels.h`).
+
+**Status (v1.21.0-pre — batch 35):** REL-62..REL-68 fixed — `ncclCommDestroy`/`cudaStreamDestroy`
+in `NCCLBackend::cleanup_nccl()` now log failures; `ncclCommDestroy`/`hipStreamDestroy` in
+`RCCLBackend::cleanup_rccl()` now log failures; `cudaFree`/`hipFree` in
+`VRAMAllocator::release_backend_ptr_()` now log failures (noexcept path); `cudaFree`
+cleanup after `cudaMemcpy` failure in `GPUMemoryManager::defragment()` now logged
+(`lora_framework/nccl_backend.cpp`, `lora_framework/rccl_backend.cpp`,
+`lora_framework/vram_allocator.cpp`, `gpu_memory_manager.cpp`).
 
 ---
 

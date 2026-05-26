@@ -361,12 +361,18 @@ void RCCLBackend::cleanup_rccl() {
 #ifdef THEMIS_ENABLE_HIP
 #ifdef THEMIS_ENABLE_RCCL
     if (rccl_comm_) {
-        ncclCommDestroy(rccl_comm_);
+        ncclResult_t rccl_err = ncclCommDestroy(rccl_comm_);
+        if (rccl_err != ncclSuccess) {
+            spdlog::warn("ncclCommDestroy (RCCL) failed during RCCL cleanup: {}", ncclGetErrorString(rccl_err));
+        }
         rccl_comm_ = nullptr;
     }
     
     if (hip_stream_) {
-        hipStreamDestroy(static_cast<hipStream_t>(hip_stream_));
+        hipError_t stream_err = hipStreamDestroy(static_cast<hipStream_t>(hip_stream_));
+        if (stream_err != hipSuccess) {
+            spdlog::warn("hipStreamDestroy failed during RCCL cleanup: {}", hipGetErrorName(stream_err));
+        }
         hip_stream_ = nullptr;
     }
 #endif

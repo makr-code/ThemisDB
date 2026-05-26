@@ -937,7 +937,11 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
                 if (cpy_err != cudaSuccess) {
                     spdlog::error("cudaMemcpy failed during defrag for model {} on device {}: {}",
                                   model_id, device_id, cudaGetErrorString(cpy_err));
-                    cudaFree(new_ptr);
+                    cudaError_t clean_err = cudaFree(new_ptr);
+                    if (clean_err != cudaSuccess) {
+                        spdlog::warn("cudaFree failed during defrag cleanup for model {} on device {}: {}",
+                                     model_id, device_id, cudaGetErrorString(clean_err));
+                    }
                     new_ptr = nullptr;
                     copy_failed = true;
                     break;

@@ -794,7 +794,12 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearCUDA(ptr, block_size);
             }
-            cudaFree(ptr);
+            {
+                cudaError_t free_err = cudaFree(ptr);
+                if (free_err != cudaSuccess) {
+                    spdlog::warn("cudaFree failed in release_backend_ptr_: {}", cudaGetErrorString(free_err));
+                }
+            }
             break;
 #endif
 
@@ -803,7 +808,12 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearHIP(ptr, block_size);
             }
-            hipFree(ptr);
+            {
+                hipError_t free_err = hipFree(ptr);
+                if (free_err != hipSuccess) {
+                    spdlog::warn("hipFree failed in release_backend_ptr_: {}", hipGetErrorName(free_err));
+                }
+            }
             break;
 #endif
 

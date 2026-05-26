@@ -361,12 +361,18 @@ void NCCLBackend::cleanup_nccl() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
     if (nccl_comm_) {
-        ncclCommDestroy(nccl_comm_);
+        ncclResult_t nccl_err = ncclCommDestroy(nccl_comm_);
+        if (nccl_err != ncclSuccess) {
+            spdlog::warn("ncclCommDestroy failed during NCCL cleanup: {}", ncclGetErrorString(nccl_err));
+        }
         nccl_comm_ = nullptr;
     }
     
     if (cuda_stream_) {
-        cudaStreamDestroy(static_cast<cudaStream_t>(cuda_stream_));
+        cudaError_t stream_err = cudaStreamDestroy(static_cast<cudaStream_t>(cuda_stream_));
+        if (stream_err != cudaSuccess) {
+            spdlog::warn("cudaStreamDestroy failed during NCCL cleanup: {}", cudaGetErrorString(stream_err));
+        }
         cuda_stream_ = nullptr;
     }
 #endif
