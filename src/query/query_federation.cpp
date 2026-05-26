@@ -157,6 +157,7 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
     // Convert ShardResult → ShardRetrievalResult
     std::vector<distributed_knowledge::ShardRetrievalResult> rag_results;
     rag_results.reserve(raw_results.size());
+    uint64_t accumulated_rag_input_bytes = 0;
 
     for (const auto& sr : raw_results) {
         distributed_knowledge::ShardRetrievalResult rr;
@@ -189,6 +190,11 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
         if (doc_list) {
             size_t rank = 1;
             for (const auto& dj : *doc_list) {
+                accumulated_rag_input_bytes += static_cast<uint64_t>(dj.dump().size());
+                enforceAccumulatedSizeLimit(
+                    accumulated_rag_input_bytes,
+                    config_.max_result_size_bytes,
+                    "federated RAG input");
                 distributed_knowledge::RetrievedDocument doc;
                 doc.doc_id  = dj.value("doc_id",
                               dj.value("_key",

@@ -478,3 +478,32 @@ TEST(QueryFederationRAGTest, QF_RAG_05_BuildPromptContextContainsShardPrefixes) 
     EXPECT_NE(prompt.find("[Shard: shard-beta]"), std::string::npos)
         << "Prompt context must include [Shard: shard-beta] prefix";
 }
+
+TEST(QueryFederationRAGTest, QF_RAG_06_OversizedShardInputThrows) {
+    auto topology = std::make_shared<sharding::ShardTopology>();
+    auto ring     = std::make_shared<sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<sharding::URNResolver>(topology, ring);
+    auto router   = std::make_shared<FederatedResultShardRouter>(resolver);
+
+    ShardResult shard_result;
+    shard_result.shard_id = "shard-001";
+    shard_result.success = true;
+    shard_result.data = nlohmann::json::object();
+    shard_result.data["docs"] = nlohmann::json::array({
+        nlohmann::json{
+            {"doc_id", "doc-1"},
+            {"content", std::string(128, 'x')},
+            {"score", 1.0}
+        }
+    });
+    router->queueShardResult(std::move(shard_result));
+
+    QueryFederation::Config cfg;
+    cfg.max_result_size_bytes = 64;
+    QueryFederation qf(router, cfg);
+    qf.setRAGMerger(std::make_shared<FederatedRAGMerger>());
+
+    EXPECT_THROW(
+        qf.executeFederatedRAGQuery("query"),
+        std::runtime_error);
+}
