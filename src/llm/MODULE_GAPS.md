@@ -366,6 +366,13 @@ checks both `cudaMemsetAsync` and sync `cudaMemset` zero-init paths and returns 
 immediately (`lora_framework/kernels/quantization_kernels.cu`); `FlashAttentionCUDA::freeWorkspace`
 now checks `cudaFree` and reports failures (`attention/cuda/flash_attention_cuda.cu`).
 
+**Status (v1.21.0-pre — batch 38):** REL-80..REL-86 fixed — inference-path guard hardening:
+`batchInferenceMultiLoRA()` now fails fast on null vocab handles and invalid vocab sizes and
+guards `llama_get_logits_ith` before dereference (`multi_lora_manager.cpp`); `LlamaWrapper`
+generation/speculative loops now validate vocab handles/sizes and all logits pointers before
+sampling/probability access, and speculative validation now exits cleanly when no draft tokens
+are produced (`llama_wrapper.cpp`).
+
 ---
 
 ## 📋 Implementation Priority

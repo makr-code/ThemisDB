@@ -1063,7 +1063,13 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // Get vocab for EOS detection and token count
         const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+        if (!vocab) {
+            throw std::runtime_error("llama_model_get_vocab returned null");
+        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        if (n_vocab <= 0) {
+            throw std::runtime_error("Invalid vocabulary size returned by llama_vocab_n_tokens");
+        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         // Time to first token
@@ -1077,6 +1083,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         for (int i = 0; i < max_tokens; ++i) {
             // Get logits for last token
             float* logits = llama_get_logits_ith(lctx, -1);
+            if (!logits) {
+                throw std::runtime_error("llama_get_logits_ith returned null");
+            }
             
             // Sample next token with optional grammar constraint (Phase 3.2)
             llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;
@@ -2270,6 +2279,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             std::vector<llama_token> draft_tokens;
             for (int i = 0; i < config_.speculative_tokens; ++i) {
                 float* draft_logits = llama_get_logits_ith(draft_context_, -1);
+                if (!draft_logits) {
+                    throw std::runtime_error("llama_get_logits_ith returned null for draft model");
+                }
                 llama_token draft_token = sampleTokenInternal(
                     draft_context_, draft_model_, draft_logits, n_vocab,
                     temperature, top_p, nullptr  // No grammar for draft model
@@ -2290,6 +2302,11 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             }
             
             total_speculations += draft_tokens.size();
+
+            if (draft_tokens.empty()) {
+                spdlog::warn("Speculative decoding produced no draft tokens; stopping iteration");
+                break;
+            }
             
             // 3b. Target model validates all draft tokens in parallel
             llama_batch validation_batch = llama_batch_get_one(
@@ -2304,6 +2321,9 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             int accepted = 0;
             for (size_t i = 0; i < draft_tokens.size(); ++i) {
                 float* target_logits = llama_get_logits_ith(target_context, i);
+                if (!target_logits) {
+                    throw std::runtime_error("llama_get_logits_ith returned null for target model");
+                }
                 
                 // Get probability of draft token from target model
                 float target_prob = getProbability(target_logits, draft_tokens[i], n_vocab);
@@ -2505,7 +2525,13 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
         const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+        if (!vocab) {
+            throw std::runtime_error("llama_model_get_vocab returned null");
+        }
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        if (n_vocab <= 0) {
+            throw std::runtime_error("Invalid vocabulary size returned by llama_vocab_n_tokens");
+        }
         llama_token eos_token = llama_vocab_eos(vocab);
         
         // Phase 2: Collect token probabilities for knowledge gap detection
@@ -2514,6 +2540,9 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         for (int i = 0; i < max_tokens; ++i) {
             float* logits = llama_get_logits_ith(lctx, -1);
+            if (!logits) {
+                throw std::runtime_error("llama_get_logits_ith returned null");
+            }
             llama_token next_token = sampleTokenInternal(
                 lctx, lmodel, logits, n_vocab, temperature, top_p, nullptr
             );
@@ -3135,4 +3164,3 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
 
 } // namespace llm
 } // namespace themis
-
