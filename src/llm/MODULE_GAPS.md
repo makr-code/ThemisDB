@@ -201,6 +201,63 @@ src/llm/MODULE_GAPS.md  ← You are here
 
 ---
 
+## ✅ Recent Remediation (2026-05-26) — W1-L01: Multi-LoRA Manager — Race/Lock Fixes
+
+**Scope:** `src/llm/multi_lora_manager.cpp`  
+**Ticket:** W1-L01 · Priority P0  
+
+### Fixes Applied
+
+#### 1. Use-after-free data race in `applyLoRA()` and `removeLoRA()` (CWE-416 / data_race CRITICAL)
+
+**Root cause:** Both functions called `getLoRA(lora_id)` which acquired and **released** the
+`mutex_`, then used the returned raw `LoRASlot*` pointer to read/write fields
+(`adapter_handle`, `scale`, `is_active`) without holding the mutex.  A concurrent
+`unloadLoRA(lora_id)` call could erase the `unique_ptr<LoRASlot>` from `loras_` in between,
+leaving the raw pointer dangling — use-after-free (CRITICAL).
+
+**Fix:** Rewrote both functions using a **lock-then-snapshot** pattern:
+1. Acquire `mutex_` upfront (no separate `getLoRA()` call).
+2. Copy `adapter_handle` (an opaque C pointer, not our heap) and `scale` to local variables
+   while holding the lock.
+3. Release the lock before calling the C API (`llama_lora_adapter_set`) or bridge callback.
+4. Re-acquire the lock to write back `is_active` and `switches_`, re-checking that the slot
+   still exists in `loras_` (defending against concurrent `unloadLoRA`).
+
+#### 2. Unsynchronised access to `fusion_cache_` in `fuseLoRAsAdvanced()` (data_race CRITICAL)
+
+**Root cause:** `fuseLoRAsAdvanced()` accessed `fusion_cache_` (cache lookup, `last_used`
+update, erase, insert) and `fusion_configs_`, `fusion_schedules_`, `total_fusions_`
+**without holding `mutex_`**. Concurrent calls to `fuseLoRAsAdvanced()` or
+`updateFusionWeights()` (which does hold the mutex) created data races on these maps.
+
+**Fix:**
+- Wrapped the STATIC cache check block in a `lock_guard<mutex_>`.
+- Wrapped `fusion_cache_misses_++` in a separate short `lock_guard<mutex_>`.
+- After `fuseLoRAsInternal()` (which acquires `mutex_` internally), wrapped the
+  cache-update block (`fusion_cache_[fused_id] = ...`, `fusion_configs_`, `fusion_schedules_`,
+  `total_fusions_`) in its own `lock_guard<mutex_>`.
+- Wrapped the `updateFusionMetrics()` call in a `lock_guard<mutex_>` because that function
+  accesses `fusion_cache_` and relies on its callers to hold the lock.
+
+#### 3. False positives documented — `loadLoRAOnGPU`, `loadLoRAMultiGPU`, `fuseLoRAs`, `updateFusionWeights`, `setAlphaSchedule`
+
+**Scanner flags:** 24 additional CRITICAL data_race alerts.
+
+**Assessment:** All of these are in private methods documented with "Already locked by
+caller" comments, or in public methods that acquire `mutex_` at the top.  The scanner
+cannot statically prove the caller invariant.  No additional fixes required.
+
+### Gap Delta
+
+| Metric | Before | After |
+|---|---|---|
+| data_race CRITICAL (applyLoRA/removeLoRA) | 2 (use-after-free) | 0 — fixed |
+| data_race CRITICAL (fuseLoRAsAdvanced) | 8 (unsynchronised maps) | 0 — fixed |
+| data_race CRITICAL (false positives) | 24 | 24 documented |
+
+---
+
 **Format:** THEMIS_MODULE_GAPS_v2  
 **Generator:** Manual + ThemisDB Gap Audit Pipeline v2 (`gap_scan_v3_llm.json`)  
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-26
