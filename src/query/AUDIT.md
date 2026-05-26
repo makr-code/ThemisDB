@@ -83,7 +83,7 @@
 |---------------------------------------|---------------|-----------------------------------------------|
 | AQL injection detection               | ⚠️ Partial   | LLM path hardened (schema delimiters + scope checks); residual risk remains when callers omit `schema_context` (warn-only) |
 | SPARQL/SQL parse-and-translate        | ✅ Complete   | No direct dialect execution                   |
-| Per-query resource limits             | ✅ Complete   | `kMaxResultSetSize=1,000,000` cap in `executeAndEntities` + `executeOrEntitiesWithFallback` (QE-4 fixed 2026-05-04); `QueryFederation` now enforces `max_result_size_bytes` for joins, scatter-gather merges, and federated RAG accumulation |
+| Per-query resource limits             | ✅ Complete   | `kMaxResultSetSize=1,000,000` cap in `executeAndEntities` + `executeOrEntitiesWithFallback` (QE-4 fixed 2026-05-04); `QueryFederation` now enforces `max_result_size_bytes` for joins, scatter-gather merges, aggregation shard/output payloads, and federated RAG accumulation |
 | Query cancellation                    | ✅ Complete   | Via request ID                                |
 | Tenant namespace isolation            | ✅ Complete   | `collection_access_checker_` enforced in all 8 `execute*` entry points (QE-2 fixed 2026-05-26) |
 | AQLParser thread-safety               | ✅ Complete   | `AQLParser` is stateless — each call constructs a local `Parser`; safe for concurrent use without mutex (KL-01 closed 2026-05-26) |

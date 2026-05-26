@@ -241,6 +241,57 @@ TEST(QueryFederationExecutionLimitTest, OversizedMergedScatterGatherResultThrows
         std::runtime_error);
 }
 
+TEST(QueryFederationExecutionLimitTest, OversizedAggregationShardResultThrows) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<FederatedResultShardRouter>(resolver);
+
+    QueryFederation::Config cfg;
+    cfg.max_result_size_bytes = 64;
+
+    const std::string oversized_payload(128, 'x');
+    ShardResult shard_result;
+    shard_result.shard_id = "shard-001";
+    shard_result.success = true;
+    shard_result.data = nlohmann::json{
+        {"sum", 1},
+        {"payload", oversized_payload}
+    };
+    router->queueShardResult(std::move(shard_result));
+
+    QueryFederation federation(router, cfg);
+
+    EXPECT_THROW(
+        federation.executeAggregation("FOR doc IN users COLLECT WITH COUNT INTO length RETURN { length }"),
+        std::runtime_error);
+}
+
+TEST(QueryFederationExecutionLimitTest, SmallAggregationShardResultSucceeds) {
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    auto router   = std::make_shared<FederatedResultShardRouter>(resolver);
+
+    QueryFederation::Config cfg;
+    cfg.max_result_size_bytes = 256;
+
+    ShardResult shard_result;
+    shard_result.shard_id = "shard-001";
+    shard_result.success = true;
+    shard_result.data = nlohmann::json{
+        {"sum", 3},
+        {"count", 1}
+    };
+    router->queueShardResult(std::move(shard_result));
+
+    QueryFederation federation(router, cfg);
+
+    EXPECT_EQ(
+        federation.executeAggregation("FOR doc IN users COLLECT AGGREGATE sum = SUM(doc.value) RETURN { sum }"),
+        (nlohmann::json{{"sum", 3}, {"count", 1}}));
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Point-lookup routes to exactly 1 shard
 // ─────────────────────────────────────────────────────────────────────────────

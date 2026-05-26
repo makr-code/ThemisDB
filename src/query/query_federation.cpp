@@ -601,6 +601,11 @@ nlohmann::json QueryFederation::executeAggregation(const std::string& query) {
                         shard_result.shard_id, shard_result.error_msg);
             continue;
         }
+
+        enforceJsonSizeLimit(
+            shard_result.data,
+            config_.max_result_size_bytes,
+            "aggregation shard result");
         
         // Merge aggregation results
         // This is simplified - actual implementation would handle
@@ -613,6 +618,11 @@ nlohmann::json QueryFederation::executeAggregation(const std::string& query) {
             // For AVG: combine weighted averages
             // For MIN/MAX: take min/max
         }
+
+        enforceJsonSizeLimit(
+            combined,
+            config_.max_result_size_bytes,
+            "aggregation result");
     }
     
     return combined;

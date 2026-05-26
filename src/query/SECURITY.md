@@ -22,7 +22,7 @@
 
 ### T2 — Resource Exhaustion
 - **Risk:** High — unbounded queries could exhaust memory, CPU, or I/O
-- **Mitigation:** Per-query limits enforced: max-rows, max-memory, timeout; `QueryFederation` caps join, scatter-gather merge, and federated RAG accumulation via `max_result_size_bytes`; query cancellation via request ID (`query_canceller.cpp`); limits are mandatory and not caller-optional
+- **Mitigation:** Per-query limits enforced: max-rows, max-memory, timeout; `QueryFederation` caps join inputs/results, scatter-gather merges, aggregation shard/output payloads, and federated RAG accumulation via `max_result_size_bytes`; query cancellation via request ID (`query_canceller.cpp`); limits are mandatory and not caller-optional
 - **Residual risk:** Low — limits are enforced in the execution engine; extreme edge cases under benchmark review
 
 ### T3 — Cross-Tenant Data Access
