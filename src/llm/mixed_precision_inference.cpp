@@ -15,6 +15,7 @@
 #if defined(THEMIS_HAS_CUDA) && THEMIS_HAS_CUDA
 #  include <cuda_runtime.h>
 #endif
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
@@ -239,8 +240,16 @@ bool MixedPrecisionInference::isSupported(PrecisionMode precision) {
         return false;
     }
     int major = 0, minor_ver = 0;
-    cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, dev);
-    cudaDeviceGetAttribute(&minor_ver, cudaDevAttrComputeCapabilityMinor, dev);
+    cudaError_t attr_err_major = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, dev);
+    if (attr_err_major != cudaSuccess) {
+        spdlog::warn("isSupported: cudaDeviceGetAttribute(Major) failed: {}", cudaGetErrorString(attr_err_major));
+        return false;
+    }
+    cudaError_t attr_err_minor = cudaDeviceGetAttribute(&minor_ver, cudaDevAttrComputeCapabilityMinor, dev);
+    if (attr_err_minor != cudaSuccess) {
+        spdlog::warn("isSupported: cudaDeviceGetAttribute(Minor) failed: {}", cudaGetErrorString(attr_err_minor));
+        return false;
+    }
     const int sm = major * 10 + minor_ver;
 
     switch (precision) {

@@ -6,6 +6,7 @@
 #include <device_launch_parameters.h>
 #include <cmath>
 #include <cfloat>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
@@ -608,9 +609,24 @@ void launchFlashAttentionBackward(
 ) {
     // Initialize gradients to zero
     size_t size = batch_size * num_heads * seq_len * head_dim * sizeof(float);
-    cudaMemsetAsync(d_dQ, 0, size, stream);
-    cudaMemsetAsync(d_dK, 0, size, stream);
-    cudaMemsetAsync(d_dV, 0, size, stream);
+    cudaError_t memset_err = cudaMemsetAsync(d_dQ, 0, size, stream);
+    if (memset_err != cudaSuccess) {
+        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(dQ) failed: {}",
+                      cudaGetErrorString(memset_err));
+        return;
+    }
+    memset_err = cudaMemsetAsync(d_dK, 0, size, stream);
+    if (memset_err != cudaSuccess) {
+        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(dK) failed: {}",
+                      cudaGetErrorString(memset_err));
+        return;
+    }
+    memset_err = cudaMemsetAsync(d_dV, 0, size, stream);
+    if (memset_err != cudaSuccess) {
+        spdlog::error("launchFlashAttentionBackward: cudaMemsetAsync(dV) failed: {}",
+                      cudaGetErrorString(memset_err));
+        return;
+    }
     
     dim3 blockDim(BLOCK_SIZE);
     dim3 gridDim(

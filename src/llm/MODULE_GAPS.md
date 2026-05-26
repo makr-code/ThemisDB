@@ -246,6 +246,11 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-96: `rccl_backend.cpp` now checks `hipStreamSynchronize()` in `allreduce()`, `broadcast()`, and `barrier()` and propagates/logs failures.
 - REL-97: `rccl_backend.cpp` `RCCLBackend::get_version()` now checks `ncclGetVersion()` and returns a safe fallback string on failure.
 
+**Status (W1-L14):** REL-98..REL-100 fixed —
+- REL-98: `mixed_precision_inference.cpp` `isSupported()` now checks both `cudaDeviceGetAttribute()` calls (major and minor compute capability) and returns `false` with a warning on failure instead of silently computing sm=0.
+- REL-99: `kernel_fusion.cu` `launchFlashAttentionBackward()` now checks all three `cudaMemsetAsync()` calls (dQ, dK, dV) and returns early with an error log if any memset fails, preventing the backward kernel from launching with un-zeroed gradient buffers.
+- REL-100: `lora_framework/kernels/quantization_kernels.cu` `launch_quantize_nf4_kernel()` now checks `cudaMemsetAsync()`/`cudaMemset()` and propagates the error return value instead of silently proceeding with un-zeroed NF4 output.
+
 ---
 
 ## 📋 Implementation Priority
