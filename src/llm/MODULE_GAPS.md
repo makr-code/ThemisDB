@@ -391,6 +391,21 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
   OOM-condition allocation to proceed. Now returns `false` immediately on potential overflow.
   Added `<limits>` include for `std::numeric_limits<size_t>::max()`.
 
+**Status (v1.22.0-pre — W1-L07 unknown cluster triage):** External scanner `unknown` findings triaged for multi_lora_manager, llama_wrapper, lora_training_service:
+- `multi_lora_manager.cpp`: external_v3 reports 1227 findings vs 5 internal. `unknown` cluster
+  arises from deep STL template patterns, virtual dispatch and large switch bodies the scanner
+  cannot classify. All concrete data_race paths are guarded by `std::shared_mutex`
+  (readers use shared_lock, writers unique_lock). No actionable lock-free shared-state
+  mutation or missing null check found on audit.
+- `llama_wrapper.cpp`: 4 `llama_get_logits_ith` null-deref paths fixed in W1-L04 (this batch).
+  Remaining `unknown` scanner findings correspond to internal C struct accesses via llama.cpp
+  opaque pointers — not modifiable without altering the llama.cpp ABI. Documented as
+  third-party-ABI constraint, not actionable.
+- `lora_training_service.cpp`: external_v3 reports 689 findings vs 12 internal. `unknown`
+  cluster is dominated by parallel training-batch queue patterns that the scanner cannot
+  distinguish from races. All mutating paths hold `std::mutex training_mutex_` or
+  `std::condition_variable` waits. No concrete unguarded shared-state write found on audit.
+
 ---
 
 ## ✅ Acceptance Criteria (from Issue)

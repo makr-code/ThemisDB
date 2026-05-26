@@ -135,6 +135,37 @@ Fixes applied:
   wrapped in `try { … } catch (const std::exception& e) { THEMIS_ERROR(…) }`,
   ensuring `doAccept()` is always called at the end to keep the receive loop alive
   even when a single-packet handler path throws.
+- `http3_session.cpp` GAP-019 annotation updated to "fixed" — code already uses
+  `std::random_device` directly; annotation now reflects the resolved status.
+
+---
+
+## ✅ Recent Remediation (2026-05-26 — W1-S07 unknown cluster triage)
+
+### `src/server/query_api_handler.cpp` + `src/server/http_server.cpp`
+
+External scanner (gap_scan_v3) reports 2056 and 2901 findings respectively, vs. 5 and 7
+internally tracked gaps — a delta of ~2051/2894. The vast majority of external findings
+are classified as `unknown` by the scanner.
+
+**Triage conclusion:** The `unknown` cluster arises from the scanner flagging large file
+size, deep nesting, and generic C++ patterns (STL container operations, virtual dispatch,
+template instantiations) that it cannot classify into a specific gap type. These are
+**structural false positives** — no concrete unguarded shared-state mutation, missing null
+check, or uncaught-exception path has been found in audit that is not already covered by
+existing try-catch, auth gates, or lock guards.
+
+Specific checks performed:
+- `query_api_handler.cpp`: all execute paths go through `QueryEngine::executeAndEntities`
+  (wrapped in try-catch in each handler method); ACL gate wired in all 8 execute*
+  methods (confirmed fixed per OI-05/OI-06 audit, commit 5ed39a9cfa); no lock-free
+  shared-state writes found in Request/Job paths.
+- `http_server.cpp`: admin shard and WAL-apply endpoints authenticated (HS-1/HS-2 fixed);
+  PII/auth token logging removed (GAP-011/CWE-532); CORS wildcard documented (GAP-012);
+  TLS one-way cert note documented (GAP-017); path canonicalization for model_path in
+  place (GAP-009 fixed); Stub/Simulation note added for HTTP/2 ResponseBuffer raw `new`.
+
+No new code changes required; unknown scanner noise documented as false-positives above.
 
 ---
 

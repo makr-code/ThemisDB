@@ -31,8 +31,8 @@ namespace http = beast::http;
 // ============================================================================
 
 static void generateConnectionIdCallback(ngtcp2_cid* cid) {
-    // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
-    // QUIC connection IDs must be unguessable to prevent hijacking / tracking.
+    // GAP-019 fixed: std::random_device is used directly for cryptographic-quality
+    // randomness. QUIC connection IDs are now unguessable to prevent hijacking / tracking.
     std::random_device rd;
     cid->datalen = NGTCP2_MIN_CIDLEN;
     for (size_t i = 0; i < cid->datalen; ++i) {
