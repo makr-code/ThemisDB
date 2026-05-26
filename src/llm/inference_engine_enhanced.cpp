@@ -18,6 +18,7 @@
 #include "sharding/remote_executor.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <limits>
 #include <numeric>
 #include <sstream>
 
@@ -1798,10 +1799,13 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             constexpr float kBaseline = -5.0f;
             draft_result.vocab_size = vocab_size;
             for (size_t i = 0; i < K; ++i) {
-                const int tid = (i < remote_text.size())
-                    ? (static_cast<int>(static_cast<unsigned char>(remote_text[i])) %
-                       static_cast<int>(vocab_size))
-                    : 0;
+                const size_t tid_raw = (i < remote_text.size())
+                    ? (static_cast<size_t>(static_cast<unsigned char>(remote_text[i])) %
+                       vocab_size)
+                    : 0u;
+                const int tid = static_cast<int>(std::min(
+                    tid_raw,
+                    static_cast<size_t>(std::numeric_limits<int>::max())));
                 draft_result.tokens.push_back(tid);
                 std::vector<float> row(vocab_size, kBaseline);
                 row[static_cast<size_t>(tid)] = kPeak;
@@ -2058,4 +2062,3 @@ std::string InferenceEngineEnhanced::resolveDraftModelId(
 
 } // namespace llm
 } // namespace themis
-

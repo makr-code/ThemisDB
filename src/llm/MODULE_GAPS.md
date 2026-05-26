@@ -1,6 +1,6 @@
 # llm Module — Implementation Gap Analysis
 
-**Status:** Updated 2026-05-26 (W1-L06 delta applied)
+**Status:** Updated 2026-05-26 (W1-L44 delta applied)
 **Last Updated:** 2026-05-26  
 
 ---
@@ -113,6 +113,16 @@ Security-sensitive input validation gaps found by static analysis:
 | W1-L43-IV-03 | `input_validation` | `InferenceEngineEnhanced::checkCache()` and `updateCache()` passed embedding vectors to the HNSW similarity index without validating their dimensionality; stub/corrupted embeddings with < 64 dimensions would silently produce wrong cosine similarity scores | Added `MIN_EMBEDDING_DIM = 64` guard in both methods: if non-empty but under-dimensional, warn and clear the vector (fall back to exact-key lookup) (`inference_engine_enhanced.cpp`) | Prevents silent cache misclassification from dimensionality-mismatched embeddings |
 | W1-L43-OOP-02 | `oop_design` | `FederatedInferenceCoordinator` inherits `IFederatedInferenceBackend` (virtual dtor) but had no `~FederatedInferenceCoordinator() override` — deleting through the base pointer would leak owned resources | Added `~FederatedInferenceCoordinator() override = default;` (`include/llm/federated_inference_coordinator.h`) | Correct virtual destructor chain |
 | W1-L43-TC-03 | `type_conversion` | `batch.n_tokens = llama_tokens.size()` in `EmbeddingProvider::embed()` assigned `size_t` to `int32_t` without explicit cast — implicit narrowing conversion | Replaced with `static_cast<int32_t>(llama_tokens.size())` (`lora_framework/embedding_provider.cpp`) | Explicit narrowing; consistent with llama_batch API (`int32_t n_tokens`) |
+
+---
+
+### Addressed in W1-L44 (2026-05-26 — TC-04 draft token id narrowing hardening)
+
+**Scope files:** `include/llm/llm_plugin_interface.h`, `src/llm/inference_engine_enhanced.cpp`
+
+| Gap ID | Category | Finding | Fix | Impact |
+|--------|----------|---------|-----|--------|
+| W1-L44-TC-04 | `type_conversion` | Draft-token fallback mapping cast `size_t vocab`/`size_t vocab_size` to `int` before modulo (`generateDraftTokens()`, remote speculative-draft path). Very large vocab values could narrow before `%`, producing implementation-defined behaviour | Perform modulo in `size_t` space, then clamp to `std::numeric_limits<int>::max()` immediately before storing token IDs as `int` | Removes narrowing-before-modulo risk and keeps token-id serialization explicit/safe for oversized vocab metadata |
 
 ---
 
@@ -459,6 +469,12 @@ All converted to `static_cast<int>(...)` with explicit narrowing intent.
 `EmbeddingProvider::embed()` replaced with `static_cast<int32_t>(llama_tokens.size())` to match
 the `int32_t` field type declared by `llama_batch`
 (`lora_framework/embedding_provider.cpp`).
+
+**Status (v1.22.0-pre — batch 44):** TC-04 fixed — draft-token fallback ID synthesis now performs
+byte→token modulo in `size_t` space and only narrows after clamping to `int` max:
+`ILLMPlugin::generateDraftTokens()` (`include/llm/llm_plugin_interface.h`) and remote speculative
+draft fallback in `InferenceEngineEnhanced::trySpeculativeGeneration()`
+(`src/llm/inference_engine_enhanced.cpp`).
 
 ---
 
