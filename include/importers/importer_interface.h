@@ -22,6 +22,8 @@
 #include <mutex>
 #include <future>
 #include <chrono>
+#include <optional>
+#include <utility>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -719,6 +721,41 @@ public:
         return out;
     }
 
+    std::optional<json> getJsonSnapshot(const std::string& id) const {
+        auto handle = get(id);
+        if (!handle) {
+            return std::nullopt;
+        }
+        return handle->toJson();
+    }
+
+    std::optional<std::pair<bool, json>> getRunningAndJsonSnapshot(
+        const std::string& id) const {
+        auto handle = get(id);
+        if (!handle) {
+            return std::nullopt;
+        }
+        return std::make_pair(handle->running.load(), handle->toJson());
+    }
+
+    std::optional<std::string> getSourcePathSnapshot(const std::string& id) const {
+        auto handle = get(id);
+        if (!handle) {
+            return std::nullopt;
+        }
+        return handle->source_path;
+    }
+
+    std::vector<json> allJsonSnapshots() const {
+        auto handles = all();
+        std::vector<json> out;
+        out.reserve(handles.size());
+        for (const auto& handle : handles) {
+            out.push_back(handle->toJson());
+        }
+        return out;
+    }
+
     void remove(const std::string& id) {
         std::lock_guard<std::mutex> lk(mutex_);
         jobs_.erase(id);
@@ -851,4 +888,3 @@ public:
 
 } // namespace importers
 } // namespace themis
-

@@ -17,6 +17,17 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-19)
 
+- **W1-S07 (2026-05-26) – `src/server/import_api_handler.cpp`, `include/importers/importer_interface.h`**
+  - Import-job registry hardening: added snapshot-oriented helpers on
+    `ImportJobRegistry` (`getJsonSnapshot`, `getRunningAndJsonSnapshot`,
+    `getSourcePathSnapshot`, `allJsonSnapshots`) to centralize thread-safe
+    access and reduce direct shared-handle retrieval in API handlers.
+  - Handler updates: import job status/cancel/list/metrics/schema/relationship
+    routes now consume registry snapshots instead of direct `get()/all()` handle
+    access paths.
+  - Gap delta intent: reduce import API `data_race` hotspots around registry
+    access while preserving endpoint behavior and metrics output shape.
+
 - **W1-S06 (2026-05-26) – `src/server/async_job_api_handler.cpp`, `include/server/async_job_api_handler.h`**
   - Concurrency-access encapsulation: added `AsyncJobRegistry` snapshot/cancel helpers
     (`getJsonSnapshot`, `allJsonSnapshots`, `requestCancel`) so route handlers no longer
