@@ -434,7 +434,11 @@ void GPUMemoryManager::shutdownGPU() {
                 for (size_t j = 0; j < available_gpus_.size(); ++j) {
                     if (i != j) {
                         int dst_gpu = available_gpus_[j];
-                        cudaDeviceDisablePeerAccess(dst_gpu);
+                        cudaError_t disable_err = cudaDeviceDisablePeerAccess(dst_gpu);
+                        if (disable_err != cudaSuccess && disable_err != cudaErrorPeerAccessNotEnabled) {
+                            spdlog::warn("cudaDeviceDisablePeerAccess({}, {}) failed during shutdown: {}",
+                                         src_gpu, dst_gpu, cudaGetErrorString(disable_err));
+                        }
                     }
                 }
             }

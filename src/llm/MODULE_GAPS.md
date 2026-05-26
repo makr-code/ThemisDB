@@ -349,6 +349,16 @@ cleanup after `cudaMemcpy` failure in `GPUMemoryManager::defragment()` now logge
 (`lora_framework/nccl_backend.cpp`, `lora_framework/rccl_backend.cpp`,
 `lora_framework/vram_allocator.cpp`, `gpu_memory_manager.cpp`).
 
+**Status (v1.21.0-pre — batch 36):** REL-69..REL-74 fixed — `ncclGroupStart` and both
+`ncclGroupEnd` paths in `NCCLBackend::allreduce()` and `RCCLBackend::allreduce()` now
+validate return values and log failures; `ncclGetVersion` in both backends now validated
+with fail-safe `"Unknown"` version string on error; `cudaDeviceDisablePeerAccess` in
+`GPUMemoryManager::shutdownGPU()` now checks/handles `cudaErrorPeerAccessNotEnabled`;
+`cudaDeviceGetAttribute` major/minor calls in `MixedPrecisionInference::isSupported()`
+now checked with warning+fail-closed fallback
+(`lora_framework/nccl_backend.cpp`, `lora_framework/rccl_backend.cpp`,
+`gpu_memory_manager.cpp`, `mixed_precision_inference.cpp`).
+
 ---
 
 ## 📋 Implementation Priority
