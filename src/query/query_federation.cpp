@@ -602,6 +602,8 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 pred.collection = col;
                 pred.key_value  = m[1].str();
                 metadata.shard_key_predicate = std::move(pred);
+                metadata.point_lookup_key = m[1].str();
+                metadata.key_range.reset();
                 push_unique(metadata.predicates, "shard_key_point");
             }
         } else {
@@ -617,6 +619,8 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                     pred.key_min    = m[1].str();
                     pred.key_max    = m[2].str();
                     metadata.shard_key_predicate = std::move(pred);
+                    metadata.point_lookup_key.reset();
+                    metadata.key_range = std::make_pair(m[1].str(), m[2].str());
                     push_unique(metadata.predicates, "shard_key_range");
                 }
             }
@@ -747,6 +751,27 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
                               metadata.key_range->second,
                               shards.size());
                 return shards;
+            }
+        }
+
+        if (metadata.shard_key_predicate.has_value()) {
+            const auto& pred = *metadata.shard_key_predicate;
+            if (pred.kind == QueryMetadata::ShardKeyPredicate::Kind::POINT) {
+                std::string shard = sharding_manager_->GetShardForKey(
+                    pred.collection, pred.key_value);
+                if (!shard.empty()) {
+                    spdlog::debug("Shard-key point-lookup (predicate): key=\"{}\" → shard={}",
+                                  pred.key_value, shard);
+                    return {shard};
+                }
+            } else {
+                auto shards = sharding_manager_->GetShardsForKeyRange(
+                    pred.collection, pred.key_min, pred.key_max);
+                if (!shards.empty()) {
+                    spdlog::debug("Shard-key range (predicate) [{}, {}] → {} shard(s)",
+                                  pred.key_min, pred.key_max, shards.size());
+                    return shards;
+                }
             }
         }
     }

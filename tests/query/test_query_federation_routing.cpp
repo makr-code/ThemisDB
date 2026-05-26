@@ -233,6 +233,22 @@ TEST_F(QueryFederationRoutingTest, PointLookupUsesExecuteOnShardsPath) {
         << "Point-lookup should target at most one shard";
 }
 
+TEST_F(QueryFederationRoutingTest, PointLookupWithSingleQuotesUsesExecuteOnShardsPath) {
+    const std::string query =
+        R"(FOR doc IN orders FILTER doc._key == 'ord-42' RETURN doc)";
+
+    const uint64_t execute_on_shards_before = mock_router_->executeOnShardsCalls();
+    const uint64_t scatter_before = mock_router_->scatterGatherCalls();
+    federation_->execute(query);
+
+    EXPECT_GT(mock_router_->executeOnShardsCalls(), execute_on_shards_before)
+        << "Single-quoted shard-key predicate should still use executeOnShards";
+    EXPECT_EQ(mock_router_->scatterGatherCalls(), scatter_before)
+        << "Single-quoted point-lookup should avoid scatterGather";
+    EXPECT_LE(mock_router_->lastTargetShards().size(), 1u)
+        << "Single-quoted point-lookup should target at most one shard";
+}
+
 // ============================================================================
 // Test 2: Range query → subset of shards (≤ total)
 // ============================================================================
