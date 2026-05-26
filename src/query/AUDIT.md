@@ -1,4 +1,4 @@
-<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | validated: 2026-04-21 (full source code analysis) -->
+<!-- Status: S0 fixed 2026-05-04 | S1 fixed 2026-05-04 | OI-05/OI-06 fixed 2026-05-26 | KL-01 closed 2026-05-26 | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -9,9 +9,9 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26) |
+| Audit date   | 2026-04-21 (S0 fixes: 2026-05-04, S1 fixes: 2026-05-04, OI-05/OI-06: 2026-05-26, KL-01 closed: 2026-05-26) |
 | Audited by   | Copilot (source code analysis)             |
-| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open |
+| Status       | ✅ All critical findings resolved — 0 S0, 0 S1, 0 critical OI open; KL-01 closed |
 
 > **2026-05-04:** QE-1 fixed (errors_mutex), QE-2 addressed, PA-1 fixed (depth limit 500 in
 > `parseExpression()`). See finding details below for confirmation.
@@ -22,6 +22,8 @@
 > TR-2 fixed (kMaxDNFDisjuncts=1000 guard before cartesian product).
 > **2026-05-26:** OI-05 (QE-2 ACL gate) wired via `collection_access_checker_` in all 8 public
 > execute* entry points. OI-06 remaining data race in `executeOrKeys` fixed (added `errors_mutex`).
+> KL-01 (AQLParser thread-safety) closed — `AQLParser` is stateless; each public method constructs
+> local `Tokenizer`/`Parser` objects and holds no mutable members, so concurrent use is safe.
 
 ## Source File Inventory
 
@@ -81,19 +83,25 @@
 |---------------------------------------|---------------|-----------------------------------------------|
 | AQL injection detection               | ⚠️ Partial   | Security module detector present but bypassed via LLM path (see LLM-1/LLM-2 in aql/AUDIT.md) |
 | SPARQL/SQL parse-and-translate        | ✅ Complete   | No direct dialect execution                   |
-| Per-query resource limits             | 🔴 Incomplete | `timeout_ms=0` default disables timeout in traversals; no result-set cap in `executeAndEntities` |
+| Per-query resource limits             | ✅ Complete   | `kMaxResultSetSize=1,000,000` cap in `executeAndEntities` + `executeOrEntitiesWithFallback` (QE-4 fixed 2026-05-04) |
 | Query cancellation                    | ✅ Complete   | Via request ID                                |
-| Tenant namespace isolation            | 🔴 Missing    | `execute*` methods perform no ACL check on collection name — any caller can access any collection |
-| AQLParser thread-safety               | ⚠️ Open      | Per-thread or mutex required (KL-01)          |
-| Parser recursion depth limit          | 🔴 Missing    | No depth counter → stack overflow on crafted input (PA-1) |
+| Tenant namespace isolation            | ✅ Complete   | `collection_access_checker_` enforced in all 8 `execute*` entry points (QE-2 fixed 2026-05-26) |
+| AQLParser thread-safety               | ✅ Complete   | `AQLParser` is stateless — each call constructs a local `Parser`; safe for concurrent use without mutex (KL-01 closed 2026-05-26) |
+| Parser recursion depth limit          | ✅ Complete   | `kMaxExprDepth=500` in `parseExpression`; `kMaxTraversalDepth=100` in `parseForClause` (PA-1 fixed 2026-05-04) |
 | Performance benchmarks                | ❌ Pending    | Vectorized + federated paths (Q2 2026)        |
-| Full security audit                   | 🔴 Findings  | QE-1..QE-5, PA-1..PA-2, TR-1..TR-2 — see Findings section |
+| Full security audit                   | ✅ All critical findings resolved | QE-1..QE-5 ✅, PA-1..PA-2 ✅, TR-1..TR-2 ✅ — see Findings section |
 
 ## Findings
 
 ### S0 — Critical
 
-#### QE-1 · `query_engine.cpp` · `executeAndKeys()` — Data race on shared `errors` vector
+| ID | Function | Description | Status |
+|----|----------|-------------|--------|
+| QE-1 | `executeAndKeys()` / `executeOrKeys()` | Data race on shared `errors` vector in TBB tasks — `push_back` without mutex → UB (heap corruption, torn writes) | ✅ fixed 2026-05-04 (`executeAndKeys`) + 2026-05-26 (`executeOrKeys`) |
+| QE-2 | All `execute*` methods | No ACL/authorization check on collection name — any caller could read any collection | ✅ fixed 2026-05-26 — `collection_access_checker_` wired in 8 entry points |
+| PA-1 | `parseExpression()` et al. | Unbounded recursion in recursive-descent parser → stack overflow on crafted input | ✅ fixed 2026-05-04 — `kMaxExprDepth=500` depth counter |
+
+**Historical detail (QE-1, ✅ fixed):**
 
 Multiple TBB tasks concurrently call `push_back()` on a shared `std::vector<std::string>`
 without synchronization. `std::vector::push_back` is not thread-safe — this is undefined
@@ -108,12 +116,11 @@ tg.run([this, &q, &p, &all_lists, i, &errors]() {
 });
 ```
 
-**Fix required:** Use `std::atomic<bool>` error flag + per-task slot, or protect with a
-`std::mutex`, consistent with the correct approach already used for `all_lists[i]`.
+**Fix applied:** `std::mutex errors_mutex` added to both `executeAndKeys` (2026-05-04) and `executeOrKeys` (2026-05-26); TBB lambdas capture `&errors_mutex` and use `std::lock_guard`.
 
 ---
 
-#### QE-2 · `query_engine.cpp` · All `execute*` methods — No authorization check on collection access
+#### QE-2 historical detail (✅ fixed 2026-05-26):
 
 Every `executeAnd*` / `executeOr*` method passes `q.table` directly to the storage layer
 without any ACL or caller-identity check. Any caller who can construct or inject a query
@@ -127,12 +134,11 @@ auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 The per-collection ACL enforced by `KeySchema` is a namespace prefix, not an access gate.
 This is the storage-layer companion to the HTTP-layer auth gaps found in Session 3.
 
-**Fix required:** Add an `IAccessControl::checkRead(caller_id, table)` call before any
-storage access, consistent with how access is supposed to be enforced end-to-end.
+**Fix applied:** `collection_access_checker_` functor (injected via `setCollectionAccessChecker()`) evaluated before any storage I/O in all 8 public `execute*` entry points; returns `ERR_QUERY_ACCESS_DENIED` on denial.
 
 ---
 
-#### PA-1 · `aql_parser.cpp` · `parseUnary()` / `parsePrimary()` — Unbounded recursion → stack overflow
+#### PA-1 historical detail (✅ fixed 2026-05-04):
 
 The recursive descent parser has no depth counter in any of its mutually recursive functions
 (`parseExpression`, `parseLogicalOr`, `parseLogicalAnd`, `parseComparison`, `parseUnary`,
@@ -151,9 +157,7 @@ std::shared_ptr<Expression> parseUnary() {
 
 **Attack:** `FILTER NOT NOT NOT ... NOT x` (10,000 NOTs, trivially crafted).
 
-**Fix required:** Add a depth counter initialized to 0 in `parseExpression`, passed by
-reference through all recursive calls, with a hard limit (e.g., 500) that returns a
-parse error rather than recursing further.
+**Fix applied:** `int depth_` counter in `Parser`; `kMaxExprDepth=500` throws a parse error before recursing further. `kMaxTraversalDepth=100` in `parseForClause` caps graph depth.
 
 ---
 
@@ -174,7 +178,7 @@ parse error rather than recursing further.
 
 | ID    | Description                                                  | Target  | Priority |
 |-------|--------------------------------------------------------------|---------|----------|
-| OI-01 | AQLParser thread-safety refactor                             | Planned | High     |
+| OI-01 | ~~AQLParser thread-safety refactor~~ | ✅ **Closed 2026-05-26** — `AQLParser` is stateless by design; KL-01 was a false alarm | N/A |
 | ~~**OI-04**~~ | ~~**Add recursion depth limit to all recursive-descent functions (PA-1)**~~ | ✅ **Fixed 2026-05-04** | ~~Critical~~ |
 | ~~**OI-05**~~ | ~~**Add ACL check on collection name in all execute* methods (QE-2)**~~ | ✅ **Fixed 2026-05-26** — `collection_access_checker_` wired in `executeAndKeys`, `executeAndEntities`, `executeOrKeys`, `executeOrKeysWithFallback`, `executeAndKeysSequential`, `executeAndKeysWithFallback`, `executeVectorGeoQuery`, `executeContentGeoQuery` | ~~Critical~~ |
 | ~~**OI-06**~~ | ~~**Fix data race on `errors` vector in `executeAndKeys` (QE-1)**~~ | ✅ **Fixed** — `executeAndKeys` had `errors_mutex` since 2026-05-04; `executeOrKeys` data race (missing mutex) **fixed 2026-05-26** | ~~Critical~~ |

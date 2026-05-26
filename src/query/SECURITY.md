@@ -39,7 +39,7 @@
 
 | ID    | Description                                                            | Target Fix   |
 |-------|------------------------------------------------------------------------|--------------|
-| KL-01 | `AQLParser` instances are not thread-safe; must be per-thread or mutex-protected | Planned refactor |
+| KL-01 | ~~`AQLParser` instances are not thread-safe; must be per-thread or mutex-protected~~ — **Closed 2026-05-26**: `AQLParser` is stateless; every public method constructs local `Tokenizer`+`Parser` objects, so concurrent calls on a shared instance are safe. | ✅ Closed |
 | KL-02 | Performance benchmarks for vectorized and federated paths not yet published | Q2 2026 |
 | KL-03 | Full security audit (injection + resource exhaustion) in progress       | Q2 2026      |
 
