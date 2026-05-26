@@ -289,7 +289,11 @@ std::string NCCLBackend::get_version() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
     int version = 0;
-    ncclGetVersion(&version);
+    ncclResult_t version_err = ncclGetVersion(&version);
+    if (version_err != ncclSuccess) {
+        spdlog::warn("Failed to query NCCL version: {}", ncclGetErrorString(version_err));
+        return "Unknown (query failed)";
+    }
     int major = version / 10000;
     int minor = (version % 10000) / 100;
     int patch = version % 100;
@@ -363,12 +367,18 @@ void NCCLBackend::cleanup_nccl() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
     if (nccl_comm_) {
-        ncclCommDestroy(nccl_comm_);
+        ncclResult_t destroy_err = ncclCommDestroy(nccl_comm_);
+        if (destroy_err != ncclSuccess) {
+            spdlog::warn("NCCL cleanup: ncclCommDestroy failed: {}", ncclGetErrorString(destroy_err));
+        }
         nccl_comm_ = nullptr;
     }
     
     if (cuda_stream_) {
-        cudaStreamDestroy(static_cast<cudaStream_t>(cuda_stream_));
+        cudaError_t destroy_err = cudaStreamDestroy(static_cast<cudaStream_t>(cuda_stream_));
+        if (destroy_err != cudaSuccess) {
+            spdlog::warn("NCCL cleanup: cudaStreamDestroy failed: {}", cudaGetErrorString(destroy_err));
+        }
         cuda_stream_ = nullptr;
     }
 #endif

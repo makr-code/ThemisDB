@@ -180,6 +180,24 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-19: `cudaSetDevice`/`hipSetDevice` return values now checked before kernel dispatch in `multi_gpu_trainer.cpp`;
   on failure, GPU kernel dispatch is skipped and CPU fallback is used instead.
 
+**Status (v1.22.0-pre — W1-L04):** REL-20..REL-26 fixed — peer-access + cleanup + defrag reliability:
+- REL-20: `cudaDeviceCanAccessPeer` return value now checked during multi-GPU peer-access setup in
+  `gpu_memory_manager.cpp::initializeGPU()`; failed capability queries are logged and skipped.
+- REL-21: `cudaSetDevice` return value now checked before `cudaDeviceEnablePeerAccess` in
+  `gpu_memory_manager.cpp::initializeGPU()`; failed device selection is logged and skipped.
+- REL-22: `cudaSetDevice` return value now checked in `gpu_memory_manager.cpp::shutdownGPU()`
+  before peer-access disable loop; failed device selection is logged and skipped.
+- REL-23: `cudaDeviceDisablePeerAccess` return value now checked in `shutdownGPU()`; non-benign
+  failures are logged.
+- REL-24: `cudaSetDevice` return value now checked before `cudaDeviceReset` in `shutdownGPU()`;
+  failed device selection is logged and reset is skipped for that device.
+- REL-25: `cudaSetDevice` + `cudaMemcpy` return values now checked in
+  `gpu_memory_manager.cpp::defragmentModelGPU()`; failed copies abort that device-defrag path and
+  free temporary consolidated buffers.
+- REL-26: `ncclGetVersion`/`ncclCommDestroy`/`cudaStreamDestroy` and
+  `ncclGetVersion`/`ncclCommDestroy`/`hipStreamDestroy` return values now checked in
+  `nccl_backend.cpp` and `rccl_backend.cpp`; failures are logged with fail-safe behavior.
+
 **OOP-01:** `~LLMPluginAdapter() override = default;` added to `llm_plugin_interface.h` to close override
 destructor gap for the concrete `LLMPluginAdapter` class.
 
