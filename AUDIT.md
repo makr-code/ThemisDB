@@ -27,3 +27,7 @@ Der Root-Abgleich folgt einer gemeinsamen Kontrollbasis:
   Referenz: [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md)
 - [x] Betroffene Dateien/Scope festgehalten
   `ARCHITECTURE.md`, `AUDIT.md`, `SECURITY.md`, `CTEST.md`, `PERFORMANCE_EXPECTATIONS.md`, `PERFORMANCE_OPTIMIZATION_PLAN.md`, `PERFORMANCE_BOTTLENECKS.md`
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

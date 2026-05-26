@@ -246,3 +246,7 @@ git push origin main
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 1.0 | 2026-04-13 | Release Team | Initial version |
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

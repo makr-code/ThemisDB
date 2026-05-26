@@ -1519,3 +1519,7 @@ Use provided scripts to prepare new releases:
 [⭐ Star us on GitHub](https://github.com/makr-code/ThemisDB) · [📖 Read the Docs](https://makr-code.github.io/ThemisDB/) · [💬 Join Discussions](https://github.com/makr-code/ThemisDB/discussions)
 
 </div>
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+

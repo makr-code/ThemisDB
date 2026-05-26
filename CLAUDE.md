@@ -61,3 +61,7 @@ This is mandatory for signature changes, renames, and cross-module edits.
 - Reject unnecessary architecture expansion.
 - Prefer explicit, readable control flow.
 - Only optimize after evidence or profiling.
+
+---
+Zuletzt geprueft (Root-Sync): 2026-05-26
+
