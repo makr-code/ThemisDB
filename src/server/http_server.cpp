@@ -278,6 +278,7 @@ HttpServer::HttpServer(
     , ioc_(static_cast<int>(config_.num_threads))
     , acceptor_(ioc_)
     , start_time_(std::chrono::steady_clock::now())
+    , hot_request_timeout_ms_(config.request_timeout_ms)
 {
     THEMIS_INFO("HTTP Server created with {} threads on {}:{}", 
         config_.num_threads, config_.host, config_.port);
@@ -8565,6 +8566,20 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
         uint32_t count = 0;
         {
             std::lock_guard<std::mutex> lk(audit_rate_mutex_);
+            // W1-S02: amortised eviction of stale buckets to prevent unbounded map growth.
+            // Triggered on each access — erases entries whose window expired more than
+            // one full window ago (i.e., at least 2 × window_ms in the past).
+            if (audit_rate_buckets_.size() > 128) {
+                const uint64_t evict_cutoff = now - 2 * window_ms;
+                for (auto bucket_it = audit_rate_buckets_.begin();
+                     bucket_it != audit_rate_buckets_.end(); ) {
+                    if (bucket_it->second.window_start_ms < evict_cutoff) {
+                        bucket_it = audit_rate_buckets_.erase(bucket_it);
+                    } else {
+                        ++bucket_it;
+                    }
+                }
+            }
             auto& st = audit_rate_buckets_[key];
             if (now - st.window_start_ms >= window_ms) {
                 st.window_start_ms = now;
@@ -8646,7 +8661,9 @@ http::response<http::string_body> HttpServer::handleConfig(
             if (body.contains("request_timeout_ms")) {
                 auto timeout = body["request_timeout_ms"].get<uint32_t>();
                 if (timeout >= 1000 && timeout <= 300000) { // 1s - 5min range
-                    config_.request_timeout_ms = timeout;
+                    // W1-S02: store atomically so armReadTimer() reads are race-free.
+                    hot_request_timeout_ms_.store(timeout, std::memory_order_release);
+                    config_.request_timeout_ms = timeout; // keep Config in sync for status reads
                     THEMIS_INFO("Hot-reload: request_timeout_ms set to {}", timeout);
                 } else {
                     return makeErrorResponse(http::status::bad_request, "request_timeout_ms must be 1000-300000", req);
@@ -10838,15 +10855,17 @@ HttpServer::Session::~Session() {
 }
 
 void HttpServer::Session::armReadTimer() {
-    if (server_->config_.request_timeout_ms == 0) return;
+    // W1-S02: read from atomic shadow so concurrent hot-reload writes are race-free.
+    const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
+    if (timeout_ms == 0) return;
     read_timer_.expires_after(
-        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+        std::chrono::milliseconds(timeout_ms)
     );
     read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
         if (!ec) {
             // Timer fired before I/O completed: cancel the pending socket operation
-            THEMIS_WARN("Request read timeout ({}ms) - closing connection",
-                self->server_->config_.request_timeout_ms);
+            const uint32_t t = self->server_->hot_request_timeout_ms_.load(std::memory_order_relaxed);
+            THEMIS_WARN("Request read timeout ({}ms) - closing connection", t);
             beast::error_code close_ec;
             self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
@@ -11111,14 +11130,16 @@ HttpServer::SslSession::~SslSession() {
 }
 
 void HttpServer::SslSession::armReadTimer() {
-    if (server_->config_.request_timeout_ms == 0) return;
+    // W1-S02: read from atomic shadow so concurrent hot-reload writes are race-free.
+    const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
+    if (timeout_ms == 0) return;
     read_timer_.expires_after(
-        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+        std::chrono::milliseconds(timeout_ms)
     );
     read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
         if (!ec) {
-            THEMIS_WARN("Request read timeout ({}ms) - closing TLS connection",
-                self->server_->config_.request_timeout_ms);
+            const uint32_t t = self->server_->hot_request_timeout_ms_.load(std::memory_order_relaxed);
+            THEMIS_WARN("Request read timeout ({}ms) - closing TLS connection", t);
             beast::error_code close_ec;
             self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());

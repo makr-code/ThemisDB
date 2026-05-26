@@ -17,6 +17,11 @@ python tools/gap_audit_pipeline_v2.py
 
 ## ✅ Recent Remediation (2026-05-19)
 
+- **W1-S02 (2026-05-26) – `src/server/http_server.cpp`**
+  - Data-race hardening: introduced `std::atomic<uint32_t> hot_request_timeout_ms_` as an atomic shadow for `config_.request_timeout_ms`. Hot-reload path (request thread) now writes via `store(release)`; `Session::armReadTimer()` and `SslSession::armReadTimer()` now read via `load(acquire)`. Eliminates the data race between hot-reload and I/O-thread timer arming.
+  - Iterator-invalidation / unbounded growth fix: `enforceAuditRateLimit` now performs amortised eviction of stale `audit_rate_buckets_` entries (entries older than 2 × window_ms) under the existing `audit_rate_mutex_`, triggered when the bucket map exceeds 128 entries. Prevents unbounded memory growth under adversarial request patterns.
+  - Gap delta intent: reduce `data_race` (Session/SslSession armReadTimer, hot-reload) and `iterator_invalidation` (audit_rate_buckets_) findings for `http_server.cpp` in next server rescan.
+
 - **W1-S01 (2026-05-26) – `src/server/query_api_handler.cpp`**
   - Data-race hardening: thread-safe access for runtime-injected `IndexRecommender`, `StatisticsCollector`, and masking policy snapshots in request paths.
   - Timeout hardening: explicit timeout aborts added for traversal BFS and LET projection fallback prefix-scan paths (`timeout_ms`).

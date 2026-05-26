@@ -1179,6 +1179,11 @@ private:
     std::mutex audit_rate_mutex_;
     std::unordered_map<std::string, RateState> audit_rate_buckets_;
     uint32_t audit_rate_limit_per_minute_{100};
+
+    // W1-S02: atomic shadow for request_timeout_ms — allows race-free hot-reload
+    // writes from any request thread while armReadTimer() reads from I/O threads.
+    // Initialized from config_.request_timeout_ms in the constructor.
+    std::atomic<uint32_t> hot_request_timeout_ms_{30000};
     
     // Latency histogram buckets (in microseconds): 100us, 500us, 1ms, 5ms, 10ms, 50ms, 100ms, 500ms, 1s, 5s, 10s+
     std::atomic<uint64_t> latency_bucket_100us_{0};
