@@ -141,10 +141,6 @@ bool VulkanContext::initialize(int device_id, bool enable_validation) {
 }
 
 void VulkanContext::cleanup() {
-    if (!initialized_) {
-        return;
-    }
-    
     // Wait for device to be idle
     if (device_ != VK_NULL_HANDLE) {
         VkResult idle_result = vkDeviceWaitIdle(device_);
@@ -181,6 +177,10 @@ void VulkanContext::cleanup() {
         vkDestroyInstance(instance_, nullptr);
         instance_ = VK_NULL_HANDLE;
     }
+
+    physical_device_ = VK_NULL_HANDLE;
+    compute_queue_ = VK_NULL_HANDLE;
+    queue_family_index_ = 0;
     
     initialized_ = false;
 }
