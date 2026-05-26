@@ -1471,6 +1471,47 @@ TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_ValidAQL_DoesNotThrow) {
     EXPECT_EQ(result, "FOR doc IN collection RETURN doc");
 }
 
+TEST_F(LLMAQLHandlerTest, MockLLM_CollectionChecker_DeniesTranslate_ThrowsAccessDenied) {
+    handler->setChatExecutor(makeMockExecutor("FOR doc IN secrets RETURN doc"));
+    handler->setCollectionAccessChecker([](const std::string& collection) {
+        return collection != "secrets";
+    });
+
+    try {
+        handler->translateNLToAQL("Find all secrets");
+        FAIL() << "Expected LLMException(ACCESS_DENIED)";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::ACCESS_DENIED);
+    }
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_CollectionChecker_DeniesWithExamples_ThrowsAccessDenied) {
+    handler->setChatExecutor(makeMockExecutor("FOR doc IN secrets RETURN doc"));
+    handler->setCollectionAccessChecker([](const std::string& collection) {
+        return collection != "secrets";
+    });
+    AQLFewShotExampleLibrary lib;
+
+    try {
+        handler->translateNLToAQLWithExamples("Find all secrets", lib, "Collections: users");
+        FAIL() << "Expected LLMException(ACCESS_DENIED)";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::ACCESS_DENIED);
+    }
+}
+
+TEST_F(LLMAQLHandlerTest, MockLLM_WithExamples_SchemaScopeCheckRejectsOutOfScopeCollection) {
+    handler->setChatExecutor(makeMockExecutor("FOR doc IN secrets RETURN doc"));
+    AQLFewShotExampleLibrary lib;
+
+    try {
+        handler->translateNLToAQLWithExamples("Find all secrets", lib, "Collections: users");
+        FAIL() << "Expected LLMException(INVALID_RESPONSE)";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::INVALID_RESPONSE);
+    }
+}
+
 TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_BrokenAQL_ExhaustsRetries_Throws) {
     // In RETRY_ON_ERROR mode, after all retries the handler must throw INVALID_RESPONSE.
     int call_count = 0;

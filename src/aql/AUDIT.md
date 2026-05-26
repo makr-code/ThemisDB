@@ -31,7 +31,7 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 21 (`.cpp` in `src/aql/`) |
 | Test Coverage | ✅ All 4 phases complete; unit tests for all core components |
-| S0 Critical | ✅ 0 (LLM-1 fixed 2026-04-21; LLM-2 addressed 2026-05-04) |
+| S0 Critical | ✅ 0 (LLM-1 fixed 2026-04-21 + hardened 2026-05-26; LLM-2 addressed 2026-05-04 + hardened 2026-05-26) |
 | S1 High | ✅ 0 (LLM-3 fixed 2026-05-04) |
 | S2 Medium | ✅ 0 (LLM-4 fixed 2026-05-04) |
 | NL→AQL privilege isolation | ⚠️ Partial — schema-scope check enforced; full per-caller ACL requires architectural change |
@@ -105,7 +105,7 @@ treat content between these delimiters as schema only. Also strip known jailbrea
 
 ---
 
-#### LLM-2 · `llm_aql_handler.cpp` · `translateNLToAQL()` — Generated AQL executed at system privilege
+#### LLM-2 · `llm_aql_handler.cpp` · `translateNLToAQL*()` — Generated AQL executed at system privilege
 
 `AQLQueryValidator::validate()` performs syntax validation only. No ACL or collection-level
 authorization check is applied to generated AQL before it is returned and executed:
@@ -119,9 +119,13 @@ return aql_query;   // executed with system-level privilege
 Combined with LLM-1, this is a complete privilege escalation chain: an attacker with access
 to the NL→AQL endpoint can reach any collection in the database.
 
-**Fix required:** After validation, traverse the AQL AST to extract all referenced
-collection names. Verify each against the caller's ACL before returning the query for
-execution.
+**Fix applied:** Generated-query collection checks are now enforced in all NL→AQL paths
+(`translateNLToAQL`, `translateNLToAQLStreaming`, `translateNLToAQLWithExamples`):
+- schema-scope enforcement via `checkGeneratedAQLCollectionScope()` (rejects out-of-scope collections with `INVALID_RESPONSE`)
+- optional per-caller ACL enforcement via `setCollectionAccessChecker(...)` (rejects denied collections with `ACCESS_DENIED`)
+
+Residual architectural limitation: if callers omit `schema_context` and do not configure
+`setCollectionAccessChecker(...)`, collection scope cannot be strongly constrained.
 
 ---
 

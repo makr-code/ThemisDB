@@ -239,6 +239,26 @@ TEST_F(LLMAQLStreamingTest, TranslateStreamingWithSchemaContext) {
     }
 }
 
+TEST_F(LLMAQLStreamingTest, TranslateStreamingCollectionCheckerDenies_ThrowsAccessDenied) {
+    handler->setChatExecutor([](const std::vector<ChatMessage>&) -> std::string {
+        return "FOR doc IN secrets RETURN doc";
+    });
+    handler->setCollectionAccessChecker([](const std::string& collection) {
+        return collection != "secrets";
+    });
+
+    try {
+        handler->translateNLToAQLStreaming(
+            "Find all secrets",
+            [](const std::string&) {},
+            "Collections: secrets, users"
+        );
+        FAIL() << "Expected LLMException(ACCESS_DENIED)";
+    } catch (const LLMException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::ACCESS_DENIED);
+    }
+}
+
 TEST_F(LLMAQLStreamingTest, TranslateStreamingResultTrimmed) {
     // The returned AQL must not have leading or trailing whitespace.
     try {

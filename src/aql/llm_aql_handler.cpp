@@ -36,6 +36,7 @@
 #include <future>
 #include <regex>
 #include <thread>
+#include <unordered_set>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -306,6 +307,62 @@ static std::string checkGeneratedAQLCollectionScope(
     return {};  // All referenced collections are within schema scope.
 }
 
+// Extract collection names from common AQL data-access clauses.
+static std::unordered_set<std::string> extractReferencedCollectionsForAccessCheck(
+    const std::string& aql_query)
+{
+    std::unordered_set<std::string> collections;
+    const auto addMatches = [&](const std::regex& pattern) {
+        auto begin = std::sregex_iterator(aql_query.begin(), aql_query.end(), pattern);
+        const auto end = std::sregex_iterator{};
+        for (auto it = begin; it != end; ++it) {
+            collections.insert((*it)[1].str());
+        }
+    };
+
+    // FOR doc IN users
+    static const std::regex kForInPattern(
+        R"(\bFOR\s+\w+(?:\s*,\s*\w+){0,2}\s+IN\s+(\w+))",
+        std::regex_constants::icase
+    );
+    // REMOVE/UPDATE/REPLACE doc IN users
+    static const std::regex kMutateInPattern(
+        R"(\b(?:REMOVE|UPDATE|REPLACE)\s+\w+\s+IN\s+(\w+))",
+        std::regex_constants::icase
+    );
+    // INSERT doc INTO users
+    static const std::regex kInsertIntoPattern(
+        R"(\bINSERT\s+\w+\s+INTO\s+(\w+))",
+        std::regex_constants::icase
+    );
+    // UPSERT ... INTO users
+    static const std::regex kUpsertIntoPattern(
+        R"(\bUPSERT\b[\s\S]*?\bINTO\s+(\w+))",
+        std::regex_constants::icase
+    );
+
+    addMatches(kForInPattern);
+    addMatches(kMutateInPattern);
+    addMatches(kInsertIntoPattern);
+    addMatches(kUpsertIntoPattern);
+    return collections;
+}
+
+static std::string checkGeneratedAQLCollectionAccess(
+    const std::string& aql_query,
+    const std::function<bool(const std::string&)>& checker)
+{
+    if (!checker) return {};
+    const auto collections = extractReferencedCollectionsForAccessCheck(aql_query);
+    for (const auto& coll : collections) {
+        if (!checker(coll)) {
+            return "Generated AQL references collection '" + coll +
+                   "' which is denied by the collection access checker.";
+        }
+    }
+    return {};
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AQLConversationSession
 // ─────────────────────────────────────────────────────────────────────────────
@@ -389,6 +446,9 @@ public:
     // Post-generation AQL validation enforcement level
     TranslationValidationMode validation_mode_ = TranslationValidationMode::WARN_ONLY;
 
+    // Optional generated-query collection ACL checker (LLM-2 hardening).
+    std::function<bool(const std::string&)> collection_access_checker_;
+
     // Runtime-overridable validation limits (default = ValidationLimits constexprs)
     ValidationLimitsConfig validation_limits_{};
 
@@ -442,6 +502,12 @@ LLMAQLHandler::~LLMAQLHandler() = default;
 
 void LLMAQLHandler::setValidationMode(TranslationValidationMode mode) {
     impl_->validation_mode_ = mode;
+}
+
+void LLMAQLHandler::setCollectionAccessChecker(
+    std::function<bool(const std::string& collection_name)> checker
+) {
+    impl_->collection_access_checker_ = std::move(checker);
 }
 
 TranslationValidationMode LLMAQLHandler::getValidationMode() const {
@@ -1522,6 +1588,13 @@ std::string LLMAQLHandler::translateNLToAQL(
                     throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
                 }
             }
+            {
+                std::string acl_err =
+                    checkGeneratedAQLCollectionAccess(aql_query, impl_->collection_access_checker_);
+                if (!acl_err.empty()) {
+                    throw LLMException(LLMErrorCode::ACCESS_DENIED, acl_err);
+                }
+            }
 
             return aql_query;
 
@@ -1625,6 +1698,13 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(
                     checkGeneratedAQLCollectionScope(aql_query, schema_context);
                 if (!scope_err.empty()) {
                     throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
+                }
+            }
+            {
+                std::string acl_err =
+                    checkGeneratedAQLCollectionAccess(aql_query, impl_->collection_access_checker_);
+                if (!acl_err.empty()) {
+                    throw LLMException(LLMErrorCode::ACCESS_DENIED, acl_err);
                 }
             }
 
@@ -1915,6 +1995,20 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(
             AQLSyntaxHighlighter validator(/*use_ansi=*/false);
             logAnnotations(validator.annotateErrors(aql_query),
                            nl_query, "translateNLToAQLWithExamples");
+            {
+                std::string scope_err =
+                    checkGeneratedAQLCollectionScope(aql_query, schema_context);
+                if (!scope_err.empty()) {
+                    throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
+                }
+            }
+            {
+                std::string acl_err =
+                    checkGeneratedAQLCollectionAccess(aql_query, impl_->collection_access_checker_);
+                if (!acl_err.empty()) {
+                    throw LLMException(LLMErrorCode::ACCESS_DENIED, acl_err);
+                }
+            }
 
             spdlog::debug("translateNLToAQLWithExamples: injected {} examples for query \"{}\"",
                           injected_count,
