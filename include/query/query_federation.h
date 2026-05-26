@@ -19,6 +19,7 @@
 #include <memory>
 #include <optional>
 #include <atomic>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis::query {
@@ -283,6 +284,7 @@ public:
     std::atomic<uint64_t> partition_pruned_queries_{0};
     std::atomic<uint64_t> broadcast_joins_{0};
     std::atomic<uint64_t> shuffle_joins_{0};
+    mutable std::mutex routing_mutex_;
 
     // ── DK-4: Federated RAG merge ────────────────────────────────────────────
     std::shared_ptr<distributed_knowledge::FederatedRAGMerger> rag_merger_;
@@ -384,4 +386,3 @@ public:
 };
 
 } // namespace themis::query
-

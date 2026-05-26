@@ -26,6 +26,7 @@
 #include <vector>
 #include <optional>
 #include <algorithm>
+#include <unordered_set>
 
 #include "query/query_federation.h"
 #include "sharding/sharding_manager.h"
@@ -81,6 +82,7 @@ public:
     }
 
     std::vector<ShardResult> scatterGather(const std::string& /*query*/) override {
+        scatter_gather_calls_++;
         std::vector<ShardResult> results;
         for (const auto& id : shard_ids_) {
             ShardResult r;
@@ -92,10 +94,36 @@ public:
         return results;
     }
 
+    std::vector<ShardResult> executeOnShards(const std::string& /*query*/,
+                                             const std::vector<std::string>& shard_ids) override {
+        execute_on_shards_calls_++;
+        last_target_shards_ = shard_ids;
+        std::unordered_set<std::string> targets(shard_ids.begin(), shard_ids.end());
+
+        std::vector<ShardResult> results;
+        for (const auto& id : shard_ids_) {
+            if (!targets.count(id)) {
+                continue;
+            }
+            ShardResult r;
+            r.shard_id = id;
+            r.success = true;
+            r.data = json::array({json{{"shard", id}}});
+            results.push_back(r);
+        }
+        return results;
+    }
+
     const std::vector<std::string>& shardIds() const { return shard_ids_; }
+    uint64_t scatterGatherCalls() const { return scatter_gather_calls_; }
+    uint64_t executeOnShardsCalls() const { return execute_on_shards_calls_; }
+    const std::vector<std::string>& lastTargetShards() const { return last_target_shards_; }
 
 private:
     std::vector<std::string> shard_ids_;
+    uint64_t scatter_gather_calls_{0};
+    uint64_t execute_on_shards_calls_{0};
+    std::vector<std::string> last_target_shards_;
 };
 
 // ============================================================================
@@ -186,6 +214,22 @@ TEST_F(QueryFederationRoutingTest, PointLookupRoutesToOneShard) {
     // (could be 0 if shard_id doesn't match node_address — acceptable)
     EXPECT_LE(result_shards.size(), 1u)
         << "Point-lookup should route to at most 1 shard";
+}
+
+TEST_F(QueryFederationRoutingTest, PointLookupUsesExecuteOnShardsPath) {
+    const std::string query =
+        R"(FOR doc IN orders FILTER doc._key == "ord-42" RETURN doc)";
+
+    const uint64_t execute_on_shards_before = mock_router_->executeOnShardsCalls();
+    const uint64_t scatter_before = mock_router_->scatterGatherCalls();
+    federation_->execute(query);
+
+    EXPECT_GT(mock_router_->executeOnShardsCalls(), execute_on_shards_before)
+        << "Partition pruning should use executeOnShards for targeted routing";
+    EXPECT_EQ(mock_router_->scatterGatherCalls(), scatter_before)
+        << "Targeted routing should avoid scatterGather in partition-pruning path";
+    EXPECT_LE(mock_router_->lastTargetShards().size(), 1u)
+        << "Point-lookup should target at most one shard";
 }
 
 // ============================================================================

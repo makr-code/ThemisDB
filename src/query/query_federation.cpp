@@ -15,6 +15,7 @@
 #include <regex>
 #include <set>
 #include <stdexcept>
+#include <unordered_set>
 #include <spdlog/spdlog.h>
 
 // Configuration constants
@@ -186,22 +187,23 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
                 partition_pruned_queries_++;
                 spdlog::debug("QueryFederation: partition pruning to {} shard(s)", plan.target_shards.size());
                 {
-                    // Execute once and retain only the results from shards
-                    // identified by routing analysis.
-                    auto all_results = shard_router_->scatterGather(query);
-                    const auto& targets = plan.target_shards;
-                    shard_results.clear();
-                    shard_results.reserve(all_results.size());
-                    for (auto& sr : all_results) {
-                        bool relevant = targets.empty() ||
-                            std::find(targets.begin(), targets.end(), sr.shard_id)
-                                != targets.end();
-                        if (relevant) {
-                            shard_results.push_back(std::move(sr));
-                        }
+                    std::unordered_set<std::string> unique_targets(
+                        plan.target_shards.begin(),
+                        plan.target_shards.end());
+                    std::vector<std::string> deduped_targets;
+                    deduped_targets.reserve(unique_targets.size());
+                    for (const auto& target : unique_targets) {
+                        deduped_targets.push_back(target);
                     }
-                    spdlog::debug("Partition pruning: kept {}/{} shard results",
-                                  shard_results.size(), all_results.size());
+
+                    if (!deduped_targets.empty()) {
+                        shard_results = shard_router_->executeOnShards(query, deduped_targets);
+                    } else {
+                        spdlog::warn("Partition pruning selected without target shards; falling back to scatter-gather");
+                        shard_results = shard_router_->scatterGather(query);
+                    }
+                    spdlog::debug("Partition pruning: received {} shard result(s)",
+                                  shard_results.size());
                 }
                 break;
                 
@@ -553,7 +555,9 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
         std::sregex_iterator it(query.begin(), query.end(), re_for);
         std::sregex_iterator end;
         for (; it != end; ++it) {
-            metadata.tables.push_back((*it)[1].str());
+            if (it->size() > 1) {
+                metadata.tables.push_back((*it)[1].str());
+            }
         }
     }
 
@@ -700,6 +704,8 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
 std::vector<std::string> QueryFederation::determineRelevantShards(
     const QueryMetadata& metadata
 ) {
+    std::lock_guard<std::mutex> lock(routing_mutex_);
+
     if (sharding_manager_) {
         const std::string collection =
             metadata.tables.empty() ? std::string{} : metadata.tables.front();
@@ -857,4 +863,3 @@ uint64_t QueryFederation::estimateCollectionSize([[maybe_unused]] const std::str
 }
 
 } // namespace themis::query
-
