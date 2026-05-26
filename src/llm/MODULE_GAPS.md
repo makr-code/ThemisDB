@@ -180,6 +180,11 @@ now checked in `barrier()` for both `NCCLBackend` (`nccl_backend.cpp`) and `RCCL
 - REL-37: `multi_gpu_memory_coordinator.cpp` `distributeModelWeights()` guards against empty `gpu_ids` before dividing `model_size_bytes / gpu_ids.size()`.
 - REL-38: `multi_gpu_memory_coordinator.cpp` `distributeLayers()` guards against empty `gpu_ids` before dividing `num_layers / gpu_ids.size()`.
 
+**Status (W1-L07):** REL-49..REL-51 fixed —
+- REL-49: `flash_lora.cpp` `FlashLoRA::forward()` now checks `cudaDeviceSynchronize()` and throws on failure.
+- REL-50: `flash_lora.cpp` `FlashLoRA::backward()` now checks `cudaDeviceSynchronize()` and throws on failure.
+- REL-51: `flash_attention_cuda.cu` `FlashAttentionCUDA::getMemoryStats()` now checks `cudaMemGetInfo()` and throws on failure.
+
 ---
 
 ## 📋 Implementation Priority
