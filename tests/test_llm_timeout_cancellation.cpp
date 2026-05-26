@@ -501,9 +501,24 @@ TEST_F(AsyncEngineTimeoutCancelTest, DropOldestTargetsLowestPriorityNotFIFO) {
     EXPECT_TRUE(low_dropped);
 
     engine.shutdown();
-    try { h_worker.get(); } catch (...) {}
-    try { h_high.get();   } catch (...) {}
-    try { h_new.get();    } catch (...) {}
+
+    auto consume_without_block = [](InferenceHandle& h) {
+        if (h.ready()) {
+            try { h.get(); } catch (...) {}
+            return;
+        }
+        h.cancel();
+        for (int i = 0; i < 50 && !h.ready(); ++i) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+        if (h.ready()) {
+            try { h.get(); } catch (...) {}
+        }
+    };
+
+    consume_without_block(h_worker);
+    consume_without_block(h_high);
+    consume_without_block(h_new);
 }
 
 // ═══════════════════════════════════════════════════════════

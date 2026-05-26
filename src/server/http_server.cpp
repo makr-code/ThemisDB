@@ -275,6 +275,7 @@ HttpServer::HttpServer(
     , redundancy_manager_(std::move(redundancy_manager))
     , hash_ring_(std::move(hash_ring))
     , shard_topology_(std::move(shard_topology))
+    , request_timeout_ms_live_(config.request_timeout_ms)
     , ioc_(static_cast<int>(config_.num_threads))
     , acceptor_(ioc_)
     , start_time_(std::chrono::steady_clock::now())
@@ -8664,6 +8665,7 @@ http::response<http::string_body> HttpServer::handleConfig(
                 if (timeout >= 1000 && timeout <= 300000) { // 1s - 5min range
                     // Write via atomic to prevent data race: worker threads read
                     // request_timeout_ms_live_ concurrently in armReadTimer().
+                    config_.request_timeout_ms = timeout;
                     request_timeout_ms_live_.store(timeout, std::memory_order_relaxed);
                     THEMIS_INFO("Hot-reload: request_timeout_ms set to {}", timeout);
                 } else {

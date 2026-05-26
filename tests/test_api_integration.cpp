@@ -403,6 +403,30 @@ TEST_F(ApiIntegrationTest, AqlQuery_AlternativeEndpoint_ApiAql) {
     EXPECT_NE(res.result(), http::status::internal_server_error) << res.body();
 }
 
+TEST_F(ApiIntegrationTest, QueryEndpoint_InvalidTimeoutType_Returns400) {
+    json req = {
+        {"table", "api_test_col"},
+        {"timeout_ms", "fast"}
+    };
+    auto res = post("/query", req);
+    EXPECT_EQ(res.result(), http::status::bad_request) << res.body();
+    json body;
+    ASSERT_NO_THROW(body = json::parse(res.body()));
+    EXPECT_TRUE(body.contains("message"));
+}
+
+TEST_F(ApiIntegrationTest, QueryEndpoint_TimeoutTooLarge_Returns400) {
+    json req = {
+        {"table", "api_test_col"},
+        {"timeout_ms", 120001}
+    };
+    auto res = post("/query", req);
+    EXPECT_EQ(res.result(), http::status::bad_request) << res.body();
+    json body;
+    ASSERT_NO_THROW(body = json::parse(res.body()));
+    EXPECT_TRUE(body.contains("message"));
+}
+
 // ===========================================================================
 // Index operations
 // ===========================================================================
@@ -598,6 +622,21 @@ TEST_F(ApiIntegrationTest, ConfigPost_InvalidTimeout_Returns400) {
     json req = {{"request_timeout_ms", kInvalidTimeoutMs}};
     auto res = post("/config", req);
     EXPECT_EQ(res.result(), http::status::bad_request) << res.body();
+}
+
+TEST_F(ApiIntegrationTest, ConfigPost_ValidTimeout_UpdatesRuntimeValue) {
+    static constexpr int kNewTimeoutMs = 2000;
+    auto update_res = post("/config", json{{"request_timeout_ms", kNewTimeoutMs}});
+    ASSERT_EQ(update_res.result(), http::status::ok) << update_res.body();
+
+    auto get_res = get("/config");
+    ASSERT_EQ(get_res.result(), http::status::ok) << get_res.body();
+
+    json body;
+    ASSERT_NO_THROW(body = json::parse(get_res.body()));
+    ASSERT_TRUE(body.contains("server"));
+    ASSERT_TRUE(body["server"].contains("request_timeout_ms"));
+    EXPECT_EQ(body["server"]["request_timeout_ms"].get<int>(), kNewTimeoutMs);
 }
 
 // ===========================================================================

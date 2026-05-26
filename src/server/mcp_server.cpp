@@ -1097,10 +1097,10 @@ json McpServer::toolPutEntity(const json& args) {
     
     spdlog::info("MCP Tool 'put_entity' called: key={}", key);
     
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"key", key}
         };
     }
@@ -1139,10 +1139,10 @@ json McpServer::toolGetEntity(const json& args) {
     
     spdlog::info("MCP Tool 'get_entity' called: key={}", key);
     
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"key", key},
             {"value", nullptr}
         };
@@ -1189,10 +1189,10 @@ json McpServer::toolDeleteEntity(const json& args) {
 
     spdlog::info("MCP Tool 'delete_entity' called: key={} dry_run={}", key, dry_run);
 
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"key", key}
         };
     }

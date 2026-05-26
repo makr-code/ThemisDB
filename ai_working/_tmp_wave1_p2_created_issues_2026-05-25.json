@@ -1,0 +1,20 @@
+{
+  "created": [
+    {
+      "id": "W1-S06",
+      "title": "[Wave1][W1-S06] server Exception-Sicherheitskanten schliessen",
+      "url": "https://github.com/makr-code/ThemisDB/issues/5359"
+    },
+    {
+      "id": "W1-S07",
+      "title": "[Wave1][W1-S07] server Scanner-Noise reduzieren (unknown cluster triage)",
+      "url": "https://github.com/makr-code/ThemisDB/issues/5360"
+    },
+    {
+      "id": "W1-L07",
+      "title": "[Wave1][W1-L07] llm Unknown-Cluster aufloesen und scanner-freundliche Guards ergaenzen",
+      "url": "https://github.com/makr-code/ThemisDB/issues/5361"
+    }
+  ],
+  "skipped_existing": []
+}

@@ -56,6 +56,7 @@
 #include <queue>
 #include <ctime>
 #include <algorithm>
+#include <chrono>
 #include <cstring>
 
 namespace themis {
@@ -135,11 +136,17 @@ nlohmann::json QueryApiHandler::applyMasking(
     const nlohmann::json& entities,
     const http::request<http::string_body>& req)
 {
-    if (!masking_policy_) {
+    std::shared_ptr<security::QueryMaskingPolicy> policy;
+    {
+        std::lock_guard<std::mutex> lock(masking_policy_mutex_);
+        policy = masking_policy_;
+    }
+
+    if (!policy) {
         return entities;
     }
     auto auth_ctx = extractAuthContext(req);
-    return masking_policy_->maskResultSet(entities, auth_ctx.groups);
+    return policy->maskResultSet(entities, auth_ctx.groups);
 }
 
 // Implementation extracted from http_server.cpp (lines 5950-6222)
@@ -156,6 +163,38 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
     
     try {
         auto body = json::parse(req.body());
+        constexpr uint32_t kMaxQueryTimeoutMs = 120000;
+
+        uint32_t timeout_ms = 0;
+        if (body.contains("timeout_ms")) {
+            if (!body["timeout_ms"].is_number_unsigned()) {
+                span.setStatus(false, "Invalid timeout_ms");
+                return makeErrorResponse(http::status::bad_request,
+                    "'timeout_ms' must be an unsigned integer", req);
+            }
+            timeout_ms = body["timeout_ms"].get<uint32_t>();
+            if (timeout_ms > kMaxQueryTimeoutMs) {
+                span.setStatus(false, "timeout_ms too large");
+                return makeErrorResponse(http::status::bad_request,
+                    "'timeout_ms' exceeds maximum of " + std::to_string(kMaxQueryTimeoutMs) + " ms", req);
+            }
+        }
+
+        const auto request_start = std::chrono::steady_clock::now();
+        auto isTimedOut = [&]() {
+            if (timeout_ms == 0) {
+                return false;
+            }
+            const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - request_start).count();
+            return elapsed_ms >= static_cast<long long>(timeout_ms);
+        };
+        auto timeoutResponse = [&]() {
+            span.setStatus(false, "query timeout");
+            return makeErrorResponse(http::status::request_timeout,
+                "query exceeded timeout of " + std::to_string(timeout_ms) + " ms", req);
+        };
+
         if (!body.contains("table")) {
             span.setStatus(false, "Missing table");
             return makeErrorResponse(http::status::bad_request, "Missing 'table'", req);
@@ -360,6 +399,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 std::vector<nlohmann::json> key_items;
                 key_items.reserve(res.second.size());
                 for (const auto& k : res.second) {
+                    if (isTimedOut()) {
+                        return timeoutResponse();
+                    }
                     key_items.push_back(k);
                 }
                 ChunkedWriterConfig cfg;
@@ -433,6 +475,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             json entities = json::array();
             if (!decrypt) {
                 for (const auto& e : res.second) {
+                    if (isTimedOut()) {
+                        return timeoutResponse();
+                    }
                     // Kompatible Rueckgabe: JSON-String je Entity
                     entities.push_back(e.toJson());
                 }
@@ -461,10 +506,16 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                 std::string user_ctx = auth_ctx.user_id.empty() ? "anonymous" : auth_ctx.user_id;
                 auto pki = std::dynamic_pointer_cast<themis::security::PKIKeyProvider>(key_provider_);
                 for (const auto& e : res.second) {
+                    if (isTimedOut()) {
+                        return timeoutResponse();
+                    }
                     nlohmann::json obj;
                     try { obj = nlohmann::json::parse(e.toJson()); } catch (...) { entities.push_back(e.toJson()); continue; }
                     if (enabled) {
                         for (const auto& f : fields) {
+                            if (isTimedOut()) {
+                                return timeoutResponse();
+                            }
                             if (!obj.contains(f + "_enc") || !obj.contains(f + "_encrypted")) continue;
                             bool encFlag = false; try { encFlag = obj[f + "_enc"].get<bool>(); } catch (...) { encFlag = false; }
                             if (!encFlag) continue;
